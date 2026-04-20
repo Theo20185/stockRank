@@ -196,6 +196,7 @@ const NVO_TTM: TtmMetrics = {
   fcfYield: 0.054,
   enterpriseValue: 188_687_000_000,
   investedCapital: 46_855_000_000,
+  forwardEps: 4.0,
 };
 
 const NVO_AT_ENTRY: CompanySnapshot = {
@@ -388,6 +389,7 @@ const TGT_TTM: TtmMetrics = {
   fcfYield: 0.0768,
   enterpriseValue: 37_008_000_000,
   investedCapital: 16_269_000_000,
+  forwardEps: 8.5,
 };
 
 const TGT_AT_ENTRY: CompanySnapshot = {
@@ -682,6 +684,7 @@ const INTC_TTM: TtmMetrics = {
   fcfYield: -0.17,
   enterpriseValue: 116_000_000_000,
   investedCapital: 149_000_000_000,
+  forwardEps: 1.5, // analyst consensus for FY2025 (recovery in progress at entry)
 };
 
 const INTC_AT_ENTRY: CompanySnapshot = {

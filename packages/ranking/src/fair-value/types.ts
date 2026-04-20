@@ -29,4 +29,11 @@ export type FairValue = {
   current: number;
   upsideToMedianPct: number | null;
   confidence: FairValueConfidence;
+  /**
+   * Indicates whether the peer-median P/E anchor used the raw TTM EPS
+   * ("ttm") or fell back to a normalized prior-years mean because the
+   * TTM number looked like a one-time spike ("normalized"). Surfaced
+   * so the UI can flag fair-value rows where the model adjusted.
+   */
+  ttmTreatment: "ttm" | "normalized";
 };

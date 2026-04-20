@@ -128,6 +128,65 @@ export function normalizedFcf(
   return recent.reduce((s, v) => s + v, 0) / recent.length;
 }
 
+// ---------- TTM EPS outlier detection ----------
+
+const TTM_OUTLIER_RATIO = 1.5;     // TTM > 1.5× prior-3y mean → suspicious
+const FORWARD_AGREEMENT_RATIO = 0.7; // forward ≥ 70% of TTM → corroborates spike
+
+export type EpsTreatment = "ttm" | "normalized";
+
+export type EpsForAnchor = {
+  eps: number | null;
+  treatment: EpsTreatment;
+};
+
+/**
+ * Choose the EPS to apply to a peer-median P/E multiple, with one-time-gain
+ * defense per `fair-value.md` §4. Returns the TTM EPS unless:
+ *   1. TTM EPS is > 1.5× the mean of the prior 3 profitable years, AND
+ *   2. forward consensus EPS (when available) is < 70% of TTM
+ *      — i.e., analysts don't expect the spike to repeat.
+ *
+ * When both conditions fire, falls back to the prior-3y mean to avoid
+ * inflating fair value with a one-time gain (e.g., wildfire settlement
+ * reversal at EIX). When forward EPS is missing, the prior-years rule
+ * stands on its own — better to be slightly conservative than to lock in
+ * an obvious one-time spike.
+ */
+export function chooseEpsForPeerAnchor(snapshot: CompanySnapshot): EpsForAnchor {
+  const recent = snapshot.annual[0]?.income.epsDiluted ?? null;
+  if (recent === null) return { eps: null, treatment: "ttm" };
+
+  const priorEps = snapshot.annual.slice(1, 4)
+    .map((p) => p.income.epsDiluted)
+    .filter((v): v is number => v !== null && v > 0);
+
+  if (priorEps.length < 2) {
+    // Not enough prior history to detect outlier — accept TTM as is.
+    return { eps: recent, treatment: "ttm" };
+  }
+
+  const priorMean = priorEps.reduce((s, v) => s + v, 0) / priorEps.length;
+  const isHighSpike = recent > priorMean * TTM_OUTLIER_RATIO;
+  if (!isHighSpike) {
+    return { eps: recent, treatment: "ttm" };
+  }
+
+  // TTM looks high. Cross-check with forward consensus.
+  const forward = snapshot.ttm.forwardEps;
+  if (forward !== null && forward !== undefined && forward > 0) {
+    if (forward >= recent * FORWARD_AGREEMENT_RATIO) {
+      // Forward agrees → real step-change, trust the TTM.
+      return { eps: recent, treatment: "ttm" };
+    }
+    // Forward disagrees → one-time gain, fall back to prior mean.
+    return { eps: priorMean, treatment: "normalized" };
+  }
+
+  // No forward EPS available; fall back to prior mean on the TTM rule alone.
+  return { eps: priorMean, treatment: "normalized" };
+}
+
 // ---------- Own-historical multiples ----------
 
 /**

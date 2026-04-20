@@ -99,6 +99,39 @@ Peers must satisfy:
 
 A peer that drops out of one anchor can still be present in another.
 
+## 3.4 TTM EPS outlier defense (peer-median P/E anchor)
+
+The peer-median P/E anchor multiplies the **subject's most recent annual
+EPS** by the **peer median TTM P/E**. If the subject's most recent year
+included a one-time gain (regulatory true-up, settlement reversal,
+asset sale, etc.), the resulting fair value overshoots wildly. EIX is
+the canonical example: FY2025 EPS of $11.55 (vs ~$3 the prior 3 years
+and forward consensus of $6.12) drove our anchor to imply $196/share
+when Argus and LSEG analysts were converging on $80.
+
+**Two-signal outlier rule:** when the most recent EPS exceeds **1.5×**
+the prior-3-year mean **and** forward consensus EPS is below **0.7×**
+the most recent EPS, fall back to the prior-3-year mean for this
+anchor only. Forward EPS acts as a corroboration check — when forward
+agrees with the spike, it's a real step-change and TTM is trusted.
+
+| TTM vs prior 3y | Forward vs TTM | Treatment | Reason |
+|---|---|---|---|
+| Spike (> 1.5×) | Falls back (< 0.7×) | Prior-3y mean | One-time gain; analysts don't expect it to repeat |
+| Spike (> 1.5×) | Stays high (≥ 0.7×) | TTM | Real step-change; analysts confirm |
+| Spike (> 1.5×) | Forward EPS missing | Prior-3y mean | Conservative default — better to slightly under-shoot than lock in an obvious one-timer |
+| Normal (≤ 1.5×) | Any | TTM | No outlier detected |
+
+The chosen treatment is surfaced on the FairValue output as
+`ttmTreatment: "ttm" | "normalized"` so the UI can flag rows where the
+model adjusted. The other anchors (own-historical, normalized-earnings,
+EV/EBITDA, P/FCF) are unaffected — the rule narrowly addresses the
+peer-median P/E case where outlier impact is largest.
+
+Forward EPS is sourced from `defaultKeyStatistics.forwardEps` on the
+Yahoo provider; FMP free tier doesn't expose it (set to null), so the
+"no forward" branch handles that case.
+
 ## 4. Inputs per company
 
 Read from the cached snapshot:

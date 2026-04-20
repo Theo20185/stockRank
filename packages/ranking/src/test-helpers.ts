@@ -58,6 +58,7 @@ export function makeTtm(overrides: Partial<TtmMetrics> = {}): TtmMetrics {
     fcfYield: 0.05,
     enterpriseValue: 50_000_000_000,
     investedCapital: 45_000_000_000,
+    forwardEps: 8,
     ...overrides,
   };
 }

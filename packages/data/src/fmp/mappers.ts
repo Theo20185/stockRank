@@ -40,6 +40,7 @@ export function mapTtm(
     fcfYield: n(keyMetrics.freeCashFlowYieldTTM ?? null),
     enterpriseValue: n(keyMetrics.enterpriseValueTTM ?? null),
     investedCapital: n(keyMetrics.investedCapitalTTM ?? null),
+    forwardEps: null, // FMP free tier doesn't expose analyst-consensus forward EPS
   };
 }
 

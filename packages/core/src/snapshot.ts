@@ -68,6 +68,13 @@ export type TtmMetrics = {
   fcfYield: number | null;
   enterpriseValue: number | null;
   investedCapital: number | null;
+  /**
+   * Analyst-consensus next-year EPS. Used by the fair-value engine to
+   * cross-check whether a TTM EPS spike is sustainable (forward agrees)
+   * or a one-time gain (forward falls back). Null when the provider
+   * doesn't expose it (e.g., FMP free tier) or there's no coverage.
+   */
+  forwardEps: number | null;
 };
 
 export type AnnualPeriod = {

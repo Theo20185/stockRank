@@ -7,6 +7,7 @@ import type {
 } from "./types.js";
 import { buildFairValueCohort } from "./cohort.js";
 import {
+  chooseEpsForPeerAnchor,
   impliedPriceFromEvEbitda,
   impliedPriceFromPE,
   impliedPriceFromPFcf,
@@ -19,6 +20,7 @@ import {
   ownHistoricalPFcf,
   quantile,
 } from "./anchors.js";
+import type { EpsTreatment } from "./anchors.js";
 
 const HIGH_SPREAD_LIMIT = 1.5;
 const MEDIUM_SPREAD_LIMIT = 2.5;
@@ -39,9 +41,15 @@ export function fairValueFor(
   const cohort = buildFairValueCohort(subject, universe);
   const peers = cohort.peers;
 
+  // EPS choice for the peer-median P/E anchor — may downshift to a
+  // normalized prior-years mean if TTM looks like a one-time spike that
+  // forward consensus EPS doesn't corroborate. See anchors.ts and
+  // fair-value.md §4.
+  const epsChoice = chooseEpsForPeerAnchor(subject);
+
   // ---- Per-anchor computations ----
   const anchors: FairValueAnchors = {
-    peerMedianPE: anchorPeerPE(subject, peers),
+    peerMedianPE: anchorPeerPE(peers, epsChoice.eps),
     peerMedianEVEBITDA: anchorPeerEvEbitda(subject, peers),
     peerMedianPFCF: anchorPeerPFcf(subject, peers),
     ownHistoricalPE: anchorOwnPE(subject),
@@ -84,6 +92,7 @@ export function fairValueFor(
     current,
     upsideToMedianPct,
     confidence,
+    ttmTreatment: epsChoice.treatment satisfies EpsTreatment,
   };
 }
 
@@ -116,12 +125,15 @@ function computeConfidence(
 
 // ---- Peer-median anchors ----
 
-function anchorPeerPE(subject: CompanySnapshot, peers: CompanySnapshot[]): number | null {
+function anchorPeerPE(
+  peers: CompanySnapshot[],
+  epsToUse: number | null,
+): number | null {
   const validPes = peers
     .map((p) => p.ttm.peRatio)
     .filter((v): v is number => v !== null && v > 0);
   if (validPes.length === 0) return null;
-  return impliedPriceFromPE(subject.annual[0]?.income.epsDiluted ?? null, median(validPes));
+  return impliedPriceFromPE(epsToUse, median(validPes));
 }
 
 function anchorPeerEvEbitda(subject: CompanySnapshot, peers: CompanySnapshot[]): number | null {

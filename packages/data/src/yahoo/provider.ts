@@ -64,6 +64,7 @@ type YahooQuoteSummary = {
     sharesOutstanding?: number | null;
     bookValue?: number | null;
     trailingEps?: number | null;
+    forwardEps?: number | null;
   };
   financialData?: {
     currentPrice?: number | null;
@@ -471,5 +472,6 @@ function mapTtm(
         : null,
     enterpriseValue: ev,
     investedCapital,
+    forwardEps: n(dks?.forwardEps ?? null),
   };
 }

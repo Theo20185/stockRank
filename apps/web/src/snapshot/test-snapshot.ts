@@ -51,6 +51,7 @@ export function makeTestSnapshot(): Snapshot {
       fcfYield: 0.05,
       enterpriseValue: 50_000_000_000,
       investedCapital: 45_000_000_000,
+      forwardEps: 8,
     },
     annual: Array.from({ length: 5 }, (_, i) => ({
       fiscalYear: String(2025 - i),
