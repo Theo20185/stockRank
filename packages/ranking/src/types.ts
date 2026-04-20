@@ -56,6 +56,17 @@ export type RankedRow = {
   missingFactors: FactorKey[];
 
   fairValue: import("./fair-value/types.js").FairValue | null;
+
+  /**
+   * True when the company's most recent annual shareholders' equity is
+   * negative — typically the result of sustained buybacks exceeding
+   * cumulative retained earnings (BKNG, MCD, SBUX, MO, KMB). Important
+   * because ROIC and P/B both go null or nonsensical in that case, but
+   * the company is otherwise healthy: the missing signals are
+   * structural, not a data-coverage gap. UI uses this to label the row
+   * distinctly from genuine data gaps.
+   */
+  negativeEquity: boolean;
 };
 
 export type TurnaroundReason =

@@ -231,6 +231,90 @@ describe("YahooProvider", () => {
     expect(errors.some((e) => e.endpoint === "fundamentalsTimeSeries")).toBe(true);
   });
 
+  it("excludes a symbol when quote.price disagrees with marketCap/sharesDiluted (>50% off)", async () => {
+    // Mimic the BKNG case: marketCap and per-share-from-fundamentals are
+    // correct, but quote.price is scaled by a phantom-split factor.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 152_000_000_000,
+      },
+      price: { ...stubSummary().price, regularMarketPrice: 192 },
+    });
+    fundamentalsTimeSeriesMock.mockResolvedValue([
+      {
+        date: "2025-12-31",
+        totalRevenue: 25_000_000_000,
+        netIncome: 5_400_000_000,
+        dilutedEPS: 165.57,
+        dilutedAverageShares: 32_600_000,  // real BKNG share count
+        EBITDA: 7_000_000_000,
+        EBIT: 6_500_000_000,
+        currentAssets: 10_000_000_000,
+        currentLiabilities: 8_000_000_000,
+        totalDebt: 16_000_000_000,
+        stockholdersEquity: 2_000_000_000,
+        operatingCashFlow: 8_000_000_000,
+        capitalExpenditure: -200_000_000,
+        freeCashFlow: 7_800_000_000,
+        cashAndCashEquivalents: 5_000_000_000,
+      },
+    ]);
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "BKNG",
+      { priceFrom: "2025-04-20", priceTo: "2026-04-20" },
+      (e) => errors.push(e),
+    );
+
+    expect(result).toBeNull();
+    expect(errors).toEqual([
+      expect.objectContaining({
+        symbol: "BKNG",
+        endpoint: "price-consistency",
+      }),
+    ]);
+  });
+
+  it("does NOT exclude when implied price is within 50% of quote price", async () => {
+    quoteSummaryMock.mockResolvedValue(stubSummary());  // INTC: $65.50, $320B mcap
+    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: unknown[] = [];
+    const result = await provider.fetchCompany(
+      "INTC",
+      { priceFrom: "2024-01-01", priceTo: "2025-01-01" },
+      (e) => errors.push(e),
+    );
+
+    expect(result).not.toBeNull();
+    expect(errors.filter((e) => (e as { endpoint: string }).endpoint === "price-consistency")).toHaveLength(0);
+  });
+
+  it("skips the consistency check when annual shares are unavailable", async () => {
+    // No fundamentals → no sharesDiluted → check is skipped, company returned.
+    quoteSummaryMock.mockResolvedValue(stubSummary());
+    fundamentalsTimeSeriesMock.mockResolvedValue([]);
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: unknown[] = [];
+    const result = await provider.fetchCompany(
+      "INTC",
+      { priceFrom: "2024-01-01", priceTo: "2025-01-01" },
+      (e) => errors.push(e),
+    );
+
+    expect(result).not.toBeNull();
+    expect(errors.filter((e) => (e as { endpoint: string }).endpoint === "price-consistency")).toHaveLength(0);
+  });
+
   it("reports chart failure as a non-fatal error and still returns the company", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
     fundamentalsTimeSeriesMock.mockResolvedValue([]);

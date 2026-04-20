@@ -130,7 +130,17 @@ export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps
                 </td>
                 <td className="num">{formatPercent(row.pctOffYearHigh, 0)}</td>
                 <td className="num">{formatMarketCap(row.marketCap)}</td>
-                <td className="ranked-table__symbol">{row.symbol}</td>
+                <td className="ranked-table__symbol">
+                  {row.symbol}
+                  {row.negativeEquity && (
+                    <span
+                      className="ranked-table__chip"
+                      title="Negative shareholders' equity from buybacks — ROIC and P/B are structurally null"
+                    >
+                      neg-eq
+                    </span>
+                  )}
+                </td>
                 <td className="hide-mobile">{row.name}</td>
                 <td className="hide-mobile">{row.industry}</td>
                 <td className="num">{formatPrice(row.price)}</td>

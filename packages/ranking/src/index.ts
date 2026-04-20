@@ -4,6 +4,8 @@ export { DEFAULT_WEIGHTS, normalizeWeights } from "./weights.js";
 export { FACTORS } from "./factors.js";
 export type { FactorDef, FactorDirection } from "./factors.js";
 export { fairValueFor, buildFairValueCohort } from "./fair-value/index.js";
+export { bucketRows, classifyRow } from "./buckets.js";
+export type { BucketKey, BucketedRows } from "./buckets.js";
 export type {
   FairValue,
   FairValueAnchorKey,
@@ -23,3 +25,16 @@ export type {
   TurnaroundReason,
   TurnaroundRow,
 } from "./types.js";
+export { buildExpirationView, buildOptionsView } from "./options/index.js";
+export type {
+  CashSecuredPut,
+  CashSecuredPutAnchor,
+  CashSecuredPutLabel,
+  CoveredCall,
+  CoveredCallAnchor,
+  CoveredCallLabel,
+  ExpirationView,
+  OptionsView,
+} from "./options/types.js";
+export { computeCallReturns, computePutReturns } from "./options/returns.js";
+export { snapStrike } from "./options/strike-snap.js";

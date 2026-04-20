@@ -70,6 +70,13 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
             <span className="drill-down__cat-score">{formatScore(row.composite)}</span>
           </li>
         </ul>
+        {row.negativeEquity && (
+          <p className="drill-down__neg-equity">
+            <strong>Negative shareholders' equity</strong> — sustained
+            buybacks have driven book equity below zero. ROIC and P/B
+            null out as a structural artifact, not a data gap.
+          </p>
+        )}
       </section>
 
       <section className="drill-down__fair-value">

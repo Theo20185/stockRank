@@ -17,3 +17,18 @@ export type {
 export { loadSp500Universe } from "./universe/loader.js";
 export type { UniverseEntry } from "./universe/loader.js";
 export type { MarketDataProvider, FetchOptions, ErrorReporter } from "./provider.js";
+export { YahooOptionsProvider } from "./yahoo/options-provider.js";
+export type {
+  ContractQuote,
+  ExpirationGroup,
+  ExpirationList,
+  OptionsProvider,
+} from "./options/types.js";
+export {
+  selectExpirations,
+  isMonthlyThirdFriday,
+} from "./options/expiration-selector.js";
+export type {
+  SelectionReason,
+  SelectedExpiration,
+} from "./options/expiration-selector.js";

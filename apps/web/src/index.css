@@ -191,6 +191,190 @@ main.app--message {
   color: var(--text);
 }
 
+/* ─── Sub-tabs (Ranked/Watch/Excluded within Composite) ────────────── */
+
+.app__subtabs {
+  display: flex;
+  gap: var(--sp-1);
+  padding: var(--sp-2) 0;
+  overflow-x: auto;
+}
+
+.app__subtabs button {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  min-height: var(--touch);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.app__subtabs button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.screen__bucket-empty {
+  color: var(--text-muted);
+  padding: var(--sp-4) var(--sp-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.ranked-table__chip {
+  display: inline-block;
+  margin-left: var(--sp-1);
+  padding: 0 var(--sp-1);
+  background: var(--surface-2, #ddd);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 3px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+
+.drill-down__neg-equity {
+  margin-top: var(--sp-2);
+  padding: var(--sp-2);
+  background: var(--surface-2, #f3f3f3);
+  border-left: 3px solid var(--accent);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ─── Options panel (stock-detail screen) ──────────────────────────── */
+
+.options-panel {
+  margin-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.options-panel__header h3 {
+  margin: 0 0 var(--sp-2);
+}
+
+.options-panel__status,
+.options-panel__error,
+.options-panel__suppressed {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  padding: var(--sp-2) 0;
+}
+
+.options-panel__error {
+  color: var(--danger, #c33);
+}
+
+.options-panel__suppressed {
+  background: var(--surface-2, #f3f3f3);
+  border-left: 3px solid var(--accent);
+  padding: var(--sp-2);
+  margin: 0;
+}
+
+.options-panel__status code {
+  background: var(--surface-2, #f3f3f3);
+  padding: 2px var(--sp-1);
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+.options-exp {
+  margin-top: var(--sp-3);
+  padding: var(--sp-2) 0;
+  border-top: 1px dashed var(--border);
+}
+
+.options-exp__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-base);
+}
+
+.options-exp__reason {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--surface-2, #f3f3f3);
+  padding: 2px var(--sp-1);
+  border-radius: 3px;
+}
+
+.options-exp__group {
+  margin-top: var(--sp-2);
+}
+
+.options-exp__group h5 {
+  margin: 0 0 var(--sp-1);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.options-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.options-table th,
+.options-table td {
+  text-align: left;
+  padding: var(--sp-1) var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.options-table th.num,
+.options-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.options-table th {
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.options-table__sub {
+  display: block;
+  font-size: 0.75em;
+  color: var(--text-muted);
+}
+
+.options-chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-left: var(--sp-1);
+}
+
+.options-chip {
+  display: inline-block;
+  padding: 0 var(--sp-1);
+  background: var(--surface-2, #ddd);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
 /* ─── Filter chips (results screen entry to /filters) ──────────────── */
 
 .filter-chips {

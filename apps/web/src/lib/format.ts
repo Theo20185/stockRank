@@ -71,3 +71,30 @@ export function categoryLabel(key: string): string {
 export function turnaroundReasonLabel(key: string): string {
   return TURNAROUND_REASON_LABELS[key] ?? key;
 }
+
+const SELECTION_REASON_LABELS: Record<string, string> = {
+  leap: "LEAPS",
+  "leap-fallback": "Near-term",
+  quarterly: "Quarterly",
+  monthly: "Monthly",
+};
+
+export function selectionReasonLabel(reason: string): string {
+  return SELECTION_REASON_LABELS[reason] ?? reason;
+}
+
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "2027-01-15" → "Jan 15, 2027". */
+export function formatExpiration(iso: string): string {
+  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return iso;
+  const [, y, mm, dd] = m;
+  const monthIdx = parseInt(mm!, 10) - 1;
+  return `${MONTH_NAMES[monthIdx]} ${parseInt(dd!, 10)}, ${y}`;
+}
+
+export function formatDte(days: number): string {
+  if (days < 0) return "—";
+  return `${days}d`;
+}

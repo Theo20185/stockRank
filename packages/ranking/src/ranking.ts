@@ -240,6 +240,9 @@ function assembleRow(
     .filter((f) => f.percentile === null)
     .map((f) => f.key);
 
+  const equity = raw.company.annual[0]?.balance.totalEquity ?? null;
+  const negativeEquity = equity !== null && equity < 0;
+
   return {
     symbol: raw.company.symbol,
     name: raw.company.name,
@@ -255,5 +258,6 @@ function assembleRow(
     factorDetails: raw.factors,
     missingFactors: missing,
     fairValue: null,
+    negativeEquity,
   };
 }
