@@ -425,6 +425,9 @@ main.app--message {
   .app__drawer {
     position: sticky;
     top: var(--sp-3);
+    /* Reset the mobile fixed-bottom anchor — without this the sticky panel
+     * stretches across the viewport bottom and overlaps the table. */
+    inset: auto;
     transform: none;
     max-height: calc(100vh - 32px);
     border: 1px solid var(--border);
@@ -432,6 +435,7 @@ main.app--message {
     box-shadow: none;
     overflow-y: auto;
     z-index: auto;
+    width: auto;
   }
 }
 
