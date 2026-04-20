@@ -179,12 +179,10 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
-# The packages folder can be ignored because of Package Restore
-**/[Pp]ackages/*
-# except build/, which is used as an MSBuild target.
-!**/[Pp]ackages/build/
-# Uncomment if necessary however generally it will be regenerated when needed
-#!**/[Pp]ackages/repositories.config
+# The original Visual Studio template ignored **/[Pp]ackages/* for NuGet.
+# Our TypeScript monorepo uses /packages/ for workspace source — emphatically
+# not to be ignored. NuGet caches don't appear in this repo so we drop the
+# rule entirely rather than try to except it.
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
