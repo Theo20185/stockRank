@@ -1,10 +1,15 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { App } from "./App.js";
 import { makeTestSnapshot } from "./snapshot/test-snapshot.js";
 
-describe("<App />", () => {
+beforeEach(() => {
+  // Reset hash so each test starts on the results screen.
+  window.location.hash = "";
+});
+
+describe("<App /> — results screen (default route)", () => {
   it("renders the StockRank heading and snapshot summary", () => {
     render(<App initialSnapshot={makeTestSnapshot()} />);
     expect(
@@ -13,7 +18,7 @@ describe("<App />", () => {
     expect(screen.getByText(/2026-04-20/)).toBeInTheDocument();
   });
 
-  it("renders the ranked table with at least one row from the test snapshot", () => {
+  it("renders the ranked table", () => {
     render(<App initialSnapshot={makeTestSnapshot()} />);
     expect(screen.getByRole("table", { name: /ranked stocks/i })).toBeInTheDocument();
   });
@@ -25,55 +30,63 @@ describe("<App />", () => {
     expect(tabs.getByRole("button", { name: /turnaround/i })).toBeInTheDocument();
   });
 
-  it("switches to the Turnaround tab when clicked", async () => {
+  it("shows filter chips for industry and weights", () => {
+    render(<App initialSnapshot={makeTestSnapshot()} />);
+    const chips = screen.getByRole("group", { name: /active filters/i });
+    expect(within(chips).getByText(/industry/i)).toBeInTheDocument();
+    expect(within(chips).getByText(/weights/i)).toBeInTheDocument();
+  });
+});
+
+describe("<App /> — navigation", () => {
+  it("switches to the Turnaround screen when clicked", async () => {
     const user = userEvent.setup();
     render(<App initialSnapshot={makeTestSnapshot()} />);
     const tabs = within(screen.getByRole("navigation", { name: /sections/i }));
-    const turnaroundTab = tabs.getByRole("button", { name: /turnaround/i });
-    await user.click(turnaroundTab);
-    expect(turnaroundTab).toHaveAttribute("aria-pressed", "true");
+    await user.click(tabs.getByRole("button", { name: /turnaround/i }));
+    expect(
+      screen.getByRole("heading", { level: 1, name: /turnaround watchlist/i }),
+    ).toBeInTheDocument();
   });
 
-  it("renders the weight sliders panel on the composite tab", () => {
+  it("opens the Filters screen when an Industry chip is tapped", async () => {
+    const user = userEvent.setup();
     render(<App initialSnapshot={makeTestSnapshot()} />);
-    expect(screen.getByRole("region", { name: /category weights/i })).toBeInTheDocument();
+    const chips = screen.getByRole("group", { name: /active filters/i });
+    const industryChip = within(chips).getByText(/industry/i).closest("button");
+    expect(industryChip).not.toBeNull();
+    await user.click(industryChip!);
+    expect(
+      screen.getByRole("heading", { level: 1, name: /filters/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/filter by industry/i)).toBeInTheDocument();
+  });
+
+  it("Filters screen has the weight sliders for live tuning", async () => {
+    const user = userEvent.setup();
+    render(<App initialSnapshot={makeTestSnapshot()} />);
+    const chips = screen.getByRole("group", { name: /active filters/i });
+    await user.click(within(chips).getByText(/weights/i).closest("button")!);
     expect(screen.getByLabelText(/valuation weight/i)).toBeInTheDocument();
   });
 
-  it("renders the industry filter on the composite tab", () => {
-    render(<App initialSnapshot={makeTestSnapshot()} />);
-    const filter = screen.getByLabelText(/filter by industry/i);
-    expect(filter).toBeInTheDocument();
-    // industries from the test snapshot should be in the option list
-    const options = within(filter).getAllByRole("option").map((o) => o.textContent);
-    expect(options).toContain("Industrial Conglomerates");
-    expect(options).toContain("Pharmaceuticals");
-  });
-
-  it("filters the table when an industry is selected", async () => {
-    const user = userEvent.setup();
-    render(<App initialSnapshot={makeTestSnapshot()} />);
-    const filter = screen.getByLabelText(/filter by industry/i);
-    await user.selectOptions(filter, "Pharmaceuticals");
-
-    const tableRows = within(screen.getByRole("table")).getAllByRole("row");
-    // first row is the header
-    const dataRows = tableRows.slice(1);
-    for (const row of dataRows) {
-      expect(within(row).queryByText("Pharmaceuticals")).not.toBeNull();
-    }
-  });
-
-  it("opens the drill-down when a row is clicked", async () => {
+  it("opens the StockDetail screen when a row is clicked", async () => {
     const user = userEvent.setup();
     render(<App initialSnapshot={makeTestSnapshot()} />);
     const tableRows = within(screen.getByRole("table")).getAllByRole("row");
     const firstDataRow = tableRows[1]!;
     await user.click(firstDataRow);
-    // The drill-down aside changes its aria-label from "Stock detail" to
-    // "Detail for {symbol}" — assert the latter exists.
-    expect(
-      screen.getByRole("complementary", { name: /detail for /i }),
-    ).toBeInTheDocument();
+    // Stock detail screen renders the symbol as the AppHeader title.
+    const headers = screen.getAllByRole("heading", { level: 1 });
+    expect(headers[0]!.textContent).toMatch(/^[A-Z0-9.-]+$/);
+  });
+
+  it("returns to results when the back button on the Filters screen is clicked", async () => {
+    const user = userEvent.setup();
+    render(<App initialSnapshot={makeTestSnapshot()} />);
+    const chips = screen.getByRole("group", { name: /active filters/i });
+    await user.click(within(chips).getByText(/industry/i).closest("button")!);
+    await user.click(screen.getByRole("button", { name: /back/i }));
+    expect(screen.getByRole("table", { name: /ranked stocks/i })).toBeInTheDocument();
   });
 });

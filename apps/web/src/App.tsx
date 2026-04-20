@@ -5,16 +5,13 @@ import {
   fairValueFor,
   DEFAULT_WEIGHTS,
   type CategoryWeights,
-  type RankedRow,
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
-import { WeightSliders } from "./components/WeightSliders.js";
-import { IndustryFilter } from "./components/IndustryFilter.js";
-import { RankedTable } from "./components/RankedTable.js";
-import { DrillDownPanel } from "./components/DrillDownPanel.js";
-import { TurnaroundList } from "./components/TurnaroundList.js";
-
-type Tab = "composite" | "turnaround";
+import { useHashRoute } from "./router/useHashRoute.js";
+import { ResultsScreen } from "./screens/ResultsScreen.js";
+import { FiltersScreen } from "./screens/FiltersScreen.js";
+import { StockDetailScreen } from "./screens/StockDetailScreen.js";
+import { TurnaroundScreen } from "./screens/TurnaroundScreen.js";
 
 export type AppProps = {
   /** Provided in tests; real app fetches via loadSnapshot at mount. */
@@ -28,9 +25,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
   const [error, setError] = useState<string | null>(null);
   const [weights, setWeights] = useState<CategoryWeights>(DEFAULT_WEIGHTS);
   const [industry, setIndustry] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [tab, setTab] = useState<Tab>("composite");
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const { route, navigate } = useHashRoute();
 
   useEffect(() => {
     if (initialSnapshot) return;
@@ -74,17 +69,6 @@ export function App({ initialSnapshot }: AppProps = {}) {
     return [...set].sort();
   }, [ranked]);
 
-  const visibleRows = useMemo<RankedRow[]>(() => {
-    if (!ranked) return [];
-    if (!industry) return ranked.rows;
-    return ranked.rows.filter((r) => r.industry === industry);
-  }, [ranked, industry]);
-
-  const selectedRow = useMemo(() => {
-    if (!ranked || !selected) return null;
-    return ranked.rows.find((r) => r.symbol === selected) ?? null;
-  }, [ranked, selected]);
-
   if (error) {
     return (
       <main className="app app--message">
@@ -107,84 +91,65 @@ export function App({ initialSnapshot }: AppProps = {}) {
     );
   }
 
+  // Route → screen.
+  if (route.name === "filters") {
+    return (
+      <main className="app">
+        <FiltersScreen
+          industries={industries}
+          industry={industry}
+          weights={weights}
+          onIndustryChange={setIndustry}
+          onWeightsChange={setWeights}
+          onBack={() => navigate("/")}
+        />
+      </main>
+    );
+  }
+
+  if (route.name === "stock") {
+    const row = ranked.rows.find((r) => r.symbol === route.symbol) ?? null;
+    return (
+      <main className="app">
+        <StockDetailScreen
+          row={row}
+          symbol={route.symbol}
+          onBack={() => navigate("/")}
+        />
+      </main>
+    );
+  }
+
+  if (route.name === "turnaround") {
+    return (
+      <main className="app">
+        <TurnaroundScreen
+          ranked={ranked}
+          onSelectTab={(tab) =>
+            navigate(tab === "composite" ? "/" : "/turnaround")
+          }
+        />
+      </main>
+    );
+  }
+
+  // Default: results.
   return (
     <main className="app">
-      <header className="app__header">
-        <h1>StockRank</h1>
-        <p className="app__sub">
-          Snapshot {snapshot.snapshotDate} · {snapshot.companies.length} companies
-          · {ranked.rows.length} eligible · {ranked.turnaroundWatchlist.length} turnaround
-        </p>
-      </header>
-
-      <nav className="app__tabs" aria-label="Sections">
-        <button
-          type="button"
-          aria-pressed={tab === "composite"}
-          onClick={() => setTab("composite")}
-        >
-          Composite ({ranked.rows.length})
-        </button>
-        <button
-          type="button"
-          aria-pressed={tab === "turnaround"}
-          onClick={() => setTab("turnaround")}
-        >
-          Turnaround ({ranked.turnaroundWatchlist.length})
-        </button>
-      </nav>
-
-      {tab === "composite" ? (
-        <div className="app__composite-layout">
-          <button
-            type="button"
-            className="app__filters-toggle"
-            aria-expanded={filtersOpen}
-            onClick={() => setFiltersOpen((v) => !v)}
-          >
-            {filtersOpen ? "Hide" : "Show"} filters &amp; weights
-          </button>
-
-          <aside
-            className={`app__sidebar ${filtersOpen ? "app__sidebar--open" : ""}`}
-          >
-            <IndustryFilter
-              industries={industries}
-              selected={industry}
-              onChange={setIndustry}
-            />
-            <WeightSliders
-              weights={weights}
-              onChange={setWeights}
-              onReset={() => setWeights(DEFAULT_WEIGHTS)}
-            />
-          </aside>
-
-          <section className="app__table-area">
-            <RankedTable
-              rows={visibleRows}
-              selectedSymbol={selected}
-              onSelect={setSelected}
-            />
-          </section>
-
-          {selectedRow && (
-            <div
-              className="app__drawer-backdrop"
-              onClick={() => setSelected(null)}
-              aria-hidden
-            />
-          )}
-          <div className={`app__drawer ${selectedRow ? "app__drawer--open" : ""}`}>
-            <DrillDownPanel
-              row={selectedRow}
-              onClose={() => setSelected(null)}
-            />
-          </div>
-        </div>
-      ) : (
-        <TurnaroundList rows={ranked.turnaroundWatchlist} />
-      )}
+      <ResultsScreen
+        snapshot={snapshot}
+        ranked={ranked}
+        industry={industry}
+        weights={weights}
+        tab="composite"
+        onSelectTab={(tab) =>
+          navigate(tab === "composite" ? "/" : "/turnaround")
+        }
+        onSelectStock={(symbol) =>
+          navigate(`/stock/${encodeURIComponent(symbol)}`)
+        }
+        onEditFilters={() => navigate("/filters")}
+      />
     </main>
   );
 }

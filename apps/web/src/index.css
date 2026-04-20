@@ -1,11 +1,12 @@
-/* StockRank — mobile-first layout
+/* StockRank — screen-per-task UI
  * ────────────────────────────────────────────────────────────────────────
- * Default styles target the smallest screens (single column, drawer-style
- * details). @media (min-width: …) layers on tablet/desktop.
+ * Each route renders its own full-bleed screen. No more competing
+ * sidebar/table/drawer layout — the chip bar on the results screen is the
+ * single entry point to the filters/weights screen, and tapping a row
+ * navigates to a dedicated stock detail screen.
  *
- * Breakpoints:
- *   ≥ 768px  → tablet: more table columns visible
- *   ≥ 1100px → desktop: 3-column with sticky sidebar + sticky drill-down
+ * Single breakpoint:
+ *   ≥ 768px  → wider tables (more columns shown), wider screen padding
  */
 
 :root {
@@ -31,6 +32,7 @@
   --text-muted: #5c6371;
   --text-faint: #8a909a;
   --accent: #2563eb;
+  --accent-soft: #dbe7ff;
   --positive: #16a34a;
   --negative: #dc2626;
   --selected: #e3edff;
@@ -60,9 +62,9 @@ code {
 /* ─── App shell ─────────────────────────────────────────────────────── */
 
 main.app {
-  padding: var(--sp-3);
-  max-width: 1700px;
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 0;
 }
 
 main.app--message {
@@ -71,23 +73,102 @@ main.app--message {
   color: var(--text-muted);
 }
 
-.app__header h1 {
-  margin: 0 0 var(--sp-1);
+/* ─── Screen container ─────────────────────────────────────────────── */
+
+.screen {
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 768px) {
+  .screen {
+    padding: var(--sp-4);
+    gap: var(--sp-4);
+  }
+}
+
+.screen__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.screen__primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: var(--sp-2) var(--sp-3);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--fs-small);
+  min-height: 36px;
+}
+
+.screen__not-found {
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--sp-4);
+}
+
+/* ─── App header (per-screen) ──────────────────────────────────────── */
+
+.app-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-3);
+}
+
+.app-header__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.app-header__back {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: var(--touch);
+  height: var(--touch);
+  font-size: 24px;
+  line-height: 0.8;
+  cursor: pointer;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.app-header__back--placeholder {
+  visibility: hidden;
+  border-color: transparent;
+}
+
+.app-header__title {
+  margin: 0;
   font-size: var(--fs-h1);
   font-weight: 700;
   letter-spacing: -0.01em;
+  flex: 1;
 }
 
-.app__sub {
-  margin: 0 0 var(--sp-3);
+.app-header__right {
+  margin-left: auto;
+}
+
+.app-header__subtitle {
+  margin: var(--sp-2) 0 0;
   color: var(--text-muted);
   font-size: var(--fs-small);
 }
 
+/* ─── Tabs (Composite/Turnaround) ──────────────────────────────────── */
+
 .app__tabs {
   display: flex;
   gap: var(--sp-1);
-  margin-bottom: var(--sp-3);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
 }
@@ -110,48 +191,65 @@ main.app--message {
   color: var(--text);
 }
 
-/* ─── Composite layout — single column on mobile ────────────────────── */
+/* ─── Filter chips (results screen entry to /filters) ──────────────── */
 
-.app__composite-layout {
+.filter-chips {
   display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 calc(-1 * var(--sp-3));
+  padding: 0 var(--sp-3);
 }
 
-.app__filters-toggle {
-  align-self: flex-start;
+@media (min-width: 768px) {
+  .filter-chips {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.filter-chip {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 999px;
   padding: var(--sp-2) var(--sp-3);
   cursor: pointer;
-  min-height: var(--touch);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: 38px;
+  white-space: nowrap;
   font-size: var(--fs-small);
   color: var(--text);
 }
 
-.app__sidebar {
-  display: none;
-  flex-direction: column;
-  gap: var(--sp-3);
+.filter-chip:hover {
+  background: var(--surface-alt);
+  border-color: var(--border-strong);
 }
 
-.app__sidebar--open {
-  display: flex;
+.filter-chip__label {
+  font-size: var(--fs-tiny);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
-@media (min-width: 1100px) {
-  .app__filters-toggle { display: none; }
-  .app__sidebar { display: flex; }
-  .app__composite-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr 380px;
-    align-items: start;
-  }
-  .app__sidebar {
-    position: sticky;
-    top: var(--sp-3);
-  }
+.filter-chip__value {
+  font-weight: 600;
+}
+
+.filter-chip--mono .filter-chip__value {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: var(--fs-tiny);
+}
+
+.filter-chip__chev {
+  color: var(--text-faint);
+  font-size: 18px;
+  line-height: 0.8;
 }
 
 /* ─── Weight sliders ────────────────────────────────────────────────── */
@@ -191,7 +289,7 @@ main.app--message {
   grid-template-columns: 130px 1fr 44px;
   gap: var(--sp-2);
   align-items: center;
-  padding: var(--sp-1) 0;
+  padding: var(--sp-2) 0;
 }
 
 .weight-slider__label {
@@ -202,7 +300,7 @@ main.app--message {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 22px;
+  height: var(--touch);
   background: transparent;
 }
 
@@ -221,17 +319,17 @@ main.app--message {
 .weight-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background: var(--accent);
   border-radius: 50%;
-  margin-top: -9px;
+  margin-top: -10px;
   cursor: pointer;
 }
 
 .weight-slider input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background: var(--accent);
   border: 0;
   border-radius: 50%;
@@ -392,66 +490,18 @@ main.app--message {
 .fair-value--above .fair-value__upside { color: var(--negative); }
 .fair-value--in-range .fair-value__upside { color: var(--text-muted); }
 
-/* ─── Drill-down — drawer on mobile, sidebar on desktop ─────────────── */
-
-.app__drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(20, 22, 26, 0.45);
-  z-index: 5;
-}
-
-.app__drawer {
-  position: fixed;
-  inset: auto 0 0 0;
-  max-height: 80vh;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-radius: 14px 14px 0 0;
-  box-shadow: 0 -8px 28px rgba(20, 22, 26, 0.12);
-  transform: translateY(100%);
-  transition: transform 0.18s ease-out;
-  z-index: 6;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.app__drawer--open {
-  transform: translateY(0);
-}
-
-@media (min-width: 1100px) {
-  .app__drawer-backdrop { display: none; }
-  .app__drawer {
-    position: sticky;
-    top: var(--sp-3);
-    /* Reset the mobile fixed-bottom anchor — without this the sticky panel
-     * stretches across the viewport bottom and overlaps the table. */
-    inset: auto;
-    transform: none;
-    max-height: calc(100vh - 32px);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: none;
-    overflow-y: auto;
-    z-index: auto;
-    width: auto;
-  }
-}
+/* ─── Drill-down (now inside StockDetail screen) ───────────────────── */
 
 .drill-down {
   background: var(--surface);
   padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
 .drill-down--empty {
-  display: none;
   color: var(--text-muted);
   text-align: center;
-}
-
-@media (min-width: 1100px) {
-  .drill-down--empty { display: block; }
 }
 
 .drill-down__header {
@@ -492,10 +542,7 @@ main.app--message {
   cursor: pointer;
   color: var(--text-muted);
   flex-shrink: 0;
-}
-
-@media (min-width: 1100px) {
-  .drill-down__close { display: none; }
+  display: none; /* superseded by AppHeader's back button on the stock screen */
 }
 
 .drill-down__sub {
