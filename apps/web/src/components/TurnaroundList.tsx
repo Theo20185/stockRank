@@ -1,5 +1,5 @@
 import type { TurnaroundRow } from "@stockrank/ranking";
-import { formatPercent, formatPrice } from "../lib/format.js";
+import { formatPercent, formatPrice, turnaroundReasonLabel } from "../lib/format.js";
 import { FairValueBar } from "./FairValueBar.js";
 
 export type TurnaroundListProps = {
@@ -21,8 +21,8 @@ export function TurnaroundList({ rows }: TurnaroundListProps) {
           <th>Symbol</th>
           <th>Name</th>
           <th>Industry</th>
-          <th>Price</th>
-          <th>Off 52w High</th>
+          <th className="num">Price</th>
+          <th className="num">Off 52w High</th>
           <th>Reasons</th>
           <th>Fair value</th>
         </tr>
@@ -33,9 +33,9 @@ export function TurnaroundList({ rows }: TurnaroundListProps) {
             <td className="turnaround__symbol">{row.symbol}</td>
             <td>{row.name}</td>
             <td>{row.industry}</td>
-            <td>{formatPrice(row.price)}</td>
-            <td>{formatPercent(row.pctOffYearHigh)}</td>
-            <td>{row.reasons.join(", ")}</td>
+            <td className="num">{formatPrice(row.price)}</td>
+            <td className="num">{formatPercent(row.pctOffYearHigh)}</td>
+            <td>{row.reasons.map(turnaroundReasonLabel).join(" · ")}</td>
             <td>
               <FairValueBar fairValue={row.fairValue} />
             </td>

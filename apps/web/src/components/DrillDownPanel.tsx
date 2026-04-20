@@ -1,5 +1,7 @@
 import type { CategoryKey, RankedRow } from "@stockrank/ranking";
 import {
+  categoryLabel,
+  factorLabel,
   formatPercent,
   formatRatio,
   formatScore,
@@ -8,14 +10,8 @@ import { FairValueBar } from "./FairValueBar.js";
 
 export type DrillDownPanelProps = {
   row: RankedRow | null;
-};
-
-const CATEGORY_LABELS: Record<CategoryKey, string> = {
-  valuation: "Valuation",
-  health: "Health",
-  quality: "Quality",
-  shareholderReturn: "Shareholder Return",
-  growth: "Growth",
+  /** Mobile only: show a close button that calls this when tapped. */
+  onClose?: () => void;
 };
 
 const CATEGORY_ORDER: CategoryKey[] = [
@@ -26,7 +22,7 @@ const CATEGORY_ORDER: CategoryKey[] = [
   "growth",
 ];
 
-export function DrillDownPanel({ row }: DrillDownPanelProps) {
+export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
   if (!row) {
     return (
       <aside className="drill-down drill-down--empty" aria-label="Stock detail">
@@ -38,11 +34,23 @@ export function DrillDownPanel({ row }: DrillDownPanelProps) {
   return (
     <aside className="drill-down" aria-label={`Detail for ${row.symbol}`}>
       <header className="drill-down__header">
-        <h2>
-          {row.symbol} <span className="drill-down__name">{row.name}</span>
-        </h2>
+        <div className="drill-down__title">
+          <h2>
+            {row.symbol} <span className="drill-down__name">{row.name}</span>
+          </h2>
+          {onClose && (
+            <button
+              type="button"
+              className="drill-down__close"
+              aria-label="Close detail"
+              onClick={onClose}
+            >
+              ×
+            </button>
+          )}
+        </div>
         <p className="drill-down__sub">
-          {row.industry} · {row.sector} · #{row.industryRank} in industry · #{row.universeRank} overall
+          {row.industry} · #{row.industryRank} in industry · #{row.universeRank} overall
         </p>
       </header>
 
@@ -51,7 +59,7 @@ export function DrillDownPanel({ row }: DrillDownPanelProps) {
         <ul>
           {CATEGORY_ORDER.map((cat) => (
             <li key={cat}>
-              <span className="drill-down__cat-label">{CATEGORY_LABELS[cat]}</span>
+              <span className="drill-down__cat-label">{categoryLabel(cat)}</span>
               <span className="drill-down__cat-score">
                 {formatScore(row.categoryScores[cat])}
               </span>
@@ -81,17 +89,17 @@ export function DrillDownPanel({ row }: DrillDownPanelProps) {
             <tr>
               <th>Factor</th>
               <th>Category</th>
-              <th>Raw</th>
-              <th>Percentile</th>
+              <th className="num">Raw</th>
+              <th className="num">Pctile</th>
             </tr>
           </thead>
           <tbody>
             {row.factorDetails.map((f) => (
               <tr key={f.key}>
-                <td>{f.key}</td>
-                <td>{CATEGORY_LABELS[f.category]}</td>
-                <td>{formatRatio(f.rawValue)}</td>
-                <td>{formatPercent(f.percentile, 0)}</td>
+                <td>{factorLabel(f.key)}</td>
+                <td>{categoryLabel(f.category)}</td>
+                <td className="num">{formatRatio(f.rawValue)}</td>
+                <td className="num">{formatPercent(f.percentile, 0)}</td>
               </tr>
             ))}
           </tbody>
@@ -100,7 +108,7 @@ export function DrillDownPanel({ row }: DrillDownPanelProps) {
 
       {row.missingFactors.length > 0 && (
         <p className="drill-down__missing">
-          Missing factors: {row.missingFactors.join(", ")}
+          Missing: {row.missingFactors.map(factorLabel).join(", ")}
         </p>
       )}
     </aside>

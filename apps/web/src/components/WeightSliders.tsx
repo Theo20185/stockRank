@@ -1,12 +1,5 @@
 import type { CategoryKey, CategoryWeights } from "@stockrank/ranking";
-
-const CATEGORY_LABELS: Record<CategoryKey, string> = {
-  valuation: "Valuation",
-  health: "Health",
-  quality: "Quality",
-  shareholderReturn: "Shareholder Return",
-  growth: "Growth",
-};
+import { categoryLabel } from "../lib/format.js";
 
 const CATEGORY_ORDER: CategoryKey[] = [
   "valuation",
@@ -31,16 +24,17 @@ export function WeightSliders({ weights, onChange, onReset }: WeightSlidersProps
       </header>
       {CATEGORY_ORDER.map((cat) => {
         const value = Math.round(weights[cat] * 100);
+        const label = categoryLabel(cat);
         return (
           <label key={cat} className="weight-slider">
-            <span className="weight-slider__label">{CATEGORY_LABELS[cat]}</span>
+            <span className="weight-slider__label">{label}</span>
             <input
               type="range"
               min={0}
               max={100}
               step={1}
               value={value}
-              aria-label={`${CATEGORY_LABELS[cat]} weight`}
+              aria-label={`${label} weight`}
               onChange={(e) => {
                 const pct = Number.parseInt(e.target.value, 10);
                 onChange({ ...weights, [cat]: pct / 100 });

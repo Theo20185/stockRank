@@ -22,11 +22,12 @@ describe("<TurnaroundList />", () => {
     expect(screen.getByRole("status")).toHaveTextContent(/no names currently meet/i);
   });
 
-  it("renders a row per turnaround candidate with symbol and reasons", () => {
+  it("renders a row per turnaround candidate with symbol and human-readable reasons", () => {
     render(<TurnaroundList rows={[SAMPLE_ROW]} />);
     expect(screen.getByText("INTC")).toBeInTheDocument();
-    expect(screen.getByText(/longTermQuality/i)).toBeInTheDocument();
-    expect(screen.getByText(/ttmTrough/i)).toBeInTheDocument();
-    expect(screen.getByText(/deepDrawdown/i)).toBeInTheDocument();
+    const reasonsCell = screen.getByText(/long-term quality/i);
+    expect(reasonsCell).toBeInTheDocument();
+    expect(reasonsCell.textContent).toMatch(/TTM trough/i);
+    expect(reasonsCell.textContent).toMatch(/Deep drawdown/i);
   });
 });

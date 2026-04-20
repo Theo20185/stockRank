@@ -30,6 +30,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
   const [industry, setIndustry] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("composite");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     if (initialSnapshot) return;
@@ -86,7 +87,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
 
   if (error) {
     return (
-      <main>
+      <main className="app app--message">
         <h1>StockRank</h1>
         <p role="alert">Failed to load snapshot: {error}</p>
         <p>
@@ -99,7 +100,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
 
   if (!snapshot || !ranked) {
     return (
-      <main>
+      <main className="app app--message">
         <h1>StockRank</h1>
         <p role="status">Loading snapshot…</p>
       </main>
@@ -112,8 +113,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
         <h1>StockRank</h1>
         <p className="app__sub">
           Snapshot {snapshot.snapshotDate} · {snapshot.companies.length} companies
-          · {ranked.rows.length} eligible · {ranked.turnaroundWatchlist.length} on
-          turnaround watchlist
+          · {ranked.rows.length} eligible · {ranked.turnaroundWatchlist.length} turnaround
         </p>
       </header>
 
@@ -136,16 +136,27 @@ export function App({ initialSnapshot }: AppProps = {}) {
 
       {tab === "composite" ? (
         <div className="app__composite-layout">
-          <aside className="app__sidebar">
-            <WeightSliders
-              weights={weights}
-              onChange={setWeights}
-              onReset={() => setWeights(DEFAULT_WEIGHTS)}
-            />
+          <button
+            type="button"
+            className="app__filters-toggle"
+            aria-expanded={filtersOpen}
+            onClick={() => setFiltersOpen((v) => !v)}
+          >
+            {filtersOpen ? "Hide" : "Show"} filters &amp; weights
+          </button>
+
+          <aside
+            className={`app__sidebar ${filtersOpen ? "app__sidebar--open" : ""}`}
+          >
             <IndustryFilter
               industries={industries}
               selected={industry}
               onChange={setIndustry}
+            />
+            <WeightSliders
+              weights={weights}
+              onChange={setWeights}
+              onReset={() => setWeights(DEFAULT_WEIGHTS)}
             />
           </aside>
 
@@ -157,7 +168,19 @@ export function App({ initialSnapshot }: AppProps = {}) {
             />
           </section>
 
-          <DrillDownPanel row={selectedRow} />
+          {selectedRow && (
+            <div
+              className="app__drawer-backdrop"
+              onClick={() => setSelected(null)}
+              aria-hidden
+            />
+          )}
+          <div className={`app__drawer ${selectedRow ? "app__drawer--open" : ""}`}>
+            <DrillDownPanel
+              row={selectedRow}
+              onClose={() => setSelected(null)}
+            />
+          </div>
         </div>
       ) : (
         <TurnaroundList rows={ranked.turnaroundWatchlist} />
