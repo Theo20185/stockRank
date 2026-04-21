@@ -14,7 +14,8 @@
     "build": "npm run build --workspaces --if-present",
     "ingest": "npm run ingest --workspace=@stockrank/data",
     "refresh": "tsx scripts/refresh.ts",
-    "screenshot": "tsx scripts/screenshot.ts"
+    "screenshot": "tsx scripts/screenshot.ts",
+    "backtest": "tsx scripts/backtest.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

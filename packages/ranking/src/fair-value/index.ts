@@ -34,9 +34,18 @@ export { buildFairValueCohort } from "./cohort.js";
  * Compute fair value for a single company against a peer cohort.
  * Pure function — same snapshot + same peers → same output.
  */
+export type FairValueOptions = {
+  /** When true, the peer-median P/E anchor uses the raw TTM EPS even
+   * when the outlier rule would have normalized it. Useful for
+   * back-testing the rule's contribution: compare the "with rule" and
+   * "without rule" outputs to see when the defense actually helped. */
+  skipOutlierRule?: boolean;
+};
+
 export function fairValueFor(
   subject: CompanySnapshot,
   universe: CompanySnapshot[],
+  options: FairValueOptions = {},
 ): FairValue {
   const cohort = buildFairValueCohort(subject, universe);
   const peers = cohort.peers;
@@ -44,8 +53,10 @@ export function fairValueFor(
   // EPS choice for the peer-median P/E anchor — may downshift to a
   // normalized prior-years mean if TTM looks like a one-time spike that
   // forward consensus EPS doesn't corroborate. See anchors.ts and
-  // fair-value.md §4.
-  const epsChoice = chooseEpsForPeerAnchor(subject);
+  // fair-value.md §4. The back-test bypass forces TTM through.
+  const epsChoice = options.skipOutlierRule
+    ? { eps: subject.annual[0]?.income.epsDiluted ?? null, treatment: "ttm" as const }
+    : chooseEpsForPeerAnchor(subject);
 
   // ---- Per-anchor computations ----
   const anchors: FairValueAnchors = {
