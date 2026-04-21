@@ -97,10 +97,9 @@ export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps
                 </button>
               </th>
             ))}
-            <th>Symbol</th>
+            <th>Symbol · Price</th>
             <th className="hide-mobile">Name</th>
             <th className="hide-mobile">Industry</th>
-            <th className="num">Price</th>
             <th className="hide-mobile">Fair value</th>
           </tr>
         </thead>
@@ -131,7 +130,7 @@ export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps
                 <td className="num">{formatPercent(row.pctOffYearHigh, 0)}</td>
                 <td className="num">{formatMarketCap(row.marketCap)}</td>
                 <td className="ranked-table__symbol">
-                  {row.symbol}
+                  <span className="ranked-table__sym">{row.symbol}</span>
                   {row.negativeEquity && (
                     <span
                       className="ranked-table__chip"
@@ -140,10 +139,10 @@ export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps
                       neg-eq
                     </span>
                   )}
+                  <span className="ranked-table__price">{formatPrice(row.price)}</span>
                 </td>
                 <td className="hide-mobile">{row.name}</td>
                 <td className="hide-mobile">{row.industry}</td>
-                <td className="num">{formatPrice(row.price)}</td>
                 <td className="hide-mobile">
                   <FairValueBar fairValue={row.fairValue} />
                 </td>

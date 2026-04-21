@@ -239,6 +239,21 @@ main.app--message {
   letter-spacing: 0.02em;
 }
 
+.drill-down__price {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-base);
+}
+
+.drill-down__price strong {
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.drill-down__price-context {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
 .drill-down__neg-equity {
   margin-top: var(--sp-2);
   padding: var(--sp-2);
@@ -637,7 +652,20 @@ main.app--message {
 }
 
 .ranked-table__symbol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.ranked-table__sym {
   font-weight: 600;
+}
+
+.ranked-table__price {
+  font-size: var(--fs-tiny);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .hide-mobile { display: none; }

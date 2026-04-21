@@ -3,6 +3,7 @@ import {
   categoryLabel,
   factorLabel,
   formatPercent,
+  formatPrice,
   formatRatio,
   formatScore,
 } from "../lib/format.js";
@@ -51,6 +52,12 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
         </div>
         <p className="drill-down__sub">
           {row.industry} · #{row.industryRank} in industry · #{row.universeRank} overall
+        </p>
+        <p className="drill-down__price">
+          <strong>{formatPrice(row.price)}</strong>
+          <span className="drill-down__price-context">
+            {" "}· {formatPercent(row.pctOffYearHigh, 1)} off 52-week high
+          </span>
         </p>
       </header>
 
