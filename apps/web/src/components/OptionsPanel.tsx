@@ -52,7 +52,9 @@ export function OptionsPanel({
   loader = loadOptionsView,
 }: OptionsPanelProps) {
   const [state, setState] = useState<State>({ status: "loading" });
-  const [scenario, setScenario] = useState<ProjectedEndCase>("median");
+  // Default to the conservative tail (p25). Anything more optimistic is
+  // an opt-in click — keeps the projected P&L honest.
+  const [scenario, setScenario] = useState<ProjectedEndCase>("p25");
 
   useEffect(() => {
     let cancelled = false;
@@ -138,8 +140,8 @@ function ScenarioToggle({
   onChange: (s: ProjectedEndCase) => void;
 }) {
   const opts: Array<{ key: ProjectedEndCase; label: string }> = [
-    { key: "median", label: "Median" },
     { key: "p25", label: "Conservative" },
+    { key: "median", label: "Median" },
     { key: "flat", label: "Flat" },
   ];
   return (

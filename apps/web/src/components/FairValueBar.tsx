@@ -9,7 +9,7 @@ export function FairValueBar({ fairValue }: FairValueBarProps) {
   if (!fairValue || !fairValue.range) {
     return <span className="fair-value fair-value--empty">—</span>;
   }
-  const { range, current, upsideToMedianPct, confidence } = fairValue;
+  const { range, current, upsideToP25Pct, confidence } = fairValue;
   const aboveRange = current > range.p75;
   const belowRange = current < range.p25;
   const tone = belowRange ? "below" : aboveRange ? "above" : "in-range";
@@ -21,9 +21,9 @@ export function FairValueBar({ fairValue }: FairValueBarProps) {
         {formatPrice(range.median)}
       </span>
       <span className="fair-value__high">{formatPrice(range.p75)}</span>
-      <span className="fair-value__upside">
-        {upsideToMedianPct !== null && upsideToMedianPct >= 0 ? "+" : ""}
-        {formatPercent(upsideToMedianPct)}
+      <span className="fair-value__upside" title="Upside to conservative tail (p25)">
+        {upsideToP25Pct !== null && upsideToP25Pct >= 0 ? "+" : ""}
+        {formatPercent(upsideToP25Pct)}
       </span>
     </div>
   );
