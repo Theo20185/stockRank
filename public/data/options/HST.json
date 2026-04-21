@@ -1,17 +1,44 @@
 {
   "symbol": "HST",
-  "fetchedAt": "2026-04-21T20:25:55.867Z",
+  "fetchedAt": "2026-04-21T23:15:00.210Z",
   "currentPrice": 21.12,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 24.677193487970033,
+          "contract": {
+            "contractSymbol": "HST270115C00024850",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 24.85,
+            "bid": 0.6,
+            "ask": 1.1,
+            "lastPrice": 0.4,
+            "volume": 2,
+            "openInterest": 9,
+            "impliedVolatility": 0.32398136962890617,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.056119775840597755,
+          "staticAnnualizedPct": 0.07614765123352484,
+          "assignedReturnPct": 0.23272962432544625,
+          "assignedAnnualizedPct": 0.31578554973527095,
+          "effectiveCostBasis": 20.52,
+          "effectiveDiscountPct": 0.028409090909090908
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 24.866226768477166,
+          "anchorPrice": 24.677193487970033,
           "contract": {
             "contractSymbol": "HST270115P00019850",
             "expiration": "2027-01-15",
@@ -38,7 +65,34 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 24.677193487970033,
+          "contract": {
+            "contractSymbol": "HST280121C00024850",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 24.85,
+            "bid": 0.7,
+            "ask": 2.7,
+            "lastPrice": 1,
+            "volume": 2,
+            "openInterest": 10,
+            "impliedVolatility": 0.3587710607910156,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09907270651722705,
+          "staticAnnualizedPct": 0.05650240293560605,
+          "assignedReturnPct": 0.27568255500207556,
+          "assignedAnnualizedPct": 0.1572252071496212,
+          "effectiveCostBasis": 20.42,
+          "effectiveDiscountPct": 0.03314393939393939
+        }
+      ],
       "puts": []
     }
   ]
