@@ -28,18 +28,18 @@ function buildProps() {
 }
 
 describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
-  it("renders three sub-tabs labelled Ranked / Watch / Excluded with counts", () => {
+  it("renders three sub-tabs labelled Candidates / Watch / Excluded with counts", () => {
     render(<ResultsScreen {...buildProps()} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
-    expect(subtabs.getByRole("button", { name: /^Ranked \(\d+\)$/ })).toBeInTheDocument();
+    expect(subtabs.getByRole("button", { name: /^Candidates \(\d+\)$/ })).toBeInTheDocument();
     expect(subtabs.getByRole("button", { name: /^Watch \(\d+\)$/ })).toBeInTheDocument();
     expect(subtabs.getByRole("button", { name: /^Excluded \(\d+\)$/ })).toBeInTheDocument();
   });
 
-  it("defaults the Ranked sub-tab to pressed", () => {
+  it("defaults the Candidates sub-tab to pressed", () => {
     render(<ResultsScreen {...buildProps()} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
-    expect(subtabs.getByRole("button", { name: /^Ranked/ })).toHaveAttribute("aria-pressed", "true");
+    expect(subtabs.getByRole("button", { name: /^Candidates/ })).toHaveAttribute("aria-pressed", "true");
     expect(subtabs.getByRole("button", { name: /^Watch/ })).toHaveAttribute("aria-pressed", "false");
   });
 
@@ -49,7 +49,7 @@ describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
     await user.click(subtabs.getByRole("button", { name: /^Watch/ }));
     expect(subtabs.getByRole("button", { name: /^Watch/ })).toHaveAttribute("aria-pressed", "true");
-    expect(subtabs.getByRole("button", { name: /^Ranked/ })).toHaveAttribute("aria-pressed", "false");
+    expect(subtabs.getByRole("button", { name: /^Candidates/ })).toHaveAttribute("aria-pressed", "false");
   });
 
   it("shows an empty-state message when the active bucket has no rows", async () => {
@@ -57,19 +57,18 @@ describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
     const props = buildProps();
     render(<ResultsScreen {...props} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
-    // Excluded should be empty for the test fixture (all rows have complete data)
     const excludedBtn = subtabs.getByRole("button", { name: /^Excluded \(0\)/ });
     await user.click(excludedBtn);
     const status = screen.getByRole("status");
-    expect(status).toHaveTextContent(/missing two or more/i);
+    expect(status).toHaveTextContent(/failed the quality floor/i);
   });
 
-  it("bucket counts sum to total visible rows", () => {
+  it("bucket counts sum to total rows (eligible + ineligible)", () => {
     const props = buildProps();
     render(<ResultsScreen {...props} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
-    const total = props.ranked.rows.length;
-    const counts = ["Ranked", "Watch", "Excluded"].map((label) => {
+    const total = props.ranked.rows.length + props.ranked.ineligibleRows.length;
+    const counts = ["Candidates", "Watch", "Excluded"].map((label) => {
       const btn = subtabs.getByRole("button", { name: new RegExp(`^${label} \\((\\d+)\\)$`) });
       const match = btn.textContent!.match(/\((\d+)\)/);
       return parseInt(match![1]!, 10);

@@ -94,13 +94,48 @@ export function rank(input: RankInput): RankedSnapshot {
   }
   turnaroundWatchlist.sort((a, b) => b.pctOffYearHigh - a.pctOffYearHigh);
 
+  // 8. Stub rows for ineligible names so the bucket classifier can put
+  //    them in Excluded — keeps every name in the universe visible
+  //    somewhere instead of hiding 150+ behind the quality floor.
+  const ineligibleRows: RankedRow[] = ineligible.map(buildIneligibleRow);
+
   return {
     snapshotDate: input.snapshotDate,
     weights,
     universeSize: eligible.length,
     excludedCount: ineligible.length,
     rows,
+    ineligibleRows,
     turnaroundWatchlist,
+  };
+}
+
+function buildIneligibleRow(company: CompanySnapshot): RankedRow {
+  const equity = company.annual[0]?.balance.totalEquity ?? null;
+  const negativeEquity = equity !== null && equity < 0;
+  const dividendYield = company.ttm.dividendYield ?? 0;
+  const annualDividend = (dividendYield ?? 0) * company.quote.price;
+  return {
+    symbol: company.symbol,
+    name: company.name,
+    sector: company.sector,
+    industry: company.industry,
+    marketCap: company.marketCap,
+    price: company.quote.price,
+    composite: 0,
+    industryRank: 0,
+    universeRank: 0,
+    pctOffYearHigh: company.pctOffYearHigh,
+    categoryScores: {
+      valuation: null, health: null, quality: null,
+      shareholderReturn: null, growth: null,
+    },
+    factorDetails: [],
+    missingFactors: [],
+    fairValue: null,
+    negativeEquity,
+    optionsLiquid: false,
+    annualDividend,
   };
 }
 

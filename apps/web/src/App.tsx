@@ -82,6 +82,13 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
         row.optionsLiquid = best.bestCallAnnualized !== null && best.bestPutAnnualized !== null;
       }
     }
+    // Stamp fair value on ineligible rows too — they still have
+    // fundamentals, just failed the quality floor; users may want to
+    // see what the model would project even on Excluded names.
+    for (const row of result.ineligibleRows) {
+      const company = snapshot.companies.find((c) => c.symbol === row.symbol);
+      if (company) row.fairValue = fairValueFor(company, snapshot.companies);
+    }
     for (const row of result.turnaroundWatchlist) {
       const company = snapshot.companies.find((c) => c.symbol === row.symbol);
       if (company) row.fairValue = fairValueFor(company, snapshot.companies);

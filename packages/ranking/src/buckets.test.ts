@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { CategoryScores, FactorContribution, FactorKey, RankedRow } from "./types.js";
+import type { CategoryKey, CategoryScores, RankedRow } from "./types.js";
 import type { FairValue } from "./fair-value/types.js";
 import { bucketRows, classifyRow } from "./buckets.js";
 
@@ -15,44 +15,35 @@ function fv(upside: number | null): FairValue {
     },
     range: { p25: 90, median: 100, p75: 110 },
     current: 80,
-    upsideToP25Pct: 12.5,   // (90 - 80) / 80
+    upsideToP25Pct: 12.5,
     upsideToMedianPct: upside,
     confidence: "high",
     ttmTreatment: "ttm",
+    peerCohortDivergent: false,
   };
 }
 
 function fvAtP25(): FairValue {
-  // current = p25, so NOT strictly below the conservative tail
   return { ...fv(20), current: 90, upsideToP25Pct: 0 };
 }
 
-function detail(key: FactorKey, rawValue: number | null): FactorContribution {
-  return { key, category: "quality", rawValue, percentile: rawValue === null ? null : 50 };
-}
-
+/** Build a RankedRow with a controlled categoryScores shape. Pass an
+ * array of categories to null out for "missing" scenarios. */
 function row(opts: {
   symbol?: string;
-  qualityScore?: number | null;
-  hasPB?: boolean;
-  hasROIC?: boolean;
+  /** Categories whose score should be null. */
+  missingCategories?: CategoryKey[];
   fairValue?: FairValue | null;
-  missing?: FactorKey[];
   negativeEquity?: boolean;
   optionsLiquid?: boolean;
 }): RankedRow {
-  const factorDetails: FactorContribution[] = [
-    detail("priceToBook", opts.hasPB === false ? null : 2.5),
-    detail("roic", opts.hasROIC === false ? null : 0.15),
-  ];
-  const missingFactors: FactorKey[] = opts.missing ?? [
-    ...(opts.hasPB === false ? ["priceToBook" as FactorKey] : []),
-    ...(opts.hasROIC === false ? ["roic" as FactorKey] : []),
-  ];
-  const categoryScores: CategoryScores = {
-    valuation: 0.5, health: 0.5, growth: 0.5, shareholderReturn: 0.5,
-    quality: opts.qualityScore === undefined ? 0.6 : opts.qualityScore,
+  const baseScores: CategoryScores = {
+    valuation: 0.5, health: 0.5, quality: 0.6,
+    shareholderReturn: 0.5, growth: 0.5,
   };
+  for (const cat of opts.missingCategories ?? []) {
+    baseScores[cat] = null;
+  }
   return {
     symbol: opts.symbol ?? "TEST",
     name: opts.symbol ?? "TEST Inc",
@@ -64,9 +55,9 @@ function row(opts: {
     industryRank: 1,
     universeRank: 1,
     pctOffYearHigh: 10,
-    categoryScores,
-    factorDetails,
-    missingFactors,
+    categoryScores: baseScores,
+    factorDetails: [],
+    missingFactors: [],
     fairValue: opts.fairValue === undefined ? fv(20) : opts.fairValue,
     negativeEquity: opts.negativeEquity ?? false,
     optionsLiquid: opts.optionsLiquid ?? true,
@@ -75,14 +66,14 @@ function row(opts: {
 }
 
 describe("classifyRow", () => {
-  it("ranked: below conservative tail + complete data + liquid options", () => {
+  it("ranked: all 5 category scores present + below conservative tail + liquid options", () => {
     expect(classifyRow(row({}))).toBe("ranked");
   });
 
-  it("watch: missing one of {quality, P/B, ROIC}", () => {
-    expect(classifyRow(row({ qualityScore: null }))).toBe("watch");
-    expect(classifyRow(row({ hasPB: false }))).toBe("watch");
-    expect(classifyRow(row({ hasROIC: false }))).toBe("watch");
+  it("watch: missing exactly one category score", () => {
+    expect(classifyRow(row({ missingCategories: ["quality"] }))).toBe("watch");
+    expect(classifyRow(row({ missingCategories: ["growth"] }))).toBe("watch");
+    expect(classifyRow(row({ missingCategories: ["shareholderReturn"] }))).toBe("watch");
   });
 
   it("watch: stock is at or above the conservative tail (current ≥ p25)", () => {
@@ -93,19 +84,40 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ optionsLiquid: false }))).toBe("watch");
   });
 
-  it("excluded: missing two of {quality, P/B, ROIC}", () => {
-    expect(classifyRow(row({ qualityScore: null, hasPB: false }))).toBe("excluded");
-    expect(classifyRow(row({ hasPB: false, hasROIC: false }))).toBe("excluded");
-    expect(classifyRow(row({ qualityScore: null, hasROIC: false }))).toBe("excluded");
+  it("excluded: missing two category scores", () => {
+    expect(
+      classifyRow(row({ missingCategories: ["quality", "growth"] })),
+    ).toBe("excluded");
+    expect(
+      classifyRow(row({ missingCategories: ["valuation", "health"] })),
+    ).toBe("excluded");
   });
 
-  it("excluded: missing all three", () => {
-    expect(classifyRow(row({ qualityScore: null, hasPB: false, hasROIC: false }))).toBe(
-      "excluded",
-    );
+  it("excluded: missing all 5 categories (ineligible-row stub)", () => {
+    expect(
+      classifyRow(
+        row({
+          missingCategories: ["valuation", "health", "quality", "shareholderReturn", "growth"],
+          fairValue: null,
+        }),
+      ),
+    ).toBe("excluded");
   });
 
-  it("excluded: no fair value at all (cannot determine upside)", () => {
+  it("excluded: ineligible-row stub even when fair value is somehow present", () => {
+    // Failed-quality-floor names should still land in Excluded regardless
+    // of whether a fair value happens to be computable.
+    expect(
+      classifyRow(
+        row({
+          missingCategories: ["valuation", "health", "quality", "shareholderReturn", "growth"],
+          fairValue: fv(20),
+        }),
+      ),
+    ).toBe("excluded");
+  });
+
+  it("excluded: no fair value at all", () => {
     expect(classifyRow(row({ fairValue: null }))).toBe("excluded");
   });
 
@@ -115,40 +127,29 @@ describe("classifyRow", () => {
   });
 
   it("excluded: missing 2+ wins over fair-value status", () => {
-    // Even with positive upside, missing 2 signals → excluded.
-    expect(classifyRow(row({ qualityScore: null, hasPB: false, fairValue: fv(20) }))).toBe(
-      "excluded",
-    );
-  });
-
-  it("respects missingFactors when factorDetails would otherwise look populated", () => {
-    // A row that lists priceToBook as missing but has a stale rawValue
-    // should still be treated as missing.
-    const r = row({});
-    r.missingFactors = ["priceToBook"];
-    expect(classifyRow(r)).toBe("watch");
+    expect(
+      classifyRow(
+        row({ missingCategories: ["quality", "growth"], fairValue: fv(20) }),
+      ),
+    ).toBe("excluded");
   });
 });
 
 describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
-  it("watch: negative equity with quality + P/B + ROIC all missing (structural, not gap)", () => {
+  it("watch: negative equity with Quality category null (structural, not gap)", () => {
     expect(
       classifyRow(row({
         negativeEquity: true,
-        qualityScore: null,
-        hasPB: false,
-        hasROIC: false,
+        missingCategories: ["quality"],
       })),
     ).toBe("watch");
   });
 
-  it("watch: negative equity with positive upside still goes to watch (cannot be 'Ranked' without quality view)", () => {
+  it("watch: negative equity with multiple categories null still gets Watch (not Excluded)", () => {
     expect(
       classifyRow(row({
         negativeEquity: true,
-        qualityScore: null,
-        hasPB: false,
-        hasROIC: false,
+        missingCategories: ["quality", "valuation"],
         fairValue: fv(50),
       })),
     ).toBe("watch");
@@ -166,12 +167,12 @@ describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
 
 describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
-    const a = row({ symbol: "AAA" });                                       // ranked
-    const b = row({ symbol: "BBB", fairValue: fvAtP25() });                 // watch (at conservative tail)
-    const c = row({ symbol: "CCC", hasPB: false });                         // watch (1 missing)
-    const d = row({ symbol: "DDD", qualityScore: null, hasROIC: false });   // excluded
-    const e = row({ symbol: "EEE", fairValue: null });                      // excluded
-    const f = row({ symbol: "FFF", optionsLiquid: false });                 // watch (illiquid)
+    const a = row({ symbol: "AAA" });                                            // ranked
+    const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
+    const c = row({ symbol: "CCC", missingCategories: ["growth"] });             // watch (1 missing)
+    const d = row({ symbol: "DDD", missingCategories: ["quality", "growth"] });  // excluded (2 missing)
+    const e = row({ symbol: "EEE", fairValue: null });                           // excluded
+    const f = row({ symbol: "FFF", optionsLiquid: false });                      // watch (illiquid)
     const result = bucketRows([a, b, c, d, e, f]);
     expect(result.ranked.map((r) => r.symbol)).toEqual(["AAA"]);
     expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC", "FFF"]);

@@ -110,7 +110,16 @@ export type RankedSnapshot = {
   weights: CategoryWeights;
   universeSize: number;
   excludedCount: number;
+  /** Companies that passed the quality floor — fully scored. */
   rows: RankedRow[];
+  /**
+   * Companies that FAILED the quality floor — surfaced here as stub
+   * RankedRows (categoryScores all null, factorDetails empty,
+   * composite/rank zero) so the bucket classifier can place them in
+   * Excluded alongside other diagnostic-only rows. Keeps every name in
+   * the universe visible in exactly one bucket.
+   */
+  ineligibleRows: RankedRow[];
   turnaroundWatchlist: TurnaroundRow[];
 };
 

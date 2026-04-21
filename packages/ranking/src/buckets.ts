@@ -1,17 +1,19 @@
-import type { FactorKey, RankedRow } from "./types.js";
+import type { CategoryKey, RankedRow } from "./types.js";
 
 /**
  * Three-bucket classifier for the Results screen tabs.
  *
- *   - **ranked**   — actionable buy candidates: positive upside to fair value
- *                    AND complete data on the three load-bearing signals
- *                    (quality category score, P/B, ROIC).
- *   - **watch**    — useful to follow but not actionable today: either
- *                    negative upside on a complete-data name (already at or
- *                    above fair value), or positive upside with exactly one
- *                    of the three signals missing (still mostly informative).
- *   - **excluded** — diagnostic bucket for data gaps: no fair value at all,
- *                    or two or more of the three signals are missing.
+ *   - **ranked**   — actionable buy candidates: passed the quality floor,
+ *                    all 5 category scores computable, fair value present,
+ *                    current price below the conservative-tail (p25), and
+ *                    the options chain is liquid enough to act on.
+ *   - **watch**    — interesting but not actionable today: either above the
+ *                    conservative-tail, missing exactly one category score,
+ *                    or carrying a structural-but-tracked flag like negative
+ *                    equity or illiquid options.
+ *   - **excluded** — diagnostic bucket: failed the quality floor entirely,
+ *                    missing two or more category scores, or no fair value
+ *                    range computable.
  *
  * Pure function over RankedRow[]. The categorization is independent of the
  * ranking factor weights — moving sliders does not move a row between
@@ -26,32 +28,36 @@ export type BucketedRows = {
   excluded: RankedRow[];
 };
 
-const SIGNAL_FACTORS: FactorKey[] = ["priceToBook", "roic"];
+const ALL_CATEGORIES: CategoryKey[] = [
+  "valuation",
+  "health",
+  "quality",
+  "shareholderReturn",
+  "growth",
+];
 
-function hasSignal(row: RankedRow, factor: FactorKey): boolean {
-  if (row.missingFactors.includes(factor)) return false;
-  const detail = row.factorDetails.find((f) => f.key === factor);
-  return detail !== undefined && detail.rawValue !== null;
-}
-
-function missingSignalCount(row: RankedRow): number {
+/** Count of category scores that couldn't be computed. */
+function missingCategoryCount(row: RankedRow): number {
   let missing = 0;
-  if (row.categoryScores.quality === null) missing += 1;
-  for (const f of SIGNAL_FACTORS) {
-    if (!hasSignal(row, f)) missing += 1;
+  for (const cat of ALL_CATEGORIES) {
+    if (row.categoryScores[cat] === null) missing += 1;
   }
   return missing;
 }
 
 export function classifyRow(row: RankedRow): BucketKey {
-  const missing = missingSignalCount(row);
+  const missing = missingCategoryCount(row);
 
-  // Negative-equity names (BKNG, MCD, MO, …) get ROIC and P/B nulled
-  // structurally — both metrics divide by equity. That's not a data
-  // gap; it's a strategic-buyback consequence. Treat the negative-
-  // equity row as if those two signals weren't required: it still
-  // can't appear in "Ranked" (incomplete quality view), but it shouldn't
-  // be exiled to "Excluded" alongside genuine coverage gaps.
+  // Names that failed the quality floor — surfaced as RankedRow stubs
+  // with all 5 category scores null. These come straight here regardless
+  // of negative-equity / fair-value status; they didn't even get scored.
+  if (missing === 5) return "excluded";
+
+  // Negative-equity names (BKNG, MCD, MO, …) get ROIC nulled
+  // structurally (the ratio divides by equity). That's not a data gap;
+  // it's a strategic-buyback consequence. Treat them as Watch even when
+  // the missing-category count would otherwise demote them — but if
+  // there's no fair value at all, fall back to Excluded.
   if (row.negativeEquity) {
     if (!row.fairValue || !row.fairValue.range) return "excluded";
     return "watch";
@@ -62,8 +68,8 @@ export function classifyRow(row: RankedRow): BucketKey {
   if (missing === 1) return "watch";
 
   // Ranked requires the stock to be trading below the conservative-tail
-  // fair value. Above the conservative tail and we're not getting a
-  // value entry — interesting to follow but not actionable today.
+  // fair value. Above it and we're not getting a value entry —
+  // interesting to follow but not actionable today.
   const belowP25 = row.fairValue.current < row.fairValue.range.p25;
   if (!belowP25) return "watch";
 
