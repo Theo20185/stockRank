@@ -132,6 +132,51 @@ Forward EPS is sourced from `defaultKeyStatistics.forwardEps` on the
 Yahoo provider; FMP free tier doesn't expose it (set to null), so the
 "no forward" branch handles that case.
 
+## 3.5 Peer-cohort divergence defense
+
+The outlier rule in §3.4 protects against the *subject's* TTM EPS
+being a one-timer. A separate failure mode: the *peer cohort* itself
+can be momentum-distorted (bubble or bust), making peer-median
+multiples wrong as a baseline for the subject. The canonical case is
+INTC late 2023: the semi peer cohort (NVDA, AVGO, AMD as the cap-
+narrowed cohort) had AI-rally PEs of 285 / 42 / 175 — peer-median 175
+× INTC's $1.94 EPS implied $340/share when INTC was actually trading
+at $50 and continued to fall.
+
+**Divergence check:** when the peer-median P/E multiple differs from
+the subject's own TTM P/E by more than **5× in either direction**,
+the peer cohort is treated as too distorted (or the subject as too
+structurally different from peers) for peer multiples to be the
+right baseline. The 6 peer-derived anchors (`peerMedianPE`,
+`peerMedianEVEBITDA`, `peerMedianPFCF`, `normalizedPE`,
+`normalizedEVEBITDA`, `normalizedPFCF`) are zeroed out, and the
+fair-value range is computed from only the 3 own-historical anchors.
+
+| Subject vs peers | Treatment |
+|---|---|
+| Peer median PE / Own PE > 5× | Drop peer-derived anchors (peers are bubbled) |
+| Own PE / Peer median PE > 5× | Drop peer-derived anchors (peers are compressed) |
+| Within 5× | Keep all anchors (current behavior) |
+
+Surfaced on the FairValue output as `peerCohortDivergent: boolean`.
+When true, the UI shows a chip explaining that peer multiples were
+deemed unreliable; the displayed range reflects only the company's
+own valuation history.
+
+This defense is symmetric and complementary to the outlier rule:
+- **Outlier rule** → subject EPS spike → normalize subject's earnings
+- **Divergence rule** → peer cohort distortion → drop peer anchors
+
+When both fire, they operate on different terms (subject EPS vs peer
+multiples) and don't conflict.
+
+The `5.0×` threshold was tuned via back-test. The first attempt at
+3.0× over-fired (TGT 50% of snapshots, NVO 87%) on legitimate
+structural premium (NVO trading at 30-50× while pharma peers trade
+at 15-20×) and structural distress (TGT trading at 10-15× during
+retail panics while WMT/COST stayed at 25-30×). 5.0× catches INTC's
+bubble case (6.78× ratio) without firing on those everyday cases.
+
 ## 4. Inputs per company
 
 Read from the cached snapshot:

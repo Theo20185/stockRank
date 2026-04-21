@@ -96,6 +96,23 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
             Confidence: <strong>{row.fairValue.confidence}</strong> ({row.fairValue.peerSet} peers, {row.fairValue.peerCount})
           </p>
         )}
+        {row.fairValue?.peerCohortDivergent && (
+          <p className="drill-down__neg-equity">
+            <strong>Peer cohort deemed unreliable</strong> — peer-median
+            multiples diverge from this stock's own historical multiple
+            by more than 3×. The fair-value range above reflects only
+            the company's own valuation history; peer-derived anchors
+            were dropped.
+          </p>
+        )}
+        {row.fairValue?.ttmTreatment === "normalized" && (
+          <p className="drill-down__neg-equity">
+            <strong>TTM EPS normalized</strong> — the most recent annual
+            EPS looked like a one-time spike (vs prior-3-year mean and
+            forward consensus). The peer-median P/E anchor used the
+            normalized prior mean instead.
+          </p>
+        )}
       </section>
 
       <section className="drill-down__factors">

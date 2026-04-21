@@ -44,4 +44,14 @@ export type FairValue = {
    * so the UI can flag fair-value rows where the model adjusted.
    */
   ttmTreatment: "ttm" | "normalized";
+  /**
+   * True when the peer-median P/E multiple diverged from the subject's
+   * own historical P/E by more than the configured threshold (3× by
+   * default). The 6 peer-derived anchors (peerMedian* and normalized*)
+   * are dropped from the range when this fires; only the 3
+   * own-historical anchors contribute. Surfaced so the UI can display
+   * "peer cohort deemed unreliable" — the resulting fair-value range
+   * reflects only the company's own valuation history.
+   */
+  peerCohortDivergent: boolean;
 };

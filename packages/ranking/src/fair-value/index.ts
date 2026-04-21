@@ -27,6 +27,23 @@ const MEDIUM_SPREAD_LIMIT = 2.5;
 const HIGH_MIN_ANCHORS = 6;
 const MEDIUM_MIN_ANCHORS = 4;
 
+/**
+ * When the peer cohort's median P/E differs from the subject's own
+ * historical P/E by more than this factor (in either direction), we
+ * treat the peer cohort as too distorted (or the subject as
+ * structurally different from peers) to use peer-derived anchors.
+ *
+ * INTC late 2023 was the canonical case: AI-bubble peers gave a
+ * peer-median P/E of 175 against INTC's own ~26, an unhealthy 6.8×
+ * gap.
+ *
+ * Threshold tuned at 5.0× via back-test on EIX/INCY/TGT/NVO/INTC:
+ * 3.0× over-fired (TGT 50% of snapshots, NVO 87%) on legitimate
+ * structural premium / distress; 5.0× catches INTC's bubble case
+ * (6.78× ratio) without firing on those everyday cases.
+ */
+const PEER_DIVERGE_THRESHOLD = 5.0;
+
 export type { FairValue } from "./types.js";
 export { buildFairValueCohort } from "./cohort.js";
 
@@ -59,7 +76,7 @@ export function fairValueFor(
     : chooseEpsForPeerAnchor(subject);
 
   // ---- Per-anchor computations ----
-  const anchors: FairValueAnchors = {
+  const fullAnchors: FairValueAnchors = {
     peerMedianPE: anchorPeerPE(peers, epsChoice.eps),
     peerMedianEVEBITDA: anchorPeerEvEbitda(subject, peers),
     peerMedianPFCF: anchorPeerPFcf(subject, peers),
@@ -70,6 +87,25 @@ export function fairValueFor(
     normalizedEVEBITDA: anchorNormalizedEvEbitda(subject, peers),
     normalizedPFCF: anchorNormalizedPFcf(subject, peers),
   };
+
+  // Peer-cohort divergence check: compare peer-median PE multiple
+  // against subject's own TTM PE multiple. When they diverge by more
+  // than PEER_DIVERGE_THRESHOLD, the peer cohort is either bubbled or
+  // busted relative to the subject (or the subject is a structural
+  // outlier in its cohort). Drop the 6 peer-derived anchors so the
+  // range reflects only the company's own valuation history.
+  const peerCohortDivergent = isPeerCohortDivergent(subject, peers);
+  const anchors: FairValueAnchors = peerCohortDivergent
+    ? {
+        ...fullAnchors,
+        peerMedianPE: null,
+        peerMedianEVEBITDA: null,
+        peerMedianPFCF: null,
+        normalizedPE: null,
+        normalizedEVEBITDA: null,
+        normalizedPFCF: null,
+      }
+    : fullAnchors;
 
   const anchorValues = (Object.values(anchors).filter(
     (v): v is number => v !== null && v > 0,
@@ -107,7 +143,30 @@ export function fairValueFor(
     upsideToMedianPct,
     confidence,
     ttmTreatment: epsChoice.treatment satisfies EpsTreatment,
+    peerCohortDivergent,
   };
+}
+
+/**
+ * True when the peer-median P/E multiple differs from the subject's
+ * own historical P/E by more than PEER_DIVERGE_THRESHOLD in either
+ * direction. Symmetric: works for either bubbled peers (peer >> own)
+ * or compressed peers (own >> peer).
+ */
+function isPeerCohortDivergent(
+  subject: CompanySnapshot,
+  peers: CompanySnapshot[],
+): boolean {
+  const ownPe = subject.ttm.peRatio;
+  if (ownPe === null || ownPe <= 0) return false;
+  const peerPes = peers
+    .map((p) => p.ttm.peRatio)
+    .filter((v): v is number => v !== null && v > 0);
+  if (peerPes.length === 0) return false;
+  const peerMedianPe = median(peerPes);
+  if (peerMedianPe === null || peerMedianPe <= 0) return false;
+  const ratio = Math.max(peerMedianPe / ownPe, ownPe / peerMedianPe);
+  return ratio > PEER_DIVERGE_THRESHOLD;
 }
 
 function computeConfidence(

@@ -131,15 +131,117 @@ describe("fairValueFor", () => {
   });
 });
 
+describe("fairValueFor — peer-cohort divergence (D+E hybrid)", () => {
+  it("drops the 6 peer-derived anchors when peer-median PE diverges from own PE by >5x", () => {
+    // INTC-style scenario: subject's own multiple is normal (PE 25), but
+    // the peer cohort is all running on bubble multiples (PE 175).
+    // Diverge ratio 175/25 = 7× → fires (above 5× threshold).
+    const subject = makeCompany({
+      symbol: "INTC",
+      industry: "Semiconductors",
+      sector: "Technology",
+      ttm: makeTtm({ peRatio: 25 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      makeCompany({
+        symbol: `BUBBLE${i}`,
+        industry: "Semiconductors",
+        sector: "Technology",
+        ttm: makeTtm({ peRatio: 175 }),
+      }),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(true);
+    expect(fv.anchors.peerMedianPE).toBeNull();
+    expect(fv.anchors.peerMedianEVEBITDA).toBeNull();
+    expect(fv.anchors.peerMedianPFCF).toBeNull();
+    expect(fv.anchors.normalizedPE).toBeNull();
+    expect(fv.anchors.normalizedEVEBITDA).toBeNull();
+    expect(fv.anchors.normalizedPFCF).toBeNull();
+    // Own-historical anchors remain.
+    expect(fv.anchors.ownHistoricalPE).not.toBeNull();
+  });
+
+  it("fires symmetrically when subject PE >> peer PE (compressed peers, premium subject)", () => {
+    // Subject at PE 200, peers at PE 20 → diverge 200/20 = 10×.
+    const subject = makeCompany({
+      symbol: "PREMIUM",
+      industry: "Software",
+      sector: "Technology",
+      ttm: makeTtm({ peRatio: 200 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      makeCompany({
+        symbol: `LOW${i}`,
+        industry: "Software",
+        sector: "Technology",
+        ttm: makeTtm({ peRatio: 20 }),
+      }),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(true);
+  });
+
+  it("does not fire on legitimate growth-premium gaps within 5x", () => {
+    // Subject PE 50 (e.g. NVO-style growth premium), peers PE 18 →
+    // diverge 50/18 = 2.78× → below 5× threshold.
+    const subject = makeCompany({
+      symbol: "PREMIUM",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: 50 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 18),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(false);
+    expect(fv.anchors.peerMedianPE).not.toBeNull();
+  });
+
+  it("does not fire when subject and peers are within the 5x threshold", () => {
+    // Subject PE 25, peers PE 100 → diverge 4× → below threshold.
+    const subject = makeCompany({
+      symbol: "STABLE",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: 25 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 100),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(false);
+    expect(fv.anchors.peerMedianPE).not.toBeNull();
+  });
+
+  it("does not fire when subject's own PE is missing", () => {
+    const subject = makeCompany({
+      symbol: "NOPE",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: null }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 100),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(false);
+  });
+});
+
 describe("fairValueFor — skipOutlierRule", () => {
   it("forces TTM EPS through the peer-median P/E anchor when set", () => {
     // Subject with a clear TTM-EPS spike: latest year $20, prior 3y avg ~$5.
     // No forward EPS available, so the production rule will normalize.
+    // Subject's own PE is set close to the peer cohort (15 vs 18) so the
+    // peer-cohort divergence check doesn't fire here — that defense is
+    // exercised in its own test below.
     const subject = makeCompany({
       symbol: "SPIKE",
       industry: "Pharmaceuticals",
       sector: "Healthcare",
-      ttm: makeTtm({ peRatio: 5 }),  // current price / latest EPS
+      ttm: makeTtm({ peRatio: 15 }),
       annual: [
         makePeriod({ fiscalYear: "2025", income: { ...makePeriod().income, epsDiluted: 20 } }),
         makePeriod({ fiscalYear: "2024", income: { ...makePeriod().income, epsDiluted: 5 } }),
@@ -147,7 +249,6 @@ describe("fairValueFor — skipOutlierRule", () => {
         makePeriod({ fiscalYear: "2022", income: { ...makePeriod().income, epsDiluted: 5 } }),
       ],
     });
-    // Clear forward EPS to null so the rule's "no forward → normalize" branch runs
     subject.ttm.forwardEps = null;
     const peers = Array.from({ length: 9 }, (_, i) =>
       buildPharmaPeer(`P${i}`, 50_000_000_000, 18),
@@ -157,13 +258,31 @@ describe("fairValueFor — skipOutlierRule", () => {
     const withRule = fairValueFor(subject, universe);
     const withoutRule = fairValueFor(subject, universe, { skipOutlierRule: true });
 
-    // With rule: should normalize → uses prior 3y mean (5) × peer median PE (~18) = 90
+    // With rule: normalized → prior 3y mean (5) × peer median PE (~18) = 90
     expect(withRule.ttmTreatment).toBe("normalized");
     expect(withRule.anchors.peerMedianPE).toBeCloseTo(90, 0);
+    expect(withRule.peerCohortDivergent).toBe(false);
 
-    // Without rule: uses raw TTM EPS (20) × peer median PE (~18) = 360
+    // Without rule: raw TTM EPS (20) × peer median PE (~18) = 360
     expect(withoutRule.ttmTreatment).toBe("ttm");
     expect(withoutRule.anchors.peerMedianPE).toBeCloseTo(360, 0);
+  });
+
+  it("does NOT drop peer anchors when subject and peers are within 3x of each other", () => {
+    // Subject PE 18, peers all PE 18 — diverge ratio = 1.0× → no fire.
+    const subject = makeCompany({
+      symbol: "ALIGNED",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: 18 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 18),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(false);
+    expect(fv.anchors.peerMedianPE).not.toBeNull();
+    expect(fv.anchors.normalizedPE).not.toBeNull();
   });
 
   it("produces the same result with or without the flag when no spike is present", () => {
