@@ -1,0 +1,75 @@
+{
+  "symbol": "ZBRA",
+  "fetchedAt": "2026-04-21T03:04:43.041Z",
+  "currentPrice": 237.3,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 287.64695862224,
+          "contract": {
+            "contractSymbol": "ZBRA260515C00290000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 290,
+            "bid": 0.85,
+            "ask": 2.5,
+            "lastPrice": 1.19,
+            "volume": 1,
+            "openInterest": 21,
+            "impliedVolatility": 0.5751995605468749,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.003581963758954909,
+          "staticAnnualizedPct": 0.05447569883410591,
+          "assignedReturnPct": 0.22566371681415923,
+          "assignedAnnualizedPct": 3.4319690265486718,
+          "effectiveCostBasis": 236.45000000000002,
+          "effectiveDiscountPct": 0.003581963758954909
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 287.64695862224,
+          "contract": {
+            "contractSymbol": "ZBRA260821C00290000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 290,
+            "bid": 7.6,
+            "ask": 11.1,
+            "lastPrice": 6.38,
+            "volume": 20,
+            "openInterest": 26,
+            "impliedVolatility": 0.5024463818359376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03202697008006742,
+          "staticAnnualizedPct": 0.09581839409200499,
+          "assignedReturnPct": 0.2541087231352718,
+          "assignedAnnualizedPct": 0.7602433110194606,
+          "effectiveCostBasis": 229.70000000000002,
+          "effectiveDiscountPct": 0.03202697008006742
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "symbol": "SPG",
+  "fetchedAt": "2026-04-21T03:02:59.154Z",
+  "currentPrice": 207.56,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 208.54649478480155,
+          "contract": {
+            "contractSymbol": "SPG270115C00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 210,
+            "bid": 13.6,
+            "ask": 16.2,
+            "lastPrice": 12.9,
+            "volume": 1,
+            "openInterest": 302,
+            "impliedVolatility": 0.24314111358642576,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09625555096793269,
+          "staticAnnualizedPct": 0.13060697436169305,
+          "assignedReturnPct": 0.10801118789219555,
+          "assignedAnnualizedPct": 0.14655793152658503,
+          "effectiveCostBasis": 193.96,
+          "effectiveDiscountPct": 0.0655232222008094
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 232.07846466324716,
+          "contract": {
+            "contractSymbol": "SPG270115C00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 240,
+            "bid": 4.6,
+            "ask": 5.6,
+            "lastPrice": 3.7,
+            "volume": 5,
+            "openInterest": 134,
+            "impliedVolatility": 0.22412885253906245,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.052894595099749996,
+          "staticAnnualizedPct": 0.07177147662233736,
+          "assignedReturnPct": 0.20918675158462183,
+          "assignedAnnualizedPct": 0.28384075958508165,
+          "effectiveCostBasis": 202.96,
+          "effectiveDiscountPct": 0.022162266332626707
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 208.54649478480155,
+          "contract": {
+            "contractSymbol": "SPG280121C00210000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 210,
+            "bid": 23.6,
+            "ask": 26.9,
+            "lastPrice": 24.18,
+            "volume": 2,
+            "openInterest": 34,
+            "impliedVolatility": 0.2556837127685547,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.18681987027352384,
+          "staticAnnualizedPct": 0.10654570726536906,
+          "assignedReturnPct": 0.1985755071977867,
+          "assignedAnnualizedPct": 0.11325009394873772,
+          "effectiveCostBasis": 183.96,
+          "effectiveDiscountPct": 0.11370206205434574
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 232.07846466324716,
+          "contract": {
+            "contractSymbol": "SPG280121C00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 240,
+            "bid": 11.5,
+            "ask": 15.4,
+            "lastPrice": 11.5,
+            "volume": 1,
+            "openInterest": 274,
+            "impliedVolatility": 0.24445335632324222,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12852347405074488,
+          "staticAnnualizedPct": 0.07329854379456544,
+          "assignedReturnPct": 0.2848156305356167,
+          "assignedAnnualizedPct": 0.1624339142898439,
+          "effectiveCostBasis": 196.06,
+          "effectiveDiscountPct": 0.055405665831566774
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 331.4838705276548,
+          "contract": {
+            "contractSymbol": "SPG280121C00300000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 300,
+            "bid": 2,
+            "ask": 5.5,
+            "lastPrice": 2.12,
+            "volume": 1,
+            "openInterest": 7,
+            "impliedVolatility": 0.25003801727294916,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.08275357618988535,
+          "staticAnnualizedPct": 0.04719539892079399,
+          "assignedReturnPct": 0.5281187717959751,
+          "assignedAnnualizedPct": 0.3011927370398921,
+          "effectiveCostBasis": 205.56,
+          "effectiveDiscountPct": 0.009635767970707265
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

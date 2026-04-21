@@ -1,0 +1,127 @@
+{
+  "symbol": "FDS",
+  "fetchedAt": "2026-04-21T03:03:49.091Z",
+  "currentPrice": 235.88,
+  "expirations": [
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 240.85617884590334,
+          "contract": {
+            "contractSymbol": "FDS260918C00250000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 250,
+            "bid": 18.1,
+            "ask": 23.2,
+            "lastPrice": 19.6,
+            "volume": 10,
+            "openInterest": 30,
+            "impliedVolatility": 0.4788565298461914,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08450105579572618,
+          "staticAnnualizedPct": 0.20561923576960037,
+          "assignedReturnPct": 0.14436200203957902,
+          "assignedAnnualizedPct": 0.3512808716296423,
+          "effectiveCostBasis": 217.78,
+          "effectiveDiscountPct": 0.07673393250805495
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 408.75421757522463,
+          "contract": {
+            "contractSymbol": "FDS260918C00410000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 410,
+            "bid": 0.05,
+            "ask": 6,
+            "lastPrice": 0.87,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.5612226495361328,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.007979095476920004,
+          "staticAnnualizedPct": 0.019415798993838673,
+          "assignedReturnPct": 0.7461510473168387,
+          "assignedAnnualizedPct": 1.8156342151376406,
+          "effectiveCostBasis": 235.82999999999998,
+          "effectiveDiscountPct": 0.00021197218924877057
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 240.85617884590334,
+          "contract": {
+            "contractSymbol": "FDS261218C00250000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 250,
+            "bid": 26.4,
+            "ask": 31.8,
+            "lastPrice": 27,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.49049886947631843,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12440049400554264,
+          "staticAnnualizedPct": 0.18840738718681768,
+          "assignedReturnPct": 0.18426144024939548,
+          "assignedAnnualizedPct": 0.27906815639431265,
+          "effectiveCostBasis": 209.48,
+          "effectiveDiscountPct": 0.11192131592335085
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 408.75421757522463,
+          "contract": {
+            "contractSymbol": "FDS261218C00320000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 320,
+            "bid": 7.7,
+            "ask": 13.7,
+            "lastPrice": 10.53,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.4874624008178712,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.045122895226502445,
+          "staticAnnualizedPct": 0.06833965459615515,
+          "assignedReturnPct": 0.4017449064186341,
+          "assignedAnnualizedPct": 0.6084518292232425,
+          "effectiveCostBasis": 228.18,
+          "effectiveDiscountPct": 0.03264371714431067
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

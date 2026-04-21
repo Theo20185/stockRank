@@ -1,0 +1,48 @@
+{
+  "symbol": "DG",
+  "fetchedAt": "2026-04-21T03:04:34.336Z",
+  "currentPrice": 126.46,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 272.62464714375,
+          "contract": {
+            "contractSymbol": "DG280121C00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 230,
+            "bid": 2.84,
+            "ask": 4.95,
+            "lastPrice": 4.5,
+            "volume": 10,
+            "openInterest": 4,
+            "impliedVolatility": 0.3825745336914062,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.05524673522842244,
+          "staticAnnualizedPct": 0.03150790368495967,
+          "assignedReturnPct": 0.8740036544123542,
+          "assignedAnnualizedPct": 0.4984552091570457,
+          "effectiveCostBasis": 123.61999999999999,
+          "effectiveDiscountPct": 0.022457694132532027
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

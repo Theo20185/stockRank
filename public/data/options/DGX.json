@@ -1,0 +1,48 @@
+{
+  "symbol": "DGX",
+  "fetchedAt": "2026-04-21T03:04:37.779Z",
+  "currentPrice": 196.31,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 236.3385827,
+          "contract": {
+            "contractSymbol": "DGX260821C00240000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 240,
+            "bid": 0.85,
+            "ask": 2.4,
+            "lastPrice": 1.75,
+            "volume": 1,
+            "openInterest": 47,
+            "impliedVolatility": 0.3029244512939453,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.010212626130184088,
+          "staticAnnualizedPct": 0.030554168340304853,
+          "assignedReturnPct": 0.232768787303838,
+          "assignedAnnualizedPct": 0.6963984210319744,
+          "effectiveCostBasis": 195.46,
+          "effectiveDiscountPct": 0.0043298864041566906
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "symbol": "SWKS",
+  "fetchedAt": "2026-04-21T03:02:29.876Z",
+  "currentPrice": 59.46,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 70.1673588,
+          "contract": {
+            "contractSymbol": "SWKS270115C00072500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 72.5,
+            "bid": 4.2,
+            "ask": 5.5,
+            "lastPrice": 3.55,
+            "volume": 2,
+            "openInterest": 381,
+            "impliedVolatility": 0.48151153259277346,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10608476258933137,
+          "staticAnnualizedPct": 0.143944008717866,
+          "assignedReturnPct": 0.32539185979753854,
+          "assignedAnnualizedPct": 0.4415168357847642,
+          "effectiveCostBasis": 55.26,
+          "effectiveDiscountPct": 0.07063572149344097
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 70.1673588,
+          "contract": {
+            "contractSymbol": "SWKS280121C00072500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 72.5,
+            "bid": 7,
+            "ask": 9.7,
+            "lastPrice": 8.6,
+            "volume": 4,
+            "openInterest": 616,
+            "impliedVolatility": 0.44775942871093743,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.20206592851646554,
+          "staticAnnualizedPct": 0.11524072485704676,
+          "assignedReturnPct": 0.4213730257246727,
+          "assignedAnnualizedPct": 0.2403143037336024,
+          "effectiveCostBasis": 52.46,
+          "effectiveDiscountPct": 0.11772620248906827
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 205.0244487427466,
+          "contract": {
+            "contractSymbol": "SWKS280121C00135000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 135,
+            "bid": 0.85,
+            "ask": 3.2,
+            "lastPrice": 1.5,
+            "volume": 1,
+            "openInterest": 20,
+            "impliedVolatility": 0.5108081146240235,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.09863505061535553,
+          "staticAnnualizedPct": 0.056252802304069954,
+          "assignedReturnPct": 1.3690689557616722,
+          "assignedAnnualizedPct": 0.7807971388328286,
+          "effectiveCostBasis": 58.61,
+          "effectiveDiscountPct": 0.014295324587958291
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

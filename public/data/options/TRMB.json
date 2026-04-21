@@ -1,0 +1,227 @@
+{
+  "symbol": "TRMB",
+  "fetchedAt": "2026-04-21T03:04:53.422Z",
+  "currentPrice": 69.5,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 72.21687743271221,
+          "contract": {
+            "contractSymbol": "TRMB270115C00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 75,
+            "bid": 6.6,
+            "ask": 8.4,
+            "lastPrice": 5.85,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.4437311486816406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09496402877697842,
+          "staticAnnualizedPct": 0.1288545371880934,
+          "assignedReturnPct": 0.17410071942446043,
+          "assignedAnnualizedPct": 0.23623331817817123,
+          "effectiveCostBasis": 62.9,
+          "effectiveDiscountPct": 0.09496402877697842
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 92.49446090134786,
+          "contract": {
+            "contractSymbol": "TRMB270115C00100000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 100,
+            "bid": 1.45,
+            "ask": 2.7,
+            "lastPrice": 1.76,
+            "volume": 10,
+            "openInterest": 10,
+            "impliedVolatility": 0.4345149322509766,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.020863309352517984,
+          "staticAnnualizedPct": 0.028308951351929606,
+          "assignedReturnPct": 0.45971223021582736,
+          "assignedAnnualizedPct": 0.6237731004787249,
+          "effectiveCostBasis": 68.05,
+          "effectiveDiscountPct": 0.020863309352517984
+        }
+      ],
+      "puts": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 72.21687743271221,
+          "contract": {
+            "contractSymbol": "TRMB270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 70,
+            "bid": 7.4,
+            "ask": 9.3,
+            "lastPrice": 9.91,
+            "volume": 0,
+            "openInterest": 4,
+            "impliedVolatility": 0.379889013671875,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10571428571428572,
+          "notAssignedAnnualizedPct": 0.143441317047265,
+          "effectiveCostBasis": 62.6,
+          "effectiveDiscountPct": 0.09928057553956833,
+          "inTheMoney": true
+        },
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.48880688000001,
+          "contract": {
+            "contractSymbol": "TRMB270115P00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 40,
+            "bid": 0.55,
+            "ask": 2.45,
+            "lastPrice": 1.07,
+            "volume": 0,
+            "openInterest": 4,
+            "impliedVolatility": 0.5537154003906251,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.013750000000000002,
+          "notAssignedAnnualizedPct": 0.018657063197026025,
+          "effectiveCostBasis": 39.45,
+          "effectiveDiscountPct": 0.4323741007194244,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "leap-fallback",
+      "coveredCalls": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 72.21687743271221,
+          "contract": {
+            "contractSymbol": "TRMB260717C00075000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 75,
+            "bid": 2.75,
+            "ask": 3.1,
+            "lastPrice": 3,
+            "volume": 3,
+            "openInterest": 217,
+            "impliedVolatility": 0.3830628100585937,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.039568345323741004,
+          "staticAnnualizedPct": 0.1660051269329364,
+          "assignedReturnPct": 0.11870503597122302,
+          "assignedAnnualizedPct": 0.49801538079880925,
+          "effectiveCostBasis": 66.75,
+          "effectiveDiscountPct": 0.039568345323741004
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 92.49446090134786,
+          "contract": {
+            "contractSymbol": "TRMB260717C00085000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 85,
+            "bid": 0.8,
+            "ask": 1.1,
+            "lastPrice": 0.94,
+            "volume": 90,
+            "openInterest": 6,
+            "impliedVolatility": 0.3891662646484375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.011510791366906475,
+          "staticAnnualizedPct": 0.048292400562308775,
+          "assignedReturnPct": 0.23453237410071945,
+          "assignedAnnualizedPct": 0.9839576614570414,
+          "effectiveCostBasis": 68.7,
+          "effectiveDiscountPct": 0.011510791366906475
+        }
+      ],
+      "puts": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 72.21687743271221,
+          "contract": {
+            "contractSymbol": "TRMB260717P00070000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 70,
+            "bid": 4.7,
+            "ask": 5.1,
+            "lastPrice": 4.9,
+            "volume": 6,
+            "openInterest": 5,
+            "impliedVolatility": 0.3552310571289062,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06714285714285714,
+          "notAssignedAnnualizedPct": 0.2816912972085386,
+          "effectiveCostBasis": 65.3,
+          "effectiveDiscountPct": 0.060431654676259036,
+          "inTheMoney": true
+        },
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.48880688000001,
+          "contract": {
+            "contractSymbol": "TRMB260717P00065000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 65,
+            "bid": 2.65,
+            "ask": 3,
+            "lastPrice": 3.8,
+            "volume": 4,
+            "openInterest": 5,
+            "impliedVolatility": 0.37476211181640623,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.040769230769230766,
+          "notAssignedAnnualizedPct": 0.17104332449160034,
+          "effectiveCostBasis": 62.35,
+          "effectiveDiscountPct": 0.1028776978417266,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

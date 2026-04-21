@@ -36,8 +36,12 @@ names within them.
    snap to listed strikes; returns assume fill at the bid and hold to
    expiry. LEAPS-preferred expiration selector with quarterly/monthly
    fallback. Effective cost basis surfaced on both call and put rows.
-   Options chains are fetched on demand with a per-stock CLI; the UI
-   loads a per-symbol JSON file with a 30-minute browser cache.
+   The nightly ingest fetches chains for **every name in the Ranked
+   bucket** automatically and writes one JSON file per symbol, so the UI
+   never tells the user to run a CLI command. Watch and Excluded names
+   skip the chain fetch — those stocks aren't actionable buy candidates,
+   so paying the Yahoo round-trips for them is wasted budget. Stale
+   per-symbol files are pruned when stocks fall out of Ranked.
 
 The detailed methodology lives in [`docs/specs/`](./docs/specs/) — start with
 [PLAN.md](./PLAN.md) for the index.
@@ -95,8 +99,10 @@ npm run ingest -- --symbols INTC,TGT,MSFT,AAPL --throttle 500
 # Use FMP instead (requires FMP_API_KEY in .env)
 npm run ingest -- --provider fmp
 
-# Fetch options chains for specific symbols (writes public/data/options/SYMBOL.json
-# the UI loads on demand — chains are heavy, never run across the universe)
+# Skip the post-snapshot options fetch (faster iteration on the ranking layer)
+npm run ingest -- --no-options
+
+# Ad-hoc: refresh options for specific symbols outside the nightly cadence
 npm run options:fetch --workspace=@stockrank/data -- DECK NVO INCY
 
 # Refresh the S&P 500 universe from Wikipedia
@@ -110,7 +116,7 @@ npm run dev --workspace=@stockrank/web
 ## Test discipline
 
 Every change ships with tests — see [PLAN.md §5](./PLAN.md). Currently
-**234 tests across 32 files** (Vitest + React Testing Library + MSW).
+**240 tests across 33 files** (Vitest + React Testing Library + MSW).
 Acceptance criteria for the ranking engine are pinned to three real
 historical entries (NVO, TGT, INTC) in
 [`docs/specs/validation/case-study-2026-04-20.md`](./docs/specs/validation/case-study-2026-04-20.md).
@@ -151,10 +157,13 @@ The site is served at https://theo20185.github.io/stockRank/. The Vite
   `marketCap / sharesDiluted` against `quote.price` and excludes the
   symbol when they disagree by more than 50%. The exclusions show up
   as `price-consistency` errors in the snapshot.
-- **Options chains are on-demand only**: chains are too heavy to fetch
-  across the universe nightly. Run `npm run options:fetch` per stock
-  before the data appears in the UI; until then the Options panel shows
-  "no options data for SYMBOL yet."
+- **Options chains follow the Ranked bucket**: the nightly ingest fetches
+  chains only for stocks in the Ranked bucket — the actionable buy
+  candidates. Stocks in Watch or Excluded show "isn't in the Ranked
+  bucket on the latest snapshot" in the Options panel rather than chain
+  data. To force a chain fetch for a Watch / Excluded name, use
+  `npm run options:fetch -- SYMBOL`; the file persists until the next
+  ingest prunes it back out.
 
 ## License
 

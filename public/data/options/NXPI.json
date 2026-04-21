@@ -1,0 +1,75 @@
+{
+  "symbol": "NXPI",
+  "fetchedAt": "2026-04-21T03:04:58.612Z",
+  "currentPrice": 221.34,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 266.8072000455088,
+          "contract": {
+            "contractSymbol": "NXPI270115C00270000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 270,
+            "bid": 13.8,
+            "ask": 15.9,
+            "lastPrice": 12.4,
+            "volume": 23,
+            "openInterest": 74,
+            "impliedVolatility": 0.4184933639526367,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.075834368968091,
+          "staticAnnualizedPct": 0.10289793558867366,
+          "assignedReturnPct": 0.2956771447880964,
+          "assignedAnnualizedPct": 0.4011976128165621,
+          "effectiveCostBasis": 207.54,
+          "effectiveDiscountPct": 0.0623475196530225
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 266.8072000455088,
+          "contract": {
+            "contractSymbol": "NXPI280121C00270000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 270,
+            "bid": 27,
+            "ask": 32,
+            "lastPrice": 20.92,
+            "volume": 3,
+            "openInterest": 4,
+            "impliedVolatility": 0.4128629270935058,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15407194881487726,
+          "staticAnnualizedPct": 0.08786915830848469,
+          "assignedReturnPct": 0.3739147246348827,
+          "assignedAnnualizedPct": 0.21324824139333154,
+          "effectiveCostBasis": 194.34,
+          "effectiveDiscountPct": 0.12198427758200055
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

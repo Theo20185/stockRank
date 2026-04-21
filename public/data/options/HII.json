@@ -1,0 +1,127 @@
+{
+  "symbol": "HII",
+  "fetchedAt": "2026-04-21T03:04:04.669Z",
+  "currentPrice": 392.19,
+  "expirations": [
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 454.82557353096087,
+          "contract": {
+            "contractSymbol": "HII260918C00460000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 460,
+            "bid": 15.7,
+            "ask": 19.5,
+            "lastPrice": 20.35,
+            "volume": 10,
+            "openInterest": 29,
+            "impliedVolatility": 0.41925629577636714,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.045826137465322055,
+          "staticAnnualizedPct": 0.11151026783228365,
+          "assignedReturnPct": 0.21872702734012764,
+          "assignedAnnualizedPct": 0.5322357665276439,
+          "effectiveCostBasis": 376.49,
+          "effectiveDiscountPct": 0.04003161732833575
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 599.385293905,
+          "contract": {
+            "contractSymbol": "HII260918C00600000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 600,
+            "bid": 1.05,
+            "ask": 4.8,
+            "lastPrice": 6.4,
+            "volume": 1,
+            "openInterest": 13,
+            "impliedVolatility": 0.45972219970703126,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.008471793907352703,
+          "staticAnnualizedPct": 0.020614698507891577,
+          "assignedReturnPct": 0.5383425198310122,
+          "assignedAnnualizedPct": 1.309966798255463,
+          "effectiveCostBasis": 391.14,
+          "effectiveDiscountPct": 0.0026772737703664043
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 454.82557353096087,
+          "contract": {
+            "contractSymbol": "HII261218C00460000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 460,
+            "bid": 27.1,
+            "ask": 29.5,
+            "lastPrice": 29.49,
+            "volume": 8,
+            "openInterest": 8,
+            "impliedVolatility": 0.4154263780212402,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07840902347430995,
+          "staticAnnualizedPct": 0.11875225546939058,
+          "assignedReturnPct": 0.25130991334911557,
+          "assignedAnnualizedPct": 0.38061459905571443,
+          "effectiveCostBasis": 365.09,
+          "effectiveDiscountPct": 0.0690991611208853
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 586.2236386768448,
+          "contract": {
+            "contractSymbol": "HII261218C00580000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 580,
+            "bid": 7.4,
+            "ask": 10.4,
+            "lastPrice": 9,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.42307095489501956,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02817826797314979,
+          "staticAnnualizedPct": 0.042676629917840964,
+          "assignedReturnPct": 0.5070533030326873,
+          "assignedAnnualizedPct": 0.7679437991988831,
+          "effectiveCostBasis": 384.79,
+          "effectiveDiscountPct": 0.018868405619725134
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "symbol": "SNA",
+  "fetchedAt": "2026-04-21T03:01:48.129Z",
+  "currentPrice": 386.86,
+  "expirations": [
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 500.87192405660375,
+          "contract": {
+            "contractSymbol": "SNA261218C00420000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 420,
+            "bid": 14.3,
+            "ask": 17.5,
+            "lastPrice": 9.76,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.2394332649230957,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.053933317578338844,
+          "staticAnnualizedPct": 0.0816832403157414,
+          "assignedReturnPct": 0.1395973820978032,
+          "assignedAnnualizedPct": 0.21142342101949446,
+          "effectiveCostBasis": 372.56,
+          "effectiveDiscountPct": 0.03696427648244843
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

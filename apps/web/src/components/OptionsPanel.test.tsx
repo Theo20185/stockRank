@@ -84,12 +84,13 @@ describe("<OptionsPanel />", () => {
     expect(screen.getByRole("status")).toHaveTextContent(/loading options/i);
   });
 
-  it("shows the not-fetched message with the right CLI hint", async () => {
+  it("shows the not-in-Ranked-bucket message when no chain has been fetched", async () => {
     render(<OptionsPanel symbol="DECK" loader={loaderReturning({ status: "not-fetched" })} />);
     await waitFor(() =>
-      expect(screen.getByRole("status")).toHaveTextContent(/no options data for DECK/i),
+      expect(screen.getByRole("status")).toHaveTextContent(
+        /DECK isn't in the Ranked bucket/i,
+      ),
     );
-    expect(screen.getByText(/options:fetch -- DECK/)).toBeInTheDocument();
   });
 
   it("shows an error when the loader throws", async () => {

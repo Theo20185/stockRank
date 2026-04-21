@@ -1,0 +1,179 @@
+{
+  "symbol": "CPRT",
+  "fetchedAt": "2026-04-21T03:01:29.007Z",
+  "currentPrice": 33.76,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 34.16897465022715,
+          "contract": {
+            "contractSymbol": "CPRT270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 35,
+            "bid": 3.5,
+            "ask": 4.2,
+            "lastPrice": 5,
+            "volume": 3,
+            "openInterest": 839,
+            "impliedVolatility": 0.40845318115234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10367298578199052,
+          "staticAnnualizedPct": 0.14067152345883474,
+          "assignedReturnPct": 0.1404028436018958,
+          "assignedAnnualizedPct": 0.1905094346271077,
+          "effectiveCostBasis": 30.259999999999998,
+          "effectiveDiscountPct": 0.10367298578199052
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 37.94509668021396,
+          "contract": {
+            "contractSymbol": "CPRT270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 40,
+            "bid": 2.1,
+            "ask": 2.3,
+            "lastPrice": 2.18,
+            "volume": 10,
+            "openInterest": 1675,
+            "impliedVolatility": 0.38086556640624997,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.06220379146919432,
+          "staticAnnualizedPct": 0.08440291407530084,
+          "assignedReturnPct": 0.2470379146919432,
+          "assignedAnnualizedPct": 0.3352001444704806,
+          "effectiveCostBasis": 31.659999999999997,
+          "effectiveDiscountPct": 0.06220379146919432
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 43.393459050000004,
+          "contract": {
+            "contractSymbol": "CPRT270115C00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 45,
+            "bid": 0.85,
+            "ask": 1.3,
+            "lastPrice": 1.15,
+            "volume": 4,
+            "openInterest": 889,
+            "impliedVolatility": 0.37793590820312495,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.025177725118483412,
+          "staticAnnualizedPct": 0.034163084268574145,
+          "assignedReturnPct": 0.3581161137440759,
+          "assignedAnnualizedPct": 0.4859196338906607,
+          "effectiveCostBasis": 32.91,
+          "effectiveDiscountPct": 0.025177725118483412
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 34.16897465022715,
+          "contract": {
+            "contractSymbol": "CPRT280121C00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 35,
+            "bid": 6.6,
+            "ask": 7.2,
+            "lastPrice": 6.9,
+            "volume": 11,
+            "openInterest": 64,
+            "impliedVolatility": 0.43530838134765626,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.19549763033175355,
+          "staticAnnualizedPct": 0.1114947422985782,
+          "assignedReturnPct": 0.23222748815165883,
+          "assignedAnnualizedPct": 0.13244223933649293,
+          "effectiveCostBasis": 27.159999999999997,
+          "effectiveDiscountPct": 0.19549763033175355
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 37.94509668021396,
+          "contract": {
+            "contractSymbol": "CPRT280121C00040000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 40,
+            "bid": 4.5,
+            "ask": 5.8,
+            "lastPrice": 4.8,
+            "volume": 2,
+            "openInterest": 674,
+            "impliedVolatility": 0.4464166687011719,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.13329383886255924,
+          "staticAnnualizedPct": 0.07601914247630331,
+          "assignedReturnPct": 0.31812796208530814,
+          "assignedAnnualizedPct": 0.1814323533767773,
+          "effectiveCostBasis": 29.259999999999998,
+          "effectiveDiscountPct": 0.13329383886255924
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 43.393459050000004,
+          "contract": {
+            "contractSymbol": "CPRT280121C00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 45,
+            "bid": 2.6,
+            "ask": 3.7,
+            "lastPrice": 3.3,
+            "volume": 1,
+            "openInterest": 504,
+            "impliedVolatility": 0.3967345483398438,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07701421800947868,
+          "staticAnnualizedPct": 0.04392217120853081,
+          "assignedReturnPct": 0.40995260663507116,
+          "assignedAnnualizedPct": 0.233801095971564,
+          "effectiveCostBasis": 31.159999999999997,
+          "effectiveDiscountPct": 0.07701421800947868
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "symbol": "MSI",
+  "fetchedAt": "2026-04-21T03:05:02.125Z",
+  "currentPrice": 446.92,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 566.2909348751592,
+          "contract": {
+            "contractSymbol": "MSI260717C00570000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 570,
+            "bid": 0.1,
+            "ask": 1.45,
+            "lastPrice": 0.51,
+            "volume": 1,
+            "openInterest": 28,
+            "impliedVolatility": 0.29688203124999996,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.002845671500155095,
+          "staticAnnualizedPct": 0.01193873675352425,
+          "assignedReturnPct": 0.27824171553488164,
+          "assignedAnnualizedPct": 1.16733593299117,
+          "effectiveCostBasis": 446.82,
+          "effectiveDiscountPct": 0.00022375369193591694
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

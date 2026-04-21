@@ -1,28 +1,25 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Snapshot } from "@stockrank/core";
 import {
-  buildOptionsView,
+  fairValueFor,
+  rank,
   type FairValue,
-  type OptionsView,
   type RankedSnapshot,
 } from "@stockrank/ranking";
-import { selectExpirations } from "./expiration-selector.js";
+import { fetchSymbolOptions, writeOptionsView } from "./fetch-core.js";
 import { YahooOptionsProvider } from "../yahoo/options-provider.js";
 
 /**
- * Per-symbol options fetch CLI. Reads the latest pre-baked snapshot,
- * looks up the company's FairValue + spot price + dividend yield,
- * fetches the chain via Yahoo, builds the OptionsView and writes
- * one JSON file per symbol the web UI loads on demand.
+ * Standalone per-symbol options fetch CLI for ad-hoc work. The nightly
+ * ingest path (packages/data/src/ingest/cli.ts) now bakes options
+ * fetching for the entire Ranked bucket — this CLI stays useful for
+ * targeted refreshes outside the ingest cadence.
  *
  * Usage:
  *   npm run options:fetch -- DECK NVO INCY
  *   npm run options:fetch -- DECK --throttle 2000
- *
- * Per docs/specs/options.md §6, this is on-demand only — never run
- * against the full universe.
  */
 
 function repoRoot(): string {
@@ -69,64 +66,22 @@ function parseArgs(argv: string[]): ParsedArgs {
 }
 
 async function loadSnapshotFile(path: string): Promise<Snapshot> {
-  const raw = await readFile(path, "utf8");
-  return JSON.parse(raw) as Snapshot;
+  return JSON.parse(await readFile(path, "utf8")) as Snapshot;
 }
 
-function findFairValueFor(snapshot: Snapshot, symbol: string): FairValue | null {
-  const ranking = snapshot.ranking as RankedSnapshot | undefined;
-  if (!ranking) return null;
-  const row = ranking.rows.find((r) => r.symbol === symbol);
-  return row?.fairValue ?? null;
+function resolveFairValue(snapshot: Snapshot, symbol: string): FairValue | null {
+  // Prefer pre-baked ranking when present; otherwise compute on the fly.
+  const baked = snapshot.ranking as RankedSnapshot | undefined;
+  if (baked) {
+    const row = baked.rows.find((r) => r.symbol === symbol);
+    if (row?.fairValue) return row.fairValue;
+  }
+  const company = snapshot.companies.find((c) => c.symbol === symbol);
+  if (!company) return null;
+  return fairValueFor(company, snapshot.companies);
 }
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-async function fetchSymbol(
-  provider: YahooOptionsProvider,
-  symbol: string,
-  snapshot: Snapshot,
-): Promise<OptionsView | null> {
-  const company = snapshot.companies.find((c) => c.symbol === symbol);
-  if (!company) {
-    console.error(`  skip ${symbol}: not in snapshot`);
-    return null;
-  }
-  const fairValue = findFairValueFor(snapshot, symbol);
-  if (!fairValue || !fairValue.range) {
-    console.error(`  skip ${symbol}: no fair-value range available`);
-    return null;
-  }
-
-  const today = new Date().toISOString().slice(0, 10);
-  const list = await provider.listExpirations(symbol);
-  const selected = selectExpirations(today, list.expirationDates);
-  if (selected.length === 0) {
-    console.error(`  skip ${symbol}: no usable expirations in chain`);
-    return null;
-  }
-
-  const groups: Array<{
-    selected: { expiration: string; selectionReason: "leap" | "leap-fallback" | "quarterly" | "monthly" };
-    group: Awaited<ReturnType<typeof provider.fetchExpirationGroup>>;
-  }> = [];
-  for (const sel of selected) {
-    const group = await provider.fetchExpirationGroup(symbol, sel.expiration);
-    groups.push({ selected: sel, group });
-  }
-
-  const dividendYield = company.ttm.dividendYield ?? 0;
-  const annualDividendPerShare = (dividendYield ?? 0) * company.quote.price;
-
-  return buildOptionsView({
-    symbol,
-    fetchedAt: list.fetchedAt,
-    currentPrice: list.underlyingPrice || company.quote.price,
-    annualDividendPerShare,
-    fairValue,
-    expirations: groups,
-  });
-}
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
@@ -141,7 +96,16 @@ async function main(): Promise<void> {
   console.log(`throttle:  ${args.throttleMs}ms\n`);
 
   const snapshot = await loadSnapshotFile(args.snapshotPath);
-  await mkdir(args.outDir, { recursive: true });
+  // Stamp pre-baked rankings into memory so resolveFairValue is fast.
+  if (!snapshot.ranking) {
+    const ranked = rank({ companies: snapshot.companies, snapshotDate: snapshot.snapshotDate });
+    for (const row of ranked.rows) {
+      const company = snapshot.companies.find((c) => c.symbol === row.symbol);
+      if (company) row.fairValue = fairValueFor(company, snapshot.companies);
+    }
+    (snapshot as unknown as { ranking: RankedSnapshot }).ranking = ranked;
+  }
+
   const provider = new YahooOptionsProvider();
 
   for (let i = 0; i < args.symbols.length; i += 1) {
@@ -149,13 +113,22 @@ async function main(): Promise<void> {
     const tag = `[${i + 1}/${args.symbols.length}]`;
     console.log(`${tag} ${symbol}`);
     try {
-      const view = await fetchSymbol(provider, symbol, snapshot);
-      if (view) {
-        const out = resolve(args.outDir, `${symbol}.json`);
-        await writeFile(out, JSON.stringify(view, null, 2), "utf8");
-        const callCount = view.expirations.reduce((s, e) => s + e.coveredCalls.length, 0);
-        const putCount = view.expirations.reduce((s, e) => s + e.puts.length, 0);
-        console.log(`  ok — ${view.expirations.length} expirations, ${callCount} calls, ${putCount} puts → ${out}`);
+      const company = snapshot.companies.find((c) => c.symbol === symbol);
+      if (!company) {
+        console.error(`  skip — not in snapshot`);
+        continue;
+      }
+      const fairValue = resolveFairValue(snapshot, symbol);
+      if (!fairValue) {
+        console.error(`  skip — no fair value`);
+        continue;
+      }
+      const result = await fetchSymbolOptions(provider, { symbol, company, fairValue });
+      if (result.status === "ok") {
+        const path = await writeOptionsView(result.view, args.outDir);
+        console.log(`  ok — ${result.view.expirations.length} expirations, ${result.callCount} calls, ${result.putCount} puts → ${path}`);
+      } else {
+        console.error(`  skip — ${result.reason}`);
       }
     } catch (err) {
       console.error(`  FAIL ${symbol}:`, err instanceof Error ? err.message : err);

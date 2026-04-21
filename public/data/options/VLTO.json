@@ -1,0 +1,75 @@
+{
+  "symbol": "VLTO",
+  "fetchedAt": "2026-04-21T03:02:28.168Z",
+  "currentPrice": 90.29,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 91.01619184,
+          "contract": {
+            "contractSymbol": "VLTO260515C00095000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 95,
+            "bid": 0.4,
+            "ask": 1.45,
+            "lastPrice": 0.97,
+            "volume": 512,
+            "openInterest": 16,
+            "impliedVolatility": 0.3393620751953125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.004811539316995313,
+          "staticAnnualizedPct": 0.07317549377930371,
+          "assignedReturnPct": 0.05697678463762876,
+          "assignedAnnualizedPct": 0.8665219330306041,
+          "effectiveCostBasis": 89.89,
+          "effectiveDiscountPct": 0.004430169453981615
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 91.01619184,
+          "contract": {
+            "contractSymbol": "VLTO260717C00095000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 95,
+            "bid": 2.2,
+            "ask": 3.1,
+            "lastPrice": 2.9,
+            "volume": 3,
+            "openInterest": 36,
+            "impliedVolatility": 0.2819896020507812,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.025748397750323542,
+          "staticAnnualizedPct": 0.10802488711342637,
+          "assignedReturnPct": 0.07791364307095698,
+          "assignedAnnualizedPct": 0.3268790772517161,
+          "effectiveCostBasis": 88.09,
+          "effectiveDiscountPct": 0.024365931996898883
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

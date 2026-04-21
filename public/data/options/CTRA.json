@@ -1,0 +1,127 @@
+{
+  "symbol": "CTRA",
+  "fetchedAt": "2026-04-21T03:03:42.098Z",
+  "currentPrice": 31.42,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 37.317334756898816,
+          "contract": {
+            "contractSymbol": "CTRA270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 40,
+            "bid": 0.9,
+            "ask": 1.5,
+            "lastPrice": 1.35,
+            "volume": 5,
+            "openInterest": 216,
+            "impliedVolatility": 0.37573866455078125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.04927979138564739,
+          "staticAnnualizedPct": 0.06686663143405687,
+          "assignedReturnPct": 0.32235426624242647,
+          "assignedAnnualizedPct": 0.43739519397206567,
+          "effectiveCostBasis": 30.520000000000003,
+          "effectiveDiscountPct": 0.028644175684277528
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 42.11191422128533,
+          "contract": {
+            "contractSymbol": "CTRA270115C00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 45,
+            "bid": 0.05,
+            "ask": 1.3,
+            "lastPrice": 1.11,
+            "volume": 1,
+            "openInterest": 335,
+            "impliedVolatility": 0.44116769775390624,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.02222695879494084,
+          "staticAnnualizedPct": 0.03015925635744761,
+          "assignedReturnPct": 0.45443574300881723,
+          "assignedAnnualizedPct": 0.6166135546402167,
+          "effectiveCostBasis": 31.37,
+          "effectiveDiscountPct": 0.001591343093570974
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 37.317334756898816,
+          "contract": {
+            "contractSymbol": "CTRA280121C00040000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 40,
+            "bid": 1.75,
+            "ask": 5,
+            "lastPrice": 2.8,
+            "volume": 5,
+            "openInterest": 129,
+            "impliedVolatility": 0.46594772338867196,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.10479289693251832,
+          "staticAnnualizedPct": 0.05976469903182686,
+          "assignedReturnPct": 0.37786737178929736,
+          "assignedAnnualizedPct": 0.21550248547358364,
+          "effectiveCostBasis": 29.67,
+          "effectiveDiscountPct": 0.05569700827498408
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 42.11191422128533,
+          "contract": {
+            "contractSymbol": "CTRA280121C00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 45,
+            "bid": 1.5,
+            "ask": 5,
+            "lastPrice": 4.4,
+            "volume": 20,
+            "openInterest": 23,
+            "impliedVolatility": 0.5316208947753907,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.09683618146466345,
+          "staticAnnualizedPct": 0.055226884741565875,
+          "assignedReturnPct": 0.52904496567854,
+          "assignedAnnualizedPct": 0.30172095698854234,
+          "effectiveCostBasis": 29.92,
+          "effectiveDiscountPct": 0.047740292807129214
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "symbol": "EXPD",
+  "fetchedAt": "2026-04-21T03:02:07.148Z",
+  "currentPrice": 149.31,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 173.69537455818002,
+          "contract": {
+            "contractSymbol": "EXPD260515P00165000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 165,
+            "bid": 15.4,
+            "ask": 18.4,
+            "lastPrice": 24,
+            "volume": 13,
+            "openInterest": 12,
+            "impliedVolatility": 0.5067188000488281,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.09333333333333334,
+          "notAssignedAnnualizedPct": 1.4194444444444445,
+          "effectiveCostBasis": 149.6,
+          "effectiveDiscountPct": -0.001942267765052522,
+          "inTheMoney": true
+        },
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 146.32000833033638,
+          "contract": {
+            "contractSymbol": "EXPD260515P00145000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 145,
+            "bid": 3.1,
+            "ask": 4.3,
+            "lastPrice": 4.1,
+            "volume": 23,
+            "openInterest": 95,
+            "impliedVolatility": 0.4050352465820312,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.021379310344827585,
+          "notAssignedAnnualizedPct": 0.32514367816091955,
+          "effectiveCostBasis": 141.9,
+          "effectiveDiscountPct": 0.049628290134619224,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 173.69537455818002,
+          "contract": {
+            "contractSymbol": "EXPD260821C00175000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 175,
+            "bid": 1.95,
+            "ask": 3.4,
+            "lastPrice": 1.65,
+            "volume": 1,
+            "openInterest": 21,
+            "impliedVolatility": 0.32507999145507804,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.016569665392311483,
+          "staticAnnualizedPct": 0.049573179247489274,
+          "assignedReturnPct": 0.188627799475762,
+          "assignedAnnualizedPct": 0.5643372689233863,
+          "effectiveCostBasis": 147.36,
+          "effectiveDiscountPct": 0.013060076351215592
+        }
+      ],
+      "puts": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 173.69537455818002,
+          "contract": {
+            "contractSymbol": "EXPD260821P00170000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 170,
+            "bid": 26.9,
+            "ask": 29.7,
+            "lastPrice": 14.3,
+            "volume": 0,
+            "openInterest": 3,
+            "impliedVolatility": 0.4738822143554688,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15823529411764706,
+          "notAssignedAnnualizedPct": 0.4734088717454195,
+          "effectiveCostBasis": 143.1,
+          "effectiveDiscountPct": 0.04159132007233279,
+          "inTheMoney": true
+        },
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 146.32000833033638,
+          "contract": {
+            "contractSymbol": "EXPD260821P00145000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 145,
+            "bid": 7.4,
+            "ask": 9.8,
+            "lastPrice": 8.5,
+            "volume": 41,
+            "openInterest": 53,
+            "impliedVolatility": 0.3478458770751953,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05103448275862069,
+          "notAssignedAnnualizedPct": 0.15268513284341437,
+          "effectiveCostBasis": 137.6,
+          "effectiveDiscountPct": 0.07842743285781266,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

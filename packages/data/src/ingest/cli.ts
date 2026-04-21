@@ -10,6 +10,17 @@ import { loadSp500Universe } from "../universe/loader.js";
 import type { UniverseEntry } from "../universe/loader.js";
 import { ingest } from "./orchestrator.js";
 import { writeSnapshot } from "../snapshot/writer.js";
+import {
+  bucketRows,
+  fairValueFor,
+  rank,
+} from "@stockrank/ranking";
+import { YahooOptionsProvider } from "../yahoo/options-provider.js";
+import {
+  fetchSymbolOptions,
+  pruneStaleOptionsFiles,
+  writeOptionsView,
+} from "../options/fetch-core.js";
 
 type ProviderName = "yahoo" | "fmp";
 
@@ -19,6 +30,9 @@ type ParsedArgs = {
   outDir: string;
   throttleMs: number;
   provider: ProviderName;
+  fetchOptions: boolean;
+  optionsThrottleMs: number;
+  optionsOutDir: string;
 };
 
 function repoRoot(): string {
@@ -34,6 +48,9 @@ function parseArgs(argv: string[]): ParsedArgs {
     outDir: resolve(root, "public/data"),
     throttleMs: 250,
     provider: "yahoo",
+    fetchOptions: true,
+    optionsThrottleMs: 1500,
+    optionsOutDir: resolve(root, "public/data/options"),
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -53,6 +70,7 @@ function parseArgs(argv: string[]): ParsedArgs {
       case "--out":
         if (!next) throw new Error("--out requires a path");
         args.outDir = resolve(next);
+        args.optionsOutDir = resolve(next, "options");
         i += 1;
         break;
       case "--throttle":
@@ -67,12 +85,22 @@ function parseArgs(argv: string[]): ParsedArgs {
         args.provider = next;
         i += 1;
         break;
+      case "--no-options":
+        args.fetchOptions = false;
+        break;
+      case "--options-throttle":
+        if (!next) throw new Error("--options-throttle requires ms");
+        args.optionsThrottleMs = parseInt(next, 10);
+        i += 1;
+        break;
       default:
         if (a.startsWith("--")) throw new Error(`Unknown flag: ${a}`);
     }
   }
   return args;
 }
+
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
@@ -153,6 +181,88 @@ async function main(): Promise<void> {
   console.log(`done — ${snapshot.companies.length} companies, ${snapshot.errors.length} errors`);
   console.log(`wrote: ${result.datedPath}`);
   console.log(`wrote: ${result.latestPath}`);
+
+  if (args.fetchOptions) {
+    await runOptionsFetch(snapshot, args.optionsOutDir, args.optionsThrottleMs);
+  }
+}
+
+async function runOptionsFetch(
+  snapshot: Awaited<ReturnType<typeof ingest>>,
+  outDir: string,
+  throttleMs: number,
+): Promise<void> {
+  console.log("");
+  console.log("options:fetch — Ranked bucket only");
+
+  const ranked = rank({
+    companies: snapshot.companies,
+    snapshotDate: snapshot.snapshotDate,
+  });
+  for (const row of ranked.rows) {
+    const company = snapshot.companies.find((c) => c.symbol === row.symbol);
+    if (company) row.fairValue = fairValueFor(company, snapshot.companies);
+  }
+  const buckets = bucketRows(ranked.rows);
+  console.log(
+    `buckets: ranked=${buckets.ranked.length} watch=${buckets.watch.length} excluded=${buckets.excluded.length}`,
+  );
+
+  if (buckets.ranked.length === 0) {
+    console.log("no ranked names — skipping options fetch");
+    return;
+  }
+
+  const provider = new YahooOptionsProvider();
+  const today = snapshot.snapshotDate;
+  let okCount = 0;
+  let skipCount = 0;
+  let failCount = 0;
+
+  for (let i = 0; i < buckets.ranked.length; i += 1) {
+    const row = buckets.ranked[i]!;
+    const tag = `[${i + 1}/${buckets.ranked.length}]`;
+    const company = snapshot.companies.find((c) => c.symbol === row.symbol);
+    if (!company || !row.fairValue) {
+      console.log(`${tag} skip ${row.symbol} — missing company or fair value`);
+      skipCount += 1;
+      continue;
+    }
+    try {
+      const result = await fetchSymbolOptions(
+        provider,
+        { symbol: row.symbol, company, fairValue: row.fairValue },
+        today,
+      );
+      if (result.status === "ok") {
+        await writeOptionsView(result.view, outDir);
+        console.log(
+          `${tag}   ok ${row.symbol} — ${result.view.expirations.length} exp, ${result.callCount}c/${result.putCount}p`,
+        );
+        okCount += 1;
+      } else {
+        console.log(`${tag} skip ${row.symbol} — ${result.reason}`);
+        skipCount += 1;
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`${tag} FAIL ${row.symbol} — ${msg}`);
+      failCount += 1;
+    }
+    if (i < buckets.ranked.length - 1 && throttleMs > 0) {
+      await sleep(throttleMs);
+    }
+  }
+
+  // Drop any leftover options files for stocks that fell out of Ranked.
+  const keep = new Set(buckets.ranked.map((r) => r.symbol));
+  const pruned = await pruneStaleOptionsFiles(outDir, keep);
+  if (pruned.deleted.length > 0) {
+    console.log(`pruned ${pruned.deleted.length} stale options file(s): ${pruned.deleted.join(", ")}`);
+  }
+
+  console.log("");
+  console.log(`options done — ${okCount} ok, ${skipCount} skipped, ${failCount} failed`);
 }
 
 main().catch((err) => {

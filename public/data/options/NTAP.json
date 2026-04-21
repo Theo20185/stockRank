@@ -1,0 +1,153 @@
+{
+  "symbol": "NTAP",
+  "fetchedAt": "2026-04-21T03:02:03.728Z",
+  "currentPrice": 106.79,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 121.33155800751145,
+          "contract": {
+            "contractSymbol": "NTAP270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 125,
+            "bid": 6.2,
+            "ask": 7.6,
+            "lastPrice": 6,
+            "volume": 7,
+            "openInterest": 75,
+            "impliedVolatility": 0.37900401275634765,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07242910346384596,
+          "staticAnnualizedPct": 0.09827740804573894,
+          "assignedReturnPct": 0.24295068788186255,
+          "assignedAnnualizedPct": 0.32965427909620754,
+          "effectiveCostBasis": 100.59,
+          "effectiveDiscountPct": 0.058057870587133624
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 174.85451626250003,
+          "contract": {
+            "contractSymbol": "NTAP270115C00175000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 175,
+            "bid": 0.5,
+            "ask": 1.35,
+            "lastPrice": 2.45,
+            "volume": 5,
+            "openInterest": 10,
+            "impliedVolatility": 0.3857483300781249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01905331921438439,
+          "staticAnnualizedPct": 0.025853016777882168,
+          "assignedReturnPct": 0.6577835373996076,
+          "assignedAnnualizedPct": 0.892531565616568,
+          "effectiveCostBasis": 106.29,
+          "effectiveDiscountPct": 0.004682086337672067
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 121.33155800751145,
+          "contract": {
+            "contractSymbol": "NTAP280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 125,
+            "bid": 12.5,
+            "ask": 15.6,
+            "lastPrice": 12.32,
+            "volume": 15,
+            "openInterest": 75,
+            "impliedVolatility": 0.3900817828369141,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15124393926371948,
+          "staticAnnualizedPct": 0.08625630911134002,
+          "assignedReturnPct": 0.3217655236817361,
+          "assignedAnnualizedPct": 0.18350690022474012,
+          "effectiveCostBasis": 94.29,
+          "effectiveDiscountPct": 0.11705215844180165
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 174.85451626250003,
+          "contract": {
+            "contractSymbol": "NTAP280121C00175000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 175,
+            "bid": 2.5,
+            "ask": 6.9,
+            "lastPrice": 4.85,
+            "volume": 1,
+            "openInterest": 6,
+            "impliedVolatility": 0.4039976593017578,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05760221251027813,
+          "staticAnnualizedPct": 0.032851261822267996,
+          "assignedReturnPct": 0.6963324306955014,
+          "assignedAnnualizedPct": 0.39712708938102814,
+          "effectiveCostBasis": 104.29,
+          "effectiveDiscountPct": 0.023410431688360333
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 195.85244019138756,
+          "contract": {
+            "contractSymbol": "NTAP280121C00185000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 185,
+            "bid": 1.5,
+            "ask": 6.4,
+            "lastPrice": 2.85,
+            "volume": 8,
+            "openInterest": 9,
+            "impliedVolatility": 0.41727267303466786,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.048238039834934,
+          "staticAnnualizedPct": 0.0275107570933608,
+          "assignedReturnPct": 0.7806099847735987,
+          "assignedAnnualizedPct": 0.445191631941193,
+          "effectiveCostBasis": 105.29,
+          "effectiveDiscountPct": 0.0140462590130162
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

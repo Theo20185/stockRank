@@ -77,8 +77,10 @@ function OptionsBody({ state, symbol }: { state: State; symbol: string }) {
   if (state.status === "not-fetched") {
     return (
       <p className="options-panel__status" role="status">
-        No options data for {symbol} yet. Run{" "}
-        <code>npm run options:fetch -- {symbol}</code> to populate this view.
+        {symbol} isn't in the Ranked bucket on the latest snapshot, so the
+        nightly ingest skipped its options chain. Stocks land here when
+        they're at or above fair value, missing one of {"{quality, P/B, ROIC}"},
+        or sitting in Watch / Excluded for any other reason.
       </p>
     );
   }

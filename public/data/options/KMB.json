@@ -1,0 +1,127 @@
+{
+  "symbol": "KMB",
+  "fetchedAt": "2026-04-21T03:04:39.501Z",
+  "currentPrice": 98.54,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.07362040000001,
+          "contract": {
+            "contractSymbol": "KMB270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 125,
+            "bid": 1.2,
+            "ask": 2.2,
+            "lastPrice": 1.5,
+            "volume": 10,
+            "openInterest": 270,
+            "impliedVolatility": 0.27698476928710936,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.050501081279230746,
+          "staticAnnualizedPct": 0.06852377199598224,
+          "assignedReturnPct": 0.31902147908722744,
+          "assignedAnnualizedPct": 0.4328730106573904,
+          "effectiveCostBasis": 97.34,
+          "effectiveDiscountPct": 0.012177795818956767
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 126.43952581032413,
+          "contract": {
+            "contractSymbol": "KMB270115C00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 130,
+            "bid": 0.75,
+            "ask": 1.7,
+            "lastPrice": 1.2,
+            "volume": 1,
+            "openInterest": 302,
+            "impliedVolatility": 0.28076891113281244,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04593440784712195,
+          "staticAnnualizedPct": 0.062327356372488894,
+          "assignedReturnPct": 0.36519562156743846,
+          "assignedAnnualizedPct": 0.49552565751715627,
+          "effectiveCostBasis": 97.79,
+          "effectiveDiscountPct": 0.00761112238684798
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.07362040000001,
+          "contract": {
+            "contractSymbol": "KMB280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 125,
+            "bid": 3.5,
+            "ask": 7,
+            "lastPrice": 5.1,
+            "volume": 3,
+            "openInterest": 489,
+            "impliedVolatility": 0.291877198486328,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12669664807013076,
+          "staticAnnualizedPct": 0.07225668210249644,
+          "assignedReturnPct": 0.3952170458781274,
+          "assignedAnnualizedPct": 0.22539722147736954,
+          "effectiveCostBasis": 95.04,
+          "effectiveDiscountPct": 0.03551857113862391
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 126.43952581032413,
+          "contract": {
+            "contractSymbol": "KMB280121C00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 130,
+            "bid": 3.2,
+            "ask": 5.5,
+            "lastPrice": 4.35,
+            "volume": 1,
+            "openInterest": 130,
+            "impliedVolatility": 0.2802196002197265,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12365219911539158,
+          "staticAnnualizedPct": 0.07052039480799675,
+          "assignedReturnPct": 0.4429134128357081,
+          "assignedAnnualizedPct": 0.2525990557578648,
+          "effectiveCostBasis": 95.34,
+          "effectiveDiscountPct": 0.032474122183884714
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

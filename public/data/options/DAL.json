@@ -1,0 +1,127 @@
+{
+  "symbol": "DAL",
+  "fetchedAt": "2026-04-21T03:02:02.006Z",
+  "currentPrice": 71.21,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.67539602446483,
+          "contract": {
+            "contractSymbol": "DAL270115C00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 95,
+            "bid": 3.3,
+            "ask": 3.75,
+            "lastPrice": 3.7,
+            "volume": 46,
+            "openInterest": 2018,
+            "impliedVolatility": 0.42981527221679694,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05408016209051753,
+          "staticAnnualizedPct": 0.0733801455875052,
+          "assignedReturnPct": 0.38816245390346527,
+          "assignedAnnualizedPct": 0.5266888315047019,
+          "effectiveCostBasis": 67.91,
+          "effectiveDiscountPct": 0.046341805926133975
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 178.55604816500002,
+          "contract": {
+            "contractSymbol": "DAL270115C00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 110,
+            "bid": 1.43,
+            "ask": 1.95,
+            "lastPrice": 1.78,
+            "volume": 16,
+            "openInterest": 163,
+            "impliedVolatility": 0.4327449304199219,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.02781980539904162,
+          "staticAnnualizedPct": 0.03774806308791893,
+          "assignedReturnPct": 0.5725466696035074,
+          "assignedAnnualizedPct": 0.7768755925846849,
+          "effectiveCostBasis": 69.77999999999999,
+          "effectiveDiscountPct": 0.020081449234658055
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.67539602446483,
+          "contract": {
+            "contractSymbol": "DAL280121C00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 95,
+            "bid": 8.4,
+            "ask": 9.55,
+            "lastPrice": 9.44,
+            "volume": 415,
+            "openInterest": 146,
+            "impliedVolatility": 0.4448908050537109,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13637191944335972,
+          "staticAnnualizedPct": 0.07777461030754108,
+          "assignedReturnPct": 0.47045421125630743,
+          "assignedAnnualizedPct": 0.26830591735711284,
+          "effectiveCostBasis": 62.809999999999995,
+          "effectiveDiscountPct": 0.11796096053925012
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 178.55604816500002,
+          "contract": {
+            "contractSymbol": "DAL280121C00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 110,
+            "bid": 5.85,
+            "ask": 6.2,
+            "lastPrice": 6.05,
+            "volume": 496,
+            "openInterest": 401,
+            "impliedVolatility": 0.4264583721923829,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.10056234213680162,
+          "staticAnnualizedPct": 0.057351960749894675,
+          "assignedReturnPct": 0.6452892063412674,
+          "assignedAnnualizedPct": 0.3680165004915041,
+          "effectiveCostBasis": 65.36,
+          "effectiveDiscountPct": 0.08215138323269204
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

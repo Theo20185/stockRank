@@ -1,0 +1,48 @@
+{
+  "symbol": "APTV",
+  "fetchedAt": "2026-04-21T03:04:08.153Z",
+  "currentPrice": 60.83,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 78.094311501531,
+          "contract": {
+            "contractSymbol": "APTV270115C00080000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 80,
+            "bid": 2.45,
+            "ask": 2.9,
+            "lastPrice": 3.27,
+            "volume": 60,
+            "openInterest": 2,
+            "impliedVolatility": 0.40112903564453123,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04027617951668585,
+          "staticAnnualizedPct": 0.05464983466018712,
+          "assignedReturnPct": 0.35541673516357064,
+          "assignedAnnualizedPct": 0.48225690830744716,
+          "effectiveCostBasis": 58.379999999999995,
+          "effectiveDiscountPct": 0.04027617951668585
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "leap-fallback",
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

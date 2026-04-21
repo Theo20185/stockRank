@@ -1,0 +1,127 @@
+{
+  "symbol": "PYPL",
+  "fetchedAt": "2026-04-21T03:02:08.980Z",
+  "currentPrice": 51.46,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 83.17084507704371,
+          "contract": {
+            "contractSymbol": "PYPL270115C00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 85,
+            "bid": 0.54,
+            "ask": 0.82,
+            "lastPrice": 0.6,
+            "volume": 8,
+            "openInterest": 2645,
+            "impliedVolatility": 0.4118711157226562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01860043656730324,
+          "staticAnnualizedPct": 0.0252385105838873,
+          "assignedReturnPct": 0.6703688003449946,
+          "assignedAnnualizedPct": 0.9096082235164424,
+          "effectiveCostBasis": 50.92,
+          "effectiveDiscountPct": 0.010493587252234746
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 146.13547933884297,
+          "contract": {
+            "contractSymbol": "PYPL270115C00135000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 135,
+            "bid": 0.07,
+            "ask": 0.1,
+            "lastPrice": 0.1,
+            "volume": 121,
+            "openInterest": 16611,
+            "impliedVolatility": 0.47363807617187503,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.009467129144061885,
+          "staticAnnualizedPct": 0.01284573285346687,
+          "assignedReturnPct": 1.6328639422027482,
+          "assignedAnnualizedPct": 2.215596055405216,
+          "effectiveCostBasis": 51.39,
+          "effectiveDiscountPct": 0.001360279828993393
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 83.17084507704371,
+          "contract": {
+            "contractSymbol": "PYPL280121C00085000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 85,
+            "bid": 1.76,
+            "ask": 2.74,
+            "lastPrice": 2.4,
+            "volume": 101,
+            "openInterest": 450,
+            "impliedVolatility": 0.3800110827636719,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.053488992647567735,
+          "staticAnnualizedPct": 0.030505441119315975,
+          "assignedReturnPct": 0.7052573564252591,
+          "assignedAnnualizedPct": 0.4022170860862806,
+          "effectiveCostBasis": 49.7,
+          "effectiveDiscountPct": 0.034201321414691024
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 146.13547933884297,
+          "contract": {
+            "contractSymbol": "PYPL280121C00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 115,
+            "bid": 0.82,
+            "ask": 0.97,
+            "lastPrice": 0.86,
+            "volume": 115,
+            "openInterest": 15904,
+            "impliedVolatility": 0.3874572973632812,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.03522237780108503,
+          "staticAnnualizedPct": 0.020087762339681306,
+          "assignedReturnPct": 1.2699678111473736,
+          "assignedAnnualizedPct": 0.7242785172949865,
+          "effectiveCostBasis": 50.64,
+          "effectiveDiscountPct": 0.015934706568208317
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

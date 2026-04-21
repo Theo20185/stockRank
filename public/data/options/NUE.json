@@ -1,0 +1,179 @@
+{
+  "symbol": "NUE",
+  "fetchedAt": "2026-04-21T03:03:16.417Z",
+  "currentPrice": 202.26,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 230.9840706739394,
+          "contract": {
+            "contractSymbol": "NUE270115C00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 240,
+            "bid": 11.3,
+            "ask": 12.4,
+            "lastPrice": 12.2,
+            "volume": 3,
+            "openInterest": 93,
+            "impliedVolatility": 0.36084623535156246,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06427032770786009,
+          "staticAnnualizedPct": 0.08720695023557225,
+          "assignedReturnPct": 0.25086184357852165,
+          "assignedAnnualizedPct": 0.3403887468630498,
+          "effectiveCostBasis": 190.95999999999998,
+          "effectiveDiscountPct": 0.055868683872243655
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 259.60891774891775,
+          "contract": {
+            "contractSymbol": "NUE270115C00260000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 260,
+            "bid": 7,
+            "ask": 8,
+            "lastPrice": 7.5,
+            "volume": 79,
+            "openInterest": 25,
+            "impliedVolatility": 0.354376573486328,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04301056304851074,
+          "staticAnnualizedPct": 0.058360057668053605,
+          "assignedReturnPct": 0.3284847052417274,
+          "assignedAnnualizedPct": 0.44571344763282716,
+          "effectiveCostBasis": 195.26,
+          "effectiveDiscountPct": 0.034608919212894294
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 487.5180436632089,
+          "contract": {
+            "contractSymbol": "NUE270115C00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 290,
+            "bid": 2.35,
+            "ask": 4.4,
+            "lastPrice": 3.42,
+            "volume": 2,
+            "openInterest": 59,
+            "impliedVolatility": 0.3577029562377929,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.02002035242851667,
+          "staticAnnualizedPct": 0.027165162217132284,
+          "assignedReturnPct": 0.4538184341055661,
+          "assignedAnnualizedPct": 0.6157759421878499,
+          "effectiveCostBasis": 199.91,
+          "effectiveDiscountPct": 0.011618708592900229
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 230.9840706739394,
+          "contract": {
+            "contractSymbol": "NUE280121C00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 240,
+            "bid": 24,
+            "ask": 28.5,
+            "lastPrice": 19.7,
+            "volume": 1,
+            "openInterest": 22,
+            "impliedVolatility": 0.38887635055541997,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13864819268295658,
+          "staticAnnualizedPct": 0.07907279738949868,
+          "assignedReturnPct": 0.32523970855361817,
+          "assignedAnnualizedPct": 0.18548827128448536,
+          "effectiveCostBasis": 178.26,
+          "effectiveDiscountPct": 0.11865915158706616
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 259.60891774891775,
+          "contract": {
+            "contractSymbol": "NUE280121C00270000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 270,
+            "bid": 16.1,
+            "ask": 20,
+            "lastPrice": 12.3,
+            "volume": 14,
+            "openInterest": 15,
+            "impliedVolatility": 0.37625745819091794,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0995895552855473,
+          "staticAnnualizedPct": 0.0567971682487887,
+          "assignedReturnPct": 0.43450501064004154,
+          "assignedAnnualizedPct": 0.24780363888064869,
+          "effectiveCostBasis": 186.16,
+          "effectiveDiscountPct": 0.07960051418965688
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 487.5180436632089,
+          "contract": {
+            "contractSymbol": "NUE280121C00290000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 290,
+            "bid": 12.7,
+            "ask": 14.8,
+            "lastPrice": 13.5,
+            "volume": 42,
+            "openInterest": 5,
+            "impliedVolatility": 0.3602053726196288,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.08277950881071292,
+          "staticAnnualizedPct": 0.04721018861860971,
+          "assignedReturnPct": 0.5165775904877623,
+          "assignedAnnualizedPct": 0.29461065707505196,
+          "effectiveCostBasis": 189.56,
+          "effectiveDiscountPct": 0.06279046771482251
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

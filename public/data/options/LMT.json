@@ -1,0 +1,179 @@
+{
+  "symbol": "LMT",
+  "fetchedAt": "2026-04-21T03:04:25.630Z",
+  "currentPrice": 581.28,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 750.3826970537368,
+          "contract": {
+            "contractSymbol": "LMT270115C00760000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 760,
+            "bid": 12.9,
+            "ask": 14.3,
+            "lastPrice": 15,
+            "volume": 1,
+            "openInterest": 93,
+            "impliedVolatility": 0.3082649740600586,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03929048516453062,
+          "staticAnnualizedPct": 0.05331236834592445,
+          "assignedReturnPct": 0.3467498851094798,
+          "assignedAnnualizedPct": 0.4704970560035692,
+          "effectiveCostBasis": 568.38,
+          "effectiveDiscountPct": 0.022192402972749794
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 951.7694697999999,
+          "contract": {
+            "contractSymbol": "LMT270115C00960000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 960,
+            "bid": 0.55,
+            "ask": 8.3,
+            "lastPrice": 6,
+            "volume": 5,
+            "openInterest": 44,
+            "impliedVolatility": 0.40122058746337885,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.018044269915425192,
+          "staticAnnualizedPct": 0.024483860665911506,
+          "assignedReturnPct": 0.669571933003782,
+          "assignedAnnualizedPct": 0.9085269722913771,
+          "effectiveCostBasis": 580.73,
+          "effectiveDiscountPct": 0.0009461877236443711
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 1115.7055546038544,
+          "contract": {
+            "contractSymbol": "LMT270115C00980000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 980,
+            "bid": 2.4,
+            "ask": 3.4,
+            "lastPrice": 2.79,
+            "volume": 4,
+            "openInterest": 38,
+            "impliedVolatility": 0.3430851824951171,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.02122690134950171,
+          "staticAnnualizedPct": 0.02880230108761385,
+          "assignedReturnPct": 0.7071613907521993,
+          "assignedAnnualizedPct": 0.9595312551098615,
+          "effectiveCostBasis": 578.88,
+          "effectiveDiscountPct": 0.004128819157720892
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 750.3826970537368,
+          "contract": {
+            "contractSymbol": "LMT280121C00760000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 760,
+            "bid": 39,
+            "ask": 49,
+            "lastPrice": 54.24,
+            "volume": 1,
+            "openInterest": 207,
+            "impliedVolatility": 0.33558556266784667,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10777276336775901,
+          "staticAnnualizedPct": 0.06146415410817506,
+          "assignedReturnPct": 0.4152321633127081,
+          "assignedAnnualizedPct": 0.23681209313927884,
+          "effectiveCostBasis": 542.28,
+          "effectiveDiscountPct": 0.06709331131296449
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 951.7694697999999,
+          "contract": {
+            "contractSymbol": "LMT280121C00960000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 960,
+            "bid": 15,
+            "ask": 23,
+            "lastPrice": 21,
+            "volume": 1,
+            "openInterest": 64,
+            "impliedVolatility": 0.3441685456848144,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06648457179055009,
+          "staticAnnualizedPct": 0.0379169823492981,
+          "assignedReturnPct": 0.718012234878907,
+          "assignedAnnualizedPct": 0.40949135270437664,
+          "effectiveCostBasis": 566.28,
+          "effectiveDiscountPct": 0.025805119735755576
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 1115.7055546038544,
+          "contract": {
+            "contractSymbol": "LMT280121C00980000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 980,
+            "bid": 15.1,
+            "ask": 19.8,
+            "lastPrice": 18,
+            "volume": 2,
+            "openInterest": 50,
+            "impliedVolatility": 0.3369817279052735,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.0666566059221218,
+          "staticAnnualizedPct": 0.03801509556496009,
+          "assignedReturnPct": 0.7525910953248194,
+          "assignedAnnualizedPct": 0.42921210905243606,
+          "effectiveCostBasis": 566.18,
+          "effectiveDiscountPct": 0.02597715386732728
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

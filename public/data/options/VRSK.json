@@ -1,0 +1,101 @@
+{
+  "symbol": "VRSK",
+  "fetchedAt": "2026-04-21T03:03:28.334Z",
+  "currentPrice": 179.75,
+  "expirations": [
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 187.71688952000002,
+          "contract": {
+            "contractSymbol": "VRSK260918C00190000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 190,
+            "bid": 13,
+            "ask": 14.3,
+            "lastPrice": 8.5,
+            "volume": 4,
+            "openInterest": 18,
+            "impliedVolatility": 0.401373173828125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07688431421113799,
+          "staticAnnualizedPct": 0.18708516458043575,
+          "assignedReturnPct": 0.13390795816106846,
+          "assignedAnnualizedPct": 0.32584269819193323,
+          "effectiveCostBasis": 166.75,
+          "effectiveDiscountPct": 0.07232267037552156
+        },
+        {
+          "label": "stretch",
+          "anchor": "p75",
+          "anchorPrice": 208.28860344000003,
+          "contract": {
+            "contractSymbol": "VRSK260918C00210000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 210,
+            "bid": 6.8,
+            "ask": 7.8,
+            "lastPrice": 7.2,
+            "volume": 2,
+            "openInterest": 206,
+            "impliedVolatility": 0.3869690209960937,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.042391963724350785,
+          "staticAnnualizedPct": 0.10315377839592024,
+          "assignedReturnPct": 0.21068125440585286,
+          "assignedAnnualizedPct": 0.512657719054242,
+          "effectiveCostBasis": 172.95,
+          "effectiveDiscountPct": 0.03783031988873435
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 201.33943165159928,
+          "contract": {
+            "contractSymbol": "VRSK261218C00200000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 200,
+            "bid": 14,
+            "ask": 16.5,
+            "lastPrice": 14.76,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.4132443930053711,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08521499380799055,
+          "staticAnnualizedPct": 0.1290600528627243,
+          "assignedReturnPct": 0.19787146112370682,
+          "assignedAnnualizedPct": 0.29968084361059333,
+          "effectiveCostBasis": 165.75,
+          "effectiveDiscountPct": 0.07788595271210014
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

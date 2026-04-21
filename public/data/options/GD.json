@@ -1,0 +1,101 @@
+{
+  "symbol": "GD",
+  "fetchedAt": "2026-04-21T03:02:40.300Z",
+  "currentPrice": 332.14,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 389.4377911802191,
+          "contract": {
+            "contractSymbol": "GD270115C00390000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 390,
+            "bid": 9.5,
+            "ask": 10.9,
+            "lastPrice": 12.6,
+            "volume": 1,
+            "openInterest": 141,
+            "impliedVolatility": 0.25771311141967773,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04194184789756374,
+          "staticAnnualizedPct": 0.056909942314538164,
+          "assignedReturnPct": 0.21614549696121163,
+          "assignedAnnualizedPct": 0.2932829233860307,
+          "effectiveCostBasis": 322.64,
+          "effectiveDiscountPct": 0.028602396579755527
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 389.4377911802191,
+          "contract": {
+            "contractSymbol": "GD280121C00390000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 390,
+            "bid": 24.6,
+            "ask": 29,
+            "lastPrice": 30.5,
+            "volume": 2,
+            "openInterest": 73,
+            "impliedVolatility": 0.2796245133972168,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10580213779657531,
+          "staticAnnualizedPct": 0.06034028171210935,
+          "assignedReturnPct": 0.2800057868602232,
+          "assignedAnnualizedPct": 0.15969080031872104,
+          "effectiveCostBasis": 307.53999999999996,
+          "effectiveDiscountPct": 0.0740651532486301
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 607.1332415565345,
+          "contract": {
+            "contractSymbol": "GD280121C00540000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 540,
+            "bid": 5,
+            "ask": 10,
+            "lastPrice": 4,
+            "volume": 0,
+            "openInterest": 3,
+            "impliedVolatility": 0.31026385543823237,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.046790877484658634,
+          "staticAnnualizedPct": 0.026685422315469377,
+          "assignedReturnPct": 0.6726113146497096,
+          "assignedAnnualizedPct": 0.3835986403861625,
+          "effectiveCostBasis": 327.14,
+          "effectiveDiscountPct": 0.015053892936713435
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}

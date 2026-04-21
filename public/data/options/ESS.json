@@ -1,0 +1,127 @@
+{
+  "symbol": "ESS",
+  "fetchedAt": "2026-04-21T03:03:52.524Z",
+  "currentPrice": 258.54,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 258.7888264,
+          "contract": {
+            "contractSymbol": "ESS260515C00260000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 260,
+            "bid": 3.4,
+            "ask": 6.5,
+            "lastPrice": 4,
+            "volume": 1,
+            "openInterest": 129,
+            "impliedVolatility": 0.2662426892089844,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.015767756008185054,
+          "staticAnnualizedPct": 0.23980128929114772,
+          "assignedReturnPct": 0.021414851235229147,
+          "assignedAnnualizedPct": 0.32568419586910996,
+          "effectiveCostBasis": 255.14000000000001,
+          "effectiveDiscountPct": 0.013150769706815191
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 263.4787123695964,
+          "contract": {
+            "contractSymbol": "ESS260515C00270000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 270,
+            "bid": 0.7,
+            "ask": 2.9,
+            "lastPrice": 1.6,
+            "volume": 3,
+            "openInterest": 130,
+            "impliedVolatility": 0.26215337463378907,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.00532449771159652,
+          "staticAnnualizedPct": 0.0809767360305304,
+          "assignedReturnPct": 0.04965032737045,
+          "assignedAnnualizedPct": 0.755098728758927,
+          "effectiveCostBasis": 257.84000000000003,
+          "effectiveDiscountPct": 0.002707511410226657
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 258.7888264,
+          "contract": {
+            "contractSymbol": "ESS260717C00260000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 260,
+            "bid": 8.7,
+            "ask": 12.6,
+            "lastPrice": 8.3,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.26233647827148443,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04313707429813992,
+          "staticAnnualizedPct": 0.18097738067610428,
+          "assignedReturnPct": 0.04878416952518401,
+          "assignedAnnualizedPct": 0.20466921697347315,
+          "effectiveCostBasis": 249.84000000000003,
+          "effectiveDiscountPct": 0.033650498955674166
+        },
+        {
+          "label": "aggressive",
+          "anchor": "median",
+          "anchorPrice": 263.4787123695964,
+          "contract": {
+            "contractSymbol": "ESS260717C00270000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 270,
+            "bid": 4.4,
+            "ask": 8,
+            "lastPrice": 4.7,
+            "volume": 1,
+            "openInterest": 132,
+            "impliedVolatility": 0.24991594818115231,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.026505218492461888,
+          "staticAnnualizedPct": 0.11120005459481137,
+          "assignedReturnPct": 0.07083104815131537,
+          "assignedAnnualizedPct": 0.2971647422440243,
+          "effectiveCostBasis": 254.14000000000001,
+          "effectiveDiscountPct": 0.017018643149996134
+        }
+      ],
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
+    }
+  ]
+}
