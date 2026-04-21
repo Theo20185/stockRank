@@ -70,8 +70,8 @@ export function ResultsScreen({
   return (
     <div className="screen screen--results">
       <AppHeader
-        title="StockRank"
-        subtitle={`Snapshot ${snapshot.snapshotDate} · ${snapshot.companies.length} companies · ${ranked.rows.length} eligible`}
+        title="📈 StockRank"
+        subtitle={`Snapshot ${snapshot.snapshotDate} · ${snapshot.companies.length} companies`}
       />
 
       <nav className="app__tabs" aria-label="Sections">
