@@ -14,6 +14,7 @@ function fv(p25: number, median: number, p75: number, current: number): FairValu
     },
     range: { p25, median, p75 },
     current,
+    upsideToP25Pct: ((p25 - current) / current) * 100,
     upsideToMedianPct: ((median - current) / current) * 100,
     confidence: "high",
     ttmTreatment: "ttm",
@@ -46,66 +47,13 @@ function group(calls: ContractQuote[], puts: ContractQuote[]): ExpirationGroup {
   return { expiration: "2027-01-15", calls, puts };
 }
 
-describe("buildExpirationView — covered calls", () => {
-  it("snaps three call strikes to p25/median/p75 and labels them", () => {
-    const fairValue = fv(95, 110, 130, 90);   // current $90, all anchors above
+describe("buildExpirationView — covered calls (single p25 anchor)", () => {
+  it("emits exactly one covered call anchored at p25", () => {
+    const fairValue = fv(120, 150, 180, 100);   // current $100, p25 $120
     const grp = group(
-      [contract("C", 95, 8), contract("C", 110, 4), contract("C", 130, 1.5)],
+      [contract("C", 120, 8), contract("C", 150, 4), contract("C", 180, 1.5)],
       [],
     );
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 90,
-      annualDividendPerShare: 0,
-    });
-    expect(view.coveredCalls.map((c) => c.label)).toEqual([
-      "conservative", "aggressive", "stretch",
-    ]);
-    expect(view.coveredCalls.map((c) => c.contract.strike)).toEqual([95, 110, 130]);
-    expect(view.coveredCalls.map((c) => c.anchorPrice)).toEqual([95, 110, 130]);
-  });
-
-  it("dedupes calls when multiple anchors snap to the same strike (closest anchor wins)", () => {
-    // Only one strike: 110. All three anchors (95, 110, 130) snap to it.
-    // The aggressive (anchor=110) is closest → its label wins.
-    const fairValue = fv(95, 110, 130, 90);
-    const grp = group([contract("C", 110, 5)], []);
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 90,
-      annualDividendPerShare: 0,
-    });
-    expect(view.coveredCalls).toHaveLength(1);
-    expect(view.coveredCalls[0]?.label).toBe("aggressive");
-  });
-
-  it("drops a call whose anchor is below current price (§3.1 floor)", () => {
-    // current=120, p25=95 → conservative call would assign immediately, drop it
-    const fairValue = fv(95, 110, 130, 120);
-    const grp = group(
-      [contract("C", 95, 26), contract("C", 110, 14), contract("C", 130, 4)],
-      [],
-    );
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 120,
-      annualDividendPerShare: 0,
-    });
-    // p25 (95) < current (120) → drop conservative
-    // median (110) < current (120) → drop aggressive
-    // p75 (130) > current → keep stretch only
-    expect(view.coveredCalls.map((c) => c.label)).toEqual(["stretch"]);
-  });
-
-  it("returns no calls when fair-value range is null", () => {
-    const fairValue = { ...fv(95, 110, 130, 100), range: null };
-    const grp = group([contract("C", 110, 4)], []);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
@@ -113,29 +61,31 @@ describe("buildExpirationView — covered calls", () => {
       currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    expect(view.coveredCalls).toEqual([]);
+    expect(view.coveredCalls).toHaveLength(1);
+    expect(view.coveredCalls[0]?.label).toBe("conservative");
+    expect(view.coveredCalls[0]?.anchor).toBe("p25");
+    expect(view.coveredCalls[0]?.contract.strike).toBe(120);
   });
 
-  it("includes effectiveCostBasis on each call (§4.3)", () => {
-    const fairValue = fv(95, 110, 130, 90);
-    const grp = group([contract("C", 110, 5)], []);
+  it("snaps to ≥ p25 when no exact strike exists", () => {
+    const fairValue = fv(115, 150, 180, 100);
+    const grp = group([contract("C", 120, 6)], []);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
       fairValue,
-      currentPrice: 90,
+      currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    const dedupedCall = view.coveredCalls[0];
-    expect(dedupedCall?.effectiveCostBasis).toBe(85);  // 90 - 5
+    expect(view.coveredCalls).toHaveLength(1);
+    expect(view.coveredCalls[0]?.contract.strike).toBe(120);
   });
 
-  it("drops a call when the snapped strike is below current price (post-snap floor)", () => {
-    // ALLE-style scenario: only listed strike is far below current; the
-    // anchor would pass the pre-snap floor but the snap-fallback grabs
-    // an ITM strike. The post-snap floor catches that.
-    const fairValue = fv(150, 160, 180, 145);   // anchors all >= current
-    const grp = group([contract("C", 110, 36)], []);   // only ITM strike listed
+  it("drops a call when the snapped strike is below current (post-snap floor)", () => {
+    // Stock is BELOW p25 (current=145, p25=150). Snap fallback grabs the
+    // only listed strike ($110), which is below current → drop.
+    const fairValue = fv(150, 160, 180, 145);
+    const grp = group([contract("C", 110, 36)], []);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
@@ -146,101 +96,69 @@ describe("buildExpirationView — covered calls", () => {
     expect(view.coveredCalls).toEqual([]);
   });
 
-  it("drops a call when no listed strike has a usable bid", () => {
-    const dead = contract("C", 110, 0);
+  it("emits no calls when the anchor is below current price (stock above p25)", () => {
+    // current=$120 above p25=$95 — outside the value zone for this profile.
+    const fairValue = fv(95, 110, 130, 120);
+    const grp = group([contract("C", 130, 4)], []);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 120,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toEqual([]);
+  });
+
+  it("emits no calls when fair-value range is null", () => {
+    const fairValue = { ...fv(120, 150, 180, 100), range: null };
+    const grp = group([contract("C", 120, 5)], []);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toEqual([]);
+  });
+
+  it("includes effectiveCostBasis on the call (§4.3)", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([contract("C", 120, 5)], []);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls[0]?.effectiveCostBasis).toBe(95);  // 100 - 5
+  });
+
+  it("drops the call when no listed strike has a usable bid", () => {
+    const dead = contract("C", 120, 0);
     dead.bid = null;
-    const fairValue = fv(95, 110, 130, 90);
+    const fairValue = fv(120, 150, 180, 100);
     const grp = group([dead], []);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
       fairValue,
-      currentPrice: 90,
+      currentPrice: 100,
       annualDividendPerShare: 0,
     });
     expect(view.coveredCalls).toEqual([]);
   });
 });
 
-describe("buildExpirationView — cash-secured puts", () => {
-  it("snaps three put strikes to p75/median/p25 and labels them", () => {
-    const fairValue = fv(95, 110, 130, 140);   // current well above FV → puts OTM
+describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => {
+  it("emits exactly one put anchored at p25, snapped to ≤ current", () => {
+    // current=$100, p25=$120 → put strike must be ≤ p25 (120) AND ≤ current (100)
+    const fairValue = fv(120, 150, 180, 100);
     const grp = group(
       [],
-      [contract("P", 95, 6), contract("P", 110, 10), contract("P", 130, 16)],
-    );
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 140,
-      annualDividendPerShare: 0,
-    });
-    // Puts: stretch=p75=130, aggressive=median=110, deep-value=p25=95
-    expect(view.puts.map((p) => p.label)).toEqual(["stretch", "aggressive", "deep-value"]);
-    expect(view.puts.map((p) => p.contract.strike)).toEqual([130, 110, 95]);
-    expect(view.puts.map((p) => p.anchor)).toEqual(["p75", "median", "p25"]);
-  });
-
-  it("computes effective cost basis = strike - bid for each put", () => {
-    const fairValue = fv(95, 110, 130, 140);
-    const grp = group(
-      [],
-      [contract("P", 95, 6), contract("P", 110, 10), contract("P", 130, 16)],
-    );
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 140,
-      annualDividendPerShare: 0,
-    });
-    const stretch = view.puts.find((p) => p.label === "stretch");
-    expect(stretch?.effectiveCostBasis).toBe(114);  // 130 - 16
-    const deepValue = view.puts.find((p) => p.label === "deep-value");
-    expect(deepValue?.effectiveCostBasis).toBe(89);  // 95 - 6
-  });
-
-  it("suppresses puts entirely when current < p25 (§3.2)", () => {
-    const fairValue = fv(95, 110, 130, 80);   // current $80 below p25=95
-    const grp = group(
-      [],
-      [contract("P", 95, 20), contract("P", 110, 32)],
-    );
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 80,
-      annualDividendPerShare: 0,
-    });
-    expect(view.puts).toEqual([]);
-    expect(view.putsSuppressedReason).toBe("below-fair-value");
-  });
-
-  it("drops a put when the snapped strike is above current price (post-snap floor)", () => {
-    // Symmetric to the call rule: when the snap fallback grabs a strike
-    // above current, the put is ITM and "premium % collateral" is misleading.
-    const fairValue = fv(95, 110, 130, 100);
-    const itmPut = contract("P", 130, 32, 270, true);
-    // Only ITM put listed (130 > current=100).
-    const grp = group([], [itmPut]);
-    const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
-      group: grp,
-      fairValue,
-      currentPrice: 100,
-      annualDividendPerShare: 0,
-    });
-    expect(view.puts).toEqual([]);
-  });
-
-  it("keeps OTM puts even when an ITM strike exists in the chain", () => {
-    // When OTM strikes are available, the snap should pick those (not the ITM).
-    const fairValue = fv(95, 110, 130, 100);
-    const grp = group(
-      [],
-      [contract("P", 95, 4), contract("P", 110, 12), contract("P", 130, 32, 270, true)],
+      [contract("P", 80, 3), contract("P", 95, 5), contract("P", 110, 9)],
     );
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
@@ -249,25 +167,65 @@ describe("buildExpirationView — cash-secured puts", () => {
       currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    // p75=130 anchor → snap prefers ≤ anchor, so 110. p25/median snap to 95/110.
-    // After dedupe + post-snap floor, no ITM strikes survive.
-    expect(view.puts.every((p) => p.contract.strike <= 100)).toBe(true);
-    expect(view.puts.length).toBeGreaterThan(0);
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.label).toBe("deep-value");
+    expect(view.puts[0]?.anchor).toBe("p25");
+    // Snap prefers ≤ p25 (120) → 110, but 110 > current (100) → ITM → drop.
+    // Next best ≤ current → 95.
+    expect(view.puts[0]?.contract.strike).toBe(95);
+  });
+
+  it("computes effective cost basis = strike - bid", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [contract("P", 95, 5)]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts[0]?.effectiveCostBasis).toBe(90);   // 95 - 5
+  });
+
+  it("suppresses puts when current >= p25 (above the conservative tail)", () => {
+    const fairValue = fv(95, 110, 130, 100);   // current $100 above p25 $95
+    const grp = group([], [contract("P", 90, 4)]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
+    expect(view.putsSuppressedReason).toBe("above-conservative-tail");
+  });
+
+  it("drops a put when the only available strike is above current (post-snap floor)", () => {
+    // Only listed put is $130, current $100, p25 $120 → snap picks 120? Wait
+    // 130 > p25 (120), so snap finds nothing ≤ 120 in [130]; falls back to 130.
+    // 130 > current (100) → drop.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [contract("P", 130, 32, 270, true)]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
   });
 });
 
 describe("buildOptionsView", () => {
   it("aggregates per-expiration views with metadata", () => {
-    // Fair value straddles current: puts get OTM strikes (≤ current), calls
-    // get OTM strikes (≥ current). Both sides survive the post-snap floors.
-    const fairValue = fv(95, 110, 130, 100);
-    const grp = group(
-      [contract("C", 110, 5), contract("C", 130, 2)],
-      [contract("P", 90, 3), contract("P", 100, 5)],
-    );
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([contract("C", 120, 5)], [contract("P", 95, 4)]);
     const view = buildOptionsView({
       symbol: "TEST",
-      fetchedAt: "2026-04-20T12:00:00.000Z",
+      fetchedAt: "2026-04-21T12:00:00.000Z",
       currentPrice: 100,
       annualDividendPerShare: 0,
       fairValue,
@@ -279,13 +237,12 @@ describe("buildOptionsView", () => {
       ],
     });
     expect(view.symbol).toBe("TEST");
-    expect(view.fetchedAt).toBe("2026-04-20T12:00:00.000Z");
+    expect(view.fetchedAt).toBe("2026-04-21T12:00:00.000Z");
     expect(view.expirations).toHaveLength(1);
     expect(view.expirations[0]?.selectionReason).toBe("leap");
-    expect(view.expirations[0]?.coveredCalls.length).toBeGreaterThan(0);
-    expect(view.expirations[0]?.puts.length).toBeGreaterThan(0);
-    // No ITM survivors
-    expect(view.expirations[0]?.coveredCalls.every((c) => c.contract.strike >= 100)).toBe(true);
-    expect(view.expirations[0]?.puts.every((p) => p.contract.strike <= 100)).toBe(true);
+    expect(view.expirations[0]?.coveredCalls).toHaveLength(1);
+    expect(view.expirations[0]?.puts).toHaveLength(1);
+    expect(view.expirations[0]?.coveredCalls[0]?.contract.strike).toBe(120);
+    expect(view.expirations[0]?.puts[0]?.contract.strike).toBe(95);
   });
 });

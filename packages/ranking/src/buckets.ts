@@ -59,13 +59,20 @@ export function classifyRow(row: RankedRow): BucketKey {
 
   if (missing >= 2) return "excluded";
   if (!row.fairValue || !row.fairValue.range) return "excluded";
-
-  const upside = row.fairValue.upsideToMedianPct;
-  const positiveUpside = upside !== null && upside > 0;
-
   if (missing === 1) return "watch";
-  // missing === 0: positive upside → ranked, otherwise → watch
-  return positiveUpside ? "ranked" : "watch";
+
+  // Ranked requires the stock to be trading below the conservative-tail
+  // fair value. Above the conservative tail and we're not getting a
+  // value entry — interesting to follow but not actionable today.
+  const belowP25 = row.fairValue.current < row.fairValue.range.p25;
+  if (!belowP25) return "watch";
+
+  // Illiquid options chain is itself a quality signal — quality stocks
+  // have active options markets. Demote to Watch if the options
+  // pipeline didn't surface at least one OTM call AND one OTM put.
+  if (!row.optionsLiquid) return "watch";
+
+  return "ranked";
 }
 
 export function bucketRows(rows: RankedRow[]): BucketedRows {

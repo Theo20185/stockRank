@@ -71,13 +71,21 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
     for (const row of result.rows) {
       const company = snapshot.companies.find((c) => c.symbol === row.symbol);
       if (company) row.fairValue = fairValueFor(company, snapshot.companies);
+      // optionsLiquid defaults to true from rank(); the summary, if loaded,
+      // overrides it. A symbol with no entry in summary.symbols is treated
+      // as liquid-unknown (kept true) so that pre-options snapshots don't
+      // accidentally empty the Ranked bucket.
+      if (optionsSummary && optionsSummary.symbols[row.symbol] !== undefined) {
+        const best = optionsSummary.symbols[row.symbol]!;
+        row.optionsLiquid = best.bestCallAnnualized !== null && best.bestPutAnnualized !== null;
+      }
     }
     for (const row of result.turnaroundWatchlist) {
       const company = snapshot.companies.find((c) => c.symbol === row.symbol);
       if (company) row.fairValue = fairValueFor(company, snapshot.companies);
     }
     return result;
-  }, [snapshot, weights]);
+  }, [snapshot, weights, optionsSummary]);
 
   const industries = useMemo(() => {
     if (!ranked) return [] as string[];

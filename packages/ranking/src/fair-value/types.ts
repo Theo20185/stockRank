@@ -27,6 +27,14 @@ export type FairValue = {
   anchors: FairValueAnchors;
   range: { p25: number; median: number; p75: number } | null;
   current: number;
+  /**
+   * Headline upside vs the conservative-tail fair value (p25). The
+   * primary "Upside" column on the ranked table reads this — a stock
+   * being above its conservative tail is a hard disqualifier from the
+   * Ranked bucket, regardless of how well it scores on the median.
+   */
+  upsideToP25Pct: number | null;
+  /** Legacy upside vs the median anchor; kept for reference. */
   upsideToMedianPct: number | null;
   confidence: FairValueConfidence;
   /**

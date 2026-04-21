@@ -259,5 +259,8 @@ function assembleRow(
     missingFactors: missing,
     fairValue: null,
     negativeEquity,
+    // Default true; the web layer flips this to false when the loaded
+    // options-summary doesn't have both call and put data for the symbol.
+    optionsLiquid: true,
   };
 }

@@ -140,10 +140,11 @@ function ExpirationSection({ expiration, currentPrice }: ExpirationSectionProps)
 
       <div className="options-exp__group">
         <h5>If you want to own this stock</h5>
-        {expiration.putsSuppressedReason === "below-fair-value" ? (
+        {expiration.putsSuppressedReason === "above-conservative-tail" ? (
           <p className="options-panel__suppressed">
-            Stock already trading below fair value. Consider buying outright;
-            put premium will not meaningfully exceed expected appreciation.
+            Stock is at or above its conservative-tail fair value. Selling
+            a put at the fair-value anchor isn't a value entry for this
+            profile.
           </p>
         ) : expiration.puts.length === 0 ? (
           <p className="options-panel__status">

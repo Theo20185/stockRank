@@ -59,8 +59,15 @@ export type ExpirationView = {
   coveredCalls: CoveredCall[];
   /** Up to 3 entries; fewer when floors filter strikes out. */
   puts: CashSecuredPut[];
-  /** Set when puts are suppressed entirely (current < p25 + 30%-below). */
-  putsSuppressedReason?: "below-fair-value";
+  /**
+   * Set when puts are suppressed entirely. "above-conservative-tail"
+   * fires when the stock is at or above its fair-value p25 — the
+   * single-anchor put workflow is anchored to p25, and selling a put
+   * above it isn't a value entry. (In practice the ingest only runs
+   * options for stocks in the Ranked bucket, which already requires
+   * current < p25, so this case is rare; kept for safety.)
+   */
+  putsSuppressedReason?: "above-conservative-tail";
 };
 
 export type OptionsView = {

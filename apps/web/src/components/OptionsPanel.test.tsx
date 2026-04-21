@@ -153,13 +153,13 @@ describe("<OptionsPanel />", () => {
   it("shows the suppression message when puts are suppressed", async () => {
     const view = fakeView();
     view.expirations[0]!.puts = [];
-    view.expirations[0]!.putsSuppressedReason = "below-fair-value";
+    view.expirations[0]!.putsSuppressedReason = "above-conservative-tail";
     render(
       <OptionsPanel symbol="DECK" loader={loaderReturning({ status: "loaded", view })} />,
     );
     await waitFor(() =>
       expect(
-        screen.getByText(/Stock already trading below fair value/i),
+        screen.getByText(/at or above its conservative-tail fair value/i),
       ).toBeInTheDocument(),
     );
   });

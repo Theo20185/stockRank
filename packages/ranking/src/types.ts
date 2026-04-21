@@ -67,6 +67,16 @@ export type RankedRow = {
    * distinctly from genuine data gaps.
    */
   negativeEquity: boolean;
+
+  /**
+   * True when the stock has at least one usable OTM call AND one usable
+   * OTM put after the orchestrator's filters. Set to true by `rank()`
+   * (which has no options visibility); the web layer overrides it to
+   * false based on the loaded options-summary file. Bucket downgrade
+   * rule: an illiquid options chain is itself a quality signal — names
+   * without an active options market drop out of Ranked into Watch.
+   */
+  optionsLiquid: boolean;
 };
 
 export type TurnaroundReason =

@@ -36,6 +36,7 @@ function makeCompany(symbol: string): CompanySnapshot {
 }
 
 function makeFairValue(): FairValue {
+  // current $90, p25 $120 → below the conservative tail (Ranked-eligible)
   return {
     peerSet: "cohort", peerCount: 8,
     anchors: {
@@ -43,8 +44,9 @@ function makeFairValue(): FairValue {
       ownHistoricalPE: 100, ownHistoricalEVEBITDA: 100, ownHistoricalPFCF: 100,
       normalizedPE: 100, normalizedEVEBITDA: 100, normalizedPFCF: 100,
     },
-    range: { p25: 95, median: 110, p75: 130 },
-    current: 90, upsideToMedianPct: 22, confidence: "high", ttmTreatment: "ttm",
+    range: { p25: 120, median: 150, p75: 180 },
+    current: 90, upsideToP25Pct: 33.3, upsideToMedianPct: 66.7,
+    confidence: "high", ttmTreatment: "ttm",
   };
 }
 
@@ -52,20 +54,21 @@ function makeProvider(): OptionsProvider {
   return {
     name: "fake",
     listExpirations: vi.fn(async (symbol: string) => ({
-      // Above p25=95 so puts aren't suppressed by §3.2.
-      symbol, fetchedAt: "2026-04-20T00:00:00.000Z", underlyingPrice: 100,
+      // current=$90, below p25=$120 → puts work (need K ≤ 90); calls
+      // anchored at p25=$120 → snap to ≥ $120.
+      symbol, fetchedAt: "2026-04-20T00:00:00.000Z", underlyingPrice: 90,
       expirationDates: ["2027-01-15", "2028-01-21"],
     })),
     fetchExpirationGroup: vi.fn(async (_symbol: string, expiration: string) => ({
       expiration,
       calls: [{
         contractSymbol: `T${expiration}C`, expiration, daysToExpiry: 270,
-        strike: 110, bid: 5, ask: 5.1, lastPrice: 5, volume: 10, openInterest: 100,
+        strike: 120, bid: 5, ask: 5.1, lastPrice: 5, volume: 10, openInterest: 100,
         impliedVolatility: 0.3, inTheMoney: false,
       }],
       puts: [{
         contractSymbol: `T${expiration}P`, expiration, daysToExpiry: 270,
-        strike: 95, bid: 4, ask: 4.1, lastPrice: 4, volume: 10, openInterest: 100,
+        strike: 85, bid: 4, ask: 4.1, lastPrice: 4, volume: 10, openInterest: 100,
         impliedVolatility: 0.3, inTheMoney: false,
       }],
     })),

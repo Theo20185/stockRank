@@ -40,9 +40,10 @@ const SORT_HEADERS: Array<{
 ];
 
 function upsideOf(row: RankedRow): number {
-  // Sentinel: rows with no fair value sort to the bottom either direction
-  // (for desc, -Infinity puts them last; for asc, also last via the same).
-  const v = row.fairValue?.upsideToMedianPct;
+  // Headline upside is now computed against the conservative tail (p25)
+  // rather than the median. Sentinel: rows with no fair value sort to
+  // the bottom either direction.
+  const v = row.fairValue?.upsideToP25Pct;
   return v === null || v === undefined ? -Infinity : v;
 }
 
@@ -141,13 +142,12 @@ export function RankedTable({
             ))}
             <th>Symbol · Price</th>
             <th className="hide-mobile">Name</th>
-            <th className="hide-mobile">Industry</th>
             <th className="hide-mobile">Fair value</th>
           </tr>
         </thead>
         <tbody>
           {sorted.map((row) => {
-            const upside = row.fairValue?.upsideToMedianPct;
+            const upside = row.fairValue?.upsideToP25Pct;
             return (
               <tr
                 key={row.symbol}
@@ -184,7 +184,6 @@ export function RankedTable({
                   <span className="ranked-table__price">{formatPrice(row.price)}</span>
                 </td>
                 <td className="hide-mobile">{row.name}</td>
-                <td className="hide-mobile">{row.industry}</td>
                 <td className="hide-mobile">
                   <FairValueBar fairValue={row.fairValue} />
                 </td>

@@ -77,6 +77,8 @@ export function fairValueFor(
   const current = subject.quote.price;
   const upsideToMedianPct =
     range && current > 0 ? ((range.median - current) / current) * 100 : null;
+  const upsideToP25Pct =
+    range && current > 0 ? ((range.p25 - current) / current) * 100 : null;
 
   const confidence = computeConfidence(
     cohort.peerSet,
@@ -90,6 +92,7 @@ export function fairValueFor(
     anchors,
     range,
     current,
+    upsideToP25Pct,
     upsideToMedianPct,
     confidence,
     ttmTreatment: epsChoice.treatment satisfies EpsTreatment,
