@@ -267,13 +267,20 @@ main.app--message {
 /* ─── Options panel (stock-detail screen) ──────────────────────────── */
 
 .options-panel {
-  margin-top: var(--sp-4);
-  border-top: 1px solid var(--border);
-  padding-top: var(--sp-3);
+  background: var(--surface);
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: var(--sp-3);
 }
 
-.options-panel__header h3 {
-  margin: 0 0 var(--sp-2);
+.options-panel h3 {
+  font-size: var(--fs-tiny);
+  margin: 0;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
 .options-panel__status,
@@ -304,9 +311,15 @@ main.app--message {
 }
 
 .options-exp {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+}
+
+.options-exp:first-of-type {
+  border-top: none;
+  padding-top: 0;
   margin-top: var(--sp-3);
-  padding: var(--sp-2) 0;
-  border-top: 1px dashed var(--border);
 }
 
 .options-exp__title {
@@ -315,6 +328,7 @@ main.app--message {
   gap: var(--sp-2);
   margin: 0 0 var(--sp-2);
   font-size: var(--fs-base);
+  font-weight: 600;
 }
 
 .options-exp__reason {
@@ -323,20 +337,9 @@ main.app--message {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  background: var(--surface-2, #f3f3f3);
+  background: var(--surface-alt);
   padding: 2px var(--sp-1);
   border-radius: 3px;
-}
-
-.options-exp__group {
-  margin-top: var(--sp-2);
-}
-
-.options-exp__group h5 {
-  margin: 0 0 var(--sp-1);
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-  font-weight: 500;
 }
 
 .options-table {
@@ -348,28 +351,29 @@ main.app--message {
 .options-table th,
 .options-table td {
   text-align: left;
-  padding: var(--sp-1) var(--sp-2);
+  padding: var(--sp-2) var(--sp-2);
   border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.options-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .options-table th.num,
 .options-table td.num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .options-table th {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.options-table__sub {
-  display: block;
-  font-size: 0.75em;
-  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
 }
 
 .options-chips {
@@ -463,27 +467,37 @@ main.app--message {
 }
 
 .trade-table__row--winner {
-  background: var(--surface-2, #f3f3f3);
-  font-weight: 600;
+  background: var(--surface-alt);
+}
+
+.trade-table__row--winner td:last-child strong {
+  color: var(--accent);
 }
 
 .trade-table__row--empty td {
   color: var(--text-muted);
-  font-style: italic;
 }
 
-.trade-table__meta {
-  display: block;
+.trade-table__label {
+  font-weight: 600;
+}
+
+.trade-table__detail {
   font-size: 0.7rem;
   color: var(--text-muted);
-  font-weight: 400;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 .trade-table__assigned {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--text-muted);
   font-style: italic;
+}
+
+.trade-table__chips {
+  margin-top: var(--sp-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .trade-table__indicator {

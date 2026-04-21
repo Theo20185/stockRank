@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import type {
-  CashSecuredPut,
-  CoveredCall,
   ExpirationView,
   OptionsView,
   ProjectedEndCase,
   RankedRow,
 } from "@stockrank/ranking";
-import {
-  formatDte,
-  formatExpiration,
-  formatPercent,
-  formatPrice,
-  selectionReasonLabel,
-} from "../lib/format.js";
+import { formatExpiration, selectionReasonLabel } from "../lib/format.js";
 import {
   loadOptionsView,
   type OptionsLoadResult,
@@ -25,7 +17,7 @@ export type OptionsPanelProps = {
   /**
    * The ranked row for this symbol — supplies fair value, dividend rate
    * and current price to the trade-comparison module. When omitted, the
-   * panel still renders the option tables but skips the comparison.
+   * panel renders a not-fetched state.
    */
   row?: RankedRow | null;
   /** SPAXX yield as a decimal (e.g. 0.033). When omitted, the
@@ -80,13 +72,13 @@ export function OptionsPanel({
     };
   }, [symbol, loader]);
 
-  const showComparison = state.status === "loaded" && row && row.fairValue?.range;
+  const showControls = state.status === "loaded" && row && row.fairValue?.range;
 
   return (
     <section className="options-panel" aria-label={`Options for ${symbol}`}>
       <header className="options-panel__header">
         <h3>Options</h3>
-        {showComparison && (
+        {showControls && (
           <div className="options-panel__controls">
             {onSpaxxRateChange && (
               <SpaxxRateInput rate={spaxxRate ?? 0} onChange={onSpaxxRateChange} />
@@ -205,6 +197,13 @@ function OptionsBody({
       </p>
     );
   }
+  if (!row?.fairValue?.range) {
+    return (
+      <p className="options-panel__status" role="status">
+        No fair-value range for {symbol} — trade comparison unavailable.
+      </p>
+    );
+  }
   return (
     <>
       {view.expirations.map((exp) => (
@@ -225,7 +224,7 @@ function OptionsBody({
 type ExpirationSectionProps = {
   expiration: ExpirationView;
   currentPrice: number;
-  row: RankedRow | null;
+  row: RankedRow;
   scenario: ProjectedEndCase;
   spaxxRate?: number;
   symbol: string;
@@ -239,201 +238,32 @@ function ExpirationSection({
   spaxxRate,
   symbol,
 }: ExpirationSectionProps) {
-  const fvRange = row?.fairValue?.range ?? null;
+  const fvRange = row.fairValue!.range!;
   return (
     <section className="options-exp">
       <h4 className="options-exp__title">
-        {formatExpiration(expiration.expiration)}
+        <span>{formatExpiration(expiration.expiration)}</span>
         <span className="options-exp__reason">
           {selectionReasonLabel(expiration.selectionReason)}
         </span>
       </h4>
 
-      <div className="options-exp__group">
-        <h5>If you own this stock today</h5>
-        {expiration.coveredCalls.length === 0 ? (
-          <p className="options-panel__status">
-            No covered-call strikes available at fair-value anchors.
-          </p>
-        ) : (
-          <CoveredCallTable calls={expiration.coveredCalls} currentPrice={currentPrice} />
-        )}
-      </div>
-
-      <div className="options-exp__group">
-        <h5>If you want to own this stock</h5>
-        {expiration.putsSuppressedReason === "above-conservative-tail" ? (
-          <p className="options-panel__suppressed">
-            Stock is at or above its conservative-tail fair value. Selling
-            a put at the fair-value anchor isn't a value entry for this
-            profile.
-          </p>
-        ) : expiration.puts.length === 0 ? (
-          <p className="options-panel__status">
-            No put strikes available at fair-value anchors.
-          </p>
-        ) : (
-          <PutTable puts={expiration.puts} currentPrice={currentPrice} />
-        )}
-      </div>
-
-      {fvRange && row && (
-        <div className="options-exp__group">
-          <h5>Projected P&amp;L per share</h5>
-          <TradeComparisonTable
-            expiration={expiration}
-            symbol={symbol}
-            currentPrice={currentPrice}
-            annualDividend={row.annualDividend}
-            fairValue={fvRange}
-            scenario={scenario}
-            spaxxRate={spaxxRate}
-          />
-        </div>
+      {expiration.putsSuppressedReason === "above-conservative-tail" && (
+        <p className="options-panel__suppressed">
+          Stock is at or above its conservative-tail fair value. Selling a
+          put at the fair-value anchor isn't a value entry for this profile.
+        </p>
       )}
+
+      <TradeComparisonTable
+        expiration={expiration}
+        symbol={symbol}
+        currentPrice={currentPrice}
+        annualDividend={row.annualDividend}
+        fairValue={fvRange}
+        scenario={scenario}
+        spaxxRate={spaxxRate}
+      />
     </section>
-  );
-}
-
-const CALL_LABELS: Record<CoveredCall["label"], string> = {
-  conservative: "Conservative",
-  aggressive: "Aggressive",
-  stretch: "Stretch",
-};
-
-const PUT_LABELS: Record<CashSecuredPut["label"], string> = {
-  stretch: "Stretch",
-  aggressive: "Aggressive",
-  "deep-value": "Deep value",
-};
-
-function ChipRow({ chips }: { chips: string[] }) {
-  if (chips.length === 0) return null;
-  return (
-    <span className="options-chips">
-      {chips.map((c) => (
-        <span key={c} className="options-chip">
-          {c}
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function CoveredCallTable({
-  calls,
-}: {
-  calls: CoveredCall[];
-  currentPrice: number;
-}) {
-  return (
-    <table className="options-table" aria-label="Covered calls">
-      <thead>
-        <tr>
-          <th className="num">Strike</th>
-          <th className="num">Bid</th>
-          <th className="num">DTE</th>
-          <th className="num">Static % (annl)</th>
-          <th className="num">If assigned % (annl)</th>
-          <th className="num">Effective cost</th>
-          <th>Label</th>
-        </tr>
-      </thead>
-      <tbody>
-        {calls.map((call) => {
-          const chips: string[] = [];
-          if (call.snapWarning) {
-            const off = Math.abs(call.contract.strike - call.anchorPrice) / call.anchorPrice;
-            chips.push(`${(off * 100).toFixed(0)}% off target`);
-          }
-          if (call.shortDated) chips.push("short-dated");
-          return (
-            <tr key={call.contract.contractSymbol}>
-              <td className="num">{formatPrice(call.contract.strike)}</td>
-              <td className="num">{formatPrice(call.contract.bid)}</td>
-              <td className="num">{formatDte(call.contract.daysToExpiry)}</td>
-              <td className="num">
-                {formatPercent(call.staticReturnPct * 100, 1)}
-                <span className="options-table__sub">
-                  ({formatPercent(call.staticAnnualizedPct * 100, 1)})
-                </span>
-              </td>
-              <td className="num">
-                {formatPercent(call.assignedReturnPct * 100, 1)}
-                <span className="options-table__sub">
-                  ({formatPercent(call.assignedAnnualizedPct * 100, 1)})
-                </span>
-              </td>
-              <td className="num">
-                {formatPrice(call.effectiveCostBasis)}
-                <span className="options-table__sub">
-                  ({formatPercent(call.effectiveDiscountPct * 100, 1)})
-                </span>
-              </td>
-              <td>
-                {CALL_LABELS[call.label]}
-                <ChipRow chips={chips} />
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-}
-
-function PutTable({
-  puts,
-}: {
-  puts: CashSecuredPut[];
-  currentPrice: number;
-}) {
-  return (
-    <table className="options-table" aria-label="Cash-secured puts">
-      <thead>
-        <tr>
-          <th className="num">Strike</th>
-          <th className="num">Bid</th>
-          <th className="num">DTE</th>
-          <th className="num">Premium % collateral (annl)</th>
-          <th className="num">Effective cost (discount)</th>
-          <th>Label</th>
-        </tr>
-      </thead>
-      <tbody>
-        {puts.map((put) => {
-          const chips: string[] = [];
-          if (put.snapWarning) {
-            const off = Math.abs(put.contract.strike - put.anchorPrice) / put.anchorPrice;
-            chips.push(`${(off * 100).toFixed(0)}% off target`);
-          }
-          if (put.shortDated) chips.push("short-dated");
-          if (put.inTheMoney) chips.push("ITM");
-          return (
-            <tr key={put.contract.contractSymbol}>
-              <td className="num">{formatPrice(put.contract.strike)}</td>
-              <td className="num">{formatPrice(put.contract.bid)}</td>
-              <td className="num">{formatDte(put.contract.daysToExpiry)}</td>
-              <td className="num">
-                {formatPercent(put.notAssignedReturnPct * 100, 1)}
-                <span className="options-table__sub">
-                  ({formatPercent(put.notAssignedAnnualizedPct * 100, 1)})
-                </span>
-              </td>
-              <td className="num">
-                {formatPrice(put.effectiveCostBasis)}
-                <span className="options-table__sub">
-                  ({formatPercent(put.effectiveDiscountPct * 100, 1)})
-                </span>
-              </td>
-              <td>
-                {PUT_LABELS[put.label]}
-                <ChipRow chips={chips} />
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
   );
 }

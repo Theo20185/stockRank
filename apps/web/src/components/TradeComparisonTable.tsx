@@ -1,10 +1,12 @@
 import {
   computeTradeComparison,
   SPAXX_RATE,
+  type CashSecuredPut,
+  type CoveredCall,
+  type ExpirationView,
   type ProjectedEndCase,
   type TradeLeg,
 } from "@stockrank/ranking";
-import type { ExpirationView } from "@stockrank/ranking";
 import { formatPercent, formatPrice } from "../lib/format.js";
 
 export type TradeComparisonTableProps = {
@@ -38,9 +40,39 @@ function formatRoi(value: number): string {
 
 type Row = {
   label: string;
-  meta?: string;
+  /** Strike + bid + DTE + IV + OI subtitle for option rows. */
+  contractDetail?: string;
+  /** Free-text chips: snap-warning, short-dated, ITM. */
+  chips?: string[];
   leg: TradeLeg | null;
 };
+
+function buildCallDetail(call: CoveredCall): { detail: string; chips: string[] } {
+  const c = call.contract;
+  const ivPct = c.impliedVolatility !== null ? `${(c.impliedVolatility * 100).toFixed(0)}%` : "—";
+  const detail = `K=${formatPrice(c.strike)} · bid ${formatPrice(c.bid)} · ${c.daysToExpiry}d · IV ${ivPct} · OI ${c.openInterest}`;
+  const chips: string[] = [];
+  if (call.snapWarning) {
+    const off = Math.abs(c.strike - call.anchorPrice) / call.anchorPrice;
+    chips.push(`${(off * 100).toFixed(0)}% off target`);
+  }
+  if (call.shortDated) chips.push("short-dated");
+  return { detail, chips };
+}
+
+function buildPutDetail(put: CashSecuredPut): { detail: string; chips: string[] } {
+  const c = put.contract;
+  const ivPct = c.impliedVolatility !== null ? `${(c.impliedVolatility * 100).toFixed(0)}%` : "—";
+  const detail = `K=${formatPrice(c.strike)} · bid ${formatPrice(c.bid)} · ${c.daysToExpiry}d · IV ${ivPct} · OI ${c.openInterest}`;
+  const chips: string[] = [];
+  if (put.snapWarning) {
+    const off = Math.abs(c.strike - put.anchorPrice) / put.anchorPrice;
+    chips.push(`${(off * 100).toFixed(0)}% off target`);
+  }
+  if (put.shortDated) chips.push("short-dated");
+  if (put.inTheMoney) chips.push("ITM");
+  return { detail, chips };
+}
 
 export function TradeComparisonTable({
   expiration,
@@ -73,16 +105,21 @@ export function TradeComparisonTable({
       : null,
   });
 
+  const callDetail = callPick ? buildCallDetail(callPick) : null;
+  const putDetail = putPick ? buildPutDetail(putPick) : null;
+
   const rows: Row[] = [
     { label: "Buy outright", leg: result.trades.buyOutright },
     {
       label: "Covered call",
-      meta: callPick ? `K=${formatPrice(callPick.contract.strike)}` : undefined,
+      contractDetail: callDetail?.detail,
+      chips: callDetail?.chips,
       leg: result.trades.coveredCall,
     },
     {
       label: "Cash-secured put",
-      meta: putPick ? `K=${formatPrice(putPick.contract.strike)}` : undefined,
+      contractDetail: putDetail?.detail,
+      chips: putDetail?.chips,
       leg: result.trades.cashSecuredPut,
     },
     { label: "Hold cash (SPAXX)", leg: result.trades.holdCashSpaxx },
@@ -131,10 +168,10 @@ export function TradeComparisonTable({
               return (
                 <tr key={row.label} className="trade-table__row trade-table__row--empty">
                   <td>
-                    {row.label}
-                    {row.meta && <span className="trade-table__meta">{row.meta}</span>}
+                    <div className="trade-table__label">{row.label}</div>
+                    <div className="trade-table__detail">no strike available</div>
                   </td>
-                  <td colSpan={7} className="num">no strike available</td>
+                  <td colSpan={7} className="num">—</td>
                 </tr>
               );
             }
@@ -150,12 +187,24 @@ export function TradeComparisonTable({
                 }
               >
                 <td>
-                  {row.label}
-                  {row.meta && <span className="trade-table__meta">{row.meta}</span>}
-                  {row.leg.assigned !== undefined && (
-                    <span className="trade-table__assigned">
-                      {row.leg.assigned ? "assigned" : "expires worthless"}
-                    </span>
+                  <div className="trade-table__label">{row.label}</div>
+                  {row.contractDetail && (
+                    <div className="trade-table__detail">
+                      {row.contractDetail}
+                      {row.leg.assigned !== undefined && (
+                        <span className="trade-table__assigned">
+                          {" · "}
+                          {row.leg.assigned ? "assigned at expiry" : "expires worthless"}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {row.chips && row.chips.length > 0 && (
+                    <div className="trade-table__chips">
+                      {row.chips.map((c) => (
+                        <span key={c} className="options-chip">{c}</span>
+                      ))}
+                    </div>
                   )}
                 </td>
                 <td className="num">{formatPrice(row.leg.initialCapital)}</td>
