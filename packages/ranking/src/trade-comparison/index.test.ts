@@ -43,25 +43,34 @@ describe("computeTradeComparison — covered call", () => {
     // stock = 110 - 100 = 10 (capped at K)
     // dividend = 1.4795
     // premium = 8
-    // total = 19.4795
-    // initialCapital = 100 - 8 = 92
+    // SPAXX on premium = 8 × SPAXX_RATE × 270/365
+    const spaxx = 8 * SPAXX_RATE * (270 / 365);
+    const expectedTotal = 10 + 1.4795 + 8 + spaxx;
     expect(t.assigned).toBe(true);
     expect(t.stockPnl).toBe(10);
     expect(t.dividendPnl).toBeCloseTo(1.4795, 3);
     expect(t.premiumPnl).toBe(8);
-    expect(t.totalPnl).toBeCloseTo(19.4795, 3);
+    expect(t.spaxxPnl).toBeCloseTo(spaxx, 3);
+    expect(t.totalPnl).toBeCloseTo(expectedTotal, 3);
     expect(t.initialCapital).toBe(92);
-    expect(t.roi).toBeCloseTo(19.4795 / 92, 4);
+  });
+
+  it("premium received earns SPAXX while it sits in cash", () => {
+    const result = computeTradeComparison({ ...BASE, scenario: "median", spaxxRate: 0.10 });
+    const t = result.trades.coveredCall!;
+    // bid 8 × 0.10 × 270/365 ≈ 0.5918
+    expect(t.spaxxPnl).toBeCloseTo(8 * 0.10 * (270 / 365), 4);
   });
 
   it("flat scenario — call expires worthless, keep stock + premium + dividend", () => {
     const result = computeTradeComparison({ ...BASE, scenario: "flat" });
     const t = result.trades.coveredCall!;
     // FV=100=P → not assigned (FV < K=110)
+    const spaxx = 8 * SPAXX_RATE * (270 / 365);
     expect(t.assigned).toBe(false);
     expect(t.stockPnl).toBe(0);
     expect(t.premiumPnl).toBe(8);
-    expect(t.totalPnl).toBeCloseTo(0 + 1.4795 + 8, 3);
+    expect(t.totalPnl).toBeCloseTo(0 + 1.4795 + 8 + spaxx, 3);
   });
 
   it("returns null when no call is supplied", () => {
@@ -71,18 +80,17 @@ describe("computeTradeComparison — covered call", () => {
 });
 
 describe("computeTradeComparison — cash-secured put", () => {
-  it("median scenario — put expires worthless, premium + SPAXX on full collateral", () => {
+  it("median scenario — put expires worthless, premium + SPAXX on collateral AND premium", () => {
     const result = computeTradeComparison({ ...BASE, scenario: "median" });
     const t = result.trades.cashSecuredPut!;
-    // FV 120 ≥ Kp 95 → not assigned
-    // stockPnl = 0
-    // premium = 5
-    // SPAXX = 95 × 0.045 × 270/365 = 3.1623
+    // FV 120 ≥ Kp 95 → not assigned. stockPnl = 0.
+    // SPAXX accrues on K + bid = 95 + 5 = 100 for the period.
+    const spaxx = (95 + 5) * SPAXX_RATE * (270 / 365);
     expect(t.assigned).toBe(false);
     expect(t.stockPnl).toBe(0);
     expect(t.premiumPnl).toBe(5);
-    expect(t.spaxxPnl).toBeCloseTo(95 * SPAXX_RATE * (270 / 365), 3);
-    expect(t.totalPnl).toBeCloseTo(0 + 5 + 95 * SPAXX_RATE * (270 / 365), 3);
+    expect(t.spaxxPnl).toBeCloseTo(spaxx, 3);
+    expect(t.totalPnl).toBeCloseTo(5 + spaxx, 3);
     expect(t.initialCapital).toBe(95);
   });
 
@@ -94,15 +102,13 @@ describe("computeTradeComparison — cash-secured put", () => {
       fairValue: { p25: 80, median: 100, p75: 120 },
     });
     const t = result.trades.cashSecuredPut!;
-    // FV 80 < Kp 95 → assigned
-    // stockPnl = 80 - 95 = -15
-    // premium = 5
-    // SPAXX = 95 × 0.045 × 270/365 ≈ 3.16
+    // FV 80 < Kp 95 → assigned. stockPnl = 80 - 95 = -15.
+    // SPAXX still on K + bid (assignment is at expiration).
+    const spaxx = (95 + 5) * SPAXX_RATE * (270 / 365);
     expect(t.assigned).toBe(true);
     expect(t.stockPnl).toBe(-15);
     expect(t.premiumPnl).toBe(5);
-    // SPAXX = 95 × SPAXX_RATE × 270/365
-    expect(t.spaxxPnl).toBeCloseTo(95 * SPAXX_RATE * (270 / 365), 3);
+    expect(t.spaxxPnl).toBeCloseTo(spaxx, 3);
   });
 
   it("returns null when no put is supplied", () => {

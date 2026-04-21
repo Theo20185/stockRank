@@ -62,19 +62,23 @@ stock P&L:
   else:        FV − P      (keep the stock)
 dividend P&L  = D × T/365
 premium P&L   = bidCall
-spaxx P&L     = 0
+spaxx P&L     = bidCall × r × T/365
 ─────────────────────────────
-total/share   = stock + dividend + bidCall
+total/share   = stock + dividend + bidCall + spaxx
 ROI on (P − bidCall) = total / (P − bidCall)   # effective cost basis
 ```
+
+The premium hits the account at T=0 and sits in SPAXX for the full
+holding period — that interest accrues on top of the premium itself.
 
 ### Trade 3 — Cash-secured put (strike `Kp`)
 
 Two branches depending on whether the put finishes ITM. SPAXX interest
-accrues on the full `Kp` collateral for the entire holding period,
-regardless of assignment outcome (assignment happens at expiration
-for European-style thinking; American-style early exercise is rare on
-LEAPS and out of scope for v1).
+accrues on the full `Kp` collateral **plus the bid premium received**
+for the entire holding period, regardless of assignment outcome
+(assignment happens at expiration for European-style thinking; the
+collateral conversion to stock is a T-day event, and the premium is
+free cash from the moment the put is sold).
 
 ```
 stock P&L:
@@ -82,11 +86,15 @@ stock P&L:
   else:        FV − Kp     (assigned at Kp; stock now worth FV)
 dividend P&L  = 0          (no stock during the holding period)
 premium P&L   = bidPut
-spaxx P&L     = Kp × r × T/365
+spaxx P&L     = (Kp + bidPut) × r × T/365
 ─────────────────────────────
-total/share   = stock + bidPut + (Kp × r × T/365)
+total/share   = stock + bidPut + spaxx
 ROI on Kp     = total / Kp
 ```
+
+ROI uses `Kp` as the denominator (the at-risk collateral); the
+`bidPut` portion of the SPAXX leg is incremental cash you gained
+from selling the option, not capital you committed.
 
 ### Trade 4 — Hold cash (SPAXX)
 

@@ -76,10 +76,14 @@ function coveredCallLeg(input: ComputeInput, fv: number): TradeLeg | null {
   if (!input.call) return null;
   const { currentPrice: P, daysToExpiry: T, annualDividendPerShare: D } = input;
   const { strike: K, bid } = input.call;
+  const r = input.spaxxRate ?? SPAXX_RATE;
   const assigned = fv >= K;
   const stockPnl = assigned ? K - P : fv - P;
   const dividendPnl = D * (T / 365);
-  const totalPnl = stockPnl + dividendPnl + bid;
+  // Premium hits the account at T=0 and sits in SPAXX for the full
+  // holding period until expiration.
+  const spaxxPnl = bid * r * (T / 365);
+  const totalPnl = stockPnl + dividendPnl + bid + spaxxPnl;
   // Effective cost basis after collecting the premium up-front.
   const initialCapital = P - bid;
   const roi = initialCapital > 0 ? totalPnl / initialCapital : 0;
@@ -88,7 +92,7 @@ function coveredCallLeg(input: ComputeInput, fv: number): TradeLeg | null {
     stockPnl,
     dividendPnl,
     premiumPnl: bid,
-    spaxxPnl: 0,
+    spaxxPnl,
     totalPnl,
     roi,
     roiAnnualized: annualize(roi, T),
@@ -107,10 +111,12 @@ function cashSecuredPutLeg(input: ComputeInput, fv: number): TradeLeg | null {
   // No stock during the period; if assigned, we now own at K and the
   // stock is worth fv (the projected end price).
   const stockPnl = assigned ? fv - K : 0;
-  // Cash collateral sits in SPAXX for the full period whether assigned
-  // or not (assignment happens at expiration in this hold-to-expiry
-  // model). Spec §2 trade 3.
-  const spaxxPnl = K * r * (T / 365);
+  // Both the K cash collateral AND the bid premium received at T=0
+  // sit in SPAXX for the full holding period — assignment (if any)
+  // happens at expiration in this hold-to-expiry model, so the
+  // collateral conversion to stock is a T-day event. The premium is
+  // free cash from the moment the put is sold.
+  const spaxxPnl = (K + bid) * r * (T / 365);
   const totalPnl = stockPnl + bid + spaxxPnl;
   const roi = K > 0 ? totalPnl / K : 0;
   return {
