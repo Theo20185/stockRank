@@ -20,11 +20,9 @@ export function StockDetailScreen({
 }: StockDetailScreenProps) {
   return (
     <div className="screen screen--stock">
-      <AppHeader
-        title={row ? row.symbol : symbol}
-        subtitle={row?.name}
-        onBack={onBack}
-      />
+      {/* DrillDownPanel below already renders the symbol + company name as
+          its own header — keep just the back button here. */}
+      <AppHeader onBack={onBack} />
       {row ? (
         <>
           <DrillDownPanel row={row} />

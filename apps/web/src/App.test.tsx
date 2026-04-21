@@ -76,9 +76,10 @@ describe("<App /> — navigation", () => {
     const tableRows = within(screen.getByRole("table")).getAllByRole("row");
     const firstDataRow = tableRows[1]!;
     await user.click(firstDataRow);
-    // Stock detail screen renders the symbol as the AppHeader title.
-    const headers = screen.getAllByRole("heading", { level: 1 });
-    expect(headers[0]!.textContent).toMatch(/^[A-Z0-9.-]+$/);
+    // Stock detail screen now puts the symbol in the DrillDownPanel's
+    // h2 (the AppHeader on this screen is bare back-button only).
+    const heading = screen.getByRole("heading", { level: 2 });
+    expect(heading.textContent).toMatch(/[A-Z0-9.-]+/);
   });
 
   it("returns to results when the back button on the Filters screen is clicked", async () => {

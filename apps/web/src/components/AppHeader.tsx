@@ -1,5 +1,8 @@
 export type AppHeaderProps = {
-  title: string;
+  /** When omitted, the header renders only the back button (if present)
+   * and nothing else. Useful on screens whose primary card already
+   * carries a title (e.g. StockDetail). */
+  title?: string;
   subtitle?: string;
   /** When provided, renders a back button on the left that calls this. */
   onBack?: () => void;
@@ -7,8 +10,9 @@ export type AppHeaderProps = {
 };
 
 export function AppHeader({ title, subtitle, onBack, right }: AppHeaderProps) {
+  const hasTitle = Boolean(title);
   return (
-    <header className="app-header">
+    <header className={hasTitle ? "app-header" : "app-header app-header--bare"}>
       <div className="app-header__row">
         {onBack ? (
           <button
@@ -19,11 +23,11 @@ export function AppHeader({ title, subtitle, onBack, right }: AppHeaderProps) {
           >
             ‹
           </button>
-        ) : (
+        ) : hasTitle ? (
           <span className="app-header__back app-header__back--placeholder" aria-hidden />
-        )}
-        <h1 className="app-header__title">{title}</h1>
-        <div className="app-header__right">{right}</div>
+        ) : null}
+        {hasTitle && <h1 className="app-header__title">{title}</h1>}
+        {right && <div className="app-header__right">{right}</div>}
       </div>
       {subtitle && <p className="app-header__subtitle">{subtitle}</p>}
     </header>
