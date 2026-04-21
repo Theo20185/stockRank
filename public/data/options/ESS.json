@@ -1,6 +1,6 @@
 {
   "symbol": "ESS",
-  "fetchedAt": "2026-04-21T03:57:14.086Z",
+  "fetchedAt": "2026-04-21T04:13:23.483Z",
   "currentPrice": 258.54,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.32568419586910996,
           "effectiveCostBasis": 255.14000000000001,
           "effectiveDiscountPct": 0.013150769706815191
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 263.4787123695964,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 258.7888264,
           "contract": {
-            "contractSymbol": "ESS260515C00270000",
+            "contractSymbol": "ESS260515P00250000",
             "expiration": "2026-05-15",
             "daysToExpiry": 24,
-            "strike": 270,
-            "bid": 0.7,
-            "ask": 2.9,
-            "lastPrice": 1.6,
-            "volume": 3,
-            "openInterest": 130,
-            "impliedVolatility": 0.26215337463378907,
+            "strike": 250,
+            "bid": 0.6,
+            "ask": 4.6,
+            "lastPrice": 2.5,
+            "volume": 1,
+            "openInterest": 16,
+            "impliedVolatility": 0.3078682495117187,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.00532449771159652,
-          "staticAnnualizedPct": 0.0809767360305304,
-          "assignedReturnPct": 0.04965032737045,
-          "assignedAnnualizedPct": 0.755098728758927,
-          "effectiveCostBasis": 257.84000000000003,
-          "effectiveDiscountPct": 0.002707511410226657
+          "notAssignedReturnPct": 0.0024,
+          "notAssignedAnnualizedPct": 0.0365,
+          "effectiveCostBasis": 249.4,
+          "effectiveDiscountPct": 0.035352363270673835,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2026-07-17",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.20466921697347315,
           "effectiveCostBasis": 249.84000000000003,
           "effectiveDiscountPct": 0.033650498955674166
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 263.4787123695964,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 258.7888264,
           "contract": {
-            "contractSymbol": "ESS260717C00270000",
+            "contractSymbol": "ESS260717P00250000",
             "expiration": "2026-07-17",
             "daysToExpiry": 87,
-            "strike": 270,
-            "bid": 4.4,
-            "ask": 8,
-            "lastPrice": 4.7,
+            "strike": 250,
+            "bid": 6.2,
+            "ask": 10,
+            "lastPrice": 12.6,
             "volume": 1,
-            "openInterest": 132,
-            "impliedVolatility": 0.24991594818115231,
+            "openInterest": 20,
+            "impliedVolatility": 0.27841908111572267,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.026505218492461888,
-          "staticAnnualizedPct": 0.11120005459481137,
-          "assignedReturnPct": 0.07083104815131537,
-          "assignedAnnualizedPct": 0.2971647422440243,
-          "effectiveCostBasis": 254.14000000000001,
-          "effectiveDiscountPct": 0.017018643149996134
+          "notAssignedReturnPct": 0.0248,
+          "notAssignedAnnualizedPct": 0.10404597701149426,
+          "effectiveCostBasis": 243.8,
+          "effectiveDiscountPct": 0.057012454552487074,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "QCOM",
-  "fetchedAt": "2026-04-21T03:55:33.391Z",
+  "fetchedAt": "2026-04-21T04:12:10.546Z",
   "currentPrice": 137.52,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.37637943358270226,
           "effectiveCostBasis": 129.57000000000002,
           "effectiveDiscountPct": 0.057809773123909246
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 425.15399457013575,
-          "contract": {
-            "contractSymbol": "QCOM270115C00300000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 300,
-            "bid": 0.16,
-            "ask": 0.45,
-            "lastPrice": 0.34,
-            "volume": 44,
-            "openInterest": 1037,
-            "impliedVolatility": 0.4274959594726563,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.02091470074575215,
-          "staticAnnualizedPct": 0.02837868316802801,
-          "assignedReturnPct": 1.202415573346101,
-          "assignedAnnualizedPct": 1.6315304248004718,
-          "effectiveCostBasis": 137.36,
-          "effectiveDiscountPct": 0.0011634671320535194
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 163.48309410341656,
+          "contract": {
+            "contractSymbol": "QCOM270115P00135000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 135,
+            "bid": 15.25,
+            "ask": 16.1,
+            "lastPrice": 16.23,
+            "volume": 22,
+            "openInterest": 1812,
+            "impliedVolatility": 0.3723817645263672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11296296296296296,
+          "notAssignedAnnualizedPct": 0.15327688283078617,
+          "effectiveCostBasis": 119.75,
+          "effectiveDiscountPct": 0.12921756835369408,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.21624062781791734,
           "effectiveCostBasis": 119.32000000000001,
           "effectiveDiscountPct": 0.13234438627108783
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 425.15399457013575,
-          "contract": {
-            "contractSymbol": "QCOM280121C00300000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 300,
-            "bid": 2.43,
-            "ask": 2.74,
-            "lastPrice": 2.47,
-            "volume": 74,
-            "openInterest": 1365,
-            "impliedVolatility": 0.383795224609375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.06466193964340529,
-          "staticAnnualizedPct": 0.03687751245287958,
-          "assignedReturnPct": 1.2461628122437542,
-          "assignedAnnualizedPct": 0.7107022288577661,
-          "effectiveCostBasis": 135.09,
-          "effectiveDiscountPct": 0.01767015706806283
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 163.48309410341656,
+          "contract": {
+            "contractSymbol": "QCOM280121P00135000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 135,
+            "bid": 23.3,
+            "ask": 24.3,
+            "lastPrice": 24.51,
+            "volume": 6,
+            "openInterest": 896,
+            "impliedVolatility": 0.35806916351318363,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1725925925925926,
+          "notAssignedAnnualizedPct": 0.09843171296296296,
+          "effectiveCostBasis": 111.7,
+          "effectiveDiscountPct": 0.18775450843513675,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "ADBE",
-  "fetchedAt": "2026-04-21T03:55:01.931Z",
+  "fetchedAt": "2026-04-21T04:11:46.122Z",
   "currentPrice": 248.63,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.25087741043969286,
           "effectiveCostBasis": 214.03,
           "effectiveDiscountPct": 0.13916261110887665
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 413.85925958,
-          "contract": {
-            "contractSymbol": "ADBE270115C00420000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 420,
-            "bid": 4.2,
-            "ask": 4.6,
-            "lastPrice": 4.5,
-            "volume": 2,
-            "openInterest": 666,
-            "impliedVolatility": 0.44061838684082033,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.016892571290672887,
-          "staticAnnualizedPct": 0.022921146918571018,
-          "assignedReturnPct": 0.7061497003579617,
-          "assignedAnnualizedPct": 0.9581585153555986,
-          "effectiveCostBasis": 244.43,
-          "effectiveDiscountPct": 0.016892571290672887
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 490.29043596179855,
-          "contract": {
-            "contractSymbol": "ADBE270115C00500000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 500,
-            "bid": 1.55,
-            "ask": 1.9,
-            "lastPrice": 1.63,
-            "volume": 8,
-            "openInterest": 2407,
-            "impliedVolatility": 0.45013977600097654,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0062341632144149945,
-          "staticAnnualizedPct": 0.008458994696139305,
-          "assignedReturnPct": 1.0172545549611873,
-          "assignedAnnualizedPct": 1.3802896377726148,
-          "effectiveCostBasis": 247.07999999999998,
-          "effectiveDiscountPct": 0.0062341632144149945
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 250.86704132115162,
+          "contract": {
+            "contractSymbol": "ADBE270115P00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 240,
+            "bid": 28.55,
+            "ask": 29.75,
+            "lastPrice": 29.4,
+            "volume": 2,
+            "openInterest": 767,
+            "impliedVolatility": 0.40650007568359375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11895833333333333,
+          "notAssignedAnnualizedPct": 0.16141186493184634,
+          "effectiveCostBasis": 211.45,
+          "effectiveDiscountPct": 0.14953947633029002,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.15866353869203234,
           "effectiveCostBasis": 190.82999999999998,
           "effectiveDiscountPct": 0.23247395728592687
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 413.85925958,
-          "contract": {
-            "contractSymbol": "ADBE280121C00420000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 420,
-            "bid": 17.35,
-            "ask": 20.7,
-            "lastPrice": 20.06,
-            "volume": 1,
-            "openInterest": 266,
-            "impliedVolatility": 0.4600426310729981,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06978240759361301,
-          "staticAnnualizedPct": 0.03979777933073242,
-          "assignedReturnPct": 0.7590395366609017,
-          "assignedAnnualizedPct": 0.4328897357519205,
-          "effectiveCostBasis": 231.28,
-          "effectiveDiscountPct": 0.06978240759361301
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 490.29043596179855,
-          "contract": {
-            "contractSymbol": "ADBE280121C00500000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 500,
-            "bid": 8.6,
-            "ask": 13.05,
-            "lastPrice": 10.5,
-            "volume": 1,
-            "openInterest": 207,
-            "impliedVolatility": 0.459966337890625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03458955073804448,
-          "staticAnnualizedPct": 0.019726853155290994,
-          "assignedReturnPct": 1.0456099424848169,
-          "assignedAnnualizedPct": 0.5963244203233721,
-          "effectiveCostBasis": 240.03,
-          "effectiveDiscountPct": 0.03458955073804448
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 250.86704132115162,
+          "contract": {
+            "contractSymbol": "ADBE280121P00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 240,
+            "bid": 42.05,
+            "ask": 46.6,
+            "lastPrice": 43.5,
+            "volume": 2,
+            "openInterest": 203,
+            "impliedVolatility": 0.3980773083496094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.17520833333333333,
+          "notAssignedAnnualizedPct": 0.09992350260416666,
+          "effectiveCostBasis": 197.95,
+          "effectiveDiscountPct": 0.20383702690745287,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

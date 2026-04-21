@@ -1,6 +1,6 @@
 {
   "symbol": "MPC",
-  "fetchedAt": "2026-04-21T03:57:48.777Z",
+  "fetchedAt": "2026-04-21T04:13:44.417Z",
   "currentPrice": 214.12,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.593706086084515,
           "effectiveCostBasis": 209.12,
           "effectiveDiscountPct": 0.02335139174294788
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 382.64212975466467,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 293.65277974,
           "contract": {
-            "contractSymbol": "MPC270115C00370000",
+            "contractSymbol": "MPC270115P00210000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 370,
-            "bid": 0.95,
-            "ask": 2,
-            "lastPrice": 5.3,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.3891662646484375,
+            "strike": 210,
+            "bid": 22.3,
+            "ask": 23.5,
+            "lastPrice": 23.3,
+            "volume": 2,
+            "openInterest": 41,
+            "impliedVolatility": 0.35202674346923823,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.01755512059554366,
-          "staticAnnualizedPct": 0.023820145045997904,
-          "assignedReturnPct": 0.7455581095736867,
-          "assignedAnnualizedPct": 1.0116308921724746,
-          "effectiveCostBasis": 213.17000000000002,
-          "effectiveDiscountPct": 0.0044367644311600965
+          "notAssignedReturnPct": 0.1061904761904762,
+          "notAssignedAnnualizedPct": 0.1440874491060365,
+          "effectiveCostBasis": 187.7,
+          "effectiveDiscountPct": 0.12338875396973667,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.28756111526246964,
           "effectiveCostBasis": 198.72,
           "effectiveDiscountPct": 0.07192228656827947
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 382.64212975466467,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 293.65277974,
           "contract": {
-            "contractSymbol": "MPC280121C00370000",
+            "contractSymbol": "MPC280121P00210000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 370,
-            "bid": 5.5,
-            "ask": 8.8,
-            "lastPrice": 8.09,
+            "strike": 210,
+            "bid": 31.5,
+            "ask": 35.5,
+            "lastPrice": 26.47,
             "volume": 5,
-            "openInterest": 5,
-            "impliedVolatility": 0.3672853799438477,
+            "openInterest": 6,
+            "impliedVolatility": 0.3376988838195801,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.05689748982135225,
-          "staticAnnualizedPct": 0.032449349663739954,
-          "assignedReturnPct": 0.7849004787994953,
-          "assignedAnnualizedPct": 0.44763855431533717,
-          "effectiveCostBasis": 208.62,
-          "effectiveDiscountPct": 0.025686530917242666
+          "notAssignedReturnPct": 0.15,
+          "notAssignedAnnualizedPct": 0.085546875,
+          "effectiveCostBasis": 178.5,
+          "effectiveDiscountPct": 0.16635531477676072,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

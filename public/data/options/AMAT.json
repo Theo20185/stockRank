@@ -1,6 +1,6 @@
 {
   "symbol": "AMAT",
-  "fetchedAt": "2026-04-21T03:57:00.157Z",
+  "fetchedAt": "2026-04-21T04:13:16.556Z",
   "currentPrice": 391.62,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.3627228087541808,
           "effectiveCostBasis": 336.87,
           "effectiveDiscountPct": 0.13980389152750114
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 472.00368533415843,
-          "contract": {
-            "contractSymbol": "AMAT270115C00480000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 480,
-            "bid": 42.5,
-            "ask": 45.15,
-            "lastPrice": 46.17,
-            "volume": 5,
-            "openInterest": 61,
-            "impliedVolatility": 0.5444228907775879,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11250329479303742,
-          "staticAnnualizedPct": 0.1526531695147162,
-          "assignedReturnPct": 0.33818124791085574,
-          "assignedAnnualizedPct": 0.45887046649614255,
-          "effectiveCostBasis": 349.12,
-          "effectiveDiscountPct": 0.10852356876564016
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 504.798698222224,
-          "contract": {
-            "contractSymbol": "AMAT270115C00520000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 520,
-            "bid": 32.9,
-            "ask": 35.15,
-            "lastPrice": 34.14,
-            "volume": 7,
-            "openInterest": 176,
-            "impliedVolatility": 0.538136332550049,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08798973573068106,
-          "staticAnnualizedPct": 0.11939127710668619,
-          "assignedReturnPct": 0.41580751827498424,
-          "assignedAnnualizedPct": 0.5641997924549043,
-          "effectiveCostBasis": 358.72,
-          "effectiveDiscountPct": 0.08401000970328379
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 437.6144955,
+          "contract": {
+            "contractSymbol": "AMAT270115P00390000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 390,
+            "bid": 64.05,
+            "ask": 66.65,
+            "lastPrice": 65.11,
+            "volume": 22,
+            "openInterest": 32,
+            "impliedVolatility": 0.5071765591430665,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16423076923076924,
+          "notAssignedAnnualizedPct": 0.22284100657706607,
+          "effectiveCostBasis": 325.95,
+          "effectiveDiscountPct": 0.16768806496093155,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.21493108242684236,
           "effectiveCostBasis": 296.12,
           "effectiveDiscountPct": 0.2438588427557326
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 472.00368533415843,
-          "contract": {
-            "contractSymbol": "AMAT280121C00480000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 480,
-            "bid": 82.5,
-            "ask": 87,
-            "lastPrice": 85.99,
-            "volume": 4,
-            "openInterest": 35,
-            "impliedVolatility": 0.5518080708312989,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.22013189134280997,
-          "staticAnnualizedPct": 0.12554396928144632,
-          "assignedReturnPct": 0.44580984446062827,
-          "assignedAnnualizedPct": 0.25425092691895207,
-          "effectiveCostBasis": 309.12,
-          "effectiveDiscountPct": 0.210663398192125
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 504.798698222224,
-          "contract": {
-            "contractSymbol": "AMAT280121C00520000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 520,
-            "bid": 71.5,
-            "ask": 76,
-            "lastPrice": 74.54,
-            "volume": 2,
-            "openInterest": 127,
-            "impliedVolatility": 0.5454909953308105,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.19204343825052664,
-          "staticAnnualizedPct": 0.10952477337725347,
-          "assignedReturnPct": 0.5198612207948298,
-          "assignedAnnualizedPct": 0.2964833524845514,
-          "effectiveCostBasis": 320.12,
-          "effectiveDiscountPct": 0.18257494509984168
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 437.6144955,
+          "contract": {
+            "contractSymbol": "AMAT280121P00390000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 390,
+            "bid": 92,
+            "ask": 96.5,
+            "lastPrice": 94.74,
+            "volume": 1,
+            "openInterest": 47,
+            "impliedVolatility": 0.4791006680297851,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.2358974358974359,
+          "notAssignedAnnualizedPct": 0.1345352564102564,
+          "effectiveCostBasis": 298,
+          "effectiveDiscountPct": 0.23905827077268782,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

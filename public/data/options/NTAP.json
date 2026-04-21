@@ -1,6 +1,6 @@
 {
   "symbol": "NTAP",
-  "fetchedAt": "2026-04-21T03:55:22.842Z",
+  "fetchedAt": "2026-04-21T04:12:01.736Z",
   "currentPrice": 106.79,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.32965427909620754,
           "effectiveCostBasis": 100.59,
           "effectiveDiscountPct": 0.058057870587133624
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 174.85451626250003,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 121.33155800751145,
           "contract": {
-            "contractSymbol": "NTAP270115C00175000",
+            "contractSymbol": "NTAP270115P00105000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 175,
-            "bid": 0.5,
-            "ask": 1.35,
-            "lastPrice": 2.45,
-            "volume": 5,
-            "openInterest": 10,
-            "impliedVolatility": 0.3857483300781249,
+            "strike": 105,
+            "bid": 11.5,
+            "ask": 12,
+            "lastPrice": 14.9,
+            "volume": 1,
+            "openInterest": 119,
+            "impliedVolatility": 0.35584140258789054,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.01905331921438439,
-          "staticAnnualizedPct": 0.025853016777882168,
-          "assignedReturnPct": 0.6577835373996076,
-          "assignedAnnualizedPct": 0.892531565616568,
-          "effectiveCostBasis": 106.29,
-          "effectiveDiscountPct": 0.004682086337672067
+          "notAssignedReturnPct": 0.10952380952380952,
+          "notAssignedAnnualizedPct": 0.14861037351743672,
+          "effectiveCostBasis": 93.5,
+          "effectiveDiscountPct": 0.12444985485532359,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,62 +91,9 @@
           "assignedAnnualizedPct": 0.18350690022474012,
           "effectiveCostBasis": 94.29,
           "effectiveDiscountPct": 0.11705215844180165
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 174.85451626250003,
-          "contract": {
-            "contractSymbol": "NTAP280121C00175000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 175,
-            "bid": 2.5,
-            "ask": 6.9,
-            "lastPrice": 4.85,
-            "volume": 1,
-            "openInterest": 6,
-            "impliedVolatility": 0.4039976593017578,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05760221251027813,
-          "staticAnnualizedPct": 0.032851261822267996,
-          "assignedReturnPct": 0.6963324306955014,
-          "assignedAnnualizedPct": 0.39712708938102814,
-          "effectiveCostBasis": 104.29,
-          "effectiveDiscountPct": 0.023410431688360333
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 195.85244019138756,
-          "contract": {
-            "contractSymbol": "NTAP280121C00185000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 185,
-            "bid": 1.5,
-            "ask": 6.4,
-            "lastPrice": 2.85,
-            "volume": 8,
-            "openInterest": 9,
-            "impliedVolatility": 0.41727267303466786,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.048238039834934,
-          "staticAnnualizedPct": 0.0275107570933608,
-          "assignedReturnPct": 0.7806099847735987,
-          "assignedAnnualizedPct": 0.445191631941193,
-          "effectiveCostBasis": 105.29,
-          "effectiveDiscountPct": 0.0140462590130162
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": []
     }
   ]
 }

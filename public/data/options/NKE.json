@@ -1,6 +1,6 @@
 {
   "symbol": "NKE",
-  "fetchedAt": "2026-04-21T03:56:48.074Z",
+  "fetchedAt": "2026-04-21T04:13:06.169Z",
   "currentPrice": 46.48,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.4431222075769889,
           "effectiveCostBasis": 43.529999999999994,
           "effectiveDiscountPct": 0.06346815834767643
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 66.05052552000001,
-          "contract": {
-            "contractSymbol": "NKE270115C00067500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 67.5,
-            "bid": 1.43,
-            "ask": 1.55,
-            "lastPrice": 1.4,
-            "volume": 36,
-            "openInterest": 1551,
-            "impliedVolatility": 0.4184628466796875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.056781537264517956,
-          "staticAnnualizedPct": 0.07704558030315634,
-          "assignedReturnPct": 0.509019058779148,
-          "assignedAnnualizedPct": 0.6906764180460558,
-          "effectiveCostBasis": 45.05,
-          "effectiveDiscountPct": 0.03076592082616179
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 82.711854225,
-          "contract": {
-            "contractSymbol": "NKE270115C00085000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 85,
-            "bid": 0.44,
-            "ask": 0.56,
-            "lastPrice": 0.47,
-            "volume": 3,
-            "openInterest": 2710,
-            "impliedVolatility": 0.4414118359375,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.035482053615636715,
-          "staticAnnualizedPct": 0.04814479393943272,
-          "assignedReturnPct": 0.8642255992266523,
-          "assignedAnnualizedPct": 1.1726481179097699,
-          "effectiveCostBasis": 46.04,
-          "effectiveDiscountPct": 0.00946643717728055
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 55.5268392,
+          "contract": {
+            "contractSymbol": "NKE270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 45,
+            "bid": 5.4,
+            "ask": 5.6,
+            "lastPrice": 5.55,
+            "volume": 61,
+            "openInterest": 9734,
+            "impliedVolatility": 0.40442490112304685,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12000000000000001,
+          "notAssignedAnnualizedPct": 0.16282527881040895,
+          "effectiveCostBasis": 39.6,
+          "effectiveDiscountPct": 0.14802065404475034,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.24904448687607578,
           "effectiveCostBasis": 40.08,
           "effectiveDiscountPct": 0.1376936316695353
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 66.05052552000001,
-          "contract": {
-            "contractSymbol": "NKE280121C00067500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 67.5,
-            "bid": 4.05,
-            "ask": 6.65,
-            "lastPrice": 4.15,
-            "volume": 3,
-            "openInterest": 710,
-            "impliedVolatility": 0.5080615600585938,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.14903014170183668,
-          "staticAnnualizedPct": 0.08499375268932872,
-          "assignedReturnPct": 0.6012676632164667,
-          "assignedAnnualizedPct": 0.3429104641781412,
-          "effectiveCostBasis": 42.43,
-          "effectiveDiscountPct": 0.0871342512908778
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 82.711854225,
-          "contract": {
-            "contractSymbol": "NKE280121C00085000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 85,
-            "bid": 2.11,
-            "ask": 2.38,
-            "lastPrice": 2.13,
-            "volume": 1,
-            "openInterest": 1259,
-            "impliedVolatility": 0.41809663940429687,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1072917596020088,
-          "staticAnnualizedPct": 0.061189831648020644,
-          "assignedReturnPct": 0.9360353052130245,
-          "assignedAnnualizedPct": 0.533832635004303,
-          "effectiveCostBasis": 44.37,
-          "effectiveDiscountPct": 0.04539586919104992
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 55.5268392,
+          "contract": {
+            "contractSymbol": "NKE280121P00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 45,
+            "bid": 7.35,
+            "ask": 10.5,
+            "lastPrice": 8.3,
+            "volume": 27,
+            "openInterest": 4250,
+            "impliedVolatility": 0.47199014343261714,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16333333333333333,
+          "notAssignedAnnualizedPct": 0.09315104166666667,
+          "effectiveCostBasis": 37.65,
+          "effectiveDiscountPct": 0.18997418244406195,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

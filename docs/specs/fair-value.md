@@ -182,11 +182,27 @@ type FairValue = {
   };
 
   current: number;             // current price for reference
-  upsideToMedianPct: number;   // (median - current) / current
+  upsideToP25Pct: number;      // (p25 - current) / current — headline metric
+  upsideToMedianPct: number;   // (median - current) / current — secondary
 
   confidence: "high" | "medium" | "low";  // see §6
 };
 ```
+
+### 5.1 Headline upside is to the conservative tail
+
+The ranked-table "Upside" column reads `upsideToP25Pct`, not the median.
+Two reasons:
+
+- **Honest entry threshold.** A stock between p25 and the median is
+  not "below fair value" by the value-tilted defensive standard — it's
+  inside the fair-value band. The conservative tail is the threshold
+  that matters for taking action.
+- **Bucketing alignment.** The Ranked bucket already requires
+  `current < p25`. Showing the same metric on the table keeps the
+  scoring and the gating consistent.
+
+`upsideToMedianPct` stays in the type for reference / drill-down.
 
 ## 6. Confidence flag
 

@@ -1,6 +1,6 @@
 {
   "symbol": "HD",
-  "fetchedAt": "2026-04-21T03:58:11.366Z",
+  "fetchedAt": "2026-04-21T04:13:56.692Z",
   "currentPrice": 350.99,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.1789534450183057,
           "effectiveCostBasis": 320.59000000000003,
           "effectiveDiscountPct": 0.08661215419242713
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 377.5796738,
-          "contract": {
-            "contractSymbol": "HD270115C00380000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 380,
-            "bid": 22,
-            "ask": 22.65,
-            "lastPrice": 22.5,
-            "volume": 24,
-            "openInterest": 443,
-            "impliedVolatility": 0.2820201193237304,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08228368478215481,
-          "staticAnnualizedPct": 0.11164886596835133,
-          "assignedReturnPct": 0.16493561218749397,
-          "assignedAnnualizedPct": 0.22379739200161822,
-          "effectiveCostBasis": 328.99,
-          "effectiveDiscountPct": 0.06267984842873016
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 404.2464041,
-          "contract": {
-            "contractSymbol": "HD270115C00410000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 410,
-            "bid": 12.55,
-            "ask": 13.45,
-            "lastPrice": 12.45,
-            "volume": 40,
-            "openInterest": 335,
-            "impliedVolatility": 0.2722851092529296,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05535984079799573,
-          "staticAnnualizedPct": 0.07511651260694588,
-          "assignedReturnPct": 0.22348428878796692,
-          "assignedAnnualizedPct": 0.3032407635970555,
-          "effectiveCostBasis": 338.44,
-          "effectiveDiscountPct": 0.03575600444457107
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 351.2368132,
+          "contract": {
+            "contractSymbol": "HD270115P00350000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 350,
+            "bid": 31.2,
+            "ask": 33.15,
+            "lastPrice": 31.6,
+            "volume": 12,
+            "openInterest": 1574,
+            "impliedVolatility": 0.2805400315856933,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08914285714285713,
+          "notAssignedAnnualizedPct": 0.12095592140201805,
+          "effectiveCostBasis": 318.8,
+          "effectiveDiscountPct": 0.09171201458731017,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.11598400232482405,
           "effectiveCostBasis": 304.99,
           "effectiveDiscountPct": 0.13105786489643578
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 377.5796738,
-          "contract": {
-            "contractSymbol": "HD280121C00380000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 380,
-            "bid": 37.5,
-            "ask": 42,
-            "lastPrice": 31.23,
-            "volume": 2,
-            "openInterest": 106,
-            "impliedVolatility": 0.28794047027587877,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.15348174837462564,
-          "staticAnnualizedPct": 0.08753255961990368,
-          "assignedReturnPct": 0.2361336757799648,
-          "assignedAnnualizedPct": 0.13466998696826118,
-          "effectiveCostBasis": 313.49,
-          "effectiveDiscountPct": 0.10684065073079005
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 404.2464041,
-          "contract": {
-            "contractSymbol": "HD280121C00410000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 410,
-            "bid": 26.5,
-            "ask": 30.6,
-            "lastPrice": 28.3,
-            "volume": 3,
-            "openInterest": 1118,
-            "impliedVolatility": 0.27616843223571763,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12214182416026056,
-          "staticAnnualizedPct": 0.0696590090913986,
-          "assignedReturnPct": 0.29026627215023176,
-          "assignedAnnualizedPct": 0.16554248333567906,
-          "effectiveCostBasis": 324.49,
-          "effectiveDiscountPct": 0.07550072651642496
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 351.2368132,
+          "contract": {
+            "contractSymbol": "HD280121P00350000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 350,
+            "bid": 43.5,
+            "ask": 46.9,
+            "lastPrice": 45.1,
+            "volume": 2,
+            "openInterest": 313,
+            "impliedVolatility": 0.257194317779541,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12428571428571429,
+          "notAssignedAnnualizedPct": 0.07088169642857144,
+          "effectiveCostBasis": 306.5,
+          "effectiveDiscountPct": 0.12675574802700934,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

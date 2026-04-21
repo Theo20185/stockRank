@@ -1,6 +1,6 @@
 {
   "symbol": "EOG",
-  "fetchedAt": "2026-04-21T03:55:57.839Z",
+  "fetchedAt": "2026-04-21T04:12:33.059Z",
   "currentPrice": 129.16,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.18644958195673508,
           "effectiveCostBasis": 115.25999999999999,
           "effectiveDiscountPct": 0.10761845772685043
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 148.9184033882784,
-          "contract": {
-            "contractSymbol": "EOG270115C00150000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 150,
-            "bid": 6.7,
-            "ask": 7.3,
-            "lastPrice": 7,
-            "volume": 3,
-            "openInterest": 768,
-            "impliedVolatility": 0.3262396478271484,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.07516241368861984,
-          "staticAnnualizedPct": 0.10198617470760685,
-          "assignedReturnPct": 0.23651267692801287,
-          "assignedAnnualizedPct": 0.3209186880249989,
-          "effectiveCostBasis": 122.46,
-          "effectiveDiscountPct": 0.051873645091359555
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 182.90893154040518,
-          "contract": {
-            "contractSymbol": "EOG270115C00185000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 185,
-            "bid": 1.05,
-            "ask": 2.1,
-            "lastPrice": 3.3,
-            "volume": 1,
-            "openInterest": 43,
-            "impliedVolatility": 0.3286199951171874,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03141822043993603,
-          "staticAnnualizedPct": 0.042630670857162274,
-          "assignedReturnPct": 0.46375021176852077,
-          "assignedAnnualizedPct": 0.6292521460799632,
-          "effectiveCostBasis": 128.10999999999999,
-          "effectiveDiscountPct": 0.008129451842675751
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 129.16000272,
+          "contract": {
+            "contractSymbol": "EOG270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 125,
+            "bid": 11.3,
+            "ask": 12.1,
+            "lastPrice": 11.9,
+            "volume": 51,
+            "openInterest": 194,
+            "impliedVolatility": 0.32416447326660147,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09040000000000001,
+          "notAssignedAnnualizedPct": 0.12266171003717474,
+          "effectiveCostBasis": 113.7,
+          "effectiveDiscountPct": 0.11969650046454006,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.12715251438773614,
           "effectiveCostBasis": 108.36,
           "effectiveDiscountPct": 0.1610405698358625
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 148.9184033882784,
-          "contract": {
-            "contractSymbol": "EOG280121C00150000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 150,
-            "bid": 13.1,
-            "ask": 15.9,
-            "lastPrice": 13.14,
-            "volume": 10,
-            "openInterest": 462,
-            "impliedVolatility": 0.34148302566528316,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1568328123411718,
-          "staticAnnualizedPct": 0.08944371328832454,
-          "assignedReturnPct": 0.31818307558056486,
-          "assignedAnnualizedPct": 0.1814637852920409,
-          "effectiveCostBasis": 116.06,
-          "effectiveDiscountPct": 0.10142458965624032
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 182.90893154040518,
-          "contract": {
-            "contractSymbol": "EOG280121C00185000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 185,
-            "bid": 4.9,
-            "ask": 8,
-            "lastPrice": 8.2,
-            "volume": 4,
-            "openInterest": 15,
-            "impliedVolatility": 0.334967587890625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09334566461741835,
-          "staticAnnualizedPct": 0.0532361993521214,
-          "assignedReturnPct": 0.525677655946003,
-          "assignedAnnualizedPct": 0.2998005381567048,
-          "effectiveCostBasis": 124.25999999999999,
-          "effectiveDiscountPct": 0.03793744193248684
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 129.16000272,
+          "contract": {
+            "contractSymbol": "EOG280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 125,
+            "bid": 17.1,
+            "ask": 19.7,
+            "lastPrice": 18.4,
+            "volume": 1,
+            "openInterest": 38,
+            "impliedVolatility": 0.3259649923706054,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1368,
+          "notAssignedAnnualizedPct": 0.07801875,
+          "effectiveCostBasis": 107.9,
+          "effectiveDiscountPct": 0.16460204397646325,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

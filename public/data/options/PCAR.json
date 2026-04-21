@@ -1,6 +1,6 @@
 {
   "symbol": "PCAR",
-  "fetchedAt": "2026-04-21T03:57:27.919Z",
+  "fetchedAt": "2026-04-21T04:13:32.213Z",
   "currentPrice": 128.31,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.16670414219525287,
           "effectiveCostBasis": 122.21000000000001,
           "effectiveDiscountPct": 0.0475411113708986
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 182.12107327076734,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 136.62271269263692,
           "contract": {
-            "contractSymbol": "PCAR270115C00175000",
+            "contractSymbol": "PCAR270115P00125600",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 175,
-            "bid": 0.7,
-            "ask": 2.85,
-            "lastPrice": 2.1,
+            "strike": 125.6,
+            "bid": 9.7,
+            "ask": 11.4,
+            "lastPrice": 11.7,
             "volume": 1,
-            "openInterest": 56,
-            "impliedVolatility": 0.3267889587402344,
+            "openInterest": 3,
+            "impliedVolatility": 0.29264013031005853,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.013046495537554275,
-          "staticAnnualizedPct": 0.01770249394500859,
-          "assignedReturnPct": 0.3769308381453011,
-          "assignedAnnualizedPct": 0.5114489067770814,
-          "effectiveCostBasis": 127.61,
-          "effectiveDiscountPct": 0.005455537370430987
+          "notAssignedReturnPct": 0.07722929936305732,
+          "notAssignedAnnualizedPct": 0.10479068500935287,
+          "effectiveCostBasis": 115.89999999999999,
+          "effectiveDiscountPct": 0.09671888395292659,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.11248598898519206,
           "effectiveCostBasis": 115.61,
           "effectiveDiscountPct": 0.09897903514924791
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 182.12107327076734,
-          "contract": {
-            "contractSymbol": "PCAR280121C00185000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 185,
-            "bid": 2,
-            "ask": 5.2,
-            "lastPrice": 4.28,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.28720805572509756,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.033647521848980906,
-          "staticAnnualizedPct": 0.019189602304496924,
-          "assignedReturnPct": 0.47546811260574184,
-          "assignedAnnualizedPct": 0.2711654079704621,
-          "effectiveCostBasis": 126.31,
-          "effectiveDiscountPct": 0.01558724962980282
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 136.62271269263692,
+          "contract": {
+            "contractSymbol": "PCAR280121P00118600",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 118.6,
+            "bid": 10.5,
+            "ask": 15.5,
+            "lastPrice": 14.38,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.3086006640625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08853288364249579,
+          "notAssignedAnnualizedPct": 0.05049141020236088,
+          "effectiveCostBasis": 108.1,
+          "effectiveDiscountPct": 0.15750915750915756,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

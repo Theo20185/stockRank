@@ -1,6 +1,6 @@
 {
   "symbol": "EIX",
-  "fetchedAt": "2026-04-21T03:54:46.185Z",
+  "fetchedAt": "2026-04-21T04:11:32.248Z",
   "currentPrice": 70.58,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.0389628790025503
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 78.37371439500001,
+          "contract": {
+            "contractSymbol": "EIX270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 70,
+            "bid": 6.3,
+            "ask": 7.3,
+            "lastPrice": 6.2,
+            "volume": 1,
+            "openInterest": 115,
+            "impliedVolatility": 0.3156806713867187,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09,
+          "notAssignedAnnualizedPct": 0.1221189591078067,
+          "effectiveCostBasis": 63.7,
+          "effectiveDiscountPct": 0.09747803910456214,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -68,8 +93,33 @@
           "effectiveDiscountPct": 0.09209407764239161
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 78.37371439500001,
+          "contract": {
+            "contractSymbol": "EIX280121P00070000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 70,
+            "bid": 9.8,
+            "ask": 13.7,
+            "lastPrice": 11.67,
+            "volume": 1,
+            "openInterest": 21,
+            "impliedVolatility": 0.3806214282226562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14,
+          "notAssignedAnnualizedPct": 0.07984375,
+          "effectiveCostBasis": 60.2,
+          "effectiveDiscountPct": 0.1470671578350807,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

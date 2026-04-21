@@ -1,6 +1,6 @@
 {
   "symbol": "HII",
-  "fetchedAt": "2026-04-21T03:57:26.204Z",
+  "fetchedAt": "2026-04-21T04:13:30.473Z",
   "currentPrice": 392.19,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.5322357665276439,
           "effectiveCostBasis": 376.49,
           "effectiveDiscountPct": 0.04003161732833575
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 599.385293905,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 454.82557353096087,
           "contract": {
-            "contractSymbol": "HII260918C00600000",
+            "contractSymbol": "HII260918P00390000",
             "expiration": "2026-09-18",
             "daysToExpiry": 150,
-            "strike": 600,
-            "bid": 1.05,
-            "ask": 4.8,
-            "lastPrice": 6.4,
-            "volume": 1,
-            "openInterest": 13,
-            "impliedVolatility": 0.45972219970703126,
+            "strike": 390,
+            "bid": 34.7,
+            "ask": 38.1,
+            "lastPrice": 36.1,
+            "volume": 3,
+            "openInterest": 15,
+            "impliedVolatility": 0.39159238784790035,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.008471793907352703,
-          "staticAnnualizedPct": 0.020614698507891577,
-          "assignedReturnPct": 0.5383425198310122,
-          "assignedAnnualizedPct": 1.309966798255463,
-          "effectiveCostBasis": 391.14,
-          "effectiveDiscountPct": 0.0026772737703664043
+          "notAssignedReturnPct": 0.08897435897435899,
+          "notAssignedAnnualizedPct": 0.2165042735042735,
+          "effectiveCostBasis": 355.3,
+          "effectiveDiscountPct": 0.09406155179887296,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2026-12-18",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.38061459905571443,
           "effectiveCostBasis": 365.09,
           "effectiveDiscountPct": 0.0690991611208853
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 586.2236386768448,
-          "contract": {
-            "contractSymbol": "HII261218C00580000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 580,
-            "bid": 7.4,
-            "ask": 10.4,
-            "lastPrice": 9,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.42307095489501956,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.02817826797314979,
-          "staticAnnualizedPct": 0.042676629917840964,
-          "assignedReturnPct": 0.5070533030326873,
-          "assignedAnnualizedPct": 0.7679437991988831,
-          "effectiveCostBasis": 384.79,
-          "effectiveDiscountPct": 0.018868405619725134
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 454.82557353096087,
+          "contract": {
+            "contractSymbol": "HII261218P00360000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 360,
+            "bid": 31.4,
+            "ask": 34.7,
+            "lastPrice": 32.69,
+            "volume": 8,
+            "openInterest": 8,
+            "impliedVolatility": 0.40427231475830083,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08722222222222221,
+          "notAssignedAnnualizedPct": 0.13210004610419546,
+          "effectiveCostBasis": 328.6,
+          "effectiveDiscountPct": 0.16214079910247578,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

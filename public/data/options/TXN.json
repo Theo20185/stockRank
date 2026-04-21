@@ -1,6 +1,6 @@
 {
   "symbol": "TXN",
-  "fetchedAt": "2026-04-21T03:58:27.097Z",
+  "fetchedAt": "2026-04-21T04:14:07.064Z",
   "currentPrice": 233.7,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.2751219976001165,
           "effectiveCostBasis": 216.79999999999998,
           "effectiveDiscountPct": 0.07231493367565255
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 300.74499585772287,
-          "contract": {
-            "contractSymbol": "TXN270115C00310000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 310,
-            "bid": 6.2,
-            "ask": 7.2,
-            "lastPrice": 5.91,
-            "volume": 50,
-            "openInterest": 310,
-            "impliedVolatility": 0.3443669079589844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.044438507578860614,
-          "staticAnnualizedPct": 0.06029760322038708,
-          "assignedReturnPct": 0.37092545665887783,
-          "assignedAnnualizedPct": 0.5033003408196669,
-          "effectiveCostBasis": 227.5,
-          "effectiveDiscountPct": 0.026529738981600343
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 330.60681784492067,
-          "contract": {
-            "contractSymbol": "TXN270115C00340000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 340,
-            "bid": 2.91,
-            "ask": 3.95,
-            "lastPrice": 3.25,
-            "volume": 7,
-            "openInterest": 36,
-            "impliedVolatility": 0.3418644915771484,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.030360629957979144,
-          "staticAnnualizedPct": 0.04119565031473007,
-          "assignedReturnPct": 0.48521728378767537,
-          "assignedAnnualizedPct": 0.6583803293029796,
-          "effectiveCostBasis": 230.79,
-          "effectiveDiscountPct": 0.012451861360718871
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 254.2011581451873,
+          "contract": {
+            "contractSymbol": "TXN270115P00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 230,
+            "bid": 24.9,
+            "ask": 26,
+            "lastPrice": 25.75,
+            "volume": 1,
+            "openInterest": 377,
+            "impliedVolatility": 0.3510501907348632,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10826086956521738,
+          "notAssignedAnnualizedPct": 0.14689671892678197,
+          "effectiveCostBasis": 205.1,
+          "effectiveDiscountPct": 0.12237911852802737,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.16413272022849812,
           "effectiveCostBasis": 202.7,
           "effectiveDiscountPct": 0.1326486949080017
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 300.74499585772287,
-          "contract": {
-            "contractSymbol": "TXN280121C00310000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 310,
-            "bid": 17.2,
-            "ask": 20.55,
-            "lastPrice": 13.8,
-            "volume": 2,
-            "openInterest": 15,
-            "impliedVolatility": 0.3508060525512695,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11620685340808085,
-          "staticAnnualizedPct": 0.0662742210842961,
-          "assignedReturnPct": 0.44269380248809803,
-          "assignedAnnualizedPct": 0.25247380923149343,
-          "effectiveCostBasis": 216.5,
-          "effectiveDiscountPct": 0.07359863072314934
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 330.60681784492067,
-          "contract": {
-            "contractSymbol": "TXN280121C00340000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 340,
-            "bid": 11.95,
-            "ask": 15,
-            "lastPrice": 9.95,
-            "volume": 19,
-            "openInterest": 21,
-            "impliedVolatility": 0.3475864802551269,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.093742155076887,
-          "staticAnnualizedPct": 0.05346232281728712,
-          "assignedReturnPct": 0.5485988089065833,
-          "assignedAnnualizedPct": 0.3128727582045358,
-          "effectiveCostBasis": 221.75,
-          "effectiveDiscountPct": 0.051133932391955496
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 254.2011581451873,
+          "contract": {
+            "contractSymbol": "TXN280121P00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 230,
+            "bid": 36.4,
+            "ask": 39.35,
+            "lastPrice": 37.98,
+            "volume": 3,
+            "openInterest": 29,
+            "impliedVolatility": 0.3389348333740234,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15826086956521737,
+          "notAssignedAnnualizedPct": 0.09025815217391303,
+          "effectiveCostBasis": 193.6,
+          "effectiveDiscountPct": 0.17158750534873768,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

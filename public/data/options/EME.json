@@ -1,6 +1,6 @@
 {
   "symbol": "EME",
-  "fetchedAt": "2026-04-21T03:55:31.598Z",
+  "fetchedAt": "2026-04-21T04:12:08.769Z",
   "currentPrice": 831.11,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.0006617655905957094
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 988.893575377288,
+          "contract": {
+            "contractSymbol": "EME260515P00810000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 810,
+            "bid": 30,
+            "ask": 36.1,
+            "lastPrice": 50.85,
+            "volume": 0,
+            "openInterest": 31,
+            "impliedVolatility": 0.5360764166259766,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.037037037037037035,
+          "notAssignedAnnualizedPct": 0.5632716049382716,
+          "effectiveCostBasis": 780,
+          "effectiveDiscountPct": 0.06149607151881221,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
@@ -68,8 +93,7 @@
           "effectiveDiscountPct": 0.010347607416587455
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": []
     }
   ]
 }

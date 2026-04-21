@@ -1,101 +1,71 @@
 {
   "symbol": "DRI",
-  "fetchedAt": "2026-04-21T03:58:21.887Z",
+  "fetchedAt": "2026-04-21T04:14:03.631Z",
   "currentPrice": 201.85,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
+      "coveredCalls": [],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 278.46826722,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 254.54468876689188,
           "contract": {
-            "contractSymbol": "DRI270115C00280000",
+            "contractSymbol": "DRI270115P00200000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 280,
-            "bid": 1.5,
-            "ask": 4,
-            "lastPrice": 2.95,
-            "volume": 0,
-            "openInterest": 2,
-            "impliedVolatility": 0.32663637237548826,
+            "strike": 200,
+            "bid": 17,
+            "ask": 18.5,
+            "lastPrice": 20.81,
+            "volume": 3,
+            "openInterest": 39,
+            "impliedVolatility": 0.2823558093261719,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.029319753987940324,
-          "staticAnnualizedPct": 0.03978330931449152,
-          "assignedReturnPct": 0.4164884436089461,
-          "assignedAnnualizedPct": 0.5651237245994993,
-          "effectiveCostBasis": 200.35,
-          "effectiveDiscountPct": 0.007431260837255388
+          "notAssignedReturnPct": 0.085,
+          "notAssignedAnnualizedPct": 0.11533457249070633,
+          "effectiveCostBasis": 183,
+          "effectiveDiscountPct": 0.09338617785484268,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
+      "coveredCalls": [],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 278.46826722,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 254.54468876689188,
           "contract": {
-            "contractSymbol": "DRI280121C00280000",
+            "contractSymbol": "DRI280121P00200000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 280,
-            "bid": 8,
-            "ask": 11.5,
-            "lastPrice": 11.9,
-            "volume": 0,
-            "openInterest": 3,
-            "impliedVolatility": 0.30808187042236324,
+            "strike": 200,
+            "bid": 26,
+            "ask": 29.6,
+            "lastPrice": 29.8,
+            "volume": 3,
+            "openInterest": 78,
+            "impliedVolatility": 0.28922219573974606,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.09171010346079586,
-          "staticAnnualizedPct": 0.05230341837998514,
-          "assignedReturnPct": 0.4788787930818016,
-          "assignedAnnualizedPct": 0.27311056167946496,
-          "effectiveCostBasis": 193.85,
-          "effectiveDiscountPct": 0.03963339113202873
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 297.1501343235918,
-          "contract": {
-            "contractSymbol": "DRI280121C00320000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 320,
-            "bid": 2.8,
-            "ask": 6.7,
-            "lastPrice": 3.7,
-            "volume": 10,
-            "openInterest": 30,
-            "impliedVolatility": 0.3089668713378906,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.06594839922497718,
-          "staticAnnualizedPct": 0.0376111964329948,
-          "assignedReturnPct": 0.6512840445061265,
-          "assignedAnnualizedPct": 0.3714354316324003,
-          "effectiveCostBasis": 199.04999999999998,
-          "effectiveDiscountPct": 0.013871686896210057
+          "notAssignedReturnPct": 0.13,
+          "notAssignedAnnualizedPct": 0.074140625,
+          "effectiveCostBasis": 174,
+          "effectiveDiscountPct": 0.137973742878375,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

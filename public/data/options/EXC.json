@@ -1,6 +1,6 @@
 {
   "symbol": "EXC",
-  "fetchedAt": "2026-04-21T03:55:36.842Z",
+  "fetchedAt": "2026-04-21T04:12:14.076Z",
   "currentPrice": 46.4,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.3081603235992822,
           "effectiveCostBasis": 45.699999999999996,
           "effectiveDiscountPct": 0.015086206896551723
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 59.032748525285086,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 51.37841086794,
           "contract": {
-            "contractSymbol": "EXC270115C00060000",
+            "contractSymbol": "EXC270115P00045000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 60,
-            "bid": 0.2,
-            "ask": 0.7,
-            "lastPrice": 0.5,
-            "volume": 5,
-            "openInterest": 2890,
-            "impliedVolatility": 0.25659923095703124,
+            "strike": 45,
+            "bid": 2.5,
+            "ask": 2.95,
+            "lastPrice": 2.8,
+            "volume": 19,
+            "openInterest": 134,
+            "impliedVolatility": 0.2304764453125,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.030989247463202637,
-          "staticAnnualizedPct": 0.04204860715267272,
-          "assignedReturnPct": 0.32409269573906474,
-          "assignedAnnualizedPct": 0.4397540295344187,
-          "effectiveCostBasis": 46.199999999999996,
-          "effectiveDiscountPct": 0.004310344827586207
+          "notAssignedReturnPct": 0.05555555555555555,
+          "notAssignedAnnualizedPct": 0.07538207352333746,
+          "effectiveCostBasis": 42.5,
+          "effectiveDiscountPct": 0.08405172413793101,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -94,8 +93,33 @@
           "effectiveDiscountPct": 0.026939655172413795
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 51.37841086794,
+          "contract": {
+            "contractSymbol": "EXC280121P00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 45,
+            "bid": 3.9,
+            "ask": 7,
+            "lastPrice": 4.93,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.32044136596679684,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08666666666666667,
+          "notAssignedAnnualizedPct": 0.04942708333333334,
+          "effectiveCostBasis": 41.1,
+          "effectiveDiscountPct": 0.11422413793103442,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

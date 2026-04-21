@@ -1,6 +1,6 @@
 {
   "symbol": "GEHC",
-  "fetchedAt": "2026-04-21T03:56:56.711Z",
+  "fetchedAt": "2026-04-21T04:13:14.749Z",
   "currentPrice": 74.15,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.22240400198532553,
           "effectiveCostBasis": 67.95,
           "effectiveDiscountPct": 0.08361429534726905
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 105.88724791809365,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 77.7194192139738,
           "contract": {
-            "contractSymbol": "GEHC270115C00110000",
+            "contractSymbol": "GEHC270115P00072500",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 110,
-            "bid": 0.45,
-            "ask": 1.7,
-            "lastPrice": 1.28,
-            "volume": 10,
-            "openInterest": 99,
-            "impliedVolatility": 0.3853821228027343,
+            "strike": 72.5,
+            "bid": 5.9,
+            "ask": 6.8,
+            "lastPrice": 8.65,
+            "volume": 3,
+            "openInterest": 33,
+            "impliedVolatility": 0.3029244512939453,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.007469053473614202,
-          "staticAnnualizedPct": 0.010134589285759048,
-          "assignedReturnPct": 0.490948487054194,
-          "assignedAnnualizedPct": 0.6661568690512298,
-          "effectiveCostBasis": 73.7,
-          "effectiveDiscountPct": 0.006068779501011463
+          "notAssignedReturnPct": 0.0813793103448276,
+          "notAssignedAnnualizedPct": 0.11042174080246124,
+          "effectiveCostBasis": 66.6,
+          "effectiveDiscountPct": 0.10182063385030359,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.1330372639919082,
           "effectiveCostBasis": 62.95,
           "effectiveDiscountPct": 0.15104517869184084
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 133.18478165938865,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 77.7194192139738,
           "contract": {
-            "contractSymbol": "GEHC280121C00130000",
+            "contractSymbol": "GEHC280121P00072500",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 130,
-            "bid": 0.6,
-            "ask": 3.6,
-            "lastPrice": 3.5,
-            "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.39349971740722656,
+            "strike": 72.5,
+            "bid": 5.5,
+            "ask": 9.5,
+            "lastPrice": 10.95,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.2674023455810547,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.011423212850663686,
-          "staticAnnualizedPct": 0.006514801078894133,
-          "assignedReturnPct": 0.7646261798095306,
-          "assignedAnnualizedPct": 0.43607586817262295,
-          "effectiveCostBasis": 73.55000000000001,
-          "effectiveDiscountPct": 0.008091706001348616
+          "notAssignedReturnPct": 0.07586206896551724,
+          "notAssignedAnnualizedPct": 0.04326508620689655,
+          "effectiveCostBasis": 67,
+          "effectiveDiscountPct": 0.09642616318273776,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

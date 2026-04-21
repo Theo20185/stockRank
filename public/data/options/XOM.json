@@ -1,6 +1,6 @@
 {
   "symbol": "XOM",
-  "fetchedAt": "2026-04-21T03:57:08.862Z",
+  "fetchedAt": "2026-04-21T04:13:20.022Z",
   "currentPrice": 147.68,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.17371285971476552,
           "effectiveCostBasis": 134.13,
           "effectiveDiscountPct": 0.09175243770314193
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 169.6630417087541,
-          "contract": {
-            "contractSymbol": "XOM270115C00170000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 170,
-            "bid": 6.7,
-            "ask": 7.5,
-            "lastPrice": 7.5,
-            "volume": 104,
-            "openInterest": 3570,
-            "impliedVolatility": 0.30005582763671873,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06593028183855504,
-          "staticAnnualizedPct": 0.0894593043534297,
-          "assignedReturnPct": 0.2170678766381216,
-          "assignedAnnualizedPct": 0.2945344794532133,
-          "effectiveCostBasis": 140.98000000000002,
-          "effectiveDiscountPct": 0.04536836403033586
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 203.74660530749998,
-          "contract": {
-            "contractSymbol": "XOM270115C00210000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 210,
-            "bid": 1.6,
-            "ask": 1.91,
-            "lastPrice": 1.9,
-            "volume": 1,
-            "openInterest": 1699,
-            "impliedVolatility": 0.30493859130859374,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.031396153994568035,
-          "staticAnnualizedPct": 0.04260072939783395,
-          "assignedReturnPct": 0.4533896534528562,
-          "assignedAnnualizedPct": 0.6151941394434666,
-          "effectiveCostBasis": 146.08,
-          "effectiveDiscountPct": 0.010834236186348862
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 148.8255389,
+          "contract": {
+            "contractSymbol": "XOM270115P00145000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 145,
+            "bid": 12.25,
+            "ask": 13.25,
+            "lastPrice": 13.52,
+            "volume": 23,
+            "openInterest": 761,
+            "impliedVolatility": 0.2906565075683593,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08448275862068966,
+          "notAssignedAnnualizedPct": 0.1146327393923856,
+          "effectiveCostBasis": 132.75,
+          "effectiveDiscountPct": 0.10109696641386787,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.10830294047941491,
           "effectiveCostBasis": 129.18,
           "effectiveDiscountPct": 0.12527085590465872
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 169.6630417087541,
-          "contract": {
-            "contractSymbol": "XOM280121C00170000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 170,
-            "bid": 12.2,
-            "ask": 15.5,
-            "lastPrice": 14.3,
-            "volume": 13,
-            "openInterest": 1561,
-            "impliedVolatility": 0.30123074264526367,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.13153159886611554,
-          "staticAnnualizedPct": 0.07501411497833152,
-          "assignedReturnPct": 0.28266919366568216,
-          "assignedAnnualizedPct": 0.16120977451245935,
-          "effectiveCostBasis": 135.48000000000002,
-          "effectiveDiscountPct": 0.08261105092091006
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 203.74660530749998,
-          "contract": {
-            "contractSymbol": "XOM280121C00210000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 210,
-            "bid": 5.1,
-            "ask": 6.95,
-            "lastPrice": 4.99,
-            "volume": 16,
-            "openInterest": 625,
-            "impliedVolatility": 0.29694306579589835,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08345467578919247,
-          "staticAnnualizedPct": 0.04759524478602383,
-          "assignedReturnPct": 0.5054481752474805,
-          "assignedAnnualizedPct": 0.28826341244582876,
-          "effectiveCostBasis": 142.58,
-          "effectiveDiscountPct": 0.034534127843986996
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 148.8255389,
+          "contract": {
+            "contractSymbol": "XOM280121P00145000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 145,
+            "bid": 17.05,
+            "ask": 20,
+            "lastPrice": 18.75,
+            "volume": 1,
+            "openInterest": 506,
+            "impliedVolatility": 0.27722890747070306,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11758620689655173,
+          "notAssignedAnnualizedPct": 0.06706088362068965,
+          "effectiveCostBasis": 127.95,
+          "effectiveDiscountPct": 0.13359967497291442,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

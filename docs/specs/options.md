@@ -73,44 +73,53 @@ Three covered-call strikes (sell side) and three cash-secured-put
 strikes (buy side), then snap to the nearest **listed** strike on the
 selected expiration's chain.
 
-### 3.1 Covered-call strikes (already-held positions)
+### 3.1 Single-anchor strategy
 
-| Label | Anchor | Mental model |
-|---|---|---|
-| **Conservative** | `range.p25` | "If it gets to the low end of fair value, I'm happy to take the trade and the premium." High assignment probability. |
-| **Aggressive** | `range.median` | "Sell at the model's central fair-value estimate." Balanced. |
-| **Stretch** | `range.p75` | "Only assign me if the market re-rates to the top of my fair value." Low assignment probability, smallest premium. |
+Both sides anchor to the **conservative tail (p25) of the fair-value
+range**. Each Ranked stock × expiration produces at most one covered
+call and one cash-secured put — a focused, opinionated workflow rather
+than a 3×3 grid.
 
-A floor rule applies: if any anchor is **below current price**, that
-strike is excluded — selling a covered call ITM converts the position
-to immediate forced sale and isn't a covered-call trade in the spirit
-of this workflow. UI labels it as "below current; no covered call."
+**Rationale.** Per the value-tilted defensive thesis, the stock has
+already been gated into the Ranked bucket only when `current < p25`.
+At that point:
 
-### 3.2 Cash-secured-put strikes (target entries)
+- A covered call sold at the p25 strike says "I'd happily exit at my
+  conservative fair value with a premium on top." Selling above p25
+  (median, p75) is greedy — you might never get assigned, and if the
+  stock recovers to median, you've capped at higher than necessary.
+- A cash-secured put with strike at p25 says "I'd happily own at my
+  conservative fair value." Strikes above p25 aren't value entries;
+  strikes well below p25 are tempting but the snap rule already
+  prefers the highest OTM strike (≤ current) so we naturally land
+  near current.
 
-**Recommended approach** — mirror the fair-value range, interpreted as
-buy zones rather than sell zones:
+### 3.2 Covered-call strike (sell side)
 
-| Label | Anchor | Mental model |
-|---|---|---|
-| **Stretch** | `range.p75` | "Even a small pullback into the top of fair value would interest me." Smallest premium, lowest assignment probability. |
-| **Aggressive** | `range.median` | "Assign me at the central fair-value estimate." Balanced. |
-| **Deep value** | `range.p25` | "Back-up-the-truck price; I'd happily own at the low end of fair value." Largest premium, highest assignment probability. |
+- **Anchor**: `range.p25`.
+- **Snap**: prefer listed strike `≥ p25`; fall back to nearest below
+  if none exists.
+- **Floor**: drop the call if the snapped strike is `< currentPrice`
+  (would be ITM, guaranteed assignment, misleading static return).
+- **Label**: `conservative`.
 
-Why mirror fair value: the value thesis is symmetric. Covered calls
-let you exit at fair value with a premium; cash-secured puts let you
-enter at fair value with a premium. The same three anchors define
-both ends of "where do I want this stock to trade?"
+When the orchestrator is run for a stock with `current ≥ p25`, no call
+is emitted — but in practice the ingest only feeds Ranked-bucket
+stocks (which already require `current < p25`), so this branch is
+defensive.
 
-Floor rules:
-- If anchor is **above current price**, the put is ITM — return math
-  still works (use the `effectiveCostBasis` line) but the UI flags it
-  as "ITM" so the user understands they're committing to buy at a
-  premium to current.
-- If `current < range.p25` (stock already trading below the low end of
-  fair value), suppress the put workflow entirely with the message
-  "stock already trading below fair value — consider buying outright;
-  put premium will not meaningfully exceed expected appreciation."
+### 3.3 Cash-secured-put strike (buy side)
+
+- **Anchor**: `range.p25` (displayed); snap target uses
+  `min(p25, currentPrice)` which equals `currentPrice` whenever
+  `current < p25`.
+- **Snap**: prefer listed strike `≤ currentPrice` (highest OTM put).
+- **Floor**: drop the put if the snapped strike is `> currentPrice`
+  (ITM put → committing to buy above market).
+- **Suppression**: when `current ≥ p25`, the entire put workflow is
+  suppressed with reason `above-conservative-tail`. (Same defensive
+  branch as calls.)
+- **Label**: `deep-value`.
 
 ### 3.3 Strike snapping
 

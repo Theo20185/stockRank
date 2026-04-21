@@ -1,6 +1,6 @@
 {
   "symbol": "MOS",
-  "fetchedAt": "2026-04-21T03:56:39.520Z",
+  "fetchedAt": "2026-04-21T04:13:04.456Z",
   "currentPrice": 24.11,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 1.2431134306979013,
           "effectiveCostBasis": 23.56,
           "effectiveDiscountPct": 0.022812111157196186
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 92.05294743420623,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.184446121652556,
           "contract": {
-            "contractSymbol": "MOS270115C00055000",
+            "contractSymbol": "MOS270115P00022500",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 55,
-            "bid": 0.2,
-            "ask": 0.45,
-            "lastPrice": 0.31,
-            "volume": 15,
-            "openInterest": 2361,
-            "impliedVolatility": 0.567387138671875,
+            "strike": 22.5,
+            "bid": 3,
+            "ask": 3.2,
+            "lastPrice": 3.1,
+            "volume": 4,
+            "openInterest": 991,
+            "impliedVolatility": 0.4985401708984375,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.03519531314807133,
-          "staticAnnualizedPct": 0.04775572230128638,
-          "assignedReturnPct": 1.3164064288676898,
-          "assignedAnnualizedPct": 1.7862020317349694,
-          "effectiveCostBasis": 23.91,
-          "effectiveDiscountPct": 0.00829531314807134
+          "notAssignedReturnPct": 0.13333333333333333,
+          "notAssignedAnnualizedPct": 0.1809169764560099,
+          "effectiveCostBasis": 19.5,
+          "effectiveDiscountPct": 0.19120696806304435,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.5767711530485277,
           "effectiveCostBasis": 22.16,
           "effectiveDiscountPct": 0.08087930319369556
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 92.05294743420623,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.184446121652556,
           "contract": {
-            "contractSymbol": "MOS280121C00050000",
+            "contractSymbol": "MOS280121P00022500",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 50,
-            "bid": 1.65,
-            "ask": 1.75,
-            "lastPrice": 1.7,
-            "volume": 17,
-            "openInterest": 3375,
-            "impliedVolatility": 0.5185595019531251,
+            "strike": 22.5,
+            "bid": 4.7,
+            "ask": 5.1,
+            "lastPrice": 4.7,
+            "volume": 4,
+            "openInterest": 684,
+            "impliedVolatility": 0.4849905017089844,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.13243633347158856,
-          "staticAnnualizedPct": 0.07553009643301535,
-          "assignedReturnPct": 1.2062646204894236,
-          "assignedAnnualizedPct": 0.6879477913728744,
-          "effectiveCostBasis": 22.46,
-          "effectiveDiscountPct": 0.06843633347158855
+          "notAssignedReturnPct": 0.2088888888888889,
+          "notAssignedAnnualizedPct": 0.11913194444444446,
+          "effectiveCostBasis": 17.8,
+          "effectiveDiscountPct": 0.26171712982165074,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

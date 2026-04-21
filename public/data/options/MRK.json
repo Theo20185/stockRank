@@ -1,6 +1,6 @@
 {
   "symbol": "MRK",
-  "fetchedAt": "2026-04-21T03:56:10.026Z",
+  "fetchedAt": "2026-04-21T04:12:41.895Z",
   "currentPrice": 117.1,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.22019108414629576,
           "effectiveCostBasis": 108.5,
           "effectiveDiscountPct": 0.07344150298889837
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 179.55540327084168,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.08125101097946,
           "contract": {
-            "contractSymbol": "MRK270115C00180000",
+            "contractSymbol": "MRK270115P00115000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 180,
-            "bid": 0.24,
-            "ask": 0.96,
-            "lastPrice": 0.62,
-            "volume": 5,
-            "openInterest": 29,
-            "impliedVolatility": 0.3166572241210937,
+            "strike": 115,
+            "bid": 10.1,
+            "ask": 10.65,
+            "lastPrice": 9.95,
+            "volume": 1,
+            "openInterest": 1166,
+            "impliedVolatility": 0.29395237304687494,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.023422133792681585,
-          "staticAnnualizedPct": 0.031780962209400666,
-          "assignedReturnPct": 0.5605698707696244,
-          "assignedAnnualizedPct": 0.760624545839825,
-          "effectiveCostBasis": 116.86,
-          "effectiveDiscountPct": 0.002049530315969257
+          "notAssignedReturnPct": 0.08782608695652173,
+          "notAssignedAnnualizedPct": 0.11916922579602392,
+          "effectiveCostBasis": 104.9,
+          "effectiveDiscountPct": 0.10418445772843714,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.1344420644073442,
           "effectiveCostBasis": 103.35,
           "effectiveDiscountPct": 0.1174210076857387
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 179.55540327084168,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.08125101097946,
           "contract": {
-            "contractSymbol": "MRK280121C00180000",
+            "contractSymbol": "MRK280121P00115000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 180,
-            "bid": 1,
-            "ask": 4.7,
-            "lastPrice": 4.7,
-            "volume": 1,
-            "openInterest": 85,
-            "impliedVolatility": 0.31488722229003896,
+            "strike": 115,
+            "bid": 13.5,
+            "ask": 16.2,
+            "lastPrice": 15.85,
+            "volume": 5,
+            "openInterest": 649,
+            "impliedVolatility": 0.28266098205566403,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.059389026471789716,
-          "staticAnnualizedPct": 0.033870304159692576,
-          "assignedReturnPct": 0.5965367634487325,
-          "assignedAnnualizedPct": 0.34021237290435524,
-          "effectiveCostBasis": 116.1,
-          "effectiveDiscountPct": 0.008539709649871904
+          "notAssignedReturnPct": 0.11739130434782609,
+          "notAssignedAnnualizedPct": 0.06694972826086956,
+          "effectiveCostBasis": 101.5,
+          "effectiveDiscountPct": 0.13321947053800168,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "TROW",
-  "fetchedAt": "2026-04-21T03:54:58.404Z",
+  "fetchedAt": "2026-04-21T04:11:42.682Z",
   "currentPrice": 98.1,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.024464831804281346
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 110.11576123467998,
+          "contract": {
+            "contractSymbol": "TROW270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 95,
+            "bid": 7.4,
+            "ask": 8.3,
+            "lastPrice": 8.05,
+            "volume": 1,
+            "openInterest": 157,
+            "impliedVolatility": 0.295905478515625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07789473684210527,
+          "notAssignedAnnualizedPct": 0.10569360203482685,
+          "effectiveCostBasis": 87.6,
+          "effectiveDiscountPct": 0.10703363914373089,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -66,36 +91,35 @@
           "assignedAnnualizedPct": 0.18496833888175335,
           "effectiveCostBasis": 92.3,
           "effectiveDiscountPct": 0.059123343527013254
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 130.8272679535679,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 110.11576123467998,
           "contract": {
-            "contractSymbol": "TROW280121C00135000",
+            "contractSymbol": "TROW280121P00095000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 135,
-            "bid": 1.65,
-            "ask": 2.55,
-            "lastPrice": 1.5,
-            "volume": 1,
-            "openInterest": 43,
-            "impliedVolatility": 0.22711954528808592,
+            "strike": 95,
+            "bid": 11,
+            "ask": 16,
+            "lastPrice": 14.01,
+            "volume": 3,
+            "openInterest": 157,
+            "impliedVolatility": 0.3461979443359374,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10975108397503247,
-          "staticAnnualizedPct": 0.0625924150795107,
-          "assignedReturnPct": 0.48589787296585824,
-          "assignedAnnualizedPct": 0.27711363067584105,
-          "effectiveCostBasis": 96.44999999999999,
-          "effectiveDiscountPct": 0.016819571865443424
+          "notAssignedReturnPct": 0.11578947368421053,
+          "notAssignedAnnualizedPct": 0.06603618421052632,
+          "effectiveCostBasis": 84,
+          "effectiveDiscountPct": 0.14373088685015287,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

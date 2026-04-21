@@ -1,6 +1,6 @@
 {
   "symbol": "PSA",
-  "fetchedAt": "2026-04-21T03:57:19.314Z",
+  "fetchedAt": "2026-04-21T04:13:28.754Z",
   "currentPrice": 312.17,
   "expirations": [
     {
@@ -8,9 +8,9 @@
       "selectionReason": "quarterly",
       "coveredCalls": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 318.19180064467713,
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 312.5168956,
           "contract": {
             "contractSymbol": "PSA260918C00320000",
             "expiration": "2026-09-18",
@@ -32,45 +32,44 @@
           "assignedAnnualizedPct": 0.2109010924891137,
           "effectiveCostBasis": 297.87,
           "effectiveDiscountPct": 0.04580837364256655
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 365.9378274607452,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 312.5168956,
           "contract": {
-            "contractSymbol": "PSA260918C00370000",
+            "contractSymbol": "PSA260918P00310000",
             "expiration": "2026-09-18",
             "daysToExpiry": 150,
-            "strike": 370,
-            "bid": 1.2,
-            "ask": 3,
-            "lastPrice": 1.01,
-            "volume": 1,
-            "openInterest": 13,
-            "impliedVolatility": 0.22718057983398435,
+            "strike": 310,
+            "bid": 18,
+            "ask": 19.9,
+            "lastPrice": 18.8,
+            "volume": 21,
+            "openInterest": 3,
+            "impliedVolatility": 0.26306889282226564,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.01962488042253935,
-          "staticAnnualizedPct": 0.04775387569484575,
-          "assignedReturnPct": 0.20487650613929617,
-          "assignedAnnualizedPct": 0.4985328316056206,
-          "effectiveCostBasis": 310.97,
-          "effectiveDiscountPct": 0.003844059326648941
+          "notAssignedReturnPct": 0.05806451612903226,
+          "notAssignedAnnualizedPct": 0.14129032258064517,
+          "effectiveCostBasis": 292,
+          "effectiveDiscountPct": 0.06461223051542433,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
       "coveredCalls": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 318.19180064467713,
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 312.5168956,
           "contract": {
             "contractSymbol": "PSA261218C00320000",
             "expiration": "2026-12-18",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.16662768859894875,
           "effectiveCostBasis": 293.57,
           "effectiveDiscountPct": 0.05958291956305859
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 365.9378274607452,
-          "contract": {
-            "contractSymbol": "PSA261218C00360000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 360,
-            "bid": 5.6,
-            "ask": 8.2,
-            "lastPrice": 5.3,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.23169713623046873,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.043293462751758986,
-          "staticAnnualizedPct": 0.06556893736262252,
-          "assignedReturnPct": 0.19651126074644132,
-          "assignedAnnualizedPct": 0.2976207890973074,
-          "effectiveCostBasis": 306.57,
-          "effectiveDiscountPct": 0.017938943524361723
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 312.5168956,
+          "contract": {
+            "contractSymbol": "PSA261218P00290000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 241,
+            "strike": 290,
+            "bid": 13.8,
+            "ask": 16.3,
+            "lastPrice": 14.35,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.2654187228393554,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04758620689655173,
+          "notAssignedAnnualizedPct": 0.07207039633710116,
+          "effectiveCostBasis": 276.2,
+          "effectiveDiscountPct": 0.1152256783163021,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

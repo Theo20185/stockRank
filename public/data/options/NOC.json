@@ -1,6 +1,6 @@
 {
   "symbol": "NOC",
-  "fetchedAt": "2026-04-21T03:57:17.581Z",
+  "fetchedAt": "2026-04-21T04:13:27.014Z",
   "currentPrice": 656.98,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.04520685561204298
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 740.0104704667647,
+          "contract": {
+            "contractSymbol": "NOC270115P00640000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 640,
+            "bid": 48.1,
+            "ask": 55,
+            "lastPrice": 52.33,
+            "volume": 10,
+            "openInterest": 91,
+            "impliedVolatility": 0.2845377943420409,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07515625000000001,
+          "notAssignedAnnualizedPct": 0.10197781133828998,
+          "effectiveCostBasis": 591.9,
+          "effectiveDiscountPct": 0.09905933209534543,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -66,36 +91,35 @@
           "assignedAnnualizedPct": 0.1625593794225395,
           "effectiveCostBasis": 588.98,
           "effectiveDiscountPct": 0.10350391183902097
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 1190.3002336,
-          "contract": {
-            "contractSymbol": "NOC280121C01120000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 1120,
-            "bid": 8,
-            "ask": 17,
-            "lastPrice": 23,
-            "volume": 1,
-            "openInterest": 40,
-            "impliedVolatility": 0.3157874818420409,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.036900216722398925,
-          "staticAnnualizedPct": 0.02104465484949314,
-          "assignedReturnPct": 0.7416705293650973,
-          "assignedAnnualizedPct": 0.42298397377853203,
-          "effectiveCostBasis": 648.98,
-          "effectiveDiscountPct": 0.012176930804590702
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 740.0104704667647,
+          "contract": {
+            "contractSymbol": "NOC280121P00650000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 650,
+            "bid": 81,
+            "ask": 90,
+            "lastPrice": 79.95,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.27214015220642085,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12461538461538461,
+          "notAssignedAnnualizedPct": 0.07106971153846153,
+          "effectiveCostBasis": 569,
+          "effectiveDiscountPct": 0.13391579652348629,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

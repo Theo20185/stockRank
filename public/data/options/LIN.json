@@ -1,6 +1,6 @@
 {
   "symbol": "LIN",
-  "fetchedAt": "2026-04-21T03:56:30.869Z",
+  "fetchedAt": "2026-04-21T04:12:57.386Z",
   "currentPrice": 498.15,
   "expirations": [
     {
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 591.9937571178083,
+          "anchorPrice": 591.938449358914,
           "contract": {
             "contractSymbol": "LIN270115C00600000",
             "expiration": "2027-01-15",
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.3147368690175957,
           "effectiveCostBasis": 489.15,
           "effectiveDiscountPct": 0.01806684733514002
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 643.723666250565,
-          "contract": {
-            "contractSymbol": "LIN270115C00660000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 660,
-            "bid": 1.35,
-            "ask": 6,
-            "lastPrice": 4.6,
-            "volume": 3,
-            "openInterest": 25,
-            "impliedVolatility": 0.25595836822509765,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.01214345175780525,
-          "staticAnnualizedPct": 0.016477174318211586,
-          "assignedReturnPct": 0.3370455896680733,
-          "assignedAnnualizedPct": 0.45732951757935597,
-          "effectiveCostBasis": 496.79999999999995,
-          "effectiveDiscountPct": 0.002710027100271003
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 671.1726809049908,
-          "contract": {
-            "contractSymbol": "LIN270115C00680000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 680,
-            "bid": 0.25,
-            "ask": 4.9,
-            "lastPrice": 3.42,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.260749580078125,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.009935281527954802,
-          "staticAnnualizedPct": 0.013480958207076219,
-          "assignedReturnPct": 0.3749859690718674,
-          "assignedAnnualizedPct": 0.5088099580343182,
-          "effectiveCostBasis": 497.9,
-          "effectiveDiscountPct": 0.0005018568704205561
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 591.938449358914,
+          "contract": {
+            "contractSymbol": "LIN270115P00490000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 490,
+            "bid": 30.9,
+            "ask": 33.7,
+            "lastPrice": 33.5,
+            "volume": 1,
+            "openInterest": 44,
+            "impliedVolatility": 0.22245040252685544,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06306122448979591,
+          "notAssignedAnnualizedPct": 0.08556634549730673,
+          "effectiveCostBasis": 459.1,
+          "effectiveDiscountPct": 0.07839004315969077,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -96,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 591.9937571178083,
+          "anchorPrice": 591.938449358914,
           "contract": {
             "contractSymbol": "LIN280121C00600000",
             "expiration": "2028-01-21",
@@ -118,36 +91,35 @@
           "assignedAnnualizedPct": 0.16546721243601326,
           "effectiveCostBasis": 466.65,
           "effectiveDiscountPct": 0.06323396567299007
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 671.1726809049908,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 591.938449358914,
           "contract": {
-            "contractSymbol": "LIN280121C00680000",
+            "contractSymbol": "LIN280121P00490000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 680,
-            "bid": 13,
-            "ask": 16.5,
-            "lastPrice": 17.2,
-            "volume": 0,
-            "openInterest": 0,
-            "impliedVolatility": 0.2428817167663574,
+            "strike": 490,
+            "bid": 48,
+            "ask": 52.5,
+            "lastPrice": 49.7,
+            "volume": 1,
+            "openInterest": 24,
+            "impliedVolatility": 0.21716328498840332,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04854039287830727,
-          "staticAnnualizedPct": 0.027683192813409613,
-          "assignedReturnPct": 0.4135910804222198,
-          "assignedAnnualizedPct": 0.23587616305329723,
-          "effectiveCostBasis": 485.15,
-          "effectiveDiscountPct": 0.026096557261868915
+          "notAssignedReturnPct": 0.09795918367346938,
+          "notAssignedAnnualizedPct": 0.05586734693877551,
+          "effectiveCostBasis": 442,
+          "effectiveDiscountPct": 0.11271705309645685,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "LULU",
-  "fetchedAt": "2026-04-21T03:54:54.867Z",
+  "fetchedAt": "2026-04-21T04:11:39.166Z",
   "currentPrice": 166.81,
   "expirations": [
     {
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 183.466761929312,
+          "anchorPrice": 183.43121955209017,
           "contract": {
             "contractSymbol": "LULU270115C00185000",
             "expiration": "2027-01-15",
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.33057667060602974,
           "effectiveCostBasis": 144.36,
           "effectiveDiscountPct": 0.13458425753851688
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 222.8086304777696,
-          "contract": {
-            "contractSymbol": "LULU270115C00230000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 230,
-            "bid": 10.55,
-            "ask": 11.2,
-            "lastPrice": 10.8,
-            "volume": 8,
-            "openInterest": 539,
-            "impliedVolatility": 0.504765694580078,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06324560877645226,
-          "staticAnnualizedPct": 0.0858165323546657,
-          "assignedReturnPct": 0.44205982854744913,
-          "assignedAnnualizedPct": 0.5998209569509998,
-          "effectiveCostBasis": 156.26,
-          "effectiveDiscountPct": 0.06324560877645226
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 243.8767674945373,
-          "contract": {
-            "contractSymbol": "LULU270115C00250000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 250,
-            "bid": 7.4,
-            "ask": 8,
-            "lastPrice": 7.6,
-            "volume": 7,
-            "openInterest": 2472,
-            "impliedVolatility": 0.4985401708984375,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.044361848810023384,
-          "staticAnnualizedPct": 0.060193586675310544,
-          "assignedReturnPct": 0.5430729572567592,
-          "assignedAnnualizedPct": 0.7368833806643759,
-          "effectiveCostBasis": 159.41,
-          "effectiveDiscountPct": 0.044361848810023384
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 183.43121955209017,
+          "contract": {
+            "contractSymbol": "LULU270115P00165000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 165,
+            "bid": 24,
+            "ask": 25.8,
+            "lastPrice": 26.16,
+            "volume": 5,
+            "openInterest": 1251,
+            "impliedVolatility": 0.4722953161621094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14545454545454545,
+          "notAssignedAnnualizedPct": 0.19736397431564717,
+          "effectiveCostBasis": 141,
+          "effectiveDiscountPct": 0.15472693483604102,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -96,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 183.466761929312,
+          "anchorPrice": 183.43121955209017,
           "contract": {
             "contractSymbol": "LULU280121C00185000",
             "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.1924518351717523,
           "effectiveCostBasis": 128.71,
           "effectiveDiscountPct": 0.22840357292728256
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 222.8086304777696,
-          "contract": {
-            "contractSymbol": "LULU280121C00230000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 230,
-            "bid": 25.3,
-            "ask": 28.2,
-            "lastPrice": 27.41,
-            "volume": 1,
-            "openInterest": 45,
-            "impliedVolatility": 0.5134326000976561,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.15166956417480967,
-          "staticAnnualizedPct": 0.08649904831844614,
-          "assignedReturnPct": 0.5304837839458065,
-          "assignedAnnualizedPct": 0.3025415330315928,
-          "effectiveCostBasis": 141.51,
-          "effectiveDiscountPct": 0.15166956417480967
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 243.8767674945373,
-          "contract": {
-            "contractSymbol": "LULU280121C00250000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 250,
-            "bid": 21.4,
-            "ask": 23.6,
-            "lastPrice": 22.5,
-            "volume": 1,
-            "openInterest": 213,
-            "impliedVolatility": 0.5084277673339843,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12828967088304058,
-          "staticAnnualizedPct": 0.07316520292548408,
-          "assignedReturnPct": 0.6270007793297764,
-          "assignedAnnualizedPct": 0.3575863819615131,
-          "effectiveCostBasis": 145.41,
-          "effectiveDiscountPct": 0.12828967088304058
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 183.43121955209017,
+          "contract": {
+            "contractSymbol": "LULU280121P00165000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 165,
+            "bid": 34.8,
+            "ask": 36.5,
+            "lastPrice": 37.25,
+            "volume": 1,
+            "openInterest": 200,
+            "impliedVolatility": 0.43243975769042964,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.21090909090909088,
+          "notAssignedAnnualizedPct": 0.1202840909090909,
+          "effectiveCostBasis": 130.2,
+          "effectiveDiscountPct": 0.21947125472094006,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

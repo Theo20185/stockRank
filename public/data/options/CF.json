@@ -1,6 +1,6 @@
 {
   "symbol": "CF",
-  "fetchedAt": "2026-04-21T03:54:56.640Z",
+  "fetchedAt": "2026-04-21T04:11:40.914Z",
   "currentPrice": 115.94,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.5657153128813585,
           "effectiveCostBasis": 108.14,
           "effectiveDiscountPct": 0.06727617733310333
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 303.51791691000005,
-          "contract": {
-            "contractSymbol": "CF270115C00200000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 200,
-            "bid": 2.45,
-            "ask": 4,
-            "lastPrice": 3.1,
-            "volume": 41,
-            "openInterest": 114,
-            "impliedVolatility": 0.5036670727539063,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.033881482817045186,
-          "staticAnnualizedPct": 0.04597301571829551,
-          "assignedReturnPct": 0.7589116708453357,
-          "assignedAnnualizedPct": 1.0297500366488757,
-          "effectiveCostBasis": 113.49,
-          "effectiveDiscountPct": 0.02113161980334656
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.25707440360276,
+          "contract": {
+            "contractSymbol": "CF270115P00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 115,
+            "bid": 17.1,
+            "ask": 17.9,
+            "lastPrice": 16.44,
+            "volume": 2,
+            "openInterest": 15,
+            "impliedVolatility": 0.46680220703125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14869565217391306,
+          "notAssignedAnnualizedPct": 0.20176175852594153,
+          "effectiveCostBasis": 97.9,
+          "effectiveDiscountPct": 0.15559772296015173,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.2832228372434018,
           "effectiveCostBasis": 100.94,
           "effectiveDiscountPct": 0.1293772641021218
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 303.51791691000005,
-          "contract": {
-            "contractSymbol": "CF280121C00200000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 200,
-            "bid": 7,
-            "ask": 10.2,
-            "lastPrice": 10,
-            "volume": 886,
-            "openInterest": 964,
-            "impliedVolatility": 0.479924634399414,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.09071030315633263,
-          "staticAnnualizedPct": 0.051733219768845956,
-          "assignedReturnPct": 0.8157404911846232,
-          "assignedAnnualizedPct": 0.4652269988787304,
-          "effectiveCostBasis": 108.94,
-          "effectiveDiscountPct": 0.06037605658099017
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.25707440360276,
+          "contract": {
+            "contractSymbol": "CF280121P00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 115,
+            "bid": 23.5,
+            "ask": 27,
+            "lastPrice": 26.34,
+            "volume": 7,
+            "openInterest": 7,
+            "impliedVolatility": 0.45703667968750006,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.20434782608695654,
+          "notAssignedAnnualizedPct": 0.1165421195652174,
+          "effectiveCostBasis": 91.5,
+          "effectiveDiscountPct": 0.21079868897705709,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

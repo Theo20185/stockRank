@@ -1,21 +1,45 @@
 {
   "symbol": "FOX",
-  "fetchedAt": "2026-04-21T03:56:01.341Z",
+  "fetchedAt": "2026-04-21T04:12:36.649Z",
   "currentPrice": 57.99,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 68.28079225,
+          "contract": {
+            "contractSymbol": "FOX260717P00055000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 55,
+            "bid": 0.2,
+            "ask": 4.9,
+            "lastPrice": 2.3,
+            "volume": 5,
+            "openInterest": 31,
+            "impliedVolatility": 0.5697064514160157,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0036363636363636364,
+          "notAssignedAnnualizedPct": 0.015256008359456636,
+          "effectiveCostBasis": 54.8,
+          "effectiveDiscountPct": 0.055009484393861094,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

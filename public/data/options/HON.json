@@ -1,6 +1,6 @@
 {
   "symbol": "HON",
-  "fetchedAt": "2026-04-21T03:58:09.631Z",
+  "fetchedAt": "2026-04-21T04:13:54.943Z",
   "currentPrice": 229.74,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.045268564464176896
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 251.22804114,
+          "contract": {
+            "contractSymbol": "HON270115P00220000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 220,
+            "bid": 13.5,
+            "ask": 15.3,
+            "lastPrice": 13.5,
+            "volume": 1,
+            "openInterest": 119,
+            "impliedVolatility": 0.25714854187011715,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06136363636363636,
+          "notAssignedAnnualizedPct": 0.08326292666441365,
+          "effectiveCostBasis": 206.5,
+          "effectiveDiscountPct": 0.10115783059110302,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -68,8 +93,33 @@
           "effectiveDiscountPct": 0.09663097414468529
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 251.22804114,
+          "contract": {
+            "contractSymbol": "HON280121P00220000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 220,
+            "bid": 21.5,
+            "ask": 25.5,
+            "lastPrice": 22.2,
+            "volume": 1,
+            "openInterest": 34,
+            "impliedVolatility": 0.25476819458007816,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09772727272727273,
+          "notAssignedAnnualizedPct": 0.05573508522727273,
+          "effectiveCostBasis": 198.5,
+          "effectiveDiscountPct": 0.1359798032558545,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

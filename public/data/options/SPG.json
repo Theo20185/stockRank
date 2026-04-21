@@ -1,6 +1,6 @@
 {
   "symbol": "SPG",
-  "fetchedAt": "2026-04-21T03:56:18.637Z",
+  "fetchedAt": "2026-04-21T04:12:48.762Z",
   "currentPrice": 207.56,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.14655793152658503,
           "effectiveCostBasis": 193.96,
           "effectiveDiscountPct": 0.0655232222008094
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 232.07846466324716,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 208.54649478480155,
           "contract": {
-            "contractSymbol": "SPG270115C00240000",
+            "contractSymbol": "SPG270115P00200000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 240,
-            "bid": 4.6,
-            "ask": 5.6,
-            "lastPrice": 3.7,
-            "volume": 5,
-            "openInterest": 134,
-            "impliedVolatility": 0.22412885253906245,
+            "strike": 200,
+            "bid": 13.2,
+            "ask": 15.3,
+            "lastPrice": 16.2,
+            "volume": 1,
+            "openInterest": 34,
+            "impliedVolatility": 0.27017941741943363,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.052894595099749996,
-          "staticAnnualizedPct": 0.07177147662233736,
-          "assignedReturnPct": 0.20918675158462183,
-          "assignedAnnualizedPct": 0.28384075958508165,
-          "effectiveCostBasis": 202.96,
-          "effectiveDiscountPct": 0.022162266332626707
+          "notAssignedReturnPct": 0.066,
+          "notAssignedAnnualizedPct": 0.08955390334572491,
+          "effectiveCostBasis": 186.8,
+          "effectiveDiscountPct": 0.10001927153594137,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,62 +91,35 @@
           "assignedAnnualizedPct": 0.11325009394873772,
           "effectiveCostBasis": 183.96,
           "effectiveDiscountPct": 0.11370206205434574
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 232.07846466324716,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 208.54649478480155,
           "contract": {
-            "contractSymbol": "SPG280121C00240000",
+            "contractSymbol": "SPG280121P00200000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 240,
-            "bid": 11.5,
-            "ask": 15.4,
-            "lastPrice": 11.5,
-            "volume": 1,
-            "openInterest": 274,
-            "impliedVolatility": 0.24445335632324222,
+            "strike": 200,
+            "bid": 23.3,
+            "ask": 26.4,
+            "lastPrice": 24.57,
+            "volume": 2,
+            "openInterest": 18,
+            "impliedVolatility": 0.2805400315856933,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.12852347405074488,
-          "staticAnnualizedPct": 0.07329854379456544,
-          "assignedReturnPct": 0.2848156305356167,
-          "assignedAnnualizedPct": 0.1624339142898439,
-          "effectiveCostBasis": 196.06,
-          "effectiveDiscountPct": 0.055405665831566774
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 331.4838705276548,
-          "contract": {
-            "contractSymbol": "SPG280121C00300000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 300,
-            "bid": 2,
-            "ask": 5.5,
-            "lastPrice": 2.12,
-            "volume": 1,
-            "openInterest": 7,
-            "impliedVolatility": 0.25003801727294916,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.08275357618988535,
-          "staticAnnualizedPct": 0.04719539892079399,
-          "assignedReturnPct": 0.5281187717959751,
-          "assignedAnnualizedPct": 0.3011927370398921,
-          "effectiveCostBasis": 205.56,
-          "effectiveDiscountPct": 0.009635767970707265
+          "notAssignedReturnPct": 0.1165,
+          "notAssignedAnnualizedPct": 0.06644140625,
+          "effectiveCostBasis": 176.7,
+          "effectiveDiscountPct": 0.14867989978801316,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

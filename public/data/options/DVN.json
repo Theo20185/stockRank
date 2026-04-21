@@ -1,6 +1,6 @@
 {
   "symbol": "DVN",
-  "fetchedAt": "2026-04-21T03:56:53.218Z",
+  "fetchedAt": "2026-04-21T04:13:11.282Z",
   "currentPrice": 44.94,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.5213975183764227,
           "effectiveCostBasis": 43.44,
           "effectiveDiscountPct": 0.03337783711615488
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 66.78608720379147,
-          "contract": {
-            "contractSymbol": "DVN270115C00070000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 70,
-            "bid": 0.34,
-            "ask": 1.3,
-            "lastPrice": 1.11,
-            "volume": 1,
-            "openInterest": 94,
-            "impliedVolatility": 0.445318046875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.023337149928976838,
-          "staticAnnualizedPct": 0.03166564953188307,
-          "assignedReturnPct": 0.580969548682871,
-          "assignedAnnualizedPct": 0.7883044062053826,
-          "effectiveCostBasis": 44.599999999999994,
-          "effectiveDiscountPct": 0.007565643079661772
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 74.14078188,
-          "contract": {
-            "contractSymbol": "DVN270115C00075000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 75,
-            "bid": 0.46,
-            "ask": 0.71,
-            "lastPrice": 0.54,
-            "volume": 1,
-            "openInterest": 6622,
-            "impliedVolatility": 0.41699801757812494,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.026007376898269232,
-          "staticAnnualizedPct": 0.03528881995490063,
-          "assignedReturnPct": 0.6948992327060131,
-          "assignedAnnualizedPct": 0.9428930109207985,
-          "effectiveCostBasis": 44.48,
-          "effectiveDiscountPct": 0.010235870048954161
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 58.14461458181721,
+          "contract": {
+            "contractSymbol": "DVN270115P00042500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 42.5,
+            "bid": 3.95,
+            "ask": 4.55,
+            "lastPrice": 5.12,
+            "volume": 10,
+            "openInterest": 403,
+            "impliedVolatility": 0.3809876354980468,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09294117647058824,
+          "notAssignedAnnualizedPct": 0.12610977476492455,
+          "effectiveCostBasis": 38.55,
+          "effectiveDiscountPct": 0.14218958611481977,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.260743430129061,
           "effectiveCostBasis": 41.14,
           "effectiveDiscountPct": 0.08455718736092568
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 66.78608720379147,
-          "contract": {
-            "contractSymbol": "DVN280121C00070000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 70,
-            "bid": 0.5,
-            "ask": 5,
-            "lastPrice": 3.3,
-            "volume": 20,
-            "openInterest": 122,
-            "impliedVolatility": 0.48071808349609374,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.048649233376617834,
-          "staticAnnualizedPct": 0.02774526591010236,
-          "assignedReturnPct": 0.606281632130512,
-          "assignedAnnualizedPct": 0.34576999332443265,
-          "effectiveCostBasis": 44.44,
-          "effectiveDiscountPct": 0.011125945705384959
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 74.14078188,
-          "contract": {
-            "contractSymbol": "DVN280121C00075000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 75,
-            "bid": 1.5,
-            "ask": 2.69,
-            "lastPrice": 1.82,
-            "volume": 10,
-            "openInterest": 34,
-            "impliedVolatility": 0.4007628283691406,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.07090112478738775,
-          "staticAnnualizedPct": 0.040435797730307074,
-          "assignedReturnPct": 0.7397929805951314,
-          "assignedAnnualizedPct": 0.4219131842456609,
-          "effectiveCostBasis": 43.44,
-          "effectiveDiscountPct": 0.03337783711615488
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 58.14461458181721,
+          "contract": {
+            "contractSymbol": "DVN280121P00042500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 42.5,
+            "bid": 5.45,
+            "ask": 7.85,
+            "lastPrice": 5.15,
+            "volume": 1,
+            "openInterest": 566,
+            "impliedVolatility": 0.39490351196289064,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12823529411764706,
+          "notAssignedAnnualizedPct": 0.07313419117647059,
+          "effectiveCostBasis": 37.05,
+          "effectiveDiscountPct": 0.17556742323097466,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

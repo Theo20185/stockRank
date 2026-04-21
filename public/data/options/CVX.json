@@ -1,6 +1,6 @@
 {
   "symbol": "CVX",
-  "fetchedAt": "2026-04-21T03:58:02.612Z",
+  "fetchedAt": "2026-04-21T04:13:51.391Z",
   "currentPrice": 183.25,
   "expirations": [
     {
@@ -32,62 +32,35 @@
           "assignedAnnualizedPct": 0.28843214924423743,
           "effectiveCostBasis": 176.3,
           "effectiveDiscountPct": 0.037926330150068216
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 227.3688738262516,
-          "contract": {
-            "contractSymbol": "CVX270115C00230000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 230,
-            "bid": 3.6,
-            "ask": 4,
-            "lastPrice": 4.09,
-            "volume": 26,
-            "openInterest": 2077,
-            "impliedVolatility": 0.267158207397461,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04831406264938982,
-          "staticAnnualizedPct": 0.06555625601125384,
-          "assignedReturnPct": 0.3034300244502084,
-          "assignedAnnualizedPct": 0.4117173194212865,
-          "effectiveCostBasis": 179.65,
-          "effectiveDiscountPct": 0.019645293315143246
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 251.1761211225,
-          "contract": {
-            "contractSymbol": "CVX270115C00260000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 260,
-            "bid": 1.3,
-            "ask": 2.01,
-            "lastPrice": 1,
-            "volume": 4,
-            "openInterest": 297,
-            "impliedVolatility": 0.2912668530273437,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03576290303138164,
-          "staticAnnualizedPct": 0.048525872142952786,
-          "assignedReturnPct": 0.4545896424583939,
-          "assignedAnnualizedPct": 0.6168223773134341,
-          "effectiveCostBasis": 181.95,
-          "effectiveDiscountPct": 0.007094133697135061
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 209.17936530172415,
+          "contract": {
+            "contractSymbol": "CVX270115P00180000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 180,
+            "bid": 14.9,
+            "ask": 15.45,
+            "lastPrice": 15.13,
+            "volume": 272,
+            "openInterest": 1263,
+            "impliedVolatility": 0.2739635592651367,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08277777777777778,
+          "notAssignedAnnualizedPct": 0.11231928954977283,
+          "effectiveCostBasis": 165.1,
+          "effectiveDiscountPct": 0.09904502046384724,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -118,62 +91,35 @@
           "assignedAnnualizedPct": 0.16650061691541612,
           "effectiveCostBasis": 169,
           "effectiveDiscountPct": 0.07776261937244201
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 227.3688738262516,
-          "contract": {
-            "contractSymbol": "CVX280121C00230000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 230,
-            "bid": 8.65,
-            "ask": 10.9,
-            "lastPrice": 10.15,
-            "volume": 56,
-            "openInterest": 143,
-            "impliedVolatility": 0.26187871917724614,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11541149865390869,
-          "staticAnnualizedPct": 0.0658206203260573,
-          "assignedReturnPct": 0.37052746045472723,
-          "assignedAnnualizedPct": 0.21131644229058663,
-          "effectiveCostBasis": 174.6,
-          "effectiveDiscountPct": 0.047203274215552524
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 251.1761211225,
-          "contract": {
-            "contractSymbol": "CVX280121C00260000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 260,
-            "bid": 4.7,
-            "ask": 6.75,
-            "lastPrice": 6.05,
-            "volume": 40,
-            "openInterest": 74,
-            "impliedVolatility": 0.27034726242065427,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09385624626645984,
-          "staticAnnualizedPct": 0.05352739044884038,
-          "assignedReturnPct": 0.5126829856934721,
-          "assignedAnnualizedPct": 0.2923895152783083,
-          "effectiveCostBasis": 178.55,
-          "effectiveDiscountPct": 0.025648021828103683
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 209.17936530172415,
+          "contract": {
+            "contractSymbol": "CVX280121P00180000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 180,
+            "bid": 21.85,
+            "ask": 24.1,
+            "lastPrice": 22,
+            "volume": 10,
+            "openInterest": 102,
+            "impliedVolatility": 0.2691723474121094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1213888888888889,
+          "notAssignedAnnualizedPct": 0.06922960069444445,
+          "effectiveCostBasis": 158.15,
+          "effectiveDiscountPct": 0.13697135061391538,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

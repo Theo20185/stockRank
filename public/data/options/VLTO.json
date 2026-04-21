@@ -1,6 +1,6 @@
 {
   "symbol": "VLTO",
-  "fetchedAt": "2026-04-21T03:55:47.218Z",
+  "fetchedAt": "2026-04-21T04:12:22.638Z",
   "currentPrice": 90.29,
   "expirations": [
     {
@@ -34,8 +34,33 @@
           "effectiveDiscountPct": 0.004430169453981615
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.29000047999999,
+          "contract": {
+            "contractSymbol": "VLTO260515P00090000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 90,
+            "bid": 1.15,
+            "ask": 3.2,
+            "lastPrice": 2.6,
+            "volume": 3,
+            "openInterest": 14,
+            "impliedVolatility": 0.35535312622070303,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.012777777777777777,
+          "notAssignedAnnualizedPct": 0.1943287037037037,
+          "effectiveCostBasis": 88.85,
+          "effectiveDiscountPct": 0.015948610034333944,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
@@ -68,8 +93,33 @@
           "effectiveDiscountPct": 0.024365931996898883
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.29000047999999,
+          "contract": {
+            "contractSymbol": "VLTO260717P00090000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 87,
+            "strike": 90,
+            "bid": 3.3,
+            "ask": 5.3,
+            "lastPrice": 5.9,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.3086006640625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03666666666666667,
+          "notAssignedAnnualizedPct": 0.15383141762452107,
+          "effectiveCostBasis": 86.7,
+          "effectiveDiscountPct": 0.039760770849485025,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

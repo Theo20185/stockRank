@@ -1,6 +1,6 @@
 {
   "symbol": "BBY",
-  "fetchedAt": "2026-04-21T03:55:45.508Z",
+  "fetchedAt": "2026-04-21T04:12:20.902Z",
   "currentPrice": 66.94,
   "expirations": [
     {
@@ -32,96 +32,67 @@
           "assignedAnnualizedPct": 0.7447574848696553,
           "effectiveCostBasis": 66.09,
           "effectiveDiscountPct": 0.012697938452345384
-        },
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 161.38797972654407,
-          "contract": {
-            "contractSymbol": "BBY270115C00150000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 150,
-            "bid": 0.05,
-            "ask": 0.4,
-            "lastPrice": 0.1,
-            "volume": 26,
-            "openInterest": 459,
-            "impliedVolatility": 0.4819387744140625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.04304995125465044,
-          "staticAnnualizedPct": 0.058413502631774764,
-          "assignedReturnPct": 1.2838626193156006,
-          "assignedAnnualizedPct": 1.7420440745360382,
-          "effectiveCostBasis": 66.89,
-          "effectiveDiscountPct": 0.0007469375560203167
         }
       ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
-    },
-    {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
-      "coveredCalls": [
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 118.63731679249997,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 98.7444242312562,
           "contract": {
-            "contractSymbol": "BBY280121C00120000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 120,
-            "bid": 1.4,
-            "ask": 1.95,
-            "lastPrice": 1.2,
+            "contractSymbol": "BBY270115P00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 65,
+            "bid": 7.7,
+            "ask": 8.3,
+            "lastPrice": 8,
             "volume": 2,
-            "openInterest": 25,
-            "impliedVolatility": 0.34613690979003897,
+            "openInterest": 703,
+            "impliedVolatility": 0.41040628662109374,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.12156082691103459,
-          "staticAnnualizedPct": 0.06932765909769942,
-          "assignedReturnPct": 0.9142109613597948,
-          "assignedAnnualizedPct": 0.521385938900508,
-          "effectiveCostBasis": 65.53999999999999,
-          "effectiveDiscountPct": 0.020914251568568867
-        },
+          "notAssignedReturnPct": 0.11846153846153847,
+          "notAssignedAnnualizedPct": 0.1607377752359165,
+          "effectiveCostBasis": 57.3,
+          "effectiveDiscountPct": 0.14400956080071708,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [
         {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 161.38797972654407,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 98.7444242312562,
           "contract": {
-            "contractSymbol": "BBY280121C00125000",
+            "contractSymbol": "BBY280121P00065000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 125,
-            "bid": 0.2,
-            "ask": 1.65,
-            "lastPrice": 1.33,
-            "volume": 4,
-            "openInterest": 12,
-            "impliedVolatility": 0.3464420825195312,
+            "strike": 65,
+            "bid": 12,
+            "ask": 14.8,
+            "lastPrice": 13.18,
+            "volume": 38,
+            "openInterest": 56,
+            "impliedVolatility": 0.45880668151855475,
             "inTheMoney": false
           },
-          "snapWarning": true,
+          "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.103634325566547,
-          "staticAnnualizedPct": 0.05910395129967134,
-          "assignedReturnPct": 0.9709782156173389,
-          "assignedAnnualizedPct": 0.5537610135942636,
-          "effectiveCostBasis": 66.74,
-          "effectiveDiscountPct": 0.002987750224081267
+          "notAssignedReturnPct": 0.18461538461538463,
+          "notAssignedAnnualizedPct": 0.10528846153846154,
+          "effectiveCostBasis": 53,
+          "effectiveDiscountPct": 0.20824619061846428,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }

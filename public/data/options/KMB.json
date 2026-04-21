@@ -1,6 +1,6 @@
 {
   "symbol": "KMB",
-  "fetchedAt": "2026-04-21T03:58:00.884Z",
+  "fetchedAt": "2026-04-21T04:13:49.649Z",
   "currentPrice": 98.54,
   "expirations": [
     {
@@ -32,36 +32,35 @@
           "assignedAnnualizedPct": 0.4328730106573904,
           "effectiveCostBasis": 97.34,
           "effectiveDiscountPct": 0.012177795818956767
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 126.43952581032413,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.07362040000001,
           "contract": {
-            "contractSymbol": "KMB270115C00130000",
+            "contractSymbol": "KMB270115P00095000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
-            "strike": 130,
-            "bid": 0.75,
-            "ask": 1.7,
-            "lastPrice": 1.2,
-            "volume": 1,
-            "openInterest": 302,
-            "impliedVolatility": 0.28076891113281244,
+            "strike": 95,
+            "bid": 6.6,
+            "ask": 8.3,
+            "lastPrice": 8.34,
+            "volume": 3,
+            "openInterest": 378,
+            "impliedVolatility": 0.3012765185546875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04593440784712195,
-          "staticAnnualizedPct": 0.062327356372488894,
-          "assignedReturnPct": 0.36519562156743846,
-          "assignedAnnualizedPct": 0.49552565751715627,
-          "effectiveCostBasis": 97.79,
-          "effectiveDiscountPct": 0.00761112238684798
+          "notAssignedReturnPct": 0.06947368421052631,
+          "notAssignedAnnualizedPct": 0.09426726667971043,
+          "effectiveCostBasis": 88.4,
+          "effectiveDiscountPct": 0.10290237467018469,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -92,36 +91,35 @@
           "assignedAnnualizedPct": 0.22539722147736954,
           "effectiveCostBasis": 95.04,
           "effectiveDiscountPct": 0.03551857113862391
-        },
+        }
+      ],
+      "puts": [
         {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 126.43952581032413,
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.07362040000001,
           "contract": {
-            "contractSymbol": "KMB280121C00130000",
+            "contractSymbol": "KMB280121P00095000",
             "expiration": "2028-01-21",
             "daysToExpiry": 640,
-            "strike": 130,
-            "bid": 3.2,
-            "ask": 5.5,
-            "lastPrice": 4.35,
-            "volume": 1,
-            "openInterest": 130,
-            "impliedVolatility": 0.2802196002197265,
+            "strike": 95,
+            "bid": 10.8,
+            "ask": 13.9,
+            "lastPrice": 12.55,
+            "volume": 10,
+            "openInterest": 160,
+            "impliedVolatility": 0.3073799731445312,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.12365219911539158,
-          "staticAnnualizedPct": 0.07052039480799675,
-          "assignedReturnPct": 0.4429134128357081,
-          "assignedAnnualizedPct": 0.2525990557578648,
-          "effectiveCostBasis": 95.34,
-          "effectiveDiscountPct": 0.032474122183884714
+          "notAssignedReturnPct": 0.11368421052631579,
+          "notAssignedAnnualizedPct": 0.06483552631578947,
+          "effectiveCostBasis": 84.2,
+          "effectiveDiscountPct": 0.14552466003653342,
+          "inTheMoney": false
         }
-      ],
-      "puts": [],
-      "putsSuppressedReason": "below-fair-value"
+      ]
     }
   ]
 }
