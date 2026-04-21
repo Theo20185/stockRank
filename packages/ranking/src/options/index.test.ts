@@ -130,6 +130,22 @@ describe("buildExpirationView — covered calls", () => {
     expect(dedupedCall?.effectiveCostBasis).toBe(85);  // 90 - 5
   });
 
+  it("drops a call when the snapped strike is below current price (post-snap floor)", () => {
+    // ALLE-style scenario: only listed strike is far below current; the
+    // anchor would pass the pre-snap floor but the snap-fallback grabs
+    // an ITM strike. The post-snap floor catches that.
+    const fairValue = fv(150, 160, 180, 145);   // anchors all >= current
+    const grp = group([contract("C", 110, 36)], []);   // only ITM strike listed
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 145,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toEqual([]);
+  });
+
   it("drops a call when no listed strike has a usable bid", () => {
     const dead = contract("C", 110, 0);
     dead.bid = null;
@@ -202,11 +218,13 @@ describe("buildExpirationView — cash-secured puts", () => {
     expect(view.putsSuppressedReason).toBe("below-fair-value");
   });
 
-  it("flags ITM put without dropping it", () => {
-    // current=100, anchor p75=130 → strike 130 is ITM (call's perspective: yes)
+  it("drops a put when the snapped strike is above current price (post-snap floor)", () => {
+    // Symmetric to the call rule: when the snap fallback grabs a strike
+    // above current, the put is ITM and "premium % collateral" is misleading.
     const fairValue = fv(95, 110, 130, 100);
     const itmPut = contract("P", 130, 32, 270, true);
-    const grp = group([], [contract("P", 95, 4), contract("P", 110, 12), itmPut]);
+    // Only ITM put listed (130 > current=100).
+    const grp = group([], [itmPut]);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
@@ -214,24 +232,43 @@ describe("buildExpirationView — cash-secured puts", () => {
       currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    const stretch = view.puts.find((p) => p.label === "stretch");
-    expect(stretch?.inTheMoney).toBe(true);
+    expect(view.puts).toEqual([]);
+  });
+
+  it("keeps OTM puts even when an ITM strike exists in the chain", () => {
+    // When OTM strikes are available, the snap should pick those (not the ITM).
+    const fairValue = fv(95, 110, 130, 100);
+    const grp = group(
+      [],
+      [contract("P", 95, 4), contract("P", 110, 12), contract("P", 130, 32, 270, true)],
+    );
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    // p75=130 anchor → snap prefers ≤ anchor, so 110. p25/median snap to 95/110.
+    // After dedupe + post-snap floor, no ITM strikes survive.
+    expect(view.puts.every((p) => p.contract.strike <= 100)).toBe(true);
     expect(view.puts.length).toBeGreaterThan(0);
   });
 });
 
 describe("buildOptionsView", () => {
   it("aggregates per-expiration views with metadata", () => {
-    // current at p25 boundary: calls keep all 3, puts not suppressed.
-    const fairValue = fv(95, 110, 130, 95);
+    // Fair value straddles current: puts get OTM strikes (≤ current), calls
+    // get OTM strikes (≥ current). Both sides survive the post-snap floors.
+    const fairValue = fv(95, 110, 130, 100);
     const grp = group(
-      [contract("C", 95, 8), contract("C", 110, 4), contract("C", 130, 1.5)],
-      [contract("P", 90, 2), contract("P", 110, 6), contract("P", 130, 12)],
+      [contract("C", 110, 5), contract("C", 130, 2)],
+      [contract("P", 90, 3), contract("P", 100, 5)],
     );
     const view = buildOptionsView({
       symbol: "TEST",
       fetchedAt: "2026-04-20T12:00:00.000Z",
-      currentPrice: 95,
+      currentPrice: 100,
       annualDividendPerShare: 0,
       fairValue,
       expirations: [
@@ -245,7 +282,10 @@ describe("buildOptionsView", () => {
     expect(view.fetchedAt).toBe("2026-04-20T12:00:00.000Z");
     expect(view.expirations).toHaveLength(1);
     expect(view.expirations[0]?.selectionReason).toBe("leap");
-    expect(view.expirations[0]?.coveredCalls).toHaveLength(3);
-    expect(view.expirations[0]?.puts).toHaveLength(3);
+    expect(view.expirations[0]?.coveredCalls.length).toBeGreaterThan(0);
+    expect(view.expirations[0]?.puts.length).toBeGreaterThan(0);
+    // No ITM survivors
+    expect(view.expirations[0]?.coveredCalls.every((c) => c.contract.strike >= 100)).toBe(true);
+    expect(view.expirations[0]?.puts.every((p) => p.contract.strike <= 100)).toBe(true);
   });
 });

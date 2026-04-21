@@ -87,6 +87,13 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
 
     const snap = snapStrike(callStrikes, anchor, "call");
     if (!snap) continue;
+    // Post-snap floor: even if the anchor was OTM, the snap may have
+    // fallen back to a lower listed strike when no chain entry was at
+    // or above the anchor. An ITM call (K < spot) is guaranteed to
+    // assign and inflates the static-return number with intrinsic
+    // value — exclude these so the workflow only ever surfaces real
+    // out-of-the-money covered-call candidates.
+    if (snap.strike < currentPrice) continue;
 
     const contract = findContract(group.calls, snap.strike);
     if (!contract) continue;
@@ -137,6 +144,11 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     const anchor = anchorPrice(range, spec.anchor);
     const snap = snapStrike(putStrikes, anchor, "put");
     if (!snap) continue;
+    // Post-snap floor (symmetric to the call rule): if the snap fell
+    // back to a strike above current price, the put is ITM — the
+    // "premium % collateral" looks attractive but you're committing
+    // to buy above market. Drop these.
+    if (snap.strike > currentPrice) continue;
 
     const contract = findContract(group.puts, snap.strike);
     if (!contract) continue;
