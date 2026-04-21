@@ -1,12 +1,38 @@
 {
   "symbol": "HD",
-  "fetchedAt": "2026-04-21T03:04:48.252Z",
+  "fetchedAt": "2026-04-21T03:34:46.718Z",
   "currentPrice": 350.99,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 351.2368132,
+          "contract": {
+            "contractSymbol": "HD270115C00360000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 360,
+            "bid": 30.4,
+            "ask": 32,
+            "lastPrice": 30.05,
+            "volume": 6,
+            "openInterest": 920,
+            "impliedVolatility": 0.298560481262207,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10621599054585178,
+          "staticAnnualizedPct": 0.14412206895626728,
+          "assignedReturnPct": 0.13188623756143625,
+          "assignedAnnualizedPct": 0.1789534450183057,
+          "effectiveCostBasis": 320.59000000000003,
+          "effectiveDiscountPct": 0.08661215419242713
+        },
         {
           "label": "aggressive",
           "anchor": "median",
@@ -60,88 +86,39 @@
           "effectiveDiscountPct": 0.03575600444457107
         }
       ],
-      "puts": [
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 404.2464041,
-          "contract": {
-            "contractSymbol": "HD270115P00400000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 400,
-            "bid": 59.6,
-            "ask": 62.55,
-            "lastPrice": 69.3,
-            "volume": 1,
-            "openInterest": 438,
-            "impliedVolatility": 0.25177750183105463,
-            "inTheMoney": true
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.149,
-          "notAssignedAnnualizedPct": 0.20217472118959107,
-          "effectiveCostBasis": 340.4,
-          "effectiveDiscountPct": 0.030171799766375202,
-          "inTheMoney": true
-        },
-        {
-          "label": "aggressive",
-          "anchor": "median",
-          "anchorPrice": 377.5796738,
-          "contract": {
-            "contractSymbol": "HD270115P00370000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 370,
-            "bid": 40.4,
-            "ask": 43.75,
-            "lastPrice": 49,
-            "volume": 2,
-            "openInterest": 592,
-            "impliedVolatility": 0.27074398696899415,
-            "inTheMoney": true
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10918918918918918,
-          "notAssignedAnnualizedPct": 0.14815633477343515,
-          "effectiveCostBasis": 329.6,
-          "effectiveDiscountPct": 0.06094190717684261,
-          "inTheMoney": true
-        },
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 349.51629235999997,
-          "contract": {
-            "contractSymbol": "HD270115P00340000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 340,
-            "bid": 26.55,
-            "ask": 29.05,
-            "lastPrice": 28.15,
-            "volume": 5,
-            "openInterest": 433,
-            "impliedVolatility": 0.28992409301757804,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07808823529411765,
-          "notAssignedAnnualizedPct": 0.10595615569647934,
-          "effectiveCostBasis": 313.45,
-          "effectiveDiscountPct": 0.10695461409156962,
-          "inTheMoney": false
-        }
-      ]
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 351.2368132,
+          "contract": {
+            "contractSymbol": "HD280121C00360000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 360,
+            "bid": 46,
+            "ask": 50.5,
+            "lastPrice": 43.9,
+            "volume": 8,
+            "openInterest": 438,
+            "impliedVolatility": 0.2937692694091796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1776989625402714,
+          "staticAnnualizedPct": 0.10134393957374853,
+          "assignedReturnPct": 0.20336920955585586,
+          "assignedAnnualizedPct": 0.11598400232482405,
+          "effectiveCostBasis": 304.99,
+          "effectiveDiscountPct": 0.13105786489643578
+        },
         {
           "label": "aggressive",
           "anchor": "median",
@@ -195,58 +172,8 @@
           "effectiveDiscountPct": 0.07550072651642496
         }
       ],
-      "puts": [
-        {
-          "label": "stretch",
-          "anchor": "p75",
-          "anchorPrice": 404.2464041,
-          "contract": {
-            "contractSymbol": "HD280121P00400000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 400,
-            "bid": 71,
-            "ask": 74.25,
-            "lastPrice": 84.8,
-            "volume": 3,
-            "openInterest": 31,
-            "impliedVolatility": 0.2313004116821289,
-            "inTheMoney": true
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1775,
-          "notAssignedAnnualizedPct": 0.10123046875,
-          "effectiveCostBasis": 329,
-          "effectiveDiscountPct": 0.06265135758853531,
-          "inTheMoney": true
-        },
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 349.51629235999997,
-          "contract": {
-            "contractSymbol": "HD280121P00340000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 340,
-            "bid": 38,
-            "ask": 43,
-            "lastPrice": 40.31,
-            "volume": 11,
-            "openInterest": 107,
-            "impliedVolatility": 0.265983292388916,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11176470588235295,
-          "notAssignedAnnualizedPct": 0.06374080882352942,
-          "effectiveCostBasis": 302,
-          "effectiveDiscountPct": 0.13957662611470414,
-          "inTheMoney": false
-        }
-      ]
+      "puts": [],
+      "putsSuppressedReason": "below-fair-value"
     }
   ]
 }

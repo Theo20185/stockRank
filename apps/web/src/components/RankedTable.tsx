@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
+import type { OptionsSummary } from "@stockrank/core";
 import type { RankedRow } from "@stockrank/ranking";
 import {
-  formatMarketCap,
   formatPercent,
   formatPrice,
   formatScore,
@@ -13,13 +13,16 @@ export type SortKey =
   | "industryRank"
   | "composite"
   | "upside"
-  | "pctOffYearHigh"
-  | "marketCap";
+  | "bestCall"
+  | "bestPut";
 
 export type RankedTableProps = {
   rows: RankedRow[];
   selectedSymbol: string | null;
   onSelect: (symbol: string) => void;
+  /** Per-symbol best annualized covered-call / put returns. Optional —
+   * when null, the Best Call / Best Put columns render "—". */
+  optionsSummary?: OptionsSummary | null;
 };
 
 const SORT_HEADERS: Array<{
@@ -32,8 +35,8 @@ const SORT_HEADERS: Array<{
   { key: "industryRank", label: "Ind. #", shortLabel: "Ind.", defaultDesc: false },
   { key: "composite", label: "Composite", shortLabel: "Score", defaultDesc: true },
   { key: "upside", label: "Upside", shortLabel: "Upside", defaultDesc: true },
-  { key: "pctOffYearHigh", label: "Off 52w High", shortLabel: "Off Hi", defaultDesc: true },
-  { key: "marketCap", label: "Market Cap", shortLabel: "Mkt Cap", defaultDesc: true },
+  { key: "bestCall", label: "Best Call %", shortLabel: "Call", defaultDesc: true },
+  { key: "bestPut", label: "Best Put %", shortLabel: "Put", defaultDesc: true },
 ];
 
 function upsideOf(row: RankedRow): number {
@@ -43,20 +46,59 @@ function upsideOf(row: RankedRow): number {
   return v === null || v === undefined ? -Infinity : v;
 }
 
-export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps) {
+function bestCallOf(symbol: string, summary: OptionsSummary | null): number | null {
+  return summary?.symbols[symbol]?.bestCallAnnualized ?? null;
+}
+
+function bestPutOf(symbol: string, summary: OptionsSummary | null): number | null {
+  return summary?.symbols[symbol]?.bestPutAnnualized ?? null;
+}
+
+/** Sort sentinel: missing options data sorts to the bottom in desc, top in asc. */
+function sortValOrSentinel(v: number | null): number {
+  return v === null ? -Infinity : v;
+}
+
+/** Render an annualized fraction (0.18 → "+18%"); "—" when null. */
+function formatBestReturn(value: number | null): string {
+  if (value === null || !Number.isFinite(value)) return "—";
+  const pct = value * 100;
+  return `${pct >= 0 ? "+" : ""}${formatPercent(pct, 0)}`;
+}
+
+export function RankedTable({
+  rows,
+  selectedSymbol,
+  onSelect,
+  optionsSummary = null,
+}: RankedTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("universeRank");
   const [sortDesc, setSortDesc] = useState(false);
 
   const sorted = useMemo(() => {
     const out = [...rows];
     out.sort((a, b) => {
-      const av = sortKey === "upside" ? upsideOf(a) : a[sortKey];
-      const bv = sortKey === "upside" ? upsideOf(b) : b[sortKey];
+      const av =
+        sortKey === "upside"
+          ? upsideOf(a)
+          : sortKey === "bestCall"
+            ? sortValOrSentinel(bestCallOf(a.symbol, optionsSummary))
+            : sortKey === "bestPut"
+              ? sortValOrSentinel(bestPutOf(a.symbol, optionsSummary))
+              : a[sortKey];
+      const bv =
+        sortKey === "upside"
+          ? upsideOf(b)
+          : sortKey === "bestCall"
+            ? sortValOrSentinel(bestCallOf(b.symbol, optionsSummary))
+            : sortKey === "bestPut"
+              ? sortValOrSentinel(bestPutOf(b.symbol, optionsSummary))
+              : b[sortKey];
       const cmp = av < bv ? -1 : av > bv ? 1 : 0;
       return sortDesc ? -cmp : cmp;
     });
     return out;
-  }, [rows, sortKey, sortDesc]);
+  }, [rows, sortKey, sortDesc, optionsSummary]);
 
   return (
     <div className="ranked-table-wrap">
@@ -127,8 +169,8 @@ export function RankedTable({ rows, selectedSymbol, onSelect }: RankedTableProps
                     ? "—"
                     : `${upside >= 0 ? "+" : ""}${formatPercent(upside, 0)}`}
                 </td>
-                <td className="num">{formatPercent(row.pctOffYearHigh, 0)}</td>
-                <td className="num">{formatMarketCap(row.marketCap)}</td>
+                <td className="num">{formatBestReturn(bestCallOf(row.symbol, optionsSummary))}</td>
+                <td className="num">{formatBestReturn(bestPutOf(row.symbol, optionsSummary))}</td>
                 <td className="ranked-table__symbol">
                   <span className="ranked-table__sym">{row.symbol}</span>
                   {row.negativeEquity && (

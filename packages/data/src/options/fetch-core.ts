@@ -1,6 +1,11 @@
 import { mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import type { CompanySnapshot, Snapshot } from "@stockrank/core";
+import type {
+  CompanySnapshot,
+  OptionsBestReturns,
+  OptionsSummary,
+  Snapshot,
+} from "@stockrank/core";
 import {
   buildOptionsView,
   type FairValue,
@@ -73,6 +78,40 @@ export async function writeOptionsView(view: OptionsView, outDir: string): Promi
   await mkdir(outDir, { recursive: true });
   const out = resolve(outDir, `${view.symbol}.json`);
   await writeFile(out, JSON.stringify(view, null, 2), "utf8");
+  return out;
+}
+
+/**
+ * Roll an OptionsView up to the two headline numbers the ranked-table
+ * shows: best annualized covered-call premium and best annualized
+ * cash-secured-put premium. "Best" = max across all expirations and all
+ * strikes. Returns null when no calls (or no puts) exist.
+ */
+export function bestStaticReturns(view: OptionsView): OptionsBestReturns {
+  let bestCall: number | null = null;
+  let bestPut: number | null = null;
+  for (const exp of view.expirations) {
+    for (const c of exp.coveredCalls) {
+      if (bestCall === null || c.staticAnnualizedPct > bestCall) {
+        bestCall = c.staticAnnualizedPct;
+      }
+    }
+    for (const p of exp.puts) {
+      if (bestPut === null || p.notAssignedAnnualizedPct > bestPut) {
+        bestPut = p.notAssignedAnnualizedPct;
+      }
+    }
+  }
+  return { bestCallAnnualized: bestCall, bestPutAnnualized: bestPut };
+}
+
+export async function writeOptionsSummary(
+  summary: OptionsSummary,
+  parentDir: string,
+): Promise<string> {
+  await mkdir(parentDir, { recursive: true });
+  const out = resolve(parentDir, "options-summary.json");
+  await writeFile(out, JSON.stringify(summary, null, 2), "utf8");
   return out;
 }
 

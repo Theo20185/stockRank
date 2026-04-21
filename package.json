@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc -b",
     "build": "npm run build --workspaces --if-present",
-    "ingest": "npm run ingest --workspace=@stockrank/data"
+    "ingest": "npm run ingest --workspace=@stockrank/data",
+    "refresh": "tsx scripts/refresh.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

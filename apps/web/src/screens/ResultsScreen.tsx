@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { Snapshot } from "@stockrank/core";
+import type { OptionsSummary, Snapshot } from "@stockrank/core";
 import {
   bucketRows,
   type BucketKey,
@@ -15,6 +15,7 @@ export type ResultsScreenProps = {
   ranked: RankedSnapshot;
   industry: string | null;
   weights: CategoryWeights;
+  optionsSummary?: OptionsSummary | null;
   tab: "composite" | "turnaround";
   onSelectTab: (tab: "composite" | "turnaround") => void;
   onSelectStock: (symbol: string) => void;
@@ -41,6 +42,7 @@ export function ResultsScreen({
   ranked,
   industry,
   weights,
+  optionsSummary,
   tab,
   onSelectTab,
   onSelectStock,
@@ -109,6 +111,7 @@ export function ResultsScreen({
           rows={activeRows}
           selectedSymbol={null}
           onSelect={onSelectStock}
+          optionsSummary={optionsSummary ?? null}
         />
       )}
     </div>

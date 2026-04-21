@@ -14,4 +14,9 @@ export type {
   SnapshotError,
 } from "./snapshot.js";
 export { SNAPSHOT_SCHEMA_VERSION, pctOffHigh } from "./snapshot.js";
-export type { ContractQuote, ExpirationGroup } from "./options.js";
+export type {
+  ContractQuote,
+  ExpirationGroup,
+  OptionsBestReturns,
+  OptionsSummary,
+} from "./options.js";

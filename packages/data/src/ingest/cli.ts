@@ -17,10 +17,13 @@ import {
 } from "@stockrank/ranking";
 import { YahooOptionsProvider } from "../yahoo/options-provider.js";
 import {
+  bestStaticReturns,
   fetchSymbolOptions,
   pruneStaleOptionsFiles,
+  writeOptionsSummary,
   writeOptionsView,
 } from "../options/fetch-core.js";
+import type { OptionsBestReturns } from "@stockrank/core";
 
 type ProviderName = "yahoo" | "fmp";
 
@@ -218,6 +221,7 @@ async function runOptionsFetch(
   let okCount = 0;
   let skipCount = 0;
   let failCount = 0;
+  const bestBySymbol: Record<string, OptionsBestReturns> = {};
 
   for (let i = 0; i < buckets.ranked.length; i += 1) {
     const row = buckets.ranked[i]!;
@@ -236,6 +240,7 @@ async function runOptionsFetch(
       );
       if (result.status === "ok") {
         await writeOptionsView(result.view, outDir);
+        bestBySymbol[row.symbol] = bestStaticReturns(result.view);
         console.log(
           `${tag}   ok ${row.symbol} — ${result.view.expirations.length} exp, ${result.callCount}c/${result.putCount}p`,
         );
@@ -260,6 +265,18 @@ async function runOptionsFetch(
   if (pruned.deleted.length > 0) {
     console.log(`pruned ${pruned.deleted.length} stale options file(s): ${pruned.deleted.join(", ")}`);
   }
+
+  // Roll best-static-return numbers into a single summary file the web
+  // UI consumes alongside the snapshot.
+  const summaryPath = await writeOptionsSummary(
+    {
+      snapshotDate: snapshot.snapshotDate,
+      generatedAt: new Date().toISOString(),
+      symbols: bestBySymbol,
+    },
+    resolve(outDir, ".."),
+  );
+  console.log(`wrote: ${summaryPath}`);
 
   console.log("");
   console.log(`options done — ${okCount} ok, ${skipCount} skipped, ${failCount} failed`);

@@ -2,6 +2,7 @@ import type { CategoryKey, RankedRow } from "@stockrank/ranking";
 import {
   categoryLabel,
   factorLabel,
+  formatMarketCap,
   formatPercent,
   formatPrice,
   formatRatio,
@@ -57,6 +58,7 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
           <strong>{formatPrice(row.price)}</strong>
           <span className="drill-down__price-context">
             {" "}· {formatPercent(row.pctOffYearHigh, 1)} off 52-week high
+            {" "}· {formatMarketCap(row.marketCap)}
           </span>
         </p>
       </header>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Snapshot } from "@stockrank/core";
+import type { OptionsSummary, Snapshot } from "@stockrank/core";
 import {
   rank,
   fairValueFor,
@@ -7,6 +7,7 @@ import {
   type CategoryWeights,
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
+import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
 import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
 import { FiltersScreen } from "./screens/FiltersScreen.js";
@@ -16,11 +17,16 @@ import { TurnaroundScreen } from "./screens/TurnaroundScreen.js";
 export type AppProps = {
   /** Provided in tests; real app fetches via loadSnapshot at mount. */
   initialSnapshot?: Snapshot;
+  /** Provided in tests to short-circuit the summary fetch. */
+  initialOptionsSummary?: OptionsSummary | null;
 };
 
-export function App({ initialSnapshot }: AppProps = {}) {
+export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(
     initialSnapshot ?? null,
+  );
+  const [optionsSummary, setOptionsSummary] = useState<OptionsSummary | null>(
+    initialOptionsSummary ?? null,
   );
   const [error, setError] = useState<string | null>(null);
   const [weights, setWeights] = useState<CategoryWeights>(DEFAULT_WEIGHTS);
@@ -43,6 +49,17 @@ export function App({ initialSnapshot }: AppProps = {}) {
       cancelled = true;
     };
   }, [initialSnapshot]);
+
+  useEffect(() => {
+    if (initialOptionsSummary !== undefined) return;
+    let cancelled = false;
+    loadOptionsSummary().then((s) => {
+      if (!cancelled) setOptionsSummary(s);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialOptionsSummary]);
 
   const ranked = useMemo(() => {
     if (!snapshot) return null;
@@ -141,6 +158,7 @@ export function App({ initialSnapshot }: AppProps = {}) {
         ranked={ranked}
         industry={industry}
         weights={weights}
+        optionsSummary={optionsSummary}
         tab="composite"
         onSelectTab={(tab) =>
           navigate(tab === "composite" ? "/" : "/turnaround")

@@ -5,10 +5,12 @@ import { resolve } from "node:path";
 import type { CompanySnapshot } from "@stockrank/core";
 import type { FairValue } from "@stockrank/ranking";
 import {
+  bestStaticReturns,
   fetchSymbolOptions,
   pruneStaleOptionsFiles,
   writeOptionsView,
 } from "./fetch-core.js";
+import type { OptionsView } from "@stockrank/ranking";
 import type { OptionsProvider } from "./types.js";
 
 function makeCompany(symbol: string): CompanySnapshot {
@@ -138,6 +140,76 @@ describe("pruneStaleOptionsFiles", () => {
   it("returns empty deleted list when the dir doesn't exist", async () => {
     const result = await pruneStaleOptionsFiles(resolve(tmp, "missing"), new Set());
     expect(result.deleted).toEqual([]);
+  });
+});
+
+describe("bestStaticReturns", () => {
+  function viewWithCallsAndPuts(callRates: number[], putRates: number[]): OptionsView {
+    return {
+      symbol: "TEST",
+      fetchedAt: "2026-04-21T00:00:00.000Z",
+      currentPrice: 100,
+      expirations: callRates.length === 0 && putRates.length === 0 ? [] : [
+        {
+          expiration: "2027-01-15",
+          selectionReason: "leap",
+          coveredCalls: callRates.map((r, i) => ({
+            label: "aggressive" as const,
+            anchor: "median" as const,
+            anchorPrice: 100,
+            contract: {
+              contractSymbol: `T${i}C`, expiration: "2027-01-15", daysToExpiry: 270,
+              strike: 100, bid: 5, ask: 5.1, lastPrice: 5, volume: 10, openInterest: 100,
+              impliedVolatility: 0.4, inTheMoney: false,
+            },
+            snapWarning: false, shortDated: false,
+            staticReturnPct: 0, staticAnnualizedPct: r,
+            assignedReturnPct: 0, assignedAnnualizedPct: 0,
+            effectiveCostBasis: 95, effectiveDiscountPct: 0.05,
+          })),
+          puts: putRates.map((r, i) => ({
+            label: "aggressive" as const,
+            anchor: "median" as const,
+            anchorPrice: 100,
+            contract: {
+              contractSymbol: `T${i}P`, expiration: "2027-01-15", daysToExpiry: 270,
+              strike: 100, bid: 4, ask: 4.1, lastPrice: 4, volume: 10, openInterest: 100,
+              impliedVolatility: 0.4, inTheMoney: false,
+            },
+            snapWarning: false, shortDated: false,
+            notAssignedReturnPct: 0, notAssignedAnnualizedPct: r,
+            effectiveCostBasis: 96, effectiveDiscountPct: 0.04,
+            inTheMoney: false,
+          })),
+        },
+      ],
+    };
+  }
+
+  it("returns the maximum across all calls and all puts", () => {
+    const view = viewWithCallsAndPuts([0.10, 0.18, 0.12], [0.05, 0.07, 0.06]);
+    expect(bestStaticReturns(view)).toEqual({
+      bestCallAnnualized: 0.18,
+      bestPutAnnualized: 0.07,
+    });
+  });
+
+  it("returns null for the side that has no contracts", () => {
+    expect(bestStaticReturns(viewWithCallsAndPuts([0.15], []))).toEqual({
+      bestCallAnnualized: 0.15,
+      bestPutAnnualized: null,
+    });
+    expect(bestStaticReturns(viewWithCallsAndPuts([], [0.08]))).toEqual({
+      bestCallAnnualized: null,
+      bestPutAnnualized: 0.08,
+    });
+  });
+
+  it("returns null/null when the view has no expirations", () => {
+    expect(bestStaticReturns(viewWithCallsAndPuts([], []))).toEqual({
+      bestCallAnnualized: null,
+      bestPutAnnualized: null,
+    });
   });
 });
 
