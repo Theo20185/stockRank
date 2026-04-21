@@ -1,0 +1,125 @@
+{
+  "symbol": "TSCO",
+  "fetchedAt": "2026-04-21T20:27:43.240Z",
+  "currentPrice": 39.57,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.57000028,
+          "contract": {
+            "contractSymbol": "TSCO270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 40,
+            "bid": 4.1,
+            "ask": 4.7,
+            "lastPrice": 4.46,
+            "volume": 100,
+            "openInterest": 83,
+            "impliedVolatility": 0.36121244262695307,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11938535572472574,
+          "staticAnnualizedPct": 0.16199128193131931,
+          "assignedReturnPct": 0.13025217402141515,
+          "assignedAnnualizedPct": 0.17673622125582353,
+          "effectiveCostBasis": 35.47,
+          "effectiveDiscountPct": 0.10361384887541066
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.57000028,
+          "contract": {
+            "contractSymbol": "TSCO270115P00039000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 269,
+            "strike": 39,
+            "bid": 3.9,
+            "ask": 4.4,
+            "lastPrice": 3.5,
+            "volume": 5,
+            "openInterest": 0,
+            "impliedVolatility": 0.348639326171875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09999999999999999,
+          "notAssignedAnnualizedPct": 0.13568773234200743,
+          "effectiveCostBasis": 35.1,
+          "effectiveDiscountPct": 0.11296436694465502,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.57000028,
+          "contract": {
+            "contractSymbol": "TSCO280121C00040000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 40,
+            "bid": 6.5,
+            "ask": 7.5,
+            "lastPrice": 6.72,
+            "volume": 6,
+            "openInterest": 11,
+            "impliedVolatility": 0.3702455554199219,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.20178914564444492,
+          "staticAnnualizedPct": 0.11508287212534749,
+          "assignedReturnPct": 0.21265596394113434,
+          "assignedAnnualizedPct": 0.12128035443517818,
+          "effectiveCostBasis": 33.07,
+          "effectiveDiscountPct": 0.16426585797321203
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.57000028,
+          "contract": {
+            "contractSymbol": "TSCO280121P00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 640,
+            "strike": 35,
+            "bid": 3.4,
+            "ask": 4.4,
+            "lastPrice": 4,
+            "volume": 14,
+            "openInterest": 10,
+            "impliedVolatility": 0.32923034057617184,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09714285714285714,
+          "notAssignedAnnualizedPct": 0.055401785714285716,
+          "effectiveCostBasis": 31.6,
+          "effectiveDiscountPct": 0.20141521354561534,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

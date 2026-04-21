@@ -1,36 +1,63 @@
 {
   "symbol": "GRMN",
-  "fetchedAt": "2026-04-21T04:25:58.414Z",
-  "currentPrice": 267.52,
+  "fetchedAt": "2026-04-21T20:26:53.870Z",
+  "currentPrice": 265.49,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 386.73088800068797,
+          "contract": {
+            "contractSymbol": "GRMN260515C00330000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 330,
+            "bid": 0.05,
+            "ask": 0.75,
+            "lastPrice": 0.75,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.4968312036132813,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "staticReturnPct": 0.0012206598434609149,
+          "staticAnnualizedPct": 0.01856420178596808,
+          "assignedReturnPct": 0.24420532969919934,
+          "assignedAnnualizedPct": 3.71395605584199,
+          "effectiveCostBasis": 265.44,
+          "effectiveDiscountPct": 0.0001883310105842028
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 382.6903468580037,
+          "anchorPrice": 386.73088800068797,
           "contract": {
             "contractSymbol": "GRMN260515P00260000",
             "expiration": "2026-05-15",
             "daysToExpiry": 24,
             "strike": 260,
-            "bid": 8.2,
-            "ask": 9.7,
-            "lastPrice": 8.1,
+            "bid": 8.3,
+            "ask": 10.6,
+            "lastPrice": 9.2,
             "volume": 3,
             "openInterest": 802,
-            "impliedVolatility": 0.47675083801269535,
+            "impliedVolatility": 0.4802298071289062,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.031538461538461536,
-          "notAssignedAnnualizedPct": 0.47964743589743586,
-          "effectiveCostBasis": 251.8,
-          "effectiveDiscountPct": 0.05876196172248793,
+          "notAssignedReturnPct": 0.03192307692307693,
+          "notAssignedAnnualizedPct": 0.485496794871795,
+          "effectiveCostBasis": 251.7,
+          "effectiveDiscountPct": 0.0519416927191232,
           "inTheMoney": false
         }
       ]
@@ -43,26 +70,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 382.6903468580037,
+          "anchorPrice": 386.73088800068797,
           "contract": {
             "contractSymbol": "GRMN260717P00260000",
             "expiration": "2026-07-17",
             "daysToExpiry": 87,
             "strike": 260,
-            "bid": 12.4,
-            "ask": 13.8,
+            "bid": 12.1,
+            "ask": 14.4,
             "lastPrice": 14.5,
             "volume": 0,
             "openInterest": 9,
-            "impliedVolatility": 0.33530327789306635,
+            "impliedVolatility": 0.33081723876953123,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.047692307692307694,
-          "notAssignedAnnualizedPct": 0.20008841732979665,
-          "effectiveCostBasis": 247.6,
-          "effectiveDiscountPct": 0.07446172248803823,
+          "notAssignedReturnPct": 0.046538461538461535,
+          "notAssignedAnnualizedPct": 0.1952475685234306,
+          "effectiveCostBasis": 247.9,
+          "effectiveDiscountPct": 0.06625484952352255,
           "inTheMoney": false
         }
       ]

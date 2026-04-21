@@ -1,63 +1,36 @@
 {
   "symbol": "EG",
-  "fetchedAt": "2026-04-21T04:25:18.476Z",
-  "currentPrice": 350.64,
+  "fetchedAt": "2026-04-21T20:26:13.565Z",
+  "currentPrice": 349.82,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 480.2718182325105,
-          "contract": {
-            "contractSymbol": "EG260515C00380000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 380,
-            "bid": 1.05,
-            "ask": 3.1,
-            "lastPrice": 2.45,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.33447931152343746,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "staticReturnPct": 0.004493702380617517,
-          "staticAnnualizedPct": 0.06834172370522475,
-          "assignedReturnPct": 0.08822630562040766,
-          "assignedAnnualizedPct": 1.3417750646436999,
-          "effectiveCostBasis": 349.59,
-          "effectiveDiscountPct": 0.002994524298425736
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
           "anchorPrice": 480.2718182325105,
           "contract": {
-            "contractSymbol": "EG260515P00350000",
+            "contractSymbol": "EG260515P00340000",
             "expiration": "2026-05-15",
             "daysToExpiry": 24,
-            "strike": 350,
-            "bid": 9.2,
-            "ask": 11.5,
-            "lastPrice": 27,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.32318792053222645,
+            "strike": 340,
+            "bid": 5.5,
+            "ask": 8.3,
+            "lastPrice": 6.5,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.3502262243652343,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.026285714285714284,
-          "notAssignedAnnualizedPct": 0.39976190476190476,
-          "effectiveCostBasis": 340.8,
-          "effectiveDiscountPct": 0.02806297056810397,
+          "notAssignedReturnPct": 0.016176470588235296,
+          "notAssignedAnnualizedPct": 0.24601715686274514,
+          "effectiveCostBasis": 334.5,
+          "effectiveDiscountPct": 0.04379395117488993,
           "inTheMoney": false
         }
       ]
@@ -72,24 +45,24 @@
           "anchor": "p25",
           "anchorPrice": 480.2718182325105,
           "contract": {
-            "contractSymbol": "EG260717P00350000",
+            "contractSymbol": "EG260717P00340000",
             "expiration": "2026-07-17",
             "daysToExpiry": 87,
-            "strike": 350,
-            "bid": 15.2,
-            "ask": 17.6,
-            "lastPrice": 16.45,
-            "volume": 3,
-            "openInterest": 4,
-            "impliedVolatility": 0.2613599255371094,
+            "strike": 340,
+            "bid": 24.9,
+            "ask": 28,
+            "lastPrice": 27.1,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.4848684326171875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.04342857142857143,
-          "notAssignedAnnualizedPct": 0.18220032840722497,
-          "effectiveCostBasis": 334.8,
-          "effectiveDiscountPct": 0.0451745379876796,
+          "notAssignedReturnPct": 0.07323529411764705,
+          "notAssignedAnnualizedPct": 0.30725152129817446,
+          "effectiveCostBasis": 315.1,
+          "effectiveDiscountPct": 0.09925104339374527,
           "inTheMoney": false
         }
       ]

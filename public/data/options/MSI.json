@@ -1,36 +1,63 @@
 {
   "symbol": "MSI",
-  "fetchedAt": "2026-04-21T04:27:19.821Z",
-  "currentPrice": 446.92,
+  "fetchedAt": "2026-04-21T20:28:16.806Z",
+  "currentPrice": 445.48,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 447.1344122980769,
+          "contract": {
+            "contractSymbol": "MSI260515C00450000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 24,
+            "strike": 450,
+            "bid": 10.9,
+            "ask": 13.6,
+            "lastPrice": 13.36,
+            "volume": 6,
+            "openInterest": 60,
+            "impliedVolatility": 0.3371648315429688,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.025178126570570024,
+          "staticAnnualizedPct": 0.3829173415940858,
+          "assignedReturnPct": 0.035324485554138266,
+          "assignedAnnualizedPct": 0.5372265511358528,
+          "effectiveCostBasis": 434.58000000000004,
+          "effectiveDiscountPct": 0.024467989584268653
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 566.2909348751592,
+          "anchorPrice": 447.1344122980769,
           "contract": {
             "contractSymbol": "MSI260515P00440000",
             "expiration": "2026-05-15",
             "daysToExpiry": 24,
             "strike": 440,
-            "bid": 10.3,
-            "ask": 11.4,
-            "lastPrice": 12.7,
-            "volume": 2,
+            "bid": 10.8,
+            "ask": 13.9,
+            "lastPrice": 12.6,
+            "volume": 5,
             "openInterest": 56,
-            "impliedVolatility": 0.3154365332031249,
+            "impliedVolatility": 0.3570010589599609,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.02340909090909091,
-          "notAssignedAnnualizedPct": 0.35601325757575764,
-          "effectiveCostBasis": 429.7,
-          "effectiveDiscountPct": 0.03853038575136496,
+          "notAssignedReturnPct": 0.024545454545454547,
+          "notAssignedAnnualizedPct": 0.3732954545454546,
+          "effectiveCostBasis": 429.2,
+          "effectiveDiscountPct": 0.036544850498338936,
           "inTheMoney": false
         }
       ]
@@ -42,54 +69,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 566.2909348751592,
+          "anchorPrice": 447.1344122980769,
           "contract": {
-            "contractSymbol": "MSI260717C00570000",
+            "contractSymbol": "MSI260717C00450000",
             "expiration": "2026-07-17",
             "daysToExpiry": 87,
-            "strike": 570,
-            "bid": 0.1,
-            "ask": 1.45,
-            "lastPrice": 0.51,
+            "strike": 450,
+            "bid": 19.3,
+            "ask": 21.9,
+            "lastPrice": 19.3,
             "volume": 1,
-            "openInterest": 28,
-            "impliedVolatility": 0.29688203124999996,
+            "openInterest": 66,
+            "impliedVolatility": 0.27484856018066406,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.0027980002672783827,
-          "staticAnnualizedPct": 0.01173873675352425,
-          "assignedReturnPct": 0.2781940443020049,
-          "assignedAnnualizedPct": 1.1671359329911701,
-          "effectiveCostBasis": 446.82,
-          "effectiveDiscountPct": 0.00022375369193591694
+          "staticReturnPct": 0.0458983015273044,
+          "staticAnnualizedPct": 0.19256183974098973,
+          "assignedReturnPct": 0.05604466051087264,
+          "assignedAnnualizedPct": 0.2351298975456151,
+          "effectiveCostBasis": 426.18,
+          "effectiveDiscountPct": 0.04332405495196193
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 566.2909348751592,
+          "anchorPrice": 447.1344122980769,
           "contract": {
             "contractSymbol": "MSI260717P00440000",
             "expiration": "2026-07-17",
             "daysToExpiry": 87,
             "strike": 440,
-            "bid": 16.9,
-            "ask": 19.2,
+            "bid": 17.5,
+            "ask": 20.3,
             "lastPrice": 17.2,
             "volume": 4,
-            "openInterest": 16,
-            "impliedVolatility": 0.25914742324829104,
+            "openInterest": 19,
+            "impliedVolatility": 0.26471682556152343,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.03840909090909091,
-          "notAssignedAnnualizedPct": 0.1611415882967607,
-          "effectiveCostBasis": 423.1,
-          "effectiveDiscountPct": 0.0532981294191354,
+          "notAssignedReturnPct": 0.03977272727272727,
+          "notAssignedAnnualizedPct": 0.16686259143155696,
+          "effectiveCostBasis": 422.5,
+          "effectiveDiscountPct": 0.05158480739876092,
           "inTheMoney": false
         }
       ]

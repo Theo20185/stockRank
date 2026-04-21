@@ -1,7 +1,7 @@
 {
   "symbol": "APTV",
-  "fetchedAt": "2026-04-21T04:26:48.485Z",
-  "currentPrice": 60.83,
+  "fetchedAt": "2026-04-21T20:27:39.648Z",
+  "currentPrice": 60.8,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,35 +10,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 78.056231919966,
+          "anchorPrice": 77.87483423958194,
           "contract": {
             "contractSymbol": "APTV270115C00080000",
             "expiration": "2027-01-15",
             "daysToExpiry": 269,
             "strike": 80,
-            "bid": 2.45,
-            "ask": 2.9,
-            "lastPrice": 3.27,
-            "volume": 60,
+            "bid": 2.85,
+            "ask": 3.8,
+            "lastPrice": 4.02,
+            "volume": 2,
             "openInterest": 2,
-            "impliedVolatility": 0.40112903564453123,
+            "impliedVolatility": 0.45227598510742195,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04027617951668585,
-          "staticAnnualizedPct": 0.05464983466018712,
-          "assignedReturnPct": 0.35541673516357064,
-          "assignedAnnualizedPct": 0.48225690830744716,
-          "effectiveCostBasis": 58.379999999999995,
-          "effectiveDiscountPct": 0.04027617951668585
+          "staticReturnPct": 0.04687500000000001,
+          "staticAnnualizedPct": 0.063603624535316,
+          "assignedReturnPct": 0.3626644736842106,
+          "assignedAnnualizedPct": 0.49209120035218173,
+          "effectiveCostBasis": 57.949999999999996,
+          "effectiveDiscountPct": 0.04687500000000001
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 78.056231919966,
+          "anchorPrice": 77.87483423958194,
           "contract": {
             "contractSymbol": "APTV270115P00060000",
             "expiration": "2027-01-15",
@@ -49,7 +49,7 @@
             "lastPrice": 4.3,
             "volume": 7,
             "openInterest": 19,
-            "impliedVolatility": 0.32471378417968744,
+            "impliedVolatility": 0.324103438720703,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -57,7 +57,7 @@
           "notAssignedReturnPct": 0.04833333333333333,
           "notAssignedAnnualizedPct": 0.0655824039653036,
           "effectiveCostBasis": 57.1,
-          "effectiveDiscountPct": 0.061318428407035955,
+          "effectiveDiscountPct": 0.06085526315789467,
           "inTheMoney": false
         }
       ]
@@ -65,12 +65,39 @@
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 77.87483423958194,
+          "contract": {
+            "contractSymbol": "APTV260821C00080000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 122,
+            "strike": 80,
+            "bid": 0.1,
+            "ask": 2.45,
+            "lastPrice": 0.8,
+            "volume": 1,
+            "openInterest": 4,
+            "impliedVolatility": 0.5555464367675782,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0016447368421052633,
+          "staticAnnualizedPct": 0.004920729076790337,
+          "assignedReturnPct": 0.3174342105263159,
+          "assignedAnnualizedPct": 0.9497007118205353,
+          "effectiveCostBasis": 60.699999999999996,
+          "effectiveDiscountPct": 0.0016447368421052633
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 78.056231919966,
+          "anchorPrice": 77.87483423958194,
           "contract": {
             "contractSymbol": "APTV260821P00060000",
             "expiration": "2026-08-21",
@@ -81,7 +108,7 @@
             "lastPrice": 2.65,
             "volume": 1,
             "openInterest": 49,
-            "impliedVolatility": 0.46655806884765627,
+            "impliedVolatility": 0.4655815161132813,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -89,7 +116,7 @@
           "notAssignedReturnPct": 0.06166666666666667,
           "notAssignedAnnualizedPct": 0.1844945355191257,
           "effectiveCostBasis": 56.3,
-          "effectiveDiscountPct": 0.07446983396350487,
+          "effectiveDiscountPct": 0.07401315789473685,
           "inTheMoney": false
         }
       ]

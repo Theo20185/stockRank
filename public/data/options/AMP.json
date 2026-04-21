@@ -1,7 +1,7 @@
 {
   "symbol": "AMP",
-  "fetchedAt": "2026-04-21T04:25:44.678Z",
-  "currentPrice": 456.59,
+  "fetchedAt": "2026-04-21T20:26:43.182Z",
+  "currentPrice": 461.08,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 617.5806954636838,
+          "anchorPrice": 627.6019796311838,
           "contract": {
-            "contractSymbol": "AMP260515P00450000",
+            "contractSymbol": "AMP260515P00460000",
             "expiration": "2026-05-15",
             "daysToExpiry": 24,
-            "strike": 450,
-            "bid": 12.3,
-            "ask": 14.9,
-            "lastPrice": 14.7,
-            "volume": 378,
-            "openInterest": 623,
-            "impliedVolatility": 0.380590910949707,
+            "strike": 460,
+            "bid": 15.1,
+            "ask": 18.1,
+            "lastPrice": 16.6,
+            "volume": 3,
+            "openInterest": 25,
+            "impliedVolatility": 0.3877624700927734,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.027333333333333334,
-          "notAssignedAnnualizedPct": 0.4156944444444445,
-          "effectiveCostBasis": 437.7,
-          "effectiveDiscountPct": 0.041371909152631434,
+          "notAssignedReturnPct": 0.03282608695652174,
+          "notAssignedAnnualizedPct": 0.49923007246376816,
+          "effectiveCostBasis": 444.9,
+          "effectiveDiscountPct": 0.03509152424741912,
           "inTheMoney": false
         }
       ]
@@ -38,31 +38,58 @@
     {
       "expiration": "2026-09-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 617.5806954636838,
+          "anchorPrice": 627.6019796311838,
           "contract": {
-            "contractSymbol": "AMP260918P00450000",
+            "contractSymbol": "AMP260918C00630000",
             "expiration": "2026-09-18",
             "daysToExpiry": 150,
-            "strike": 450,
-            "bid": 29,
-            "ask": 32.8,
-            "lastPrice": 28.9,
-            "volume": 1,
+            "strike": 630,
+            "bid": 0.05,
+            "ask": 7.3,
+            "lastPrice": 4.1,
+            "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.31009601043701174,
+            "impliedVolatility": 0.39649041015625003,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.06444444444444444,
-          "notAssignedAnnualizedPct": 0.1568148148148148,
-          "effectiveCostBasis": 421,
-          "effectiveDiscountPct": 0.07794739262795938,
+          "staticReturnPct": 0.005861865503499229,
+          "staticAnnualizedPct": 0.014263872725181457,
+          "assignedReturnPct": 0.3722191137033778,
+          "assignedAnnualizedPct": 0.9057331766782192,
+          "effectiveCostBasis": 461.03,
+          "effectiveDiscountPct": 0.00010844105144443481
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 627.6019796311838,
+          "contract": {
+            "contractSymbol": "AMP260918P00460000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 150,
+            "strike": 460,
+            "bid": 32.8,
+            "ask": 38.4,
+            "lastPrice": 48,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.33020689331054687,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07130434782608695,
+          "notAssignedAnnualizedPct": 0.17350724637681156,
+          "effectiveCostBasis": 427.2,
+          "effectiveDiscountPct": 0.07347965645874902,
           "inTheMoney": false
         }
       ]
