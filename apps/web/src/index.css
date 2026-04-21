@@ -785,13 +785,13 @@ main.app--message {
   font-size: var(--fs-tiny);
 }
 
-.fair-value__low,
-.fair-value__high {
-  color: var(--text-faint);
+.fair-value__low {
+  font-weight: 600;
 }
 
-.fair-value__mid {
-  font-weight: 600;
+.fair-value__mid,
+.fair-value__high {
+  color: var(--text-faint);
 }
 
 .fair-value__upside {
