@@ -85,18 +85,28 @@ export async function writeOptionsView(view: OptionsView, outDir: string): Promi
  * Roll an OptionsView up to the two headline numbers the ranked-table
  * shows: best annualized covered-call premium and best annualized
  * cash-secured-put premium. "Best" = max across all expirations and all
- * strikes. Returns null when no calls (or no puts) exist.
+ * strikes, **excluding short-dated contracts** (DTE < 30) — annualizing
+ * a sub-30-day premium dramatically inflates the displayed return
+ * relative to anything actually repeatable. The detail panel still
+ * shows the short-dated rows with the `shortDated` chip; they just
+ * don't count toward the headline number.
+ *
+ * Returns null for either side when no qualifying contract exists.
  */
+const SHORT_DATED_DAYS = 30;
+
 export function bestStaticReturns(view: OptionsView): OptionsBestReturns {
   let bestCall: number | null = null;
   let bestPut: number | null = null;
   for (const exp of view.expirations) {
     for (const c of exp.coveredCalls) {
+      if (c.contract.daysToExpiry < SHORT_DATED_DAYS) continue;
       if (bestCall === null || c.staticAnnualizedPct > bestCall) {
         bestCall = c.staticAnnualizedPct;
       }
     }
     for (const p of exp.puts) {
+      if (p.contract.daysToExpiry < SHORT_DATED_DAYS) continue;
       if (bestPut === null || p.notAssignedAnnualizedPct > bestPut) {
         bestPut = p.notAssignedAnnualizedPct;
       }

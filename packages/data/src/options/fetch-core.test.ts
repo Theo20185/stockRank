@@ -147,7 +147,11 @@ describe("pruneStaleOptionsFiles", () => {
 });
 
 describe("bestStaticReturns", () => {
-  function viewWithCallsAndPuts(callRates: number[], putRates: number[]): OptionsView {
+  function viewWithCallsAndPuts(
+    callRates: number[],
+    putRates: number[],
+    daysToExpiry = 270,
+  ): OptionsView {
     return {
       symbol: "TEST",
       fetchedAt: "2026-04-21T00:00:00.000Z",
@@ -157,29 +161,29 @@ describe("bestStaticReturns", () => {
           expiration: "2027-01-15",
           selectionReason: "leap",
           coveredCalls: callRates.map((r, i) => ({
-            label: "aggressive" as const,
-            anchor: "median" as const,
+            label: "conservative" as const,
+            anchor: "p25" as const,
             anchorPrice: 100,
             contract: {
-              contractSymbol: `T${i}C`, expiration: "2027-01-15", daysToExpiry: 270,
+              contractSymbol: `T${i}C`, expiration: "2027-01-15", daysToExpiry,
               strike: 100, bid: 5, ask: 5.1, lastPrice: 5, volume: 10, openInterest: 100,
               impliedVolatility: 0.4, inTheMoney: false,
             },
-            snapWarning: false, shortDated: false,
+            snapWarning: false, shortDated: daysToExpiry < 30,
             staticReturnPct: 0, staticAnnualizedPct: r,
             assignedReturnPct: 0, assignedAnnualizedPct: 0,
             effectiveCostBasis: 95, effectiveDiscountPct: 0.05,
           })),
           puts: putRates.map((r, i) => ({
-            label: "aggressive" as const,
-            anchor: "median" as const,
+            label: "deep-value" as const,
+            anchor: "p25" as const,
             anchorPrice: 100,
             contract: {
-              contractSymbol: `T${i}P`, expiration: "2027-01-15", daysToExpiry: 270,
+              contractSymbol: `T${i}P`, expiration: "2027-01-15", daysToExpiry,
               strike: 100, bid: 4, ask: 4.1, lastPrice: 4, volume: 10, openInterest: 100,
               impliedVolatility: 0.4, inTheMoney: false,
             },
-            snapWarning: false, shortDated: false,
+            snapWarning: false, shortDated: daysToExpiry < 30,
             notAssignedReturnPct: 0, notAssignedAnnualizedPct: r,
             effectiveCostBasis: 96, effectiveDiscountPct: 0.04,
             inTheMoney: false,
@@ -212,6 +216,22 @@ describe("bestStaticReturns", () => {
     expect(bestStaticReturns(viewWithCallsAndPuts([], []))).toEqual({
       bestCallAnnualized: null,
       bestPutAnnualized: null,
+    });
+  });
+
+  it("excludes short-dated contracts (DTE < 30) from the rolled-up best", () => {
+    const view = viewWithCallsAndPuts([0.50], [0.40], 24);   // 24-day expiry
+    expect(bestStaticReturns(view)).toEqual({
+      bestCallAnnualized: null,
+      bestPutAnnualized: null,
+    });
+  });
+
+  it("includes contracts at exactly 30 DTE", () => {
+    const view = viewWithCallsAndPuts([0.10], [0.05], 30);
+    expect(bestStaticReturns(view)).toEqual({
+      bestCallAnnualized: 0.10,
+      bestPutAnnualized: 0.05,
     });
   });
 });
