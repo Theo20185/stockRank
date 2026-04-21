@@ -36,13 +36,13 @@ describe("computeTradeComparison — buy outright", () => {
 });
 
 describe("computeTradeComparison — covered call", () => {
-  it("median scenario — call assigns at strike, capital is P minus bid", () => {
+  it("median scenario — call assigns at strike; capital is P (full cash deployed)", () => {
     const result = computeTradeComparison({ ...BASE, scenario: "median" });
     const t = result.trades.coveredCall!;
     // FV 120 ≥ K 110 → assigned at K=110
     // stock = 110 - 100 = 10 (capped at K)
     // dividend = 1.4795
-    // premium = 8
+    // premium = 8 (incremental cash, not an offset against capital)
     // SPAXX on premium = 8 × SPAXX_RATE × 270/365
     const spaxx = 8 * SPAXX_RATE * (270 / 365);
     const expectedTotal = 10 + 1.4795 + 8 + spaxx;
@@ -52,7 +52,8 @@ describe("computeTradeComparison — covered call", () => {
     expect(t.premiumPnl).toBe(8);
     expect(t.spaxxPnl).toBeCloseTo(spaxx, 3);
     expect(t.totalPnl).toBeCloseTo(expectedTotal, 3);
-    expect(t.initialCapital).toBe(92);
+    expect(t.initialCapital).toBe(100);   // full P, not P − bid
+    expect(t.roi).toBeCloseTo(expectedTotal / 100, 4);
   });
 
   it("premium received earns SPAXX while it sits in cash", () => {

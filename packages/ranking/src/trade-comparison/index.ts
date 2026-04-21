@@ -72,6 +72,45 @@ function buyOutrightLeg(input: ComputeInput, fv: number): TradeLeg {
   };
 }
 
+/**
+ * Buy-write: open a new long-stock position and sell a call against
+ * it in a single transaction. The premium discounts the purchase
+ * (cost basis = P − bid), so the bid is "consumed" at entry and is
+ * not separately held in cash — no SPAXX accrues on it. ROI uses
+ * the net cash withdrawn (P − bid) as the denominator.
+ */
+function buyWriteLeg(input: ComputeInput, fv: number): TradeLeg | null {
+  if (!input.call) return null;
+  const { currentPrice: P, daysToExpiry: T, annualDividendPerShare: D } = input;
+  const { strike: K, bid } = input.call;
+  const assigned = fv >= K;
+  const stockPnl = assigned ? K - P : fv - P;
+  const dividendPnl = D * (T / 365);
+  const totalPnl = stockPnl + dividendPnl + bid;
+  const initialCapital = P - bid;
+  const roi = initialCapital > 0 ? totalPnl / initialCapital : 0;
+  return {
+    initialCapital,
+    stockPnl,
+    dividendPnl,
+    premiumPnl: bid,
+    spaxxPnl: 0,
+    totalPnl,
+    roi,
+    roiAnnualized: annualize(roi, T),
+    assigned,
+    strike: K,
+    bid,
+  };
+}
+
+/**
+ * Covered call: stock is already owned at entry. No new capital is
+ * deployed — the share's current market value (P) stands in as the
+ * opportunity-cost denominator, since you could have sold and
+ * reallocated. Premium received at T=0 is fresh cash that sits in
+ * SPAXX for the holding period.
+ */
 function coveredCallLeg(input: ComputeInput, fv: number): TradeLeg | null {
   if (!input.call) return null;
   const { currentPrice: P, daysToExpiry: T, annualDividendPerShare: D } = input;
@@ -80,12 +119,9 @@ function coveredCallLeg(input: ComputeInput, fv: number): TradeLeg | null {
   const assigned = fv >= K;
   const stockPnl = assigned ? K - P : fv - P;
   const dividendPnl = D * (T / 365);
-  // Premium hits the account at T=0 and sits in SPAXX for the full
-  // holding period until expiration.
   const spaxxPnl = bid * r * (T / 365);
   const totalPnl = stockPnl + dividendPnl + bid + spaxxPnl;
-  // Effective cost basis after collecting the premium up-front.
-  const initialCapital = P - bid;
+  const initialCapital = P;
   const roi = initialCapital > 0 ? totalPnl / initialCapital : 0;
   return {
     initialCapital,
@@ -162,6 +198,7 @@ export function computeTradeComparison(input: ComputeInput): TradeComparison {
     spaxxRate: input.spaxxRate ?? SPAXX_RATE,
     trades: {
       buyOutright: buyOutrightLeg(input, fv),
+      buyWrite: buyWriteLeg(input, fv),
       coveredCall: coveredCallLeg(input, fv),
       cashSecuredPut: cashSecuredPutLeg(input, fv),
       holdCashSpaxx: holdCashLeg(input),

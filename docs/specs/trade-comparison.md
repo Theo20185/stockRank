@@ -6,24 +6,32 @@ across four mutually-exclusive trade types. Answers "given this stock,
 this expiration, and my view of fair value — which deployment of
 capital projects the best outcome?"
 
-## 1. The four trades
+## 1. The five trades
 
 For a stock with current price `P`, a chosen expiration `T` days out,
-and the fair-value median as the projected end price `FV`, every
-decision about this stock-expiration pair reduces to one of four
-capital deployments:
+and a projected end price `FV` (default p25), every decision about
+this stock-expiration pair reduces to one of five capital deployments:
 
 | # | Trade | Initial capital | Stock exposure | Option leg | Cash exposure |
 |---|---|---|---|---|---|
 | 1 | **Buy outright** | `P` per share | Long stock | — | 0 |
-| 2 | **Covered call** | `P − bidCall` per share | Long stock | Short call @ `Kc` | 0 |
-| 3 | **Cash-secured put** | `Kp` per share | None until assigned | Short put @ `Kp` | `Kp` in SPAXX until expiry / assignment |
-| 4 | **Hold cash (SPAXX)** | `P` per share | None | — | `P` in SPAXX |
+| 2 | **Buy-write** | `P − bidCall` per share | Long stock | Short call @ `Kc` | 0 (premium consumed at entry) |
+| 3 | **Covered call** | `P` per share (held) | Long stock (already owned) | Short call @ `Kc` | `bidCall` in SPAXX |
+| 4 | **Cash-secured put** | `Kp` per share | None until assigned | Short put @ `Kp` | `Kp + bidPut` in SPAXX |
+| 5 | **Hold cash (SPAXX)** | `P` per share | None | — | `P` in SPAXX |
 
-Trade 4 is the baseline — "what does my money do if I don't take this
-trade at all?" It's there so the other three have something honest to
+Trade 5 is the baseline — "what does my money do if I don't take this
+trade at all?" It's there so the other four have something honest to
 beat. Without it, a 2% trade looks attractive until you notice SPAXX
 was paying 4.5%.
+
+**Buy-write vs. covered call**: same option contract, different starting
+position. Buy-write is the right comparison for a user opening a new
+position today — premium discounts the purchase price, no separate
+cash to earn interest. Covered call is the right comparison for a user
+who already owns the share — no new capital deployed (the share is
+opportunity cost), and the premium is incremental cash that sits in
+SPAXX until expiry.
 
 Strikes come directly from `options.md` §3.2/§3.3: single anchor at
 fair-value p25 for both sides.
@@ -52,26 +60,48 @@ total/share   = (FV − P) + D × T/365
 ROI on P      = total / P
 ```
 
-### Trade 2 — Covered call (strike `Kc`)
+### Trade 2 — Buy-write (strike `Kc`)
 
-Two branches depending on whether the call finishes ITM:
+Open the position by buying the stock and selling the call in a single
+transaction; the premium received discounts the purchase price.
 
 ```
 stock P&L:
   if FV ≥ Kc:  Kc − P      (called away at Kc)
   else:        FV − P      (keep the stock)
 dividend P&L  = D × T/365
-premium P&L   = bidCall
-spaxx P&L     = bidCall × r × T/365
+premium P&L   = bidCall   (consumed at entry — discounts the buy)
+spaxx P&L     = 0          (no premium left in cash)
 ─────────────────────────────
-total/share   = stock + dividend + bidCall + spaxx
-ROI on (P − bidCall) = total / (P − bidCall)   # effective cost basis
+total/share   = stock + dividend + bidCall
+ROI on (P − bidCall) = total / (P − bidCall)
 ```
 
-The premium hits the account at T=0 and sits in SPAXX for the full
-holding period — that interest accrues on top of the premium itself.
+Net cash outlay is `P − bidCall` — the premium isn't sitting separately
+to earn interest because it was used to fund part of the purchase.
 
-### Trade 3 — Cash-secured put (strike `Kp`)
+### Trade 3 — Covered call (strike `Kc`, stock already owned)
+
+Same option contract, different starting position. The share is already
+in your account; selling the call is the only new transaction.
+
+```
+stock P&L:
+  if FV ≥ Kc:  Kc − P
+  else:        FV − P
+dividend P&L  = D × T/365
+premium P&L   = bidCall
+spaxx P&L     = bidCall × r × T/365   (fresh cash, sits in SPAXX)
+─────────────────────────────
+total/share   = stock + dividend + bidCall + spaxx
+ROI on P      = total / P
+```
+
+Capital denominator is `P` — the opportunity cost of the held share
+(you could sell at `P` and reallocate). The premium is incremental
+cash that earns SPAXX for the holding period.
+
+### Trade 4 — Cash-secured put (strike `Kp`)
 
 Two branches depending on whether the put finishes ITM. SPAXX interest
 accrues on the full `Kp` collateral **plus the bid premium received**
@@ -96,7 +126,7 @@ ROI uses `Kp` as the denominator (the at-risk collateral); the
 `bidPut` portion of the SPAXX leg is incremental cash you gained
 from selling the option, not capital you committed.
 
-### Trade 4 — Hold cash (SPAXX)
+### Trade 5 — Hold cash (SPAXX)
 
 ```
 stock P&L     = 0

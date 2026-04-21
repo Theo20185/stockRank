@@ -165,7 +165,7 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
     expect(screen.getByText(/^LEAPS$/)).toBeInTheDocument();
   });
 
-  it("renders the four trade rows: buy outright, covered call, cash-secured put, hold cash", async () => {
+  it("renders the five trade rows: buy outright, buy-write, covered call, cash-secured put, hold cash", async () => {
     render(
       <OptionsPanel
         symbol="DECK"
@@ -176,6 +176,7 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
     const table = await screen.findByRole("table", { name: /trade comparison/i });
     const t = within(table);
     expect(t.getByText("Buy outright")).toBeInTheDocument();
+    expect(t.getByText("Buy-write")).toBeInTheDocument();
     expect(t.getByText("Covered call")).toBeInTheDocument();
     expect(t.getByText("Cash-secured put")).toBeInTheDocument();
     expect(t.getByText(/Hold cash/)).toBeInTheDocument();
@@ -190,9 +191,12 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
       />,
     );
     await screen.findByRole("table", { name: /trade comparison/i });
-    // Call row: strike 95, bid 8, 270d, IV 40%, OI 100
-    expect(screen.getByText(/K=\$95\.00 · bid \$8\.00 · 270d · IV 40% · OI 100/)).toBeInTheDocument();
-    // Put row: strike 80, bid 4, 270d, IV 40%, OI 50
+    // Call detail appears on both buy-write AND covered-call rows.
+    const callDetails = screen.getAllByText(
+      /K=\$95\.00 · bid \$8\.00 · 270d · IV 40% · OI 100/,
+    );
+    expect(callDetails).toHaveLength(2);
+    // Put row: strike 80, bid 4, 270d, IV 40%, OI 50 — appears once.
     expect(screen.getByText(/K=\$80\.00 · bid \$4\.00 · 270d · IV 40% · OI 50/)).toBeInTheDocument();
   });
 

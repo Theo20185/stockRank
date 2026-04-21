@@ -111,6 +111,12 @@ export function TradeComparisonTable({
   const rows: Row[] = [
     { label: "Buy outright", leg: result.trades.buyOutright },
     {
+      label: "Buy-write",
+      contractDetail: callDetail?.detail,
+      chips: callDetail?.chips,
+      leg: result.trades.buyWrite,
+    },
+    {
       label: "Covered call",
       contractDetail: callDetail?.detail,
       chips: callDetail?.chips,
@@ -176,7 +182,9 @@ export function TradeComparisonTable({
               );
             }
             const beatsBaseline = row.leg.roiAnnualized > baselineRoi;
-            const indicator = i === 3 ? "" : beatsBaseline ? " ↑" : " ↓";
+            // The SPAXX row is the baseline itself — no indicator on it.
+            const isBaseline = i === rows.length - 1;
+            const indicator = isBaseline ? "" : beatsBaseline ? " ↑" : " ↓";
             return (
               <tr
                 key={row.label}
