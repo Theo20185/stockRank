@@ -101,7 +101,8 @@ describe("computeTradeComparison — cash-secured put", () => {
     expect(t.assigned).toBe(true);
     expect(t.stockPnl).toBe(-15);
     expect(t.premiumPnl).toBe(5);
-    expect(t.spaxxPnl).toBeCloseTo(3.1623, 3);
+    // SPAXX = 95 × SPAXX_RATE × 270/365
+    expect(t.spaxxPnl).toBeCloseTo(95 * SPAXX_RATE * (270 / 365), 3);
   });
 
   it("returns null when no put is supplied", () => {

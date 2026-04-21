@@ -12,12 +12,13 @@ import type {
 export type { ProjectedEndCase, TradeComparison, TradeLeg, TradeKey } from "./types.js";
 
 /**
- * Fidelity SPAXX (government money market) annualized yield. Drifts
- * with the short end of the curve — bump this when it moves enough to
- * matter. Spec §4 lays out alternatives if/when this becomes
- * inadequate.
+ * Default Fidelity SPAXX (government money market) annualized yield.
+ * Used as a fallback when the caller doesn't supply `spaxxRate`. The
+ * web UI lets the user override this via a small input in the
+ * options-panel header (persisted in localStorage), so this constant
+ * really only matters for tests and the standalone CLI.
  */
-export const SPAXX_RATE = 0.045;   // 4.5% as of 2026-04
+export const SPAXX_RATE = 0.033;   // 3.3% as of 2026-04-21
 
 export type ComputeInput = {
   symbol: string;

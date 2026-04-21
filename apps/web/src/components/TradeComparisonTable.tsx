@@ -14,6 +14,9 @@ export type TradeComparisonTableProps = {
   annualDividend: number;
   fairValue: { p25: number; median: number; p75: number };
   scenario: ProjectedEndCase;
+  /** Override the SPAXX rate used by computeTradeComparison. Falls
+   * back to the package default when omitted. */
+  spaxxRate?: number;
 };
 
 const SCENARIO_LABEL: Record<ProjectedEndCase, string> = {
@@ -46,6 +49,7 @@ export function TradeComparisonTable({
   annualDividend,
   fairValue,
   scenario,
+  spaxxRate,
 }: TradeComparisonTableProps) {
   const callPick = expiration.coveredCalls[0] ?? null;
   const putPick = expiration.puts[0] ?? null;
@@ -60,6 +64,7 @@ export function TradeComparisonTable({
     annualDividendPerShare: annualDividend,
     fairValue,
     scenario,
+    spaxxRate,
     call: callPick && callPick.contract.bid !== null
       ? { strike: callPick.contract.strike, bid: callPick.contract.bid }
       : null,

@@ -28,6 +28,12 @@ export type OptionsPanelProps = {
    * panel still renders the option tables but skips the comparison.
    */
   row?: RankedRow | null;
+  /** SPAXX yield as a decimal (e.g. 0.033). When omitted, the
+   * trade-comparison module uses its built-in default. */
+  spaxxRate?: number;
+  /** Persisted setter from useSpaxxRate; when supplied, the panel
+   * renders an inline editor in its header. */
+  onSpaxxRateChange?: (rate: number) => void;
   /** Test seam — defaults to the production loader. */
   loader?: (symbol: string) => Promise<OptionsLoadResult>;
 };
@@ -41,6 +47,8 @@ type State =
 export function OptionsPanel({
   symbol,
   row,
+  spaxxRate,
+  onSpaxxRateChange,
   loader = loadOptionsView,
 }: OptionsPanelProps) {
   const [state, setState] = useState<State>({ status: "loading" });
@@ -77,11 +85,48 @@ export function OptionsPanel({
       <header className="options-panel__header">
         <h3>Options</h3>
         {showComparison && (
-          <ScenarioToggle scenario={scenario} onChange={setScenario} />
+          <div className="options-panel__controls">
+            {onSpaxxRateChange && (
+              <SpaxxRateInput rate={spaxxRate ?? 0} onChange={onSpaxxRateChange} />
+            )}
+            <ScenarioToggle scenario={scenario} onChange={setScenario} />
+          </div>
         )}
       </header>
-      <OptionsBody state={state} symbol={symbol} row={row ?? null} scenario={scenario} />
+      <OptionsBody
+        state={state}
+        symbol={symbol}
+        row={row ?? null}
+        scenario={scenario}
+        spaxxRate={spaxxRate}
+      />
     </section>
+  );
+}
+
+function SpaxxRateInput({
+  rate,
+  onChange,
+}: {
+  rate: number;
+  onChange: (next: number) => void;
+}) {
+  return (
+    <label className="options-panel__spaxx" title="Fidelity SPAXX yield used for cash-leg P&L">
+      SPAXX
+      <input
+        type="number"
+        step="0.05"
+        min="0"
+        max="20"
+        value={(rate * 100).toFixed(2)}
+        onChange={(e) => {
+          const pct = Number.parseFloat(e.target.value);
+          if (Number.isFinite(pct)) onChange(pct / 100);
+        }}
+      />
+      %
+    </label>
   );
 }
 
@@ -118,11 +163,13 @@ function OptionsBody({
   symbol,
   row,
   scenario,
+  spaxxRate,
 }: {
   state: State;
   symbol: string;
   row: RankedRow | null;
   scenario: ProjectedEndCase;
+  spaxxRate?: number;
 }) {
   if (state.status === "loading") {
     return (
@@ -165,6 +212,7 @@ function OptionsBody({
           currentPrice={view.currentPrice}
           row={row}
           scenario={scenario}
+          spaxxRate={spaxxRate}
           symbol={symbol}
         />
       ))}
@@ -177,6 +225,7 @@ type ExpirationSectionProps = {
   currentPrice: number;
   row: RankedRow | null;
   scenario: ProjectedEndCase;
+  spaxxRate?: number;
   symbol: string;
 };
 
@@ -185,6 +234,7 @@ function ExpirationSection({
   currentPrice,
   row,
   scenario,
+  spaxxRate,
   symbol,
 }: ExpirationSectionProps) {
   const fvRange = row?.fairValue?.range ?? null;
@@ -235,6 +285,7 @@ function ExpirationSection({
             annualDividend={row.annualDividend}
             fairValue={fvRange}
             scenario={scenario}
+            spaxxRate={spaxxRate}
           />
         </div>
       )}

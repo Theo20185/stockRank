@@ -6,10 +6,18 @@ import { OptionsPanel } from "../components/OptionsPanel.js";
 export type StockDetailScreenProps = {
   row: RankedRow | null;
   symbol: string;
+  spaxxRate?: number;
+  onSpaxxRateChange?: (rate: number) => void;
   onBack: () => void;
 };
 
-export function StockDetailScreen({ row, symbol, onBack }: StockDetailScreenProps) {
+export function StockDetailScreen({
+  row,
+  symbol,
+  spaxxRate,
+  onSpaxxRateChange,
+  onBack,
+}: StockDetailScreenProps) {
   return (
     <div className="screen screen--stock">
       <AppHeader
@@ -20,7 +28,12 @@ export function StockDetailScreen({ row, symbol, onBack }: StockDetailScreenProp
       {row ? (
         <>
           <DrillDownPanel row={row} />
-          <OptionsPanel symbol={row.symbol} row={row} />
+          <OptionsPanel
+            symbol={row.symbol}
+            row={row}
+            spaxxRate={spaxxRate}
+            onSpaxxRateChange={onSpaxxRateChange}
+          />
         </>
       ) : (
         <p className="screen__not-found" role="status">

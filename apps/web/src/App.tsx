@@ -8,6 +8,7 @@ import {
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
+import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
 import { FiltersScreen } from "./screens/FiltersScreen.js";
@@ -31,6 +32,7 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
   const [error, setError] = useState<string | null>(null);
   const [weights, setWeights] = useState<CategoryWeights>(DEFAULT_WEIGHTS);
   const [industry, setIndustry] = useState<string | null>(null);
+  const [spaxxRate, setSpaxxRate] = useSpaxxRate();
   const { route, navigate } = useHashRoute();
 
   useEffect(() => {
@@ -139,6 +141,8 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
         <StockDetailScreen
           row={row}
           symbol={route.symbol}
+          spaxxRate={spaxxRate}
+          onSpaxxRateChange={setSpaxxRate}
           onBack={() => navigate("/")}
         />
       </main>

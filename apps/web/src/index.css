@@ -400,6 +400,32 @@ main.app--message {
   flex-wrap: wrap;
 }
 
+.options-panel__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.options-panel__spaxx {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.options-panel__spaxx input {
+  width: 4em;
+  padding: 2px var(--sp-1);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
 .options-panel__scenario {
   display: flex;
   gap: var(--sp-1);
