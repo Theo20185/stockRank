@@ -1,0 +1,13 @@
+import { readFileSync } from "node:fs";
+import { rank, fairValueFor } from "@stockrank/ranking";
+import type { Snapshot } from "@stockrank/core";
+const snap = JSON.parse(readFileSync("public/data/snapshot-latest.json", "utf8")) as Snapshot;
+const c = snap.companies.find((x) => x.symbol === "GDDY")!;
+const fv = fairValueFor(c, snap.companies);
+console.log("current:", c.quote.price);
+console.log("p25:", fv.range?.p25);
+console.log("current < p25?", c.quote.price < (fv.range?.p25 ?? 0));
+console.log("p25 - current:", (fv.range?.p25 ?? 0) - c.quote.price);
+console.log("all anchors:");
+for (const [k, v] of Object.entries(fv.anchors)) console.log("  ", k, v);
+console.log("range:", fv.range);

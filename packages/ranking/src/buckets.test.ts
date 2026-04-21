@@ -70,6 +70,7 @@ function row(opts: {
     fairValue: opts.fairValue === undefined ? fv(20) : opts.fairValue,
     negativeEquity: opts.negativeEquity ?? false,
     optionsLiquid: opts.optionsLiquid ?? true,
+    annualDividend: 0,
   };
 }
 

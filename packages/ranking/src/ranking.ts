@@ -242,6 +242,8 @@ function assembleRow(
 
   const equity = raw.company.annual[0]?.balance.totalEquity ?? null;
   const negativeEquity = equity !== null && equity < 0;
+  const dividendYield = raw.company.ttm.dividendYield ?? 0;
+  const annualDividend = (dividendYield ?? 0) * raw.company.quote.price;
 
   return {
     symbol: raw.company.symbol,
@@ -262,5 +264,6 @@ function assembleRow(
     // Default true; the web layer flips this to false when the loaded
     // options-summary doesn't have both call and put data for the symbol.
     optionsLiquid: true,
+    annualDividend,
   };
 }

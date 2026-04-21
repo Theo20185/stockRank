@@ -38,3 +38,10 @@ export type {
 } from "./options/types.js";
 export { computeCallReturns, computePutReturns } from "./options/returns.js";
 export { snapStrike } from "./options/strike-snap.js";
+export { computeTradeComparison, SPAXX_RATE } from "./trade-comparison/index.js";
+export type {
+  ProjectedEndCase,
+  TradeComparison,
+  TradeKey,
+  TradeLeg,
+} from "./trade-comparison/types.js";

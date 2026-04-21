@@ -4,6 +4,8 @@ import type {
   CoveredCall,
   ExpirationView,
   OptionsView,
+  ProjectedEndCase,
+  RankedRow,
 } from "@stockrank/ranking";
 import {
   formatDte,
@@ -16,9 +18,16 @@ import {
   loadOptionsView,
   type OptionsLoadResult,
 } from "../snapshot/options-loader.js";
+import { TradeComparisonTable } from "./TradeComparisonTable.js";
 
 export type OptionsPanelProps = {
   symbol: string;
+  /**
+   * The ranked row for this symbol — supplies fair value, dividend rate
+   * and current price to the trade-comparison module. When omitted, the
+   * panel still renders the option tables but skips the comparison.
+   */
+  row?: RankedRow | null;
   /** Test seam — defaults to the production loader. */
   loader?: (symbol: string) => Promise<OptionsLoadResult>;
 };
@@ -29,8 +38,13 @@ type State =
   | { status: "not-fetched" }
   | { status: "error"; message: string };
 
-export function OptionsPanel({ symbol, loader = loadOptionsView }: OptionsPanelProps) {
+export function OptionsPanel({
+  symbol,
+  row,
+  loader = loadOptionsView,
+}: OptionsPanelProps) {
   const [state, setState] = useState<State>({ status: "loading" });
+  const [scenario, setScenario] = useState<ProjectedEndCase>("median");
 
   useEffect(() => {
     let cancelled = false;
@@ -56,17 +70,60 @@ export function OptionsPanel({ symbol, loader = loadOptionsView }: OptionsPanelP
     };
   }, [symbol, loader]);
 
+  const showComparison = state.status === "loaded" && row && row.fairValue?.range;
+
   return (
     <section className="options-panel" aria-label={`Options for ${symbol}`}>
       <header className="options-panel__header">
         <h3>Options</h3>
+        {showComparison && (
+          <ScenarioToggle scenario={scenario} onChange={setScenario} />
+        )}
       </header>
-      <OptionsBody state={state} symbol={symbol} />
+      <OptionsBody state={state} symbol={symbol} row={row ?? null} scenario={scenario} />
     </section>
   );
 }
 
-function OptionsBody({ state, symbol }: { state: State; symbol: string }) {
+function ScenarioToggle({
+  scenario,
+  onChange,
+}: {
+  scenario: ProjectedEndCase;
+  onChange: (s: ProjectedEndCase) => void;
+}) {
+  const opts: Array<{ key: ProjectedEndCase; label: string }> = [
+    { key: "median", label: "Median" },
+    { key: "p25", label: "Conservative" },
+    { key: "flat", label: "Flat" },
+  ];
+  return (
+    <nav className="options-panel__scenario" aria-label="Projected end-price scenario">
+      {opts.map((o) => (
+        <button
+          key={o.key}
+          type="button"
+          aria-pressed={scenario === o.key}
+          onClick={() => onChange(o.key)}
+        >
+          {o.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function OptionsBody({
+  state,
+  symbol,
+  row,
+  scenario,
+}: {
+  state: State;
+  symbol: string;
+  row: RankedRow | null;
+  scenario: ProjectedEndCase;
+}) {
   if (state.status === "loading") {
     return (
       <p className="options-panel__status" role="status">
@@ -106,6 +163,9 @@ function OptionsBody({ state, symbol }: { state: State; symbol: string }) {
           key={exp.expiration}
           expiration={exp}
           currentPrice={view.currentPrice}
+          row={row}
+          scenario={scenario}
+          symbol={symbol}
         />
       ))}
     </>
@@ -115,9 +175,19 @@ function OptionsBody({ state, symbol }: { state: State; symbol: string }) {
 type ExpirationSectionProps = {
   expiration: ExpirationView;
   currentPrice: number;
+  row: RankedRow | null;
+  scenario: ProjectedEndCase;
+  symbol: string;
 };
 
-function ExpirationSection({ expiration, currentPrice }: ExpirationSectionProps) {
+function ExpirationSection({
+  expiration,
+  currentPrice,
+  row,
+  scenario,
+  symbol,
+}: ExpirationSectionProps) {
+  const fvRange = row?.fairValue?.range ?? null;
   return (
     <section className="options-exp">
       <h4 className="options-exp__title">
@@ -154,6 +224,20 @@ function ExpirationSection({ expiration, currentPrice }: ExpirationSectionProps)
           <PutTable puts={expiration.puts} currentPrice={currentPrice} />
         )}
       </div>
+
+      {fvRange && row && (
+        <div className="options-exp__group">
+          <h5>Projected P&amp;L per share</h5>
+          <TradeComparisonTable
+            expiration={expiration}
+            symbol={symbol}
+            currentPrice={currentPrice}
+            annualDividend={row.annualDividend}
+            fairValue={fvRange}
+            scenario={scenario}
+          />
+        </div>
+      )}
     </section>
   );
 }

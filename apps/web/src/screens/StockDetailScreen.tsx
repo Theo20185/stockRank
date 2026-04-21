@@ -20,7 +20,7 @@ export function StockDetailScreen({ row, symbol, onBack }: StockDetailScreenProp
       {row ? (
         <>
           <DrillDownPanel row={row} />
-          <OptionsPanel symbol={row.symbol} />
+          <OptionsPanel symbol={row.symbol} row={row} />
         </>
       ) : (
         <p className="screen__not-found" role="status">

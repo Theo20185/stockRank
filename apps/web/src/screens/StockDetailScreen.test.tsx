@@ -27,6 +27,8 @@ const SAMPLE_ROW: RankedRow = {
   missingFactors: [],
   fairValue: null,
   negativeEquity: false,
+  optionsLiquid: true,
+  annualDividend: 0,
 };
 
 describe("<StockDetailScreen />", () => {

@@ -390,6 +390,81 @@ main.app--message {
   letter-spacing: 0.02em;
 }
 
+/* ─── Trade comparison ─────────────────────────────────────────────── */
+
+.options-panel__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.options-panel__scenario {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.options-panel__scenario button {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px var(--sp-2);
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.options-panel__scenario button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.trade-table__caption {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--sp-1);
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.trade-table__caption-meta {
+  font-size: 0.75rem;
+}
+
+.trade-table__row--winner {
+  background: var(--surface-2, #f3f3f3);
+  font-weight: 600;
+}
+
+.trade-table__row--empty td {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.trade-table__meta {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.trade-table__assigned {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.trade-table__indicator {
+  margin-left: 2px;
+  font-weight: 400;
+}
+
 /* ─── Filter chips (results screen entry to /filters) ──────────────── */
 
 .filter-chips {

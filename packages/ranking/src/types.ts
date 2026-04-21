@@ -77,6 +77,14 @@ export type RankedRow = {
    * without an active options market drop out of Ranked into Watch.
    */
   optionsLiquid: boolean;
+
+  /**
+   * Annual dividend per share (= ttm.dividendYield × price). Used by
+   * the trade-comparison module to compute dividend P&L on stock-
+   * holding legs. Pre-computed here so consumers don't need to thread
+   * the source CompanySnapshot through.
+   */
+  annualDividend: number;
 };
 
 export type TurnaroundReason =
