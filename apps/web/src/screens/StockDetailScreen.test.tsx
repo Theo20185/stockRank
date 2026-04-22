@@ -29,6 +29,7 @@ const SAMPLE_ROW: RankedRow = {
   negativeEquity: false,
   optionsLiquid: true,
   annualDividend: 0,
+  fvTrend: "insufficient_data",
 };
 
 describe("<StockDetailScreen />", () => {

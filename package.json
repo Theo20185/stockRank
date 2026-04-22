@@ -15,7 +15,8 @@
     "ingest": "npm run ingest --workspace=@stockrank/data",
     "refresh": "tsx scripts/refresh.ts",
     "screenshot": "tsx scripts/screenshot.ts",
-    "backtest": "tsx scripts/backtest.ts"
+    "backtest": "tsx scripts/backtest.ts",
+    "fv-trend": "tsx scripts/compute-fv-trend.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

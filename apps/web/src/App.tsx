@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { OptionsSummary, Snapshot } from "@stockrank/core";
+import type { FvTrendArtifact, OptionsSummary, Snapshot } from "@stockrank/core";
 import {
   rank,
   fairValueFor,
@@ -8,6 +8,7 @@ import {
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
+import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
@@ -20,14 +21,19 @@ export type AppProps = {
   initialSnapshot?: Snapshot;
   /** Provided in tests to short-circuit the summary fetch. */
   initialOptionsSummary?: OptionsSummary | null;
+  /** Provided in tests to short-circuit the FV-trend fetch. */
+  initialFvTrend?: FvTrendArtifact | null;
 };
 
-export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
+export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: AppProps = {}) {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(
     initialSnapshot ?? null,
   );
   const [optionsSummary, setOptionsSummary] = useState<OptionsSummary | null>(
     initialOptionsSummary ?? null,
+  );
+  const [fvTrend, setFvTrend] = useState<FvTrendArtifact | null>(
+    initialFvTrend ?? null,
   );
   const [error, setError] = useState<string | null>(null);
   const [weights, setWeights] = useState<CategoryWeights>(DEFAULT_WEIGHTS);
@@ -63,6 +69,17 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
     };
   }, [initialOptionsSummary]);
 
+  useEffect(() => {
+    if (initialFvTrend !== undefined) return;
+    let cancelled = false;
+    loadFvTrend().then((t) => {
+      if (!cancelled) setFvTrend(t);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialFvTrend]);
+
   const ranked = useMemo(() => {
     if (!snapshot) return null;
     const result = rank({
@@ -81,6 +98,12 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
         const best = optionsSummary.symbols[row.symbol]!;
         row.optionsLiquid = best.bestCallAnnualized !== null && best.bestPutAnnualized !== null;
       }
+      // fvTrend defaults to "insufficient_data" from rank(); the loaded
+      // artifact, if available, overrides it. "declining" demotes the
+      // row to Watch via the bucket classifier.
+      if (fvTrend && fvTrend.symbols[row.symbol]) {
+        row.fvTrend = fvTrend.symbols[row.symbol]!.trend;
+      }
     }
     // Stamp fair value on ineligible rows too — they still have
     // fundamentals, just failed the quality floor; users may want to
@@ -94,7 +117,7 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
       if (company) row.fairValue = fairValueFor(company, snapshot.companies);
     }
     return result;
-  }, [snapshot, weights, optionsSummary]);
+  }, [snapshot, weights, optionsSummary, fvTrend]);
 
   const industries = useMemo(() => {
     if (!ranked) return [] as string[];

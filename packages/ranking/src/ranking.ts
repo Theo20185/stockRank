@@ -136,6 +136,7 @@ function buildIneligibleRow(company: CompanySnapshot): RankedRow {
     negativeEquity,
     optionsLiquid: false,
     annualDividend,
+    fvTrend: "insufficient_data",
   };
 }
 
@@ -300,5 +301,8 @@ function assembleRow(
     // options-summary doesn't have both call and put data for the symbol.
     optionsLiquid: true,
     annualDividend,
+    // Default insufficient_data; the web layer overrides from the
+    // loaded fv-trend.json. "declining" demotes the row to Watch.
+    fvTrend: "insufficient_data",
   };
 }

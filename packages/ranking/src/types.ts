@@ -85,6 +85,17 @@ export type RankedRow = {
    * the source CompanySnapshot through.
    */
   annualDividend: number;
+
+  /**
+   * Trend in fair-value-median over the most recent ~2-year window.
+   * Set by the web layer from the loaded fv-trend.json artifact (the
+   * ranking pipeline itself has no historical-FV data). When
+   * "declining", the bucket classifier demotes the row to Watch — a
+   * "deteriorating fundamentals" signal. Defaults to "insufficient_data"
+   * when no trend information has been attached. See fv-trend.ts in
+   * @stockrank/core for the artifact shape.
+   */
+  fvTrend: import("@stockrank/core").FvTrend;
 };
 
 export type TurnaroundReason =

@@ -73,6 +73,13 @@ export function classifyRow(row: RankedRow): BucketKey {
   const belowP25 = row.fairValue.current < row.fairValue.range.p25;
   if (!belowP25) return "watch";
 
+  // Declining FV trend is a "fundamentals deteriorating" signal — per
+  // the back-test miss-analysis, ~96% of names that miss p25 within
+  // the horizon also see their FV decline over the same period. Avoid
+  // entering until the trend reverses. (Stable / improving / unknown
+  // trends pass; only "declining" demotes.)
+  if (row.fvTrend === "declining") return "watch";
+
   // Illiquid options chain is itself a quality signal — quality stocks
   // have active options markets. Demote to Watch if the options
   // pipeline didn't surface at least one OTM call AND one OTM put.

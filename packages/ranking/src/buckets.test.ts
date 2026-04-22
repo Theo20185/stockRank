@@ -37,6 +37,7 @@ function row(opts: {
   fairValue?: FairValue | null;
   negativeEquity?: boolean;
   optionsLiquid?: boolean;
+  fvTrend?: import("@stockrank/core").FvTrend;
 }): RankedRow {
   const baseScores: CategoryScores = {
     valuation: 0.5, health: 0.5, quality: 0.6,
@@ -63,6 +64,7 @@ function row(opts: {
     negativeEquity: opts.negativeEquity ?? false,
     optionsLiquid: opts.optionsLiquid ?? true,
     annualDividend: 0,
+    fvTrend: opts.fvTrend ?? "insufficient_data",
   };
 }
 
@@ -83,6 +85,16 @@ describe("classifyRow", () => {
 
   it("watch: illiquid options chain demotes from ranked", () => {
     expect(classifyRow(row({ optionsLiquid: false }))).toBe("watch");
+  });
+
+  it("watch: declining FV trend demotes from ranked (avoid until trend reverses)", () => {
+    expect(classifyRow(row({ fvTrend: "declining" }))).toBe("watch");
+  });
+
+  it("ranked: stable / improving / unknown FV trend does not demote", () => {
+    expect(classifyRow(row({ fvTrend: "stable" }))).toBe("ranked");
+    expect(classifyRow(row({ fvTrend: "improving" }))).toBe("ranked");
+    expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
   });
 
   it("excluded: missing two category scores", () => {

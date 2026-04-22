@@ -110,6 +110,7 @@ function fakeRow(overrides: Partial<RankedRow> = {}): RankedRow {
     negativeEquity: false,
     optionsLiquid: true,
     annualDividend: 0,
+    fvTrend: "insufficient_data",
     ...overrides,
   };
 }

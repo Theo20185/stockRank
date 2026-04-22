@@ -20,3 +20,8 @@ export type {
   OptionsBestReturns,
   OptionsSummary,
 } from "./options.js";
+export type {
+  FvTrend,
+  FvTrendEntry,
+  FvTrendArtifact,
+} from "./fv-trend.js";
