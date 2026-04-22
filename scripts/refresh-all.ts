@@ -1,26 +1,27 @@
 #!/usr/bin/env tsx
 /**
- * Full refresh, deeper than `npm run refresh`. Three phases in order:
+ * Deeper refresh, on top of `npm run refresh`. Runs the back-test
+ * accuracy harness first (engine validation), then the standard
+ * refresh.
  *
- *   1. Re-pull the back-test cache via `--merge-cache`. Yahoo's
- *      fundamentalsTimeSeries is internally capped at ~5y of annual
- *      data; older periods age out of their rolling window over time.
- *      Merge mode fetches fresh AND keeps every date previously in
- *      the cache, so the long-tail historical data we accumulated
- *      doesn't drop. Also re-pulls the price chart and merges by date
- *      (Yahoo's adjclose can shift retroactively when dividends or
- *      splits happen, so fresh wins for shared dates).
- *   2. Recompute the FV-trend signal from the updated CSVs. Fast
- *      (seconds) — just reads the per-symbol back-test CSVs and
- *      regenerates `public/data/fv-trend.json`.
- *   3. Run the existing `npm run refresh` (ingest → tests → commit
- *      → push). The single commit produced by step 3 captures every
- *      changed file from steps 1-3 (snapshot, options summary,
- *      fv-trend.json, …).
+ * Two phases:
  *
- * Use this when you want the back-test data freshened in addition to
- * the daily snapshot. The regular `npm run refresh` skips steps 1-2
- * for daily speed.
+ *   1. Re-pull the back-test cache via `--merge-cache` and re-score
+ *      every symbol over the past 8y. This validates that the engine
+ *      still projects accurately at past dates. The accuracy CSV
+ *      (per-symbol, per-horizon hit rates) is the artifact to look at.
+ *      Yahoo's fundamentalsTimeSeries is internally capped at ~5y of
+ *      annual data, so merge mode keeps anything we previously cached
+ *      that has since aged out of Yahoo's rolling window.
+ *
+ *   2. Run the standard `npm run refresh` (ingest → fv-trend → tests
+ *      → build → commit → push). The single commit produced by step 2
+ *      captures every changed file from steps 1-2.
+ *
+ * Note: the FV-trend signal that drives the stock-detail sparkline is
+ * built by `npm run fv-trend` directly off the dated snapshot
+ * archive, NOT off the back-test CSVs. So step 1 is purely about
+ * engine validation now — daily refreshes don't need it.
  *
  * Usage:
  *   npm run refresh-all
@@ -30,11 +31,6 @@
 
 import { spawn } from "node:child_process";
 
-/**
- * Run a child process, stream output through to ours, resolve when
- * exit 0. Same shape as scripts/refresh.ts (intentional — keeps the
- * Windows .cmd / DEP0190 workaround in one mental model).
- */
 function runStreaming(cmd: string, cmdArgs: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const commandLine = [cmd, ...cmdArgs].join(" ");
@@ -51,7 +47,7 @@ async function main(): Promise<void> {
   const passthroughArgs = process.argv.slice(2);
   const startedAt = Date.now();
 
-  console.log("=== refresh-all (1/3): backtest with --merge-cache ===");
+  console.log("=== refresh-all (1/2): backtest with --merge-cache (engine validation) ===");
   await runStreaming("npm", [
     "run", "backtest", "--",
     "--all-sp500",
@@ -61,12 +57,7 @@ async function main(): Promise<void> {
     "--merge-cache",
   ]);
 
-  console.log("\n=== refresh-all (2/3): recompute fv-trend ===");
-  await runStreaming("npm", ["run", "fv-trend"]);
-
-  console.log("\n=== refresh-all (3/3): standard refresh (ingest + tests + commit) ===");
-  // Forward any remaining args (--skip-tests, --no-push, --message …)
-  // through to the existing refresh script.
+  console.log("\n=== refresh-all (2/2): standard refresh (ingest + fv-trend + tests + commit) ===");
   const refreshArgs = ["run", "refresh"];
   if (passthroughArgs.length > 0) {
     refreshArgs.push("--", ...passthroughArgs);

@@ -151,6 +151,14 @@ async function main(): Promise<void> {
   console.log("=== refresh: ingest ===");
   const ingestLog = await runStreaming("npm", ["run", "ingest"]);
 
+  // Recompute the FV-trend artifact off the dated snapshot archive
+  // now that ingest has just appended today's dated snapshot. Cheap
+  // (seconds even at hundreds of archives) and must run before the
+  // commit so the updated `public/data/fv-trend.json` rides along
+  // with the new snapshot.
+  console.log("\n=== refresh: fv-trend ===");
+  await runStreaming("npm", ["run", "fv-trend"]);
+
   if (!args.skipTests) {
     console.log("\n=== refresh: tests ===");
     await runStreaming("npx", ["vitest", "run"]);
