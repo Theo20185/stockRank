@@ -1,0 +1,98 @@
+{
+  "symbol": "TKO",
+  "fetchedAt": "2026-04-22T17:56:56.522Z",
+  "currentPrice": 185.1,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 4063.817795353638,
+          "contract": {
+            "contractSymbol": "TKO270115P00185000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 185,
+            "bid": 20.1,
+            "ask": 21.6,
+            "lastPrice": 21.2,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.3429631134033203,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10864864864864866,
+          "notAssignedAnnualizedPct": 0.147972972972973,
+          "effectiveCostBasis": 164.9,
+          "effectiveDiscountPct": 0.10913019989195023,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 4063.817795353638,
+          "contract": {
+            "contractSymbol": "TKO280121C00320000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 320,
+            "bid": 2,
+            "ask": 6.5,
+            "lastPrice": 6.5,
+            "volume": 2,
+            "openInterest": 6,
+            "impliedVolatility": 0.3505924316406249,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.040565006253561575,
+          "staticAnnualizedPct": 0.023170934714475705,
+          "assignedReturnPct": 0.7693602520666356,
+          "assignedAnnualizedPct": 0.4394624288017559,
+          "effectiveCostBasis": 183.1,
+          "effectiveDiscountPct": 0.010804970286331712
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 4063.817795353638,
+          "contract": {
+            "contractSymbol": "TKO280121P00185000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 185,
+            "bid": 28,
+            "ask": 33,
+            "lastPrice": 27.04,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.3411625942993164,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15135135135135136,
+          "notAssignedAnnualizedPct": 0.08645264983293154,
+          "effectiveCostBasis": 157,
+          "effectiveDiscountPct": 0.15180983252296054,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

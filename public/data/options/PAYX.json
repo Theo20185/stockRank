@@ -1,7 +1,7 @@
 {
   "symbol": "PAYX",
-  "fetchedAt": "2026-04-22T15:59:09.553Z",
-  "currentPrice": 92.995,
+  "fetchedAt": "2026-04-22T17:56:35.173Z",
+  "currentPrice": 92.86,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,46 +10,46 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 127.5304926517741,
+          "anchorPrice": 131.35414987375,
           "contract": {
-            "contractSymbol": "PAYX270115C00130000",
+            "contractSymbol": "PAYX270115C00135000",
             "expiration": "2027-01-15",
             "daysToExpiry": 268,
-            "strike": 130,
-            "bid": 0.95,
-            "ask": 2.45,
-            "lastPrice": 1.4,
-            "volume": 15,
-            "openInterest": 1139,
-            "impliedVolatility": 0.3629214099121094,
+            "strike": 135,
+            "bid": 0.4,
+            "ask": 2.35,
+            "lastPrice": 1.75,
+            "volume": 20,
+            "openInterest": 21,
+            "impliedVolatility": 0.38440557006835935,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04404708083436508,
-          "staticAnnualizedPct": 0.05998949441993751,
-          "assignedReturnPct": 0.4419717004375695,
-          "assignedAnnualizedPct": 0.6019390696257942,
-          "effectiveCostBasis": 92.045,
-          "effectiveDiscountPct": 0.010215602989408032
+          "staticReturnPct": 0.03815268175099354,
+          "staticAnnualizedPct": 0.051961674772808365,
+          "assignedReturnPct": 0.49195410324571676,
+          "assignedAnnualizedPct": 0.6700121182264426,
+          "effectiveCostBasis": 92.46,
+          "effectiveDiscountPct": 0.004307559767391773
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 127.5304926517741,
+          "anchorPrice": 131.35414987375,
           "contract": {
             "contractSymbol": "PAYX270115P00090000",
             "expiration": "2027-01-15",
             "daysToExpiry": 268,
             "strike": 90,
             "bid": 8.6,
-            "ask": 10.6,
+            "ask": 9.5,
             "lastPrice": 9.8,
             "volume": 1,
             "openInterest": 73,
-            "impliedVolatility": 0.3860535028076171,
+            "impliedVolatility": 0.34857829162597653,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -57,7 +57,7 @@
           "notAssignedReturnPct": 0.09555555555555555,
           "notAssignedAnnualizedPct": 0.13014096185737975,
           "effectiveCostBasis": 81.4,
-          "effectiveDiscountPct": 0.12468412280230118,
+          "effectiveDiscountPct": 0.12341158733577422,
           "inTheMoney": false
         }
       ]
@@ -65,39 +65,12 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 127.5304926517741,
-          "contract": {
-            "contractSymbol": "PAYX280121C00130000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 639,
-            "strike": 130,
-            "bid": 2.5,
-            "ask": 7.5,
-            "lastPrice": 3.3,
-            "volume": 5,
-            "openInterest": 18,
-            "impliedVolatility": 0.3636233071899414,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.10754851778744916,
-          "staticAnnualizedPct": 0.0614322519443176,
-          "assignedReturnPct": 0.5054731373906536,
-          "assignedAnnualizedPct": 0.2887287873984172,
-          "effectiveCostBasis": 90.495,
-          "effectiveDiscountPct": 0.026883165761600086
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 127.5304926517741,
+          "anchorPrice": 131.35414987375,
           "contract": {
             "contractSymbol": "PAYX280121P00090000",
             "expiration": "2028-01-21",
@@ -108,7 +81,7 @@
             "lastPrice": 15.27,
             "volume": 13,
             "openInterest": 23,
-            "impliedVolatility": 0.3862976409912109,
+            "impliedVolatility": 0.38519901916503896,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -116,7 +89,7 @@
           "notAssignedReturnPct": 0.13333333333333333,
           "notAssignedAnnualizedPct": 0.07616066770996349,
           "effectiveCostBasis": 78,
-          "effectiveDiscountPct": 0.16124522823807735,
+          "effectiveDiscountPct": 0.16002584535860434,
           "inTheMoney": false
         }
       ]
