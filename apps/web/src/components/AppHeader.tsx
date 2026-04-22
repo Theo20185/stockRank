@@ -23,8 +23,6 @@ export function AppHeader({ title, subtitle, onBack, right }: AppHeaderProps) {
           >
             ‹
           </button>
-        ) : hasTitle ? (
-          <span className="app-header__back app-header__back--placeholder" aria-hidden />
         ) : null}
         {hasTitle && <h1 className="app-header__title">{title}</h1>}
         {right && <div className="app-header__right">{right}</div>}
