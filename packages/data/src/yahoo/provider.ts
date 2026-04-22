@@ -194,6 +194,32 @@ export class YahooProvider implements MarketDataProvider {
       reportError(makeError(symbol, "chart", err));
     }
 
+    // Historical monthly chart, 6 years back, used to populate
+    // priceAtYearEnd on each annual period. Without this, the FV
+    // engine's own-historical anchors collapse to current price by
+    // mathematical construction (TTM_PE × current_EPS = price).
+    // Monthly granularity is plenty for year-end lookups; daily would
+    // 30× the response size without adding signal.
+    let historicalCloses: Array<{ date: string; close: number }> = [];
+    try {
+      const longChart = await yahooFinance.chart(yahooSymbol, {
+        period1: priceFromMinusYears(options.priceTo, 6),
+        period2: options.priceTo,
+        interval: "1mo",
+      });
+      historicalCloses = (longChart.quotes ?? [])
+        .filter(
+          (q): q is typeof q & { close: number; date: Date } =>
+            q.close !== null && q.close !== undefined && q.date instanceof Date,
+        )
+        .map((q) => ({
+          date: q.date.toISOString().slice(0, 10),
+          close: q.close,
+        }));
+    } catch (err) {
+      reportError(makeError(symbol, "chart-historical", err));
+    }
+
     const summaryDetail = summary.summaryDetail;
     const averageVolume =
       priceBars.length > 0
@@ -229,7 +255,7 @@ export class YahooProvider implements MarketDataProvider {
       }
     }
 
-    const annual = mapAnnualPeriods(fundamentals, fxRate);
+    const annual = mapAnnualPeriods(fundamentals, fxRate, historicalCloses);
     const ttm = mapTtm(summary, currentPrice, annual[0], fxRate);
 
     // Cross-check spot price against marketCap / latest share count.
@@ -315,12 +341,27 @@ function fx(value: number | null, rate: number): number | null {
 function mapAnnualPeriods(
   rows: YahooFundamentalsRow[],
   fxRate: number,
+  historicalCloses: Array<{ date: string; close: number }> = [],
 ): AnnualPeriod[] {
   // fundamentalsTimeSeries returns rows oldest-first. Sort newest-first for
   // consistency with the rest of the codebase.
   const sorted = [...rows].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
+
+  // Sort historical chart oldest-first so we can walk forward to find
+  // the close at-or-before each period-end.
+  const closesAsc = [...historicalCloses].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  function closeAtOrBefore(targetIso: string): number | null {
+    let result: number | null = null;
+    for (const q of closesAsc) {
+      if (q.date <= targetIso) result = q.close;
+      else break;
+    }
+    return result;
+  }
 
   return sorted.map((row) => {
     const ebit = fx(n(row.EBIT) ?? n(row.operatingIncome), fxRate);
@@ -350,15 +391,22 @@ function mapAnnualPeriods(
       currentLiabilities: fx(n(row.currentLiabilities), fxRate),
     });
 
+    const periodEndDate = new Date(row.date).toISOString().slice(0, 10);
     const period: AnnualPeriod = {
       fiscalYear: fiscalYearOf(row.date),
-      periodEndDate: new Date(row.date).toISOString().slice(0, 10),
+      periodEndDate,
       filingDate: null,
       // After FX conversion every numeric value is in the quote currency
       // (USD for ADR listings). The literal "USD" here is loose — to be
       // strictly correct we'd carry the actual quote currency, but for our
       // S&P 500 + selected ADR universe this is true.
       reportedCurrency: "USD",
+      // Close at or just before the period-end date, looked up from the
+      // historical monthly chart fetched alongside the fundamentals.
+      // FX rate doesn't apply: chart prices are already in the listing's
+      // quote currency. Null when the chart didn't reach far enough back
+      // (rare — only the oldest period of a long history).
+      priceAtYearEnd: closeAtOrBefore(periodEndDate),
       income: {
         revenue: fx(n(row.totalRevenue), fxRate),
         grossProfit: fx(n(row.grossProfit), fxRate),

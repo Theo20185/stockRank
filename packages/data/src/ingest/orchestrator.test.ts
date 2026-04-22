@@ -40,6 +40,7 @@ function makeCompany(symbol: string): CompanySnapshot {
       periodEndDate: `${2025 - i}-12-31`,
       filingDate: null,
       reportedCurrency: "USD",
+      priceAtYearEnd: null,
       income: {
         revenue: 100_000_000_000,
         grossProfit: 40_000_000_000,

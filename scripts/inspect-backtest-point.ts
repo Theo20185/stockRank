@@ -44,6 +44,7 @@ async function pullAnnuals(symbol: string, period1: string): Promise<AnnualPerio
         periodEndDate,
         filingDate: null,
         reportedCurrency: "USD",
+        priceAtYearEnd: null,
         income: {
           revenue: n(row["totalRevenue"]),
           grossProfit: n(row["grossProfit"]),

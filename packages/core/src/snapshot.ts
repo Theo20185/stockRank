@@ -83,6 +83,16 @@ export type AnnualPeriod = {
   filingDate: string | null;
   reportedCurrency: string;
 
+  /**
+   * Closing price on (or just before) `periodEndDate`. Drives the
+   * own-historical fair-value anchors — without it, those anchors
+   * collapse to the current price by mathematical construction
+   * (TTM_PE × current_EPS = current_price). Null on older snapshots
+   * that predate this field; the FV engine falls back to the legacy
+   * placeholder behavior in that case.
+   */
+  priceAtYearEnd: number | null;
+
   income: AnnualIncome;
   balance: AnnualBalance;
   cashFlow: AnnualCashFlow;

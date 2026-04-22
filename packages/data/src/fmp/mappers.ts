@@ -79,6 +79,11 @@ export function mapAnnualPeriods(inputs: AnnualInputs): AnnualPeriod[] {
       periodEndDate: income.date,
       filingDate: income.filingDate ?? null,
       reportedCurrency: income.reportedCurrency,
+      // FMP mapper doesn't have access to historical price data; the
+      // production pipeline uses the Yahoo provider which populates
+      // this. FMP-sourced rows just leave it null and the FV engine
+      // falls back to the legacy placeholder behavior for those.
+      priceAtYearEnd: null,
       income: {
         revenue: n(income.revenue),
         grossProfit: n(income.grossProfit),

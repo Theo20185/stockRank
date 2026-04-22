@@ -10,6 +10,7 @@ export function makePeriod(overrides: Partial<AnnualPeriod> = {}): AnnualPeriod 
     periodEndDate: "2025-12-31",
     filingDate: "2026-01-31",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 100_000_000_000,
       grossProfit: 40_000_000_000,

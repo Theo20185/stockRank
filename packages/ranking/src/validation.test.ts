@@ -24,6 +24,7 @@ const NVO_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2025-12-31",
     filingDate: "2026-02-05",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 48_588_000_000,
       grossProfit: 41_652_000_000,
@@ -57,6 +58,7 @@ const NVO_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2024-12-31",
     filingDate: "2025-02-05",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 40_314_000_000,
       grossProfit: 35_319_000_000,
@@ -90,6 +92,7 @@ const NVO_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2023-12-31",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 34_445_000_000,
       grossProfit: 30_222_000_000,
@@ -122,6 +125,7 @@ const NVO_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2022-12-31",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 25_425_000_000,
       grossProfit: 22_279_000_000,
@@ -154,6 +158,7 @@ const NVO_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2021-12-31",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 21_537_000_000,
       grossProfit: 18_730_000_000,
@@ -219,6 +224,7 @@ const TGT_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2026-01-31",
     filingDate: "2026-03-11",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 104_780_000_000,
       grossProfit: 29_269_000_000,
@@ -251,6 +257,7 @@ const TGT_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2025-02-01",
     filingDate: "2025-03-12",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 106_566_000_000,
       grossProfit: 30_064_000_000,
@@ -283,6 +290,7 @@ const TGT_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2024-02-03",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 107_412_000_000,
       grossProfit: 29_584_000_000,
@@ -315,6 +323,7 @@ const TGT_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2023-01-28",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 109_120_000_000,
       grossProfit: 26_814_000_000,
@@ -347,6 +356,7 @@ const TGT_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2022-01-29",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 106_005_000_000,
       grossProfit: 31_042_000_000,
@@ -414,6 +424,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2024-12-28",
     filingDate: "2025-01-31",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 53_101_000_000,
       grossProfit: 17_345_000_000,
@@ -446,6 +457,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2023-12-30",
     filingDate: "2024-01-26",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 54_228_000_000,
       grossProfit: 21_711_000_000,
@@ -478,6 +490,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2022-12-31",
     filingDate: "2023-01-27",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 63_054_000_000,
       grossProfit: 26_866_000_000,
@@ -510,6 +523,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2021-12-25",
     filingDate: "2022-01-27",
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 79_024_000_000,
       grossProfit: 43_815_000_000,
@@ -543,6 +557,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2020-12-26",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 77_867_000_000,
       grossProfit: 43_614_000_000,
@@ -578,6 +593,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2019-12-28",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 71_965_000_000,
       grossProfit: 42_140_000_000,
@@ -610,6 +626,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2018-12-29",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 70_848_000_000,
       grossProfit: 43_737_000_000,
@@ -642,6 +659,7 @@ const INTC_PERIODS: AnnualPeriod[] = [
     periodEndDate: "2017-12-30",
     filingDate: null,
     reportedCurrency: "USD",
+    priceAtYearEnd: null,
     income: {
       revenue: 62_761_000_000,
       grossProfit: 39_904_000_000,

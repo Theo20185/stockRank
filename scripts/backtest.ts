@@ -433,6 +433,10 @@ function mapAnnualRow(row: Record<string, unknown>): AnnualPeriod | null {
     periodEndDate,
     filingDate: null,
     reportedCurrency: "USD",
+    // Populated later in buildSnapshotAtDate where the price chart is
+    // available; the raw mapping from Yahoo's fundamentalsTimeSeries
+    // doesn't carry historical price.
+    priceAtYearEnd: null,
     income: {
       revenue: n(row["totalRevenue"]),
       grossProfit: n(row["grossProfit"]),
@@ -488,10 +492,17 @@ function buildSnapshotAtDate(
   history: SymbolHistory,
   dateIso: string,
 ): CompanySnapshot | null {
-  const annual = annualPublicAsOf(history, dateIso);
-  if (annual.length === 0) return null;
+  const annualPublic = annualPublicAsOf(history, dateIso);
+  if (annualPublic.length === 0) return null;
   const price = priceAtOrBefore(history, dateIso);
   if (price === null) return null;
+  // Populate priceAtYearEnd on each annual period from the chart cache
+  // so the FV engine's own-historical anchors compute true historical
+  // multiples instead of degenerating to current price.
+  const annual = annualPublic.map((p) => ({
+    ...p,
+    priceAtYearEnd: priceAtOrBefore(history, p.periodEndDate),
+  }));
   const recent = annual[0]!;
   const shares = recent.income.sharesDiluted ?? null;
   const marketCap = shares !== null ? shares * price : 0;
