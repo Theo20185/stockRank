@@ -39,6 +39,16 @@ export type {
 export { computeCallReturns, computePutReturns } from "./options/returns.js";
 export { snapStrike } from "./options/strike-snap.js";
 export { computeTradeComparison, SPAXX_RATE } from "./trade-comparison/index.js";
+export {
+  bootstrapMeanCi,
+  groupBy,
+  mean,
+  mulberry32,
+  quantileSorted,
+  quartileBin,
+  wilsonInterval,
+} from "./stats.js";
+export type { Interval } from "./stats.js";
 export type {
   ProjectedEndCase,
   TradeComparison,

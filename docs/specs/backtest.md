@@ -1,6 +1,6 @@
 # Spec: Back-test framework
 
-**Status:** Phase 1 (engine validation) implemented and shipping in `scripts/backtest.ts`. Phase 2 (forward-accuracy measurement) drafted here; not yet implemented.
+**Status:** Phase 1 (engine validation) and Phase 2 (forward-accuracy measurement) both implemented in `scripts/backtest.ts`. Phase 2b (point-in-time S&P 500 universe) is still deferred.
 
 ## 1. Purpose
 
@@ -152,11 +152,15 @@ Phase 2 without `--accuracy` is a no-op — Phase 1 output stays unchanged for u
 
 ## 6. Open decisions before coding
 
-1. **CSV schema:** wide (one row per snapshot, columns `realizedReturn_1y, realizedReturn_3y, …`) vs. long (one row per snapshot × horizon)? Wide is easier for human inspection; long is easier for downstream pivot analysis. **Default proposal: wide for the per-symbol CSV, long inside the aggregate report.**
-2. **SPY baseline source:** pull `^GSPC` adj close from Yahoo at the same dates, or pull `SPY` (which has dividends baked in)? **Default proposal: `SPY`** — it's the more honest comparison since the user could actually buy it.
-3. **Universe for the headline number:** all symbols × all snapshots, or one snapshot per symbol per year? See §3.8 "snapshot independence." **Default proposal: deduplicate to one per symbol per year for headlines; keep per-month rows in the raw CSV for inspection.**
-4. **What counts as "Candidates" historically?** The bucket classifier needs `optionsLiquid`, which we don't have for historical dates (we never fetched historical options chains). **Default proposal: treat all back-test names as `optionsLiquid: true` for the historical bucket assignment, and document.**
-5. **First-class output location:** `tmp/backtest/accuracy.md` (transient) vs. `docs/backtest-accuracy-YYYY-MM-DD.md` (committed)? **Default proposal: write to `tmp/backtest/accuracy.md` always; user copies to `docs/` when a finding is worth keeping.**
+1. **CSV schema:** ~~wide vs long~~ → **Decided: long throughout.** One row per snapshot × horizon, both in per-symbol CSV and inside the aggregation report. Humans aren't the consumer — the aggregation engine is — so the format that's natural for `groupBy(horizon)` wins. (User decision, 2026-04-22.)
+2. **SPY baseline source:** ~~`^GSPC` vs `SPY`~~ → **Decided: `SPY`.** Total-return apples-to-apples (subject's adjusted close already includes dividends), it's what the user could actually buy as the alternative, the 0.0945% expense ratio is a real cost our model has to beat. (User decision, 2026-04-22.)
+3. **Universe for the headline number:** ~~monthly vs yearly dedup~~ → **Decided: both (Option C).** Headline metrics use one snapshot per (symbol, year) — the first month each symbol has a complete forward window, mechanical no-cherry-pick rule. Same metrics also computed across all monthly snapshots and shown as a sensitivity check; if monthly and yearly disagree dramatically we learn something about sampling-cadence bias. (User decision, 2026-04-22.)
+4. **Historical "Candidates" without options-liquidity data:** ~~choose one proxy~~ → **Decided: Option D — two parallel bucket assignments.** Yahoo doesn't expose historical option chains, so the options-liquid gate has no honest historical value. Run the bucket classifier twice at each snapshot:
+   - **Gate-off Candidates** — apply all five Candidate criteria *except* `optionsLiquid`. Tests "did the model's value picks recover?"
+   - **Today-liquid Candidates** — same as gate-off, then filter to names that pass the options-liquid gate *as of today's snapshot*. Tests "would actionable covered-call targets have recovered?"
+
+   Carry both columns through to the headline table. The gap between the two hit rates quantifies the options-liquidity gate's selection contribution — if today-liquid consistently underperforms gate-off, the gate is throwing out winners; if it outperforms, the gate is genuine signal. (User decision, 2026-04-22.)
+5. **First-class output location:** ~~`tmp/` vs `docs/`~~ → **Decided: Option C — default `tmp/backtest/accuracy.md`; `--archive` flag also writes `docs/backtest-accuracy-<YYYY-MM-DD>.md`.** Casual iteration stays out of git; intentional runs get one-keystroke posterity. Matches existing precedent (`docs/backtest-findings-2026-04-21.md` was a hand-copy from a `tmp/` run). (User decision, 2026-04-22.)
 
 ## 7. Phase ordering
 
