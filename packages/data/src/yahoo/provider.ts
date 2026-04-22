@@ -82,6 +82,13 @@ type YahooQuoteSummary = {
     operatingCashflow?: number | null;
     grossMargins?: number | null;
     profitMargins?: number | null;
+    /** Yahoo's authoritative answer for what currency this company's
+     * financial statements are reported in. Differs from the listing
+     * currency for ADRs (e.g., NVO listed in USD reports in DKK) but
+     * also for cross-border listings (LULU is HQ Canada but reports
+     * in USD). When present, this is the truth — the country-based
+     * inference is a fallback only. */
+    financialCurrency?: string | null;
   };
   price?: {
     longName?: string;
@@ -261,7 +268,14 @@ export class YahooProvider implements MarketDataProvider {
     // so the snapshot is internally consistent.
     const quoteCurrency =
       summaryDetail?.currency ?? price.currency ?? "USD";
-    const reportingCurrency = inferReportingCurrency(profile.country);
+    // Prefer Yahoo's authoritative financialCurrency when present;
+    // fall back to country-based inference. Country-based was wrong
+    // for cross-border listings like LULU (HQ Canada, reports in USD)
+    // — it would apply spurious CAD→USD conversion to USD-denominated
+    // statements, slashing all per-share figures by ~27%.
+    const reportingCurrency =
+      summary.financialData?.financialCurrency ??
+      inferReportingCurrency(profile.country);
     let fxRate = 1;
     if (reportingCurrency !== quoteCurrency) {
       try {
