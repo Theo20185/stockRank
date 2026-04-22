@@ -50,10 +50,19 @@ function parseArgs(argv: string[]): Args {
  * Run a child process, stream stdout/stderr through to ours, capture
  * combined output for later parsing, and resolve when it exits 0.
  * Rejects on non-zero exit.
+ *
+ * Implementation note — DEP0190: passing an args array alongside
+ * `shell: true` is deprecated because Node concatenates args without
+ * shell-escaping them. We need `shell: true` on Windows so spawn can
+ * find npm.cmd / npx.cmd via PATHEXT (Node's CVE-2024-27980 mitigation
+ * blocks spawning .cmd/.bat without a shell). Workaround: concatenate
+ * everything into a single command-line string ourselves. All callers
+ * pass hardcoded args (no user input), so there's no injection surface.
  */
 function runStreaming(cmd: string, cmdArgs: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
-    const child = spawn(cmd, cmdArgs, { stdio: ["inherit", "pipe", "pipe"], shell: true });
+    const commandLine = [cmd, ...cmdArgs].join(" ");
+    const child = spawn(commandLine, { stdio: ["inherit", "pipe", "pipe"], shell: true });
     let combined = "";
     child.stdout?.on("data", (d: Buffer) => {
       const s = d.toString("utf8");

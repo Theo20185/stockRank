@@ -1,125 +1,19 @@
 {
   "symbol": "KMB",
-  "fetchedAt": "2026-04-21T23:17:02.327Z",
+  "fetchedAt": "2026-04-22T11:51:10.252Z",
   "currentPrice": 96.6,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 120.65061601000002,
-          "contract": {
-            "contractSymbol": "KMB270115C00125000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 125,
-            "bid": 1.05,
-            "ask": 1.85,
-            "lastPrice": 1.5,
-            "volume": 10,
-            "openInterest": 270,
-            "impliedVolatility": 0.276801665649414,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.049192850677665274,
-          "staticAnnualizedPct": 0.06674866355891385,
-          "assignedReturnPct": 0.3431887098909158,
-          "assignedAnnualizedPct": 0.46566497810477425,
-          "effectiveCostBasis": 95.55,
-          "effectiveDiscountPct": 0.010869565217391306
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 120.65061601000002,
-          "contract": {
-            "contractSymbol": "KMB270115P00095000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 95,
-            "bid": 8.3,
-            "ask": 9,
-            "lastPrice": 8.1,
-            "volume": 26,
-            "openInterest": 378,
-            "impliedVolatility": 0.29846892944335934,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08736842105263158,
-          "notAssignedAnnualizedPct": 0.11854822930933281,
-          "effectiveCostBasis": 86.7,
-          "effectiveDiscountPct": 0.10248447204968936,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 120.65061601000002,
-          "contract": {
-            "contractSymbol": "KMB280121C00125000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 125,
-            "bid": 3.5,
-            "ask": 6.5,
-            "lastPrice": 5.2,
-            "volume": 1,
-            "openInterest": 489,
-            "impliedVolatility": 0.2948373739624023,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12740996098947785,
-          "staticAnnualizedPct": 0.07266349337681159,
-          "assignedReturnPct": 0.42140582020272843,
-          "assignedAnnualizedPct": 0.24033300683436856,
-          "effectiveCostBasis": 93.1,
-          "effectiveDiscountPct": 0.036231884057971016
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 120.65061601000002,
-          "contract": {
-            "contractSymbol": "KMB280121P00095000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 95,
-            "bid": 11,
-            "ask": 16,
-            "lastPrice": 12.55,
-            "volume": 10,
-            "openInterest": 160,
-            "impliedVolatility": 0.3343572424316406,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11578947368421053,
-          "notAssignedAnnualizedPct": 0.06603618421052632,
-          "effectiveCostBasis": 84,
-          "effectiveDiscountPct": 0.1304347826086956,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

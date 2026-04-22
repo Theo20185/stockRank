@@ -1,125 +1,19 @@
 {
   "symbol": "TXN",
-  "fetchedAt": "2026-04-21T23:17:18.062Z",
+  "fetchedAt": "2026-04-22T11:51:25.770Z",
   "currentPrice": 233.15,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 256.8517935008833,
-          "contract": {
-            "contractSymbol": "TXN270115C00260000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 260,
-            "bid": 17.9,
-            "ask": 19.9,
-            "lastPrice": 19.5,
-            "volume": 40,
-            "openInterest": 981,
-            "impliedVolatility": 0.37448745635986325,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09468337721831967,
-          "staticAnnualizedPct": 0.12847372745236685,
-          "assignedReturnPct": 0.20984529014990877,
-          "assignedAnnualizedPct": 0.2847343156309171,
-          "effectiveCostBasis": 215.25,
-          "effectiveDiscountPct": 0.07677460862105939
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 256.8517935008833,
-          "contract": {
-            "contractSymbol": "TXN270115P00230000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 230,
-            "bid": 25.35,
-            "ask": 26.75,
-            "lastPrice": 24.9,
-            "volume": 4,
-            "openInterest": 378,
-            "impliedVolatility": 0.35764192169189457,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11021739130434784,
-          "notAssignedAnnualizedPct": 0.1495514789073865,
-          "effectiveCostBasis": 204.65,
-          "effectiveDiscountPct": 0.12223890199442419,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 256.8517935008833,
-          "contract": {
-            "contractSymbol": "TXN280121C00260000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 260,
-            "bid": 32.5,
-            "ask": 35.5,
-            "lastPrice": 31.1,
-            "volume": 13,
-            "openInterest": 76,
-            "impliedVolatility": 0.3700471931457519,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.18200346180138016,
-          "staticAnnualizedPct": 0.10379884930859962,
-          "assignedReturnPct": 0.2971653747329693,
-          "assignedAnnualizedPct": 0.16947712777739654,
-          "effectiveCostBasis": 200.65,
-          "effectiveDiscountPct": 0.13939523911644863
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 256.8517935008833,
-          "contract": {
-            "contractSymbol": "TXN280121P00230000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 230,
-            "bid": 36.55,
-            "ask": 39,
-            "lastPrice": 37.98,
-            "volume": 3,
-            "openInterest": 29,
-            "impliedVolatility": 0.3341588801574707,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.15891304347826085,
-          "notAssignedAnnualizedPct": 0.09063009510869564,
-          "effectiveCostBasis": 193.45,
-          "effectiveDiscountPct": 0.1702766459360927,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

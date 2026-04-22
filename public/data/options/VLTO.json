@@ -1,125 +1,19 @@
 {
   "symbol": "VLTO",
-  "fetchedAt": "2026-04-21T23:15:38.516Z",
+  "fetchedAt": "2026-04-22T11:49:57.603Z",
   "currentPrice": 89.68,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 89.68000439999999,
-          "contract": {
-            "contractSymbol": "VLTO260515C00090000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 90,
-            "bid": 2.4,
-            "ask": 3.4,
-            "lastPrice": 4.5,
-            "volume": 4,
-            "openInterest": 4,
-            "impliedVolatility": 0.3794007373046875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.02714318966676035,
-          "staticAnnualizedPct": 0.41280267618198035,
-          "assignedReturnPct": 0.03071143230725983,
-          "assignedAnnualizedPct": 0.4670696996729099,
-          "effectiveCostBasis": 87.28,
-          "effectiveDiscountPct": 0.026761819803746652
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 89.68000439999999,
-          "contract": {
-            "contractSymbol": "VLTO260515P00085000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 85,
-            "bid": 0.55,
-            "ask": 1.2,
-            "lastPrice": 0.75,
-            "volume": 1,
-            "openInterest": 11,
-            "impliedVolatility": 0.32617861328125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.006470588235294119,
-          "notAssignedAnnualizedPct": 0.09840686274509806,
-          "effectiveCostBasis": 84.45,
-          "effectiveDiscountPct": 0.05831846565566463,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 89.68000439999999,
-          "contract": {
-            "contractSymbol": "VLTO260717C00090000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 87,
-            "strike": 90,
-            "bid": 4.3,
-            "ask": 5,
-            "lastPrice": 5.4,
-            "volume": 2,
-            "openInterest": 34,
-            "impliedVolatility": 0.2933420275878905,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.049330726235137415,
-          "staticAnnualizedPct": 0.20696224225086388,
-          "assignedReturnPct": 0.052898968875636894,
-          "assignedAnnualizedPct": 0.22193245562767205,
-          "effectiveCostBasis": 85.38000000000001,
-          "effectiveDiscountPct": 0.04794826048171275
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 89.68000439999999,
-          "contract": {
-            "contractSymbol": "VLTO260717P00085000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 87,
-            "strike": 85,
-            "bid": 1.85,
-            "ask": 2.55,
-            "lastPrice": 1.7,
-            "volume": 2,
-            "openInterest": 22,
-            "impliedVolatility": 0.26380130737304686,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.021764705882352943,
-          "notAssignedAnnualizedPct": 0.09131169709263016,
-          "effectiveCostBasis": 83.15,
-          "effectiveDiscountPct": 0.07281445138269403,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

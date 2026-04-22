@@ -1,125 +1,19 @@
 {
   "symbol": "CTRA",
-  "fetchedAt": "2026-04-21T23:16:27.276Z",
+  "fetchedAt": "2026-04-22T11:50:42.357Z",
   "currentPrice": 31.85,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 37.8602429369251,
-          "contract": {
-            "contractSymbol": "CTRA270115C00040000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 40,
-            "bid": 1.2,
-            "ask": 2.5,
-            "lastPrice": 1.35,
-            "volume": 5,
-            "openInterest": 216,
-            "impliedVolatility": 0.4647270324707031,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.05831222480655039,
-          "staticAnnualizedPct": 0.07912253551818176,
-          "assignedReturnPct": 0.3141991949792348,
-          "assignedAnnualizedPct": 0.4263297627041662,
-          "effectiveCostBasis": 30.650000000000002,
-          "effectiveDiscountPct": 0.03767660910518053
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 37.8602429369251,
-          "contract": {
-            "contractSymbol": "CTRA270115P00030000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 30,
-            "bid": 2.5,
-            "ask": 3.2,
-            "lastPrice": 2.8,
-            "volume": 5,
-            "openInterest": 227,
-            "impliedVolatility": 0.38440557006835935,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08333333333333333,
-          "notAssignedAnnualizedPct": 0.11307311028500619,
-          "effectiveCostBasis": 27.5,
-          "effectiveDiscountPct": 0.13657770800627947,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 37.8602429369251,
-          "contract": {
-            "contractSymbol": "CTRA280121C00040000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 40,
-            "bid": 1.75,
-            "ask": 5.5,
-            "lastPrice": 2.8,
-            "volume": 5,
-            "openInterest": 134,
-            "impliedVolatility": 0.4836477416992188,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.1040409436025892,
-          "staticAnnualizedPct": 0.05933585064835165,
-          "assignedReturnPct": 0.3599279137752736,
-          "assignedAnnualizedPct": 0.20527138832496072,
-          "effectiveCostBasis": 30.1,
-          "effectiveDiscountPct": 0.054945054945054944
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 37.8602429369251,
-          "contract": {
-            "contractSymbol": "CTRA280121P00030000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 30,
-            "bid": 3,
-            "ask": 6.3,
-            "lastPrice": 4.4,
-            "volume": 50,
-            "openInterest": 60,
-            "impliedVolatility": 0.446294599609375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1,
-          "notAssignedAnnualizedPct": 0.057031250000000006,
-          "effectiveCostBasis": 27,
-          "effectiveDiscountPct": 0.15227629513343802,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

@@ -1,125 +1,19 @@
 {
   "symbol": "DAL",
-  "fetchedAt": "2026-04-21T23:15:14.104Z",
+  "fetchedAt": "2026-04-22T11:49:33.360Z",
   "currentPrice": 70.22,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 90.67539602446483,
-          "contract": {
-            "contractSymbol": "DAL270115C00095000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 95,
-            "bid": 3.35,
-            "ask": 3.55,
-            "lastPrice": 3.55,
-            "volume": 8,
-            "openInterest": 1981,
-            "impliedVolatility": 0.43317217224121096,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05544556208862167,
-          "staticAnnualizedPct": 0.07523282588233052,
-          "assignedReturnPct": 0.4083364763580606,
-          "assignedAnnualizedPct": 0.5540625050955097,
-          "effectiveCostBasis": 66.87,
-          "effectiveDiscountPct": 0.04770720592423811
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 90.67539602446483,
-          "contract": {
-            "contractSymbol": "DAL270115P00070000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 70,
-            "bid": 9,
-            "ask": 10.15,
-            "lastPrice": 9.41,
-            "volume": 11,
-            "openInterest": 530,
-            "impliedVolatility": 0.42902182312011716,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.12857142857142856,
-          "notAssignedAnnualizedPct": 0.17445565586829526,
-          "effectiveCostBasis": 61,
-          "effectiveDiscountPct": 0.1313016234690971,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 90.67539602446483,
-          "contract": {
-            "contractSymbol": "DAL280121C00095000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 95,
-            "bid": 7,
-            "ask": 9.8,
-            "lastPrice": 9.44,
-            "volume": 415,
-            "openInterest": 343,
-            "impliedVolatility": 0.4631401342773438,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11809765785027877,
-          "staticAnnualizedPct": 0.06735257049273712,
-          "assignedReturnPct": 0.4709885721197177,
-          "assignedAnnualizedPct": 0.2686106700370265,
-          "effectiveCostBasis": 63.22,
-          "effectiveDiscountPct": 0.09968669894616919
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 90.67539602446483,
-          "contract": {
-            "contractSymbol": "DAL280121P00070000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 70,
-            "bid": 12,
-            "ask": 15.55,
-            "lastPrice": 13.52,
-            "volume": 2,
-            "openInterest": 689,
-            "impliedVolatility": 0.4283504431152344,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.17142857142857143,
-          "notAssignedAnnualizedPct": 0.09776785714285714,
-          "effectiveCostBasis": 58,
-          "effectiveDiscountPct": 0.17402449444602677,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

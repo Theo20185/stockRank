@@ -1,125 +1,19 @@
 {
   "symbol": "VRSK",
-  "fetchedAt": "2026-04-21T23:16:20.239Z",
+  "fetchedAt": "2026-04-22T11:50:32.006Z",
   "currentPrice": 182.09,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 186.28871168,
-          "contract": {
-            "contractSymbol": "VRSK260918C00190000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 190,
-            "bid": 15.6,
-            "ask": 16.8,
-            "lastPrice": 16.7,
-            "volume": 6,
-            "openInterest": 18,
-            "impliedVolatility": 0.4310664804077149,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09023356431450051,
-          "staticAnnualizedPct": 0.21956833983195123,
-          "assignedReturnPct": 0.13367362142911415,
-          "assignedAnnualizedPct": 0.3252724788108444,
-          "effectiveCostBasis": 166.49,
-          "effectiveDiscountPct": 0.08567192047888407
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 186.28871168,
-          "contract": {
-            "contractSymbol": "VRSK260918P00180000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 180,
-            "bid": 15.8,
-            "ask": 17.7,
-            "lastPrice": 17,
-            "volume": 4,
-            "openInterest": 46,
-            "impliedVolatility": 0.4043333493041992,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08777777777777779,
-          "notAssignedAnnualizedPct": 0.2135925925925926,
-          "effectiveCostBasis": 164.2,
-          "effectiveDiscountPct": 0.09824811906200238,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 186.28871168,
-          "contract": {
-            "contractSymbol": "VRSK261218C00195000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 195,
-            "bid": 17.3,
-            "ask": 20,
-            "lastPrice": 17.13,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.4258480267333985,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.10233700419106312,
-          "staticAnnualizedPct": 0.15499172833916197,
-          "assignedReturnPct": 0.17323601017711396,
-          "assignedAnnualizedPct": 0.2623698909321435,
-          "effectiveCostBasis": 164.79,
-          "effectiveDiscountPct": 0.09500796309517272
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 186.28871168,
-          "contract": {
-            "contractSymbol": "VRSK261218P00165000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 165,
-            "bid": 11.7,
-            "ask": 14.8,
-            "lastPrice": 13.83,
-            "volume": 0,
-            "openInterest": 0,
-            "impliedVolatility": 0.3979247219848633,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07090909090909091,
-          "notAssignedAnnualizedPct": 0.10739343643907959,
-          "effectiveCostBasis": 153.3,
-          "effectiveDiscountPct": 0.15810862760173536,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

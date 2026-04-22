@@ -1,6 +1,6 @@
 {
   "symbol": "PCAR",
-  "fetchedAt": "2026-04-21T23:16:41.210Z",
+  "fetchedAt": "2026-04-22T11:50:49.314Z",
   "currentPrice": 126.18,
   "expirations": [
     {
@@ -14,112 +14,33 @@
           "contract": {
             "contractSymbol": "PCAR270115C00135000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 269,
+            "daysToExpiry": 268,
             "strike": 135,
             "bid": 0.5,
             "ask": 4.2,
             "lastPrice": 4,
             "volume": 1,
             "openInterest": 8,
-            "impliedVolatility": 0.17496552581787111,
+            "impliedVolatility": 0.1753012158203125,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.01155355128806163,
-          "staticAnnualizedPct": 0.015676751747741618,
-          "assignedReturnPct": 0.08145369394141393,
-          "assignedAnnualizedPct": 0.11052267021790366,
+          "staticReturnPct": 0.011672182162034233,
+          "staticAnnualizedPct": 0.015896815257994384,
+          "assignedReturnPct": 0.08157232481538652,
+          "assignedAnnualizedPct": 0.11109663640901522,
           "effectiveCostBasis": 125.68,
           "effectiveDiscountPct": 0.003962593120938342
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 134.35472120194638,
-          "contract": {
-            "contractSymbol": "PCAR270115P00125600",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 125.6,
-            "bid": 9.8,
-            "ask": 12.8,
-            "lastPrice": 11.7,
-            "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.3039620385742187,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07802547770700638,
-          "notAssignedAnnualizedPct": 0.1058710013496555,
-          "effectiveCostBasis": 115.8,
-          "effectiveDiscountPct": 0.08226343319068005,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 134.35472120194638,
-          "contract": {
-            "contractSymbol": "PCAR280121C00135000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 135,
-            "bid": 16,
-            "ask": 21,
-            "lastPrice": 19.7,
-            "volume": 0,
-            "openInterest": 2,
-            "impliedVolatility": 0.3681093463134766,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.144863252089205,
-          "staticAnnualizedPct": 0.08261732345712473,
-          "assignedReturnPct": 0.21476339474255732,
-          "assignedAnnualizedPct": 0.12248224856411472,
-          "effectiveCostBasis": 110.18,
-          "effectiveDiscountPct": 0.12680297987002695
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 134.35472120194638,
-          "contract": {
-            "contractSymbol": "PCAR280121P00118600",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 118.6,
-            "bid": 11.5,
-            "ask": 16.1,
-            "lastPrice": 14.38,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.3061592822265625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09696458684654301,
-          "notAssignedAnnualizedPct": 0.05530011593591906,
-          "effectiveCostBasis": 107.1,
-          "effectiveDiscountPct": 0.15121255349500723,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

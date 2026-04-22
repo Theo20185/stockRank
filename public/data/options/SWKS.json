@@ -1,6 +1,6 @@
 {
   "symbol": "SWKS",
-  "fetchedAt": "2026-04-21T23:15:40.207Z",
+  "fetchedAt": "2026-04-22T11:49:59.299Z",
   "currentPrice": 59.94,
   "expirations": [
     {
@@ -14,85 +14,32 @@
           "contract": {
             "contractSymbol": "SWKS270115C00072500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 269,
+            "daysToExpiry": 268,
             "strike": 72.5,
             "bid": 4.2,
             "ask": 5.5,
             "lastPrice": 3.55,
             "volume": 2,
             "openInterest": 381,
-            "impliedVolatility": 0.47192910888671874,
+            "impliedVolatility": 0.4727835925292969,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10529801527554952,
-          "staticAnnualizedPct": 0.14287648912853373,
-          "assignedReturnPct": 0.3148408914850924,
-          "assignedAnnualizedPct": 0.42720046614148227,
+          "staticReturnPct": 0.1048733562728098,
+          "staticAnnualizedPct": 0.14283125014767006,
+          "assignedReturnPct": 0.3144162324823527,
+          "assignedAnnualizedPct": 0.4282161375226072,
           "effectiveCostBasis": 55.739999999999995,
           "effectiveDiscountPct": 0.07007007007007007
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 70.73379236,
-          "contract": {
-            "contractSymbol": "SWKS270115P00057500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 57.5,
-            "bid": 6.7,
-            "ask": 10.2,
-            "lastPrice": 9.2,
-            "volume": 3,
-            "openInterest": 58,
-            "impliedVolatility": 0.5706219696044923,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11652173913043479,
-          "notAssignedAnnualizedPct": 0.1581057055115565,
-          "effectiveCostBasis": 50.8,
-          "effectiveDiscountPct": 0.15248581915248582,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 70.73379236,
-          "contract": {
-            "contractSymbol": "SWKS280121C00072500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 72.5,
-            "bid": 7,
-            "ask": 12,
-            "lastPrice": 8.6,
-            "volume": 4,
-            "openInterest": 616,
-            "impliedVolatility": 0.5130053582763672,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.20059714874692045,
-          "staticAnnualizedPct": 0.11440306139472807,
-          "assignedReturnPct": 0.4101400249564634,
-          "assignedAnnualizedPct": 0.23390798298298304,
-          "effectiveCostBasis": 52.94,
-          "effectiveDiscountPct": 0.11678345011678345
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
@@ -101,20 +48,20 @@
           "contract": {
             "contractSymbol": "SWKS280121P00057500",
             "expiration": "2028-01-21",
-            "daysToExpiry": 640,
+            "daysToExpiry": 639,
             "strike": 57.5,
             "bid": 13,
             "ask": 15.5,
             "lastPrice": 13.82,
             "volume": 1,
             "openInterest": 2,
-            "impliedVolatility": 0.5069629382324219,
+            "impliedVolatility": 0.5073901800537108,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.22608695652173913,
-          "notAssignedAnnualizedPct": 0.12894021739130435,
+          "notAssignedAnnualizedPct": 0.1291420017690685,
           "effectiveCostBasis": 44.5,
           "effectiveDiscountPct": 0.2575909242575909,
           "inTheMoney": false

@@ -1,125 +1,19 @@
 {
   "symbol": "ZBRA",
-  "fetchedAt": "2026-04-21T23:16:58.794Z",
+  "fetchedAt": "2026-04-22T11:51:11.978Z",
   "currentPrice": 236.67,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 286.8832796827138,
-          "contract": {
-            "contractSymbol": "ZBRA260515C00290000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 290,
-            "bid": 1,
-            "ask": 2,
-            "lastPrice": 1.19,
-            "volume": 1,
-            "openInterest": 21,
-            "impliedVolatility": 0.5649457568359376,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.004225292601512655,
-          "staticAnnualizedPct": 0.06425965831467163,
-          "assignedReturnPct": 0.2295601470401826,
-          "assignedAnnualizedPct": 3.4912272362361105,
-          "effectiveCostBasis": 235.67,
-          "effectiveDiscountPct": 0.004225292601512655
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 286.8832796827138,
-          "contract": {
-            "contractSymbol": "ZBRA260515P00230000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 230,
-            "bid": 10,
-            "ask": 12,
-            "lastPrice": 10.9,
-            "volume": 4,
-            "openInterest": 25,
-            "impliedVolatility": 0.5787395642089843,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.043478260869565216,
-          "notAssignedAnnualizedPct": 0.6612318840579711,
-          "effectiveCostBasis": 220,
-          "effectiveDiscountPct": 0.07043562766721591,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-08-21",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 286.8832796827138,
-          "contract": {
-            "contractSymbol": "ZBRA260821C00290000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 122,
-            "strike": 290,
-            "bid": 8.2,
-            "ask": 11.5,
-            "lastPrice": 6.38,
-            "volume": 20,
-            "openInterest": 26,
-            "impliedVolatility": 0.5148058773803711,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03464739933240377,
-          "staticAnnualizedPct": 0.10365820292071619,
-          "assignedReturnPct": 0.2599822537710737,
-          "assignedAnnualizedPct": 0.7778157592331304,
-          "effectiveCostBasis": 228.47,
-          "effectiveDiscountPct": 0.03464739933240377
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 286.8832796827138,
-          "contract": {
-            "contractSymbol": "ZBRA260821P00230000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 122,
-            "strike": 230,
-            "bid": 19.9,
-            "ask": 22.9,
-            "lastPrice": 25.3,
-            "volume": 20,
-            "openInterest": 26,
-            "impliedVolatility": 0.48468532897949224,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08652173913043477,
-          "notAssignedAnnualizedPct": 0.25885602280826797,
-          "effectiveCostBasis": 210.1,
-          "effectiveDiscountPct": 0.11226602442219122,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

@@ -1,125 +1,19 @@
 {
   "symbol": "ESS",
-  "fetchedAt": "2026-04-21T23:16:34.284Z",
+  "fetchedAt": "2026-04-22T11:50:40.665Z",
   "currentPrice": 253.16,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 253.4036544,
-          "contract": {
-            "contractSymbol": "ESS260515C00260000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 260,
-            "bid": 2,
-            "ask": 5.4,
-            "lastPrice": 5.8,
-            "volume": 81,
-            "openInterest": 130,
-            "impliedVolatility": 0.31287308227539057,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.01051712850392951,
-          "staticAnnualizedPct": 0.1599479959972613,
-          "assignedReturnPct": 0.037535614836683516,
-          "assignedAnnualizedPct": 0.5708541423078951,
-          "effectiveCostBasis": 251.16,
-          "effectiveDiscountPct": 0.007900142202559647
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 253.4036544,
-          "contract": {
-            "contractSymbol": "ESS260515P00250000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 250,
-            "bid": 1.95,
-            "ask": 5.3,
-            "lastPrice": 2.5,
-            "volume": 1,
-            "openInterest": 17,
-            "impliedVolatility": 0.25757578369140627,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.0078,
-          "notAssignedAnnualizedPct": 0.118625,
-          "effectiveCostBasis": 248.05,
-          "effectiveDiscountPct": 0.020184863327539836,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 253.4036544,
-          "contract": {
-            "contractSymbol": "ESS260717C00260000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 87,
-            "strike": 260,
-            "bid": 6.8,
-            "ask": 10.5,
-            "lastPrice": 8.3,
-            "volume": 1,
-            "openInterest": 5,
-            "impliedVolatility": 0.2717052810668945,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03634705883116855,
-          "staticAnnualizedPct": 0.15249053417674163,
-          "assignedReturnPct": 0.06336554516392257,
-          "assignedAnnualizedPct": 0.2658439538486407,
-          "effectiveCostBasis": 246.35999999999999,
-          "effectiveDiscountPct": 0.026860483488702798
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 253.4036544,
-          "contract": {
-            "contractSymbol": "ESS260717P00250000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 87,
-            "strike": 250,
-            "bid": 8.3,
-            "ask": 11.5,
-            "lastPrice": 12.6,
-            "volume": 1,
-            "openInterest": 20,
-            "impliedVolatility": 0.2644116528320312,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0332,
-          "notAssignedAnnualizedPct": 0.13928735632183908,
-          "effectiveCostBasis": 241.7,
-          "effectiveDiscountPct": 0.0452678148206668,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

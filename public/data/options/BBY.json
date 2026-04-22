@@ -1,98 +1,19 @@
 {
   "symbol": "BBY",
-  "fetchedAt": "2026-04-21T23:15:34.912Z",
+  "fetchedAt": "2026-04-22T11:49:54.112Z",
   "currentPrice": 66.59,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 98.22812879168723,
-          "contract": {
-            "contractSymbol": "BBY270115C00100000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 100,
-            "bid": 0.6,
-            "ask": 1.25,
-            "lastPrice": 1,
-            "volume": 1,
-            "openInterest": 120,
-            "impliedVolatility": 0.3717103845214844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05131337561483377,
-          "staticAnnualizedPct": 0.06962595575990456,
-          "assignedReturnPct": 0.5530403616487727,
-          "assignedAnnualizedPct": 0.7504079256572567,
-          "effectiveCostBasis": 65.99000000000001,
-          "effectiveDiscountPct": 0.009010361916203634
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 98.22812879168723,
-          "contract": {
-            "contractSymbol": "BBY270115P00065000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 65,
-            "bid": 7.6,
-            "ask": 8.6,
-            "lastPrice": 8,
-            "volume": 2,
-            "openInterest": 703,
-            "impliedVolatility": 0.41760836303710935,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11692307692307692,
-          "notAssignedAnnualizedPct": 0.1586502716614241,
-          "effectiveCostBasis": 57.4,
-          "effectiveDiscountPct": 0.13800871001651907,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 98.22812879168723,
-          "contract": {
-            "contractSymbol": "BBY280121P00065000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 65,
-            "bid": 11,
-            "ask": 14.4,
-            "lastPrice": 13.18,
-            "volume": 38,
-            "openInterest": 56,
-            "impliedVolatility": 0.442937699584961,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.16923076923076924,
-          "notAssignedAnnualizedPct": 0.09651442307692308,
-          "effectiveCostBasis": 54,
-          "effectiveDiscountPct": 0.18906742754167297,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

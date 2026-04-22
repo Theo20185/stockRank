@@ -1,93 +1,40 @@
 {
   "symbol": "AMP",
-  "fetchedAt": "2026-04-21T23:15:45.431Z",
+  "fetchedAt": "2026-04-22T11:50:04.447Z",
   "currentPrice": 461.08,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 626.6790996668253,
-          "contract": {
-            "contractSymbol": "AMP260515P00460000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 24,
-            "strike": 460,
-            "bid": 14.9,
-            "ask": 17.9,
-            "lastPrice": 16.6,
-            "volume": 3,
-            "openInterest": 25,
-            "impliedVolatility": 0.3835816036987304,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.03239130434782609,
-          "notAssignedAnnualizedPct": 0.4926177536231885,
-          "effectiveCostBasis": 445.1,
-          "effectiveDiscountPct": 0.03465776004164128,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-09-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 626.6790996668253,
-          "contract": {
-            "contractSymbol": "AMP260918C00630000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 630,
-            "bid": 0.05,
-            "ask": 7.3,
-            "lastPrice": 4.1,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.39649041015625003,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.005861865503499229,
-          "staticAnnualizedPct": 0.014263872725181457,
-          "assignedReturnPct": 0.3722191137033778,
-          "assignedAnnualizedPct": 0.9057331766782192,
-          "effectiveCostBasis": 461.03,
-          "effectiveDiscountPct": 0.00010844105144443481
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 626.6790996668253,
+          "anchorPrice": 614.6441316673345,
           "contract": {
             "contractSymbol": "AMP260918P00460000",
             "expiration": "2026-09-18",
-            "daysToExpiry": 150,
+            "daysToExpiry": 149,
             "strike": 460,
             "bid": 32.8,
             "ask": 38.4,
             "lastPrice": 48,
             "volume": 1,
             "openInterest": 3,
-            "impliedVolatility": 0.33020689331054687,
+            "impliedVolatility": 0.33130551513671874,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.07130434782608695,
-          "notAssignedAnnualizedPct": 0.17350724637681156,
+          "notAssignedAnnualizedPct": 0.17467172454041435,
           "effectiveCostBasis": 427.2,
           "effectiveDiscountPct": 0.07347965645874902,
           "inTheMoney": false

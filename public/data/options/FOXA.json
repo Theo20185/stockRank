@@ -1,6 +1,6 @@
 {
   "symbol": "FOXA",
-  "fetchedAt": "2026-04-21T23:16:08.065Z",
+  "fetchedAt": "2026-04-22T11:50:21.602Z",
   "currentPrice": 64.31,
   "expirations": [
     {
@@ -14,85 +14,32 @@
           "contract": {
             "contractSymbol": "FOXA270115C00080000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 269,
+            "daysToExpiry": 268,
             "strike": 80,
             "bid": 0.8,
             "ask": 2.5,
             "lastPrice": 5.9,
             "volume": 2,
             "openInterest": 104,
-            "impliedVolatility": 0.32617861328125,
+            "impliedVolatility": 0.3267889587402344,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.018777827177008627,
-          "staticAnnualizedPct": 0.025479207879584197,
-          "assignedReturnPct": 0.26275232569978885,
-          "assignedAnnualizedPct": 0.3565226724179291,
+          "staticReturnPct": 0.018827690190707257,
+          "staticAnnualizedPct": 0.02564218999853787,
+          "assignedReturnPct": 0.2628021887134875,
+          "assignedAnnualizedPct": 0.35792089134486166,
           "effectiveCostBasis": 63.510000000000005,
           "effectiveDiscountPct": 0.012439744985227803
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 75.41441832,
-          "contract": {
-            "contractSymbol": "FOXA270115P00060000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 60,
-            "bid": 3,
-            "ask": 5.7,
-            "lastPrice": 4.35,
-            "volume": 1,
-            "openInterest": 23,
-            "impliedVolatility": 0.36096830444335937,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.05,
-          "notAssignedAnnualizedPct": 0.06784386617100373,
-          "effectiveCostBasis": 57,
-          "effectiveDiscountPct": 0.11366816980251908,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 75.41441832,
-          "contract": {
-            "contractSymbol": "FOXA260717C00080000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 87,
-            "strike": 80,
-            "bid": 0.3,
-            "ask": 0.95,
-            "lastPrice": 0.47,
-            "volume": 7,
-            "openInterest": 15,
-            "impliedVolatility": 0.40112903564453123,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.006714767383159056,
-          "staticAnnualizedPct": 0.028171150515552364,
-          "assignedReturnPct": 0.25068926590593926,
-          "assignedAnnualizedPct": 1.0517423224789406,
-          "effectiveCostBasis": 64.01,
-          "effectiveDiscountPct": 0.004664904369460426
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
@@ -101,20 +48,20 @@
           "contract": {
             "contractSymbol": "FOXA260717P00060000",
             "expiration": "2026-07-17",
-            "daysToExpiry": 87,
+            "daysToExpiry": 86,
             "strike": 60,
             "bid": 1.55,
             "ask": 1.95,
             "lastPrice": 5.2,
             "volume": 4,
             "openInterest": 39,
-            "impliedVolatility": 0.30542686767578126,
+            "impliedVolatility": 0.30725790405273434,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
           "notAssignedReturnPct": 0.025833333333333333,
-          "notAssignedAnnualizedPct": 0.10838122605363985,
+          "notAssignedAnnualizedPct": 0.10964147286821707,
           "effectiveCostBasis": 58.45,
           "effectiveDiscountPct": 0.09112113201679364,
           "inTheMoney": false

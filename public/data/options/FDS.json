@@ -1,125 +1,19 @@
 {
   "symbol": "FDS",
-  "fetchedAt": "2026-04-21T23:16:36.027Z",
+  "fetchedAt": "2026-04-22T11:50:45.911Z",
   "currentPrice": 240.32,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 245.33553249967434,
-          "contract": {
-            "contractSymbol": "FDS260918C00250000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 250,
-            "bid": 23.7,
-            "ask": 26.6,
-            "lastPrice": 24.2,
-            "volume": 8,
-            "openInterest": 30,
-            "impliedVolatility": 0.49811292907714844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.10630344016197582,
-          "staticAnnualizedPct": 0.25867170439414117,
-          "assignedReturnPct": 0.1465830673257575,
-          "assignedAnnualizedPct": 0.35668546382600985,
-          "effectiveCostBasis": 216.62,
-          "effectiveDiscountPct": 0.0986185086551265
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 245.33553249967434,
-          "contract": {
-            "contractSymbol": "FDS260918P00240000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 240,
-            "bid": 23.1,
-            "ask": 28.5,
-            "lastPrice": 34.69,
-            "volume": 1,
-            "openInterest": 53,
-            "impliedVolatility": 0.4669242761230469,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09625,
-          "notAssignedAnnualizedPct": 0.23420833333333332,
-          "effectiveCostBasis": 216.9,
-          "effectiveDiscountPct": 0.09745339547270301,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 245.33553249967434,
-          "contract": {
-            "contractSymbol": "FDS261218C00250000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 250,
-            "bid": 32.2,
-            "ask": 35,
-            "lastPrice": 33.48,
-            "volume": 4,
-            "openInterest": 1,
-            "impliedVolatility": 0.5013477600097658,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.14633513926636635,
-          "staticAnnualizedPct": 0.2216279080175258,
-          "assignedReturnPct": 0.186614766430148,
-          "assignedAnnualizedPct": 0.2826323226016764,
-          "effectiveCostBasis": 208.12,
-          "effectiveDiscountPct": 0.13398801597869509
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 245.33553249967434,
-          "contract": {
-            "contractSymbol": "FDS261218P00240000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 240,
-            "bid": 30,
-            "ask": 36.1,
-            "lastPrice": 36.84,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.46771772521972654,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.125,
-          "notAssignedAnnualizedPct": 0.18931535269709543,
-          "effectiveCostBasis": 210,
-          "effectiveDiscountPct": 0.1261651131824234,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

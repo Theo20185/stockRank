@@ -1,125 +1,19 @@
 {
   "symbol": "EXC",
-  "fetchedAt": "2026-04-21T23:15:27.920Z",
+  "fetchedAt": "2026-04-22T11:49:47.257Z",
   "currentPrice": 46.27,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 50.77352390526,
-          "contract": {
-            "contractSymbol": "EXC270115C00055000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 55,
-            "bid": 0.3,
-            "ask": 0.9,
-            "lastPrice": 0.83,
-            "volume": 9,
-            "openInterest": 1679,
-            "impliedVolatility": 0.21704884521484374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.03316258536740809,
-          "staticAnnualizedPct": 0.04499756007101841,
-          "assignedReturnPct": 0.22183775286254523,
-          "assignedAnnualizedPct": 0.3010066163376543,
-          "effectiveCostBasis": 45.970000000000006,
-          "effectiveDiscountPct": 0.006483682731791657
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 50.77352390526,
-          "contract": {
-            "contractSymbol": "EXC270115P00045000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 45,
-            "bid": 2.3,
-            "ask": 3.4,
-            "lastPrice": 2.8,
-            "volume": 19,
-            "openInterest": 134,
-            "impliedVolatility": 0.25623302368164064,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.05111111111111111,
-          "notAssignedAnnualizedPct": 0.06935150764147047,
-          "effectiveCostBasis": 42.7,
-          "effectiveDiscountPct": 0.07715582450832073,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 50.77352390526,
-          "contract": {
-            "contractSymbol": "EXC280121C00055000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 55,
-            "bid": 1.25,
-            "ask": 5,
-            "lastPrice": 2.7,
-            "volume": 11,
-            "openInterest": 84,
-            "impliedVolatility": 0.3272772351074219,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.09048931381168897,
-          "staticAnnualizedPct": 0.05160718678322886,
-          "assignedReturnPct": 0.27916448130682614,
-          "assignedAnnualizedPct": 0.15921099324529928,
-          "effectiveCostBasis": 45.02,
-          "effectiveDiscountPct": 0.027015344715798573
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 50.77352390526,
-          "contract": {
-            "contractSymbol": "EXC280121P00045000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 45,
-            "bid": 2.5,
-            "ask": 7.5,
-            "lastPrice": 4.93,
-            "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.33960621337890623,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.05555555555555555,
-          "notAssignedAnnualizedPct": 0.031684027777777776,
-          "effectiveCostBasis": 42.5,
-          "effectiveDiscountPct": 0.08147827966284855,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

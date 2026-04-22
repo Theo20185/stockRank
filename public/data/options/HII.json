@@ -1,39 +1,12 @@
 {
   "symbol": "HII",
-  "fetchedAt": "2026-04-21T23:16:37.754Z",
+  "fetchedAt": "2026-04-22T11:50:51.099Z",
   "currentPrice": 378.21,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 438.61285726095895,
-          "contract": {
-            "contractSymbol": "HII260918C00440000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 150,
-            "strike": 440,
-            "bid": 16.7,
-            "ask": 19.2,
-            "lastPrice": 29.9,
-            "volume": 1,
-            "openInterest": 41,
-            "impliedVolatility": 0.4140073248291015,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04994988355942357,
-          "staticAnnualizedPct": 0.12154471666126401,
-          "assignedReturnPct": 0.21332472822244153,
-          "assignedAnnualizedPct": 0.519090172007941,
-          "effectiveCostBasis": 361.51,
-          "effectiveDiscountPct": 0.04415536342243727
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
@@ -42,20 +15,20 @@
           "contract": {
             "contractSymbol": "HII260918P00370000",
             "expiration": "2026-09-18",
-            "daysToExpiry": 150,
+            "daysToExpiry": 149,
             "strike": 370,
             "bid": 26.1,
             "ask": 28.9,
             "lastPrice": 29.8,
             "volume": 1,
             "openInterest": 3,
-            "impliedVolatility": 0.34290207885742185,
+            "impliedVolatility": 0.3440617352294921,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.07054054054054054,
-          "notAssignedAnnualizedPct": 0.17164864864864865,
+          "notAssignedAnnualizedPct": 0.1728006530019953,
           "effectiveCostBasis": 343.9,
           "effectiveDiscountPct": 0.0907167975463367,
           "inTheMoney": false
@@ -65,61 +38,8 @@
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 438.61285726095895,
-          "contract": {
-            "contractSymbol": "HII261218C00460000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 460,
-            "bid": 22.1,
-            "ask": 24.7,
-            "lastPrice": 24.45,
-            "volume": 8,
-            "openInterest": 8,
-            "impliedVolatility": 0.4176388803100586,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06774300796036262,
-          "staticAnnualizedPct": 0.10259833155822554,
-          "assignedReturnPct": 0.2839985273807905,
-          "assignedAnnualizedPct": 0.43012225101240054,
-          "effectiveCostBasis": 356.10999999999996,
-          "effectiveDiscountPct": 0.05843314560693795
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 438.61285726095895,
-          "contract": {
-            "contractSymbol": "HII261218P00370000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 241,
-            "strike": 370,
-            "bid": 39.9,
-            "ask": 42.8,
-            "lastPrice": 36.6,
-            "volume": 0,
-            "openInterest": 60,
-            "impliedVolatility": 0.38674014144897456,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10783783783783783,
-          "notAssignedAnnualizedPct": 0.16332286643489963,
-          "effectiveCostBasis": 330.1,
-          "effectiveDiscountPct": 0.12720446312894942,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

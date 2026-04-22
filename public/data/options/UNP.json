@@ -1,98 +1,18 @@
 {
   "symbol": "UNP",
-  "fetchedAt": "2026-04-21T23:16:48.247Z",
+  "fetchedAt": "2026-04-22T11:50:59.715Z",
   "currentPrice": 251.25,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 271.11644822956873,
-          "contract": {
-            "contractSymbol": "UNP270115C00280000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 280,
-            "bid": 10,
-            "ask": 11.3,
-            "lastPrice": 11.8,
-            "volume": 1,
-            "openInterest": 784,
-            "impliedVolatility": 0.25144181182861325,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.055940995024875616,
-          "staticAnnualizedPct": 0.07590506759880893,
-          "assignedReturnPct": 0.17036885572139304,
-          "assignedAnnualizedPct": 0.23116963694538462,
-          "effectiveCostBasis": 241.25,
-          "effectiveDiscountPct": 0.03980099502487562
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 271.11644822956873,
-          "contract": {
-            "contractSymbol": "UNP270115P00250000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 250,
-            "bid": 18.5,
-            "ask": 20,
-            "lastPrice": 18.8,
-            "volume": 1,
-            "openInterest": 169,
-            "impliedVolatility": 0.24030300720214842,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.074,
-          "notAssignedAnnualizedPct": 0.1004089219330855,
-          "effectiveCostBasis": 231.5,
-          "effectiveDiscountPct": 0.07860696517412935,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 271.11644822956873,
-          "contract": {
-            "contractSymbol": "UNP280121C00280000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 280,
-            "bid": 21.5,
-            "ask": 25.3,
-            "lastPrice": 25.74,
-            "volume": 42,
-            "openInterest": 37,
-            "impliedVolatility": 0.27188838470458976,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12397213930348258,
-          "staticAnnualizedPct": 0.0707028606965174,
-          "assignedReturnPct": 0.23839999999999997,
-          "assignedAnnualizedPct": 0.1359625,
-          "effectiveCostBasis": 229.75,
-          "effectiveDiscountPct": 0.08557213930348259
-        }
-      ],
+      "coveredCalls": [],
       "puts": []
     }
   ]

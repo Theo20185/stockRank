@@ -1,125 +1,19 @@
 {
   "symbol": "ABT",
-  "fetchedAt": "2026-04-21T23:16:16.705Z",
+  "fetchedAt": "2026-04-22T11:50:25.056Z",
   "currentPrice": 92.72,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 101.99225997247981,
-          "contract": {
-            "contractSymbol": "ABT270115C00105000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 105,
-            "bid": 3.7,
-            "ask": 5.1,
-            "lastPrice": 4.32,
-            "volume": 66,
-            "openInterest": 579,
-            "impliedVolatility": 0.2980416876220703,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.059287831795340806,
-          "staticAnnualizedPct": 0.08044631451784162,
-          "assignedReturnPct": 0.19172959193339087,
-          "assignedAnnualizedPct": 0.26015353552300247,
-          "effectiveCostBasis": 89.02,
-          "effectiveDiscountPct": 0.039905090595340816
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 101.99225997247981,
-          "contract": {
-            "contractSymbol": "ABT270115P00092500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 269,
-            "strike": 92.5,
-            "bid": 7.4,
-            "ask": 8.3,
-            "lastPrice": 7.6,
-            "volume": 60,
-            "openInterest": 102,
-            "impliedVolatility": 0.26532717102050785,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08,
-          "notAssignedAnnualizedPct": 0.10855018587360596,
-          "effectiveCostBasis": 85.1,
-          "effectiveDiscountPct": 0.0821829163071614,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 101.99225997247981,
-          "contract": {
-            "contractSymbol": "ABT280121C00105000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 105,
-            "bid": 6.5,
-            "ask": 11,
-            "lastPrice": 9.15,
-            "volume": 8,
-            "openInterest": 37,
-            "impliedVolatility": 0.3166572241210937,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11621860953235548,
-          "staticAnnualizedPct": 0.06628092574892148,
-          "assignedReturnPct": 0.24866036967040553,
-          "assignedAnnualizedPct": 0.14181411707765315,
-          "effectiveCostBasis": 86.22,
-          "effectiveDiscountPct": 0.07010353753235549
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 101.99225997247981,
-          "contract": {
-            "contractSymbol": "ABT280121P00090000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 640,
-            "strike": 90,
-            "bid": 8,
-            "ask": 10.5,
-            "lastPrice": 10.3,
-            "volume": 27,
-            "openInterest": 142,
-            "impliedVolatility": 0.2457961163330078,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08888888888888889,
-          "notAssignedAnnualizedPct": 0.050694444444444445,
-          "effectiveCostBasis": 82,
-          "effectiveDiscountPct": 0.11561691113028472,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }
