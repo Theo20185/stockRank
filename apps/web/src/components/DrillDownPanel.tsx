@@ -1,3 +1,4 @@
+import type { FvTrendSample } from "@stockrank/core";
 import type { CategoryKey, RankedRow } from "@stockrank/ranking";
 import {
   categoryLabel,
@@ -9,11 +10,16 @@ import {
   formatScore,
 } from "../lib/format.js";
 import { FairValueBar } from "./FairValueBar.js";
+import { FvTrendSparkline } from "./FvTrendSparkline.js";
 
 export type DrillDownPanelProps = {
   row: RankedRow | null;
   /** Mobile only: show a close button that calls this when tapped. */
   onClose?: () => void;
+  /** Quarterly historical FV samples for this row's symbol. Sourced
+   * from the loaded fv-trend.json artifact. When undefined or empty,
+   * the sparkline isn't rendered. */
+  fvTrendSamples?: FvTrendSample[];
 };
 
 const CATEGORY_ORDER: CategoryKey[] = [
@@ -24,7 +30,7 @@ const CATEGORY_ORDER: CategoryKey[] = [
   "growth",
 ];
 
-export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
+export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelProps) {
   if (!row) {
     return (
       <aside className="drill-down drill-down--empty" aria-label="Stock detail">
@@ -63,34 +69,12 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
         </p>
       </header>
 
-      <section className="drill-down__category-scores">
-        <h3>Category scores</h3>
-        <ul>
-          {CATEGORY_ORDER.map((cat) => (
-            <li key={cat}>
-              <span className="drill-down__cat-label">{categoryLabel(cat)}</span>
-              <span className="drill-down__cat-score">
-                {formatScore(row.categoryScores[cat])}
-              </span>
-            </li>
-          ))}
-          <li className="drill-down__composite">
-            <span className="drill-down__cat-label">Composite</span>
-            <span className="drill-down__cat-score">{formatScore(row.composite)}</span>
-          </li>
-        </ul>
-        {row.negativeEquity && (
-          <p className="drill-down__neg-equity">
-            <strong>Negative shareholders' equity</strong> — sustained
-            buybacks have driven book equity below zero. ROIC and P/B
-            null out as a structural artifact, not a data gap.
-          </p>
-        )}
-      </section>
-
       <section className="drill-down__fair-value">
         <h3>Fair value</h3>
         <FairValueBar fairValue={row.fairValue} />
+        {fvTrendSamples && fvTrendSamples.length >= 2 && (
+          <FvTrendSparkline samples={fvTrendSamples} />
+        )}
         {row.fairValue?.confidence && (
           <p className="drill-down__confidence">
             Confidence: <strong>{row.fairValue.confidence}</strong> ({row.fairValue.peerSet} peers, {row.fairValue.peerCount})
@@ -130,6 +114,31 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
             analysis, ~96% of names that miss the projected p25 tail
             also see their FV decline together. Demoted to Watch until
             the trend reverses.
+          </p>
+        )}
+      </section>
+
+      <section className="drill-down__category-scores">
+        <h3>Category scores</h3>
+        <ul>
+          {CATEGORY_ORDER.map((cat) => (
+            <li key={cat}>
+              <span className="drill-down__cat-label">{categoryLabel(cat)}</span>
+              <span className="drill-down__cat-score">
+                {formatScore(row.categoryScores[cat])}
+              </span>
+            </li>
+          ))}
+          <li className="drill-down__composite">
+            <span className="drill-down__cat-label">Composite</span>
+            <span className="drill-down__cat-score">{formatScore(row.composite)}</span>
+          </li>
+        </ul>
+        {row.negativeEquity && (
+          <p className="drill-down__neg-equity">
+            <strong>Negative shareholders' equity</strong> — sustained
+            buybacks have driven book equity below zero. ROIC and P/B
+            null out as a structural artifact, not a data gap.
           </p>
         )}
       </section>

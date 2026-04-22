@@ -24,4 +24,5 @@ export type {
   FvTrend,
   FvTrendEntry,
   FvTrendArtifact,
+  FvTrendSample,
 } from "./fv-trend.js";

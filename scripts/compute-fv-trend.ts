@@ -46,6 +46,14 @@ const MIN_SAMPLES = 6;
 
 type FvTrend = "declining" | "stable" | "improving" | "insufficient_data";
 
+type FvTrendSample = {
+  date: string;
+  price: number;
+  fvP25: number | null;
+  fvMedian: number | null;
+  fvP75: number | null;
+};
+
 type SymbolTrendEntry = {
   trend: FvTrend;
   slopePctPerYear: number | null;
@@ -54,7 +62,8 @@ type SymbolTrendEntry = {
   totalChangePct: number | null;
   windowStart: string | null;
   windowEnd: string | null;
-  samples: number;
+  sampleCount: number;
+  quarterly: FvTrendSample[];
 };
 
 type FvTrendArtifact = {
@@ -94,21 +103,38 @@ function classifyTrend(slopePctPerYear: number | null): FvTrend {
   return "stable";
 }
 
-async function readPerSymbolCsv(symbol: string): Promise<Array<{ date: string; fvMedian: number }>> {
+type FullCsvRow = {
+  date: string;
+  price: number;
+  fvP25: number | null;
+  fvMedian: number | null;
+  fvP75: number | null;
+};
+
+async function readPerSymbolCsv(symbol: string): Promise<FullCsvRow[]> {
   const path = resolve(BACKTEST_DIR, `${symbol}.csv`);
   try {
     const text = await readFile(path, "utf8");
     const lines = text.split("\n");
     const headers = lines[0]!.split(",");
     const iDate = headers.indexOf("date");
+    const iPrice = headers.indexOf("actualPrice");
+    const iP25 = headers.indexOf("fvP25");
     const iMed = headers.indexOf("fvMedian");
-    const out: Array<{ date: string; fvMedian: number }> = [];
+    const iP75 = headers.indexOf("fvP75");
+    const out: FullCsvRow[] = [];
     for (const line of lines.slice(1)) {
       if (!line) continue;
       const c = line.split(",");
-      const m = num(c[iMed]!);
-      if (m === null || m <= 0) continue;
-      out.push({ date: c[iDate]!, fvMedian: m });
+      const price = num(c[iPrice]!);
+      if (price === null) continue;
+      out.push({
+        date: c[iDate]!,
+        price,
+        fvP25: num(c[iP25]!),
+        fvMedian: num(c[iMed]!),
+        fvP75: num(c[iP75]!),
+      });
     }
     return out;
   } catch {
@@ -116,8 +142,64 @@ async function readPerSymbolCsv(symbol: string): Promise<Array<{ date: string; f
   }
 }
 
-function computeTrend(rows: Array<{ date: string; fvMedian: number }>): SymbolTrendEntry {
-  if (rows.length === 0) {
+/**
+ * Pick the most-recent monthly sample in each calendar quarter that
+ * falls inside the trend window. Quarter ends are Mar/Jun/Sep/Dec;
+ * since the back-test produces month-end snapshots, the right choice
+ * is whichever Mar/Jun/Sep/Dec row exists for each quarter (otherwise
+ * the latest available row in the quarter).
+ */
+function quarterlySamples(rows: FullCsvRow[]): FvTrendSample[] {
+  if (rows.length === 0) return [];
+  const latestDate = rows[rows.length - 1]!.date;
+  const latestYear = parseInt(latestDate.slice(0, 4), 10);
+  const latestMonth = parseInt(latestDate.slice(5, 7), 10);
+  const latestQuarter = Math.ceil(latestMonth / 3);
+  // Build quarter targets going back TREND_WINDOW_YEARS years from the
+  // latest quarter. e.g., latest Q2 2026 + 2y window → Q2 2024 .. Q2 2026.
+  const quarters: Array<{ year: number; quarter: number }> = [];
+  for (let q = TREND_WINDOW_YEARS * 4; q >= 0; q -= 1) {
+    let year = latestYear;
+    let quarter = latestQuarter - q;
+    while (quarter <= 0) { quarter += 4; year -= 1; }
+    quarters.push({ year, quarter });
+  }
+  // Index rows by year+quarter, keep the latest in each quarter.
+  const byQuarter = new Map<string, FullCsvRow>();
+  for (const r of rows) {
+    const y = parseInt(r.date.slice(0, 4), 10);
+    const m = parseInt(r.date.slice(5, 7), 10);
+    const q = Math.ceil(m / 3);
+    const key = `${y}-Q${q}`;
+    const existing = byQuarter.get(key);
+    if (!existing || r.date > existing.date) byQuarter.set(key, r);
+  }
+  const out: FvTrendSample[] = [];
+  for (const { year, quarter } of quarters) {
+    const r = byQuarter.get(`${year}-Q${quarter}`);
+    if (r) {
+      out.push({
+        date: r.date,
+        price: r.price,
+        fvP25: r.fvP25,
+        fvMedian: r.fvMedian,
+        fvP75: r.fvP75,
+      });
+    }
+  }
+  return out;
+}
+
+function computeTrend(rows: FullCsvRow[]): SymbolTrendEntry {
+  // Compute the regression on rows that have a non-null fvMedian; the
+  // sparkline samples include all quarterly rows even if some have
+  // null FV (the early window can't compute FV until enough annual
+  // history is available).
+  const fvMedianRows = rows.filter((r): r is FullCsvRow & { fvMedian: number } =>
+    r.fvMedian !== null && r.fvMedian > 0);
+  const quarterly = quarterlySamples(rows);
+
+  if (fvMedianRows.length === 0) {
     return {
       trend: "insufficient_data",
       slopePctPerYear: null,
@@ -126,17 +208,17 @@ function computeTrend(rows: Array<{ date: string; fvMedian: number }>): SymbolTr
       totalChangePct: null,
       windowStart: null,
       windowEnd: null,
-      samples: 0,
+      sampleCount: 0,
+      quarterly,
     };
   }
-  // Take the most recent TREND_WINDOW_YEARS of data
-  const latest = rows[rows.length - 1]!;
+  const latest = fvMedianRows[fvMedianRows.length - 1]!;
   const windowStartIso = (() => {
     const d = new Date(`${latest.date}T00:00:00.000Z`);
     d.setUTCFullYear(d.getUTCFullYear() - TREND_WINDOW_YEARS);
     return d.toISOString().slice(0, 10);
   })();
-  const windowed = rows.filter((r) => r.date >= windowStartIso);
+  const windowed = fvMedianRows.filter((r) => r.date >= windowStartIso);
 
   if (windowed.length < MIN_SAMPLES) {
     return {
@@ -147,11 +229,11 @@ function computeTrend(rows: Array<{ date: string; fvMedian: number }>): SymbolTr
       totalChangePct: null,
       windowStart: windowed[0]?.date ?? null,
       windowEnd: latest.date,
-      samples: windowed.length,
+      sampleCount: windowed.length,
+      quarterly,
     };
   }
 
-  // x in years from earliest sample, y = fvMedian
   const earliestDate = new Date(`${windowed[0]!.date}T00:00:00.000Z`).getTime();
   const xs = windowed.map((r) => (new Date(`${r.date}T00:00:00.000Z`).getTime() - earliestDate) / (365.25 * 24 * 3600 * 1000));
   const ys = windowed.map((r) => r.fvMedian);
@@ -168,7 +250,8 @@ function computeTrend(rows: Array<{ date: string; fvMedian: number }>): SymbolTr
     totalChangePct: ((end - start) / start) * 100,
     windowStart: windowed[0]!.date,
     windowEnd: latest.date,
-    samples: windowed.length,
+    sampleCount: windowed.length,
+    quarterly,
   };
 }
 

@@ -14,6 +14,22 @@
 
 export type FvTrend = "declining" | "stable" | "improving" | "insufficient_data";
 
+/**
+ * Quarterly snapshot of (price, FV anchors) used by the
+ * FvTrendSparkline component on the stock-detail page. Sparse on
+ * purpose — quarterly cadence matches the natural reporting rhythm
+ * and keeps the artifact small. Earliest quarters in the window may
+ * have null FV fields (engine still warming up on annual history).
+ */
+export type FvTrendSample = {
+  /** ISO yyyy-mm-dd of the quarter-end snapshot. */
+  date: string;
+  price: number;
+  fvP25: number | null;
+  fvMedian: number | null;
+  fvP75: number | null;
+};
+
 export type FvTrendEntry = {
   trend: FvTrend;
   /** Linear-regression slope of fvMedian vs time, expressed as percent
@@ -26,7 +42,11 @@ export type FvTrendEntry = {
   totalChangePct: number | null;
   windowStart: string | null;
   windowEnd: string | null;
-  samples: number;
+  /** Number of monthly samples that went into the regression. */
+  sampleCount: number;
+  /** Quarterly (date, price, FV anchors) snapshots over the trend
+   * window — drives the FvTrendSparkline component. */
+  quarterly: FvTrendSample[];
 };
 
 export type FvTrendArtifact = {

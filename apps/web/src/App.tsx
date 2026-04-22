@@ -166,6 +166,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
 
   if (route.name === "stock") {
     const row = ranked.rows.find((r) => r.symbol === route.symbol) ?? null;
+    const trendSamples = fvTrend?.symbols[route.symbol]?.quarterly;
     return (
       <main className="app">
         <StockDetailScreen
@@ -174,6 +175,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
           spaxxRate={spaxxRate}
           onSpaxxRateChange={setSpaxxRate}
           onBack={() => navigate("/")}
+          fvTrendSamples={trendSamples}
         />
       </main>
     );

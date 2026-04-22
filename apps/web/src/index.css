@@ -301,6 +301,128 @@ main.app--message h1 {
   color: var(--text-muted);
 }
 
+/* ─── FV-trend sparkline (in the FAIR VALUE section) ─────────────── */
+
+.fv-sparkline {
+  margin-top: var(--sp-3);
+  position: relative;
+}
+
+.fv-sparkline__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-sm);
+  margin-bottom: var(--sp-1);
+}
+
+.fv-sparkline__title {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.fv-sparkline__anchor-toggle {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fv-sparkline__anchor-toggle button {
+  background: transparent;
+  border: none;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+}
+
+.fv-sparkline__anchor-toggle button:last-child {
+  border-right: none;
+}
+
+.fv-sparkline__anchor-toggle button[aria-pressed="true"] {
+  background: var(--accent);
+  color: white;
+}
+
+.fv-sparkline__svg {
+  display: block;
+  width: 100%;
+  height: 90px;
+}
+
+.fv-sparkline__price-line {
+  stroke: var(--accent, #2563eb);
+  stroke-width: 1.75;
+  vector-effect: non-scaling-stroke;
+}
+
+.fv-sparkline__fv-line {
+  stroke: #16a34a;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.fv-sparkline__cursor {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.fv-sparkline__legend {
+  display: flex;
+  gap: var(--sp-3);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.fv-sparkline__legend-item::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.fv-sparkline__legend-item--price::before {
+  background: var(--accent, #2563eb);
+}
+
+.fv-sparkline__legend-item--fv::before {
+  background: repeating-linear-gradient(to right, #16a34a 0 4px, transparent 4px 7px);
+}
+
+.fv-sparkline__tooltip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--surface-2, #f3f3f3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.fv-sparkline__tooltip-date {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
 /* ─── Options panel (stock-detail screen) ──────────────────────────── */
 
 .options-panel {
