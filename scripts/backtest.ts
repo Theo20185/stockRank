@@ -620,90 +620,54 @@ type BacktestRow = {
   // it depends on a today-liquid set that's loaded once per run, not per-symbol.
 };
 
-async function backtestSymbol(
-  subjectHistory: SymbolHistory,
-  peerHistories: SymbolHistory[],
-  years: number,
-): Promise<BacktestRow[]> {
-  const dates = monthEnds(years);
-  const rows: BacktestRow[] = [];
-  for (const date of dates) {
-    const subject = buildSnapshotAtDate(subjectHistory, date);
-    if (!subject) continue;
-    const peers = peerHistories
-      .map((h) => buildSnapshotAtDate(h, date))
-      .filter((p): p is CompanySnapshot => p !== null);
-    if (peers.length < 2) continue;
-    const universe = [subject, ...peers];
-
-    const fv = fairValueFor(subject, universe);
-    const fvNaive = fairValueFor(subject, universe, { skipOutlierRule: true });
-    const ruleEffect = fv.range && fvNaive.range
-      ? fvNaive.range.median - fv.range.median
-      : null;
-
-    // Reconstruct the bucket classification for this date so the
-    // accuracy report can ask "did names that the model put in
-    // Candidates actually recover?" (H3 in the spec). Limitation: the
-    // ranking pipeline computes percentiles within the snapshot we
-    // pass it — here that's just (subject + peers), not the full S&P
-    // 500. This is a tighter cohort than production but produces
-    // sensible category scores for industry-mate names; it's the same
-    // approximation the production cohort-resolver falls back to when
-    // the full universe is sparse.
-    const candidateGateOff = classifyAsCandidate(subject, universe, fv);
-
-    rows.push({
-      date,
-      actualPrice: subject.quote.price,
-      fvP25: fv.range?.p25 ?? null,
-      fvMedian: fv.range?.median ?? null,
-      fvP75: fv.range?.p75 ?? null,
-      upsideToP25Pct: fv.upsideToP25Pct,
-      fvNaiveP25: fvNaive.range?.p25 ?? null,
-      fvNaiveMedian: fvNaive.range?.median ?? null,
-      fvNaiveP75: fvNaive.range?.p75 ?? null,
-      outlierFired: fv.ttmTreatment === "normalized",
-      ebitdaNormalized: fv.ebitdaTreatment === "normalized",
-      peerCohortDivergent: fv.peerCohortDivergent,
-      confidence: fv.range ? fv.confidence : null,
-      ruleEffect,
-      candidateGateOff,
-    });
-  }
-  return rows;
-}
-
 /**
- * Apply the Candidates-bucket criteria *minus* options-liquidity (Decision
- * 4 in the spec). Returns true iff the subject would land in the Candidates
- * bucket at this date with the gate ignored.
- *
- * Implementation: run the ranking pipeline on (subject + peers) so we get
- * categoryScores, find the subject's RankedRow, set optionsLiquid:true on
- * it (so the classifier doesn't fail on missing historical options data),
- * then call the production classifier.
+ * Compute one BacktestRow for a single (subject, date) pair given
+ * the pre-built universe at that date. Pure-ish — depends on the FV
+ * engine and the bucket classifier, no I/O.
  */
-function classifyAsCandidate(
+function backtestRowAt(
+  date: string,
   subject: CompanySnapshot,
   universe: CompanySnapshot[],
-  fv: FairValue,
-): boolean {
-  let ranked;
-  try {
-    ranked = rank({ companies: universe, snapshotDate: "" });
-  } catch {
-    return false;
+  rankedAtDate: ReturnType<typeof rank>,
+): BacktestRow {
+  const fv = fairValueFor(subject, universe);
+  const fvNaive = fairValueFor(subject, universe, { skipOutlierRule: true });
+  const ruleEffect = fv.range && fvNaive.range
+    ? fvNaive.range.median - fv.range.median
+    : null;
+
+  // Reuse the per-date rank() output (computed once for the whole
+  // universe) instead of re-ranking per subject — saves N×N work.
+  const rankedRow = [...rankedAtDate.rows, ...rankedAtDate.ineligibleRows]
+    .find((r) => r.symbol === subject.symbol);
+  let candidateGateOff = false;
+  if (rankedRow) {
+    const augmented: RankedRow = {
+      ...rankedRow,
+      fairValue: fv,
+      optionsLiquid: true, // gate-off — see spec Decision 4
+    };
+    candidateGateOff = classifyRow(augmented) === "ranked";
   }
-  const all: RankedRow[] = [...ranked.rows, ...ranked.ineligibleRows];
-  const row = all.find((r) => r.symbol === subject.symbol);
-  if (!row) return false;
-  const augmented: RankedRow = {
-    ...row,
-    fairValue: fv,
-    optionsLiquid: true, // gate-off — see Decision 4
+
+  return {
+    date,
+    actualPrice: subject.quote.price,
+    fvP25: fv.range?.p25 ?? null,
+    fvMedian: fv.range?.median ?? null,
+    fvP75: fv.range?.p75 ?? null,
+    upsideToP25Pct: fv.upsideToP25Pct,
+    fvNaiveP25: fvNaive.range?.p25 ?? null,
+    fvNaiveMedian: fvNaive.range?.median ?? null,
+    fvNaiveP75: fvNaive.range?.p75 ?? null,
+    outlierFired: fv.ttmTreatment === "normalized",
+    ebitdaNormalized: fv.ebitdaTreatment === "normalized",
+    peerCohortDivergent: fv.peerCohortDivergent,
+    confidence: fv.range ? fv.confidence : null,
+    ruleEffect,
+    candidateGateOff,
   };
-  return classifyRow(augmented) === "ranked";
 }
 
 // ─── Output ──────────────────────────────────────────────────────────────
@@ -1651,25 +1615,70 @@ async function main(): Promise<void> {
   const summarySections: string[] = [];
   const allBacktests: SymbolBacktest[] = [];
 
+  // ---- Inverted loop: dates outside, subjects inside.
+  //
+  // Per-date we build the FULL universe (every cached symbol's snapshot
+  // at that date) once, then call rank() and fairValueFor against that
+  // wide universe for each subject. This matches what the production
+  // engine produces from the live snapshot — same cohort resolver, same
+  // peer set, same FV math. Earlier the back-test used a narrow per-
+  // subject cohort (top-10 industry peers) which gave systematically
+  // different numbers from production for industry-specific peer
+  // distributions (LULU was the canonical case: back-test p25 $408 vs
+  // production p25 $220).
+  //
+  // Cost: per-date universe build is O(|cached|) buildSnapshotAtDate
+  // calls (cheap, no I/O). One rank() per date on the wide universe
+  // (~50ms × ~50 dates = ~2.5s). Per-subject FV compute is O(|cached|)
+  // per call (~5ms × 498 subjects × 50 dates = ~2 min). Tractable on
+  // a populated cache.
+  console.log(`\nrunning back-test (inverted loop, full-universe cohort)...`);
+  const dates = monthEnds(args.years);
+  const planSymbols = new Set(plans.map((p) => p.symbol));
+  const rowsBySymbol = new Map<string, BacktestRow[]>();
+
+  let dateCount = 0;
+  for (const date of dates) {
+    const universe: CompanySnapshot[] = [];
+    for (const [, history] of cache) {
+      if (!history) continue;
+      const snap = buildSnapshotAtDate(history, date);
+      if (snap) universe.push(snap);
+    }
+    if (universe.length < 3) continue;
+
+    let rankedAtDate: ReturnType<typeof rank>;
+    try {
+      rankedAtDate = rank({ companies: universe, snapshotDate: date });
+    } catch {
+      continue;
+    }
+
+    for (const subject of universe) {
+      if (!planSymbols.has(subject.symbol)) continue;
+      const row = backtestRowAt(date, subject, universe, rankedAtDate);
+      let rows = rowsBySymbol.get(subject.symbol);
+      if (!rows) {
+        rows = [];
+        rowsBySymbol.set(subject.symbol, rows);
+      }
+      rows.push(row);
+    }
+
+    dateCount += 1;
+    if (dateCount % 12 === 0) {
+      console.log(`  processed ${dateCount}/${dates.length} dates (universe size at this date: ${universe.length})`);
+    }
+  }
+  console.log(`  done — ${dateCount}/${dates.length} dates processed`);
+
+  // ---- Write per-symbol artifacts.
   for (const plan of plans) {
     const symbol = plan.symbol;
     const subjectHistory = cache.get(symbol);
-    if (!subjectHistory) {
-      // Subject pull failed earlier; already logged.
-      continue;
-    }
-
-    const peerHistories: SymbolHistory[] = [];
-    for (const peer of plan.peerSymbols) {
-      const h = cache.get(peer);
-      if (h) peerHistories.push(h);
-    }
-    if (peerHistories.length < 2) {
-      // Not enough surviving peers for FV anchors; skip silently.
-      continue;
-    }
-
-    const rows = await backtestSymbol(subjectHistory, peerHistories, args.years);
+    if (!subjectHistory) continue;
+    const rows = rowsBySymbol.get(symbol) ?? [];
+    if (rows.length === 0) continue;
 
     const csv = rowsToCsv(rows);
     const csvPath = resolve(args.outDir, `${symbol}.csv`);
@@ -1681,10 +1690,6 @@ async function main(): Promise<void> {
     summarySections.push(md);
 
     allBacktests.push({ symbol, history: subjectHistory, peerSymbols: plan.peerSymbols, rows });
-
-    if (allBacktests.length % 25 === 0) {
-      console.log(`  back-tested ${allBacktests.length}/${plans.length}...`);
-    }
   }
   console.log(`back-tested ${allBacktests.length}/${plans.length} subjects`);
 
