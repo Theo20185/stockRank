@@ -81,6 +81,10 @@ type Args = {
    * because historical options chains aren't available. 0 (default) skips
    * the overlay section entirely. */
   optionsOverlayPct: number;
+  /** When true, ignore --symbols and run the back-test against every
+   * company in the loaded snapshot. Pre-pulls all unique histories
+   * (subjects + their peers, deduped) to avoid the per-subject re-fetch. */
+  allSp500: boolean;
 };
 
 function parseArgs(argv: string[]): Args {
@@ -95,6 +99,7 @@ function parseArgs(argv: string[]): Args {
     horizons: [1, 2, 3, 5],
     archive: false,
     optionsOverlayPct: 0,
+    allSp500: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -147,12 +152,14 @@ function parseArgs(argv: string[]): Args {
       if (!Number.isFinite(n) || n < 0) throw new Error(`--options-overlay-pct: invalid value "${next}"`);
       out.optionsOverlayPct = n;
       i += 1;
+    } else if (a === "--all-sp500") {
+      out.allSp500 = true;
     } else if (a.startsWith("--")) {
       throw new Error(`Unknown flag: ${a}`);
     }
   }
-  if (out.symbols.length === 0) {
-    throw new Error("usage: backtest --symbols SYM[,SYM...] [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N]");
+  if (out.symbols.length === 0 && !out.allSp500) {
+    throw new Error("usage: backtest (--symbols SYM[,SYM...] | --all-sp500) [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N]");
   }
   return out;
 }
@@ -1208,7 +1215,7 @@ function applyOverlay(rows: AccuracyRow[], overlayAnnualPct: number): AccuracyRo
 function renderAccuracyReport(
   allRows: AccuracyRow[],
   horizons: number[],
-  symbols: string[],
+  symbolsLabel: string,
   years: number,
   optionsOverlayPct: number,
 ): string {
@@ -1218,7 +1225,7 @@ function renderAccuracyReport(
   const lines: string[] = [];
   lines.push("# Back-test accuracy report");
   lines.push("");
-  lines.push(`Generated ${todayIsoUtc()} by \`scripts/backtest.ts --accuracy\`. Symbols: ${symbols.join(", ")}. Window: ${years}y of monthly snapshots.`);
+  lines.push(`Generated ${todayIsoUtc()} by \`scripts/backtest.ts --accuracy\`. Universe: ${symbolsLabel}. Window: ${years}y of monthly snapshots.`);
   lines.push("");
   lines.push("> **Survivorship-bias caveat.** This run uses today's S&P 500 universe. Names that went bankrupt, were acquired, or got dropped from the index are silently excluded. Realized returns are biased upward by an unknown amount (literature suggests 1–2% / yr in S&P over multi-year windows). Treat absolute hit rates as ceilings, not point estimates.");
   lines.push("");
@@ -1318,70 +1325,120 @@ async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   await mkdir(args.outDir, { recursive: true });
 
-  console.log(`stockRank backtest — ${args.symbols.join(", ")} over ${args.years}y${args.accuracy ? " [accuracy mode]" : ""}`);
   const snapshot = await loadSnapshot(args.snapshotPath);
+
+  // When --all-sp500: subjects = every name in the snapshot. Otherwise
+  // subjects = explicit --symbols list. Either way, peers are resolved
+  // from the snapshot via findPeers (industry → sector fallback).
+  const subjects: string[] = args.allSp500
+    ? snapshot.companies.map((c) => c.symbol).sort()
+    : args.symbols;
+  const subjectsHeader = args.allSp500
+    ? `all S&P 500 (${subjects.length})`
+    : subjects.join(", ");
+  console.log(`stockRank backtest — ${subjectsHeader} over ${args.years}y${args.accuracy ? " [accuracy mode]" : ""}`);
+
+  // ---- Pre-resolve peer lists for every subject so we know the full
+  // unique-symbol set to pre-pull.
+  type SubjectPlan = { symbol: string; peerSymbols: string[]; cohortLevel: string };
+  const plans: SubjectPlan[] = [];
+  const skipReasons: string[] = [];
+  for (const symbol of subjects) {
+    if (args.peerOverrides[symbol]) {
+      plans.push({ symbol, peerSymbols: args.peerOverrides[symbol]!, cohortLevel: "manual" });
+      continue;
+    }
+    const found = findPeers(snapshot, symbol, PEER_GROUP_SIZE);
+    if (found.peers.length === 0) {
+      const reason = !snapshot.companies.find((c) => c.symbol === symbol)
+        ? `${symbol}: not in snapshot`
+        : `${symbol}: no industry/sector peers`;
+      skipReasons.push(reason);
+      continue;
+    }
+    plans.push({ symbol, peerSymbols: found.peers, cohortLevel: found.cohortLevel });
+  }
+  if (skipReasons.length > 0) {
+    console.log(`\nskipping ${skipReasons.length} symbol(s) without peers (use --peers SYM:P1,P2 to override):`);
+    if (skipReasons.length <= 10) {
+      for (const r of skipReasons) console.log(`  - ${r}`);
+    } else {
+      for (const r of skipReasons.slice(0, 10)) console.log(`  - ${r}`);
+      console.log(`  - …and ${skipReasons.length - 10} more`);
+    }
+  }
+
+  // ---- Pre-pull all unique histories once. Peer overlap across
+  // subjects in the same industry can multiply naive pull counts by
+  // 5-10×; deduping cuts a 5500-pull naive run on full S&P 500 down
+  // to ~500 unique pulls.
+  const uniqueSymbols = new Set<string>();
+  for (const p of plans) {
+    uniqueSymbols.add(p.symbol);
+    for (const peer of p.peerSymbols) uniqueSymbols.add(peer);
+  }
+  const cache = new Map<string, SymbolHistory | null>();
+  console.log(`\npre-pulling ${uniqueSymbols.size} unique histories (${args.years}y window)...`);
+  let pulled = 0;
+  let failed = 0;
+  for (const sym of uniqueSymbols) {
+    try {
+      const h = await pullHistory(sym, args.years);
+      cache.set(sym, h);
+      pulled += 1;
+    } catch (err) {
+      cache.set(sym, null);
+      failed += 1;
+      if (failed <= 10) {
+        console.warn(`  ! ${sym}: ${err instanceof Error ? err.message : err}`);
+      }
+    }
+    if ((pulled + failed) % 25 === 0) {
+      console.log(`  ${pulled + failed}/${uniqueSymbols.size} (${failed} failed)...`);
+    }
+    await sleep(200); // tighter than the per-call 500ms; we're hitting cached endpoints
+  }
+  console.log(`  done — ${pulled} ok, ${failed} failed`);
 
   const summarySections: string[] = [];
   const allBacktests: SymbolBacktest[] = [];
 
-  for (const symbol of args.symbols) {
-    console.log(`\n=== ${symbol} ===`);
-    let peerSymbols: string[];
-    if (args.peerOverrides[symbol]) {
-      peerSymbols = args.peerOverrides[symbol]!;
-      console.log(`  peers (manual override, ${peerSymbols.length}): ${peerSymbols.join(", ")}`);
-    } else {
-      const found = findPeers(snapshot, symbol, PEER_GROUP_SIZE);
-      if (found.peers.length === 0) {
-        if (!snapshot.companies.find((c) => c.symbol === symbol)) {
-          console.error(`  ${symbol} not in current snapshot — pass --peers ${symbol}:P1,P2,...`);
-        } else {
-          console.error(`  ${symbol}: no industry/sector peers in snapshot — pass --peers ${symbol}:P1,P2,...`);
-        }
-        continue;
-      }
-      peerSymbols = found.peers;
-      console.log(`  peers (${peerSymbols.length}, ${found.cohortLevel}): ${peerSymbols.join(", ")}`);
-    }
-
-    let subjectHistory: SymbolHistory;
-    try {
-      subjectHistory = await pullHistory(symbol, args.years);
-      console.log(`  subject history: ${subjectHistory.annual.length} annual rows, ${subjectHistory.prices.length} price bars`);
-    } catch (err) {
-      console.error(`  subject pull failed: ${err instanceof Error ? err.message : err}`);
+  for (const plan of plans) {
+    const symbol = plan.symbol;
+    const subjectHistory = cache.get(symbol);
+    if (!subjectHistory) {
+      // Subject pull failed earlier; already logged.
       continue;
     }
 
     const peerHistories: SymbolHistory[] = [];
-    for (const peer of peerSymbols) {
-      try {
-        const h = await pullHistory(peer, args.years);
-        peerHistories.push(h);
-        console.log(`  + ${peer}: ${h.annual.length} annual, ${h.prices.length} prices`);
-      } catch (err) {
-        console.error(`  ! ${peer}: ${err instanceof Error ? err.message : err}`);
-      }
-      await sleep(500);
+    for (const peer of plan.peerSymbols) {
+      const h = cache.get(peer);
+      if (h) peerHistories.push(h);
+    }
+    if (peerHistories.length < 2) {
+      // Not enough surviving peers for FV anchors; skip silently.
+      continue;
     }
 
     const rows = await backtestSymbol(subjectHistory, peerHistories, args.years);
-    console.log(`  produced ${rows.length} snapshots`);
 
     const csv = rowsToCsv(rows);
     const csvPath = resolve(args.outDir, `${symbol}.csv`);
     await writeFile(csvPath, csv, "utf8");
 
-    const md = symbolReport(symbol, subjectHistory, peerSymbols, rows);
+    const md = symbolReport(symbol, subjectHistory, plan.peerSymbols, rows);
     const mdPath = resolve(args.outDir, `${symbol}.md`);
     await writeFile(mdPath, md, "utf8");
     summarySections.push(md);
 
-    allBacktests.push({ symbol, history: subjectHistory, peerSymbols, rows });
+    allBacktests.push({ symbol, history: subjectHistory, peerSymbols: plan.peerSymbols, rows });
 
-    console.log(`  wrote ${csvPath}`);
-    console.log(`  wrote ${mdPath}`);
+    if (allBacktests.length % 25 === 0) {
+      console.log(`  back-tested ${allBacktests.length}/${plans.length}...`);
+    }
   }
+  console.log(`back-tested ${allBacktests.length}/${plans.length} subjects`);
 
   const summary = `# Back-test report
 
@@ -1464,7 +1521,10 @@ ${summarySections.join("\n")}
       console.log(`  wrote ${accCsvPath} (${accRows.length} rows)`);
     }
 
-    const report = renderAccuracyReport(allAccuracy, args.horizons, args.symbols, args.years, args.optionsOverlayPct);
+    const universeLabel = args.allSp500
+      ? `full S&P 500 (${allBacktests.length} names)`
+      : args.symbols.join(", ");
+    const report = renderAccuracyReport(allAccuracy, args.horizons, universeLabel, args.years, args.optionsOverlayPct);
     const reportPath = resolve(args.outDir, "accuracy.md");
     await writeFile(reportPath, report, "utf8");
     console.log(`\nwrote ${reportPath}`);
