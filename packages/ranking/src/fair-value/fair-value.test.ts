@@ -241,7 +241,10 @@ describe("fairValueFor — skipOutlierRule", () => {
       symbol: "SPIKE",
       industry: "Pharmaceuticals",
       sector: "Healthcare",
-      ttm: makeTtm({ peRatio: 15 }),
+      // ttm.peRatio = price / TTM EPS = 100 / 20 = 5. With deriveTtm
+      // now consulting ttm.peRatio first, the TTM EPS the spike rule
+      // sees is price/peRatio = 20, matching the intended fixture.
+      ttm: makeTtm({ peRatio: 5 }),
       annual: [
         makePeriod({ fiscalYear: "2025", income: { ...makePeriod().income, epsDiluted: 20 } }),
         makePeriod({ fiscalYear: "2024", income: { ...makePeriod().income, epsDiluted: 5 } }),
@@ -293,7 +296,10 @@ describe("fairValueFor — skipOutlierRule", () => {
       industry: "Pharmaceuticals",
       sector: "Healthcare",
       marketCap: 30_000_000_000,
-      ttm: makeTtm({ peRatio: 18, evToEbitda: 8 }),
+      // Set ttm fields so deriveTtm returns the intended TTM EBITDA
+      // (10.7B = the spike-year annual). enterpriseValue / evToEbitda
+      // = 85.6B / 8 = 10.7B.
+      ttm: makeTtm({ peRatio: 18, evToEbitda: 8, enterpriseValue: 85_600_000_000 }),
       annual: [
         makePeriod({
           fiscalYear: "2025",

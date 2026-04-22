@@ -20,10 +20,15 @@ function company(opts: {
       }),
     ),
   ];
+  // Set ttm.peRatio so deriveTtm derives the same TTM EPS the test
+  // intends (price / peRatio). makeCompany defaults price to 100.
   return makeCompany({
     symbol: "TEST",
     annual,
-    ttm: makeTtm({ forwardEps: opts.forwardEps }),
+    ttm: makeTtm({
+      peRatio: opts.ttmEps > 0 ? 100 / opts.ttmEps : 18,
+      forwardEps: opts.forwardEps,
+    }),
   });
 }
 
@@ -74,6 +79,9 @@ describe("chooseEpsForPeerAnchor — four-quadrant outlier detection", () => {
   it("returns null when the most recent EPS is missing", () => {
     const subject = makeCompany({
       symbol: "X",
+      // Null peRatio so deriveTtm can't derive TTM EPS from ratios;
+      // forces the annual[0] fallback (also null in this fixture).
+      ttm: makeTtm({ peRatio: null }),
       annual: [
         makePeriod({
           fiscalYear: "2025",

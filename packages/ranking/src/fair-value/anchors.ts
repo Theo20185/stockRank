@@ -128,6 +128,85 @@ export function normalizedFcf(
   return recent.reduce((s, v) => s + v, 0) / recent.length;
 }
 
+// ---------- TTM derivation ----------
+
+/**
+ * Derive trailing-12-month aggregates for a snapshot, with three
+ * fallbacks ordered by precision:
+ *
+ *   1. Sum the trailing 4 quarters from `snapshot.quarterly` (most
+ *      precise; matches what Yahoo's TTM ratios reflect).
+ *   2. Derive from existing TTM ratios + price (precise when ttm.peRatio
+ *      etc are populated and current).
+ *   3. Fall back to `annual[0]` values (legacy; less current but
+ *      always available).
+ *
+ * Used everywhere the FV engine needs "current earnings" for an
+ * implied-price multiplication. Without this helper, the engine used
+ * `annual[0]` directly — which understates earnings power for growth
+ * names (LULU's TTM EPS $13.30 vs FY26 annual $9.71).
+ */
+export type TtmDerived = {
+  eps: number | null;
+  ebitda: number | null;
+  freeCashFlow: number | null;
+  netIncome: number | null;
+};
+
+export function deriveTtm(snapshot: CompanySnapshot): TtmDerived {
+  // Path 1: sum trailing 4 quarters when quarterly data is present.
+  const quarterly = snapshot.quarterly ?? [];
+  if (quarterly.length >= 4) {
+    const trailing = [...quarterly]
+      .sort((a, b) => (a.periodEndDate < b.periodEndDate ? 1 : -1))
+      .slice(0, 4);
+    const sumQ = (pluck: (q: typeof trailing[number]) => number | null): number | null => {
+      let total = 0;
+      let havePartial = false;
+      for (const q of trailing) {
+        const v = pluck(q);
+        if (v === null || v === undefined) { havePartial = true; continue; }
+        total += v;
+      }
+      return havePartial ? null : total;
+    };
+    const eps = sumQ((q) => q.income.epsDiluted);
+    const ebitda = sumQ((q) => q.income.ebitda);
+    const freeCashFlow = sumQ((q) => q.cashFlow.freeCashFlow);
+    const netIncome = sumQ((q) => q.income.netIncome);
+    if (eps !== null || ebitda !== null) {
+      return { eps, ebitda, freeCashFlow, netIncome };
+    }
+  }
+
+  // Path 2: derive from existing TTM ratios + spot price. Yahoo's
+  // defaultKeyStatistics provides ttm.peRatio etc as
+  // current_price / TTM_value, so price / peRatio gives back TTM EPS.
+  const price = snapshot.quote.price;
+  const epsFromRatio =
+    snapshot.ttm.peRatio !== null && snapshot.ttm.peRatio > 0 && price > 0
+      ? price / snapshot.ttm.peRatio
+      : null;
+  const ev = snapshot.ttm.enterpriseValue;
+  const ebitdaFromRatio =
+    snapshot.ttm.evToEbitda !== null && snapshot.ttm.evToEbitda > 0 && ev !== null && ev > 0
+      ? ev / snapshot.ttm.evToEbitda
+      : null;
+  const sharesAnnual = snapshot.annual[0]?.income.sharesDiluted ?? null;
+  const fcfFromRatio =
+    snapshot.ttm.priceToFcf !== null && snapshot.ttm.priceToFcf > 0 && price > 0 && sharesAnnual !== null && sharesAnnual > 0
+      ? (price / snapshot.ttm.priceToFcf) * sharesAnnual
+      : null;
+
+  // Path 3: annual[0] fallback for any field still null.
+  return {
+    eps: epsFromRatio ?? snapshot.annual[0]?.income.epsDiluted ?? null,
+    ebitda: ebitdaFromRatio ?? snapshot.annual[0]?.income.ebitda ?? null,
+    freeCashFlow: fcfFromRatio ?? snapshot.annual[0]?.cashFlow.freeCashFlow ?? null,
+    netIncome: snapshot.annual[0]?.income.netIncome ?? null,
+  };
+}
+
 // ---------- TTM outlier detection (EPS + EBITDA) ----------
 
 const TTM_OUTLIER_RATIO = 1.5;     // TTM > 1.5× prior-3y mean → suspicious
@@ -160,7 +239,12 @@ export type EbitdaForAnchor = {
  * an obvious one-time spike.
  */
 export function chooseEpsForPeerAnchor(snapshot: CompanySnapshot): EpsForAnchor {
-  const recent = snapshot.annual[0]?.income.epsDiluted ?? null;
+  // True TTM EPS (sum of trailing 4 quarters, falling back through
+  // ttm.peRatio derivation to annual[0]). Previously this was just
+  // annual[0].income.epsDiluted, which understated current earnings
+  // power for growth names because it excluded all quarters posted
+  // after the most recent fiscal year-end.
+  const recent = deriveTtm(snapshot).eps;
   if (recent === null) return { eps: null, treatment: "ttm" };
 
   const priorEps = snapshot.annual.slice(1, 4)
@@ -204,7 +288,7 @@ export function chooseEpsForPeerAnchor(snapshot: CompanySnapshot): EpsForAnchor 
  * (1.95× spike) driven by the same TKM wildfire settlement that inflated EPS.
  */
 export function chooseEbitdaForAnchor(snapshot: CompanySnapshot): EbitdaForAnchor {
-  const recent = snapshot.annual[0]?.income.ebitda ?? null;
+  const recent = deriveTtm(snapshot).ebitda;
   if (recent === null) return { ebitda: null, treatment: "ttm" };
 
   const priorEbitda = snapshot.annual.slice(1, 4)

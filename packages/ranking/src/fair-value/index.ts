@@ -9,6 +9,7 @@ import { buildFairValueCohort } from "./cohort.js";
 import {
   chooseEbitdaForAnchor,
   chooseEpsForPeerAnchor,
+  deriveTtm,
   impliedPriceFromEvEbitda,
   impliedPriceFromPE,
   impliedPriceFromPFcf,
@@ -73,10 +74,10 @@ export function fairValueFor(
   // spike. See anchors.ts and fair-value.md §3.4. The back-test
   // bypass forces TTM through.
   const epsChoice = options.skipOutlierRule
-    ? { eps: subject.annual[0]?.income.epsDiluted ?? null, treatment: "ttm" as const }
+    ? { eps: deriveTtm(subject).eps, treatment: "ttm" as const }
     : chooseEpsForPeerAnchor(subject);
   const ebitdaChoice = options.skipOutlierRule
-    ? { ebitda: subject.annual[0]?.income.ebitda ?? null, treatment: "ttm" as const }
+    ? { ebitda: deriveTtm(subject).ebitda, treatment: "ttm" as const }
     : chooseEbitdaForAnchor(subject);
 
   // ---- Per-anchor computations ----
@@ -241,7 +242,10 @@ function anchorPeerPFcf(subject: CompanySnapshot, peers: CompanySnapshot[]): num
     .filter((v): v is number => v !== null && v > 0);
   if (validMultiples.length === 0) return null;
   const mult = median(validMultiples);
-  const fcf = subject.annual[0]?.cashFlow.freeCashFlow ?? null;
+  // Use TTM FCF (sum of trailing 4 quarters or derived from
+  // ttm.priceToFcf), matching what peer multiples are measured against.
+  // Falls back through annual[0] when TTM is unavailable.
+  const fcf = deriveTtm(subject).freeCashFlow;
   const shares = subject.annual[0]?.income.sharesDiluted ?? null;
   return impliedPriceFromPFcf(fcf, mult, shares);
 }
@@ -271,7 +275,7 @@ function anchorOwnEvEbitda(
 
 function anchorOwnPFcf(subject: CompanySnapshot): number | null {
   const m = ownHistoricalPFcf(subject);
-  const fcf = subject.annual[0]?.cashFlow.freeCashFlow ?? null;
+  const fcf = deriveTtm(subject).freeCashFlow;
   const shares = subject.annual[0]?.income.sharesDiluted ?? null;
   return impliedPriceFromPFcf(fcf, m, shares);
 }
