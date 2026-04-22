@@ -75,6 +75,12 @@ type Args = {
   horizons: number[];
   /** When true, also write the accuracy report to docs/ for posterity. */
   archive: boolean;
+  /** Hypothetical assumed-options-premium yield (annualized %) to add to
+   * gate-off Candidate realized returns. Only used to render an extra
+   * "with overlay" section in accuracy.md — clearly labeled as hypothetical
+   * because historical options chains aren't available. 0 (default) skips
+   * the overlay section entirely. */
+  optionsOverlayPct: number;
 };
 
 function parseArgs(argv: string[]): Args {
@@ -88,6 +94,7 @@ function parseArgs(argv: string[]): Args {
     accuracy: false,
     horizons: [1, 2, 3, 5],
     archive: false,
+    optionsOverlayPct: 0,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -134,12 +141,18 @@ function parseArgs(argv: string[]): Args {
       i += 1;
     } else if (a === "--archive") {
       out.archive = true;
+    } else if (a === "--options-overlay-pct") {
+      if (!next) throw new Error("--options-overlay-pct requires a number (annualized %)");
+      const n = parseFloat(next);
+      if (!Number.isFinite(n) || n < 0) throw new Error(`--options-overlay-pct: invalid value "${next}"`);
+      out.optionsOverlayPct = n;
+      i += 1;
     } else if (a.startsWith("--")) {
       throw new Error(`Unknown flag: ${a}`);
     }
   }
   if (out.symbols.length === 0) {
-    throw new Error("usage: backtest --symbols SYM[,SYM...] [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive]");
+    throw new Error("usage: backtest --symbols SYM[,SYM...] [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N]");
   }
   return out;
 }
@@ -170,12 +183,20 @@ async function pullHistory(symbol: string, years: number): Promise<SymbolHistory
     interval: "1d",
   });
 
+  // Use Yahoo's split-AND-dividend-adjusted close (`adjclose`) so realized
+  // returns are TOTAL returns, not price-only. Both subjects and baselines
+  // (SPY/RSP/VTV) get the same treatment, so excess-return math stays
+  // apples-to-apples. Falls back to raw close on the rare quote where
+  // adjclose is missing (early data in some fund histories).
   const prices = (chart.quotes ?? [])
     .filter(
       (q): q is typeof q & { close: number; date: Date } =>
         q.close !== null && q.close !== undefined && q.date instanceof Date,
     )
-    .map((q) => ({ date: q.date.toISOString().slice(0, 10), close: q.close }));
+    .map((q) => ({
+      date: q.date.toISOString().slice(0, 10),
+      close: (q as typeof q & { adjclose?: number | null }).adjclose ?? q.close,
+    }));
 
   const profile = (await yf.quoteSummary(yahooSymbol, {
     modules: ["assetProfile", "price"],
@@ -1151,11 +1172,45 @@ function evaluateHypotheses(yearly: AccuracyRow[]): HypothesisResult[] {
   return results;
 }
 
+/**
+ * Apply a hypothetical options-overlay yield to a row's realized
+ * return: realizedReturn += overlayAnnualPct × horizonYears, with the
+ * three excess fields recomputed against the unchanged baseline
+ * returns. Used to render a "with overlay" section that estimates
+ * strategy P&L when historical options data isn't available.
+ *
+ * Applied to ALL snapshots with non-null realized return — the
+ * interpretation is "what would performance look like if we ran a
+ * disciplined covered-call/CSP overlay on these names." Filtering to
+ * gate-off Candidates would be more strategy-aligned but produces
+ * empty tables on small/curated universes where the Candidate
+ * classifier rarely fires; once a Phase 2b run uses the full S&P 500
+ * universe, the per-stratum tables already show the Candidate-only
+ * view, so this section's universal application is the more useful
+ * complement.
+ */
+function applyOverlay(rows: AccuracyRow[], overlayAnnualPct: number): AccuracyRow[] {
+  if (overlayAnnualPct <= 0) return rows;
+  return rows.map((r) => {
+    if (r.realizedReturnPct === null) return r;
+    const bump = overlayAnnualPct * r.horizon;
+    const newRealized = r.realizedReturnPct + bump;
+    return {
+      ...r,
+      realizedReturnPct: newRealized,
+      excessVsSpyPct: r.spyReturnPct === null ? null : newRealized - r.spyReturnPct,
+      excessVsRspPct: r.rspReturnPct === null ? null : newRealized - r.rspReturnPct,
+      excessVsVtvPct: r.vtvReturnPct === null ? null : newRealized - r.vtvReturnPct,
+    };
+  });
+}
+
 function renderAccuracyReport(
   allRows: AccuracyRow[],
   horizons: number[],
   symbols: string[],
   years: number,
+  optionsOverlayPct: number,
 ): string {
   const yearly = dedupeYearly(allRows, horizons);
   const verdicts = evaluateHypotheses(yearly);
@@ -1195,6 +1250,20 @@ function renderAccuracyReport(
   lines.push("");
   lines.push(aggregateTable("All monthly snapshots", allRows));
   lines.push("");
+
+  if (optionsOverlayPct > 0) {
+    const overlayYearly = applyOverlay(yearly, optionsOverlayPct);
+    const overlayMonthly = applyOverlay(allRows, optionsOverlayPct);
+    lines.push(`## With assumed +${optionsOverlayPct}%/yr options overlay`);
+    lines.push("");
+    lines.push(`> **Hypothetical.** Yahoo doesn't expose historical option chains, so we can't measure actual covered-call / cash-secured-put income from prior dates. This section adds a fixed **+${optionsOverlayPct}% annualized** to every snapshot's realized return and recomputes excess returns against the same baselines. Interpretation: "what would performance look like if we ran a disciplined covered-call / CSP overlay on these names." Conservative single-anchor LEAPS overlays in the literature land in the 3–6% range; sweep the flag to test sensitivity. (The earlier Candidate-stratum tables show the same overlay applied only to Candidate snapshots when N is large enough to populate them.)`);
+    lines.push("");
+    lines.push(aggregateTable("Headline (yearly-deduped) with overlay", overlayYearly));
+    lines.push("");
+    lines.push(aggregateTable("Sensitivity (monthly) with overlay", overlayMonthly));
+    lines.push("");
+  }
+
   lines.push("**Baselines.** *SPY* = SPDR S&P 500 ETF (cap-weighted, total return) — what most investors compare to. *RSP* = Invesco S&P 500 Equal Weight ETF — strips Mag7 concentration; the gap (excess vs SPY) − (excess vs RSP) quantifies how much underperformance is the index's top-heavy concentration. *VTV* = Vanguard Value ETF — large-cap value style; beating it means stock-picking generates real alpha over a buy-the-style ETF.");
   lines.push("");
   lines.push("Hit-rate CIs are Wilson 95%; mean-return CIs are 1000-resample bootstrap with seeded RNG. Strata with N < 30 show \"—\".");
@@ -1395,7 +1464,7 @@ ${summarySections.join("\n")}
       console.log(`  wrote ${accCsvPath} (${accRows.length} rows)`);
     }
 
-    const report = renderAccuracyReport(allAccuracy, args.horizons, args.symbols, args.years);
+    const report = renderAccuracyReport(allAccuracy, args.horizons, args.symbols, args.years, args.optionsOverlayPct);
     const reportPath = resolve(args.outDir, "accuracy.md");
     await writeFile(reportPath, report, "utf8");
     console.log(`\nwrote ${reportPath}`);

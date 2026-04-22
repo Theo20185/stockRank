@@ -9,7 +9,7 @@ Generated 2026-04-22 by `scripts/backtest.ts --accuracy`. Symbols: EIX, INCY, TG
 ## Hypothesis verdicts
 
 - **H1** — Names with positive p25 upside reach p25 within 3y at ≥ 60% → **? inconclusive**
-  - n=3, hit p25 = — (threshold: 60%)
+  - n=5, hit p25 = — (threshold: 60%)
 - **H2** — Names with positive median upside reach median within 3y at ≥ 50% → **? inconclusive**
   - n=10, hit median = — (threshold: 50%)
 - **H3-SPY** — Candidates (gate-off) beat SPY (cap-weight) over 3y on average → **? inconclusive**
@@ -90,9 +90,31 @@ Generated 2026-04-22 by `scripts/backtest.ts --accuracy`. Symbols: EIX, INCY, TG
 
 | Horizon | N | Hit p25 | Hit median | Hit p75 | Mean realized | vs SPY | vs RSP | vs VTV |
 |---|---|---|---|---|---|---|---|---|
-| 1y | 573 | 73% (69–77%) | 60% (55–64%) | 42% (38–47%) | +6.1% (4.1…8.3) | -10.2% (-12.2…-8.0) | -2.6% (-4.6…-0.4) | -3.6% (-5.7…-1.5) |
-| 2y | 393 | 76% (70–81%) | 66% (60–72%) | 53% (46–59%) | +13.9% (10.6…17.2) | -25.9% (-29.3…-22.5) | -7.6% (-11.0…-4.3) | -10.1% (-13.6…-6.7) |
-| 3y | 213 | 74% (60–84%) | 61% (46–74%) | 59% (44–72%) | +20.5% (15.0…26.2) | -38.0% (-43.9…-32.6) | -8.1% (-13.7…-2.8) | -11.9% (-17.5…-6.4) |
+| 1y | 573 | 77% (72–80%) | 64% (59–68%) | 47% (42–52%) | +8.3% (6.3…10.5) | -9.6% (-11.6…-7.4) | -2.2% (-4.2…-0.1) | -4.2% (-6.2…-2.0) |
+| 2y | 393 | 80% (74–85%) | 74% (68–79%) | 61% (55–67%) | +18.6% (15.3…22.1) | -25.0% (-28.6…-21.7) | -7.0% (-10.6…-3.7) | -11.7% (-15.2…-8.3) |
+| 3y | 213 | 83% (69–91%) | 63% (49–75%) | 61% (46–74%) | +27.9% (21.9…33.8) | -37.3% (-43.4…-31.8) | -7.5% (-13.2…-1.8) | -14.7% (-20.5…-9.0) |
+
+
+## With assumed +4%/yr options overlay
+
+> **Hypothetical.** Yahoo doesn't expose historical option chains, so we can't measure actual covered-call / cash-secured-put income from prior dates. This section adds a fixed **+4% annualized** to every snapshot's realized return and recomputes excess returns against the same baselines. Interpretation: "what would performance look like if we ran a disciplined covered-call / CSP overlay on these names." Conservative single-anchor LEAPS overlays in the literature land in the 3–6% range; sweep the flag to test sensitivity. (The earlier Candidate-stratum tables show the same overlay applied only to Candidate snapshots when N is large enough to populate them.)
+
+### Headline (yearly-deduped) with overlay
+
+| Horizon | N | Hit p25 | Hit median | Hit p75 | Mean realized | vs SPY | vs RSP | vs VTV |
+|---|---|---|---|---|---|---|---|---|
+| 1y | 19 | — | — | — | — | — | — | — |
+| 2y | 19 | — | — | — | — | — | — | — |
+| 3y | 19 | — | — | — | — | — | — | — |
+
+
+### Sensitivity (monthly) with overlay
+
+| Horizon | N | Hit p25 | Hit median | Hit p75 | Mean realized | vs SPY | vs RSP | vs VTV |
+|---|---|---|---|---|---|---|---|---|
+| 1y | 573 | 77% (72–80%) | 64% (59–68%) | 47% (42–52%) | +12.3% (10.3…14.5) | -5.6% (-7.6…-3.4) | +1.8% (-0.2…3.9) | -0.2% (-2.2…2.0) |
+| 2y | 393 | 80% (74–85%) | 74% (68–79%) | 61% (55–67%) | +26.6% (23.3…30.1) | -17.0% (-20.6…-13.7) | +1.0% (-2.6…4.3) | -3.7% (-7.2…-0.3) |
+| 3y | 213 | 83% (69–91%) | 63% (49–75%) | 61% (46–74%) | +39.9% (33.9…45.8) | -25.3% (-31.4…-19.8) | +4.5% (-1.2…10.2) | -2.7% (-8.5…3.0) |
 
 
 **Baselines.** *SPY* = SPDR S&P 500 ETF (cap-weighted, total return) — what most investors compare to. *RSP* = Invesco S&P 500 Equal Weight ETF — strips Mag7 concentration; the gap (excess vs SPY) − (excess vs RSP) quantifies how much underperformance is the index's top-heavy concentration. *VTV* = Vanguard Value ETF — large-cap value style; beating it means stock-picking generates real alpha over a buy-the-style ETF.
