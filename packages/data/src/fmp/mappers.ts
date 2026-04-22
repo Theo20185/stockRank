@@ -84,6 +84,8 @@ export function mapAnnualPeriods(inputs: AnnualInputs): AnnualPeriod[] {
       // this. FMP-sourced rows just leave it null and the FV engine
       // falls back to the legacy placeholder behavior for those.
       priceAtYearEnd: null,
+      priceHighInYear: null,
+      priceLowInYear: null,
       income: {
         revenue: n(income.revenue),
         grossProfit: n(income.grossProfit),

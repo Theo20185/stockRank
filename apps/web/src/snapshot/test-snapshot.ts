@@ -76,6 +76,8 @@ export function makeTestSnapshot(): Snapshot {
       // production engine's own-historical PE anchor compute a real
       // multiple instead of falling back to current ttm.peRatio.
       priceAtYearEnd: (overrides.eps ?? 8) * 18,
+      priceHighInYear: (overrides.eps ?? 8) * 18,
+      priceLowInYear: (overrides.eps ?? 8) * 18,
       income: {
         revenue: 100_000_000_000,
         grossProfit: 40_000_000_000,

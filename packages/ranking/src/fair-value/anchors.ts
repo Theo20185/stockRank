@@ -322,12 +322,27 @@ export function chooseEbitdaForAnchor(snapshot: CompanySnapshot): EbitdaForAncho
  * known degenerate "p25 collapses to current price" pattern. New
  * Yahoo snapshots get the real historical multiple.
  */
+/**
+ * Three sample-prices per fiscal year — high, low, year-end close —
+ * filter null/non-positive. Captures the in-year range so the median
+ * historical multiple isn't biased by which day FY-end happens to
+ * land on. Older snapshots without high/low fields just contribute
+ * the year-end close (back-compat).
+ */
+function priceSamplesFor(p: CompanySnapshot["annual"][number]): number[] {
+  const out: number[] = [];
+  if (p.priceAtYearEnd !== null && p.priceAtYearEnd > 0) out.push(p.priceAtYearEnd);
+  if (p.priceHighInYear !== null && p.priceHighInYear > 0) out.push(p.priceHighInYear);
+  if (p.priceLowInYear !== null && p.priceLowInYear > 0) out.push(p.priceLowInYear);
+  return out;
+}
+
 export function ownHistoricalPe(snapshot: CompanySnapshot): number | null {
   const ratios: number[] = [];
   for (const p of snapshot.annual) {
-    const price = p.priceAtYearEnd;
     const eps = p.income.epsDiluted;
-    if (price !== null && eps !== null && eps > 0) {
+    if (eps === null || eps <= 0) continue;
+    for (const price of priceSamplesFor(p)) {
       ratios.push(price / eps);
     }
   }
@@ -337,22 +352,19 @@ export function ownHistoricalPe(snapshot: CompanySnapshot): number | null {
 
 /**
  * Median historical EV/EBITDA. Reconstructs each year's enterprise
- * value as priceAtYearEnd × sharesDiluted + totalDebt − cash, divides
- * by that year's EBITDA. Same fallback semantics as
- * `ownHistoricalPe` — if no usable period, returns ttm.evToEbitda.
+ * value at three sample prices (high / low / year-end), divides by
+ * that year's EBITDA. Same fallback semantics as `ownHistoricalPe` —
+ * if no usable period, returns ttm.evToEbitda.
  */
 export function ownHistoricalEvEbitda(snapshot: CompanySnapshot): number | null {
   const ratios: number[] = [];
   for (const p of snapshot.annual) {
-    const price = p.priceAtYearEnd;
     const shares = p.income.sharesDiluted;
     const ebitda = p.income.ebitda;
-    if (
-      price !== null && shares !== null && shares > 0 &&
-      ebitda !== null && ebitda > 0
-    ) {
-      const debt = p.balance.totalDebt ?? 0;
-      const cash = p.balance.cash ?? 0;
+    if (shares === null || shares <= 0 || ebitda === null || ebitda <= 0) continue;
+    const debt = p.balance.totalDebt ?? 0;
+    const cash = p.balance.cash ?? 0;
+    for (const price of priceSamplesFor(p)) {
       const ev = price * shares + debt - cash;
       if (ev > 0) ratios.push(ev / ebitda);
     }
@@ -363,20 +375,19 @@ export function ownHistoricalEvEbitda(snapshot: CompanySnapshot): number | null 
 
 /**
  * Median historical price-to-FCF. fcf-per-share = freeCashFlow /
- * sharesDiluted. Same fallback as the other two.
+ * sharesDiluted. Same 3-sample-prices-per-year approach as the
+ * other two.
  */
 export function ownHistoricalPFcf(snapshot: CompanySnapshot): number | null {
   const ratios: number[] = [];
   for (const p of snapshot.annual) {
-    const price = p.priceAtYearEnd;
     const shares = p.income.sharesDiluted;
     const fcf = p.cashFlow.freeCashFlow;
-    if (
-      price !== null && shares !== null && shares > 0 &&
-      fcf !== null && fcf > 0
-    ) {
-      const fcfPerShare = fcf / shares;
-      if (fcfPerShare > 0) ratios.push(price / fcfPerShare);
+    if (shares === null || shares <= 0 || fcf === null || fcf <= 0) continue;
+    const fcfPerShare = fcf / shares;
+    if (fcfPerShare <= 0) continue;
+    for (const price of priceSamplesFor(p)) {
+      ratios.push(price / fcfPerShare);
     }
   }
   if (ratios.length === 0) return snapshot.ttm.priceToFcf ?? null;

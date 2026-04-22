@@ -209,7 +209,7 @@ type SymbolHistory = {
    * buildSnapshotAtDate. May be empty on older caches; the snapshot
    * builder falls back to annual-as-TTM-proxy in that case. */
   quarterly: AnnualPeriod[];
-  prices: Array<{ date: string; close: number }>;
+  prices: Array<{ date: string; close: number; high?: number; low?: number }>;
 };
 
 /** Always pull this much chart history regardless of `--years`. The
@@ -283,7 +283,7 @@ function mergeFundamentals(
   );
 }
 
-type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null };
+type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null; high?: number | null; low?: number | null };
 type RawChart = { quotes?: RawChartQuote[] };
 
 /**
@@ -434,7 +434,16 @@ async function pullHistory(
       const dateIso = q.date instanceof Date
         ? q.date.toISOString().slice(0, 10)
         : String(q.date).slice(0, 10);
-      return { date: dateIso, close: q.adjclose ?? q.close };
+      // Capture high/low when present so buildSnapshotAtDate can
+      // populate priceHighInYear / priceLowInYear on each annual
+      // period. Daily chart bars from Yahoo include intraday
+      // high/low; cache round-trip preserves them as numbers.
+      return {
+        date: dateIso,
+        close: q.adjclose ?? q.close,
+        ...(q.high != null ? { high: q.high } : {}),
+        ...(q.low != null ? { low: q.low } : {}),
+      };
     });
 
   const annual = fundamentalsRaw
@@ -488,6 +497,8 @@ function mapAnnualRow(row: Record<string, unknown>): AnnualPeriod | null {
     // available; the raw mapping from Yahoo's fundamentalsTimeSeries
     // doesn't carry historical price.
     priceAtYearEnd: null,
+    priceHighInYear: null,
+    priceLowInYear: null,
     income: {
       revenue: n(row["totalRevenue"]),
       grossProfit: n(row["grossProfit"]),
@@ -617,13 +628,31 @@ function buildSnapshotAtDate(
   if (annualPublic.length === 0) return null;
   const price = priceAtOrBefore(history, dateIso);
   if (price === null) return null;
-  // Populate priceAtYearEnd on each annual period from the chart cache
-  // so the FV engine's own-historical anchors compute true historical
-  // multiples instead of degenerating to current price.
-  const annual = annualPublic.map((p) => ({
-    ...p,
-    priceAtYearEnd: priceAtOrBefore(history, p.periodEndDate),
-  }));
+  // Populate priceAtYearEnd / priceHighInYear / priceLowInYear on
+  // each annual period from the chart cache so the FV engine's
+  // own-historical anchors capture both the year-end snapshot AND
+  // the in-year range (3 sample points per period instead of 1).
+  const annual = annualPublic.map((p) => {
+    const fyEnd = p.periodEndDate;
+    const fyStartDate = new Date(`${fyEnd}T00:00:00.000Z`);
+    fyStartDate.setUTCFullYear(fyStartDate.getUTCFullYear() - 1);
+    const fyStart = fyStartDate.toISOString().slice(0, 10);
+    let high: number | null = null;
+    let low: number | null = null;
+    for (const bar of history.prices) {
+      if (bar.date < fyStart || bar.date > fyEnd) continue;
+      const barHigh = bar.high ?? bar.close;
+      const barLow = bar.low ?? bar.close;
+      if (high === null || barHigh > high) high = barHigh;
+      if (low === null || barLow < low) low = barLow;
+    }
+    return {
+      ...p,
+      priceAtYearEnd: priceAtOrBefore(history, fyEnd),
+      priceHighInYear: high,
+      priceLowInYear: low,
+    };
+  });
 
   // TTM via quarterly reconstruction (sum trailing 4 quarters for
   // income + cash flow, point-in-time for balance) when quarterly

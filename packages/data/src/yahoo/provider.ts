@@ -220,20 +220,25 @@ export class YahooProvider implements MarketDataProvider {
       reportError(makeError(symbol, "chart", err));
     }
 
-    // Historical monthly chart, 6 years back, used to populate
-    // priceAtYearEnd on each annual period. Without this, the FV
-    // engine's own-historical anchors collapse to current price by
-    // mathematical construction (TTM_PE × current_EPS = price).
-    // Monthly granularity is plenty for year-end lookups; daily would
-    // 30× the response size without adding signal.
-    let historicalCloses: Array<{ date: string; close: number }> = [];
+    // Historical monthly chart, 6 years back, used to populate the
+    // own-historical anchor inputs:
+    //   - priceAtYearEnd: close at fiscal-year-end (point sample)
+    //   - priceHighInYear / priceLowInYear: max/min intraday prices
+    //     during the fiscal year (range samples)
+    // Capturing the range — not just the year-end snapshot — keeps
+    // the FV engine from systematically underestimating peak
+    // valuations (e.g., BBY hit ~$140 in Nov 2021 but closed FY22 at
+    // $99). Monthly bars include intraday `high`/`low` per period,
+    // so the range is properly captured.
+    type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
+    let historicalBars: HistoricalBar[] = [];
     try {
       const longChart = await yahooFinance.chart(yahooSymbol, {
         period1: priceFromMinusYears(options.priceTo, 6),
         period2: options.priceTo,
         interval: "1mo",
       });
-      historicalCloses = (longChart.quotes ?? [])
+      historicalBars = (longChart.quotes ?? [])
         .filter(
           (q): q is typeof q & { close: number; date: Date } =>
             q.close !== null && q.close !== undefined && q.date instanceof Date,
@@ -241,6 +246,8 @@ export class YahooProvider implements MarketDataProvider {
         .map((q) => ({
           date: q.date.toISOString().slice(0, 10),
           close: q.close,
+          high: typeof q.high === "number" ? q.high : null,
+          low: typeof q.low === "number" ? q.low : null,
         }));
     } catch (err) {
       reportError(makeError(symbol, "chart-historical", err));
@@ -288,8 +295,8 @@ export class YahooProvider implements MarketDataProvider {
       }
     }
 
-    const annual = mapAnnualPeriods(fundamentals, fxRate, historicalCloses);
-    const quarterly = mapQuarterlyPeriods(fundamentalsQuarterly, fxRate, historicalCloses);
+    const annual = mapAnnualPeriods(fundamentals, fxRate, historicalBars);
+    const quarterly = mapQuarterlyPeriods(fundamentalsQuarterly, fxRate, historicalBars);
     const ttm = mapTtm(summary, currentPrice, annual[0], fxRate);
 
     // Cross-check spot price against marketCap / latest share count.
@@ -379,10 +386,12 @@ function fx(value: number | null, rate: number): number | null {
   return value === null ? null : value * rate;
 }
 
+type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
+
 function mapAnnualPeriods(
   rows: YahooFundamentalsRow[],
   fxRate: number,
-  historicalCloses: Array<{ date: string; close: number }> = [],
+  historicalBars: HistoricalBar[] = [],
 ): AnnualPeriod[] {
   // fundamentalsTimeSeries returns rows oldest-first. Sort newest-first for
   // consistency with the rest of the codebase.
@@ -392,16 +401,33 @@ function mapAnnualPeriods(
 
   // Sort historical chart oldest-first so we can walk forward to find
   // the close at-or-before each period-end.
-  const closesAsc = [...historicalCloses].sort((a, b) =>
+  const barsAsc = [...historicalBars].sort((a, b) =>
     a.date.localeCompare(b.date),
   );
   function closeAtOrBefore(targetIso: string): number | null {
     let result: number | null = null;
-    for (const q of closesAsc) {
+    for (const q of barsAsc) {
       if (q.date <= targetIso) result = q.close;
       else break;
     }
     return result;
+  }
+  function rangeInWindow(startIso: string, endIso: string): { high: number | null; low: number | null } {
+    let high: number | null = null;
+    let low: number | null = null;
+    for (const bar of barsAsc) {
+      if (bar.date < startIso || bar.date > endIso) continue;
+      const barHigh = bar.high ?? bar.close;
+      const barLow = bar.low ?? bar.close;
+      if (high === null || barHigh > high) high = barHigh;
+      if (low === null || barLow < low) low = barLow;
+    }
+    return { high, low };
+  }
+  function fyWindow(periodEndIso: string): { start: string; end: string } {
+    const d = new Date(`${periodEndIso}T00:00:00.000Z`);
+    d.setUTCFullYear(d.getUTCFullYear() - 1);
+    return { start: d.toISOString().slice(0, 10), end: periodEndIso };
   }
 
   return sorted.map((row) => {
@@ -433,6 +459,8 @@ function mapAnnualPeriods(
     });
 
     const periodEndDate = new Date(row.date).toISOString().slice(0, 10);
+    const window = fyWindow(periodEndDate);
+    const range = rangeInWindow(window.start, window.end);
     const period: AnnualPeriod = {
       fiscalYear: fiscalYearOf(row.date),
       periodEndDate,
@@ -448,6 +476,8 @@ function mapAnnualPeriods(
       // quote currency. Null when the chart didn't reach far enough back
       // (rare — only the oldest period of a long history).
       priceAtYearEnd: closeAtOrBefore(periodEndDate),
+      priceHighInYear: range.high,
+      priceLowInYear: range.low,
       income: {
         revenue: fx(n(row.totalRevenue), fxRate),
         grossProfit: fx(n(row.grossProfit), fxRate),
@@ -495,17 +525,17 @@ function mapAnnualPeriods(
 function mapQuarterlyPeriods(
   rows: YahooFundamentalsRow[],
   fxRate: number,
-  historicalCloses: Array<{ date: string; close: number }> = [],
+  historicalBars: HistoricalBar[] = [],
 ): QuarterlyPeriod[] {
   const sorted = [...rows].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
-  const closesAsc = [...historicalCloses].sort((a, b) =>
+  const barsAsc = [...historicalBars].sort((a, b) =>
     a.date.localeCompare(b.date),
   );
   function closeAtOrBefore(targetIso: string): number | null {
     let result: number | null = null;
-    for (const q of closesAsc) {
+    for (const q of barsAsc) {
       if (q.date <= targetIso) result = q.close;
       else break;
     }

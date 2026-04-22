@@ -41,6 +41,8 @@ function makeCompany(symbol: string): CompanySnapshot {
       filingDate: null,
       reportedCurrency: "USD",
       priceAtYearEnd: null,
+      priceHighInYear: null,
+      priceLowInYear: null,
       income: {
         revenue: 100_000_000_000,
         grossProfit: 40_000_000_000,

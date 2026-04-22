@@ -98,6 +98,19 @@ export type AnnualPeriod = {
    * placeholder behavior in that case.
    */
   priceAtYearEnd: number | null;
+  /**
+   * Highest intraday close observed during the fiscal year (max of
+   * the monthly chart bars' `high` field within
+   * [periodEndDate − 365d, periodEndDate]). Capturing the FY range —
+   * not just the year-end snapshot — keeps the own-historical anchors
+   * from systematically underestimating peak valuations (BBY hit ~$140
+   * in Nov 2021 but closed FY22 at $99; year-end-only sampling missed
+   * the peak entirely). Null on older snapshots; the FV engine
+   * silently degrades to year-end-only when missing.
+   */
+  priceHighInYear: number | null;
+  /** Lowest intraday close in the fiscal year (analogue of priceHighInYear). */
+  priceLowInYear: number | null;
 
   income: AnnualIncome;
   balance: AnnualBalance;
