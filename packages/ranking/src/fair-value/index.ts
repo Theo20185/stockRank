@@ -80,12 +80,17 @@ export function fairValueFor(
     : chooseEbitdaForAnchor(subject);
 
   // ---- Per-anchor computations ----
+  // The own-historical anchors share the EPS/EBITDA spike-defense
+  // with the peer-median anchors. Without this, ownHistoricalPE
+  // multiplied a real historical multiple by a spike-inflated TTM
+  // EPS (e.g., EIX FY2025 $11.55 from the TKM settlement), producing
+  // an inflated implied price that then biased p25/median upward.
   const fullAnchors: FairValueAnchors = {
     peerMedianPE: anchorPeerPE(peers, epsChoice.eps),
     peerMedianEVEBITDA: anchorPeerEvEbitda(subject, peers, ebitdaChoice.ebitda),
     peerMedianPFCF: anchorPeerPFcf(subject, peers),
-    ownHistoricalPE: anchorOwnPE(subject),
-    ownHistoricalEVEBITDA: anchorOwnEvEbitda(subject),
+    ownHistoricalPE: anchorOwnPE(subject, epsChoice.eps),
+    ownHistoricalEVEBITDA: anchorOwnEvEbitda(subject, ebitdaChoice.ebitda),
     ownHistoricalPFCF: anchorOwnPFcf(subject),
     normalizedPE: anchorNormalizedPE(subject, peers),
     normalizedEVEBITDA: anchorNormalizedEvEbitda(subject, peers),
@@ -241,20 +246,27 @@ function anchorPeerPFcf(subject: CompanySnapshot, peers: CompanySnapshot[]): num
   return impliedPriceFromPFcf(fcf, mult, shares);
 }
 
-// ---- Own-historical anchors (proxy: TTM multiple × current trailing earnings) ----
+// ---- Own-historical anchors (median historical multiple × current earnings) ----
+//
+// EPS/EBITDA inputs go through the same outlier-rule normalization as
+// the peer-median anchors so a one-time-spike year doesn't inflate
+// the implied price (e.g., EIX FY2025 $11.55 EPS from the TKM
+// settlement). FCF doesn't have an outlier rule yet — uses raw TTM.
 
-function anchorOwnPE(subject: CompanySnapshot): number | null {
+function anchorOwnPE(subject: CompanySnapshot, epsToUse: number | null): number | null {
   const m = ownHistoricalPe(subject);
-  return impliedPriceFromPE(subject.annual[0]?.income.epsDiluted ?? null, m);
+  return impliedPriceFromPE(epsToUse, m);
 }
 
-function anchorOwnEvEbitda(subject: CompanySnapshot): number | null {
+function anchorOwnEvEbitda(
+  subject: CompanySnapshot,
+  ebitdaToUse: number | null,
+): number | null {
   const m = ownHistoricalEvEbitda(subject);
-  const ebitda = subject.annual[0]?.income.ebitda ?? null;
   const debt = subject.annual[0]?.balance.totalDebt ?? 0;
   const cash = subject.annual[0]?.balance.cash ?? 0;
   const shares = subject.annual[0]?.income.sharesDiluted ?? null;
-  return impliedPriceFromEvEbitda(ebitda, m, debt, cash, shares);
+  return impliedPriceFromEvEbitda(ebitdaToUse, m, debt, cash, shares);
 }
 
 function anchorOwnPFcf(subject: CompanySnapshot): number | null {
