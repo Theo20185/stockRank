@@ -586,8 +586,18 @@ type AccuracyRow = {
   peakInWindow: number | null;
   troughInWindow: number | null;
   realizedReturnPct: number | null;
+  // Three baselines: SPY (cap-weight S&P 500), RSP (equal-weight S&P 500
+  // — strips Mag7 concentration), VTV (Vanguard Value — style benchmark).
+  // The gap between excessVsSpy and excessVsRsp tells us how much of the
+  // model's underperformance is "Mag7 dominated the index" vs everything
+  // else. Beating VTV means the stock-picking generates real alpha over
+  // a buy-the-style ETF.
   spyReturnPct: number | null;
-  excessReturnPct: number | null;
+  excessVsSpyPct: number | null;
+  rspReturnPct: number | null;
+  excessVsRspPct: number | null;
+  vtvReturnPct: number | null;
+  excessVsVtvPct: number | null;
   // Hits
   endpointHitP25: boolean | null;
   endpointHitMedian: boolean | null;
@@ -652,7 +662,7 @@ function computeAccuracyRows(
   symbol: string,
   source: BacktestRow[],
   subjectHistory: SymbolHistory,
-  spyHistory: SymbolHistory,
+  baselines: { spy: SymbolHistory; rsp: SymbolHistory | null; vtv: SymbolHistory | null },
   todayLiquidSet: Set<string>,
   horizons: number[],
 ): AccuracyRow[] {
@@ -660,8 +670,22 @@ function computeAccuracyRows(
   const out: AccuracyRow[] = [];
   const isTodayLiquid = todayLiquidSet.has(symbol);
 
+  function baselineExcess(
+    history: SymbolHistory | null,
+    startDate: string,
+    endDate: string,
+    realizedPct: number | null,
+  ): { ret: number | null; excess: number | null } {
+    if (!history || realizedPct === null) return { ret: null, excess: null };
+    const start = priceAtOrAfter(history, startDate);
+    const end = priceAtOrAfter(history, endDate);
+    if (!start || !end || start.close <= 0) return { ret: null, excess: null };
+    const ret = ((end.close - start.close) / start.close) * 100;
+    return { ret, excess: realizedPct - ret };
+  }
+
   for (const r of source) {
-    const spyAtT = priceAtOrAfter(spyHistory, r.date);
+    const spyAtT = priceAtOrAfter(baselines.spy, r.date);
     if (!spyAtT) continue;
 
     for (const horizon of horizons) {
@@ -673,7 +697,11 @@ function computeAccuracyRows(
       let troughInWindow: number | null = null;
       let realizedReturnPct: number | null = null;
       let spyReturnPct: number | null = null;
-      let excessReturnPct: number | null = null;
+      let excessVsSpyPct: number | null = null;
+      let rspReturnPct: number | null = null;
+      let excessVsRspPct: number | null = null;
+      let vtvReturnPct: number | null = null;
+      let excessVsVtvPct: number | null = null;
       let endpointHitP25: boolean | null = null;
       let endpointHitMedian: boolean | null = null;
       let endpointHitP75: boolean | null = null;
@@ -683,17 +711,23 @@ function computeAccuracyRows(
 
       if (windowComplete) {
         const subjectAt = priceAtOrAfter(subjectHistory, horizonDate);
-        const spyAt = priceAtOrAfter(spyHistory, horizonDate);
         const extremes = priceWindowExtremes(subjectHistory, r.date, horizonDate);
         if (subjectAt && extremes) {
           priceAtHorizon = subjectAt.close;
           peakInWindow = extremes.peak;
           troughInWindow = extremes.trough;
           realizedReturnPct = ((subjectAt.close - r.actualPrice) / r.actualPrice) * 100;
-          if (spyAt && spyAtT.close > 0) {
-            spyReturnPct = ((spyAt.close - spyAtT.close) / spyAtT.close) * 100;
-            excessReturnPct = realizedReturnPct - spyReturnPct;
-          }
+
+          const spy = baselineExcess(baselines.spy, r.date, horizonDate, realizedReturnPct);
+          spyReturnPct = spy.ret;
+          excessVsSpyPct = spy.excess;
+          const rsp = baselineExcess(baselines.rsp, r.date, horizonDate, realizedReturnPct);
+          rspReturnPct = rsp.ret;
+          excessVsRspPct = rsp.excess;
+          const vtv = baselineExcess(baselines.vtv, r.date, horizonDate, realizedReturnPct);
+          vtvReturnPct = vtv.ret;
+          excessVsVtvPct = vtv.excess;
+
           if (r.fvP25 !== null) {
             endpointHitP25 = subjectAt.close >= r.fvP25;
             peakHitP25 = extremes.peak >= r.fvP25;
@@ -730,7 +764,11 @@ function computeAccuracyRows(
         troughInWindow,
         realizedReturnPct,
         spyReturnPct,
-        excessReturnPct,
+        excessVsSpyPct,
+        rspReturnPct,
+        excessVsRspPct,
+        vtvReturnPct,
+        excessVsVtvPct,
         endpointHitP25,
         endpointHitMedian,
         endpointHitP75,
@@ -750,7 +788,10 @@ function accuracyToCsv(rows: AccuracyRow[]): string {
     "confidence", "outlierFired", "ebitdaNormalized", "peerCohortDivergent",
     "candidateGateOff", "candidateTodayLiquid", "windowComplete",
     "priceAtHorizon", "peakInWindow", "troughInWindow",
-    "realizedReturnPct", "spyReturnPct", "excessReturnPct",
+    "realizedReturnPct",
+    "spyReturnPct", "excessVsSpyPct",
+    "rspReturnPct", "excessVsRspPct",
+    "vtvReturnPct", "excessVsVtvPct",
     "endpointHitP25", "endpointHitMedian", "endpointHitP75",
     "peakHitP25", "peakHitMedian", "peakHitP75",
   ];
@@ -768,7 +809,10 @@ function accuracyToCsv(rows: AccuracyRow[]): string {
       fmt(r.confidence), fmt(r.outlierFired), fmt(r.ebitdaNormalized), fmt(r.peerCohortDivergent),
       fmt(r.candidateGateOff), fmt(r.candidateTodayLiquid), fmt(r.windowComplete),
       fmt(r.priceAtHorizon), fmt(r.peakInWindow), fmt(r.troughInWindow),
-      fmt(r.realizedReturnPct), fmt(r.spyReturnPct), fmt(r.excessReturnPct),
+      fmt(r.realizedReturnPct),
+      fmt(r.spyReturnPct), fmt(r.excessVsSpyPct),
+      fmt(r.rspReturnPct), fmt(r.excessVsRspPct),
+      fmt(r.vtvReturnPct), fmt(r.excessVsVtvPct),
       fmt(r.endpointHitP25), fmt(r.endpointHitMedian), fmt(r.endpointHitP75),
       fmt(r.peakHitP25), fmt(r.peakHitMedian), fmt(r.peakHitP75),
     ].join(","));
@@ -790,8 +834,12 @@ type Aggregate = {
   endpointHitP75Ci: Interval | null;
   meanRealized: number | null;
   meanRealizedCi: Interval | null;
-  meanExcess: number | null;
-  meanExcessCi: Interval | null;
+  meanExcessVsSpy: number | null;
+  meanExcessVsSpyCi: Interval | null;
+  meanExcessVsRsp: number | null;
+  meanExcessVsRspCi: Interval | null;
+  meanExcessVsVtv: number | null;
+  meanExcessVsVtvCi: Interval | null;
 };
 
 function aggregate(rows: AccuracyRow[]): Aggregate {
@@ -816,7 +864,9 @@ function aggregate(rows: AccuracyRow[]): Aggregate {
   const med = hitRate((r) => r.endpointHitMedian);
   const p75 = hitRate((r) => r.endpointHitP75);
   const realized = meanWithCi((r) => r.realizedReturnPct);
-  const excess = meanWithCi((r) => r.excessReturnPct);
+  const spy = meanWithCi((r) => r.excessVsSpyPct);
+  const rsp = meanWithCi((r) => r.excessVsRspPct);
+  const vtv = meanWithCi((r) => r.excessVsVtvPct);
 
   return {
     n,
@@ -828,8 +878,12 @@ function aggregate(rows: AccuracyRow[]): Aggregate {
     endpointHitP75Ci: p75.ci,
     meanRealized: realized.m,
     meanRealizedCi: realized.ci,
-    meanExcess: excess.m,
-    meanExcessCi: excess.ci,
+    meanExcessVsSpy: spy.m,
+    meanExcessVsSpyCi: spy.ci,
+    meanExcessVsRsp: rsp.m,
+    meanExcessVsRspCi: rsp.ci,
+    meanExcessVsVtv: vtv.m,
+    meanExcessVsVtvCi: vtv.ci,
   };
 }
 
@@ -840,7 +894,9 @@ function emptyAggregate(): Aggregate {
     endpointHitMedian: null, endpointHitMedianCi: null,
     endpointHitP75: null, endpointHitP75Ci: null,
     meanRealized: null, meanRealizedCi: null,
-    meanExcess: null, meanExcessCi: null,
+    meanExcessVsSpy: null, meanExcessVsSpyCi: null,
+    meanExcessVsRsp: null, meanExcessVsRspCi: null,
+    meanExcessVsVtv: null, meanExcessVsVtvCi: null,
   };
 }
 
@@ -907,12 +963,12 @@ function aggregateTable(label: string, rows: AccuracyRow[]): string {
   const lines: string[] = [];
   lines.push(`### ${label}`);
   lines.push("");
-  lines.push("| Horizon | N | Hit p25 | Hit median | Hit p75 | Mean realized | Mean excess vs SPY |");
-  lines.push("|---|---|---|---|---|---|---|");
+  lines.push("| Horizon | N | Hit p25 | Hit median | Hit p75 | Mean realized | vs SPY | vs RSP | vs VTV |");
+  lines.push("|---|---|---|---|---|---|---|---|---|");
   for (const h of horizons) {
     const sub = rows.filter((r) => r.horizon === h);
     const a = aggregate(sub);
-    lines.push(`| ${h}y | ${a.n} | ${fmtRate(a.endpointHitP25, a.endpointHitP25Ci)} | ${fmtRate(a.endpointHitMedian, a.endpointHitMedianCi)} | ${fmtRate(a.endpointHitP75, a.endpointHitP75Ci)} | ${fmtMean(a.meanRealized, a.meanRealizedCi)} | ${fmtMean(a.meanExcess, a.meanExcessCi)} |`);
+    lines.push(`| ${h}y | ${a.n} | ${fmtRate(a.endpointHitP25, a.endpointHitP25Ci)} | ${fmtRate(a.endpointHitMedian, a.endpointHitMedianCi)} | ${fmtRate(a.endpointHitP75, a.endpointHitP75Ci)} | ${fmtMean(a.meanRealized, a.meanRealizedCi)} | ${fmtMean(a.meanExcessVsSpy, a.meanExcessVsSpyCi)} | ${fmtMean(a.meanExcessVsRsp, a.meanExcessVsRspCi)} | ${fmtMean(a.meanExcessVsVtv, a.meanExcessVsVtvCi)} |`);
   }
   return lines.join("\n") + "\n";
 }
@@ -927,8 +983,8 @@ function stratifiedTable(
   const lines: string[] = [];
   lines.push(`### ${label}`);
   lines.push("");
-  lines.push("| Stratum | Horizon | N | Hit p25 | Hit median | Mean realized | Mean excess vs SPY |");
-  lines.push("|---|---|---|---|---|---|---|");
+  lines.push("| Stratum | Horizon | N | Hit p25 | Hit median | Mean realized | vs SPY | vs RSP | vs VTV |");
+  lines.push("|---|---|---|---|---|---|---|---|---|");
   const grouped = groupBy(rows, bucketKey);
   const keys = bucketOrder
     ? bucketOrder.filter((k) => grouped.has(k))
@@ -938,7 +994,7 @@ function stratifiedTable(
     for (const h of horizons) {
       const sub = stratumRows.filter((r) => r.horizon === h);
       const a = aggregate(sub);
-      lines.push(`| ${k} | ${h}y | ${a.n} | ${fmtRate(a.endpointHitP25, a.endpointHitP25Ci)} | ${fmtRate(a.endpointHitMedian, a.endpointHitMedianCi)} | ${fmtMean(a.meanRealized, a.meanRealizedCi)} | ${fmtMean(a.meanExcess, a.meanExcessCi)} |`);
+      lines.push(`| ${k} | ${h}y | ${a.n} | ${fmtRate(a.endpointHitP25, a.endpointHitP25Ci)} | ${fmtRate(a.endpointHitMedian, a.endpointHitMedianCi)} | ${fmtMean(a.meanRealized, a.meanRealizedCi)} | ${fmtMean(a.meanExcessVsSpy, a.meanExcessVsSpyCi)} | ${fmtMean(a.meanExcessVsRsp, a.meanExcessVsRspCi)} | ${fmtMean(a.meanExcessVsVtv, a.meanExcessVsVtvCi)} |`);
     }
   }
   return lines.join("\n") + "\n";
@@ -964,10 +1020,13 @@ function verdictForHitRate(
   return "inconclusive";
 }
 
-function verdictForExcess(agg: Aggregate): Verdict {
-  if (agg.meanExcess === null || agg.meanExcessCi === null) return "inconclusive";
-  if (agg.meanExcessCi.lo > 0) return "pass";
-  if (agg.meanExcessCi.hi < 0) return "fail";
+function verdictForExcess(
+  meanExcess: number | null,
+  ci: Interval | null,
+): Verdict {
+  if (meanExcess === null || ci === null) return "inconclusive";
+  if (ci.lo > 0) return "pass";
+  if (ci.hi < 0) return "fail";
   return "inconclusive";
 }
 
@@ -1006,15 +1065,29 @@ function evaluateHypotheses(yearly: AccuracyRow[]): HypothesisResult[] {
     evidence: `n=${h2Agg.n}, hit median = ${fmtRate(h2Agg.endpointHitMedian, h2Agg.endpointHitMedianCi)} (threshold: 50%)`,
   });
 
-  // H3: gate-off Candidates beat SPY over 3y on average (mean excess > 0)
+  // H3 fans out across three baselines so we can tell HOW MUCH of the
+  // model's excess return is "we beat the cap-weighted index" vs the
+  // tougher tests "we beat the equal-weighted version (no Mag7
+  // concentration tailwind)" and "we beat the value style itself".
   const candidates3y = yearly.filter((r) => r.horizon === 3 && r.candidateGateOff);
   const h3Agg = aggregate(candidates3y);
-  const h3Verdict = verdictForExcess(h3Agg);
   results.push({
-    id: "H3",
-    statement: "Candidates (gate-off) beat SPY total return over 3y on average",
-    verdict: h3Verdict,
-    evidence: `n=${h3Agg.n}, mean excess = ${fmtMean(h3Agg.meanExcess, h3Agg.meanExcessCi)}`,
+    id: "H3-SPY",
+    statement: "Candidates (gate-off) beat SPY (cap-weight) over 3y on average",
+    verdict: verdictForExcess(h3Agg.meanExcessVsSpy, h3Agg.meanExcessVsSpyCi),
+    evidence: `n=${h3Agg.n}, mean excess vs SPY = ${fmtMean(h3Agg.meanExcessVsSpy, h3Agg.meanExcessVsSpyCi)}`,
+  });
+  results.push({
+    id: "H3-RSP",
+    statement: "Candidates (gate-off) beat RSP (equal-weight S&P 500) over 3y on average",
+    verdict: verdictForExcess(h3Agg.meanExcessVsRsp, h3Agg.meanExcessVsRspCi),
+    evidence: `n=${h3Agg.n}, mean excess vs RSP = ${fmtMean(h3Agg.meanExcessVsRsp, h3Agg.meanExcessVsRspCi)} — gap vs SPY excess quantifies Mag7 concentration tailwind`,
+  });
+  results.push({
+    id: "H3-VTV",
+    statement: "Candidates (gate-off) beat VTV (Vanguard Value) over 3y on average",
+    verdict: verdictForExcess(h3Agg.meanExcessVsVtv, h3Agg.meanExcessVsVtvCi),
+    evidence: `n=${h3Agg.n}, mean excess vs VTV = ${fmtMean(h3Agg.meanExcessVsVtv, h3Agg.meanExcessVsVtvCi)} — beating this means stock-picking generates real alpha over a value ETF`,
   });
 
   // H4: snapshots where outlier rule fired have BETTER mean excess than naive
@@ -1023,17 +1096,16 @@ function evaluateHypotheses(yearly: AccuracyRow[]): HypothesisResult[] {
   const firedAgg = aggregate(fired3y);
   const notFiredAgg = aggregate(notFired3y);
   let h4Verdict: Verdict = "inconclusive";
-  let h4Evidence = `fired: n=${firedAgg.n}, excess=${fmtMean(firedAgg.meanExcess, firedAgg.meanExcessCi)}; not-fired: n=${notFiredAgg.n}, excess=${fmtMean(notFiredAgg.meanExcess, notFiredAgg.meanExcessCi)}`;
-  if (firedAgg.meanExcess !== null && notFiredAgg.meanExcess !== null) {
-    if (firedAgg.meanExcessCi && notFiredAgg.meanExcessCi) {
-      // Non-overlapping CIs would be a stronger pass; for now, just compare means
-      if (firedAgg.meanExcess >= notFiredAgg.meanExcess) h4Verdict = "pass";
+  let h4Evidence = `fired: n=${firedAgg.n}, excess=${fmtMean(firedAgg.meanExcessVsSpy, firedAgg.meanExcessVsSpyCi)}; not-fired: n=${notFiredAgg.n}, excess=${fmtMean(notFiredAgg.meanExcessVsSpy, notFiredAgg.meanExcessVsSpyCi)}`;
+  if (firedAgg.meanExcessVsSpy !== null && notFiredAgg.meanExcessVsSpy !== null) {
+    if (firedAgg.meanExcessVsSpyCi && notFiredAgg.meanExcessVsSpyCi) {
+      if (firedAgg.meanExcessVsSpy >= notFiredAgg.meanExcessVsSpy) h4Verdict = "pass";
       else h4Verdict = "fail";
     }
   }
   results.push({
     id: "H4",
-    statement: "Outlier-rule-fired snapshots have ≥ excess return as not-fired snapshots (3y)",
+    statement: "Outlier-rule-fired snapshots have ≥ excess return (vs SPY) as not-fired snapshots (3y)",
     verdict: h4Verdict,
     evidence: h4Evidence,
   });
@@ -1122,6 +1194,8 @@ function renderAccuracyReport(
   lines.push("## Sensitivity (every monthly snapshot — overstates effective N by ~12×)");
   lines.push("");
   lines.push(aggregateTable("All monthly snapshots", allRows));
+  lines.push("");
+  lines.push("**Baselines.** *SPY* = SPDR S&P 500 ETF (cap-weighted, total return) — what most investors compare to. *RSP* = Invesco S&P 500 Equal Weight ETF — strips Mag7 concentration; the gap (excess vs SPY) − (excess vs RSP) quantifies how much underperformance is the index's top-heavy concentration. *VTV* = Vanguard Value ETF — large-cap value style; beating it means stock-picking generates real alpha over a buy-the-style ETF.");
   lines.push("");
   lines.push("Hit-rate CIs are Wilson 95%; mean-return CIs are 1000-resample bootstrap with seeded RNG. Strata with N < 30 show \"—\".");
   return lines.join("\n");
@@ -1279,16 +1353,30 @@ ${summarySections.join("\n")}
   if (args.accuracy && allBacktests.length > 0) {
     console.log("\n=== accuracy mode ===");
     const maxHorizon = Math.max(...args.horizons);
-    const spyYears = args.years + maxHorizon;
-    console.log(`pulling SPY history (${spyYears}y window)...`);
+    const baselineYears = args.years + maxHorizon;
+    console.log(`pulling baselines (${baselineYears}y window): SPY, RSP, VTV...`);
     let spyHistory: SymbolHistory;
     try {
-      spyHistory = await pullHistory("SPY", spyYears);
+      spyHistory = await pullHistory("SPY", baselineYears);
       console.log(`  SPY: ${spyHistory.prices.length} price bars`);
     } catch (err) {
       console.error(`  SPY pull failed: ${err instanceof Error ? err.message : err}`);
       console.error("  skipping accuracy report");
       return;
+    }
+    let rspHistory: SymbolHistory | null = null;
+    try {
+      rspHistory = await pullHistory("RSP", baselineYears);
+      console.log(`  RSP: ${rspHistory.prices.length} price bars`);
+    } catch (err) {
+      console.warn(`  RSP pull failed (non-fatal): ${err instanceof Error ? err.message : err}`);
+    }
+    let vtvHistory: SymbolHistory | null = null;
+    try {
+      vtvHistory = await pullHistory("VTV", baselineYears);
+      console.log(`  VTV: ${vtvHistory.prices.length} price bars`);
+    } catch (err) {
+      console.warn(`  VTV pull failed (non-fatal): ${err instanceof Error ? err.message : err}`);
     }
     const todayLiquid = loadTodayLiquidSet(args.optionsSummaryPath);
     console.log(`  today-liquid set: ${todayLiquid.size} symbols`);
@@ -1296,7 +1384,9 @@ ${summarySections.join("\n")}
     const allAccuracy: AccuracyRow[] = [];
     for (const bt of allBacktests) {
       const accRows = computeAccuracyRows(
-        bt.symbol, bt.rows, bt.history, spyHistory, todayLiquid, args.horizons,
+        bt.symbol, bt.rows, bt.history,
+        { spy: spyHistory, rsp: rspHistory, vtv: vtvHistory },
+        todayLiquid, args.horizons,
       );
       allAccuracy.push(...accRows);
       const accCsv = accuracyToCsv(accRows);
