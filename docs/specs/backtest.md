@@ -156,10 +156,21 @@ npm run backtest -- --all-sp500 --accuracy --archive
 
 Yahoo response bodies are cached under `tmp/backtest-cache/<SYMBOL>/{fundamentals,chart,profile}.json` so analysis-side iteration doesn't trigger re-fetches. Cache is **read-through** by default — present files are reused, missing files trigger a fetch and write. The cache is keyed on symbol only (chart pulls always use a fixed 15-year window so different `--years` settings can share the cache).
 
-- `--refresh-cache` — ignore cached data, force re-fetch, overwrite the cache. Use after material time has passed (new annuals dropped, prices moved) or after a Yahoo schema change breaks the mapping.
+- `--refresh-cache` — ignore cached data, force re-fetch, **overwrite** the cache. Use after a Yahoo schema change breaks the mapping.
+- `--merge-cache` — fetch fresh **but union with existing cache**, preserving dates that have aged out of Yahoo's rolling window. Used by `npm run refresh-all` to keep the long-tail historical data intact across refreshes. Mutually exclusive with `--refresh-cache`.
 - `--cache-dir PATH` — override the cache root (default `tmp/backtest-cache/`).
 
 Cache hits skip the rate-limit sleep entirely; on cold run a full S&P 500 takes ~10 minutes, on warm run the same backtest finishes in seconds. Cache size is ~700KB per symbol, ~350MB for the full S&P 500.
+
+### Pipeline-level command
+
+`npm run refresh-all` orchestrates the full data refresh in three phases:
+
+1. `backtest --all-sp500 --merge-cache` — append-only refresh of the back-test cache.
+2. `compute-fv-trend` — regenerate `public/data/fv-trend.json` from the updated CSVs.
+3. `refresh` — the existing daily ingest + tests + commit + push pipeline.
+
+The single commit produced by phase 3 captures every changed file from all three phases. Use `npm run refresh` for the daily lighter-weight version that skips phases 1-2.
 
 ## 6. Open decisions before coding
 

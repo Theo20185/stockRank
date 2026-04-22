@@ -14,6 +14,7 @@
     "build": "npm run build --workspaces --if-present",
     "ingest": "npm run ingest --workspace=@stockrank/data",
     "refresh": "tsx scripts/refresh.ts",
+    "refresh-all": "tsx scripts/refresh-all.ts",
     "screenshot": "tsx scripts/screenshot.ts",
     "backtest": "tsx scripts/backtest.ts",
     "fv-trend": "tsx scripts/compute-fv-trend.ts"

@@ -305,7 +305,6 @@ async function pullHistory(
   const period1 = new Date(today.getFullYear() - CACHE_CHART_YEARS, 0, 1);
   const yahooSymbol = symbol.replace(/\./g, "-");
   const paths = cachePathsFor(options.cacheDir, symbol);
-  console.error(`[DEBUG] pullHistory ${symbol} merge=${options.mergeCache} refresh=${options.refreshCache}`);
 
   // The cache-policy logic is the same for all three endpoints:
   //   refreshCache  → ignore cache, fetch fresh, overwrite
@@ -332,9 +331,7 @@ async function pullHistory(
     })) as unknown as Array<Record<string, unknown>>;
     if (options.mergeCache) {
       const oldCache = await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentals);
-      console.error(`  [DEBUG ${symbol}] fresh=${fresh.length} old=${oldCache?.length ?? 0}`);
       fundamentalsRaw = mergeFundamentals(oldCache, fresh);
-      console.error(`  [DEBUG ${symbol}] merged=${fundamentalsRaw.length}`);
     } else {
       fundamentalsRaw = fresh;
     }
@@ -1546,6 +1543,7 @@ async function main(): Promise<void> {
   const fetchOptions: FetchOptions = {
     cacheDir: args.cacheDir,
     refreshCache: args.refreshCache,
+    mergeCache: args.mergeCache,
   };
 
   // When --all-sp500: subjects = every name in the snapshot. Otherwise
