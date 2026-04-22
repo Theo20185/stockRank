@@ -1,0 +1,125 @@
+{
+  "symbol": "TSLA",
+  "fetchedAt": "2026-04-22T14:43:58.674Z",
+  "currentPrice": 390.94,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 421.74340770733784,
+          "contract": {
+            "contractSymbol": "TSLA270115C00430000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 430,
+            "bid": 53,
+            "ask": 53.5,
+            "lastPrice": 51.2,
+            "volume": 1,
+            "openInterest": 3724,
+            "impliedVolatility": 0.50996888961792,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13557067580702922,
+          "staticAnnualizedPct": 0.18463916667748384,
+          "assignedReturnPct": 0.23548370593953036,
+          "assignedAnnualizedPct": 0.32071474876092754,
+          "effectiveCostBasis": 337.94,
+          "effectiveDiscountPct": 0.13557067580702922
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 421.74340770733784,
+          "contract": {
+            "contractSymbol": "TSLA270115P00390000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 390,
+            "bid": 56.5,
+            "ask": 57,
+            "lastPrice": 57.2,
+            "volume": 5,
+            "openInterest": 2345,
+            "impliedVolatility": 0.43233294723510746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14487179487179488,
+          "notAssignedAnnualizedPct": 0.19730673555300424,
+          "effectiveCostBasis": 333.5,
+          "effectiveDiscountPct": 0.14692791732746713,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 421.74340770733784,
+          "contract": {
+            "contractSymbol": "TSLA280121C00430000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 430,
+            "bid": 98.8,
+            "ask": 99.7,
+            "lastPrice": 97.5,
+            "volume": 3,
+            "openInterest": 1034,
+            "impliedVolatility": 0.5556151006317139,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.25272420320253747,
+          "staticAnnualizedPct": 0.1443573304678031,
+          "assignedReturnPct": 0.35263723333503866,
+          "assignedAnnualizedPct": 0.20142815362643054,
+          "effectiveCostBasis": 292.14,
+          "effectiveDiscountPct": 0.25272420320253747
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 421.74340770733784,
+          "contract": {
+            "contractSymbol": "TSLA280121P00390000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 390,
+            "bid": 87.5,
+            "ask": 88.5,
+            "lastPrice": 89.33,
+            "volume": 1,
+            "openInterest": 639,
+            "impliedVolatility": 0.43756665954589846,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.22435897435897437,
+          "notAssignedAnnualizedPct": 0.1281549697042655,
+          "effectiveCostBasis": 302.5,
+          "effectiveDiscountPct": 0.22622397298818234,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

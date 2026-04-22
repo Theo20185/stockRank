@@ -1,19 +1,125 @@
 {
   "symbol": "BBY",
-  "fetchedAt": "2026-04-22T11:49:54.112Z",
-  "currentPrice": 66.59,
+  "fetchedAt": "2026-04-22T14:42:02.113Z",
+  "currentPrice": 63.72,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 93.57413836679352,
+          "contract": {
+            "contractSymbol": "BBY270115C00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 95,
+            "bid": 0.85,
+            "ask": 1.3,
+            "lastPrice": 0.85,
+            "volume": 10,
+            "openInterest": 33,
+            "impliedVolatility": 0.3764710791015625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.055516147958964306,
+          "staticAnnualizedPct": 0.07560967912321631,
+          "assignedReturnPct": 0.5464138252973196,
+          "assignedAnnualizedPct": 0.7441830083340361,
+          "effectiveCostBasis": 62.87,
+          "effectiveDiscountPct": 0.013339610797237916
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 93.57413836679352,
+          "contract": {
+            "contractSymbol": "BBY270115P00062500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 62.5,
+            "bid": 7.3,
+            "ask": 8.5,
+            "lastPrice": 7.7,
+            "volume": 4,
+            "openInterest": 279,
+            "impliedVolatility": 0.4233456103515625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1168,
+          "notAssignedAnnualizedPct": 0.15907462686567164,
+          "effectiveCostBasis": 55.2,
+          "effectiveDiscountPct": 0.13370998116760824,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 93.57413836679352,
+          "contract": {
+            "contractSymbol": "BBY280121C00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 95,
+            "bid": 3.5,
+            "ask": 4.2,
+            "lastPrice": 4.33,
+            "volume": 1,
+            "openInterest": 10,
+            "impliedVolatility": 0.3635317553710938,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15549052277085534,
+          "staticAnnualizedPct": 0.0888169652759972,
+          "assignedReturnPct": 0.6463882001092107,
+          "assignedAnnualizedPct": 0.36922017690119235,
+          "effectiveCostBasis": 60.22,
+          "effectiveDiscountPct": 0.054927809165097305
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 93.57413836679352,
+          "contract": {
+            "contractSymbol": "BBY280121P00062500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 62.5,
+            "bid": 11,
+            "ask": 14.5,
+            "lastPrice": 12.14,
+            "volume": 1,
+            "openInterest": 35,
+            "impliedVolatility": 0.4602104760742188,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.176,
+          "notAssignedAnnualizedPct": 0.1005320813771518,
+          "effectiveCostBasis": 51.5,
+          "effectiveDiscountPct": 0.19177652228499684,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,19 +1,125 @@
 {
   "symbol": "CTRA",
-  "fetchedAt": "2026-04-22T11:50:42.357Z",
-  "currentPrice": 31.85,
+  "fetchedAt": "2026-04-22T14:43:01.882Z",
+  "currentPrice": 32.55,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 38.075909625,
+          "contract": {
+            "contractSymbol": "CTRA270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 40,
+            "bid": 1.4,
+            "ask": 2.2,
+            "lastPrice": 1.35,
+            "volume": 5,
+            "openInterest": 216,
+            "impliedVolatility": 0.41235939208984373,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.06333199099383457,
+          "staticAnnualizedPct": 0.086254390719215,
+          "assignedReturnPct": 0.29221063922732166,
+          "assignedAnnualizedPct": 0.39797344521631495,
+          "effectiveCostBasis": 31.15,
+          "effectiveDiscountPct": 0.043010752688172046
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 38.075909625,
+          "contract": {
+            "contractSymbol": "CTRA270115P00032000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 32,
+            "bid": 3,
+            "ask": 5.7,
+            "lastPrice": 3.5,
+            "volume": 1,
+            "openInterest": 4,
+            "impliedVolatility": 0.5451705639648439,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09375,
+          "notAssignedAnnualizedPct": 0.12768190298507462,
+          "effectiveCostBasis": 29,
+          "effectiveDiscountPct": 0.10906298003072189,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 38.075909625,
+          "contract": {
+            "contractSymbol": "CTRA280121C00040000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 40,
+            "bid": 1.75,
+            "ask": 5.5,
+            "lastPrice": 2.8,
+            "volume": 5,
+            "openInterest": 134,
+            "impliedVolatility": 0.463872548828125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.10221594562632833,
+          "staticAnnualizedPct": 0.05838626002129865,
+          "assignedReturnPct": 0.3310945938598154,
+          "assignedAnnualizedPct": 0.18912289007642039,
+          "effectiveCostBasis": 30.799999999999997,
+          "effectiveDiscountPct": 0.05376344086021506
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 38.075909625,
+          "contract": {
+            "contractSymbol": "CTRA280121P00032000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 32,
+            "bid": 4,
+            "ask": 8,
+            "lastPrice": 5,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.4940236145019532,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.125,
+          "notAssignedAnnualizedPct": 0.07140062597809077,
+          "effectiveCostBasis": 28,
+          "effectiveDiscountPct": 0.13978494623655907,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

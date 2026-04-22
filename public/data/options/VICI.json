@@ -1,19 +1,71 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-04-22T11:49:22.956Z",
-  "currentPrice": 28.42,
+  "fetchedAt": "2026-04-22T14:41:27.192Z",
+  "currentPrice": 28.395,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.606224365163875,
+          "contract": {
+            "contractSymbol": "VICI270115P00027500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 27.5,
+            "bid": 1.4,
+            "ask": 1.75,
+            "lastPrice": 1.65,
+            "volume": 2,
+            "openInterest": 1361,
+            "impliedVolatility": 0.22705851074218747,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.050909090909090904,
+          "notAssignedAnnualizedPct": 0.06933514246947083,
+          "effectiveCostBasis": 26.1,
+          "effectiveDiscountPct": 0.08082408874801895,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.606224365163875,
+          "contract": {
+            "contractSymbol": "VICI280121P00027500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 27.5,
+            "bid": 2,
+            "ask": 3.8,
+            "lastPrice": 3.12,
+            "volume": 1,
+            "openInterest": 372,
+            "impliedVolatility": 0.2885813330078124,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07272727272727272,
+          "notAssignedAnnualizedPct": 0.04154218238725281,
+          "effectiveCostBasis": 25.5,
+          "effectiveDiscountPct": 0.10195456946645534,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

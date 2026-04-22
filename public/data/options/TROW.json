@@ -1,19 +1,125 @@
 {
   "symbol": "TROW",
-  "fetchedAt": "2026-04-22T11:49:17.756Z",
-  "currentPrice": 99.14,
+  "fetchedAt": "2026-04-22T14:41:21.964Z",
+  "currentPrice": 99.885,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.23528915115752,
+          "contract": {
+            "contractSymbol": "TROW270115C00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 115,
+            "bid": 2.95,
+            "ask": 3.8,
+            "lastPrice": 3.29,
+            "volume": 1,
+            "openInterest": 302,
+            "impliedVolatility": 0.2592237164306641,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06803752808880897,
+          "staticAnnualizedPct": 0.09266305131498237,
+          "assignedReturnPct": 0.21936155071482882,
+          "assignedAnnualizedPct": 0.2987573358616139,
+          "effectiveCostBasis": 96.935,
+          "effectiveDiscountPct": 0.02953396405866747
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 111.23528915115752,
+          "contract": {
+            "contractSymbol": "TROW270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 95,
+            "bid": 6.8,
+            "ask": 8.1,
+            "lastPrice": 7.9,
+            "volume": 1,
+            "openInterest": 158,
+            "impliedVolatility": 0.31153032226562494,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07157894736842105,
+          "notAssignedAnnualizedPct": 0.09748625294579732,
+          "effectiveCostBasis": 88.2,
+          "effectiveDiscountPct": 0.11698453221204387,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.23528915115752,
+          "contract": {
+            "contractSymbol": "TROW280121C00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 115,
+            "bid": 5.8,
+            "ask": 9.2,
+            "lastPrice": 7.13,
+            "volume": 31,
+            "openInterest": 622,
+            "impliedVolatility": 0.27686270019531245,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14987191640249298,
+          "staticAnnualizedPct": 0.0856075891813927,
+          "assignedReturnPct": 0.3011959390285128,
+          "assignedAnnualizedPct": 0.17204462870955742,
+          "effectiveCostBasis": 94.08500000000001,
+          "effectiveDiscountPct": 0.058066776793312305
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 111.23528915115752,
+          "contract": {
+            "contractSymbol": "TROW280121P00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 95,
+            "bid": 11.3,
+            "ask": 15,
+            "lastPrice": 13.5,
+            "volume": 21,
+            "openInterest": 137,
+            "impliedVolatility": 0.33981983428955076,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11894736842105263,
+          "notAssignedAnnualizedPct": 0.06794333250967796,
+          "effectiveCostBasis": 83.7,
+          "effectiveDiscountPct": 0.16203634179306203,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

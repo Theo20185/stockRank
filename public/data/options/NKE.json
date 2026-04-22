@@ -1,19 +1,125 @@
 {
   "symbol": "NKE",
-  "fetchedAt": "2026-04-22T11:50:30.273Z",
-  "currentPrice": 46.39,
+  "fetchedAt": "2026-04-22T14:42:49.455Z",
+  "currentPrice": 46.2999,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 54.58835592,
+          "contract": {
+            "contractSymbol": "NKE270115C00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 55,
+            "bid": 3.6,
+            "ask": 3.7,
+            "lastPrice": 3.7,
+            "volume": 38,
+            "openInterest": 3882,
+            "impliedVolatility": 0.4202938830566406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10374633253889982,
+          "staticAnnualizedPct": 0.1412963111070837,
+          "assignedReturnPct": 0.2916538658165095,
+          "assignedAnnualizedPct": 0.39721515307099237,
+          "effectiveCostBasis": 42.6999,
+          "effectiveDiscountPct": 0.07775394763271627
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 54.58835592,
+          "contract": {
+            "contractSymbol": "NKE270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 45,
+            "bid": 5.45,
+            "ask": 5.55,
+            "lastPrice": 5.41,
+            "volume": 2,
+            "openInterest": 9732,
+            "impliedVolatility": 0.3971007556152344,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12111111111111111,
+          "notAssignedAnnualizedPct": 0.16494610281923716,
+          "effectiveCostBasis": 39.55,
+          "effectiveDiscountPct": 0.1457864919794644,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 54.58835592,
+          "contract": {
+            "contractSymbol": "NKE280121C00055000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 55,
+            "bid": 7,
+            "ask": 7.5,
+            "lastPrice": 7.14,
+            "volume": 42,
+            "openInterest": 2025,
+            "impliedVolatility": 0.4299373413085938,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.21316261193735528,
+          "staticAnnualizedPct": 0.12175955141961609,
+          "assignedReturnPct": 0.4010701452149649,
+          "assignedAnnualizedPct": 0.2290932754357781,
+          "effectiveCostBasis": 39.2999,
+          "effectiveDiscountPct": 0.1511882315080594
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 54.58835592,
+          "contract": {
+            "contractSymbol": "NKE280121P00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 45,
+            "bid": 8.05,
+            "ask": 8.45,
+            "lastPrice": 8.3,
+            "volume": 52,
+            "openInterest": 4314,
+            "impliedVolatility": 0.38086556640624997,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1788888888888889,
+          "notAssignedAnnualizedPct": 0.10218222917753436,
+          "effectiveCostBasis": 36.95,
+          "effectiveDiscountPct": 0.2019421208253149,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

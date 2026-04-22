@@ -1,19 +1,125 @@
 {
   "symbol": "FDS",
-  "fetchedAt": "2026-04-22T11:50:45.911Z",
-  "currentPrice": 240.32,
+  "fetchedAt": "2026-04-22T14:43:07.153Z",
+  "currentPrice": 241.28,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 245.33553249967434,
+          "contract": {
+            "contractSymbol": "FDS260918C00250000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 250,
+            "bid": 22.4,
+            "ask": 30,
+            "lastPrice": 24.2,
+            "volume": 8,
+            "openInterest": 33,
+            "impliedVolatility": 0.5469100485229493,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10027331103975146,
+          "staticAnnualizedPct": 0.24563596328529722,
+          "assignedReturnPct": 0.13641389459412812,
+          "assignedAnnualizedPct": 0.33416826528091786,
+          "effectiveCostBasis": 218.88,
+          "effectiveDiscountPct": 0.09283819628647214
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.33553249967434,
+          "contract": {
+            "contractSymbol": "FDS260918P00240000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 240,
+            "bid": 22.3,
+            "ask": 28.6,
+            "lastPrice": 34.69,
+            "volume": 1,
+            "openInterest": 53,
+            "impliedVolatility": 0.47699497619628906,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09291666666666668,
+          "notAssignedAnnualizedPct": 0.22761465324384791,
+          "effectiveCostBasis": 217.7,
+          "effectiveDiscountPct": 0.09772877984084886,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 245.33553249967434,
+          "contract": {
+            "contractSymbol": "FDS261218C00250000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 250,
+            "bid": 31.1,
+            "ask": 38.7,
+            "lastPrice": 33.48,
+            "volume": 4,
+            "openInterest": 4,
+            "impliedVolatility": 0.5433395275878907,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14087191235783586,
+          "staticAnnualizedPct": 0.2142427000442087,
+          "assignedReturnPct": 0.1770124959122125,
+          "assignedAnnualizedPct": 0.26920650419982317,
+          "effectiveCostBasis": 210.18,
+          "effectiveDiscountPct": 0.12889588859416445
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.33553249967434,
+          "contract": {
+            "contractSymbol": "FDS261218P00240000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 240,
+            "bid": 29,
+            "ask": 36.1,
+            "lastPrice": 36.84,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.4739737661743164,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12083333333333333,
+          "notAssignedAnnualizedPct": 0.1837673611111111,
+          "effectiveCostBasis": 211,
+          "effectiveDiscountPct": 0.1254973474801061,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

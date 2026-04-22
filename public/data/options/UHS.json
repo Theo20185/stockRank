@@ -1,19 +1,71 @@
 {
   "symbol": "UHS",
-  "fetchedAt": "2026-04-22T11:50:09.543Z",
-  "currentPrice": 178.55,
+  "fetchedAt": "2026-04-22T14:42:17.749Z",
+  "currentPrice": 180.72,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.4809752255074,
+          "contract": {
+            "contractSymbol": "UHS260515P00180000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 180,
+            "bid": 7.1,
+            "ask": 8.4,
+            "lastPrice": 8.27,
+            "volume": 2,
+            "openInterest": 2984,
+            "impliedVolatility": 0.47485876708984376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.03944444444444444,
+          "notAssignedAnnualizedPct": 0.6259661835748792,
+          "effectiveCostBasis": 172.9,
+          "effectiveDiscountPct": 0.04327135900841076,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.4809752255074,
+          "contract": {
+            "contractSymbol": "UHS260717P00180000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 180,
+            "bid": 10.6,
+            "ask": 13.4,
+            "lastPrice": 12.3,
+            "volume": 1,
+            "openInterest": 16,
+            "impliedVolatility": 0.39227902648925783,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.058888888888888886,
+          "notAssignedAnnualizedPct": 0.24993540051679589,
+          "effectiveCostBasis": 169.4,
+          "effectiveDiscountPct": 0.06263833554670205,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

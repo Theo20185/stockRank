@@ -1,0 +1,125 @@
+{
+  "symbol": "RJF",
+  "fetchedAt": "2026-04-22T14:42:05.576Z",
+  "currentPrice": 155.52,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 156.8459486,
+          "contract": {
+            "contractSymbol": "RJF270115C00160000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 160,
+            "bid": 12.6,
+            "ask": 15.8,
+            "lastPrice": 12.5,
+            "volume": 1,
+            "openInterest": 59,
+            "impliedVolatility": 0.3333196551513672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09131515550350709,
+          "staticAnnualizedPct": 0.12436579014470182,
+          "assignedReturnPct": 0.12012173986564693,
+          "assignedAnnualizedPct": 0.16359863824985496,
+          "effectiveCostBasis": 142.92000000000002,
+          "effectiveDiscountPct": 0.08101851851851852
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 156.8459486,
+          "contract": {
+            "contractSymbol": "RJF270115P00155000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 155,
+            "bid": 7.5,
+            "ask": 11.5,
+            "lastPrice": 15.5,
+            "volume": 2,
+            "openInterest": 7,
+            "impliedVolatility": 0.2215654016113281,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04838709677419355,
+          "notAssignedAnnualizedPct": 0.06590033702455464,
+          "effectiveCostBasis": 147.5,
+          "effectiveDiscountPct": 0.051568930041152324,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "leap-fallback",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 156.8459486,
+          "contract": {
+            "contractSymbol": "RJF260717C00160000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 160,
+            "bid": 4.2,
+            "ask": 6.4,
+            "lastPrice": 4.5,
+            "volume": 1,
+            "openInterest": 50,
+            "impliedVolatility": 0.27521476745605467,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0303103175436443,
+          "staticAnnualizedPct": 0.12864262678407176,
+          "assignedReturnPct": 0.05911690190578414,
+          "assignedAnnualizedPct": 0.25090313018152577,
+          "effectiveCostBasis": 151.32000000000002,
+          "effectiveDiscountPct": 0.02700617283950617
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 156.8459486,
+          "contract": {
+            "contractSymbol": "RJF260717P00155000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 155,
+            "bid": 6.9,
+            "ask": 10.1,
+            "lastPrice": 12.92,
+            "volume": 2,
+            "openInterest": 3,
+            "impliedVolatility": 0.3429631134033203,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.044516129032258066,
+          "notAssignedAnnualizedPct": 0.18893473368342087,
+          "effectiveCostBasis": 148.1,
+          "effectiveDiscountPct": 0.04771090534979434,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,19 +1,125 @@
 {
   "symbol": "IT",
-  "fetchedAt": "2026-04-22T11:50:06.149Z",
-  "currentPrice": 158.97,
+  "fetchedAt": "2026-04-22T14:42:12.452Z",
+  "currentPrice": 159.02,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 172.19853720000003,
+          "contract": {
+            "contractSymbol": "IT260918C00175000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 175,
+            "bid": 17.1,
+            "ask": 19.2,
+            "lastPrice": 21,
+            "volume": 3,
+            "openInterest": 55,
+            "impliedVolatility": 0.5973551007080078,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10753364356684694,
+          "staticAnnualizedPct": 0.26342134162348413,
+          "assignedReturnPct": 0.20802414790592372,
+          "assignedAnnualizedPct": 0.5095893556084709,
+          "effectiveCostBasis": 141.92000000000002,
+          "effectiveDiscountPct": 0.10753364356684694
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 172.19853720000003,
+          "contract": {
+            "contractSymbol": "IT260918P00155000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 155,
+            "bid": 18.2,
+            "ask": 21,
+            "lastPrice": 21.04,
+            "volume": 1,
+            "openInterest": 46,
+            "impliedVolatility": 0.5394943511962893,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11741935483870967,
+          "notAssignedAnnualizedPct": 0.28763801688677204,
+          "effectiveCostBasis": 136.8,
+          "effectiveDiscountPct": 0.1397308514652245,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 172.19853720000003,
+          "contract": {
+            "contractSymbol": "IT261218C00175000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 175,
+            "bid": 21.9,
+            "ask": 25.5,
+            "lastPrice": 21.05,
+            "volume": 3,
+            "openInterest": 2,
+            "impliedVolatility": 0.5789531851196289,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13771852597157588,
+          "staticAnnualizedPct": 0.20944692491510497,
+          "assignedReturnPct": 0.23820903031065266,
+          "assignedAnnualizedPct": 0.3622762335974509,
+          "effectiveCostBasis": 137.12,
+          "effectiveDiscountPct": 0.13771852597157588
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 172.19853720000003,
+          "contract": {
+            "contractSymbol": "IT261218P00155000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 155,
+            "bid": 23.2,
+            "ask": 25.9,
+            "lastPrice": 25,
+            "volume": 5,
+            "openInterest": 16,
+            "impliedVolatility": 0.5249681292724608,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1496774193548387,
+          "notAssignedAnnualizedPct": 0.2276344086021505,
+          "effectiveCostBasis": 131.8,
+          "effectiveDiscountPct": 0.17117343730348383,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

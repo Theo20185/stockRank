@@ -1,19 +1,125 @@
 {
   "symbol": "TGT",
-  "fetchedAt": "2026-04-22T11:50:19.879Z",
-  "currentPrice": 132.1,
+  "fetchedAt": "2026-04-22T14:42:33.441Z",
+  "currentPrice": 130.885,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 142.14047112821154,
+          "contract": {
+            "contractSymbol": "TGT270115C00145000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 145,
+            "bid": 9.7,
+            "ask": 11,
+            "lastPrice": 11.05,
+            "volume": 133,
+            "openInterest": 508,
+            "impliedVolatility": 0.364538825378418,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09939688558553703,
+          "staticAnnualizedPct": 0.1353726240250784,
+          "assignedReturnPct": 0.20723964831617853,
+          "assignedAnnualizedPct": 0.28224802849031777,
+          "effectiveCostBasis": 121.18499999999999,
+          "effectiveDiscountPct": 0.07411086067922222
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 142.14047112821154,
+          "contract": {
+            "contractSymbol": "TGT270115P00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 130,
+            "bid": 13.5,
+            "ask": 15.5,
+            "lastPrice": 14.64,
+            "volume": 12,
+            "openInterest": 1327,
+            "impliedVolatility": 0.3582827844238281,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10384615384615385,
+          "notAssignedAnnualizedPct": 0.14143226176808266,
+          "effectiveCostBasis": 116.5,
+          "effectiveDiscountPct": 0.10990564235779494,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 142.14047112821154,
+          "contract": {
+            "contractSymbol": "TGT280121C00145000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 145,
+            "bid": 16.15,
+            "ask": 19.3,
+            "lastPrice": 18.07,
+            "volume": 6,
+            "openInterest": 224,
+            "impliedVolatility": 0.3567569207763671,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.18368094913395167,
+          "staticAnnualizedPct": 0.104919477987312,
+          "assignedReturnPct": 0.29152371186459314,
+          "assignedAnnualizedPct": 0.16651980411670814,
+          "effectiveCostBasis": 114.73499999999999,
+          "effectiveDiscountPct": 0.1233907628834473
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 142.14047112821154,
+          "contract": {
+            "contractSymbol": "TGT280121P00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 130,
+            "bid": 21.05,
+            "ask": 22.8,
+            "lastPrice": 21.35,
+            "volume": 91,
+            "openInterest": 359,
+            "impliedVolatility": 0.34030811065673827,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16192307692307692,
+          "notAssignedAnnualizedPct": 0.09249127242084988,
+          "effectiveCostBasis": 108.95,
+          "effectiveDiscountPct": 0.16758986896894212,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

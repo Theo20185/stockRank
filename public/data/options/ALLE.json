@@ -1,13 +1,39 @@
 {
   "symbol": "ALLE",
-  "fetchedAt": "2026-04-22T11:49:50.708Z",
-  "currentPrice": 143.47,
+  "fetchedAt": "2026-04-22T14:41:58.621Z",
+  "currentPrice": 144.97,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 219.35293894724956,
+          "contract": {
+            "contractSymbol": "ALLE260918P00140000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 140,
+            "bid": 5.3,
+            "ask": 8.8,
+            "lastPrice": 6.82,
+            "volume": 1,
+            "openInterest": 9,
+            "impliedVolatility": 0.30542686767578126,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03785714285714285,
+          "notAssignedAnnualizedPct": 0.0927372962607862,
+          "effectiveCostBasis": 134.7,
+          "effectiveDiscountPct": 0.07084224322273582,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",

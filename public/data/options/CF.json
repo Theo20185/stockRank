@@ -1,19 +1,125 @@
 {
   "symbol": "CF",
-  "fetchedAt": "2026-04-22T11:49:16.027Z",
-  "currentPrice": 121.31,
+  "fetchedAt": "2026-04-22T14:41:20.128Z",
+  "currentPrice": 120.275,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 157.74101126719285,
+          "contract": {
+            "contractSymbol": "CF270115C00160000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 160,
+            "bid": 8.1,
+            "ask": 10.2,
+            "lastPrice": 6.14,
+            "volume": 11,
+            "openInterest": 36,
+            "impliedVolatility": 0.5063525927734375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07952469699860194,
+          "staticAnnualizedPct": 0.10830788956899146,
+          "assignedReturnPct": 0.40980946108091326,
+          "assignedAnnualizedPct": 0.5581360197557215,
+          "effectiveCostBasis": 112.17500000000001,
+          "effectiveDiscountPct": 0.06734566618166701
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 157.74101126719285,
+          "contract": {
+            "contractSymbol": "CF270115P00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 120,
+            "bid": 18.2,
+            "ask": 19.4,
+            "lastPrice": 18.45,
+            "volume": 50,
+            "openInterest": 14,
+            "impliedVolatility": 0.47827670166015623,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15166666666666667,
+          "notAssignedAnnualizedPct": 0.20656094527363184,
+          "effectiveCostBasis": 101.8,
+          "effectiveDiscountPct": 0.15360631885262946,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 157.74101126719285,
+          "contract": {
+            "contractSymbol": "CF280121C00160000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 160,
+            "bid": 17.4,
+            "ask": 21,
+            "lastPrice": 16.07,
+            "volume": 70,
+            "openInterest": 71,
+            "impliedVolatility": 0.5209703665161132,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.17370727664627006,
+          "staticAnnualizedPct": 0.09922246631594456,
+          "assignedReturnPct": 0.5039920407285814,
+          "assignedAnnualizedPct": 0.28788277756796904,
+          "effectiveCostBasis": 102.875,
+          "effectiveDiscountPct": 0.14466846809395134
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 157.74101126719285,
+          "contract": {
+            "contractSymbol": "CF280121P00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 120,
+            "bid": 24.5,
+            "ask": 28.2,
+            "lastPrice": 28.85,
+            "volume": 30,
+            "openInterest": 30,
+            "impliedVolatility": 0.4534356414794922,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.20416666666666666,
+          "notAssignedAnnualizedPct": 0.11662102243088159,
+          "effectiveCostBasis": 95.5,
+          "effectiveDiscountPct": 0.20598628143837044,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "symbol": "DOV",
-  "fetchedAt": "2026-04-22T11:50:14.674Z",
-  "currentPrice": 220.28,
+  "fetchedAt": "2026-04-22T14:42:28.158Z",
+  "currentPrice": 219.63,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -21,20 +21,46 @@
             "lastPrice": 14,
             "volume": 6,
             "openInterest": 45,
-            "impliedVolatility": 0.3061592822265625,
+            "impliedVolatility": 0.31034014862060544,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08316848762844799,
-          "staticAnnualizedPct": 0.11327051486710267,
-          "assignedReturnPct": 0.12729414588158036,
-          "assignedAnnualizedPct": 0.17336702704021206,
-          "effectiveCostBasis": 203.48,
-          "effectiveDiscountPct": 0.07626656982022881
+          "staticReturnPct": 0.08337691642045558,
+          "staticAnnualizedPct": 0.11355438243830704,
+          "assignedReturnPct": 0.13059268840060403,
+          "assignedAnnualizedPct": 0.17785944502321072,
+          "effectiveCostBasis": 202.82999999999998,
+          "effectiveDiscountPct": 0.07649228247507171
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 229.72005359022188,
+          "contract": {
+            "contractSymbol": "DOV270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 210,
+            "bid": 13.2,
+            "ask": 15.8,
+            "lastPrice": 13.55,
+            "volume": 4,
+            "openInterest": 15,
+            "impliedVolatility": 0.2760692510986328,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06285714285714285,
+          "notAssignedAnnualizedPct": 0.08560767590618336,
+          "effectiveCostBasis": 196.8,
+          "effectiveDiscountPct": 0.10394754814915988,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -54,20 +80,46 @@
             "lastPrice": 27.8,
             "volume": 1,
             "openInterest": 28,
-            "impliedVolatility": 0.3319006019592285,
+            "impliedVolatility": 0.3349828465270996,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.15037690321906616,
-          "staticAnnualizedPct": 0.08589604017990478,
-          "assignedReturnPct": 0.19450256147219852,
-          "assignedAnnualizedPct": 0.11110083714765644,
-          "effectiveCostBasis": 190.78,
-          "effectiveDiscountPct": 0.13392046486290177
+          "staticReturnPct": 0.15073203348845102,
+          "staticAnnualizedPct": 0.08609889236820754,
+          "assignedReturnPct": 0.19794780546859947,
+          "assignedAnnualizedPct": 0.11306877777157873,
+          "effectiveCostBasis": 190.13,
+          "effectiveDiscountPct": 0.13431680553658426
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 229.72005359022188,
+          "contract": {
+            "contractSymbol": "DOV280121P00210000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 210,
+            "bid": 20,
+            "ask": 23.7,
+            "lastPrice": 21.86,
+            "volume": 2,
+            "openInterest": 6,
+            "impliedVolatility": 0.2503279313659668,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09523809523809523,
+          "notAssignedAnnualizedPct": 0.054400476935688204,
+          "effectiveCostBasis": 190,
+          "effectiveDiscountPct": 0.13490871010335562,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

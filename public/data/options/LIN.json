@@ -1,19 +1,125 @@
 {
   "symbol": "LIN",
-  "fetchedAt": "2026-04-22T11:50:23.314Z",
-  "currentPrice": 494.84,
+  "fetchedAt": "2026-04-22T14:42:42.500Z",
+  "currentPrice": 500.41,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 581.2925403283136,
+          "contract": {
+            "contractSymbol": "LIN270115C00600000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 600,
+            "bid": 8.9,
+            "ask": 12.4,
+            "lastPrice": 10,
+            "volume": 3,
+            "openInterest": 35,
+            "impliedVolatility": 0.24539939178466796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01778541595891369,
+          "staticAnnualizedPct": 0.0242226747201623,
+          "assignedReturnPct": 0.21680222217781414,
+          "assignedAnnualizedPct": 0.2952716831899334,
+          "effectiveCostBasis": 491.51000000000005,
+          "effectiveDiscountPct": 0.01778541595891369
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 581.2925403283136,
+          "contract": {
+            "contractSymbol": "LIN270115P00500000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 500,
+            "bid": 33.5,
+            "ask": 37.6,
+            "lastPrice": 37.1,
+            "volume": 3,
+            "openInterest": 192,
+            "impliedVolatility": 0.22112290115356442,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.067,
+          "notAssignedAnnualizedPct": 0.09125000000000001,
+          "effectiveCostBasis": 466.5,
+          "effectiveDiscountPct": 0.0677644331648049,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 581.2925403283136,
+          "contract": {
+            "contractSymbol": "LIN280121C00590000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 590,
+            "bid": 35,
+            "ask": 39.5,
+            "lastPrice": 34.8,
+            "volume": 1,
+            "openInterest": 9,
+            "impliedVolatility": 0.26589936988830565,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06994264702943585,
+          "staticAnnualizedPct": 0.03995159024373097,
+          "assignedReturnPct": 0.24897583981135463,
+          "assignedAnnualizedPct": 0.14221624652761258,
+          "effectiveCostBasis": 465.41,
+          "effectiveDiscountPct": 0.06994264702943585
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 581.2925403283136,
+          "contract": {
+            "contractSymbol": "LIN280121P00500000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 500,
+            "bid": 51,
+            "ask": 56,
+            "lastPrice": 56.1,
+            "volume": 1,
+            "openInterest": 54,
+            "impliedVolatility": 0.21359276405334474,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.102,
+          "notAssignedAnnualizedPct": 0.05826291079812206,
+          "effectiveCostBasis": 449,
+          "effectiveDiscountPct": 0.10273575667952284,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

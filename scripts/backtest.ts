@@ -89,6 +89,13 @@ type Args = {
    * everything. Updated responses are written back to the cache.
    * Default false: cache is read-through, fetched-only-if-missing. */
   refreshCache: boolean;
+  /** When true, fetch fresh from Yahoo BUT merge the new response
+   * with the existing cache instead of overwriting. Used by
+   * `npm run refresh-all` to update the cache without losing
+   * historical dates that have aged out of Yahoo's rolling window
+   * (e.g., fundamentals older than 5y). Mutually exclusive with
+   * refreshCache (which overwrites). */
+  mergeCache: boolean;
   /** Override the cache directory. Default: tmp/backtest-cache/ */
   cacheDir: string;
 };
@@ -107,6 +114,7 @@ function parseArgs(argv: string[]): Args {
     optionsOverlayPct: 0,
     allSp500: false,
     refreshCache: false,
+    mergeCache: false,
     cacheDir: resolve(process.cwd(), "tmp/backtest-cache"),
   };
   for (let i = 0; i < argv.length; i += 1) {
@@ -164,6 +172,8 @@ function parseArgs(argv: string[]): Args {
       out.allSp500 = true;
     } else if (a === "--refresh-cache") {
       out.refreshCache = true;
+    } else if (a === "--merge-cache") {
+      out.mergeCache = true;
     } else if (a === "--cache-dir") {
       if (!next) throw new Error("--cache-dir requires a path");
       out.cacheDir = resolve(next);
@@ -173,7 +183,10 @@ function parseArgs(argv: string[]): Args {
     }
   }
   if (out.symbols.length === 0 && !out.allSp500) {
-    throw new Error("usage: backtest (--symbols SYM[,SYM...] | --all-sp500) [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N] [--refresh-cache] [--cache-dir PATH]");
+    throw new Error("usage: backtest (--symbols SYM[,SYM...] | --all-sp500) [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N] [--refresh-cache | --merge-cache] [--cache-dir PATH]");
+  }
+  if (out.refreshCache && out.mergeCache) {
+    throw new Error("--refresh-cache and --merge-cache are mutually exclusive (one overwrites, the other appends)");
   }
   return out;
 }
@@ -225,7 +238,56 @@ async function writeCachedJson(path: string, data: unknown): Promise<void> {
 type FetchOptions = {
   cacheDir: string;
   refreshCache: boolean;
+  mergeCache: boolean;
 };
+
+/**
+ * Normalize a Yahoo date field (sometimes Date, sometimes ISO string
+ * depending on whether the value came from a fresh fetch or a cache
+ * round-trip) to an ISO yyyy-mm-dd key for merge comparisons.
+ */
+function toIsoDateKey(d: unknown): string {
+  if (d instanceof Date) return d.toISOString().slice(0, 10);
+  return String(d).slice(0, 10);
+}
+
+/**
+ * Union by date — keep every period present in either old or fresh,
+ * with fresh winning on conflicts (since Yahoo may have restated an
+ * old period). Sort most-recent-first to match Yahoo's typical order.
+ */
+function mergeFundamentals(
+  oldRows: Array<Record<string, unknown>> | null,
+  fresh: Array<Record<string, unknown>>,
+): Array<Record<string, unknown>> {
+  if (!oldRows || oldRows.length === 0) return fresh;
+  const map = new Map<string, Record<string, unknown>>();
+  for (const row of oldRows) map.set(toIsoDateKey(row.date), row);
+  for (const row of fresh) map.set(toIsoDateKey(row.date), row);
+  return [...map.values()].sort(
+    (a, b) => toIsoDateKey(b.date).localeCompare(toIsoDateKey(a.date)),
+  );
+}
+
+type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null };
+type RawChart = { quotes?: RawChartQuote[] };
+
+/**
+ * Union chart quotes by date. Fresh wins on conflicts (adjclose gets
+ * re-computed on every dividend/split event, so the fresh series is
+ * the more accurate history). Oldest-first in the output to match
+ * Yahoo's chart ordering.
+ */
+function mergeChart(oldChart: RawChart | null, fresh: RawChart): RawChart {
+  if (!oldChart || !oldChart.quotes || oldChart.quotes.length === 0) return fresh;
+  const map = new Map<string, RawChartQuote>();
+  for (const q of oldChart.quotes) map.set(toIsoDateKey(q.date), q);
+  for (const q of fresh.quotes ?? []) map.set(toIsoDateKey(q.date), q);
+  const merged = [...map.values()].sort(
+    (a, b) => toIsoDateKey(a.date).localeCompare(toIsoDateKey(b.date)),
+  );
+  return { ...fresh, quotes: merged };
+}
 
 /**
  * Pulls the three Yahoo endpoints for a symbol and maps to SymbolHistory.
@@ -243,43 +305,77 @@ async function pullHistory(
   const period1 = new Date(today.getFullYear() - CACHE_CHART_YEARS, 0, 1);
   const yahooSymbol = symbol.replace(/\./g, "-");
   const paths = cachePathsFor(options.cacheDir, symbol);
+  console.error(`[DEBUG] pullHistory ${symbol} merge=${options.mergeCache} refresh=${options.refreshCache}`);
+
+  // The cache-policy logic is the same for all three endpoints:
+  //   refreshCache  → ignore cache, fetch fresh, overwrite
+  //   mergeCache    → preserve old cache, fetch fresh, write the union
+  //                   (so old dates aged out of Yahoo's window stick)
+  //   default       → read cache if present, fetch only on miss
 
   // ---- Fundamentals (annual time series) ----
-  let fundamentalsRaw: Array<Record<string, unknown>> | null = options.refreshCache
-    ? null
-    : await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentals);
+  let fundamentalsRaw: Array<Record<string, unknown>> | null;
+  if (options.refreshCache) {
+    fundamentalsRaw = null;
+  } else if (options.mergeCache) {
+    // Skip the cache-read for fetch-decision (we always fetch in merge
+    // mode), but the merge step below reads the old cache.
+    fundamentalsRaw = null;
+  } else {
+    fundamentalsRaw = await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentals);
+  }
   if (!fundamentalsRaw) {
-    fundamentalsRaw = (await yf.fundamentalsTimeSeries(yahooSymbol, {
+    const fresh = (await yf.fundamentalsTimeSeries(yahooSymbol, {
       period1: period1.toISOString().slice(0, 10),
       type: "annual",
       module: "all",
     })) as unknown as Array<Record<string, unknown>>;
+    if (options.mergeCache) {
+      const oldCache = await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentals);
+      console.error(`  [DEBUG ${symbol}] fresh=${fresh.length} old=${oldCache?.length ?? 0}`);
+      fundamentalsRaw = mergeFundamentals(oldCache, fresh);
+      console.error(`  [DEBUG ${symbol}] merged=${fundamentalsRaw.length}`);
+    } else {
+      fundamentalsRaw = fresh;
+    }
     await writeCachedJson(paths.fundamentals, fundamentalsRaw);
   }
 
   // ---- Chart (daily prices, adjusted close) ----
-  type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null };
-  type RawChart = { quotes?: RawChartQuote[] };
-  let chartRaw: RawChart | null = options.refreshCache
-    ? null
-    : await readCachedJson<RawChart>(paths.chart);
+  let chartRaw: RawChart | null;
+  if (options.refreshCache || options.mergeCache) {
+    chartRaw = null;
+  } else {
+    chartRaw = await readCachedJson<RawChart>(paths.chart);
+  }
   if (!chartRaw) {
-    chartRaw = (await yf.chart(yahooSymbol, {
+    const fresh = (await yf.chart(yahooSymbol, {
       period1,
       period2: today,
       interval: "1d",
     })) as unknown as RawChart;
+    if (options.mergeCache) {
+      const oldCache = await readCachedJson<RawChart>(paths.chart);
+      chartRaw = mergeChart(oldCache, fresh);
+    } else {
+      chartRaw = fresh;
+    }
     await writeCachedJson(paths.chart, chartRaw);
   }
 
   // ---- Profile (asset profile + price) ----
+  // No merge needed — profile is metadata, not a time series. Always
+  // overwrite when fetching.
   type RawProfile = {
     assetProfile?: { sector?: string; industry?: string };
     price?: { longName?: string; shortName?: string; currency?: string };
   };
-  let profileRaw: RawProfile | null = options.refreshCache
-    ? null
-    : await readCachedJson<RawProfile>(paths.profile);
+  let profileRaw: RawProfile | null;
+  if (options.refreshCache || options.mergeCache) {
+    profileRaw = null;
+  } else {
+    profileRaw = await readCachedJson<RawProfile>(paths.profile);
+  }
   if (!profileRaw) {
     profileRaw = (await yf.quoteSummary(yahooSymbol, {
       modules: ["assetProfile", "price"],
@@ -1504,7 +1600,9 @@ async function main(): Promise<void> {
   }
   const cache = new Map<string, SymbolHistory | null>();
   const cacheStatus = args.refreshCache
-    ? "refresh-cache mode (forced re-fetch)"
+    ? "refresh-cache mode (forced re-fetch, overwrite)"
+    : args.mergeCache
+    ? "merge-cache mode (forced re-fetch, union with existing)"
     : "cache-hit reads skip the network";
   console.log(`\npre-pulling ${uniqueSymbols.size} unique histories — ${cacheStatus}...`);
   let pulled = 0;
@@ -1512,9 +1610,11 @@ async function main(): Promise<void> {
   let cacheHits = 0;
   for (const sym of uniqueSymbols) {
     // Detect cache hit so we can skip the rate-limit sleep entirely.
+    // Both refreshCache and mergeCache always fetch, so cache hits are
+    // only possible in default mode.
     const paths = cachePathsFor(args.cacheDir, sym);
     const wouldHitCache =
-      !args.refreshCache &&
+      !args.refreshCache && !args.mergeCache &&
       (await readCachedJson<unknown>(paths.fundamentals)) !== null &&
       (await readCachedJson<unknown>(paths.chart)) !== null &&
       (await readCachedJson<unknown>(paths.profile)) !== null;

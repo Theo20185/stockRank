@@ -1,19 +1,125 @@
 {
   "symbol": "VLTO",
-  "fetchedAt": "2026-04-22T11:49:57.603Z",
-  "currentPrice": 89.68,
+  "fetchedAt": "2026-04-22T14:42:03.815Z",
+  "currentPrice": 90.1975,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.23000215999998,
+          "contract": {
+            "contractSymbol": "VLTO260515C00095000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 95,
+            "bid": 0.4,
+            "ask": 3.1,
+            "lastPrice": 0.97,
+            "volume": 512,
+            "openInterest": 528,
+            "impliedVolatility": 0.5441940112304688,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "staticReturnPct": 0.004800323855527084,
+          "staticAnnualizedPct": 0.07617905248988632,
+          "assignedReturnPct": 0.0580445933751922,
+          "assignedAnnualizedPct": 0.9211424600845719,
+          "effectiveCostBasis": 89.7975,
+          "effectiveDiscountPct": 0.004434712713767011
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.23000215999998,
+          "contract": {
+            "contractSymbol": "VLTO260515P00090000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 90,
+            "bid": 1.05,
+            "ask": 4,
+            "lastPrice": 2.6,
+            "volume": 3,
+            "openInterest": 14,
+            "impliedVolatility": 0.44482977050781247,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.011666666666666667,
+          "notAssignedAnnualizedPct": 0.1851449275362319,
+          "effectiveCostBasis": 88.95,
+          "effectiveDiscountPct": 0.01383076027606089,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.23000215999998,
+          "contract": {
+            "contractSymbol": "VLTO260717C00095000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 95,
+            "bid": 1,
+            "ask": 3.9,
+            "lastPrice": 2.65,
+            "volume": 1,
+            "openInterest": 37,
+            "impliedVolatility": 0.3329534478759766,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.012453849531868231,
+          "staticAnnualizedPct": 0.05285645440851052,
+          "assignedReturnPct": 0.06569811905153335,
+          "assignedAnnualizedPct": 0.2788350401605776,
+          "effectiveCostBasis": 89.1975,
+          "effectiveDiscountPct": 0.011086781784417528
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.23000215999998,
+          "contract": {
+            "contractSymbol": "VLTO260717P00090000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 90,
+            "bid": 3.4,
+            "ask": 5.4,
+            "lastPrice": 5.9,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.31372756591796874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03777777777777778,
+          "notAssignedAnnualizedPct": 0.16033591731266153,
+          "effectiveCostBasis": 86.6,
+          "effectiveDiscountPct": 0.039884697469442176,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,19 +1,98 @@
 {
   "symbol": "DG",
-  "fetchedAt": "2026-04-22T11:51:04.948Z",
-  "currentPrice": 124.11,
+  "fetchedAt": "2026-04-22T14:43:28.555Z",
+  "currentPrice": 122.38,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 270.88729606124997,
+          "contract": {
+            "contractSymbol": "DG270115P00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 120,
+            "bid": 12.85,
+            "ask": 14.35,
+            "lastPrice": 15.23,
+            "volume": 1,
+            "openInterest": 57,
+            "impliedVolatility": 0.37543349182128904,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10708333333333334,
+          "notAssignedAnnualizedPct": 0.14584110696517413,
+          "effectiveCostBasis": 107.15,
+          "effectiveDiscountPct": 0.1244484392874652,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 270.88729606124997,
+          "contract": {
+            "contractSymbol": "DG280121C00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 230,
+            "bid": 2.98,
+            "ask": 4.8,
+            "lastPrice": 4.5,
+            "volume": 10,
+            "openInterest": 14,
+            "impliedVolatility": 0.3961547201538086,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.0577139641404384,
+          "staticAnnualizedPct": 0.03296650533843508,
+          "assignedReturnPct": 0.937106021666178,
+          "assignedAnnualizedPct": 0.5352796524384272,
+          "effectiveCostBasis": 119.39999999999999,
+          "effectiveDiscountPct": 0.02435038404968132
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 270.88729606124997,
+          "contract": {
+            "contractSymbol": "DG280121P00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 120,
+            "bid": 19.45,
+            "ask": 20.45,
+            "lastPrice": 19.78,
+            "volume": 1,
+            "openInterest": 18,
+            "impliedVolatility": 0.34076586975097656,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16208333333333333,
+          "notAssignedAnnualizedPct": 0.09258281168492437,
+          "effectiveCostBasis": 100.55,
+          "effectiveDiscountPct": 0.17837882006863867,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

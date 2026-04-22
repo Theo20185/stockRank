@@ -1,19 +1,98 @@
 {
   "symbol": "TEL",
-  "fetchedAt": "2026-04-22T11:50:54.537Z",
-  "currentPrice": 243.18,
+  "fetchedAt": "2026-04-22T14:43:14.535Z",
+  "currentPrice": 215.7669,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 324.94501803140923,
+          "contract": {
+            "contractSymbol": "TEL260918P00210000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 149,
+            "strike": 210,
+            "bid": 16.3,
+            "ask": 18.1,
+            "lastPrice": 9.5,
+            "volume": 6,
+            "openInterest": 58,
+            "impliedVolatility": 0.3841614318847656,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07761904761904763,
+          "notAssignedAnnualizedPct": 0.19014062000639184,
+          "effectiveCostBasis": 193.7,
+          "effectiveDiscountPct": 0.10227194254540435,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 324.94501803140923,
+          "contract": {
+            "contractSymbol": "TEL261218C00330000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 330,
+            "bid": 1.5,
+            "ask": 4.3,
+            "lastPrice": 4.9,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.41199318481445313,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.014839545545336322,
+          "staticAnnualizedPct": 0.022568475516865655,
+          "assignedReturnPct": 0.5442678313482098,
+          "assignedAnnualizedPct": 0.8277406601754024,
+          "effectiveCostBasis": 214.2669,
+          "effectiveDiscountPct": 0.006951946753649425
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 324.94501803140923,
+          "contract": {
+            "contractSymbol": "TEL261218P00210000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 240,
+            "strike": 210,
+            "bid": 21,
+            "ask": 23.2,
+            "lastPrice": 14.3,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.3780884945678711,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1,
+          "notAssignedAnnualizedPct": 0.15208333333333335,
+          "effectiveCostBasis": 189,
+          "effectiveDiscountPct": 0.12405470904017249,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

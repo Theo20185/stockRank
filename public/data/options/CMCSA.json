@@ -1,19 +1,125 @@
 {
   "symbol": "CMCSA",
-  "fetchedAt": "2026-04-22T11:50:18.156Z",
-  "currentPrice": 29.05,
+  "fetchedAt": "2026-04-22T14:42:29.914Z",
+  "currentPrice": 29.265,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 43.72850764298424,
+          "contract": {
+            "contractSymbol": "CMCSA270115C00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 45,
+            "bid": 0.12,
+            "ask": 0.25,
+            "lastPrice": 0.2,
+            "volume": 2,
+            "openInterest": 816,
+            "impliedVolatility": 0.32031929687499994,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.037361216470186226,
+          "staticAnnualizedPct": 0.05088374631200736,
+          "assignedReturnPct": 0.5750342046813599,
+          "assignedAnnualizedPct": 0.7831622563757327,
+          "effectiveCostBasis": 29.145,
+          "effectiveDiscountPct": 0.004100461301896463
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.72850764298424,
+          "contract": {
+            "contractSymbol": "CMCSA270115P00027500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 27.5,
+            "bid": 2.2,
+            "ask": 2.53,
+            "lastPrice": 2.12,
+            "volume": 10,
+            "openInterest": 1014,
+            "impliedVolatility": 0.34497725341796875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08,
+          "notAssignedAnnualizedPct": 0.10895522388059702,
+          "effectiveCostBasis": 25.3,
+          "effectiveDiscountPct": 0.13548607551682898,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 43.72850764298424,
+          "contract": {
+            "contractSymbol": "CMCSA280121C00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 45,
+            "bid": 0.71,
+            "ask": 1.5,
+            "lastPrice": 1.15,
+            "volume": 2,
+            "openInterest": 112,
+            "impliedVolatility": 0.3435124243164062,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10356562446608576,
+          "staticAnnualizedPct": 0.059157203333523166,
+          "assignedReturnPct": 0.6412386126772595,
+          "assignedAnnualizedPct": 0.36627870677183055,
+          "effectiveCostBasis": 28.555,
+          "effectiveDiscountPct": 0.024261062702887408
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.72850764298424,
+          "contract": {
+            "contractSymbol": "CMCSA280121P00027500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 27.5,
+            "bid": 2.97,
+            "ask": 4.1,
+            "lastPrice": 4,
+            "volume": 15,
+            "openInterest": 582,
+            "impliedVolatility": 0.3319158605957031,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10800000000000001,
+          "notAssignedAnnualizedPct": 0.061690140845070435,
+          "effectiveCostBasis": 24.53,
+          "effectiveDiscountPct": 0.1617973688706646,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

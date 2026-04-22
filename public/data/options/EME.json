@@ -1,18 +1,98 @@
 {
   "symbol": "EME",
-  "fetchedAt": "2026-04-22T11:49:43.815Z",
-  "currentPrice": 838.01,
+  "fetchedAt": "2026-04-22T14:41:55.137Z",
+  "currentPrice": 852.6499,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 930.5795433859096,
+          "contract": {
+            "contractSymbol": "EME260515C00940000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 940,
+            "bid": 8.3,
+            "ask": 15,
+            "lastPrice": 7.3,
+            "volume": 2,
+            "openInterest": 33,
+            "impliedVolatility": 0.5034534518432617,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.00983503610734565,
+          "staticAnnualizedPct": 0.1560777469209201,
+          "assignedReturnPct": 0.11228048294314542,
+          "assignedAnnualizedPct": 1.7818424467064382,
+          "effectiveCostBasis": 844.3499,
+          "effectiveDiscountPct": 0.009734358732699084
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 930.5795433859096,
+          "contract": {
+            "contractSymbol": "EME260515P00840000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 840,
+            "bid": 39.5,
+            "ask": 46.1,
+            "lastPrice": 47.38,
+            "volume": 10,
+            "openInterest": 12,
+            "impliedVolatility": 0.5649457568359376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.04702380952380952,
+          "notAssignedAnnualizedPct": 0.7462474120082816,
+          "effectiveCostBasis": 800.5,
+          "effectiveDiscountPct": 0.06116214873185349,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 930.5795433859096,
+          "contract": {
+            "contractSymbol": "EME260717C00940000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 940,
+            "bid": 29,
+            "ask": 32,
+            "lastPrice": 19,
+            "volume": 2,
+            "openInterest": 8,
+            "impliedVolatility": 0.3833679827880859,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.034388060684824556,
+          "staticAnnualizedPct": 0.1459493273251275,
+          "assignedReturnPct": 0.13683350752062431,
+          "assignedAnnualizedPct": 0.5807468633142777,
+          "effectiveCostBasis": 823.6499,
+          "effectiveDiscountPct": 0.03401161484918957
+        }
+      ],
       "puts": []
     }
   ]

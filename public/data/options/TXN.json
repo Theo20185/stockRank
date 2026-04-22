@@ -1,19 +1,125 @@
 {
   "symbol": "TXN",
-  "fetchedAt": "2026-04-22T11:51:25.770Z",
-  "currentPrice": 233.15,
+  "fetchedAt": "2026-04-22T14:43:53.297Z",
+  "currentPrice": 235.515,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 260.911541234447,
+          "contract": {
+            "contractSymbol": "TXN270115C00270000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 270,
+            "bid": 16.8,
+            "ask": 17.9,
+            "lastPrice": 16.95,
+            "volume": 11,
+            "openInterest": 1071,
+            "impliedVolatility": 0.37470107727050783,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08929608290645034,
+          "staticAnnualizedPct": 0.12161593380915811,
+          "assignedReturnPct": 0.23571987756921076,
+          "assignedAnnualizedPct": 0.32103640042075343,
+          "effectiveCostBasis": 218.71499999999997,
+          "effectiveDiscountPct": 0.07133303611234953
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 260.911541234447,
+          "contract": {
+            "contractSymbol": "TXN270115P00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 230,
+            "bid": 23.55,
+            "ask": 25.95,
+            "lastPrice": 24.9,
+            "volume": 4,
+            "openInterest": 378,
+            "impliedVolatility": 0.3606326144409179,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10239130434782609,
+          "notAssignedAnnualizedPct": 0.13945084360804672,
+          "effectiveCostBasis": 206.45,
+          "effectiveDiscountPct": 0.12341039848841899,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 260.911541234447,
+          "contract": {
+            "contractSymbol": "TXN280121C00270000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 270,
+            "bid": 30.5,
+            "ask": 34.5,
+            "lastPrice": 22.04,
+            "volume": 1,
+            "openInterest": 79,
+            "impliedVolatility": 0.3777680632019042,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.17233323052735786,
+          "staticAnnualizedPct": 0.09843760429183979,
+          "assignedReturnPct": 0.3187570251901183,
+          "assignedAnnualizedPct": 0.18207560906790796,
+          "effectiveCostBasis": 205.015,
+          "effectiveDiscountPct": 0.12950342865634887
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 260.911541234447,
+          "contract": {
+            "contractSymbol": "TXN280121P00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 230,
+            "bid": 36.7,
+            "ask": 37.95,
+            "lastPrice": 37.98,
+            "volume": 3,
+            "openInterest": 29,
+            "impliedVolatility": 0.3334722415161133,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15956521739130436,
+          "notAssignedAnnualizedPct": 0.09114445124855414,
+          "effectiveCostBasis": 193.3,
+          "effectiveDiscountPct": 0.17924548330254964,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

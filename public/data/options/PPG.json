@@ -1,23 +1,76 @@
 {
   "symbol": "PPG",
-  "fetchedAt": "2026-04-22T11:49:55.893Z",
-  "currentPrice": 110.92,
+  "fetchedAt": "2026-04-22T14:42:16.001Z",
+  "currentPrice": 112.08,
   "expirations": [
     {
       "expiration": "2027-01-15",
-      "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
-      "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 186.18862388999997,
+          "anchorPrice": 187.30550625,
+          "contract": {
+            "contractSymbol": "PPG270115P00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 110,
+            "bid": 9.4,
+            "ask": 11.8,
+            "lastPrice": 10.41,
+            "volume": 1,
+            "openInterest": 43,
+            "impliedVolatility": 0.3382329360961914,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08545454545454546,
+          "notAssignedAnnualizedPct": 0.11638398914518319,
+          "effectiveCostBasis": 100.6,
+          "effectiveDiscountPct": 0.10242683797287655,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 187.30550625,
+          "contract": {
+            "contractSymbol": "PPG280121C00195000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 195,
+            "bid": 0.05,
+            "ask": 5,
+            "lastPrice": 1.77,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.38007211730957036,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.00044610992148465386,
+          "staticAnnualizedPct": 0.0002548202211923297,
+          "assignedReturnPct": 0.7402748037116346,
+          "assignedAnnualizedPct": 0.4228486750465518,
+          "effectiveCostBasis": 112.03,
+          "effectiveDiscountPct": 0.00044610992148465386
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 187.30550625,
           "contract": {
             "contractSymbol": "PPG280121P00110000",
             "expiration": "2028-01-21",
@@ -28,7 +81,7 @@
             "lastPrice": 18.6,
             "volume": 1,
             "openInterest": 4,
-            "impliedVolatility": 0.2925790957641601,
+            "impliedVolatility": 0.30084927673339845,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -36,7 +89,7 @@
           "notAssignedReturnPct": 0.10454545454545454,
           "notAssignedAnnualizedPct": 0.059716887181675914,
           "effectiveCostBasis": 98.5,
-          "effectiveDiscountPct": 0.11197259285971874,
+          "effectiveDiscountPct": 0.12116345467523196,
           "inTheMoney": false
         }
       ]

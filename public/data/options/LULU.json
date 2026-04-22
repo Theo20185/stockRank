@@ -1,19 +1,125 @@
 {
   "symbol": "LULU",
-  "fetchedAt": "2026-04-22T11:49:14.235Z",
-  "currentPrice": 166.7,
+  "fetchedAt": "2026-04-22T14:41:18.373Z",
+  "currentPrice": 163.935,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 167.70901043645395,
+          "contract": {
+            "contractSymbol": "LULU270115C00170000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 170,
+            "bid": 26.1,
+            "ask": 30.05,
+            "lastPrice": 28.8,
+            "volume": 1,
+            "openInterest": 398,
+            "impliedVolatility": 0.5473067730712893,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15920944276695032,
+          "staticAnnualizedPct": 0.2168337560072271,
+          "assignedReturnPct": 0.1962058132796535,
+          "assignedAnnualizedPct": 0.26722060390699076,
+          "effectiveCostBasis": 137.835,
+          "effectiveDiscountPct": 0.15920944276695032
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 167.70901043645395,
+          "contract": {
+            "contractSymbol": "LULU270115P00160000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 160,
+            "bid": 20.6,
+            "ask": 23.15,
+            "lastPrice": 21.9,
+            "volume": 96,
+            "openInterest": 1546,
+            "impliedVolatility": 0.4549309878540039,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12875,
+          "notAssignedAnnualizedPct": 0.17534981343283582,
+          "effectiveCostBasis": 139.4,
+          "effectiveDiscountPct": 0.14966297617958335,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 167.70901043645395,
+          "contract": {
+            "contractSymbol": "LULU280121C00170000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 170,
+            "bid": 42.9,
+            "ask": 49,
+            "lastPrice": 44.7,
+            "volume": 2,
+            "openInterest": 399,
+            "impliedVolatility": 0.5676923114013672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.2616890840882057,
+          "staticAnnualizedPct": 0.14947811532424896,
+          "assignedReturnPct": 0.2986854546009089,
+          "assignedAnnualizedPct": 0.17061062743244407,
+          "effectiveCostBasis": 121.035,
+          "effectiveDiscountPct": 0.2616890840882057
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 167.70901043645395,
+          "contract": {
+            "contractSymbol": "LULU280121P00160000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 160,
+            "bid": 29,
+            "ask": 36.5,
+            "lastPrice": 32.82,
+            "volume": 1,
+            "openInterest": 289,
+            "impliedVolatility": 0.4562737478637696,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.18125,
+          "notAssignedAnnualizedPct": 0.10353090766823161,
+          "effectiveCostBasis": 131,
+          "effectiveDiscountPct": 0.20090279684021106,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }
