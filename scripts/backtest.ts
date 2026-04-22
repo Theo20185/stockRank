@@ -29,7 +29,7 @@
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import YahooFinance from "yahoo-finance2";
 import type {
   AnnualPeriod,
@@ -85,6 +85,12 @@ type Args = {
    * company in the loaded snapshot. Pre-pulls all unique histories
    * (subjects + their peers, deduped) to avoid the per-subject re-fetch. */
   allSp500: boolean;
+  /** When true, ignore the on-disk Yahoo response cache and re-fetch
+   * everything. Updated responses are written back to the cache.
+   * Default false: cache is read-through, fetched-only-if-missing. */
+  refreshCache: boolean;
+  /** Override the cache directory. Default: tmp/backtest-cache/ */
+  cacheDir: string;
 };
 
 function parseArgs(argv: string[]): Args {
@@ -100,6 +106,8 @@ function parseArgs(argv: string[]): Args {
     archive: false,
     optionsOverlayPct: 0,
     allSp500: false,
+    refreshCache: false,
+    cacheDir: resolve(process.cwd(), "tmp/backtest-cache"),
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -154,17 +162,23 @@ function parseArgs(argv: string[]): Args {
       i += 1;
     } else if (a === "--all-sp500") {
       out.allSp500 = true;
+    } else if (a === "--refresh-cache") {
+      out.refreshCache = true;
+    } else if (a === "--cache-dir") {
+      if (!next) throw new Error("--cache-dir requires a path");
+      out.cacheDir = resolve(next);
+      i += 1;
     } else if (a.startsWith("--")) {
       throw new Error(`Unknown flag: ${a}`);
     }
   }
   if (out.symbols.length === 0 && !out.allSp500) {
-    throw new Error("usage: backtest (--symbols SYM[,SYM...] | --all-sp500) [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N]");
+    throw new Error("usage: backtest (--symbols SYM[,SYM...] | --all-sp500) [--years N] [--peers SYM:P1,P2] [--accuracy] [--horizons 1,2,3,5] [--archive] [--options-overlay-pct N] [--refresh-cache] [--cache-dir PATH]");
   }
   return out;
 }
 
-// ─── Data fetch ──────────────────────────────────────────────────────────
+// ─── Data fetch (with disk cache) ───────────────────────────────────────
 
 type SymbolHistory = {
   symbol: string;
@@ -173,44 +187,117 @@ type SymbolHistory = {
   prices: Array<{ date: string; close: number }>;
 };
 
-async function pullHistory(symbol: string, years: number): Promise<SymbolHistory> {
+/** Always pull this much chart history regardless of `--years`. The
+ * fundamentals call is internally capped at ~5y by Yahoo anyway, so we
+ * pull a 15y chart window so the cache is reusable across analyses with
+ * different `--years` settings. */
+const CACHE_CHART_YEARS = 15;
+
+type CacheLayout = {
+  fundamentals: string;
+  chart: string;
+  profile: string;
+};
+
+function cachePathsFor(cacheDir: string, symbol: string): CacheLayout {
+  const root = resolve(cacheDir, symbol);
+  return {
+    fundamentals: resolve(root, "fundamentals.json"),
+    chart: resolve(root, "chart.json"),
+    profile: resolve(root, "profile.json"),
+  };
+}
+
+async function readCachedJson<T>(path: string): Promise<T | null> {
+  try {
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+async function writeCachedJson(path: string, data: unknown): Promise<void> {
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, JSON.stringify(data), "utf8");
+}
+
+type FetchOptions = {
+  cacheDir: string;
+  refreshCache: boolean;
+};
+
+/**
+ * Pulls the three Yahoo endpoints for a symbol and maps to SymbolHistory.
+ * On cache hit the network is skipped entirely; on miss (or refresh) the
+ * raw API responses are persisted under <cacheDir>/<SYM>/{fundamentals,
+ * chart, profile}.json so analysis-side iteration doesn't trigger
+ * re-fetches.
+ */
+async function pullHistory(
+  symbol: string,
+  _years: number,
+  options: FetchOptions,
+): Promise<SymbolHistory> {
   const today = new Date();
-  const period1 = new Date(today.getFullYear() - years - 1, 0, 1);
+  const period1 = new Date(today.getFullYear() - CACHE_CHART_YEARS, 0, 1);
   const yahooSymbol = symbol.replace(/\./g, "-");
+  const paths = cachePathsFor(options.cacheDir, symbol);
 
-  const fundamentalsRaw = (await yf.fundamentalsTimeSeries(yahooSymbol, {
-    period1: period1.toISOString().slice(0, 10),
-    type: "annual",
-    module: "all",
-  })) as unknown as Array<Record<string, unknown>>;
+  // ---- Fundamentals (annual time series) ----
+  let fundamentalsRaw: Array<Record<string, unknown>> | null = options.refreshCache
+    ? null
+    : await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentals);
+  if (!fundamentalsRaw) {
+    fundamentalsRaw = (await yf.fundamentalsTimeSeries(yahooSymbol, {
+      period1: period1.toISOString().slice(0, 10),
+      type: "annual",
+      module: "all",
+    })) as unknown as Array<Record<string, unknown>>;
+    await writeCachedJson(paths.fundamentals, fundamentalsRaw);
+  }
 
-  const chart = await yf.chart(yahooSymbol, {
-    period1,
-    period2: today,
-    interval: "1d",
-  });
+  // ---- Chart (daily prices, adjusted close) ----
+  type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null };
+  type RawChart = { quotes?: RawChartQuote[] };
+  let chartRaw: RawChart | null = options.refreshCache
+    ? null
+    : await readCachedJson<RawChart>(paths.chart);
+  if (!chartRaw) {
+    chartRaw = (await yf.chart(yahooSymbol, {
+      period1,
+      period2: today,
+      interval: "1d",
+    })) as unknown as RawChart;
+    await writeCachedJson(paths.chart, chartRaw);
+  }
 
-  // Use Yahoo's split-AND-dividend-adjusted close (`adjclose`) so realized
-  // returns are TOTAL returns, not price-only. Both subjects and baselines
-  // (SPY/RSP/VTV) get the same treatment, so excess-return math stays
-  // apples-to-apples. Falls back to raw close on the rare quote where
-  // adjclose is missing (early data in some fund histories).
-  const prices = (chart.quotes ?? [])
-    .filter(
-      (q): q is typeof q & { close: number; date: Date } =>
-        q.close !== null && q.close !== undefined && q.date instanceof Date,
-    )
-    .map((q) => ({
-      date: q.date.toISOString().slice(0, 10),
-      close: (q as typeof q & { adjclose?: number | null }).adjclose ?? q.close,
-    }));
-
-  const profile = (await yf.quoteSummary(yahooSymbol, {
-    modules: ["assetProfile", "price"],
-  })) as unknown as {
+  // ---- Profile (asset profile + price) ----
+  type RawProfile = {
     assetProfile?: { sector?: string; industry?: string };
     price?: { longName?: string; shortName?: string; currency?: string };
   };
+  let profileRaw: RawProfile | null = options.refreshCache
+    ? null
+    : await readCachedJson<RawProfile>(paths.profile);
+  if (!profileRaw) {
+    profileRaw = (await yf.quoteSummary(yahooSymbol, {
+      modules: ["assetProfile", "price"],
+    })) as unknown as RawProfile;
+    await writeCachedJson(paths.profile, profileRaw);
+  }
+
+  // ---- Map cached/fetched responses to SymbolHistory ----
+  // q.date can be a Date object (fresh fetch) or an ISO string (cache
+  // hit, since JSON serialization converts Date → string). Handle both.
+  const prices = (chartRaw.quotes ?? [])
+    .filter((q): q is RawChartQuote & { close: number } => q.close != null)
+    .map((q) => {
+      const dateIso = q.date instanceof Date
+        ? q.date.toISOString().slice(0, 10)
+        : String(q.date).slice(0, 10);
+      return { date: dateIso, close: q.adjclose ?? q.close };
+    });
 
   const annual = fundamentalsRaw
     .map((row) => mapAnnualRow(row))
@@ -220,10 +307,10 @@ async function pullHistory(symbol: string, years: number): Promise<SymbolHistory
   return {
     symbol,
     meta: {
-      name: profile.price?.longName ?? profile.price?.shortName ?? symbol,
-      sector: profile.assetProfile?.sector ?? "Unknown",
-      industry: profile.assetProfile?.industry ?? "Unknown",
-      currency: profile.price?.currency ?? "USD",
+      name: profileRaw.price?.longName ?? profileRaw.price?.shortName ?? symbol,
+      sector: profileRaw.assetProfile?.sector ?? "Unknown",
+      industry: profileRaw.assetProfile?.industry ?? "Unknown",
+      currency: profileRaw.price?.currency ?? "USD",
     },
     annual,
     prices,
@@ -325,6 +412,12 @@ function buildSnapshotAtDate(
   const equity = recent.balance.totalEquity ?? null;
   const debt = recent.balance.totalDebt ?? null;
   const cash = recent.balance.cash ?? null;
+  const netIncome = recent.income.netIncome ?? null;
+  const dividendsPaid = recent.cashFlow.dividendsPaid ?? null;
+  const tca = recent.balance.totalCurrentAssets ?? null;
+  const tcl = recent.balance.totalCurrentLiabilities ?? null;
+  const investedCapital = (equity ?? 0) + (debt ?? 0) - (cash ?? 0);
+
   const peRatio = eps !== null && eps > 0 ? price / eps : null;
   const evToEbitda =
     ebitda !== null && ebitda > 0
@@ -338,6 +431,21 @@ function buildSnapshotAtDate(
     equity !== null && equity > 0 && shares !== null && shares > 0
       ? price / (equity / shares)
       : null;
+
+  // Compute the four ratios that Yahoo provides on its `defaultKeyStatistics`
+  // module live but that we can't ask for at a historical date. Used to be
+  // hardcoded to null, which had a hidden consequence: ROIC is the SOLE
+  // factor in the Quality category, so a null ROIC nulls Quality entirely,
+  // which sets missingCategoryCount ≥ 1, which makes classifyRow return
+  // "watch" instead of "ranked" — so candidateGateOff was *structurally*
+  // false for every back-test snapshot. These approximations match the
+  // standard textbook formulas; they'll diverge slightly from Yahoo's
+  // proprietary methodology but are within tolerance for ranking purposes.
+  const roic = netIncome !== null && investedCapital > 0 ? netIncome / investedCapital : null;
+  const dividendYield = dividendsPaid !== null && marketCap > 0 ? dividendsPaid / marketCap : null;
+  const currentRatio = tca !== null && tcl !== null && tcl > 0 ? tca / tcl : null;
+  const netDebtToEbitda = ebitda !== null && ebitda > 0 ? ((debt ?? 0) - (cash ?? 0)) / ebitda : null;
+
   return {
     symbol: history.symbol,
     name: history.meta.name,
@@ -353,14 +461,14 @@ function buildSnapshotAtDate(
       evToEbitda,
       priceToFcf,
       priceToBook,
-      dividendYield: null,
-      currentRatio: null,
-      netDebtToEbitda: null,
-      roic: null,
+      dividendYield,
+      currentRatio,
+      netDebtToEbitda,
+      roic,
       earningsYield: peRatio ? 1 / peRatio : null,
       fcfYield: priceToFcf ? 1 / priceToFcf : null,
       enterpriseValue: marketCap + (debt ?? 0) - (cash ?? 0),
-      investedCapital: (equity ?? 0) + (debt ?? 0) - (cash ?? 0),
+      investedCapital,
       forwardEps: null,
     },
     annual,
@@ -935,34 +1043,43 @@ function emptyAggregate(): Aggregate {
  * rule, no cherry-picking. Returns the same shape (long: per snapshot
  * per horizon).
  */
-function dedupeYearly(rows: AccuracyRow[], horizons: number[]): AccuracyRow[] {
-  // Group by (symbol, year); within each group, pick the FIRST date that
-  // has windowComplete=true for ALL requested horizons AND has non-null
-  // fair value (the back-test's engine returns null FV for early window
-  // dates that don't have enough annual history; including those would
-  // give us a yearly headline of mostly-null hit rates and obscure the
-  // real signal). Mechanical no-cherry-pick rule.
-  const bySymbolYear = groupBy(rows, (r) => `${r.symbol}|${r.date.slice(0, 4)}`);
+function dedupeYearly(rows: AccuracyRow[], _horizons: number[]): AccuracyRow[] {
+  // PER-HORIZON dedup. Each (symbol, year, horizon) contributes one
+  // observation — the FIRST date in the year that's a gate-off
+  // Candidate (preferred), falling back to the first FV-valid date.
+  // The dedup runs separately per horizon because Candidate dates that
+  // complete a 1y window may not complete a 3y window (T+3y > today),
+  // so requiring "all horizons complete" would always exclude recent
+  // Candidates from H3 verdicts entirely.
+  //
+  // Conceptual interpretation per horizon: "for symbol X in year Y,
+  // what's the first action the strategy would have taken that year
+  // (Candidate entry if any, otherwise hold), and what was the
+  // realized N-year forward return on that action?"
   const out: AccuracyRow[] = [];
-  for (const [, group] of bySymbolYear) {
-    const dates = [...new Set(group.map((r) => r.date))].sort();
-    let chosen: string | null = null;
-    for (const d of dates) {
-      const horizonRows = group.filter((r) => r.date === d);
-      const allComplete = horizons.every((h) => {
-        const r = horizonRows.find((x) => x.horizon === h);
-        return r ? r.windowComplete : false;
-      });
-      const hasFv = horizonRows.some((r) => r.fvP25 !== null);
-      if (allComplete && hasFv) {
-        chosen = d;
-        break;
+  const byHorizon = groupBy(rows, (r) => r.horizon);
+  for (const [, horizonRows] of byHorizon) {
+    const bySymbolYear = groupBy(horizonRows, (r) => `${r.symbol}|${r.date.slice(0, 4)}`);
+    for (const [, group] of bySymbolYear) {
+      const sorted = [...group].sort((a, b) => a.date.localeCompare(b.date));
+      // Pass 1: first Candidate date with windowComplete + FV.
+      let chosen: AccuracyRow | null = null;
+      for (const r of sorted) {
+        if (r.windowComplete && r.fvP25 !== null && r.candidateGateOff) {
+          chosen = r;
+          break;
+        }
       }
-    }
-    if (chosen) {
-      for (const r of group) {
-        if (r.date === chosen) out.push(r);
+      // Pass 2: fall back to first FV-valid date with windowComplete.
+      if (!chosen) {
+        for (const r of sorted) {
+          if (r.windowComplete && r.fvP25 !== null) {
+            chosen = r;
+            break;
+          }
+        }
       }
+      if (chosen) out.push(chosen);
     }
   }
   return out;
@@ -1093,30 +1210,34 @@ function evaluateHypotheses(yearly: AccuracyRow[]): HypothesisResult[] {
     evidence: `n=${h2Agg.n}, hit median = ${fmtRate(h2Agg.endpointHitMedian, h2Agg.endpointHitMedianCi)} (threshold: 50%)`,
   });
 
-  // H3 fans out across three baselines so we can tell HOW MUCH of the
-  // model's excess return is "we beat the cap-weighted index" vs the
-  // tougher tests "we beat the equal-weighted version (no Mag7
-  // concentration tailwind)" and "we beat the value style itself".
-  const candidates3y = yearly.filter((r) => r.horizon === 3 && r.candidateGateOff);
-  const h3Agg = aggregate(candidates3y);
-  results.push({
-    id: "H3-SPY",
-    statement: "Candidates (gate-off) beat SPY (cap-weight) over 3y on average",
-    verdict: verdictForExcess(h3Agg.meanExcessVsSpy, h3Agg.meanExcessVsSpyCi),
-    evidence: `n=${h3Agg.n}, mean excess vs SPY = ${fmtMean(h3Agg.meanExcessVsSpy, h3Agg.meanExcessVsSpyCi)}`,
-  });
-  results.push({
-    id: "H3-RSP",
-    statement: "Candidates (gate-off) beat RSP (equal-weight S&P 500) over 3y on average",
-    verdict: verdictForExcess(h3Agg.meanExcessVsRsp, h3Agg.meanExcessVsRspCi),
-    evidence: `n=${h3Agg.n}, mean excess vs RSP = ${fmtMean(h3Agg.meanExcessVsRsp, h3Agg.meanExcessVsRspCi)} — gap vs SPY excess quantifies Mag7 concentration tailwind`,
-  });
-  results.push({
-    id: "H3-VTV",
-    statement: "Candidates (gate-off) beat VTV (Vanguard Value) over 3y on average",
-    verdict: verdictForExcess(h3Agg.meanExcessVsVtv, h3Agg.meanExcessVsVtvCi),
-    evidence: `n=${h3Agg.n}, mean excess vs VTV = ${fmtMean(h3Agg.meanExcessVsVtv, h3Agg.meanExcessVsVtvCi)} — beating this means stock-picking generates real alpha over a value ETF`,
-  });
+  // H3 fans out across three baselines AND every requested horizon, so
+  // we can tell how much of the model's excess return is "we beat the
+  // cap-weighted index" vs the tougher tests "we beat the equal-
+  // weighted version (no Mag7 concentration tailwind)" and "we beat
+  // the value style itself" — and at which time horizons each holds.
+  const horizonsInData = HEADLINE_HORIZONS(yearly);
+  for (const h of horizonsInData) {
+    const candidates = yearly.filter((r) => r.horizon === h && r.candidateGateOff);
+    const agg = aggregate(candidates);
+    results.push({
+      id: `H3-SPY-${h}y`,
+      statement: `Candidates (gate-off) beat SPY (cap-weight) over ${h}y on average`,
+      verdict: verdictForExcess(agg.meanExcessVsSpy, agg.meanExcessVsSpyCi),
+      evidence: `n=${agg.n}, mean excess vs SPY = ${fmtMean(agg.meanExcessVsSpy, agg.meanExcessVsSpyCi)}`,
+    });
+    results.push({
+      id: `H3-RSP-${h}y`,
+      statement: `Candidates (gate-off) beat RSP (equal-weight S&P 500) over ${h}y on average`,
+      verdict: verdictForExcess(agg.meanExcessVsRsp, agg.meanExcessVsRspCi),
+      evidence: `n=${agg.n}, mean excess vs RSP = ${fmtMean(agg.meanExcessVsRsp, agg.meanExcessVsRspCi)}`,
+    });
+    results.push({
+      id: `H3-VTV-${h}y`,
+      statement: `Candidates (gate-off) beat VTV (Vanguard Value) over ${h}y on average`,
+      verdict: verdictForExcess(agg.meanExcessVsVtv, agg.meanExcessVsVtvCi),
+      evidence: `n=${agg.n}, mean excess vs VTV = ${fmtMean(agg.meanExcessVsVtv, agg.meanExcessVsVtvCi)}`,
+    });
+  }
 
   // H4: snapshots where outlier rule fired have BETTER mean excess than naive
   const fired3y = yearly.filter((r) => r.horizon === 3 && r.outlierFired);
@@ -1326,6 +1447,10 @@ async function main(): Promise<void> {
   await mkdir(args.outDir, { recursive: true });
 
   const snapshot = await loadSnapshot(args.snapshotPath);
+  const fetchOptions: FetchOptions = {
+    cacheDir: args.cacheDir,
+    refreshCache: args.refreshCache,
+  };
 
   // When --all-sp500: subjects = every name in the snapshot. Otherwise
   // subjects = explicit --symbols list. Either way, peers are resolved
@@ -1378,14 +1503,26 @@ async function main(): Promise<void> {
     for (const peer of p.peerSymbols) uniqueSymbols.add(peer);
   }
   const cache = new Map<string, SymbolHistory | null>();
-  console.log(`\npre-pulling ${uniqueSymbols.size} unique histories (${args.years}y window)...`);
+  const cacheStatus = args.refreshCache
+    ? "refresh-cache mode (forced re-fetch)"
+    : "cache-hit reads skip the network";
+  console.log(`\npre-pulling ${uniqueSymbols.size} unique histories — ${cacheStatus}...`);
   let pulled = 0;
   let failed = 0;
+  let cacheHits = 0;
   for (const sym of uniqueSymbols) {
+    // Detect cache hit so we can skip the rate-limit sleep entirely.
+    const paths = cachePathsFor(args.cacheDir, sym);
+    const wouldHitCache =
+      !args.refreshCache &&
+      (await readCachedJson<unknown>(paths.fundamentals)) !== null &&
+      (await readCachedJson<unknown>(paths.chart)) !== null &&
+      (await readCachedJson<unknown>(paths.profile)) !== null;
     try {
-      const h = await pullHistory(sym, args.years);
+      const h = await pullHistory(sym, args.years, fetchOptions);
       cache.set(sym, h);
       pulled += 1;
+      if (wouldHitCache) cacheHits += 1;
     } catch (err) {
       cache.set(sym, null);
       failed += 1;
@@ -1393,12 +1530,14 @@ async function main(): Promise<void> {
         console.warn(`  ! ${sym}: ${err instanceof Error ? err.message : err}`);
       }
     }
-    if ((pulled + failed) % 25 === 0) {
-      console.log(`  ${pulled + failed}/${uniqueSymbols.size} (${failed} failed)...`);
+    if ((pulled + failed) % 50 === 0) {
+      console.log(`  ${pulled + failed}/${uniqueSymbols.size} (${failed} failed, ${cacheHits} cache hits)...`);
     }
-    await sleep(200); // tighter than the per-call 500ms; we're hitting cached endpoints
+    if (!wouldHitCache) {
+      await sleep(200); // throttle real Yahoo calls only
+    }
   }
-  console.log(`  done — ${pulled} ok, ${failed} failed`);
+  console.log(`  done — ${pulled} ok, ${failed} failed, ${cacheHits} from cache`);
 
   const summarySections: string[] = [];
   const allBacktests: SymbolBacktest[] = [];
@@ -1483,7 +1622,7 @@ ${summarySections.join("\n")}
     console.log(`pulling baselines (${baselineYears}y window): SPY, RSP, VTV...`);
     let spyHistory: SymbolHistory;
     try {
-      spyHistory = await pullHistory("SPY", baselineYears);
+      spyHistory = await pullHistory("SPY", baselineYears, fetchOptions);
       console.log(`  SPY: ${spyHistory.prices.length} price bars`);
     } catch (err) {
       console.error(`  SPY pull failed: ${err instanceof Error ? err.message : err}`);
@@ -1492,14 +1631,14 @@ ${summarySections.join("\n")}
     }
     let rspHistory: SymbolHistory | null = null;
     try {
-      rspHistory = await pullHistory("RSP", baselineYears);
+      rspHistory = await pullHistory("RSP", baselineYears, fetchOptions);
       console.log(`  RSP: ${rspHistory.prices.length} price bars`);
     } catch (err) {
       console.warn(`  RSP pull failed (non-fatal): ${err instanceof Error ? err.message : err}`);
     }
     let vtvHistory: SymbolHistory | null = null;
     try {
-      vtvHistory = await pullHistory("VTV", baselineYears);
+      vtvHistory = await pullHistory("VTV", baselineYears, fetchOptions);
       console.log(`  VTV: ${vtvHistory.prices.length} price bars`);
     } catch (err) {
       console.warn(`  VTV pull failed (non-fatal): ${err instanceof Error ? err.message : err}`);

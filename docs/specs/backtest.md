@@ -130,25 +130,36 @@ For names with significant special dividends (rare in S&P 500), the adjusted clo
 
 ## 5. CLI surface
 
-Extend the existing `npm run backtest` rather than add a separate command. New flags:
+Extend the existing `npm run backtest` rather than add a separate command.
 
 ```bash
-# Existing:
+# Engine-validation only:
 npm run backtest -- --symbols EIX,INCY,TGT --years 6
 
-# New:
+# Phase 2 accuracy on a named subset:
 npm run backtest -- --symbols EIX,INCY,TGT --years 6 --accuracy
-# Triggers Phase 2: emits accuracy.md alongside the existing per-symbol reports.
-
 npm run backtest -- --symbols EIX,INCY,TGT --years 6 --accuracy --horizons 1,2,3,5
-# Override default horizons (1y / 2y / 3y / 5y).
 
-npm run backtest -- --universe sp500 --years 6 --accuracy
-# v2 only: run the whole S&P 500 universe instead of named symbols. Big.
-# Probably needs --max-symbols throttling and parallel fetch. Defer.
+# Full S&P 500 universe:
+npm run backtest -- --all-sp500 --years 8 --accuracy --horizons 1,2,3
+
+# With hypothetical options overlay:
+npm run backtest -- --all-sp500 --accuracy --options-overlay-pct 4
+
+# Persist to docs/:
+npm run backtest -- --all-sp500 --accuracy --archive
 ```
 
-Phase 2 without `--accuracy` is a no-op — Phase 1 output stays unchanged for users who only want engine validation.
+`--accuracy` is opt-in; without it Phase 1 output stays unchanged.
+
+### Disk cache
+
+Yahoo response bodies are cached under `tmp/backtest-cache/<SYMBOL>/{fundamentals,chart,profile}.json` so analysis-side iteration doesn't trigger re-fetches. Cache is **read-through** by default — present files are reused, missing files trigger a fetch and write. The cache is keyed on symbol only (chart pulls always use a fixed 15-year window so different `--years` settings can share the cache).
+
+- `--refresh-cache` — ignore cached data, force re-fetch, overwrite the cache. Use after material time has passed (new annuals dropped, prices moved) or after a Yahoo schema change breaks the mapping.
+- `--cache-dir PATH` — override the cache root (default `tmp/backtest-cache/`).
+
+Cache hits skip the rate-limit sleep entirely; on cold run a full S&P 500 takes ~10 minutes, on warm run the same backtest finishes in seconds. Cache size is ~700KB per symbol, ~350MB for the full S&P 500.
 
 ## 6. Open decisions before coding
 
