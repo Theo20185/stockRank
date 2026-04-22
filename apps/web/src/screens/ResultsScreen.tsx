@@ -30,11 +30,11 @@ const BUCKET_LABELS: Record<BucketKey, string> = {
 
 const BUCKET_EMPTY_MESSAGES: Record<BucketKey, string> = {
   ranked:
-    "No actionable buy candidates with the current filters. Stocks land here when all 5 category scores compute, fair value is below conservative tail, and the options chain is liquid.",
+    "No actionable buy candidates with the current filters. Stocks land here when fair value is below the conservative tail, the FV trend isn't declining, and the options chain is liquid.",
   watch:
-    "No watchlist names. Stocks land here when they're above the conservative-tail fair value, missing exactly one category score, or carry a structural flag (negative equity, illiquid options).",
+    "No watchlist names. Stocks land here when they're above the conservative-tail fair value, the FV trend is declining, or they carry a structural flag (negative equity, illiquid options).",
   excluded:
-    "No excluded names. Stocks land here when they failed the quality floor, are missing two or more category scores, or have no fair value computable.",
+    "No excluded names. Stocks land here when they failed the quality floor or have no fair value computable.",
 };
 
 export function ResultsScreen({

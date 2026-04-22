@@ -4,16 +4,23 @@ import type { CategoryKey, RankedRow } from "./types.js";
  * Three-bucket classifier for the Results screen tabs.
  *
  *   - **ranked**   — actionable buy candidates: passed the quality floor,
- *                    all 5 category scores computable, fair value present,
- *                    current price below the conservative-tail (p25), and
+ *                    fair value present, current price below the
+ *                    conservative-tail (p25), FV trend not declining, and
  *                    the options chain is liquid enough to act on.
- *   - **watch**    — interesting but not actionable today: either above the
- *                    conservative-tail, missing exactly one category score,
- *                    or carrying a structural-but-tracked flag like negative
- *                    equity or illiquid options.
- *   - **excluded** — diagnostic bucket: failed the quality floor entirely,
- *                    missing two or more category scores, or no fair value
- *                    range computable.
+ *   - **watch**    — interesting but not actionable today: above the
+ *                    conservative-tail, declining FV trend, illiquid
+ *                    options, or carrying a structural-but-tracked flag
+ *                    like negative equity.
+ *   - **excluded** — diagnostic bucket: failed the quality floor entirely
+ *                    (all 5 category scores null — the ineligible-row
+ *                    stub) or no fair value range computable.
+ *
+ * Note: missing some-but-not-all category scores no longer affects the
+ * bucket. Earlier the rule was missing>=2 → excluded, missing===1 →
+ * watch, but that wasn't a data-driven decision and tossed otherwise-
+ * good Candidates out for thin-data reasons. The composite score
+ * already handles missing categories by averaging across what's
+ * available, which is the right way to weight uncertainty.
  *
  * Pure function over RankedRow[]. The categorization is independent of the
  * ranking factor weights — moving sliders does not move a row between
@@ -55,17 +62,17 @@ export function classifyRow(row: RankedRow): BucketKey {
 
   // Negative-equity names (BKNG, MCD, MO, …) get ROIC nulled
   // structurally (the ratio divides by equity). That's not a data gap;
-  // it's a strategic-buyback consequence. Treat them as Watch even when
-  // the missing-category count would otherwise demote them — but if
+  // it's a strategic-buyback consequence. Treat them as Watch — but if
   // there's no fair value at all, fall back to Excluded.
   if (row.negativeEquity) {
     if (!row.fairValue || !row.fairValue.range) return "excluded";
     return "watch";
   }
 
-  if (missing >= 2) return "excluded";
+  // Without a fair-value range we can't ask whether the price is below
+  // the conservative tail, so we can't classify as either ranked or
+  // watch — fall to Excluded as a diagnostic bucket.
   if (!row.fairValue || !row.fairValue.range) return "excluded";
-  if (missing === 1) return "watch";
 
   // Ranked requires the stock to be trading below the conservative-tail
   // fair value. Above it and we're not getting a value entry —

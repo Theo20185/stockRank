@@ -73,10 +73,15 @@ describe("classifyRow", () => {
     expect(classifyRow(row({}))).toBe("ranked");
   });
 
-  it("watch: missing exactly one category score", () => {
-    expect(classifyRow(row({ missingCategories: ["quality"] }))).toBe("watch");
-    expect(classifyRow(row({ missingCategories: ["growth"] }))).toBe("watch");
-    expect(classifyRow(row({ missingCategories: ["shareholderReturn"] }))).toBe("watch");
+  it("ranked: missing some-but-not-all category scores no longer demotes", () => {
+    // Earlier rule: missing===1 → watch, missing>=2 → excluded. Reverted
+    // because that wasn't a data-driven decision — the composite score
+    // already handles missing categories by averaging across what's
+    // available. Thin-data rows now flow through the FV / belowP25 /
+    // trend / liquid gates like any other row.
+    expect(classifyRow(row({ missingCategories: ["quality"] }))).toBe("ranked");
+    expect(classifyRow(row({ missingCategories: ["quality", "growth"] }))).toBe("ranked");
+    expect(classifyRow(row({ missingCategories: ["valuation", "health", "growth"] }))).toBe("ranked");
   });
 
   it("watch: stock is at or above the conservative tail (current ≥ p25)", () => {
@@ -95,15 +100,6 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ fvTrend: "stable" }))).toBe("ranked");
     expect(classifyRow(row({ fvTrend: "improving" }))).toBe("ranked");
     expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
-  });
-
-  it("excluded: missing two category scores", () => {
-    expect(
-      classifyRow(row({ missingCategories: ["quality", "growth"] })),
-    ).toBe("excluded");
-    expect(
-      classifyRow(row({ missingCategories: ["valuation", "health"] })),
-    ).toBe("excluded");
   });
 
   it("excluded: missing all 5 categories (ineligible-row stub)", () => {
@@ -137,14 +133,6 @@ describe("classifyRow", () => {
   it("excluded: fair value present but range is null", () => {
     const noRange = { ...fv(null), range: null };
     expect(classifyRow(row({ fairValue: noRange }))).toBe("excluded");
-  });
-
-  it("excluded: missing 2+ wins over fair-value status", () => {
-    expect(
-      classifyRow(
-        row({ missingCategories: ["quality", "growth"], fairValue: fv(20) }),
-      ),
-    ).toBe("excluded");
   });
 });
 
@@ -182,14 +170,13 @@ describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
     const a = row({ symbol: "AAA" });                                            // ranked
     const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
-    const c = row({ symbol: "CCC", missingCategories: ["growth"] });             // watch (1 missing)
-    const d = row({ symbol: "DDD", missingCategories: ["quality", "growth"] });  // excluded (2 missing)
-    const e = row({ symbol: "EEE", fairValue: null });                           // excluded
-    const f = row({ symbol: "FFF", optionsLiquid: false });                      // watch (illiquid)
-    const result = bucketRows([a, b, c, d, e, f]);
+    const c = row({ symbol: "CCC", fvTrend: "declining" });                      // watch (declining)
+    const d = row({ symbol: "DDD", optionsLiquid: false });                      // watch (illiquid)
+    const e = row({ symbol: "EEE", fairValue: null });                           // excluded (no FV)
+    const result = bucketRows([a, b, c, d, e]);
     expect(result.ranked.map((r) => r.symbol)).toEqual(["AAA"]);
-    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC", "FFF"]);
-    expect(result.excluded.map((r) => r.symbol)).toEqual(["DDD", "EEE"]);
+    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC", "DDD"]);
+    expect(result.excluded.map((r) => r.symbol)).toEqual(["EEE"]);
   });
 
   it("returns empty buckets when given an empty list", () => {
