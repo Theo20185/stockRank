@@ -1,0 +1,125 @@
+{
+  "symbol": "RSG",
+  "fetchedAt": "2026-04-22T15:59:37.810Z",
+  "currentPrice": 205.745,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 207.70004742100767,
+          "contract": {
+            "contractSymbol": "RSG260515C00210000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 210,
+            "bid": 2.4,
+            "ask": 3.9,
+            "lastPrice": 3.6,
+            "volume": 2,
+            "openInterest": 151,
+            "impliedVolatility": 0.2718578674316406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.011664925028554764,
+          "staticAnnualizedPct": 0.18511728849662995,
+          "assignedReturnPct": 0.032345865027096625,
+          "assignedAnnualizedPct": 0.5133148145604465,
+          "effectiveCostBasis": 203.345,
+          "effectiveDiscountPct": 0.011664925028554764
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 207.70004742100767,
+          "contract": {
+            "contractSymbol": "RSG260515P00200000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 200,
+            "bid": 1.55,
+            "ask": 2.75,
+            "lastPrice": 2.5,
+            "volume": 16,
+            "openInterest": 98,
+            "impliedVolatility": 0.2467116345214844,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.00775,
+          "notAssignedAnnualizedPct": 0.12298913043478261,
+          "effectiveCostBasis": 198.45,
+          "effectiveDiscountPct": 0.03545651170137799,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 207.70004742100767,
+          "contract": {
+            "contractSymbol": "RSG260717C00210000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 210,
+            "bid": 6.6,
+            "ask": 7.3,
+            "lastPrice": 7.7,
+            "volume": 6,
+            "openInterest": 38,
+            "impliedVolatility": 0.2291031680297852,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.032078543828525596,
+          "staticAnnualizedPct": 0.13614730810944004,
+          "assignedReturnPct": 0.05275948382706746,
+          "assignedAnnualizedPct": 0.22392106507999562,
+          "effectiveCostBasis": 199.145,
+          "effectiveDiscountPct": 0.032078543828525596
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 207.70004742100767,
+          "contract": {
+            "contractSymbol": "RSG260717P00200000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 86,
+            "strike": 200,
+            "bid": 3.6,
+            "ask": 5.8,
+            "lastPrice": 4,
+            "volume": 1,
+            "openInterest": 52,
+            "impliedVolatility": 0.21173883972167967,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.018000000000000002,
+          "notAssignedAnnualizedPct": 0.07639534883720932,
+          "effectiveCostBasis": 196.4,
+          "effectiveDiscountPct": 0.04542030182993511,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

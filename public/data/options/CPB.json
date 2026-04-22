@@ -1,0 +1,125 @@
+{
+  "symbol": "CPB",
+  "fetchedAt": "2026-04-22T15:58:34.362Z",
+  "currentPrice": 20.845,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 24.85272,
+          "contract": {
+            "contractSymbol": "CPB270115C00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 25,
+            "bid": 0.85,
+            "ask": 1.5,
+            "lastPrice": 1.18,
+            "volume": 4,
+            "openInterest": 9078,
+            "impliedVolatility": 0.40454697021484376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09561765227363088,
+          "staticAnnualizedPct": 0.1302255338801316,
+          "assignedReturnPct": 0.2949460283830097,
+          "assignedAnnualizedPct": 0.4016988819395468,
+          "effectiveCostBasis": 19.994999999999997,
+          "effectiveDiscountPct": 0.04077716478771888
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 24.85272,
+          "contract": {
+            "contractSymbol": "CPB270115P00020000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 20,
+            "bid": 1.85,
+            "ask": 2.55,
+            "lastPrice": 2.21,
+            "volume": 2,
+            "openInterest": 9676,
+            "impliedVolatility": 0.424810439453125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0925,
+          "notAssignedAnnualizedPct": 0.12597947761194028,
+          "effectiveCostBasis": 18.15,
+          "effectiveDiscountPct": 0.12928759894459105,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 24.85272,
+          "contract": {
+            "contractSymbol": "CPB280121C00025000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 25,
+            "bid": 2.25,
+            "ask": 2.75,
+            "lastPrice": 2.54,
+            "volume": 46,
+            "openInterest": 1261,
+            "impliedVolatility": 0.3786683227539062,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.2386972833405074,
+          "staticAnnualizedPct": 0.13634508359825542,
+          "assignedReturnPct": 0.43802565944988625,
+          "assignedAnnualizedPct": 0.2502024502335031,
+          "effectiveCostBasis": 18.595,
+          "effectiveDiscountPct": 0.10793955384984409
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 24.85272,
+          "contract": {
+            "contractSymbol": "CPB280121P00020000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 20,
+            "bid": 3,
+            "ask": 3.9,
+            "lastPrice": 4,
+            "volume": 2,
+            "openInterest": 650,
+            "impliedVolatility": 0.40454697021484376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15,
+          "notAssignedAnnualizedPct": 0.08568075117370892,
+          "effectiveCostBasis": 17,
+          "effectiveDiscountPct": 0.1844567042456224,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

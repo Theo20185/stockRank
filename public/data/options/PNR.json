@@ -1,7 +1,7 @@
 {
   "symbol": "PNR",
-  "fetchedAt": "2026-04-22T14:42:00.319Z",
-  "currentPrice": 89.625,
+  "fetchedAt": "2026-04-22T15:58:08.096Z",
+  "currentPrice": 89.27,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,35 +10,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 117.32806454909695,
+          "anchorPrice": 106.81740958477748,
           "contract": {
-            "contractSymbol": "PNR270115C00120000",
+            "contractSymbol": "PNR270115C00110000",
             "expiration": "2027-01-15",
             "daysToExpiry": 268,
-            "strike": 120,
-            "bid": 0.6,
-            "ask": 4,
-            "lastPrice": 2.15,
-            "volume": 1,
-            "openInterest": 30,
-            "impliedVolatility": 0.40479110839843746,
+            "strike": 110,
+            "bid": 3.6,
+            "ask": 5.2,
+            "lastPrice": 1.65,
+            "volume": 5,
+            "openInterest": 24,
+            "impliedVolatility": 0.38477177734374995,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.01521324642631971,
-          "staticAnnualizedPct": 0.020719533379129455,
-          "assignedReturnPct": 0.3541253803175331,
-          "assignedAnnualizedPct": 0.4822976261787298,
-          "effectiveCostBasis": 89.025,
-          "effectiveDiscountPct": 0.0066945606694560665
+          "staticReturnPct": 0.0488381561861737,
+          "staticAnnualizedPct": 0.0665146530147515,
+          "assignedReturnPct": 0.28105502635532353,
+          "assignedAnnualizedPct": 0.3827801664913921,
+          "effectiveCostBasis": 85.67,
+          "effectiveDiscountPct": 0.040327097569172174
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.32806454909695,
+          "anchorPrice": 106.81740958477748,
           "contract": {
             "contractSymbol": "PNR270115P00085000",
             "expiration": "2027-01-15",
@@ -49,15 +49,15 @@
             "lastPrice": 3.53,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.25098405273437496,
+            "impliedVolatility": 0.24652853088378907,
             "inTheMoney": false
           },
-          "snapWarning": true,
+          "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.03,
           "notAssignedAnnualizedPct": 0.04085820895522388,
           "effectiveCostBasis": 82.45,
-          "effectiveDiscountPct": 0.08005578800557876,
+          "effectiveDiscountPct": 0.07639744595048721,
           "inTheMoney": false
         }
       ]
@@ -65,39 +65,12 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 117.32806454909695,
-          "contract": {
-            "contractSymbol": "PNR280121C00120000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 639,
-            "strike": 120,
-            "bid": 4.6,
-            "ask": 9,
-            "lastPrice": 7,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.3812317736816406,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.07163630915725722,
-          "staticAnnualizedPct": 0.04091901853270561,
-          "assignedReturnPct": 0.41054844304847055,
-          "assignedAnnualizedPct": 0.23450732662393076,
-          "effectiveCostBasis": 85.025,
-          "effectiveDiscountPct": 0.05132496513249651
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.32806454909695,
+          "anchorPrice": 106.81740958477748,
           "contract": {
             "contractSymbol": "PNR280121P00075000",
             "expiration": "2028-01-21",
@@ -108,7 +81,7 @@
             "lastPrice": 4.59,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.3437565625,
+            "impliedVolatility": 0.3413151806640625,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -116,7 +89,7 @@
           "notAssignedReturnPct": 0.06,
           "notAssignedAnnualizedPct": 0.03427230046948357,
           "effectiveCostBasis": 70.5,
-          "effectiveDiscountPct": 0.21338912133891214,
+          "effectiveDiscountPct": 0.2102610059370449,
           "inTheMoney": false
         }
       ]

@@ -1,0 +1,125 @@
+{
+  "symbol": "KVUE",
+  "fetchedAt": "2026-04-22T15:59:20.116Z",
+  "currentPrice": 17.3499,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 18.194248705411304,
+          "contract": {
+            "contractSymbol": "KVUE270115C00020000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 20,
+            "bid": 0.42,
+            "ask": 0.7,
+            "lastPrice": 0.44,
+            "volume": 2,
+            "openInterest": 11960,
+            "impliedVolatility": 0.26807372558593745,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.059441514289253726,
+          "staticAnnualizedPct": 0.08095579371484182,
+          "assignedReturnPct": 0.2121859105105575,
+          "assignedAnnualizedPct": 0.28898454229982645,
+          "effectiveCostBasis": 16.9299,
+          "effectiveDiscountPct": 0.024207632320647376
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 18.194248705411304,
+          "contract": {
+            "contractSymbol": "KVUE270115P00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 15,
+            "bid": 0.66,
+            "ask": 0.88,
+            "lastPrice": 0.73,
+            "volume": 205,
+            "openInterest": 3238,
+            "impliedVolatility": 0.33008482421874996,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.044000000000000004,
+          "notAssignedAnnualizedPct": 0.059925373134328365,
+          "effectiveCostBasis": 14.34,
+          "effectiveDiscountPct": 0.17348226790932522,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 18.194248705411304,
+          "contract": {
+            "contractSymbol": "KVUE280121C00020000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 20,
+            "bid": 0.93,
+            "ask": 1.57,
+            "lastPrice": 1.22,
+            "volume": 21,
+            "openInterest": 1447,
+            "impliedVolatility": 0.274421318359375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.1376117583718259,
+          "staticAnnualizedPct": 0.07860452551755315,
+          "assignedReturnPct": 0.29035615459312963,
+          "assignedAnnualizedPct": 0.16585288955632602,
+          "effectiveCostBasis": 16.419900000000002,
+          "effectiveDiscountPct": 0.05360261442429063
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 18.194248705411304,
+          "contract": {
+            "contractSymbol": "KVUE280121P00017000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 17,
+            "bid": 1.45,
+            "ask": 2.74,
+            "lastPrice": 2,
+            "volume": 1,
+            "openInterest": 798,
+            "impliedVolatility": 0.32349309326171866,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08529411764705883,
+          "notAssignedAnnualizedPct": 0.04872042713799135,
+          "effectiveCostBasis": 15.55,
+          "effectiveDiscountPct": 0.10374123193793629,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,36 +1,63 @@
 {
   "symbol": "SYF",
-  "fetchedAt": "2026-04-22T14:41:34.256Z",
-  "currentPrice": 78.73,
+  "fetchedAt": "2026-04-22T15:57:45.180Z",
+  "currentPrice": 78.53,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.05023102699059,
+          "contract": {
+            "contractSymbol": "SYF270115C00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 110,
+            "bid": 0.85,
+            "ask": 1.75,
+            "lastPrice": 4,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.3455875988769531,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.022198913947902292,
+          "staticAnnualizedPct": 0.030233595488747524,
+          "assignedReturnPct": 0.42293748519455965,
+          "assignedAnnualizedPct": 0.5760156048358741,
+          "effectiveCostBasis": 77.68,
+          "effectiveDiscountPct": 0.01082388895963326
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 211.8450831,
+          "anchorPrice": 105.05023102699059,
           "contract": {
             "contractSymbol": "SYF270115P00077500",
             "expiration": "2027-01-15",
             "daysToExpiry": 268,
             "strike": 77.5,
-            "bid": 7.4,
-            "ask": 9.1,
+            "bid": 7.7,
+            "ask": 8.7,
             "lastPrice": 13.3,
             "volume": 132,
             "openInterest": 153,
-            "impliedVolatility": 0.36426416992187505,
+            "impliedVolatility": 0.3459538061523437,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.09548387096774194,
-          "notAssignedAnnualizedPct": 0.1300433317284545,
-          "effectiveCostBasis": 70.1,
-          "effectiveDiscountPct": 0.10961514035310567,
+          "notAssignedReturnPct": 0.09935483870967741,
+          "notAssignedAnnualizedPct": 0.13531535869041886,
+          "effectiveCostBasis": 69.8,
+          "effectiveDiscountPct": 0.1111677066089393,
           "inTheMoney": false
         }
       ]
@@ -38,12 +65,39 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.05023102699059,
+          "contract": {
+            "contractSymbol": "SYF280121C00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 110,
+            "bid": 3.9,
+            "ask": 8,
+            "lastPrice": 6.06,
+            "volume": 8,
+            "openInterest": 16,
+            "impliedVolatility": 0.4082700775146484,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07678434399906502,
+          "staticAnnualizedPct": 0.0438596018148024,
+          "assignedReturnPct": 0.4775229152457223,
+          "assignedAnnualizedPct": 0.27276348053941885,
+          "effectiveCostBasis": 74.63,
+          "effectiveDiscountPct": 0.04966254934419967
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 211.8450831,
+          "anchorPrice": 105.05023102699059,
           "contract": {
             "contractSymbol": "SYF280121P00077500",
             "expiration": "2028-01-21",
@@ -54,7 +108,7 @@
             "lastPrice": 14.1,
             "volume": 1,
             "openInterest": 3,
-            "impliedVolatility": 0.5090991473388673,
+            "impliedVolatility": 0.5072681109619142,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -62,7 +116,7 @@
           "notAssignedReturnPct": 0.22580645161290322,
           "notAssignedAnnualizedPct": 0.12898177596042204,
           "effectiveCostBasis": 60,
-          "effectiveDiscountPct": 0.23790168931792205,
+          "effectiveDiscountPct": 0.23596077932000512,
           "inTheMoney": false
         }
       ]

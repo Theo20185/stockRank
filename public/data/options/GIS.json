@@ -1,21 +1,125 @@
 {
   "symbol": "GIS",
-  "fetchedAt": "2026-04-22T14:41:39.446Z",
-  "currentPrice": 35.255,
+  "fetchedAt": "2026-04-22T15:57:52.143Z",
+  "currentPrice": 35.105,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [],
-      "putsSuppressedReason": "above-conservative-tail"
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 46.5038072,
+          "contract": {
+            "contractSymbol": "GIS270115C00047500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 47.5,
+            "bid": 0.7,
+            "ask": 0.85,
+            "lastPrice": 0.8,
+            "volume": 5,
+            "openInterest": 964,
+            "impliedVolatility": 0.331061376953125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.019940179461615155,
+          "staticAnnualizedPct": 0.02715733396824452,
+          "assignedReturnPct": 0.3730237857855007,
+          "assignedAnnualizedPct": 0.5080361261630887,
+          "effectiveCostBasis": 34.404999999999994,
+          "effectiveDiscountPct": 0.019940179461615155
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 46.5038072,
+          "contract": {
+            "contractSymbol": "GIS270115P00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 35,
+            "bid": 3.6,
+            "ask": 3.8,
+            "lastPrice": 3.8,
+            "volume": 50,
+            "openInterest": 613,
+            "impliedVolatility": 0.3220282641601562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10285714285714286,
+          "notAssignedAnnualizedPct": 0.14008528784648186,
+          "effectiveCostBasis": 31.4,
+          "effectiveDiscountPct": 0.10554052129326302,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [],
-      "putsSuppressedReason": "above-conservative-tail"
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 46.5038072,
+          "contract": {
+            "contractSymbol": "GIS280121C00047500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 47.5,
+            "bid": 1.6,
+            "ask": 3.8,
+            "lastPrice": 2.1,
+            "volume": 2,
+            "openInterest": 373,
+            "impliedVolatility": 0.4024717956542969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04557755305512036,
+          "staticAnnualizedPct": 0.026034126549481895,
+          "assignedReturnPct": 0.398661159379006,
+          "assignedAnnualizedPct": 0.2277172506624995,
+          "effectiveCostBasis": 33.504999999999995,
+          "effectiveDiscountPct": 0.04557755305512036
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 46.5038072,
+          "contract": {
+            "contractSymbol": "GIS280121P00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 35,
+            "bid": 5.3,
+            "ask": 5.8,
+            "lastPrice": 5.3,
+            "volume": 3,
+            "openInterest": 210,
+            "impliedVolatility": 0.3186103295898437,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1514285714285714,
+          "notAssignedAnnualizedPct": 0.08649675832774424,
+          "effectiveCostBasis": 29.7,
+          "effectiveDiscountPct": 0.15396667141432838,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

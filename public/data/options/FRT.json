@@ -1,0 +1,125 @@
+{
+  "symbol": "FRT",
+  "fetchedAt": "2026-04-22T15:59:21.849Z",
+  "currentPrice": 110.69,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.31711100999999,
+          "contract": {
+            "contractSymbol": "FRT260515C00115000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 115,
+            "bid": 0.6,
+            "ask": 1.55,
+            "lastPrice": 0.98,
+            "volume": 5,
+            "openInterest": 65,
+            "impliedVolatility": 0.2827220166015625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.007966412280625763,
+          "staticAnnualizedPct": 0.12642349923601753,
+          "assignedReturnPct": 0.0469039856838239,
+          "assignedAnnualizedPct": 0.7443458597650315,
+          "effectiveCostBasis": 110.09,
+          "effectiveDiscountPct": 0.005420543861234077
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 111.31711100999999,
+          "contract": {
+            "contractSymbol": "FRT260515P00110000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 110,
+            "bid": 0.7,
+            "ask": 2.65,
+            "lastPrice": 1.85,
+            "volume": 5,
+            "openInterest": 20,
+            "impliedVolatility": 0.26428958374023437,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.006363636363636363,
+          "notAssignedAnnualizedPct": 0.1009881422924901,
+          "effectiveCostBasis": 109.3,
+          "effectiveDiscountPct": 0.012557593278525618,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.31711100999999,
+          "contract": {
+            "contractSymbol": "FRT260821C00115000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 121,
+            "strike": 115,
+            "bid": 2.4,
+            "ask": 5.3,
+            "lastPrice": 4.12,
+            "volume": 1,
+            "openInterest": 1033,
+            "impliedVolatility": 0.27893787475585935,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.035075657129562135,
+          "staticAnnualizedPct": 0.10580673431644776,
+          "assignedReturnPct": 0.07401323053276028,
+          "assignedAnnualizedPct": 0.22326305078064052,
+          "effectiveCostBasis": 108.28999999999999,
+          "effectiveDiscountPct": 0.021682175444936308
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 111.31711100999999,
+          "contract": {
+            "contractSymbol": "FRT260821P00110000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 121,
+            "strike": 110,
+            "bid": 3.6,
+            "ask": 6.6,
+            "lastPrice": 5.8,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.2730175238037109,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03272727272727273,
+          "notAssignedAnnualizedPct": 0.09872276483846733,
+          "effectiveCostBasis": 106.4,
+          "effectiveDiscountPct": 0.03875688860782358,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

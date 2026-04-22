@@ -1,12 +1,39 @@
 {
   "symbol": "FOX",
-  "fetchedAt": "2026-04-22T14:42:19.436Z",
-  "currentPrice": 58.53,
+  "fetchedAt": "2026-04-22T15:58:25.568Z",
+  "currentPrice": 58.47,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 59.41583680083311,
+          "contract": {
+            "contractSymbol": "FOX260515C00060000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 23,
+            "strike": 60,
+            "bid": 0.3,
+            "ask": 4.9,
+            "lastPrice": 1.25,
+            "volume": 7,
+            "openInterest": 10,
+            "impliedVolatility": 0.5463912548828126,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.005741441975863984,
+          "staticAnnualizedPct": 0.0911141878778415,
+          "assignedReturnPct": 0.03190870724010207,
+          "assignedAnnualizedPct": 0.5063773105494459,
+          "effectiveCostBasis": 58.17,
+          "effectiveDiscountPct": 0.00513083632632119
+        }
+      ],
       "puts": []
     },
     {
@@ -17,7 +44,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 68.92839179,
+          "anchorPrice": 59.41583680083311,
           "contract": {
             "contractSymbol": "FOX260717P00055000",
             "expiration": "2026-07-17",
@@ -28,7 +55,7 @@
             "lastPrice": 2.3,
             "volume": 5,
             "openInterest": 31,
-            "impliedVolatility": 0.5914347497558594,
+            "impliedVolatility": 0.5893595751953126,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -36,7 +63,7 @@
           "notAssignedReturnPct": 0.007272727272727273,
           "notAssignedAnnualizedPct": 0.03086680761099366,
           "effectiveCostBasis": 54.6,
-          "effectiveDiscountPct": 0.06714505381855458,
+          "effectiveDiscountPct": 0.06618778860954332,
           "inTheMoney": false
         }
       ]
