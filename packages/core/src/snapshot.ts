@@ -43,6 +43,12 @@ export type CompanySnapshot = {
   quote: QuoteSnapshot;
   ttm: TtmMetrics;
   annual: AnnualPeriod[];
+  /** Quarterly fundamentals (8-12 quarters of trailing data). Drives
+   * the back-test's TTM reconstruction — sum of trailing 4 quarters
+   * approximates Yahoo's rolling-quarterly TTM at any historical
+   * date. Optional for backwards-compat with older snapshots; absent
+   * means the back-test falls back to annual-as-TTM-proxy. */
+  quarterly?: QuarterlyPeriod[];
 
   pctOffYearHigh: number;
 };
@@ -93,6 +99,30 @@ export type AnnualPeriod = {
    */
   priceAtYearEnd: number | null;
 
+  income: AnnualIncome;
+  balance: AnnualBalance;
+  cashFlow: AnnualCashFlow;
+  ratios: AnnualRatios;
+};
+
+/**
+ * Quarterly fiscal-period record. Same shape as AnnualPeriod but at
+ * quarterly cadence. Drives the back-test's TTM reconstruction:
+ * trailing-12-month income / cash-flow values are computed by summing
+ * the four most recent quarters as of any given historical date —
+ * matches what Yahoo's TTM fields provide for the live snapshot.
+ *
+ * Optional on CompanySnapshot for backwards-compat: snapshots from
+ * before this field was added still load; the engine falls back to
+ * the annual-as-TTM-proxy when quarterly is empty.
+ */
+export type QuarterlyPeriod = {
+  /** "2026Q1" style label (calendar quarter of period-end date). */
+  fiscalQuarter: string;
+  periodEndDate: string;
+  filingDate: string | null;
+  reportedCurrency: string;
+  priceAtQuarterEnd: number | null;
   income: AnnualIncome;
   balance: AnnualBalance;
   cashFlow: AnnualCashFlow;

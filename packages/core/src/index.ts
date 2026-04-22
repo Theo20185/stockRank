@@ -7,6 +7,7 @@ export type {
   QuoteSnapshot,
   TtmMetrics,
   AnnualPeriod,
+  QuarterlyPeriod,
   AnnualIncome,
   AnnualBalance,
   AnnualCashFlow,

@@ -55,7 +55,15 @@ import type {
 
 const yf = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
-const REPORTING_LAG_DAYS = 90;
+// Reporting lag: SEC requires accelerated filers to file 10-K within
+// 60 days of fiscal year-end and 10-Q within 40 days. We use slight
+// buffers to reflect that actual filings can slip a few days. Earlier
+// the constant was a single 90 days for both — overly conservative
+// for the live snapshot's most recent quarter (Yahoo serves data as
+// soon as it's filed, so 90d delay caused a back-test/production
+// mismatch on the latest sample).
+const ANNUAL_REPORTING_LAG_DAYS = 70;
+const QUARTERLY_REPORTING_LAG_DAYS = 45;
 const DEFAULT_YEARS = 4;
 const PEER_GROUP_SIZE = 10;
 
@@ -197,6 +205,10 @@ type SymbolHistory = {
   symbol: string;
   meta: { name: string; sector: string; industry: string; currency: string };
   annual: AnnualPeriod[];
+  /** Per-quarter fundamentals; drives TTM reconstruction in
+   * buildSnapshotAtDate. May be empty on older caches; the snapshot
+   * builder falls back to annual-as-TTM-proxy in that case. */
+  quarterly: AnnualPeriod[];
   prices: Array<{ date: string; close: number }>;
 };
 
@@ -208,6 +220,7 @@ const CACHE_CHART_YEARS = 15;
 
 type CacheLayout = {
   fundamentals: string;
+  fundamentalsQuarterly: string;
   chart: string;
   profile: string;
 };
@@ -216,6 +229,7 @@ function cachePathsFor(cacheDir: string, symbol: string): CacheLayout {
   const root = resolve(cacheDir, symbol);
   return {
     fundamentals: resolve(root, "fundamentals.json"),
+    fundamentalsQuarterly: resolve(root, "fundamentals-quarterly.json"),
     chart: resolve(root, "chart.json"),
     profile: resolve(root, "profile.json"),
   };
@@ -338,6 +352,37 @@ async function pullHistory(
     await writeCachedJson(paths.fundamentals, fundamentalsRaw);
   }
 
+  // ---- Fundamentals (quarterly time series) ----
+  // Same cache-policy logic as annual. Quarterly is required for the
+  // back-test's TTM reconstruction (sum of trailing 4 quarters);
+  // without it, buildSnapshotAtDate falls back to annual-as-TTM-proxy.
+  let fundamentalsQuarterlyRaw: Array<Record<string, unknown>> | null;
+  if (options.refreshCache || options.mergeCache) {
+    fundamentalsQuarterlyRaw = null;
+  } else {
+    fundamentalsQuarterlyRaw = await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentalsQuarterly);
+  }
+  if (!fundamentalsQuarterlyRaw) {
+    try {
+      const fresh = (await yf.fundamentalsTimeSeries(yahooSymbol, {
+        period1: period1.toISOString().slice(0, 10),
+        type: "quarterly",
+        module: "all",
+      })) as unknown as Array<Record<string, unknown>>;
+      if (options.mergeCache) {
+        const oldCache = await readCachedJson<Array<Record<string, unknown>>>(paths.fundamentalsQuarterly);
+        fundamentalsQuarterlyRaw = mergeFundamentals(oldCache, fresh);
+      } else {
+        fundamentalsQuarterlyRaw = fresh;
+      }
+      await writeCachedJson(paths.fundamentalsQuarterly, fundamentalsQuarterlyRaw);
+    } catch {
+      // Quarterly fetch is optional — back-test gracefully falls back
+      // to annual-as-TTM-proxy when this is empty.
+      fundamentalsQuarterlyRaw = [];
+    }
+  }
+
   // ---- Chart (daily prices, adjusted close) ----
   let chartRaw: RawChart | null;
   if (options.refreshCache || options.mergeCache) {
@@ -397,6 +442,11 @@ async function pullHistory(
     .filter((r): r is AnnualPeriod => r !== null)
     .sort((a, b) => (a.periodEndDate < b.periodEndDate ? 1 : -1));
 
+  const quarterly = (fundamentalsQuarterlyRaw ?? [])
+    .map((row) => mapAnnualRow(row))
+    .filter((r): r is AnnualPeriod => r !== null)
+    .sort((a, b) => (a.periodEndDate < b.periodEndDate ? 1 : -1));
+
   return {
     symbol,
     meta: {
@@ -406,6 +456,7 @@ async function pullHistory(
       currency: profileRaw.price?.currency ?? "USD",
     },
     annual,
+    quarterly,
     prices,
   };
 }
@@ -477,15 +528,85 @@ function priceAtOrBefore(history: SymbolHistory, dateIso: string): number | null
 }
 
 function annualPublicAsOf(history: SymbolHistory, dateIso: string): AnnualPeriod[] {
-  const cutoff = addDays(dateIso, -REPORTING_LAG_DAYS);
-  // periods whose period-end + 90d lag was <= simulation date are "public"
+  const cutoff = addDays(dateIso, -ANNUAL_REPORTING_LAG_DAYS);
   return history.annual.filter((p) => p.periodEndDate <= cutoff);
+}
+
+function quarterlyPublicAsOf(history: SymbolHistory, dateIso: string): AnnualPeriod[] {
+  const cutoff = addDays(dateIso, -QUARTERLY_REPORTING_LAG_DAYS);
+  return history.quarterly.filter((p) => p.periodEndDate <= cutoff);
 }
 
 function addDays(dateIso: string, days: number): string {
   const d = new Date(`${dateIso}T00:00:00.000Z`);
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Reconstruct trailing-12-month aggregates from the four most-recent
+ * public quarters. Income and cash-flow values are summed; balance-
+ * sheet values are point-in-time (use the most recent quarter's value).
+ *
+ * Returns null if fewer than 4 quarters of usable data — caller falls
+ * back to annual-as-TTM-proxy.
+ */
+type TtmAggregate = {
+  income: AnnualPeriod["income"];
+  balance: AnnualPeriod["balance"];
+  cashFlow: AnnualPeriod["cashFlow"];
+};
+function reconstructTtmFromQuarters(quarterly: AnnualPeriod[]): TtmAggregate | null {
+  // newest first
+  const sorted = [...quarterly].sort((a, b) =>
+    a.periodEndDate < b.periodEndDate ? 1 : -1,
+  );
+  if (sorted.length < 4) return null;
+  const trailing = sorted.slice(0, 4);
+  // Sum a nullable income/CF field across the 4 quarters; null if any
+  // quarter is missing the field (partial data → fall back).
+  const sumIncome = (k: keyof AnnualPeriod["income"]): number | null => {
+    let total = 0;
+    let havePartial = false;
+    for (const q of trailing) {
+      const v = q.income[k];
+      if (v === null || v === undefined) { havePartial = true; continue; }
+      total += v;
+    }
+    return havePartial ? null : total;
+  };
+  const sumCashFlow = (k: keyof AnnualPeriod["cashFlow"]): number | null => {
+    let total = 0;
+    let havePartial = false;
+    for (const q of trailing) {
+      const v = q.cashFlow[k];
+      if (v === null || v === undefined) { havePartial = true; continue; }
+      total += v;
+    }
+    return havePartial ? null : total;
+  };
+  return {
+    income: {
+      revenue: sumIncome("revenue"),
+      grossProfit: sumIncome("grossProfit"),
+      operatingIncome: sumIncome("operatingIncome"),
+      ebit: sumIncome("ebit"),
+      ebitda: sumIncome("ebitda"),
+      interestExpense: sumIncome("interestExpense"),
+      netIncome: sumIncome("netIncome"),
+      epsDiluted: sumIncome("epsDiluted"),
+      // Shares are point-in-time, not summed.
+      sharesDiluted: trailing[0]!.income.sharesDiluted,
+    },
+    balance: trailing[0]!.balance,
+    cashFlow: {
+      operatingCashFlow: sumCashFlow("operatingCashFlow"),
+      capex: sumCashFlow("capex"),
+      freeCashFlow: sumCashFlow("freeCashFlow"),
+      dividendsPaid: sumCashFlow("dividendsPaid"),
+      buybacks: sumCashFlow("buybacks"),
+    },
+  };
 }
 
 function buildSnapshotAtDate(
@@ -503,23 +624,39 @@ function buildSnapshotAtDate(
     ...p,
     priceAtYearEnd: priceAtOrBefore(history, p.periodEndDate),
   }));
+
+  // TTM via quarterly reconstruction (sum trailing 4 quarters for
+  // income + cash flow, point-in-time for balance) when quarterly
+  // data is available; otherwise fall back to annual[0] as the
+  // TTM proxy. This matches what Yahoo's defaultKeyStatistics
+  // provides for the live snapshot, eliminating the
+  // back-test-vs-production divergence on TTM-derived ratios.
+  const quarterlyPublic = quarterlyPublicAsOf(history, dateIso);
+  const ttmFromQ = reconstructTtmFromQuarters(quarterlyPublic);
   const recent = annual[0]!;
-  const shares = recent.income.sharesDiluted ?? null;
+  // `ttmRecent` is the TTM-shape source (income/balance/cashflow)
+  // used to compute the spot ratios below. It either uses real
+  // trailing-12-month aggregates (preferred) or falls back to
+  // annual[0]. Both produce the same SHAPE — the difference is the
+  // numerical aggregation window.
+  const ttmRecent = ttmFromQ ?? {
+    income: recent.income,
+    balance: recent.balance,
+    cashFlow: recent.cashFlow,
+  };
+
+  const shares = ttmRecent.income.sharesDiluted ?? null;
   const marketCap = shares !== null ? shares * price : 0;
-  // TTM proxies — use most-recent annual as the TTM stand-in for back-test
-  // simplicity. (Yahoo's actual TTM is rolling-quarterly; we'd need
-  // quarterly history to reconstruct. Annual is a reasonable approximation
-  // for slow-moving metrics like P/E and P/FCF.)
-  const eps = recent.income.epsDiluted ?? null;
-  const ebitda = recent.income.ebitda ?? null;
-  const fcf = recent.cashFlow.freeCashFlow ?? null;
-  const equity = recent.balance.totalEquity ?? null;
-  const debt = recent.balance.totalDebt ?? null;
-  const cash = recent.balance.cash ?? null;
-  const netIncome = recent.income.netIncome ?? null;
-  const dividendsPaid = recent.cashFlow.dividendsPaid ?? null;
-  const tca = recent.balance.totalCurrentAssets ?? null;
-  const tcl = recent.balance.totalCurrentLiabilities ?? null;
+  const eps = ttmRecent.income.epsDiluted ?? null;
+  const ebitda = ttmRecent.income.ebitda ?? null;
+  const fcf = ttmRecent.cashFlow.freeCashFlow ?? null;
+  const equity = ttmRecent.balance.totalEquity ?? null;
+  const debt = ttmRecent.balance.totalDebt ?? null;
+  const cash = ttmRecent.balance.cash ?? null;
+  const netIncome = ttmRecent.income.netIncome ?? null;
+  const dividendsPaid = ttmRecent.cashFlow.dividendsPaid ?? null;
+  const tca = ttmRecent.balance.totalCurrentAssets ?? null;
+  const tcl = ttmRecent.balance.totalCurrentLiabilities ?? null;
   const investedCapital = (equity ?? 0) + (debt ?? 0) - (cash ?? 0);
 
   const peRatio = eps !== null && eps > 0 ? price / eps : null;
@@ -1589,6 +1726,7 @@ async function main(): Promise<void> {
     const wouldHitCache =
       !args.refreshCache && !args.mergeCache &&
       (await readCachedJson<unknown>(paths.fundamentals)) !== null &&
+      (await readCachedJson<unknown>(paths.fundamentalsQuarterly)) !== null &&
       (await readCachedJson<unknown>(paths.chart)) !== null &&
       (await readCachedJson<unknown>(paths.profile)) !== null;
     try {
@@ -1698,7 +1836,7 @@ async function main(): Promise<void> {
 Generated by \`scripts/backtest.ts\` over ${args.years} years of monthly
 snapshots. For each symbol, fair value was recomputed at every month-end
 using only data that would have been public at that date (annual
-fundamentals filtered by period-end + ${REPORTING_LAG_DAYS}-day reporting
+fundamentals filtered by period-end + ${ANNUAL_REPORTING_LAG_DAYS}d (annual) / ${QUARTERLY_REPORTING_LAG_DAYS}d (quarterly) reporting
 lag). Two variants per snapshot:
 
 - **With outlier rule** — current production logic (peer-median P/E

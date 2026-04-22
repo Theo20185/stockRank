@@ -6,6 +6,7 @@ import type {
   AnnualPeriod,
   AnnualRatios,
   CompanySnapshot,
+  QuarterlyPeriod,
   TtmMetrics,
 } from "@stockrank/core";
 import { pctOffHigh } from "@stockrank/core";
@@ -177,6 +178,24 @@ export class YahooProvider implements MarketDataProvider {
       reportError(makeError(symbol, "fundamentalsTimeSeries", err));
     }
 
+    // Quarterly fundamentals — needed by the back-test to reconstruct
+    // TTM (sum of trailing 4 quarters) at any historical date,
+    // matching what Yahoo's defaultKeyStatistics provides as TTM for
+    // the live snapshot. Without this the back-test uses annual[0] as
+    // a TTM proxy, which can differ materially when the most recent
+    // quarter swings away from the prior fiscal year's run-rate.
+    let fundamentalsQuarterly: YahooFundamentalsRow[] = [];
+    try {
+      const result = await yahooFinance.fundamentalsTimeSeries(yahooSymbol, {
+        period1: priceFromMinusYears(options.priceTo, 5),
+        type: "quarterly",
+        module: "all",
+      });
+      fundamentalsQuarterly = (result as unknown as YahooFundamentalsRow[]) ?? [];
+    } catch (err) {
+      reportError(makeError(symbol, "fundamentalsTimeSeries-quarterly", err));
+    }
+
     let priceBars: Array<{ close: number; volume: number }> = [];
     try {
       const chart = await yahooFinance.chart(yahooSymbol, {
@@ -256,6 +275,7 @@ export class YahooProvider implements MarketDataProvider {
     }
 
     const annual = mapAnnualPeriods(fundamentals, fxRate, historicalCloses);
+    const quarterly = mapQuarterlyPeriods(fundamentalsQuarterly, fxRate, historicalCloses);
     const ttm = mapTtm(summary, currentPrice, annual[0], fxRate);
 
     // Cross-check spot price against marketCap / latest share count.
@@ -303,6 +323,7 @@ export class YahooProvider implements MarketDataProvider {
       },
       ttm,
       annual,
+      quarterly,
       pctOffYearHigh: pctOffHigh(currentPrice, yearHigh),
     };
   }
@@ -331,6 +352,12 @@ function priceFromMinusYears(iso: string, years: number): string {
 function fiscalYearOf(date: string | Date): string {
   const d = typeof date === "string" ? new Date(date) : date;
   return String(d.getUTCFullYear());
+}
+
+function fiscalQuarterOf(date: string | Date): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  const q = Math.ceil((d.getUTCMonth() + 1) / 3);
+  return `${d.getUTCFullYear()}Q${q}`;
 }
 
 /** Multiply a nullable amount by an FX rate. Pass-through if null. */
@@ -441,6 +468,101 @@ function mapAnnualPeriods(
       ratios,
     };
     return period;
+  });
+}
+
+/**
+ * Same shape as mapAnnualPeriods but at quarterly cadence. Yahoo's
+ * `fundamentalsTimeSeries` with type="quarterly" returns the same
+ * row shape as annual, just one entry per fiscal quarter. The
+ * mapping is mechanical — the back-test sums these to reconstruct
+ * TTM at any historical date.
+ */
+function mapQuarterlyPeriods(
+  rows: YahooFundamentalsRow[],
+  fxRate: number,
+  historicalCloses: Array<{ date: string; close: number }> = [],
+): QuarterlyPeriod[] {
+  const sorted = [...rows].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+  const closesAsc = [...historicalCloses].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  function closeAtOrBefore(targetIso: string): number | null {
+    let result: number | null = null;
+    for (const q of closesAsc) {
+      if (q.date <= targetIso) result = q.close;
+      else break;
+    }
+    return result;
+  }
+
+  return sorted.map((row) => {
+    const ebit = fx(n(row.EBIT) ?? n(row.operatingIncome), fxRate);
+    const depreciation = fx(n(row.reconciledDepreciation), fxRate);
+    const ebitda =
+      fx(n(row.EBITDA), fxRate) ??
+      fx(n(row.normalizedEBITDA), fxRate) ??
+      (ebit !== null && depreciation !== null ? ebit + depreciation : ebit);
+    const totalDebt =
+      fx(n(row.totalDebt), fxRate) ??
+      (() => {
+        const long = n(row.longTermDebt) ?? 0;
+        const current = n(row.currentDebt) ?? 0;
+        const sum = long + current;
+        return sum > 0 ? sum * fxRate : null;
+      })();
+    const cash = fx(n(row.cashAndCashEquivalents), fxRate);
+    const ratios = computeAnnualRatios({
+      ebit,
+      ebitda,
+      totalDebt,
+      cash,
+      equity: fx(n(row.stockholdersEquity), fxRate),
+      currentAssets: fx(n(row.currentAssets), fxRate),
+      currentLiabilities: fx(n(row.currentLiabilities), fxRate),
+    });
+    const periodEndDate = new Date(row.date).toISOString().slice(0, 10);
+    return {
+      fiscalQuarter: fiscalQuarterOf(row.date),
+      periodEndDate,
+      filingDate: null,
+      reportedCurrency: "USD",
+      priceAtQuarterEnd: closeAtOrBefore(periodEndDate),
+      income: {
+        revenue: fx(n(row.totalRevenue), fxRate),
+        grossProfit: fx(n(row.grossProfit), fxRate),
+        operatingIncome: fx(n(row.operatingIncome), fxRate),
+        ebit,
+        ebitda,
+        interestExpense: fx(n(row.interestExpense), fxRate),
+        netIncome: fx(n(row.netIncome), fxRate),
+        epsDiluted: fx(n(row.dilutedEPS), fxRate),
+        sharesDiluted: n(row.dilutedAverageShares),
+      } satisfies AnnualIncome,
+      balance: {
+        cash,
+        totalCurrentAssets: fx(n(row.currentAssets), fxRate),
+        totalCurrentLiabilities: fx(n(row.currentLiabilities), fxRate),
+        totalDebt,
+        totalEquity: fx(n(row.stockholdersEquity), fxRate),
+      } satisfies AnnualBalance,
+      cashFlow: {
+        operatingCashFlow: fx(n(row.operatingCashFlow), fxRate),
+        capex: fx(n(row.capitalExpenditure), fxRate),
+        freeCashFlow: fx(n(row.freeCashFlow), fxRate),
+        dividendsPaid:
+          row.cashDividendsPaid !== null && row.cashDividendsPaid !== undefined
+            ? Math.abs(row.cashDividendsPaid) * fxRate
+            : null,
+        buybacks:
+          row.repurchaseOfCapitalStock !== null && row.repurchaseOfCapitalStock !== undefined
+            ? Math.abs(row.repurchaseOfCapitalStock) * fxRate
+            : null,
+      } satisfies AnnualCashFlow,
+      ratios,
+    };
   });
 }
 
