@@ -1,36 +1,63 @@
 {
   "symbol": "PPG",
-  "fetchedAt": "2026-04-22T18:33:27.344Z",
-  "currentPrice": 111.52,
+  "fetchedAt": "2026-04-22T19:34:56.870Z",
+  "currentPrice": 111.27,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 173.5146080739875,
+          "contract": {
+            "contractSymbol": "PPG270115C00175000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 268,
+            "strike": 175,
+            "bid": 0.55,
+            "ask": 3,
+            "lastPrice": 1.02,
+            "volume": 1,
+            "openInterest": 163,
+            "impliedVolatility": 0.4429987341308594,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.023787788656741412,
+          "staticAnnualizedPct": 0.032397547983994836,
+          "assignedReturnPct": 0.596538754775192,
+          "assignedAnnualizedPct": 0.8124501697497951,
+          "effectiveCostBasis": 110.72,
+          "effectiveDiscountPct": 0.0049429316078008455
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 184.25921863831738,
+          "anchorPrice": 173.5146080739875,
           "contract": {
             "contractSymbol": "PPG270115P00110000",
             "expiration": "2027-01-15",
             "daysToExpiry": 268,
             "strike": 110,
-            "bid": 9.7,
+            "bid": 9.8,
             "ask": 11.8,
             "lastPrice": 10.41,
             "volume": 1,
             "openInterest": 43,
-            "impliedVolatility": 0.33197689514160156,
+            "impliedVolatility": 0.32910827148437494,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.08818181818181818,
-          "notAssignedAnnualizedPct": 0.12009837177747626,
-          "effectiveCostBasis": 100.3,
-          "effectiveDiscountPct": 0.10060975609756097,
+          "notAssignedReturnPct": 0.0890909090909091,
+          "notAssignedAnnualizedPct": 0.12133649932157395,
+          "effectiveCostBasis": 100.2,
+          "effectiveDiscountPct": 0.09948773254246422,
           "inTheMoney": false
         }
       ]
@@ -38,12 +65,39 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 173.5146080739875,
+          "contract": {
+            "contractSymbol": "PPG280121C00175000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 639,
+            "strike": 175,
+            "bid": 0.5,
+            "ask": 4.9,
+            "lastPrice": 1.9,
+            "volume": 42,
+            "openInterest": 12,
+            "impliedVolatility": 0.33539482971191403,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04942590125709277,
+          "staticAnnualizedPct": 0.028232322314301818,
+          "assignedReturnPct": 0.6221768673755433,
+          "assignedAnnualizedPct": 0.35539054239761086,
+          "effectiveCostBasis": 110.77,
+          "effectiveDiscountPct": 0.004493574188909859
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 184.25921863831738,
+          "anchorPrice": 173.5146080739875,
           "contract": {
             "contractSymbol": "PPG280121P00110000",
             "expiration": "2028-01-21",
@@ -54,7 +108,7 @@
             "lastPrice": 18.6,
             "volume": 1,
             "openInterest": 4,
-            "impliedVolatility": 0.29688203124999996,
+            "impliedVolatility": 0.2951120294189453,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -62,7 +116,7 @@
           "notAssignedReturnPct": 0.10454545454545454,
           "notAssignedAnnualizedPct": 0.059716887181675914,
           "effectiveCostBasis": 98.5,
-          "effectiveDiscountPct": 0.11675035868005736,
+          "effectiveDiscountPct": 0.11476588478475777,
           "inTheMoney": false
         }
       ]
