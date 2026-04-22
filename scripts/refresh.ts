@@ -158,6 +158,15 @@ async function main(): Promise<void> {
     console.log("\n(skipped tests per --skip-tests)");
   }
 
+  // Rebuild the web bundle so the local `vite preview` serves the same
+  // data the GH Pages deploy will serve. Without this, dist/ keeps the
+  // pre-refresh public/data snapshot and any local preview shows stale
+  // numbers (e.g., "no strike available" for symbols whose options
+  // file just got refreshed). Production deploys are unaffected — the
+  // GitHub Actions workflow always builds from a clean checkout.
+  console.log("\n=== refresh: build ===");
+  await runStreaming("npm", ["run", "build"]);
+
   console.log("\n=== refresh: git ===");
   const status = gitOutput(["status", "--porcelain"]);
   if (!status) {
