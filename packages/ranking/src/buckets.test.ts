@@ -19,6 +19,7 @@ function fv(upside: number | null): FairValue {
     upsideToMedianPct: upside,
     confidence: "high",
     ttmTreatment: "ttm",
+    ebitdaTreatment: "ttm",
     peerCohortDivergent: false,
   };
 }

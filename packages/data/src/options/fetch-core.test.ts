@@ -46,7 +46,7 @@ function makeFairValue(): FairValue {
     },
     range: { p25: 120, median: 150, p75: 180 },
     current: 90, upsideToP25Pct: 33.3, upsideToMedianPct: 66.7,
-    confidence: "high", ttmTreatment: "ttm",
+    confidence: "high", ttmTreatment: "ttm", ebitdaTreatment: "ttm", peerCohortDivergent: false,
   };
 }
 

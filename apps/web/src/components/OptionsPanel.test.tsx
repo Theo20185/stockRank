@@ -104,6 +104,8 @@ function fakeRow(overrides: Partial<RankedRow> = {}): RankedRow {
       upsideToMedianPct: 27.8,
       confidence: "high",
       ttmTreatment: "ttm",
+      ebitdaTreatment: "ttm",
+      peerCohortDivergent: false,
     },
     negativeEquity: false,
     optionsLiquid: true,

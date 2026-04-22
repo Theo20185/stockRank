@@ -285,6 +285,91 @@ describe("fairValueFor — skipOutlierRule", () => {
     expect(fv.anchors.normalizedPE).not.toBeNull();
   });
 
+  it("normalizes the peer-median EV/EBITDA anchor when TTM EBITDA spikes vs prior 3y mean", () => {
+    // EIX-style: TTM EBITDA $10.7B vs prior-3y mean ~$5.5B (1.95× spike).
+    // The peer-median EV/EBITDA anchor should fall back to the prior mean.
+    const subject = makeCompany({
+      symbol: "SPIKE",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      marketCap: 30_000_000_000,
+      ttm: makeTtm({ peRatio: 18, evToEbitda: 8 }),
+      annual: [
+        makePeriod({
+          fiscalYear: "2025",
+          income: {
+            ...makePeriod().income,
+            epsDiluted: 5,
+            ebitda: 10_700_000_000,
+            sharesDiluted: 400_000_000,
+          },
+          balance: { ...makePeriod().balance, totalDebt: 41_000_000_000, cash: 200_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2024",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 6_300_000_000, sharesDiluted: 400_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2023",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 5_700_000_000, sharesDiluted: 400_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2022",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 4_500_000_000, sharesDiluted: 400_000_000 },
+        }),
+      ],
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 18),
+    );
+    const universe = [subject, ...peers];
+
+    const withRule = fairValueFor(subject, universe);
+    const withoutRule = fairValueFor(subject, universe, { skipOutlierRule: true });
+
+    expect(withRule.ebitdaTreatment).toBe("normalized");
+    expect(withoutRule.ebitdaTreatment).toBe("ttm");
+    // The normalized anchor must imply a smaller equity value than the
+    // raw-TTM one (and therefore a lower per-share fair value).
+    expect(withRule.anchors.peerMedianEVEBITDA).not.toBeNull();
+    expect(withoutRule.anchors.peerMedianEVEBITDA).not.toBeNull();
+    expect(withRule.anchors.peerMedianEVEBITDA!).toBeLessThan(
+      withoutRule.anchors.peerMedianEVEBITDA!,
+    );
+  });
+
+  it("does not normalize EBITDA when TTM is within 1.5x of prior 3y mean", () => {
+    const subject = makeCompany({
+      symbol: "STEADY",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: 18, evToEbitda: 14 }),
+      annual: [
+        makePeriod({
+          fiscalYear: "2025",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 6_500_000_000, sharesDiluted: 400_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2024",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 6_300_000_000, sharesDiluted: 400_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2023",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 5_700_000_000, sharesDiluted: 400_000_000 },
+        }),
+        makePeriod({
+          fiscalYear: "2022",
+          income: { ...makePeriod().income, epsDiluted: 5, ebitda: 5_500_000_000, sharesDiluted: 400_000_000 },
+        }),
+      ],
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 18),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.ebitdaTreatment).toBe("ttm");
+  });
+
   it("produces the same result with or without the flag when no spike is present", () => {
     const subject = makeCompany({
       symbol: "STABLE",

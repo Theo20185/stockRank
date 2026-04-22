@@ -18,6 +18,8 @@ function fv(p25: number, median: number, p75: number, current: number): FairValu
     upsideToMedianPct: ((median - current) / current) * 100,
     confidence: "high",
     ttmTreatment: "ttm",
+    ebitdaTreatment: "ttm",
+    peerCohortDivergent: false,
   };
 }
 

@@ -7,6 +7,7 @@ import type {
 } from "./types.js";
 import { buildFairValueCohort } from "./cohort.js";
 import {
+  chooseEbitdaForAnchor,
   chooseEpsForPeerAnchor,
   impliedPriceFromEvEbitda,
   impliedPriceFromPE,
@@ -20,7 +21,7 @@ import {
   ownHistoricalPFcf,
   quantile,
 } from "./anchors.js";
-import type { EpsTreatment } from "./anchors.js";
+import type { EbitdaTreatment, EpsTreatment } from "./anchors.js";
 
 const HIGH_SPREAD_LIMIT = 1.5;
 const MEDIUM_SPREAD_LIMIT = 2.5;
@@ -67,18 +68,21 @@ export function fairValueFor(
   const cohort = buildFairValueCohort(subject, universe);
   const peers = cohort.peers;
 
-  // EPS choice for the peer-median P/E anchor — may downshift to a
-  // normalized prior-years mean if TTM looks like a one-time spike that
-  // forward consensus EPS doesn't corroborate. See anchors.ts and
-  // fair-value.md §4. The back-test bypass forces TTM through.
+  // EPS / EBITDA choices for the peer-median anchors — may downshift
+  // to a normalized prior-years mean if TTM looks like a one-time
+  // spike. See anchors.ts and fair-value.md §3.4. The back-test
+  // bypass forces TTM through.
   const epsChoice = options.skipOutlierRule
     ? { eps: subject.annual[0]?.income.epsDiluted ?? null, treatment: "ttm" as const }
     : chooseEpsForPeerAnchor(subject);
+  const ebitdaChoice = options.skipOutlierRule
+    ? { ebitda: subject.annual[0]?.income.ebitda ?? null, treatment: "ttm" as const }
+    : chooseEbitdaForAnchor(subject);
 
   // ---- Per-anchor computations ----
   const fullAnchors: FairValueAnchors = {
     peerMedianPE: anchorPeerPE(peers, epsChoice.eps),
-    peerMedianEVEBITDA: anchorPeerEvEbitda(subject, peers),
+    peerMedianEVEBITDA: anchorPeerEvEbitda(subject, peers, ebitdaChoice.ebitda),
     peerMedianPFCF: anchorPeerPFcf(subject, peers),
     ownHistoricalPE: anchorOwnPE(subject),
     ownHistoricalEVEBITDA: anchorOwnEvEbitda(subject),
@@ -143,6 +147,7 @@ export function fairValueFor(
     upsideToMedianPct,
     confidence,
     ttmTreatment: epsChoice.treatment satisfies EpsTreatment,
+    ebitdaTreatment: ebitdaChoice.treatment satisfies EbitdaTreatment,
     peerCohortDivergent,
   };
 }
@@ -209,17 +214,20 @@ function anchorPeerPE(
   return impliedPriceFromPE(epsToUse, median(validPes));
 }
 
-function anchorPeerEvEbitda(subject: CompanySnapshot, peers: CompanySnapshot[]): number | null {
+function anchorPeerEvEbitda(
+  subject: CompanySnapshot,
+  peers: CompanySnapshot[],
+  ebitdaToUse: number | null,
+): number | null {
   const validMultiples = peers
     .map((p) => p.ttm.evToEbitda)
     .filter((v): v is number => v !== null && v > 0);
   if (validMultiples.length === 0) return null;
   const mult = median(validMultiples);
-  const ebitda = subject.annual[0]?.income.ebitda ?? null;
   const debt = subject.annual[0]?.balance.totalDebt ?? 0;
   const cash = subject.annual[0]?.balance.cash ?? 0;
   const shares = subject.annual[0]?.income.sharesDiluted ?? null;
-  return impliedPriceFromEvEbitda(ebitda, mult, debt, cash, shares);
+  return impliedPriceFromEvEbitda(ebitdaToUse, mult, debt, cash, shares);
 }
 
 function anchorPeerPFcf(subject: CompanySnapshot, peers: CompanySnapshot[]): number | null {

@@ -45,6 +45,15 @@ export type FairValue = {
    */
   ttmTreatment: "ttm" | "normalized";
   /**
+   * Sibling of `ttmTreatment` for the EV/EBITDA anchor. Indicates
+   * whether the peer-median EV/EBITDA anchor used the raw TTM EBITDA
+   * ("ttm") or fell back to a prior-3-year mean ("normalized") because
+   * the TTM EBITDA exceeded 1.5× the prior mean. Same root cause as
+   * the EPS spike (e.g., EIX's FY2025 wildfire settlement inflated
+   * both EPS and EBITDA).
+   */
+  ebitdaTreatment: "ttm" | "normalized";
+  /**
    * True when the peer-median P/E multiple diverged from the subject's
    * own historical P/E by more than the configured threshold (3× by
    * default). The 6 peer-derived anchors (peerMedian* and normalized*)

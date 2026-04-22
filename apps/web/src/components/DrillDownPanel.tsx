@@ -113,6 +113,15 @@ export function DrillDownPanel({ row, onClose }: DrillDownPanelProps) {
             normalized prior mean instead.
           </p>
         )}
+        {row.fairValue?.ebitdaTreatment === "normalized" && (
+          <p className="drill-down__neg-equity">
+            <strong>TTM EBITDA normalized</strong> — the most recent
+            annual EBITDA exceeded 1.5× the prior-3-year mean. The
+            peer-median EV/EBITDA anchor used the normalized prior mean
+            instead, so a one-time gain doesn't inflate the implied
+            enterprise value.
+          </p>
+        )}
       </section>
 
       <section className="drill-down__factors">

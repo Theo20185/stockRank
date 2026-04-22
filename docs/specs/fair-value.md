@@ -99,15 +99,21 @@ Peers must satisfy:
 
 A peer that drops out of one anchor can still be present in another.
 
-## 3.4 TTM EPS outlier defense (peer-median P/E anchor)
+## 3.4 TTM outlier defense (peer-median anchors)
 
-The peer-median P/E anchor multiplies the **subject's most recent annual
-EPS** by the **peer median TTM P/E**. If the subject's most recent year
-included a one-time gain (regulatory true-up, settlement reversal,
-asset sale, etc.), the resulting fair value overshoots wildly. EIX is
-the canonical example: FY2025 EPS of $11.55 (vs ~$3 the prior 3 years
-and forward consensus of $6.12) drove our anchor to imply $196/share
-when Argus and LSEG analysts were converging on $80.
+The peer-median anchors multiply a subject's TTM income figure by the
+peer-cohort multiple. When the subject's most recent year included a
+one-time gain (regulatory true-up, settlement reversal, asset sale,
+etc.), the resulting fair value overshoots wildly. EIX is the canonical
+example: FY2025 reported EPS $11.55 and EBITDA $10.77B were both
+inflated by the TKM wildfire settlement; without defenses the anchors
+imply $196/share on P/E and $271/share on EV/EBITDA, while forward
+consensus and analyst targets cluster near $80.
+
+The defense fires independently on EPS and EBITDA — same shape, same
+1.5× threshold, surfaced as separate fields on the output.
+
+### EPS outlier (peer-median P/E anchor)
 
 **Two-signal outlier rule:** when the most recent EPS exceeds **1.5×**
 the prior-3-year mean **and** forward consensus EPS is below **0.7×**
@@ -122,15 +128,50 @@ agrees with the spike, it's a real step-change and TTM is trusted.
 | Spike (> 1.5×) | Forward EPS missing | Prior-3y mean | Conservative default — better to slightly under-shoot than lock in an obvious one-timer |
 | Normal (≤ 1.5×) | Any | TTM | No outlier detected |
 
-The chosen treatment is surfaced on the FairValue output as
-`ttmTreatment: "ttm" | "normalized"` so the UI can flag rows where the
-model adjusted. The other anchors (own-historical, normalized-earnings,
-EV/EBITDA, P/FCF) are unaffected — the rule narrowly addresses the
-peer-median P/E case where outlier impact is largest.
+Surfaced on the FairValue output as
+`ttmTreatment: "ttm" | "normalized"`. Forward EPS is sourced from
+`defaultKeyStatistics.forwardEps` on the Yahoo provider; FMP free tier
+doesn't expose it (set to null), so the "no forward" branch handles
+that case.
 
-Forward EPS is sourced from `defaultKeyStatistics.forwardEps` on the
-Yahoo provider; FMP free tier doesn't expose it (set to null), so the
-"no forward" branch handles that case.
+### EBITDA outlier (peer-median EV/EBITDA anchor)
+
+**Single-signal rule:** when the most recent annual EBITDA exceeds
+**1.5×** the prior-3-year mean, fall back to the prior mean for the
+peer-median EV/EBITDA anchor. There is no forward-EBITDA corroboration
+check — Yahoo doesn't surface a `forwardEbitda` figure — so the rule
+mirrors the no-forward branch of the EPS rule: a spike alone is enough
+to trigger normalization.
+
+| TTM vs prior 3y | Treatment | Reason |
+|---|---|---|
+| Spike (> 1.5×) | Prior-3y mean | One-time gain; no forward corroboration available |
+| Normal (≤ 1.5×) | TTM | No outlier detected |
+
+Surfaced on the FairValue output as
+`ebitdaTreatment: "ttm" | "normalized"`.
+
+### Scope notes
+
+The rules narrowly target the **peer-median** anchors where outlier
+impact is largest. Other anchors are deliberately untouched:
+
+- `ownHistorical*` anchors — multiply current TTM multiples by current
+  trailing earnings, so the multiple is itself deflated by the same
+  spike (current EV/inflated EBITDA → understated multiple). Replacing
+  the income figure alone would over-correct. A proper fix needs
+  historical price-time-series data (out of scope; see comment at
+  `anchors.ts:200`).
+- `normalized*` anchors — already use a multi-year cycle average by
+  design; including the spike year is the standard CAPE-style
+  approach.
+- `peerMedianPFCF` — FCF is volatile from working-capital and capex
+  swings, often null; we'd need a larger sample to design a sensible
+  rule. Deferred.
+- Category-scoring factors that share the same root contamination
+  (ROIC, EBIT, Net Debt/EBITDA, 7Y EPS Growth) live in
+  `packages/ranking/src/factors.ts` — out of scope for the fair-value
+  module; addressed separately in the scoring engine.
 
 ## 3.5 Peer-cohort divergence defense
 

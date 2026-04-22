@@ -128,16 +128,22 @@ export function normalizedFcf(
   return recent.reduce((s, v) => s + v, 0) / recent.length;
 }
 
-// ---------- TTM EPS outlier detection ----------
+// ---------- TTM outlier detection (EPS + EBITDA) ----------
 
 const TTM_OUTLIER_RATIO = 1.5;     // TTM > 1.5× prior-3y mean → suspicious
 const FORWARD_AGREEMENT_RATIO = 0.7; // forward ≥ 70% of TTM → corroborates spike
 
 export type EpsTreatment = "ttm" | "normalized";
+export type EbitdaTreatment = "ttm" | "normalized";
 
 export type EpsForAnchor = {
   eps: number | null;
   treatment: EpsTreatment;
+};
+
+export type EbitdaForAnchor = {
+  ebitda: number | null;
+  treatment: EbitdaTreatment;
 };
 
 /**
@@ -185,6 +191,36 @@ export function chooseEpsForPeerAnchor(snapshot: CompanySnapshot): EpsForAnchor 
 
   // No forward EPS available; fall back to prior mean on the TTM rule alone.
   return { eps: priorMean, treatment: "normalized" };
+}
+
+/**
+ * Choose the EBITDA to apply to a peer-median EV/EBITDA multiple. Mirrors
+ * the EPS rule: when the most recent annual EBITDA exceeds 1.5× the
+ * prior-3-year mean, fall back to the prior mean. Yahoo doesn't surface a
+ * forward-EBITDA estimate (vs forward EPS), so this is a single-signal
+ * rule — same as the no-forward branch of `chooseEpsForPeerAnchor`.
+ *
+ * EIX FY2025 is the canonical case: $10.77B EBITDA vs ~$5.5B prior 3y mean
+ * (1.95× spike) driven by the same TKM wildfire settlement that inflated EPS.
+ */
+export function chooseEbitdaForAnchor(snapshot: CompanySnapshot): EbitdaForAnchor {
+  const recent = snapshot.annual[0]?.income.ebitda ?? null;
+  if (recent === null) return { ebitda: null, treatment: "ttm" };
+
+  const priorEbitda = snapshot.annual.slice(1, 4)
+    .map((p) => p.income.ebitda)
+    .filter((v): v is number => v !== null && v > 0);
+
+  if (priorEbitda.length < 2) {
+    return { ebitda: recent, treatment: "ttm" };
+  }
+
+  const priorMean = priorEbitda.reduce((s, v) => s + v, 0) / priorEbitda.length;
+  if (recent <= priorMean * TTM_OUTLIER_RATIO) {
+    return { ebitda: recent, treatment: "ttm" };
+  }
+
+  return { ebitda: priorMean, treatment: "normalized" };
 }
 
 // ---------- Own-historical multiples ----------
