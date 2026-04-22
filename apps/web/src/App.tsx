@@ -106,7 +106,7 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
   if (error) {
     return (
       <main className="app app--message">
-        <h1>📈 StockRank</h1>
+        <h1>StockRank</h1>
         <p role="alert">Failed to load snapshot: {error}</p>
         <p>
           Run <code>npm run ingest</code> to produce
@@ -119,7 +119,7 @@ export function App({ initialSnapshot, initialOptionsSummary }: AppProps = {}) {
   if (!snapshot || !ranked) {
     return (
       <main className="app app--message">
-        <h1>📈 StockRank</h1>
+        <h1>StockRank</h1>
         <p role="status">Loading snapshot…</p>
       </main>
     );

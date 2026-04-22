@@ -175,6 +175,25 @@ main.app--message {
   font-weight: 700;
   letter-spacing: -0.01em;
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+/* 📈 mark on the StockRank wordmark — flexbox alignment + slightly
+   smaller size so the emoji's full-color glyph doesn't overpower the
+   bold text next to it. */
+.app-header__title::before,
+main.app--message h1::before {
+  content: "📈";
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+main.app--message h1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
 }
 
 .app-header__right {

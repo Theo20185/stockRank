@@ -70,7 +70,7 @@ export function ResultsScreen({
   return (
     <div className="screen screen--results">
       <AppHeader
-        title="📈 StockRank"
+        title="StockRank"
         subtitle={`Snapshot ${snapshot.snapshotDate} · ${snapshot.companies.length} companies`}
       />
 
