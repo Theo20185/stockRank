@@ -1,44 +1,17 @@
 {
   "symbol": "APTV",
-  "fetchedAt": "2026-04-22T17:56:33.446Z",
-  "currentPrice": 60.61,
+  "fetchedAt": "2026-04-22T18:34:31.514Z",
+  "currentPrice": 60.425,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 84.85313121553183,
-          "contract": {
-            "contractSymbol": "APTV270115C00085000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 268,
-            "strike": 85,
-            "bid": 2,
-            "ask": 2.95,
-            "lastPrice": 1.75,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.4542290905761719,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03299785513941594,
-          "staticAnnualizedPct": 0.04494110867868215,
-          "assignedReturnPct": 0.4354066985645933,
-          "assignedAnnualizedPct": 0.592997929015211,
-          "effectiveCostBasis": 58.61,
-          "effectiveDiscountPct": 0.03299785513941594
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 84.85313121553183,
+          "anchorPrice": 85.8720508189793,
           "contract": {
             "contractSymbol": "APTV270115P00060000",
             "expiration": "2027-01-15",
@@ -49,7 +22,7 @@
             "lastPrice": 4.3,
             "volume": 7,
             "openInterest": 19,
-            "impliedVolatility": 0.32068550415039054,
+            "impliedVolatility": 0.31677929321289056,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -57,7 +30,7 @@
           "notAssignedReturnPct": 0.04833333333333333,
           "notAssignedAnnualizedPct": 0.0658271144278607,
           "effectiveCostBasis": 57.1,
-          "effectiveDiscountPct": 0.05791123576967494,
+          "effectiveDiscountPct": 0.055026892842366504,
           "inTheMoney": false
         }
       ]
@@ -65,39 +38,12 @@
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 84.85313121553183,
-          "contract": {
-            "contractSymbol": "APTV260821C00085000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 121,
-            "strike": 85,
-            "bid": 0.55,
-            "ask": 1.85,
-            "lastPrice": 2.15,
-            "volume": 2,
-            "openInterest": 53,
-            "impliedVolatility": 0.5690961059570312,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.009074410163339383,
-          "staticAnnualizedPct": 0.02737322074065186,
-          "assignedReturnPct": 0.4114832535885168,
-          "assignedAnnualizedPct": 1.2412511368579224,
-          "effectiveCostBasis": 60.06,
-          "effectiveDiscountPct": 0.009074410163339383
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 84.85313121553183,
+          "anchorPrice": 85.8720508189793,
           "contract": {
             "contractSymbol": "APTV260821P00060000",
             "expiration": "2026-08-21",
@@ -108,7 +54,7 @@
             "lastPrice": 2.65,
             "volume": 1,
             "openInterest": 49,
-            "impliedVolatility": 0.4616753051757813,
+            "impliedVolatility": 0.4558159887695313,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -116,7 +62,7 @@
           "notAssignedReturnPct": 0.06166666666666667,
           "notAssignedAnnualizedPct": 0.18601928374655646,
           "effectiveCostBasis": 56.3,
-          "effectiveDiscountPct": 0.07111037782544138,
+          "effectiveDiscountPct": 0.06826644600744725,
           "inTheMoney": false
         }
       ]
