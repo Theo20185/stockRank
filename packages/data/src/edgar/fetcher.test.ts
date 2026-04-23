@@ -1,6 +1,7 @@
 import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   EdgarFetchError,
@@ -176,6 +177,55 @@ describe("fetchCompanyFacts", () => {
         fetchImpl: fetchImpl as unknown as typeof fetch,
       }),
     ).rejects.toBeInstanceOf(EdgarFetchError);
+  });
+});
+
+// Regression: same cwd-divergence bug as chart-cache. The ingest CLI
+// runs from packages/data/; compute-fv-trend runs from the repo root.
+// Both must hit the same cache directory.
+describe("default cache root is repo-anchored, not cwd-dependent", () => {
+  function expectedRepoRoot(): string {
+    return resolve(
+      dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "..",
+      "..",
+      "..",
+    );
+  }
+
+  it("write from one cwd is readable from another cwd", async () => {
+    const symbol = "AAPL";
+    const expectedDir = join(expectedRepoRoot(), "tmp/edgar-cache", symbol);
+    const fetchImpl = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve(jsonResponse(factsBody)));
+    const originalCwd = process.cwd();
+
+    // Wipe any pre-existing cache so we observe the populate-then-read path.
+    await rm(expectedDir, { recursive: true, force: true }).catch(
+      () => undefined,
+    );
+
+    try {
+      // Write from the repo root (default behavior, no cacheDir override).
+      process.chdir(expectedRepoRoot());
+      await fetchCompanyFacts(symbol, {
+        fetchImpl: fetchImpl as unknown as typeof fetch,
+      });
+      // Read from packages/data/ — must hit the same cache, no second fetch.
+      process.chdir(join(expectedRepoRoot(), "packages", "data"));
+      await fetchCompanyFacts(symbol, {
+        fetchImpl: fetchImpl as unknown as typeof fetch,
+      });
+
+      expect(fetchImpl).toHaveBeenCalledTimes(1);
+    } finally {
+      process.chdir(originalCwd);
+      await rm(expectedDir, { recursive: true, force: true }).catch(
+        () => undefined,
+      );
+    }
   });
 });
 

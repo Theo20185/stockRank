@@ -1,13 +1,39 @@
 {
   "symbol": "RJF",
-  "fetchedAt": "2026-04-23T12:47:23.752Z",
-  "currentPrice": 154.52,
+  "fetchedAt": "2026-04-23T13:53:31.052Z",
+  "currentPrice": 156.99,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 173.25650083387387,
+          "contract": {
+            "contractSymbol": "RJF270115P00155000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 155,
+            "bid": 7.5,
+            "ask": 11.5,
+            "lastPrice": 15.5,
+            "volume": 2,
+            "openInterest": 7,
+            "impliedVolatility": 0.23435213897705076,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04838709677419355,
+          "notAssignedAnnualizedPct": 0.06614715476621964,
+          "effectiveCostBasis": 147.5,
+          "effectiveDiscountPct": 0.06044971017262252,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",

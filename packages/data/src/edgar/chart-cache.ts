@@ -17,9 +17,24 @@
 
 import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { HistoricalBar } from "./mapper.js";
 
-const CACHE_ROOT = resolve(process.cwd(), "tmp/chart-cache");
+/** Anchor the cache to the repo root rather than `process.cwd()`. The
+ * ingest CLI runs from `packages/data/` (per its workspace script) but
+ * other consumers (`scripts/compute-fv-trend.ts`) run from the repo
+ * root; both must read/write the same cache directory or producers
+ * and consumers diverge. This file lives at
+ * `packages/data/src/edgar/chart-cache.ts`, so the repo root is 4
+ * directories up. */
+const REPO_ROOT = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+  "..",
+);
+const CACHE_ROOT = resolve(REPO_ROOT, "tmp/chart-cache");
 
 /** Default TTL for cached chart data — same as EDGAR's. */
 const DEFAULT_CACHE_TTL_HOURS = 24;

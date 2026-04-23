@@ -1,7 +1,7 @@
 {
   "symbol": "CTSH",
-  "fetchedAt": "2026-04-23T12:46:21.252Z",
-  "currentPrice": 58.81,
+  "fetchedAt": "2026-04-23T13:52:30.822Z",
+  "currentPrice": 55.59,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -12,7 +12,34 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 75.9187104,
+          "contract": {
+            "contractSymbol": "CTSH280121C00077500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 77.5,
+            "bid": 5,
+            "ask": 9,
+            "lastPrice": 9.3,
+            "volume": 1,
+            "openInterest": 112,
+            "impliedVolatility": 0.5233812310791015,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1295243297429566,
+          "staticAnnualizedPct": 0.07410090964918364,
+          "assignedReturnPct": 0.523659965648695,
+          "assignedAnnualizedPct": 0.29958603050434746,
+          "effectiveCostBasis": 50.59,
+          "effectiveDiscountPct": 0.08994423457456377
+        }
+      ],
       "puts": []
     }
   ]

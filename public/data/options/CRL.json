@@ -1,7 +1,7 @@
 {
   "symbol": "CRL",
-  "fetchedAt": "2026-04-23T12:47:11.796Z",
-  "currentPrice": 184.8,
+  "fetchedAt": "2026-04-23T13:53:15.261Z",
+  "currentPrice": 170.53,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,7 +12,34 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 251.16641384101095,
+          "contract": {
+            "contractSymbol": "CRL260717C00260000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 260,
+            "bid": 6.8,
+            "ask": 10,
+            "lastPrice": 5.5,
+            "volume": 1,
+            "openInterest": 4,
+            "impliedVolatility": 0.9134530139160157,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03987568169823491,
+          "staticAnnualizedPct": 0.17123086846889107,
+          "assignedReturnPct": 0.5645340995719228,
+          "assignedAnnualizedPct": 2.4241758393382566,
+          "effectiveCostBasis": 163.73,
+          "effectiveDiscountPct": 0.03987568169823491
+        }
+      ],
       "puts": []
     }
   ]

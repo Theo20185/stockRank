@@ -1,5 +1,6 @@
 import { mkdir, readFile, rename, stat, unlink, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { cikFor, formatCik } from "./cik-lookup.js";
 import type { EdgarCompanyFacts } from "./types.js";
 
@@ -16,7 +17,19 @@ const MIN_REQUEST_INTERVAL_MS = 110;
 /** Cache TTL — daily refresh re-pulls fundamentals once per day. */
 const DEFAULT_CACHE_TTL_HOURS = 24;
 
-const CACHE_ROOT = resolve(process.cwd(), "tmp/edgar-cache");
+/** Anchor the cache to the repo root rather than `process.cwd()`. The
+ * ingest CLI runs from `packages/data/`; consumers like
+ * `scripts/compute-fv-trend.ts` run from the repo root. Both must
+ * read/write the same cache or producers and consumers diverge.
+ * `packages/data/src/edgar/fetcher.ts` → up 4 dirs → repo root. */
+const REPO_ROOT = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "..",
+  "..",
+);
+const CACHE_ROOT = resolve(REPO_ROOT, "tmp/edgar-cache");
 
 export type FetcherOptions = {
   /** Override the User-Agent. Tests pass a fixture-friendly value. */

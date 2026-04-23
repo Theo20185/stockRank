@@ -1,7 +1,7 @@
 {
   "symbol": "NXPI",
-  "fetchedAt": "2026-04-23T12:47:58.732Z",
-  "currentPrice": 225.75,
+  "fetchedAt": "2026-04-23T13:54:08.295Z",
+  "currentPrice": 238.17,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -13,7 +13,33 @@
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 442.28096001459284,
+          "contract": {
+            "contractSymbol": "NXPI280121P00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 230,
+            "bid": 36.5,
+            "ask": 39.2,
+            "lastPrice": 40.9,
+            "volume": 0,
+            "openInterest": 50,
+            "impliedVolatility": 0.3526981234741211,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15869565217391304,
+          "notAssignedAnnualizedPct": 0.090789832356549,
+          "effectiveCostBasis": 193.5,
+          "effectiveDiscountPct": 0.18755510769618336,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

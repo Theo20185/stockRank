@@ -1,7 +1,7 @@
 {
   "symbol": "CPAY",
-  "fetchedAt": "2026-04-23T12:48:38.677Z",
-  "currentPrice": 330.7,
+  "fetchedAt": "2026-04-23T13:54:47.529Z",
+  "currentPrice": 311.72,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -21,20 +21,46 @@
             "lastPrice": 6.5,
             "volume": 1,
             "openInterest": 2,
-            "impliedVolatility": 0.49725844543457043,
+            "impliedVolatility": 0.5438888385009766,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.0030238887208950713,
-          "staticAnnualizedPct": 0.004133780461148693,
-          "assignedReturnPct": 0.6359237980042335,
-          "assignedAnnualizedPct": 0.8693340309795702,
-          "effectiveCostBasis": 329.7,
-          "effectiveDiscountPct": 0.0030238887208950713
+          "staticReturnPct": 0.003208007185936096,
+          "staticAnnualizedPct": 0.004385477988264701,
+          "assignedReturnPct": 0.7355318875914281,
+          "assignedAnnualizedPct": 1.0055023931493305,
+          "effectiveCostBasis": 310.72,
+          "effectiveDiscountPct": 0.003208007185936096
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 527.9823894142813,
+          "contract": {
+            "contractSymbol": "CPAY270115P00310000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 310,
+            "bid": 24,
+            "ask": 34,
+            "lastPrice": 31.72,
+            "volume": 1,
+            "openInterest": 7,
+            "impliedVolatility": 0.329184564666748,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07741935483870968,
+          "notAssignedAnnualizedPct": 0.10583544762595144,
+          "effectiveCostBasis": 286,
+          "effectiveDiscountPct": 0.08250994482227648,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-08-21",

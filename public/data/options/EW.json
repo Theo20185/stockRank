@@ -1,7 +1,7 @@
 {
   "symbol": "EW",
-  "fetchedAt": "2026-04-23T12:47:50.086Z",
-  "currentPrice": 81.53,
+  "fetchedAt": "2026-04-23T13:53:57.743Z",
+  "currentPrice": 81.33,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 82.07819424,
+          "anchorPrice": 83.61549000000001,
           "contract": {
             "contractSymbol": "EW270115P00080000",
             "expiration": "2027-01-15",
@@ -22,7 +22,7 @@
             "lastPrice": 7.7,
             "volume": 22,
             "openInterest": 807,
-            "impliedVolatility": 0.3251410260009765,
+            "impliedVolatility": 0.3220282641601562,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +30,7 @@
           "notAssignedReturnPct": 0.08125,
           "notAssignedAnnualizedPct": 0.11107209737827715,
           "effectiveCostBasis": 73.5,
-          "effectiveDiscountPct": 0.09849135287624189,
+          "effectiveDiscountPct": 0.09627443747694575,
           "inTheMoney": false
         }
       ]
@@ -38,7 +38,34 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 83.61549000000001,
+          "contract": {
+            "contractSymbol": "EW280121C00085000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 85,
+            "bid": 13.5,
+            "ask": 18.5,
+            "lastPrice": 12.87,
+            "volume": 48,
+            "openInterest": 49,
+            "impliedVolatility": 0.4694266925048829,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.16599040944300997,
+          "staticAnnualizedPct": 0.09496316527695713,
+          "assignedReturnPct": 0.21111520963973937,
+          "assignedAnnualizedPct": 0.12077907761521141,
+          "effectiveCostBasis": 67.83,
+          "effectiveDiscountPct": 0.16599040944300997
+        }
+      ],
       "puts": []
     }
   ]
