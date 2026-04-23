@@ -194,6 +194,8 @@ describe("YahooProvider", () => {
     expect(snap!.quote.price).toBe(65.5);
     expect(snap!.ttm.evToEbitda).toBe(25);
     expect(snap!.pctOffYearHigh).toBeCloseTo(6.43, 1);
+    // INTC stub: yearLow $18, currentPrice $65.50 → 264% above low.
+    expect(snap!.pctAboveYearLow).toBeCloseTo(263.89, 1);
     expect(errors).toHaveLength(0);
   });
 

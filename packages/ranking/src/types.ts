@@ -50,6 +50,10 @@ export type RankedRow = {
   industryRank: number;
   universeRank: number;
   pctOffYearHigh: number;
+  /** Percentage above the trailing-52w low. Companion to
+   * pctOffYearHigh; together they bracket the year's range on the
+   * stock-detail page. */
+  pctAboveYearLow: number;
 
   categoryScores: CategoryScores;
   factorDetails: FactorContribution[];
@@ -110,6 +114,7 @@ export type TurnaroundRow = {
   marketCap: number;
   price: number;
   pctOffYearHigh: number;
+  pctAboveYearLow: number;
   reasons: TurnaroundReason[];
   longTermAvgRoic: number | null;
   ttmEpsRelativeTo5YAvg: number | null;

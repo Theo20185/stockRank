@@ -14,7 +14,7 @@ export type {
   AnnualRatios,
   SnapshotError,
 } from "./snapshot.js";
-export { SNAPSHOT_SCHEMA_VERSION, pctOffHigh } from "./snapshot.js";
+export { SNAPSHOT_SCHEMA_VERSION, pctAboveLow, pctOffHigh } from "./snapshot.js";
 export type {
   ContractQuote,
   ExpirationGroup,

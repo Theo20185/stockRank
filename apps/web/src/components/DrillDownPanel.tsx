@@ -64,6 +64,7 @@ export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelP
           <strong>{formatPrice(row.price)}</strong>
           <span className="drill-down__price-context">
             {" "}· {formatPercent(row.pctOffYearHigh, 1)} off 52-week high
+            {" "}· {formatPercent(row.pctAboveYearLow, 1)} above 52-week low
             {" "}· {formatMarketCap(row.marketCap)}
           </span>
         </p>

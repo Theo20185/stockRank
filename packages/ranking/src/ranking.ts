@@ -126,6 +126,7 @@ function buildIneligibleRow(company: CompanySnapshot): RankedRow {
     industryRank: 0,
     universeRank: 0,
     pctOffYearHigh: company.pctOffYearHigh,
+    pctAboveYearLow: company.pctAboveYearLow ?? 0,
     categoryScores: {
       valuation: null, health: null, quality: null,
       shareholderReturn: null, growth: null,
@@ -292,6 +293,7 @@ function assembleRow(
     industryRank: industryRanks.get(raw.company.symbol) ?? 0,
     universeRank: universeRanks.get(raw.company.symbol) ?? 0,
     pctOffYearHigh: raw.company.pctOffYearHigh,
+    pctAboveYearLow: raw.company.pctAboveYearLow ?? 0,
     categoryScores: raw.categoryScores,
     factorDetails: raw.factors,
     missingFactors: missing,

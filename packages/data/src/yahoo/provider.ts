@@ -5,7 +5,7 @@ import type {
   QuarterlyPeriod,
   TtmMetrics,
 } from "@stockrank/core";
-import { pctOffHigh } from "@stockrank/core";
+import { pctAboveLow, pctOffHigh } from "@stockrank/core";
 import type { ErrorReporter, FetchOptions, MarketDataProvider } from "../provider.js";
 import { inferReportingCurrency } from "./currency.js";
 import {
@@ -346,6 +346,7 @@ export class YahooProvider implements MarketDataProvider {
       annual,
       quarterly,
       pctOffYearHigh: pctOffHigh(currentPrice, yearHigh),
+      pctAboveYearLow: pctAboveLow(currentPrice, yearLow),
     };
   }
 }

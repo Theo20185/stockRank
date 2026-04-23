@@ -51,6 +51,11 @@ export type CompanySnapshot = {
   quarterly?: QuarterlyPeriod[];
 
   pctOffYearHigh: number;
+  /** Percentage the current price sits ABOVE the trailing-52w low.
+   * Companion to pctOffYearHigh; together they bracket the year's
+   * range on the stock-detail page ("X% off the high · Y% above
+   * the low"). Computed from quote.price + quote.yearLow. */
+  pctAboveYearLow: number;
 };
 
 export type QuoteSnapshot = {
@@ -186,4 +191,14 @@ export function pctOffHigh(price: number, yearHigh: number): number {
   if (yearHigh <= 0) return 0;
   if (price >= yearHigh) return 0;
   return ((yearHigh - price) / yearHigh) * 100;
+}
+
+/** Percentage the current price sits ABOVE the trailing-52w low.
+ * Mirror of `pctOffHigh`. Clamps to 0 when price ≤ low or low is
+ * non-positive — the UI uses this as a "how far has it bounced off
+ * the bottom" indicator alongside the drawdown number. */
+export function pctAboveLow(price: number, yearLow: number): number {
+  if (yearLow <= 0) return 0;
+  if (price <= yearLow) return 0;
+  return ((price - yearLow) / yearLow) * 100;
 }

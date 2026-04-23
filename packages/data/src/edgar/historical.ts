@@ -408,6 +408,10 @@ export function synthesizeSnapshotAt(
       yearHigh > 0 && price < yearHigh
         ? ((yearHigh - price) / yearHigh) * 100
         : 0,
+    pctAboveYearLow:
+      yearLow > 0 && price > yearLow
+        ? ((price - yearLow) / yearLow) * 100
+        : 0,
   };
 }
 

@@ -63,6 +63,7 @@ export function evaluateTurnaround(company: CompanySnapshot): TurnaroundRow | nu
     marketCap: company.marketCap,
     price: company.quote.price,
     pctOffYearHigh: company.pctOffYearHigh,
+    pctAboveYearLow: company.pctAboveYearLow ?? 0,
     reasons,
     longTermAvgRoic: longTermRoic,
     ttmEpsRelativeTo5YAvg: epsRelativeRatio,

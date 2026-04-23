@@ -20,6 +20,7 @@ const SAMPLE_ROW: RankedRow = {
   industryRank: 1,
   universeRank: 6,
   pctOffYearHigh: 18.7,
+  pctAboveYearLow: 24.3,
   categoryScores: {
     valuation: 50, health: 60, quality: 70, shareholderReturn: 55, growth: 80,
   },
@@ -40,6 +41,15 @@ describe("<StockDetailScreen />", () => {
     expect(screen.getByRole("complementary", { name: /detail for DECK/i })).toBeInTheDocument();
     // Options panel is a <section> → "region" role
     expect(screen.getByRole("region", { name: /options for DECK/i })).toBeInTheDocument();
+    vi.unstubAllGlobals();
+  });
+
+  it("renders both 52-week range markers (off-high and above-low)", () => {
+    vi.stubGlobal("fetch", stubFetch404());
+    render(<StockDetailScreen row={SAMPLE_ROW} symbol="DECK" onBack={() => {}} />);
+    const aside = screen.getByRole("complementary", { name: /detail for DECK/i });
+    expect(aside).toHaveTextContent(/18\.7%\s*off 52-week high/i);
+    expect(aside).toHaveTextContent(/24\.3%\s*above 52-week low/i);
     vi.unstubAllGlobals();
   });
 

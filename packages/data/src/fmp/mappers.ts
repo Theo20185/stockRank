@@ -3,7 +3,7 @@ import type {
   CompanySnapshot,
   TtmMetrics,
 } from "@stockrank/core";
-import { pctOffHigh } from "@stockrank/core";
+import { pctAboveLow, pctOffHigh } from "@stockrank/core";
 import type {
   FmpBalanceSheet,
   FmpCashFlow,

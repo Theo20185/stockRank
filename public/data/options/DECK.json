@@ -1,7 +1,7 @@
 {
   "symbol": "DECK",
-  "fetchedAt": "2026-04-23T16:29:29.096Z",
-  "currentPrice": 107.045,
+  "fetchedAt": "2026-04-23T17:46:50.386Z",
+  "currentPrice": 105.95,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,35 +10,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 145.73859379063057,
+          "anchorPrice": 143.54943220813055,
           "contract": {
-            "contractSymbol": "DECK270115C00150000",
+            "contractSymbol": "DECK270115C00145000",
             "expiration": "2027-01-15",
             "daysToExpiry": 267,
-            "strike": 150,
-            "bid": 4.5,
-            "ask": 7.2,
-            "lastPrice": 6.2,
-            "volume": 2,
-            "openInterest": 575,
-            "impliedVolatility": 0.5195970892333983,
+            "strike": 145,
+            "bid": 6,
+            "ask": 7.7,
+            "lastPrice": 7,
+            "volume": 1,
+            "openInterest": 43,
+            "impliedVolatility": 0.5191088128662109,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04203839506749498,
-          "staticAnnualizedPct": 0.05746821797616355,
-          "assignedReturnPct": 0.4433182306506609,
-          "assignedAnnualizedPct": 0.6060342853464091,
-          "effectiveCostBasis": 102.545,
-          "effectiveDiscountPct": 0.04203839506749498
+          "staticReturnPct": 0.056630486078338836,
+          "staticAnnualizedPct": 0.07741620756027594,
+          "assignedReturnPct": 0.42520056630486075,
+          "assignedAnnualizedPct": 0.5812666917650718,
+          "effectiveCostBasis": 99.95,
+          "effectiveDiscountPct": 0.056630486078338836
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 145.73859379063057,
+          "anchorPrice": 143.54943220813055,
           "contract": {
             "contractSymbol": "DECK270115P00105000",
             "expiration": "2027-01-15",
@@ -49,7 +49,7 @@
             "lastPrice": 13,
             "volume": 2,
             "openInterest": 54,
-            "impliedVolatility": 0.478093598022461,
+            "impliedVolatility": 0.4655204815673829,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -57,7 +57,7 @@
           "notAssignedReturnPct": 0.13047619047619047,
           "notAssignedAnnualizedPct": 0.17836632780453004,
           "effectiveCostBasis": 91.3,
-          "effectiveDiscountPct": 0.1470876734083797,
+          "effectiveDiscountPct": 0.1382727701746107,
           "inTheMoney": false
         }
       ]
@@ -65,39 +65,12 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 145.73859379063057,
-          "contract": {
-            "contractSymbol": "DECK280121C00150000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 150,
-            "bid": 15.5,
-            "ask": 19.5,
-            "lastPrice": 13,
-            "volume": 2,
-            "openInterest": 29,
-            "impliedVolatility": 0.5290269265747071,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.14479891634359382,
-          "staticAnnualizedPct": 0.08283950543167985,
-          "assignedReturnPct": 0.5460787519267597,
-          "assignedAnnualizedPct": 0.312411825161861,
-          "effectiveCostBasis": 91.545,
-          "effectiveDiscountPct": 0.14479891634359382
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 145.73859379063057,
+          "anchorPrice": 143.54943220813055,
           "contract": {
             "contractSymbol": "DECK280121P00105000",
             "expiration": "2028-01-21",
@@ -108,7 +81,7 @@
             "lastPrice": 22.45,
             "volume": 1,
             "openInterest": 13,
-            "impliedVolatility": 0.49136861175537117,
+            "impliedVolatility": 0.4838308453369141,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -116,7 +89,7 @@
           "notAssignedReturnPct": 0.20476190476190476,
           "notAssignedAnnualizedPct": 0.1171443499029706,
           "effectiveCostBasis": 83.5,
-          "effectiveDiscountPct": 0.2199542248587043,
+          "effectiveDiscountPct": 0.2118924020764512,
           "inTheMoney": false
         }
       ]
