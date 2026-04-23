@@ -1,19 +1,125 @@
 {
   "symbol": "EXR",
-  "fetchedAt": "2026-04-23T13:55:19.270Z",
-  "currentPrice": 142.71,
+  "fetchedAt": "2026-04-23T14:45:37.482Z",
+  "currentPrice": 142.8,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 151.49528398492822,
+          "contract": {
+            "contractSymbol": "EXR260918C00155000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 155,
+            "bid": 3,
+            "ask": 6.1,
+            "lastPrice": 5.6,
+            "volume": 5,
+            "openInterest": 276,
+            "impliedVolatility": 0.29444064941406245,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03959254115741222,
+          "staticAnnualizedPct": 0.09764376704361796,
+          "assignedReturnPct": 0.1250267148268799,
+          "assignedAnnualizedPct": 0.3083429115662917,
+          "effectiveCostBasis": 139.8,
+          "effectiveDiscountPct": 0.021008403361344536
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.49528398492822,
+          "contract": {
+            "contractSymbol": "EXR260918P00140000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 140,
+            "bid": 7,
+            "ask": 10.1,
+            "lastPrice": 7.2,
+            "volume": 1,
+            "openInterest": 130,
+            "impliedVolatility": 0.31818308776855464,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05,
+          "notAssignedAnnualizedPct": 0.12331081081081081,
+          "effectiveCostBasis": 133,
+          "effectiveDiscountPct": 0.06862745098039223,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 151.49528398492822,
+          "contract": {
+            "contractSymbol": "EXR261218C00155000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 155,
+            "bid": 5,
+            "ask": 8.5,
+            "lastPrice": 7.5,
+            "volume": 1,
+            "openInterest": 4,
+            "impliedVolatility": 0.28613995117187496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06502487677291778,
+          "staticAnnualizedPct": 0.09930577415110874,
+          "assignedReturnPct": 0.15045905044238547,
+          "assignedAnnualizedPct": 0.22978055820699037,
+          "effectiveCostBasis": 137.8,
+          "effectiveDiscountPct": 0.0350140056022409
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.49528398492822,
+          "contract": {
+            "contractSymbol": "EXR261218P00135000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 135,
+            "bid": 7.4,
+            "ask": 10.5,
+            "lastPrice": 8.8,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.3138496350097656,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.054814814814814816,
+          "notAssignedAnnualizedPct": 0.0837130017046335,
+          "effectiveCostBasis": 127.6,
+          "effectiveDiscountPct": 0.10644257703081243,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

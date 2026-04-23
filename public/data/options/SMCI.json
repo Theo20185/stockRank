@@ -1,19 +1,125 @@
 {
   "symbol": "SMCI",
-  "fetchedAt": "2026-04-23T13:54:11.847Z",
-  "currentPrice": 27.3201,
+  "fetchedAt": "2026-04-23T14:44:27.314Z",
+  "currentPrice": 26.945,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 40.530296965401746,
+          "contract": {
+            "contractSymbol": "SMCI270115C00041000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 41,
+            "bid": 3.15,
+            "ask": 3.45,
+            "lastPrice": 4.2,
+            "volume": 2,
+            "openInterest": 2580,
+            "impliedVolatility": 0.7605004418945314,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11690480608647244,
+          "staticAnnualizedPct": 0.15981368622308031,
+          "assignedReturnPct": 0.6385229170532566,
+          "assignedAnnualizedPct": 0.8728871337993958,
+          "effectiveCostBasis": 23.795,
+          "effectiveDiscountPct": 0.11690480608647244
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 40.530296965401746,
+          "contract": {
+            "contractSymbol": "SMCI270115P00026000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 26,
+            "bid": 5.9,
+            "ask": 6.05,
+            "lastPrice": 5.35,
+            "volume": 7,
+            "openInterest": 6525,
+            "impliedVolatility": 0.7229031616210937,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.22692307692307695,
+          "notAssignedAnnualizedPct": 0.3102131950446558,
+          "effectiveCostBasis": 20.1,
+          "effectiveDiscountPct": 0.2540359992577472,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 40.530296965401746,
+          "contract": {
+            "contractSymbol": "SMCI280121C00043000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 43,
+            "bid": 6.4,
+            "ask": 8.15,
+            "lastPrice": 8,
+            "volume": 2,
+            "openInterest": 400,
+            "impliedVolatility": 0.7993184130859375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.23752087585822973,
+          "staticAnnualizedPct": 0.13588576753644804,
+          "assignedReturnPct": 0.8333642605307107,
+          "assignedAnnualizedPct": 0.4767679546923345,
+          "effectiveCostBasis": 20.545,
+          "effectiveDiscountPct": 0.23752087585822973
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 40.530296965401746,
+          "contract": {
+            "contractSymbol": "SMCI280121P00025000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 25,
+            "bid": 7.65,
+            "ask": 9,
+            "lastPrice": 8.08,
+            "volume": 3,
+            "openInterest": 3295,
+            "impliedVolatility": 0.7006865869140625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.306,
+          "notAssignedAnnualizedPct": 0.1750626959247649,
+          "effectiveCostBasis": 17.35,
+          "effectiveDiscountPct": 0.3560957506030803,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

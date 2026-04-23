@@ -1,19 +1,125 @@
 {
   "symbol": "KVUE",
-  "fetchedAt": "2026-04-23T13:54:15.524Z",
-  "currentPrice": 17.4397,
+  "fetchedAt": "2026-04-23T14:44:32.659Z",
+  "currentPrice": 17.4402,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 21.47356260718617,
+          "contract": {
+            "contractSymbol": "KVUE270115C00022000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 22,
+            "bid": 0.1,
+            "ask": 0.59,
+            "lastPrice": 0.23,
+            "volume": 16,
+            "openInterest": 4689,
+            "impliedVolatility": 0.3198310205078124,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.040792545591016055,
+          "staticAnnualizedPct": 0.05576509041468487,
+          "assignedReturnPct": 0.3022459692902855,
+          "assignedAnnualizedPct": 0.4131826921009521,
+          "effectiveCostBasis": 17.3402,
+          "effectiveDiscountPct": 0.005733879198633043
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 21.47356260718617,
+          "contract": {
+            "contractSymbol": "KVUE270115P00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 15,
+            "bid": 0.11,
+            "ask": 1.04,
+            "lastPrice": 0.74,
+            "volume": 2,
+            "openInterest": 3240,
+            "impliedVolatility": 0.36865865722656255,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.007333333333333333,
+          "notAssignedAnnualizedPct": 0.010024968789013733,
+          "effectiveCostBasis": 14.89,
+          "effectiveDiscountPct": 0.14622538732353987,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 21.47356260718617,
+          "contract": {
+            "contractSymbol": "KVUE280121C00022000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 22,
+            "bid": 0.47,
+            "ask": 2.3,
+            "lastPrice": 0.88,
+            "volume": 2,
+            "openInterest": 837,
+            "impliedVolatility": 0.40918559570312496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11072237514870774,
+          "staticAnnualizedPct": 0.06334430553178422,
+          "assignedReturnPct": 0.3721757988479772,
+          "assignedAnnualizedPct": 0.21292189119045718,
+          "effectiveCostBasis": 16.970200000000002,
+          "effectiveDiscountPct": 0.0269492322335753
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 21.47356260718617,
+          "contract": {
+            "contractSymbol": "KVUE280121P00017000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 17,
+            "bid": 1.45,
+            "ask": 5,
+            "lastPrice": 2,
+            "volume": 1,
+            "openInterest": 798,
+            "impliedVolatility": 0.5888712988281251,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08529411764705883,
+          "notAssignedAnnualizedPct": 0.048796791443850275,
+          "effectiveCostBasis": 15.55,
+          "effectiveDiscountPct": 0.10838178461256179,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

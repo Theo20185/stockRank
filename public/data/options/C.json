@@ -1,19 +1,125 @@
 {
   "symbol": "C",
-  "fetchedAt": "2026-04-23T13:52:50.559Z",
-  "currentPrice": 129.345,
+  "fetchedAt": "2026-04-23T14:43:06.582Z",
+  "currentPrice": 129.88,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 145.73418235748738,
+          "contract": {
+            "contractSymbol": "C270115C00150000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 150,
+            "bid": 7.3,
+            "ask": 7.45,
+            "lastPrice": 7.3,
+            "volume": 21,
+            "openInterest": 8839,
+            "impliedVolatility": 0.3250189569091796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06971568212596664,
+          "staticAnnualizedPct": 0.09530420964785702,
+          "assignedReturnPct": 0.22462790879673972,
+          "assignedAnnualizedPct": 0.3070756056584644,
+          "effectiveCostBasis": 122.58,
+          "effectiveDiscountPct": 0.05620572836464429
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 145.73418235748738,
+          "contract": {
+            "contractSymbol": "C270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 11.6,
+            "ask": 12.3,
+            "lastPrice": 11.55,
+            "volume": 18,
+            "openInterest": 6546,
+            "impliedVolatility": 0.33667655517578127,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0928,
+          "notAssignedAnnualizedPct": 0.12686142322097377,
+          "effectiveCostBasis": 113.4,
+          "effectiveDiscountPct": 0.12688635663689551,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 145.73418235748738,
+          "contract": {
+            "contractSymbol": "C280121C00150000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 150,
+            "bid": 15.4,
+            "ask": 16.35,
+            "lastPrice": 16.72,
+            "volume": 2,
+            "openInterest": 4295,
+            "impliedVolatility": 0.3437565625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15085320021431795,
+          "staticAnnualizedPct": 0.08630316313201576,
+          "assignedReturnPct": 0.305765426885091,
+          "assignedAnnualizedPct": 0.1749284965721916,
+          "effectiveCostBasis": 114.47999999999999,
+          "effectiveDiscountPct": 0.11857098860486603
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 145.73418235748738,
+          "contract": {
+            "contractSymbol": "C280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 16.85,
+            "ask": 18.85,
+            "lastPrice": 17.3,
+            "volume": 54,
+            "openInterest": 1048,
+            "impliedVolatility": 0.3176948114013671,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1348,
+          "notAssignedAnnualizedPct": 0.0771191222570533,
+          "effectiveCostBasis": 108.15,
+          "effectiveDiscountPct": 0.16730828457037258,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

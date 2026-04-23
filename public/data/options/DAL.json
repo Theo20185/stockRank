@@ -1,19 +1,125 @@
 {
   "symbol": "DAL",
-  "fetchedAt": "2026-04-23T13:53:52.429Z",
-  "currentPrice": 69.3114,
+  "fetchedAt": "2026-04-23T14:44:11.465Z",
+  "currentPrice": 69.8799,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 115.02500710826827,
+          "contract": {
+            "contractSymbol": "DAL270115C00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 110,
+            "bid": 1.04,
+            "ask": 1.85,
+            "lastPrice": 1.55,
+            "volume": 20,
+            "openInterest": 143,
+            "impliedVolatility": 0.4420221813964844,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02291717352944907,
+          "staticAnnualizedPct": 0.03132872036797345,
+          "assignedReturnPct": 0.5970465011329515,
+          "assignedAnnualizedPct": 0.8161871644701397,
+          "effectiveCostBasis": 68.8399,
+          "effectiveDiscountPct": 0.014882677279160388
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 115.02500710826827,
+          "contract": {
+            "contractSymbol": "DAL270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 67.5,
+            "bid": 8.3,
+            "ask": 9.75,
+            "lastPrice": 8.85,
+            "volume": 20,
+            "openInterest": 301,
+            "impliedVolatility": 0.4674125524902344,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12296296296296297,
+          "notAssignedAnnualizedPct": 0.16809543626023027,
+          "effectiveCostBasis": 59.2,
+          "effectiveDiscountPct": 0.1528322164170241,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 115.02500710826827,
+          "contract": {
+            "contractSymbol": "DAL280121C00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 110,
+            "bid": 4.1,
+            "ask": 6.9,
+            "lastPrice": 5.95,
+            "volume": 20,
+            "openInterest": 684,
+            "impliedVolatility": 0.46082082153320314,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0778706272309436,
+          "staticAnnualizedPct": 0.04454981024967777,
+          "assignedReturnPct": 0.6519999548344461,
+          "assignedAnnualizedPct": 0.3730093785494872,
+          "effectiveCostBasis": 65.77990000000001,
+          "effectiveDiscountPct": 0.058672093119766906
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 115.02500710826827,
+          "contract": {
+            "contractSymbol": "DAL280121P00067500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 67.5,
+            "bid": 11.85,
+            "ask": 15.4,
+            "lastPrice": 12.9,
+            "volume": 10,
+            "openInterest": 160,
+            "impliedVolatility": 0.4642387561035156,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.17555555555555555,
+          "notAssignedAnnualizedPct": 0.10043538836642285,
+          "effectiveCostBasis": 55.65,
+          "effectiveDiscountPct": 0.20363366289877355,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

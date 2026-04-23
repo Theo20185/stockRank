@@ -1,19 +1,125 @@
 {
   "symbol": "DDOG",
-  "fetchedAt": "2026-04-23T13:54:40.432Z",
-  "currentPrice": 125.425,
+  "fetchedAt": "2026-04-23T14:44:57.203Z",
+  "currentPrice": 127.22,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG270115C00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 290,
+            "bid": 1.2,
+            "ask": 2.45,
+            "lastPrice": 1.85,
+            "volume": 1,
+            "openInterest": 67,
+            "impliedVolatility": 0.5759319750976561,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.009432479169941832,
+          "staticAnnualizedPct": 0.012894587629321231,
+          "assignedReturnPct": 1.2889482785725515,
+          "assignedAnnualizedPct": 1.7620453995467464,
+          "effectiveCostBasis": 126.02,
+          "effectiveDiscountPct": 0.009432479169941832
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 22.15,
+            "ask": 24.65,
+            "lastPrice": 24.25,
+            "volume": 2,
+            "openInterest": 793,
+            "impliedVolatility": 0.5740399041748048,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1772,
+          "notAssignedAnnualizedPct": 0.24223970037453182,
+          "effectiveCostBasis": 102.85,
+          "effectiveDiscountPct": 0.1915579311429021,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG280121C00290000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 290,
+            "bid": 8.65,
+            "ask": 11.35,
+            "lastPrice": 11,
+            "volume": 1,
+            "openInterest": 110,
+            "impliedVolatility": 0.5769695623779296,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.06799245401666405,
+          "staticAnnualizedPct": 0.038898504257182415,
+          "assignedReturnPct": 1.3475082534192737,
+          "assignedAnnualizedPct": 0.770909894197547,
+          "effectiveCostBasis": 118.57,
+          "effectiveDiscountPct": 0.06799245401666405
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 32.1,
+            "ask": 35,
+            "lastPrice": 35.1,
+            "volume": 2,
+            "openInterest": 26,
+            "impliedVolatility": 0.5314683084106445,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.25680000000000003,
+          "notAssignedAnnualizedPct": 0.14691536050156742,
+          "effectiveCostBasis": 92.9,
+          "effectiveDiscountPct": 0.2697689042603364,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

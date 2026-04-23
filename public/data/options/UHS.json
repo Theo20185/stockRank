@@ -1,19 +1,98 @@
 {
   "symbol": "UHS",
-  "fetchedAt": "2026-04-23T13:52:48.775Z",
-  "currentPrice": 181.265,
+  "fetchedAt": "2026-04-23T14:43:08.332Z",
+  "currentPrice": 182.11,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 225.66510080651724,
+          "contract": {
+            "contractSymbol": "UHS260515P00180000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 180,
+            "bid": 5.3,
+            "ask": 8.9,
+            "lastPrice": 8.27,
+            "volume": 2,
+            "openInterest": 2984,
+            "impliedVolatility": 0.5474898767089844,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.029444444444444443,
+          "notAssignedAnnualizedPct": 0.48851010101010095,
+          "effectiveCostBasis": 174.7,
+          "effectiveDiscountPct": 0.040689693042666654,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 225.66510080651724,
+          "contract": {
+            "contractSymbol": "UHS260717C00230000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 230,
+            "bid": 0.05,
+            "ask": 1.55,
+            "lastPrice": 0.99,
+            "volume": 1,
+            "openInterest": 28,
+            "impliedVolatility": 0.3627993408203125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0012992168665182794,
+          "staticAnnualizedPct": 0.005578990073872611,
+          "assignedReturnPct": 0.2642721453163562,
+          "assignedAnnualizedPct": 1.1348156828290588,
+          "effectiveCostBasis": 182.06,
+          "effectiveDiscountPct": 0.0002745593322717039
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 225.66510080651724,
+          "contract": {
+            "contractSymbol": "UHS260717P00180000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 180,
+            "bid": 9.6,
+            "ask": 12.8,
+            "lastPrice": 12.3,
+            "volume": 1,
+            "openInterest": 16,
+            "impliedVolatility": 0.395086615600586,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05333333333333333,
+          "notAssignedAnnualizedPct": 0.22901960784313724,
+          "effectiveCostBasis": 170.4,
+          "effectiveDiscountPct": 0.06430179561803309,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

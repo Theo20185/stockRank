@@ -1,19 +1,125 @@
 {
   "symbol": "FSLR",
-  "fetchedAt": "2026-04-23T13:52:27.284Z",
-  "currentPrice": 191.52,
+  "fetchedAt": "2026-04-23T14:42:45.618Z",
+  "currentPrice": 194.365,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 389.3669078682344,
+          "contract": {
+            "contractSymbol": "FSLR270115C00390000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 390,
+            "bid": 2.2,
+            "ask": 3.7,
+            "lastPrice": 2.5,
+            "volume": 2,
+            "openInterest": 121,
+            "impliedVolatility": 0.5161181201171875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.011318910297635891,
+          "staticAnnualizedPct": 0.015473416699015358,
+          "assignedReturnPct": 1.0178530085149073,
+          "assignedAnnualizedPct": 1.3914469966589558,
+          "effectiveCostBasis": 192.16500000000002,
+          "effectiveDiscountPct": 0.011318910297635891
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 389.3669078682344,
+          "contract": {
+            "contractSymbol": "FSLR270115P00190000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 190,
+            "bid": 30.3,
+            "ask": 31.35,
+            "lastPrice": 29.95,
+            "volume": 1,
+            "openInterest": 1496,
+            "impliedVolatility": 0.5058032818603515,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15947368421052632,
+          "notAssignedAnnualizedPct": 0.21800709639266708,
+          "effectiveCostBasis": 159.7,
+          "effectiveDiscountPct": 0.17835001157615835,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 389.3669078682344,
+          "contract": {
+            "contractSymbol": "FSLR280121C00390000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 390,
+            "bid": 11.5,
+            "ask": 16.5,
+            "lastPrice": 13.02,
+            "volume": 1,
+            "openInterest": 57,
+            "impliedVolatility": 0.5094653546142578,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05916703110127852,
+          "staticAnnualizedPct": 0.0338494770407001,
+          "assignedReturnPct": 1.06570112931855,
+          "assignedAnnualizedPct": 0.6096879501587317,
+          "effectiveCostBasis": 182.865,
+          "effectiveDiscountPct": 0.05916703110127852
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 389.3669078682344,
+          "contract": {
+            "contractSymbol": "FSLR280121P00190000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 190,
+            "bid": 42.5,
+            "ask": 47.5,
+            "lastPrice": 48.52,
+            "volume": 1,
+            "openInterest": 41,
+            "impliedVolatility": 0.4985706881713867,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.2236842105263158,
+          "notAssignedAnnualizedPct": 0.12796980696254745,
+          "effectiveCostBasis": 147.5,
+          "effectiveDiscountPct": 0.2411185141357755,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

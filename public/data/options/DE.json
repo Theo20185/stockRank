@@ -1,18 +1,98 @@
 {
   "symbol": "DE",
-  "fetchedAt": "2026-04-23T13:54:35.089Z",
-  "currentPrice": 586.635,
+  "fetchedAt": "2026-04-23T14:44:50.199Z",
+  "currentPrice": 588.145,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 723.6260964298859,
+          "contract": {
+            "contractSymbol": "DE270115C00740000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 740,
+            "bid": 16,
+            "ask": 20.6,
+            "lastPrice": 21.1,
+            "volume": 4,
+            "openInterest": 217,
+            "impliedVolatility": 0.3223181782531737,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.035377759463611914,
+          "staticAnnualizedPct": 0.048362854697447,
+          "assignedReturnPct": 0.2935708921094731,
+          "assignedAnnualizedPct": 0.4013235041945981,
+          "effectiveCostBasis": 572.145,
+          "effectiveDiscountPct": 0.027204175840991593
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 723.6260964298859,
+          "contract": {
+            "contractSymbol": "DE270115P00580000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 580,
+            "bid": 52.3,
+            "ask": 58.2,
+            "lastPrice": 52.75,
+            "volume": 4,
+            "openInterest": 117,
+            "impliedVolatility": 0.31251450431823724,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09017241379310344,
+          "notAssignedAnnualizedPct": 0.12326940462353092,
+          "effectiveCostBasis": 527.7,
+          "effectiveDiscountPct": 0.10277227554429594,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 723.6260964298859,
+          "contract": {
+            "contractSymbol": "DE280121C00740000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 740,
+            "bid": 50,
+            "ask": 56.9,
+            "lastPrice": 68,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.3395642521286011,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10454393471370459,
+          "staticAnnualizedPct": 0.05980961782210373,
+          "assignedReturnPct": 0.3627370673595658,
+          "assignedAnnualizedPct": 0.20752198994708704,
+          "effectiveCostBasis": 538.145,
+          "effectiveDiscountPct": 0.08501304950309872
+        }
+      ],
       "puts": []
     }
   ]

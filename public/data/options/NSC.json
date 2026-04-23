@@ -1,23 +1,76 @@
 {
   "symbol": "NSC",
-  "fetchedAt": "2026-04-23T13:55:08.772Z",
-  "currentPrice": 308.805,
+  "fetchedAt": "2026-04-23T14:45:28.783Z",
+  "currentPrice": 313.35,
   "expirations": [
     {
       "expiration": "2027-01-15",
-      "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
-      "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 328.54208898999997,
+          "anchorPrice": 334.1566703333333,
+          "contract": {
+            "contractSymbol": "NSC270115P00310000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 310,
+            "bid": 25.6,
+            "ask": 29.5,
+            "lastPrice": 29.4,
+            "volume": 1,
+            "openInterest": 157,
+            "impliedVolatility": 0.29321995849609367,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08258064516129032,
+          "notAssignedAnnualizedPct": 0.1128911441343482,
+          "effectiveCostBasis": 284.4,
+          "effectiveDiscountPct": 0.09238870272857841,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 334.1566703333333,
+          "contract": {
+            "contractSymbol": "NSC280121C00340000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 340,
+            "bid": 15.5,
+            "ask": 20,
+            "lastPrice": 22,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.18340355178833007,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08112446337041576,
+          "staticAnnualizedPct": 0.04641133092508112,
+          "assignedReturnPct": 0.16617313099447822,
+          "assignedAnnualizedPct": 0.09506770033383159,
+          "effectiveCostBasis": 297.85,
+          "effectiveDiscountPct": 0.049465453965214616
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 334.1566703333333,
           "contract": {
             "contractSymbol": "NSC280121P00300000",
             "expiration": "2028-01-21",
@@ -28,7 +81,7 @@
             "lastPrice": 39.25,
             "volume": 5,
             "openInterest": 208,
-            "impliedVolatility": 0.26451846328735346,
+            "impliedVolatility": 0.2757411904144287,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -36,7 +89,7 @@
           "notAssignedReturnPct": 0.11,
           "notAssignedAnnualizedPct": 0.06293103448275862,
           "effectiveCostBasis": 267,
-          "effectiveDiscountPct": 0.13537669403021327,
+          "effectiveDiscountPct": 0.14791766395404507,
           "inTheMoney": false
         }
       ]

@@ -1,19 +1,125 @@
 {
   "symbol": "CLX",
-  "fetchedAt": "2026-04-23T13:53:01.198Z",
-  "currentPrice": 97.53,
+  "fetchedAt": "2026-04-23T14:43:20.733Z",
+  "currentPrice": 97.86,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 141.4790616987822,
+          "contract": {
+            "contractSymbol": "CLX270115C00145000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 145,
+            "bid": 0.5,
+            "ask": 1.25,
+            "lastPrice": 0.9,
+            "volume": 2,
+            "openInterest": 56,
+            "impliedVolatility": 0.3298406860351562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04252039116546142,
+          "staticAnnualizedPct": 0.05812712649960082,
+          "assignedReturnPct": 0.5242289544190891,
+          "assignedAnnualizedPct": 0.7166425781384552,
+          "effectiveCostBasis": 97.36,
+          "effectiveDiscountPct": 0.005109339873288371
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.4790616987822,
+          "contract": {
+            "contractSymbol": "CLX270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 95,
+            "bid": 8.4,
+            "ask": 9.5,
+            "lastPrice": 9.01,
+            "volume": 4,
+            "openInterest": 656,
+            "impliedVolatility": 0.33100034240722653,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08842105263157896,
+          "notAssignedAnnualizedPct": 0.12087522176227086,
+          "effectiveCostBasis": 86.6,
+          "effectiveDiscountPct": 0.11506233394645417,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 141.4790616987822,
+          "contract": {
+            "contractSymbol": "CLX280121C00145000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 145,
+            "bid": 3.2,
+            "ask": 5.2,
+            "lastPrice": 4.52,
+            "volume": 1,
+            "openInterest": 14,
+            "impliedVolatility": 0.33130551513671874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12209397265873251,
+          "staticAnnualizedPct": 0.0698500000320335,
+          "assignedReturnPct": 0.6038025359123601,
+          "assignedAnnualizedPct": 0.3454356200752531,
+          "effectiveCostBasis": 94.66,
+          "effectiveDiscountPct": 0.03269977518904558
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.4790616987822,
+          "contract": {
+            "contractSymbol": "CLX280121P00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 95,
+            "bid": 12.6,
+            "ask": 15.6,
+            "lastPrice": 13.75,
+            "volume": 6,
+            "openInterest": 97,
+            "impliedVolatility": 0.3367986242675781,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1326315789473684,
+          "notAssignedAnnualizedPct": 0.07587856789308695,
+          "effectiveCostBasis": 82.4,
+          "effectiveDiscountPct": 0.15798078888207637,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

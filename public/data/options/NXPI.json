@@ -1,42 +1,122 @@
 {
   "symbol": "NXPI",
-  "fetchedAt": "2026-04-23T13:54:08.295Z",
-  "currentPrice": 238.17,
+  "fetchedAt": "2026-04-23T14:44:25.555Z",
+  "currentPrice": 240.01,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 442.28096001459284,
+          "contract": {
+            "contractSymbol": "NXPI270115C00380000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 380,
+            "bid": 3.5,
+            "ask": 5.5,
+            "lastPrice": 3.2,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.42783164947509766,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.027773439120401946,
+          "staticAnnualizedPct": 0.03796743550167307,
+          "assignedReturnPct": 0.6110408029802412,
+          "assignedAnnualizedPct": 0.8353179516396556,
+          "effectiveCostBasis": 236.51,
+          "effectiveDiscountPct": 0.014582725719761677
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
           "anchorPrice": 442.28096001459284,
           "contract": {
-            "contractSymbol": "NXPI280121P00230000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 230,
-            "bid": 36.5,
-            "ask": 39.2,
-            "lastPrice": 40.9,
-            "volume": 0,
-            "openInterest": 50,
-            "impliedVolatility": 0.3526981234741211,
+            "contractSymbol": "NXPI270115P00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 240,
+            "bid": 32.5,
+            "ask": 35,
+            "lastPrice": 55.25,
+            "volume": 1,
+            "openInterest": 83,
+            "impliedVolatility": 0.4291744094848633,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.15869565217391304,
-          "notAssignedAnnualizedPct": 0.090789832356549,
-          "effectiveCostBasis": 193.5,
-          "effectiveDiscountPct": 0.18755510769618336,
+          "notAssignedReturnPct": 0.13541666666666666,
+          "notAssignedAnnualizedPct": 0.18512016229712858,
+          "effectiveCostBasis": 207.5,
+          "effectiveDiscountPct": 0.135452689471272,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 442.28096001459284,
+          "contract": {
+            "contractSymbol": "NXPI280121C00380000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 380,
+            "bid": 16.6,
+            "ask": 0,
+            "lastPrice": 16.6,
+            "volume": 2,
+            "openInterest": 0,
+            "impliedVolatility": 0.062509375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.10068316742510158,
+          "staticAnnualizedPct": 0.05760087164602207,
+          "assignedReturnPct": 0.6839505312849408,
+          "assignedAnnualizedPct": 0.3912883133526699,
+          "effectiveCostBasis": 223.41,
+          "effectiveDiscountPct": 0.06916378484229825
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 442.28096001459284,
+          "contract": {
+            "contractSymbol": "NXPI280121P00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 240,
+            "bid": 46.9,
+            "ask": 49.5,
+            "lastPrice": 70.18,
+            "volume": 1,
+            "openInterest": 80,
+            "impliedVolatility": 0.3954223056030274,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.19541666666666666,
+          "notAssignedAnnualizedPct": 0.11179793625914315,
+          "effectiveCostBasis": 193.1,
+          "effectiveDiscountPct": 0.19545018957543436,
           "inTheMoney": false
         }
       ]

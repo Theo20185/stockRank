@@ -1,19 +1,125 @@
 {
   "symbol": "GRMN",
-  "fetchedAt": "2026-04-23T13:53:18.724Z",
-  "currentPrice": 267.825,
+  "fetchedAt": "2026-04-23T14:43:38.358Z",
+  "currentPrice": 268.35,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 284.60384416223366,
+          "contract": {
+            "contractSymbol": "GRMN260515C00290000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 290,
+            "bid": 2.5,
+            "ask": 5.9,
+            "lastPrice": 4.4,
+            "volume": 3,
+            "openInterest": 25,
+            "impliedVolatility": 0.5074512145996093,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.010268016434278235,
+          "staticAnnualizedPct": 0.1703557272050707,
+          "assignedReturnPct": 0.09094623517845553,
+          "assignedAnnualizedPct": 1.508880720006194,
+          "effectiveCostBasis": 265.85,
+          "effectiveDiscountPct": 0.00931619154089808
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 284.60384416223366,
+          "contract": {
+            "contractSymbol": "GRMN260515P00260000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 260,
+            "bid": 7.6,
+            "ask": 11.1,
+            "lastPrice": 9.2,
+            "volume": 3,
+            "openInterest": 802,
+            "impliedVolatility": 0.5639081695556643,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.02923076923076923,
+          "notAssignedAnnualizedPct": 0.4849650349650349,
+          "effectiveCostBasis": 252.4,
+          "effectiveDiscountPct": 0.05943730203092981,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 284.60384416223366,
+          "contract": {
+            "contractSymbol": "GRMN260717C00290000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 290,
+            "bid": 6.5,
+            "ask": 10.2,
+            "lastPrice": 8.5,
+            "volume": 1,
+            "openInterest": 10,
+            "impliedVolatility": 0.35394933166503895,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.027899603276212874,
+          "staticAnnualizedPct": 0.11980417877432586,
+          "assignedReturnPct": 0.10857782202039017,
+          "assignedAnnualizedPct": 0.46624594161696953,
+          "effectiveCostBasis": 261.85,
+          "effectiveDiscountPct": 0.02422209800633501
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 284.60384416223366,
+          "contract": {
+            "contractSymbol": "GRMN260717P00260000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 260,
+            "bid": 12.4,
+            "ask": 15.1,
+            "lastPrice": 14.5,
+            "volume": 0,
+            "openInterest": 9,
+            "impliedVolatility": 0.3716798672485352,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.047692307692307694,
+          "notAssignedAnnualizedPct": 0.20479638009049775,
+          "effectiveCostBasis": 247.6,
+          "effectiveDiscountPct": 0.07732438978945418,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

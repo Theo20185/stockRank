@@ -1,19 +1,125 @@
 {
   "symbol": "ADP",
-  "fetchedAt": "2026-04-23T13:54:42.197Z",
-  "currentPrice": 196.29,
+  "fetchedAt": "2026-04-23T14:44:58.975Z",
+  "currentPrice": 196.702,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 237.78295819328258,
+          "contract": {
+            "contractSymbol": "ADP270115C00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 240,
+            "bid": 5.6,
+            "ask": 8.6,
+            "lastPrice": 7.5,
+            "volume": 1,
+            "openInterest": 196,
+            "impliedVolatility": 0.3286199951171874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05306459510478475,
+          "staticAnnualizedPct": 0.07254148769006155,
+          "assignedReturnPct": 0.2731843701960396,
+          "assignedAnnualizedPct": 0.3734542888447732,
+          "effectiveCostBasis": 191.102,
+          "effectiveDiscountPct": 0.028469461418795944
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 237.78295819328258,
+          "contract": {
+            "contractSymbol": "ADP270115P00195000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 195,
+            "bid": 18.1,
+            "ask": 20.4,
+            "lastPrice": 17.8,
+            "volume": 67,
+            "openInterest": 92,
+            "impliedVolatility": 0.31836619140624994,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09282051282051283,
+          "notAssignedAnnualizedPct": 0.1268894650917123,
+          "effectiveCostBasis": 176.9,
+          "effectiveDiscountPct": 0.10067004910982091,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 237.78295819328258,
+          "contract": {
+            "contractSymbol": "ADP280121C00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 240,
+            "bid": 13.5,
+            "ask": 18.1,
+            "lastPrice": 18,
+            "volume": 11,
+            "openInterest": 40,
+            "impliedVolatility": 0.31238480590820306,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1274021316996728,
+          "staticAnnualizedPct": 0.07288679948335514,
+          "assignedReturnPct": 0.3475219067909276,
+          "assignedAnnualizedPct": 0.19881739181612632,
+          "effectiveCostBasis": 183.202,
+          "effectiveDiscountPct": 0.06863173734888309
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 237.78295819328258,
+          "contract": {
+            "contractSymbol": "ADP280121P00195000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 195,
+            "bid": 26.5,
+            "ask": 30.5,
+            "lastPrice": 31.27,
+            "volume": 1,
+            "openInterest": 11,
+            "impliedVolatility": 0.30544212631225587,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1358974358974359,
+          "notAssignedAnnualizedPct": 0.07774696567800016,
+          "effectiveCostBasis": 168.5,
+          "effectiveDiscountPct": 0.14337424123801484,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

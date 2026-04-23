@@ -1,19 +1,71 @@
 {
   "symbol": "PRU",
-  "fetchedAt": "2026-04-23T13:52:45.157Z",
-  "currentPrice": 94.97,
+  "fetchedAt": "2026-04-23T14:43:01.305Z",
+  "currentPrice": 95.0201,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 211.15173533087238,
+          "contract": {
+            "contractSymbol": "PRU270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 95,
+            "bid": 8.8,
+            "ask": 10.2,
+            "lastPrice": 10.1,
+            "volume": 31,
+            "openInterest": 427,
+            "impliedVolatility": 0.3154365332031249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09263157894736843,
+          "notAssignedAnnualizedPct": 0.12663118470333137,
+          "effectiveCostBasis": 86.2,
+          "effectiveDiscountPct": 0.09282351839242431,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 211.15173533087238,
+          "contract": {
+            "contractSymbol": "PRU280121P00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 95,
+            "bid": 13.5,
+            "ask": 16.9,
+            "lastPrice": 13.6,
+            "volume": 4,
+            "openInterest": 113,
+            "impliedVolatility": 0.3402165588378906,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14210526315789473,
+          "notAssignedAnnualizedPct": 0.08129846559973603,
+          "effectiveCostBasis": 81.5,
+          "effectiveDiscountPct": 0.14228673722717614,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

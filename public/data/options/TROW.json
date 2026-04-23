@@ -1,19 +1,71 @@
 {
   "symbol": "TROW",
-  "fetchedAt": "2026-04-23T13:52:00.727Z",
-  "currentPrice": 100.03,
+  "fetchedAt": "2026-04-23T14:42:17.026Z",
+  "currentPrice": 100,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 148.4459843293845,
+          "contract": {
+            "contractSymbol": "TROW270115P00100000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 100,
+            "bid": 8.9,
+            "ask": 10.3,
+            "lastPrice": 9.85,
+            "volume": 2,
+            "openInterest": 61,
+            "impliedVolatility": 0.30225307128906254,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08900000000000001,
+          "notAssignedAnnualizedPct": 0.12166666666666669,
+          "effectiveCostBasis": 91.1,
+          "effectiveDiscountPct": 0.08900000000000005,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 148.4459843293845,
+          "contract": {
+            "contractSymbol": "TROW280121P00100000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 100,
+            "bid": 13.9,
+            "ask": 17.4,
+            "lastPrice": 17.32,
+            "volume": 1,
+            "openInterest": 12,
+            "impliedVolatility": 0.3324956887817383,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.139,
+          "notAssignedAnnualizedPct": 0.07952194357366772,
+          "effectiveCostBasis": 86.1,
+          "effectiveDiscountPct": 0.13900000000000007,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

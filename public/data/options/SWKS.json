@@ -1,18 +1,71 @@
 {
   "symbol": "SWKS",
-  "fetchedAt": "2026-04-23T13:52:25.513Z",
-  "currentPrice": 61.41,
+  "fetchedAt": "2026-04-23T14:42:42.085Z",
+  "currentPrice": 61.23,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 213.94031454523622,
+          "contract": {
+            "contractSymbol": "SWKS270115P00060000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 60,
+            "bid": 8.2,
+            "ask": 9.6,
+            "lastPrice": 8.76,
+            "volume": 1,
+            "openInterest": 152,
+            "impliedVolatility": 0.49622085815429695,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13666666666666666,
+          "notAssignedAnnualizedPct": 0.18682896379525593,
+          "effectiveCostBasis": 51.8,
+          "effectiveDiscountPct": 0.15400947248081007,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 213.94031454523622,
+          "contract": {
+            "contractSymbol": "SWKS280121C00135000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 135,
+            "bid": 1.85,
+            "ask": 5,
+            "lastPrice": 1.5,
+            "volume": 1,
+            "openInterest": 20,
+            "impliedVolatility": 0.5061084545898438,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.11060629515033144,
+          "staticAnnualizedPct": 0.06327789612832442,
+          "assignedReturnPct": 1.3154078630092243,
+          "assignedAnnualizedPct": 0.7525452507811393,
+          "effectiveCostBasis": 59.379999999999995,
+          "effectiveDiscountPct": 0.030213947411399645
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
@@ -28,7 +81,7 @@
             "lastPrice": 16.21,
             "volume": 1,
             "openInterest": 140,
-            "impliedVolatility": 0.5653729986572267,
+            "impliedVolatility": 0.5633588586425782,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -36,7 +89,7 @@
           "notAssignedReturnPct": 0.2,
           "notAssignedAnnualizedPct": 0.11442006269592478,
           "effectiveCostBasis": 48,
-          "effectiveDiscountPct": 0.21836834391792864,
+          "effectiveDiscountPct": 0.21607055365017144,
           "inTheMoney": false
         }
       ]

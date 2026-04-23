@@ -1,7 +1,7 @@
 {
   "symbol": "SYF",
-  "fetchedAt": "2026-04-23T13:52:34.334Z",
-  "currentPrice": 78.55,
+  "fetchedAt": "2026-04-23T14:42:50.883Z",
+  "currentPrice": 78.135,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 119.50611734343583,
+          "anchorPrice": 119.86717719843583,
           "contract": {
             "contractSymbol": "SYF270115C00125000",
             "expiration": "2027-01-15",
@@ -21,20 +21,46 @@
             "lastPrice": 1.05,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.4067442138671875,
+            "impliedVolatility": 0.41040628662109374,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.011735624076803014,
-          "staticAnnualizedPct": 0.016043081603120225,
-          "assignedReturnPct": 0.603078717647777,
-          "assignedAnnualizedPct": 0.8244334529641895,
-          "effectiveCostBasis": 78.5,
-          "effectiveDiscountPct": 0.0006365372374283896
+          "staticReturnPct": 0.01174743789945572,
+          "staticAnnualizedPct": 0.016059231585398268,
+          "assignedReturnPct": 0.6115426641105006,
+          "assignedAnnualizedPct": 0.8360040164806469,
+          "effectiveCostBasis": 78.08500000000001,
+          "effectiveDiscountPct": 0.000639918090484418
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 119.86717719843583,
+          "contract": {
+            "contractSymbol": "SYF270115P00077500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 77.5,
+            "bid": 6.8,
+            "ask": 9.7,
+            "lastPrice": 13.3,
+            "volume": 132,
+            "openInterest": 153,
+            "impliedVolatility": 0.3782410809326171,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08774193548387096,
+          "notAssignedAnnualizedPct": 0.11994684064274495,
+          "effectiveCostBasis": 70.7,
+          "effectiveDiscountPct": 0.09515582005503298,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -44,7 +70,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 119.50611734343583,
+          "anchorPrice": 119.86717719843583,
           "contract": {
             "contractSymbol": "SYF280121P00077500",
             "expiration": "2028-01-21",
@@ -55,7 +81,7 @@
             "lastPrice": 14.1,
             "volume": 1,
             "openInterest": 3,
-            "impliedVolatility": 0.5078784564208985,
+            "impliedVolatility": 0.5039722454833984,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -63,7 +89,7 @@
           "notAssignedReturnPct": 0.22580645161290322,
           "notAssignedAnnualizedPct": 0.12918394175346345,
           "effectiveCostBasis": 60,
-          "effectiveDiscountPct": 0.2361553150859325,
+          "effectiveDiscountPct": 0.23209829141869845,
           "inTheMoney": false
         }
       ]

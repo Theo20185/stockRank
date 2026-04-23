@@ -1,13 +1,39 @@
 {
   "symbol": "PPG",
-  "fetchedAt": "2026-04-23T13:52:54.092Z",
-  "currentPrice": 111.61,
+  "fetchedAt": "2026-04-23T14:43:11.832Z",
+  "currentPrice": 111.03,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.4680867113195,
+          "contract": {
+            "contractSymbol": "PPG270115P00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 110,
+            "bid": 9.1,
+            "ask": 12.4,
+            "lastPrice": 10.71,
+            "volume": 4,
+            "openInterest": 47,
+            "impliedVolatility": 0.3430241479492187,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08272727272727272,
+          "notAssignedAnnualizedPct": 0.11309159005788218,
+          "effectiveCostBasis": 100.9,
+          "effectiveDiscountPct": 0.09123660271998554,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -27,17 +53,17 @@
             "lastPrice": 3.95,
             "volume": 1,
             "openInterest": 23,
-            "impliedVolatility": 0.2606275109863281,
+            "impliedVolatility": 0.26355716918945316,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.052877766783307335,
-          "staticAnnualizedPct": 0.030251386952832568,
-          "assignedReturnPct": 0.44164221441344803,
-          "assignedAnnualizedPct": 0.2526636493117689,
-          "effectiveCostBasis": 110.66,
-          "effectiveDiscountPct": 0.008511782098378282
+          "staticReturnPct": 0.052916066421638486,
+          "staticAnnualizedPct": 0.030273298187927976,
+          "assignedReturnPct": 0.44893516036021364,
+          "assignedAnnualizedPct": 0.2568359459741034,
+          "effectiveCostBasis": 110.08,
+          "effectiveDiscountPct": 0.008556246059623525
         }
       ],
       "puts": [
@@ -55,7 +81,7 @@
             "lastPrice": 18.6,
             "volume": 1,
             "openInterest": 4,
-            "impliedVolatility": 0.29776703216552725,
+            "impliedVolatility": 0.29361668304443356,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -63,7 +89,7 @@
           "notAssignedReturnPct": 0.10454545454545454,
           "notAssignedAnnualizedPct": 0.05981048731832431,
           "effectiveCostBasis": 98.5,
-          "effectiveDiscountPct": 0.11746259295762028,
+          "effectiveDiscountPct": 0.1128523822390345,
           "inTheMoney": false
         }
       ]

@@ -1,19 +1,125 @@
 {
   "symbol": "OXY",
-  "fetchedAt": "2026-04-23T13:55:43.990Z",
-  "currentPrice": 57.37,
+  "fetchedAt": "2026-04-23T14:46:00.120Z",
+  "currentPrice": 57.06,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 71.46392168599999,
+          "contract": {
+            "contractSymbol": "OXY270115C00072500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 72.5,
+            "bid": 2.72,
+            "ask": 3.05,
+            "lastPrice": 2.67,
+            "volume": 1,
+            "openInterest": 608,
+            "impliedVolatility": 0.39514765014648445,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06100643718268201,
+          "staticAnnualizedPct": 0.08339831300254283,
+          "assignedReturnPct": 0.3315987961031166,
+          "assignedAnnualizedPct": 0.4533092156465826,
+          "effectiveCostBasis": 54.34,
+          "effectiveDiscountPct": 0.047669120224325276
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 71.46392168599999,
+          "contract": {
+            "contractSymbol": "OXY270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 55,
+            "bid": 5.45,
+            "ask": 5.7,
+            "lastPrice": 5.55,
+            "volume": 1,
+            "openInterest": 1834,
+            "impliedVolatility": 0.3502262243652343,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09909090909090909,
+          "notAssignedAnnualizedPct": 0.13546135512427648,
+          "effectiveCostBasis": 49.55,
+          "effectiveDiscountPct": 0.13161584297230994,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 71.46392168599999,
+          "contract": {
+            "contractSymbol": "OXY280121C00072500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 72.5,
+            "bid": 5,
+            "ask": 6.75,
+            "lastPrice": 4.85,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.38733522827148437,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11949675294162837,
+          "staticAnnualizedPct": 0.06836412981770276,
+          "assignedReturnPct": 0.39008911186206296,
+          "assignedAnnualizedPct": 0.22317010318127428,
+          "effectiveCostBasis": 52.06,
+          "effectiveDiscountPct": 0.08762705923589204
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 71.46392168599999,
+          "contract": {
+            "contractSymbol": "OXY280121P00055000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 55,
+            "bid": 7.65,
+            "ask": 9,
+            "lastPrice": 8.07,
+            "volume": 5,
+            "openInterest": 1271,
+            "impliedVolatility": 0.34107104248046877,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1390909090909091,
+          "notAssignedAnnualizedPct": 0.07957395269307496,
+          "effectiveCostBasis": 47.35,
+          "effectiveDiscountPct": 0.17017174903610235,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,19 +1,98 @@
 {
   "symbol": "SOLV",
-  "fetchedAt": "2026-04-23T13:54:36.890Z",
-  "currentPrice": 68.475,
+  "fetchedAt": "2026-04-23T14:44:51.959Z",
+  "currentPrice": 68.77,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 82.54423203619612,
+          "contract": {
+            "contractSymbol": "SOLV260515P00065000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 65,
+            "bid": 0.95,
+            "ask": 1.45,
+            "lastPrice": 1.2,
+            "volume": 1,
+            "openInterest": 137,
+            "impliedVolatility": 0.442388388671875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.014615384615384615,
+          "notAssignedAnnualizedPct": 0.24248251748251745,
+          "effectiveCostBasis": 64.05,
+          "effectiveDiscountPct": 0.06863457903155444,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 82.54423203619612,
+          "contract": {
+            "contractSymbol": "SOLV260717C00085000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 85,
+            "bid": 0.25,
+            "ask": 0.7,
+            "lastPrice": 0.36,
+            "volume": 5,
+            "openInterest": 399,
+            "impliedVolatility": 0.35596347167968745,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0036353060927730115,
+          "staticAnnualizedPct": 0.015610432045437049,
+          "assignedReturnPct": 0.23963937763559698,
+          "assignedAnnualizedPct": 1.0290396804352104,
+          "effectiveCostBasis": 68.52,
+          "effectiveDiscountPct": 0.0036353060927730115
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 82.54423203619612,
+          "contract": {
+            "contractSymbol": "SOLV260717P00065000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 65,
+            "bid": 2,
+            "ask": 3.2,
+            "lastPrice": 2.35,
+            "volume": 1,
+            "openInterest": 697,
+            "impliedVolatility": 0.3754945263671875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03076923076923077,
+          "notAssignedAnnualizedPct": 0.1321266968325792,
+          "effectiveCostBasis": 63,
+          "effectiveDiscountPct": 0.08390286462120106,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

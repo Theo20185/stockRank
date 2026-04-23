@@ -1,19 +1,125 @@
 {
   "symbol": "TEL",
-  "fetchedAt": "2026-04-23T13:53:20.437Z",
-  "currentPrice": 219.98,
+  "fetchedAt": "2026-04-23T14:43:34.876Z",
+  "currentPrice": 218.26,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 294.56358862876255,
+          "contract": {
+            "contractSymbol": "TEL260918C00300000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 300,
+            "bid": 1.5,
+            "ask": 3,
+            "lastPrice": 8.22,
+            "volume": 1,
+            "openInterest": 8,
+            "impliedVolatility": 0.38873902282714845,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01221947151468112,
+          "staticAnnualizedPct": 0.030135858803098707,
+          "assignedReturnPct": 0.38672693967192484,
+          "assignedAnnualizedPct": 0.9537522498665714,
+          "effectiveCostBasis": 216.76,
+          "effectiveDiscountPct": 0.006872537340786218
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 294.56358862876255,
+          "contract": {
+            "contractSymbol": "TEL260918P00210000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 210,
+            "bid": 15.3,
+            "ask": 17.8,
+            "lastPrice": 9.5,
+            "volume": 6,
+            "openInterest": 58,
+            "impliedVolatility": 0.3984129983520508,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07285714285714286,
+          "notAssignedAnnualizedPct": 0.17968146718146719,
+          "effectiveCostBasis": 194.7,
+          "effectiveDiscountPct": 0.10794465316594888,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 294.56358862876255,
+          "contract": {
+            "contractSymbol": "TEL261218C00300000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 300,
+            "bid": 4.1,
+            "ask": 6.9,
+            "lastPrice": 6.2,
+            "volume": 46,
+            "openInterest": 25,
+            "impliedVolatility": 0.3956969610595704,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.027419511530317114,
+          "staticAnnualizedPct": 0.04187498622830856,
+          "assignedReturnPct": 0.40192697968756086,
+          "assignedAnnualizedPct": 0.6138215380165678,
+          "effectiveCostBasis": 214.16,
+          "effectiveDiscountPct": 0.018784935398148996
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 294.56358862876255,
+          "contract": {
+            "contractSymbol": "TEL261218P00210000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 210,
+            "bid": 20.2,
+            "ask": 23.3,
+            "lastPrice": 24.35,
+            "volume": 2,
+            "openInterest": 6,
+            "impliedVolatility": 0.39493402923583987,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09619047619047619,
+          "notAssignedAnnualizedPct": 0.1469017732616059,
+          "effectiveCostBasis": 189.8,
+          "effectiveDiscountPct": 0.1303949418125171,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

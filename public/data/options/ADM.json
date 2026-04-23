@@ -1,18 +1,98 @@
 {
   "symbol": "ADM",
-  "fetchedAt": "2026-04-23T13:55:01.609Z",
-  "currentPrice": 70.17,
+  "fetchedAt": "2026-04-23T14:45:16.463Z",
+  "currentPrice": 69.99,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.96607386562113,
+          "contract": {
+            "contractSymbol": "ADM270115C00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 110,
+            "bid": 0.3,
+            "ask": 0.85,
+            "lastPrice": 1.05,
+            "volume": 0,
+            "openInterest": 6,
+            "impliedVolatility": 0.35986968261718744,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.026198170619286126,
+          "staticAnnualizedPct": 0.03581397856194545,
+          "assignedReturnPct": 0.597851263918329,
+          "assignedAnnualizedPct": 0.8172873083527719,
+          "effectiveCostBasis": 69.69,
+          "effectiveDiscountPct": 0.0042863266180882984
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 111.96607386562113,
+          "contract": {
+            "contractSymbol": "ADM270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 67.5,
+            "bid": 5.7,
+            "ask": 6.8,
+            "lastPrice": 6.4,
+            "volume": 300,
+            "openInterest": 513,
+            "impliedVolatility": 0.34107104248046877,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08444444444444445,
+          "notAssignedAnnualizedPct": 0.11543903454015814,
+          "effectiveCostBasis": 61.8,
+          "effectiveDiscountPct": 0.11701671667381051,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 111.96607386562113,
+          "contract": {
+            "contractSymbol": "ADM280121C00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 110,
+            "bid": 1.9,
+            "ask": 3.1,
+            "lastPrice": 1.8,
+            "volume": 5,
+            "openInterest": 5,
+            "impliedVolatility": 0.3360662097167969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07950537372266488,
+          "staticAnnualizedPct": 0.04548504923005123,
+          "assignedReturnPct": 0.6511584670217078,
+          "assignedAnnualizedPct": 0.3725279631080303,
+          "effectiveCostBasis": 68.08999999999999,
+          "effectiveDiscountPct": 0.027146735247892555
+        }
+      ],
       "puts": []
     }
   ]

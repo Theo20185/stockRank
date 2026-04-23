@@ -1,19 +1,125 @@
 {
   "symbol": "AXP",
-  "fetchedAt": "2026-04-23T13:54:56.384Z",
-  "currentPrice": 325.57,
+  "fetchedAt": "2026-04-23T14:45:12.930Z",
+  "currentPrice": 325.3075,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 340.809705184,
+          "contract": {
+            "contractSymbol": "AXP270115C00350000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 350,
+            "bid": 24.9,
+            "ask": 26.75,
+            "lastPrice": 26.5,
+            "volume": 3,
+            "openInterest": 717,
+            "impliedVolatility": 0.3288183573913574,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0848706697256621,
+          "staticAnnualizedPct": 0.11602170205942572,
+          "assignedReturnPct": 0.16077577489538608,
+          "assignedAnnualizedPct": 0.21978710800305587,
+          "effectiveCostBasis": 300.4075,
+          "effectiveDiscountPct": 0.07654296319636036
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 340.809705184,
+          "contract": {
+            "contractSymbol": "AXP270115P00320000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 320,
+            "bid": 26.9,
+            "ask": 29.6,
+            "lastPrice": 27.05,
+            "volume": 1,
+            "openInterest": 589,
+            "impliedVolatility": 0.29267064758300776,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0840625,
+          "notAssignedAnnualizedPct": 0.11491690074906367,
+          "effectiveCostBasis": 293.1,
+          "effectiveDiscountPct": 0.09900632478501105,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 340.809705184,
+          "contract": {
+            "contractSymbol": "AXP280121C00350000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 350,
+            "bid": 48.5,
+            "ask": 52,
+            "lastPrice": 55,
+            "volume": 2,
+            "openInterest": 155,
+            "impliedVolatility": 0.3601748553466796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.16898887134712057,
+          "staticAnnualizedPct": 0.0966785862722555,
+          "assignedReturnPct": 0.2448939765168446,
+          "assignedAnnualizedPct": 0.14010392073455843,
+          "effectiveCostBasis": 276.8075,
+          "effectiveDiscountPct": 0.14908970743066174
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 340.809705184,
+          "contract": {
+            "contractSymbol": "AXP280121P00320000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 320,
+            "bid": 42,
+            "ask": 46.5,
+            "lastPrice": 41.9,
+            "volume": 8,
+            "openInterest": 123,
+            "impliedVolatility": 0.2903055589294433,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13125,
+          "notAssignedAnnualizedPct": 0.07508816614420064,
+          "effectiveCostBasis": 278,
+          "effectiveDiscountPct": 0.1454239450366192,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

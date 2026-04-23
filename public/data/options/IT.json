@@ -1,12 +1,39 @@
 {
   "symbol": "IT",
-  "fetchedAt": "2026-04-23T13:53:13.503Z",
-  "currentPrice": 146.19,
+  "fetchedAt": "2026-04-23T14:43:31.323Z",
+  "currentPrice": 146.91,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 198.0186352770981,
+          "contract": {
+            "contractSymbol": "IT260918C00200000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 200,
+            "bid": 6,
+            "ask": 8.6,
+            "lastPrice": 9.5,
+            "volume": 1,
+            "openInterest": 164,
+            "impliedVolatility": 0.5853923297119141,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04084133142740454,
+          "staticAnnualizedPct": 0.10072355385812605,
+          "assignedReturnPct": 0.40221904567422234,
+          "assignedAnnualizedPct": 0.991959132912778,
+          "effectiveCostBasis": 140.91,
+          "effectiveDiscountPct": 0.04084133142740454
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
@@ -22,7 +49,7 @@
             "lastPrice": 15.4,
             "volume": 11,
             "openInterest": 11,
-            "impliedVolatility": 0.5004322418212892,
+            "impliedVolatility": 0.5087329400634766,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.1103448275862069,
           "notAssignedAnnualizedPct": 0.2721342031686859,
           "effectiveCostBasis": 129,
-          "effectiveDiscountPct": 0.1175867022368151,
+          "effectiveDiscountPct": 0.12191137431080251,
           "inTheMoney": false
         }
       ]
@@ -38,7 +65,34 @@
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 198.0186352770981,
+          "contract": {
+            "contractSymbol": "IT261218C00200000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 200,
+            "bid": 10,
+            "ask": 12.9,
+            "lastPrice": 15,
+            "volume": 51,
+            "openInterest": 213,
+            "impliedVolatility": 0.5622602368164062,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06806888571234089,
+          "staticAnnualizedPct": 0.10395457441424445,
+          "assignedReturnPct": 0.4294465999591587,
+          "assignedAnnualizedPct": 0.6558494099794683,
+          "effectiveCostBasis": 136.91,
+          "effectiveDiscountPct": 0.06806888571234089
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
@@ -54,7 +108,7 @@
             "lastPrice": 19.5,
             "volume": 2,
             "openInterest": 33,
-            "impliedVolatility": 0.504460521850586,
+            "impliedVolatility": 0.5108386318969728,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -62,7 +116,7 @@
           "notAssignedReturnPct": 0.14275862068965517,
           "notAssignedAnnualizedPct": 0.21802048766411772,
           "effectiveCostBasis": 124.3,
-          "effectiveDiscountPct": 0.14973664409330323,
+          "effectiveDiscountPct": 0.15390375059560274,
           "inTheMoney": false
         }
       ]

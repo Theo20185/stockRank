@@ -1,19 +1,125 @@
 {
   "symbol": "AJG",
-  "fetchedAt": "2026-04-23T13:55:38.783Z",
-  "currentPrice": 218.805,
+  "fetchedAt": "2026-04-23T14:45:54.955Z",
+  "currentPrice": 220.76,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 230.12652811500004,
+          "contract": {
+            "contractSymbol": "AJG260515C00240000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 240,
+            "bid": 1.5,
+            "ask": 3.1,
+            "lastPrice": 2.4,
+            "volume": 1,
+            "openInterest": 446,
+            "impliedVolatility": 0.428716650390625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.007559668517475123,
+          "staticAnnualizedPct": 0.12542177313083727,
+          "assignedReturnPct": 0.09471313834896637,
+          "assignedAnnualizedPct": 1.5713770680623966,
+          "effectiveCostBasis": 219.26,
+          "effectiveDiscountPct": 0.00679470918644682
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 230.12652811500004,
+          "contract": {
+            "contractSymbol": "AJG260515P00220000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 220,
+            "bid": 7.2,
+            "ask": 8.5,
+            "lastPrice": 8.32,
+            "volume": 3,
+            "openInterest": 85,
+            "impliedVolatility": 0.4023497265625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.03272727272727273,
+          "notAssignedAnnualizedPct": 0.5429752066115703,
+          "effectiveCostBasis": 212.8,
+          "effectiveDiscountPct": 0.036057256749411036,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 230.12652811500004,
+          "contract": {
+            "contractSymbol": "AJG260717C00240000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 240,
+            "bid": 5.9,
+            "ask": 8.3,
+            "lastPrice": 9,
+            "volume": 1,
+            "openInterest": 277,
+            "impliedVolatility": 0.36212796081542964,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.029681380821421396,
+          "staticAnnualizedPct": 0.12745534117433893,
+          "assignedReturnPct": 0.11683485065291266,
+          "assignedAnnualizedPct": 0.5017025939801544,
+          "effectiveCostBasis": 214.85999999999999,
+          "effectiveDiscountPct": 0.026725856133357494
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 230.12652811500004,
+          "contract": {
+            "contractSymbol": "AJG260717P00220000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 220,
+            "bid": 12.8,
+            "ask": 15.7,
+            "lastPrice": 13.55,
+            "volume": 5,
+            "openInterest": 63,
+            "impliedVolatility": 0.3773255627441406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05818181818181818,
+          "notAssignedAnnualizedPct": 0.24983957219251335,
+          "effectiveCostBasis": 207.2,
+          "effectiveDiscountPct": 0.061424171045479266,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

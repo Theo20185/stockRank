@@ -1,19 +1,125 @@
 {
   "symbol": "ABT",
-  "fetchedAt": "2026-04-23T13:54:04.807Z",
-  "currentPrice": 91.795,
+  "fetchedAt": "2026-04-23T14:44:23.825Z",
+  "currentPrice": 91.7904,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 114.65269053314493,
+          "contract": {
+            "contractSymbol": "ABT270115C00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 115,
+            "bid": 1.9,
+            "ask": 2.15,
+            "lastPrice": 2,
+            "volume": 24,
+            "openInterest": 1482,
+            "impliedVolatility": 0.2735668347167969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04078500121300774,
+          "staticAnnualizedPct": 0.055754776939130425,
+          "assignedReturnPct": 0.2936393302060178,
+          "assignedAnnualizedPct": 0.4014170618921217,
+          "effectiveCostBasis": 89.8904,
+          "effectiveDiscountPct": 0.020699332392058428
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 114.65269053314493,
+          "contract": {
+            "contractSymbol": "ABT270115P00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 90,
+            "bid": 6.7,
+            "ask": 7.4,
+            "lastPrice": 7.1,
+            "volume": 3,
+            "openInterest": 752,
+            "impliedVolatility": 0.2666699310302735,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07444444444444445,
+          "notAssignedAnnualizedPct": 0.10176862255513942,
+          "effectiveCostBasis": 83.3,
+          "effectiveDiscountPct": 0.09249769039028055,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 114.65269053314493,
+          "contract": {
+            "contractSymbol": "ABT280121C00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 115,
+            "bid": 5.3,
+            "ask": 6.1,
+            "lastPrice": 5.66,
+            "volume": 5,
+            "openInterest": 67,
+            "impliedVolatility": 0.2759471820068359,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10573521193131606,
+          "staticAnnualizedPct": 0.060491147891740385,
+          "assignedReturnPct": 0.35858954092432616,
+          "assignedAnnualizedPct": 0.20514918877332142,
+          "effectiveCostBasis": 86.49040000000001,
+          "effectiveDiscountPct": 0.057740242988373505
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 114.65269053314493,
+          "contract": {
+            "contractSymbol": "ABT280121P00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 90,
+            "bid": 9.1,
+            "ask": 11,
+            "lastPrice": 10.3,
+            "volume": 27,
+            "openInterest": 168,
+            "impliedVolatility": 0.24878680908203127,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10111111111111111,
+          "notAssignedAnnualizedPct": 0.05784569836293975,
+          "effectiveCostBasis": 80.9,
+          "effectiveDiscountPct": 0.1186442155170911,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

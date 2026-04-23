@@ -1,13 +1,39 @@
 {
   "symbol": "EG",
-  "fetchedAt": "2026-04-23T13:52:18.383Z",
-  "currentPrice": 345.965,
+  "fetchedAt": "2026-04-23T14:42:36.884Z",
+  "currentPrice": 349.84,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 475.6847766312801,
+          "contract": {
+            "contractSymbol": "EG260515P00340000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 340,
+            "bid": 6,
+            "ask": 9.9,
+            "lastPrice": 6.5,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.4137631866455078,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.01764705882352941,
+          "notAssignedAnnualizedPct": 0.2927807486631016,
+          "effectiveCostBasis": 334,
+          "effectiveDiscountPct": 0.04527784129887942,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
@@ -17,7 +43,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 475.9881287312801,
+          "anchorPrice": 475.6847766312801,
           "contract": {
             "contractSymbol": "EG260717P00340000",
             "expiration": "2026-07-17",
@@ -28,7 +54,7 @@
             "lastPrice": 27.1,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.46616134429931644,
+            "impliedVolatility": 0.49060567993164067,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -36,7 +62,7 @@
           "notAssignedReturnPct": 0.07323529411764705,
           "notAssignedAnnualizedPct": 0.3144809688581314,
           "effectiveCostBasis": 315.1,
-          "effectiveDiscountPct": 0.0892142268726604,
+          "effectiveDiscountPct": 0.0993025383032242,
           "inTheMoney": false
         }
       ]

@@ -1,18 +1,98 @@
 {
   "symbol": "CRH",
-  "fetchedAt": "2026-04-23T13:53:08.220Z",
-  "currentPrice": 116.14,
+  "fetchedAt": "2026-04-23T14:43:25.975Z",
+  "currentPrice": 116.94,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 122.4735988183161,
+          "contract": {
+            "contractSymbol": "CRH270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 10.5,
+            "ask": 11.6,
+            "lastPrice": 10.55,
+            "volume": 1,
+            "openInterest": 458,
+            "impliedVolatility": 0.3714357290649414,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09921114518189185,
+          "staticAnnualizedPct": 0.13562572281419671,
+          "assignedReturnPct": 0.16813537983213986,
+          "assignedAnnualizedPct": 0.22984799115629606,
+          "effectiveCostBasis": 106.44,
+          "effectiveDiscountPct": 0.08978963571062083
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 122.4735988183161,
+          "contract": {
+            "contractSymbol": "CRH270115P00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 115,
+            "bid": 11.9,
+            "ask": 13.4,
+            "lastPrice": 11.7,
+            "volume": 12,
+            "openInterest": 286,
+            "impliedVolatility": 0.3635317553710938,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10347826086956521,
+          "notAssignedAnnualizedPct": 0.14145904575801987,
+          "effectiveCostBasis": 103.1,
+          "effectiveDiscountPct": 0.11835129126047549,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 122.4735988183161,
+          "contract": {
+            "contractSymbol": "CRH280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 19.1,
+            "ask": 21,
+            "lastPrice": 19.95,
+            "volume": 12,
+            "openInterest": 30,
+            "impliedVolatility": 0.39313351013183595,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.18584444343909312,
+          "staticAnnualizedPct": 0.1063216643499514,
+          "assignedReturnPct": 0.2547686780893411,
+          "assignedAnnualizedPct": 0.14575324059970143,
+          "effectiveCostBasis": 97.84,
+          "effectiveDiscountPct": 0.1633316230545579
+        }
+      ],
       "puts": []
     }
   ]

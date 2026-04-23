@@ -1,12 +1,39 @@
 {
   "symbol": "NRG",
-  "fetchedAt": "2026-04-23T13:53:23.933Z",
-  "currentPrice": 150.6,
+  "fetchedAt": "2026-04-23T14:43:41.809Z",
+  "currentPrice": 150.13,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 168.50202488553697,
+          "contract": {
+            "contractSymbol": "NRG270115C00170000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 170,
+            "bid": 15.9,
+            "ask": 18.8,
+            "lastPrice": 16.95,
+            "volume": 1,
+            "openInterest": 55,
+            "impliedVolatility": 0.5090686300659181,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11520082509313848,
+          "staticAnnualizedPct": 0.15748427400372864,
+          "assignedReturnPct": 0.2475527867263897,
+          "assignedAnnualizedPct": 0.33841485825892226,
+          "effectiveCostBasis": 134.23,
+          "effectiveDiscountPct": 0.1059082128821688
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
@@ -22,7 +49,7 @@
             "lastPrice": 24.24,
             "volume": 10,
             "openInterest": 284,
-            "impliedVolatility": 0.34192552612304683,
+            "impliedVolatility": 0.3378362115478516,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.09666666666666666,
           "notAssignedAnnualizedPct": 0.13214731585518102,
           "effectiveCostBasis": 135.5,
-          "effectiveDiscountPct": 0.10026560424966796,
+          "effectiveDiscountPct": 0.09744887763937918,
           "inTheMoney": false
         }
       ]
@@ -53,17 +80,17 @@
             "lastPrice": 30.33,
             "volume": 6,
             "openInterest": 18,
-            "impliedVolatility": 0.6250953018188478,
+            "impliedVolatility": 0.6287878918457033,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.2878842254725391,
-          "staticAnnualizedPct": 0.16469865563867833,
-          "assignedReturnPct": 0.4167022865615166,
-          "assignedAnnualizedPct": 0.2383955087695197,
-          "effectiveCostBasis": 110.6,
-          "effectiveDiscountPct": 0.2656042496679947
+          "staticReturnPct": 0.2886405743697928,
+          "staticAnnualizedPct": 0.16513136307989715,
+          "assignedReturnPct": 0.420992536003044,
+          "assignedAnnualizedPct": 0.2408499618199233,
+          "effectiveCostBasis": 110.13,
+          "effectiveDiscountPct": 0.26643575567841205
         }
       ],
       "puts": []

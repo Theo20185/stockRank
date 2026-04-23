@@ -1,0 +1,125 @@
+{
+  "symbol": "RMD",
+  "fetchedAt": "2026-04-23T14:43:22.478Z",
+  "currentPrice": 219.4,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 219.89854036129094,
+          "contract": {
+            "contractSymbol": "RMD270115C00220000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 220,
+            "bid": 26.1,
+            "ask": 29.2,
+            "lastPrice": 33.33,
+            "volume": 1,
+            "openInterest": 11,
+            "impliedVolatility": 0.39456782196044926,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12685459462294427,
+          "staticAnnualizedPct": 0.17341545706881895,
+          "assignedReturnPct": 0.12958932570772091,
+          "assignedAnnualizedPct": 0.17715394712853233,
+          "effectiveCostBasis": 193.3,
+          "effectiveDiscountPct": 0.11896080218778488
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 219.89854036129094,
+          "contract": {
+            "contractSymbol": "RMD270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 210,
+            "bid": 17.3,
+            "ask": 20.5,
+            "lastPrice": 20.18,
+            "volume": 2,
+            "openInterest": 28,
+            "impliedVolatility": 0.34088793884277346,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08238095238095239,
+          "notAssignedAnnualizedPct": 0.11261815587658286,
+          "effectiveCostBasis": 192.7,
+          "effectiveDiscountPct": 0.1216955332725616,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "leap-fallback",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 219.89854036129094,
+          "contract": {
+            "contractSymbol": "RMD260717C00220000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 220,
+            "bid": 14.2,
+            "ask": 17.4,
+            "lastPrice": 19.55,
+            "volume": 1,
+            "openInterest": 10,
+            "impliedVolatility": 0.41663181030273433,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06723497408873515,
+          "staticAnnualizedPct": 0.2887148887339803,
+          "assignedReturnPct": 0.06996970517351178,
+          "assignedAnnualizedPct": 0.30045814574508,
+          "effectiveCostBasis": 205.20000000000002,
+          "effectiveDiscountPct": 0.06472196900638104
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 219.89854036129094,
+          "contract": {
+            "contractSymbol": "RMD260717P00210000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 210,
+            "bid": 7.9,
+            "ask": 11.1,
+            "lastPrice": 7.65,
+            "volume": 2,
+            "openInterest": 28,
+            "impliedVolatility": 0.3696657272338867,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03761904761904762,
+          "notAssignedAnnualizedPct": 0.1615406162464986,
+          "effectiveCostBasis": 202.1,
+          "effectiveDiscountPct": 0.07885141294439385,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

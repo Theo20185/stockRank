@@ -1,19 +1,125 @@
 {
   "symbol": "MRK",
-  "fetchedAt": "2026-04-23T13:53:55.973Z",
-  "currentPrice": 113.73,
+  "fetchedAt": "2026-04-23T14:44:15.001Z",
+  "currentPrice": 114.23,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 177.03770772000001,
+          "contract": {
+            "contractSymbol": "MRK270115C00180000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 180,
+            "bid": 0.33,
+            "ask": 0.67,
+            "lastPrice": 0.45,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.30982135498046875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.024908228280122173,
+          "staticAnnualizedPct": 0.03405057424061645,
+          "assignedReturnPct": 0.6006764152712804,
+          "assignedAnnualizedPct": 0.8211494066442596,
+          "effectiveCostBasis": 113.9,
+          "effectiveDiscountPct": 0.0028889083428171236
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 177.03770772000001,
+          "contract": {
+            "contractSymbol": "MRK270115P00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 110,
+            "bid": 9.45,
+            "ask": 10.25,
+            "lastPrice": 10.13,
+            "volume": 6,
+            "openInterest": 2858,
+            "impliedVolatility": 0.320746538696289,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08590909090909091,
+          "notAssignedAnnualizedPct": 0.11744126659856997,
+          "effectiveCostBasis": 100.55,
+          "effectiveDiscountPct": 0.11975838221132808,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 177.03770772000001,
+          "contract": {
+            "contractSymbol": "MRK280121C00180000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 180,
+            "bid": 2.31,
+            "ask": 3.15,
+            "lastPrice": 4.7,
+            "volume": 1,
+            "openInterest": 85,
+            "impliedVolatility": 0.2901071966552734,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.072837812032681,
+          "staticAnnualizedPct": 0.04167053509706672,
+          "assignedReturnPct": 0.6486059990238391,
+          "assignedAnnualizedPct": 0.37106769536630296,
+          "effectiveCostBasis": 111.92,
+          "effectiveDiscountPct": 0.020222358399719864
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 177.03770772000001,
+          "contract": {
+            "contractSymbol": "MRK280121P00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 110,
+            "bid": 14.25,
+            "ask": 15.35,
+            "lastPrice": 15.13,
+            "volume": 2,
+            "openInterest": 239,
+            "impliedVolatility": 0.2958139266967773,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12954545454545455,
+          "notAssignedAnnualizedPct": 0.07411299515531491,
+          "effectiveCostBasis": 95.75,
+          "effectiveDiscountPct": 0.16177886719775894,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

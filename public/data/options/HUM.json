@@ -1,19 +1,125 @@
 {
   "symbol": "HUM",
-  "fetchedAt": "2026-04-23T13:52:36.150Z",
-  "currentPrice": 216.675,
+  "fetchedAt": "2026-04-23T14:42:52.629Z",
+  "currentPrice": 217.145,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 245.51100615599998,
+          "contract": {
+            "contractSymbol": "HUM270115C00250000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 250,
+            "bid": 22.1,
+            "ask": 25,
+            "lastPrice": 23.3,
+            "volume": 7,
+            "openInterest": 1046,
+            "impliedVolatility": 0.4961445649719239,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11364149149753794,
+          "staticAnnualizedPct": 0.15535260073633464,
+          "assignedReturnPct": 0.2649459194143677,
+          "assignedAnnualizedPct": 0.36219198721439777,
+          "effectiveCostBasis": 195.04500000000002,
+          "effectiveDiscountPct": 0.10177531142784775
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.51100615599998,
+          "contract": {
+            "contractSymbol": "HUM270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 210,
+            "bid": 26.1,
+            "ask": 30.9,
+            "lastPrice": 27.8,
+            "volume": 11,
+            "openInterest": 582,
+            "impliedVolatility": 0.4739432489013672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12428571428571429,
+          "notAssignedAnnualizedPct": 0.1699036918138042,
+          "effectiveCostBasis": 183.9,
+          "effectiveDiscountPct": 0.15310046282438003,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 245.51100615599998,
+          "contract": {
+            "contractSymbol": "HUM280121C00250000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 250,
+            "bid": 41,
+            "ask": 49,
+            "lastPrice": 46.22,
+            "volume": 34,
+            "openInterest": 500,
+            "impliedVolatility": 0.5313309806823729,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.21716831900406172,
+          "staticAnnualizedPct": 0.12424206338006667,
+          "assignedReturnPct": 0.36847274692089144,
+          "assignedAnnualizedPct": 0.2108033740221401,
+          "effectiveCostBasis": 176.145,
+          "effectiveDiscountPct": 0.18881392617836007
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.51100615599998,
+          "contract": {
+            "contractSymbol": "HUM280121P00210000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 210,
+            "bid": 40,
+            "ask": 48.8,
+            "lastPrice": 44.45,
+            "volume": 1,
+            "openInterest": 43,
+            "impliedVolatility": 0.47165445343017576,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.19047619047619047,
+          "notAssignedAnnualizedPct": 0.10897148828183312,
+          "effectiveCostBasis": 170,
+          "effectiveDiscountPct": 0.2171129890165558,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

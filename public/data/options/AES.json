@@ -1,19 +1,71 @@
 {
   "symbol": "AES",
-  "fetchedAt": "2026-04-23T13:54:06.567Z",
-  "currentPrice": 14.4948,
+  "fetchedAt": "2026-04-23T14:44:22.107Z",
+  "currentPrice": 14.4911,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 31.277616510364695,
+          "contract": {
+            "contractSymbol": "AES270115P00013000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 13,
+            "bid": 0.2,
+            "ask": 0.21,
+            "lastPrice": 0.2,
+            "volume": 10,
+            "openInterest": 12635,
+            "impliedVolatility": 0.15430533203125002,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.015384615384615385,
+          "notAssignedAnnualizedPct": 0.021031403053874964,
+          "effectiveCostBasis": 12.8,
+          "effectiveDiscountPct": 0.11669921538047483,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 31.277616510364695,
+          "contract": {
+            "contractSymbol": "AES280121P00012000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 12,
+            "bid": 0.25,
+            "ask": 0.35,
+            "lastPrice": 0.28,
+            "volume": 12,
+            "openInterest": 1358,
+            "impliedVolatility": 0.17383638671875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.020833333333333332,
+          "notAssignedAnnualizedPct": 0.011918756530825497,
+          "effectiveCostBasis": 11.75,
+          "effectiveDiscountPct": 0.1891574828687953,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

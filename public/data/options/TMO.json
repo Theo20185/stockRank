@@ -1,19 +1,125 @@
 {
   "symbol": "TMO",
-  "fetchedAt": "2026-04-23T13:55:29.879Z",
-  "currentPrice": 471.305,
+  "fetchedAt": "2026-04-23T14:45:46.133Z",
+  "currentPrice": 475.25,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 631.6780590888798,
+          "contract": {
+            "contractSymbol": "TMO270115C00640000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 640,
+            "bid": 4.6,
+            "ask": 8.8,
+            "lastPrice": 17.3,
+            "volume": 1,
+            "openInterest": 127,
+            "impliedVolatility": 0.3018258294677735,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01216843752603172,
+          "staticAnnualizedPct": 0.016634755419481565,
+          "assignedReturnPct": 0.35882809034033997,
+          "assignedAnnualizedPct": 0.49053278267499656,
+          "effectiveCostBasis": 470.65,
+          "effectiveDiscountPct": 0.00967911625460284
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 631.6780590888798,
+          "contract": {
+            "contractSymbol": "TMO270115P00470000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 470,
+            "bid": 42.4,
+            "ask": 47.3,
+            "lastPrice": 43,
+            "volume": 1,
+            "openInterest": 123,
+            "impliedVolatility": 0.30976032043457036,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0902127659574468,
+          "notAssignedAnnualizedPct": 0.12332456769463701,
+          "effectiveCostBasis": 427.6,
+          "effectiveDiscountPct": 0.10026301946344025,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 631.6780590888798,
+          "contract": {
+            "contractSymbol": "TMO280121C00640000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 640,
+            "bid": 27,
+            "ask": 34,
+            "lastPrice": 42.77,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.32537753486633303,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06276046991273519,
+          "staticAnnualizedPct": 0.035905284511204304,
+          "assignedReturnPct": 0.4094201227270435,
+          "assignedAnnualizedPct": 0.23422938055700765,
+          "effectiveCostBasis": 448.25,
+          "effectiveDiscountPct": 0.05681220410310363
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 631.6780590888798,
+          "contract": {
+            "contractSymbol": "TMO280121P00470000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 470,
+            "bid": 61.9,
+            "ask": 69,
+            "lastPrice": 56.96,
+            "volume": 2,
+            "openInterest": 5,
+            "impliedVolatility": 0.2889170230102538,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13170212765957445,
+          "notAssignedAnnualizedPct": 0.07534682851997598,
+          "effectiveCostBasis": 408.1,
+          "effectiveDiscountPct": 0.1412940557601262,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

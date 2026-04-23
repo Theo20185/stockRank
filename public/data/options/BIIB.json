@@ -1,19 +1,125 @@
 {
   "symbol": "BIIB",
-  "fetchedAt": "2026-04-23T13:52:07.888Z",
-  "currentPrice": 189.95,
+  "fetchedAt": "2026-04-23T14:42:24.024Z",
+  "currentPrice": 189.52,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 243.8219271736158,
+          "contract": {
+            "contractSymbol": "BIIB270115C00250000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 250,
+            "bid": 5.7,
+            "ask": 7.9,
+            "lastPrice": 6.27,
+            "volume": 1,
+            "openInterest": 459,
+            "impliedVolatility": 0.3833679827880859,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.030075981426762346,
+          "staticAnnualizedPct": 0.04111510569576126,
+          "assignedReturnPct": 0.3491979738286196,
+          "assignedAnnualizedPct": 0.4773680166571017,
+          "effectiveCostBasis": 183.82000000000002,
+          "effectiveDiscountPct": 0.030075981426762346
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 243.8219271736158,
+          "contract": {
+            "contractSymbol": "BIIB270115P00185000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 185,
+            "bid": 17.4,
+            "ask": 20.9,
+            "lastPrice": 19.12,
+            "volume": 2,
+            "openInterest": 13,
+            "impliedVolatility": 0.36228054718017577,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09405405405405405,
+          "notAssignedAnnualizedPct": 0.12857576677801397,
+          "effectiveCostBasis": 167.6,
+          "effectiveDiscountPct": 0.11566061629379493,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 243.8219271736158,
+          "contract": {
+            "contractSymbol": "BIIB280121C00250000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 250,
+            "bid": 18.7,
+            "ask": 21,
+            "lastPrice": 20.5,
+            "volume": 2,
+            "openInterest": 22,
+            "impliedVolatility": 0.39394221786499023,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09867032503165891,
+          "staticAnnualizedPct": 0.05644932388174844,
+          "assignedReturnPct": 0.4177923174335162,
+          "assignedAnnualizedPct": 0.23901911577309315,
+          "effectiveCostBasis": 170.82000000000002,
+          "effectiveDiscountPct": 0.09867032503165891
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 243.8219271736158,
+          "contract": {
+            "contractSymbol": "BIIB280121P00185000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 185,
+            "bid": 27.5,
+            "ask": 32,
+            "lastPrice": 35.58,
+            "volume": 2,
+            "openInterest": 14,
+            "impliedVolatility": 0.3494022579956054,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14864864864864866,
+          "notAssignedAnnualizedPct": 0.08504193849021437,
+          "effectiveCostBasis": 157.5,
+          "effectiveDiscountPct": 0.16895314478682993,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

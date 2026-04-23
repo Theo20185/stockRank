@@ -1,19 +1,125 @@
 {
   "symbol": "UPS",
-  "fetchedAt": "2026-04-23T13:53:04.697Z",
-  "currentPrice": 106.94,
+  "fetchedAt": "2026-04-23T14:43:18.952Z",
+  "currentPrice": 107.5801,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 218.60409686079038,
+          "contract": {
+            "contractSymbol": "UPS270115C00200000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 200,
+            "bid": 0.06,
+            "ask": 0.26,
+            "lastPrice": 0.15,
+            "volume": 6,
+            "openInterest": 7041,
+            "impliedVolatility": 0.3413151806640625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.046139030678039664,
+          "staticAnnualizedPct": 0.063073955795822,
+          "assignedReturnPct": 0.9052189162702635,
+          "assignedAnnualizedPct": 1.2374715522046673,
+          "effectiveCostBasis": 107.5201,
+          "effectiveDiscountPct": 0.0005577239656776672
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 218.60409686079038,
+          "contract": {
+            "contractSymbol": "UPS270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 105,
+            "bid": 10.25,
+            "ask": 11.5,
+            "lastPrice": 11.38,
+            "volume": 2,
+            "openInterest": 1320,
+            "impliedVolatility": 0.3523013989257812,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09761904761904762,
+          "notAssignedAnnualizedPct": 0.13344925985375425,
+          "effectiveCostBasis": 94.75,
+          "effectiveDiscountPct": 0.11926090420068397,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 218.60409686079038,
+          "contract": {
+            "contractSymbol": "UPS280121C00180000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 180,
+            "bid": 1.51,
+            "ask": 2.65,
+            "lastPrice": 2,
+            "volume": 5,
+            "openInterest": 50,
+            "impliedVolatility": 0.30475548767089844,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.12295318303317616,
+          "staticAnnualizedPct": 0.07034155455659766,
+          "assignedReturnPct": 0.7961250800661777,
+          "assignedAnnualizedPct": 0.4554634078748509,
+          "effectiveCostBasis": 106.0701,
+          "effectiveDiscountPct": 0.01403605313622129
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 218.60409686079038,
+          "contract": {
+            "contractSymbol": "UPS280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 105,
+            "bid": 15.8,
+            "ask": 17.6,
+            "lastPrice": 17.3,
+            "volume": 1,
+            "openInterest": 349,
+            "impliedVolatility": 0.33920948883056634,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15047619047619049,
+          "notAssignedAnnualizedPct": 0.08608747574264816,
+          "effectiveCostBasis": 89.2,
+          "effectiveDiscountPct": 0.17085037102586814,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

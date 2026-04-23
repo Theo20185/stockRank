@@ -1,19 +1,125 @@
 {
   "symbol": "QCOM",
-  "fetchedAt": "2026-04-23T13:52:21.959Z",
-  "currentPrice": 135.68,
+  "fetchedAt": "2026-04-23T14:42:38.612Z",
+  "currentPrice": 134.56,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 242.4205319783557,
+          "contract": {
+            "contractSymbol": "QCOM270115C00250000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 250,
+            "bid": 0.5,
+            "ask": 0.95,
+            "lastPrice": 0.9,
+            "volume": 12,
+            "openInterest": 1881,
+            "impliedVolatility": 0.4062559375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02345916044988842,
+          "staticAnnualizedPct": 0.0320696388172632,
+          "assignedReturnPct": 0.8813664137198052,
+          "assignedAnnualizedPct": 1.2048641985308197,
+          "effectiveCostBasis": 134.06,
+          "effectiveDiscountPct": 0.0037158145065398335
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 242.4205319783557,
+          "contract": {
+            "contractSymbol": "QCOM270115P00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 130,
+            "bid": 13.25,
+            "ask": 14.5,
+            "lastPrice": 14.1,
+            "volume": 632,
+            "openInterest": 4216,
+            "impliedVolatility": 0.37058124542236326,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10192307692307692,
+          "notAssignedAnnualizedPct": 0.13933304523192164,
+          "effectiveCostBasis": 116.75,
+          "effectiveDiscountPct": 0.13235731272294887,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 242.4205319783557,
+          "contract": {
+            "contractSymbol": "QCOM280121C00250000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 250,
+            "bid": 4.5,
+            "ask": 5,
+            "lastPrice": 4.65,
+            "volume": 12,
+            "openInterest": 544,
+            "impliedVolatility": 0.38577884735107415,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08061931449839557,
+          "staticAnnualizedPct": 0.04612233509704449,
+          "assignedReturnPct": 0.9385265677683123,
+          "assignedAnnualizedPct": 0.5369313436292069,
+          "effectiveCostBasis": 130.06,
+          "effectiveDiscountPct": 0.0334423305588585
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 242.4205319783557,
+          "contract": {
+            "contractSymbol": "QCOM280121P00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 130,
+            "bid": 21.1,
+            "ask": 22.3,
+            "lastPrice": 21.7,
+            "volume": 19,
+            "openInterest": 1298,
+            "impliedVolatility": 0.3544986425781249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16230769230769232,
+          "notAssignedAnnualizedPct": 0.09285628164938511,
+          "effectiveCostBasis": 108.9,
+          "effectiveDiscountPct": 0.19069560047562423,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

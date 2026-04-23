@@ -1,19 +1,125 @@
 {
   "symbol": "MLM",
-  "fetchedAt": "2026-04-23T13:55:42.218Z",
-  "currentPrice": 613.61,
+  "fetchedAt": "2026-04-23T14:45:58.388Z",
+  "currentPrice": 614.45,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 650.6061477967157,
+          "contract": {
+            "contractSymbol": "MLM260515C00660000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 660,
+            "bid": 1.1,
+            "ask": 10,
+            "lastPrice": 6.35,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.4211178494262696,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.002114848164691221,
+          "staticAnnualizedPct": 0.03508725364146798,
+          "assignedReturnPct": 0.07624618513271132,
+          "assignedAnnualizedPct": 1.2649935260654377,
+          "effectiveCostBasis": 613.35,
+          "effectiveDiscountPct": 0.0017902188949467004
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 650.6061477967157,
+          "contract": {
+            "contractSymbol": "MLM260515P00610000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 610,
+            "bid": 14.8,
+            "ask": 23.5,
+            "lastPrice": 18.7,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.41879853668212885,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.024262295081967214,
+          "notAssignedAnnualizedPct": 0.40253353204172876,
+          "effectiveCostBasis": 595.2,
+          "effectiveDiscountPct": 0.031328830661567254,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 650.6061477967157,
+          "contract": {
+            "contractSymbol": "MLM260717C00660000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 660,
+            "bid": 11.7,
+            "ask": 21,
+            "lastPrice": 19.1,
+            "volume": 1,
+            "openInterest": 6,
+            "impliedVolatility": 0.3220282641601562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02029566860662782,
+          "staticAnnualizedPct": 0.08715198872257829,
+          "assignedReturnPct": 0.09442700557464792,
+          "assignedAnnualizedPct": 0.4054806709970175,
+          "effectiveCostBasis": 602.75,
+          "effectiveDiscountPct": 0.019041419155342174
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 650.6061477967157,
+          "contract": {
+            "contractSymbol": "MLM260717P00610000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 610,
+            "bid": 26.4,
+            "ask": 34.4,
+            "lastPrice": 28.1,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.3089058367919921,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04327868852459016,
+          "notAssignedAnnualizedPct": 0.1858437801350048,
+          "effectiveCostBasis": 583.6,
+          "effectiveDiscountPct": 0.050207502644641584,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

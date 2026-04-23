@@ -1,19 +1,125 @@
 {
   "symbol": "DIS",
-  "fetchedAt": "2026-04-23T13:55:17.523Z",
-  "currentPrice": 104.0651,
+  "fetchedAt": "2026-04-23T14:45:35.746Z",
+  "currentPrice": 104.58,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.35510556390895,
+          "contract": {
+            "contractSymbol": "DIS270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 3.85,
+            "ask": 4.2,
+            "lastPrice": 4.15,
+            "volume": 5,
+            "openInterest": 2083,
+            "impliedVolatility": 0.2991403094482421,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04726246737766461,
+          "staticAnnualizedPct": 0.06460974004811829,
+          "assignedReturnPct": 0.24251968673126953,
+          "assignedAnnualizedPct": 0.3315344032094134,
+          "effectiveCostBasis": 100.73,
+          "effectiveDiscountPct": 0.03681392235609103
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.35510556390895,
+          "contract": {
+            "contractSymbol": "DIS270115P00100000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 100,
+            "bid": 7.55,
+            "ask": 8,
+            "lastPrice": 7.95,
+            "volume": 3,
+            "openInterest": 5922,
+            "impliedVolatility": 0.290473403930664,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0755,
+          "notAssignedAnnualizedPct": 0.10321161048689138,
+          "effectiveCostBasis": 92.45,
+          "effectiveDiscountPct": 0.11598776056607378,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.35510556390895,
+          "contract": {
+            "contractSymbol": "DIS280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 10,
+            "ask": 12.1,
+            "lastPrice": 10.46,
+            "volume": 23,
+            "openInterest": 338,
+            "impliedVolatility": 0.3459232888793945,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12058751284328442,
+          "staticAnnualizedPct": 0.06898815389937119,
+          "assignedReturnPct": 0.31584473219688936,
+          "assignedAnnualizedPct": 0.18069487030072826,
+          "effectiveCostBasis": 94.58,
+          "effectiveDiscountPct": 0.0956205775482884
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.35510556390895,
+          "contract": {
+            "contractSymbol": "DIS280121P00100000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 100,
+            "bid": 11.65,
+            "ask": 12.45,
+            "lastPrice": 12.41,
+            "volume": 3,
+            "openInterest": 1045,
+            "impliedVolatility": 0.27255976470947263,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1165,
+          "notAssignedAnnualizedPct": 0.06664968652037619,
+          "effectiveCostBasis": 88.35,
+          "effectiveDiscountPct": 0.15519219736087211,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

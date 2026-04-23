@@ -1,13 +1,39 @@
 {
   "symbol": "CI",
-  "fetchedAt": "2026-04-23T13:53:06.451Z",
-  "currentPrice": 276.33,
+  "fetchedAt": "2026-04-23T14:43:24.208Z",
+  "currentPrice": 277.22,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 370.31682708836786,
+          "contract": {
+            "contractSymbol": "CI270115P00270000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 270,
+            "bid": 24.1,
+            "ask": 27.1,
+            "lastPrice": 30.6,
+            "volume": 1,
+            "openInterest": 145,
+            "impliedVolatility": 0.3281012014770508,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08925925925925926,
+          "notAssignedAnnualizedPct": 0.12202108475516715,
+          "effectiveCostBasis": 245.9,
+          "effectiveDiscountPct": 0.1129788615540005,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -27,20 +53,46 @@
             "lastPrice": 19.2,
             "volume": 1,
             "openInterest": 40,
-            "impliedVolatility": 0.3570620935058594,
+            "impliedVolatility": 0.3548343325805663,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10311468947441739,
-          "staticAnnualizedPct": 0.05899194617266826,
-          "assignedReturnPct": 0.47828206181907784,
-          "assignedAnnualizedPct": 0.27362531749837526,
-          "effectiveCostBasis": 258.83,
-          "effectiveDiscountPct": 0.06333007635797779
+          "staticReturnPct": 0.10280368340065205,
+          "staticAnnualizedPct": 0.05881401950037304,
+          "assignedReturnPct": 0.47355615436234294,
+          "assignedAnnualizedPct": 0.27092162436090156,
+          "effectiveCostBasis": 259.72,
+          "effectiveDiscountPct": 0.0631267585311305
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 370.31682708836786,
+          "contract": {
+            "contractSymbol": "CI280121P00270000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 270,
+            "bid": 38.5,
+            "ask": 42,
+            "lastPrice": 38.9,
+            "volume": 1,
+            "openInterest": 463,
+            "impliedVolatility": 0.3176948114013671,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1425925925925926,
+          "notAssignedAnnualizedPct": 0.08157726692209452,
+          "effectiveCostBasis": 231.5,
+          "effectiveDiscountPct": 0.16492316571675933,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

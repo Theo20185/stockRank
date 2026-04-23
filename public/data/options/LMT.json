@@ -1,19 +1,125 @@
 {
   "symbol": "LMT",
-  "fetchedAt": "2026-04-23T13:54:29.747Z",
-  "currentPrice": 530.72,
+  "fetchedAt": "2026-04-23T14:44:46.679Z",
+  "currentPrice": 533.38,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 791.662889282729,
+          "contract": {
+            "contractSymbol": "LMT270115C00800000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 800,
+            "bid": 3.6,
+            "ask": 6.5,
+            "lastPrice": 7.1,
+            "volume": 499,
+            "openInterest": 805,
+            "impliedVolatility": 0.33316706878662117,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.024605010610064017,
+          "staticAnnualizedPct": 0.033636063193533204,
+          "assignedReturnPct": 0.5244737720934343,
+          "assignedAnnualizedPct": 0.7169772539854063,
+          "effectiveCostBasis": 529.78,
+          "effectiveDiscountPct": 0.006749409426675166
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 791.662889282729,
+          "contract": {
+            "contractSymbol": "LMT270115P00530000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 530,
+            "bid": 46.2,
+            "ask": 51.7,
+            "lastPrice": 49.2,
+            "volume": 1,
+            "openInterest": 279,
+            "impliedVolatility": 0.29454745986938474,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08716981132075473,
+          "notAssignedAnnualizedPct": 0.11916472334110666,
+          "effectiveCostBasis": 483.8,
+          "effectiveDiscountPct": 0.09295436649293184,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 791.662889282729,
+          "contract": {
+            "contractSymbol": "LMT280121C00800000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 800,
+            "bid": 19,
+            "ask": 27.2,
+            "lastPrice": 30.5,
+            "volume": 2,
+            "openInterest": 23,
+            "impliedVolatility": 0.33180905014038087,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0782880761751255,
+          "staticAnnualizedPct": 0.04478863292150597,
+          "assignedReturnPct": 0.5781568376584957,
+          "assignedAnnualizedPct": 0.33076370806481337,
+          "effectiveCostBasis": 514.38,
+          "effectiveDiscountPct": 0.035621883085230045
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 791.662889282729,
+          "contract": {
+            "contractSymbol": "LMT280121P00530000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 530,
+            "bid": 71,
+            "ask": 78,
+            "lastPrice": 67.51,
+            "volume": 2,
+            "openInterest": 5,
+            "impliedVolatility": 0.28578137321472163,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1339622641509434,
+          "notAssignedAnnualizedPct": 0.07663985331519489,
+          "effectiveCostBasis": 459,
+          "effectiveDiscountPct": 0.13945029809891635,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

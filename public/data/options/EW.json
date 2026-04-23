@@ -1,17 +1,44 @@
 {
   "symbol": "EW",
-  "fetchedAt": "2026-04-23T13:53:57.743Z",
-  "currentPrice": 81.33,
+  "fetchedAt": "2026-04-23T14:44:13.255Z",
+  "currentPrice": 80.345,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 82.96387545600001,
+          "contract": {
+            "contractSymbol": "EW270115C00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 85,
+            "bid": 7.1,
+            "ask": 9.9,
+            "lastPrice": 8.7,
+            "volume": 6,
+            "openInterest": 728,
+            "impliedVolatility": 0.43005941040039064,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08836890907959424,
+          "staticAnnualizedPct": 0.12080393937847153,
+          "assignedReturnPct": 0.14630655299022965,
+          "assignedAnnualizedPct": 0.2000070855484413,
+          "effectiveCostBasis": 73.245,
+          "effectiveDiscountPct": 0.08836890907959424
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 83.61549000000001,
+          "anchorPrice": 82.96387545600001,
           "contract": {
             "contractSymbol": "EW270115P00080000",
             "expiration": "2027-01-15",
@@ -22,7 +49,7 @@
             "lastPrice": 7.7,
             "volume": 22,
             "openInterest": 807,
-            "impliedVolatility": 0.3220282641601562,
+            "impliedVolatility": 0.3064644549560547,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.08125,
           "notAssignedAnnualizedPct": 0.11107209737827715,
           "effectiveCostBasis": 73.5,
-          "effectiveDiscountPct": 0.09627443747694575,
+          "effectiveDiscountPct": 0.08519509614786233,
           "inTheMoney": false
         }
       ]
@@ -42,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 83.61549000000001,
+          "anchorPrice": 82.96387545600001,
           "contract": {
             "contractSymbol": "EW280121C00085000",
             "expiration": "2028-01-21",
@@ -53,17 +80,17 @@
             "lastPrice": 12.87,
             "volume": 48,
             "openInterest": 49,
-            "impliedVolatility": 0.4694266925048829,
+            "impliedVolatility": 0.48349515533447274,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.16599040944300997,
-          "staticAnnualizedPct": 0.09496316527695713,
-          "assignedReturnPct": 0.21111520963973937,
-          "assignedAnnualizedPct": 0.12077907761521141,
-          "effectiveCostBasis": 67.83,
-          "effectiveDiscountPct": 0.16599040944300997
+          "staticReturnPct": 0.16802539050345386,
+          "staticAnnualizedPct": 0.09612737857956216,
+          "assignedReturnPct": 0.22596303441408927,
+          "assignedAnnualizedPct": 0.1292735228231075,
+          "effectiveCostBasis": 66.845,
+          "effectiveDiscountPct": 0.16802539050345386
         }
       ],
       "puts": []

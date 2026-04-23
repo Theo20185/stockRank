@@ -1,19 +1,125 @@
 {
   "symbol": "MDLZ",
-  "fetchedAt": "2026-04-23T13:55:31.714Z",
-  "currentPrice": 56.7,
+  "fetchedAt": "2026-04-23T14:45:47.964Z",
+  "currentPrice": 56.98,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.49666795069337,
+          "contract": {
+            "contractSymbol": "MDLZ270115C00057500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 57.5,
+            "bid": 4.3,
+            "ask": 5.1,
+            "lastPrice": 4.7,
+            "volume": 3,
+            "openInterest": 289,
+            "impliedVolatility": 0.2742992492675781,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10158903628766643,
+          "staticAnnualizedPct": 0.13887639792134174,
+          "assignedReturnPct": 0.1107150454136756,
+          "assignedAnnualizedPct": 0.15135202837450035,
+          "effectiveCostBasis": 52.68,
+          "effectiveDiscountPct": 0.07546507546507547
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 57.49666795069337,
+          "contract": {
+            "contractSymbol": "MDLZ270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 55,
+            "bid": 3.6,
+            "ask": 4.5,
+            "lastPrice": 4.2,
+            "volume": 2,
+            "openInterest": 3435,
+            "impliedVolatility": 0.2846751220703124,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06545454545454546,
+          "notAssignedAnnualizedPct": 0.08947906026557713,
+          "effectiveCostBasis": 51.4,
+          "effectiveDiscountPct": 0.0979290979290979,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.49666795069337,
+          "contract": {
+            "contractSymbol": "MDLZ280121C00057500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 57.5,
+            "bid": 5.3,
+            "ask": 8.4,
+            "lastPrice": 8.45,
+            "volume": 1,
+            "openInterest": 7,
+            "impliedVolatility": 0.28815409118652335,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15543863984959874,
+          "staticAnnualizedPct": 0.0889264945848018,
+          "assignedReturnPct": 0.16456464897560794,
+          "assignedAnnualizedPct": 0.09414748726660956,
+          "effectiveCostBasis": 51.68,
+          "effectiveDiscountPct": 0.09301509301509302
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 57.49666795069337,
+          "contract": {
+            "contractSymbol": "MDLZ280121P00055000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 55,
+            "bid": 4.9,
+            "ask": 8.2,
+            "lastPrice": 6.74,
+            "volume": 1,
+            "openInterest": 81,
+            "impliedVolatility": 0.3122017022705078,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0890909090909091,
+          "notAssignedAnnualizedPct": 0.05096893701909377,
+          "effectiveCostBasis": 50.1,
+          "effectiveDiscountPct": 0.12074412074412066,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

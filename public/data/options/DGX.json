@@ -1,19 +1,71 @@
 {
   "symbol": "DGX",
-  "fetchedAt": "2026-04-23T13:53:09.953Z",
-  "currentPrice": 203.22,
+  "fetchedAt": "2026-04-23T14:43:27.752Z",
+  "currentPrice": 201.24,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 257.81009059715836,
+          "contract": {
+            "contractSymbol": "DGX260515P00200000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 200,
+            "bid": 2.35,
+            "ask": 4.5,
+            "lastPrice": 4.29,
+            "volume": 33,
+            "openInterest": 260,
+            "impliedVolatility": 0.2537306072998047,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.01175,
+          "notAssignedAnnualizedPct": 0.19494318181818182,
+          "effectiveCostBasis": 197.65,
+          "effectiveDiscountPct": 0.017839395746372506,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-08-21",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 257.81009059715836,
+          "contract": {
+            "contractSymbol": "DGX260821P00200000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 120,
+            "strike": 200,
+            "bid": 8,
+            "ask": 10.5,
+            "lastPrice": 14.8,
+            "volume": 2,
+            "openInterest": 1,
+            "impliedVolatility": 0.24134059448242187,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04,
+          "notAssignedAnnualizedPct": 0.12166666666666666,
+          "effectiveCostBasis": 192,
+          "effectiveDiscountPct": 0.04591532498509247,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

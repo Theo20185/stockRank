@@ -1,7 +1,7 @@
 {
   "symbol": "NTAP",
-  "fetchedAt": "2026-04-23T13:52:41.437Z",
-  "currentPrice": 107.88,
+  "fetchedAt": "2026-04-23T14:42:57.843Z",
+  "currentPrice": 108.41,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 172.25941805272245,
+          "anchorPrice": 171.20967528304402,
           "contract": {
             "contractSymbol": "NTAP270115C00175000",
             "expiration": "2027-01-15",
@@ -21,26 +21,105 @@
             "lastPrice": 2.45,
             "volume": 5,
             "openInterest": 10,
-            "impliedVolatility": 0.38049935913085936,
+            "impliedVolatility": 0.3773255627441406,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.018344389453527767,
-          "staticAnnualizedPct": 0.02507753614433571,
-          "assignedReturnPct": 0.640517174028982,
-          "assignedAnnualizedPct": 0.8756133652456121,
-          "effectiveCostBasis": 107.38,
-          "effectiveDiscountPct": 0.004634779384501298
+          "staticReturnPct": 0.01827804983112057,
+          "staticAnnualizedPct": 0.024986847147412013,
+          "assignedReturnPct": 0.6325202784078202,
+          "assignedAnnualizedPct": 0.8646812794713647,
+          "effectiveCostBasis": 107.91,
+          "effectiveDiscountPct": 0.004612120653076285
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 171.20967528304402,
+          "contract": {
+            "contractSymbol": "NTAP270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 105,
+            "bid": 10.2,
+            "ask": 12.5,
+            "lastPrice": 14.9,
+            "volume": 1,
+            "openInterest": 119,
+            "impliedVolatility": 0.38959350646972657,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09714285714285714,
+          "notAssignedAnnualizedPct": 0.13279828785446762,
+          "effectiveCostBasis": 94.8,
+          "effectiveDiscountPct": 0.12554192417673646,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 171.20967528304402,
+          "contract": {
+            "contractSymbol": "NTAP280121C00175000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 175,
+            "bid": 3.7,
+            "ask": 6.7,
+            "lastPrice": 4.85,
+            "volume": 1,
+            "openInterest": 6,
+            "impliedVolatility": 0.3912109219360351,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06678460974509505,
+          "staticAnnualizedPct": 0.03820749617078322,
+          "assignedReturnPct": 0.6810268383217947,
+          "assignedAnnualizedPct": 0.38961566769193584,
+          "effectiveCostBasis": 104.71,
+          "effectiveDiscountPct": 0.034129692832764506
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 171.20967528304402,
+          "contract": {
+            "contractSymbol": "NTAP280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 105,
+            "bid": 15.6,
+            "ask": 18.5,
+            "lastPrice": 16,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.36154813262939456,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14857142857142858,
+          "notAssignedAnnualizedPct": 0.08499776085982984,
+          "effectiveCostBasis": 89.4,
+          "effectiveDiscountPct": 0.17535282722996026,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

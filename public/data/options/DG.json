@@ -1,13 +1,66 @@
 {
   "symbol": "DG",
-  "fetchedAt": "2026-04-23T13:54:13.658Z",
-  "currentPrice": 123.205,
+  "fetchedAt": "2026-04-23T14:44:30.889Z",
+  "currentPrice": 121.85,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 196.3697357826024,
+          "contract": {
+            "contractSymbol": "DG270115C00200000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 200,
+            "bid": 0.97,
+            "ask": 2.4,
+            "lastPrice": 1.4,
+            "volume": 5,
+            "openInterest": 63,
+            "impliedVolatility": 0.4322566540527344,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.022003232797373595,
+          "staticAnnualizedPct": 0.03007932573423731,
+          "assignedReturnPct": 0.6633655635318833,
+          "assignedAnnualizedPct": 0.9068480550154958,
+          "effectiveCostBasis": 120.88,
+          "effectiveDiscountPct": 0.007960607304062372
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 196.3697357826024,
+          "contract": {
+            "contractSymbol": "DG270115P00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 120,
+            "bid": 12.9,
+            "ask": 15.45,
+            "lastPrice": 15.23,
+            "volume": 1,
+            "openInterest": 57,
+            "impliedVolatility": 0.39777213562011715,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1075,
+          "notAssignedAnnualizedPct": 0.1469569288389513,
+          "effectiveCostBasis": 107.1,
+          "effectiveDiscountPct": 0.12105047189167009,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -16,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 196.50837538260242,
+          "anchorPrice": 196.3697357826024,
           "contract": {
             "contractSymbol": "DG280121C00200000",
             "expiration": "2028-01-21",
@@ -27,20 +80,46 @@
             "lastPrice": 9.84,
             "volume": 1,
             "openInterest": 103,
-            "impliedVolatility": 0.41141335662841794,
+            "impliedVolatility": 0.4182187084960937,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.07823291714659418,
-          "staticAnnualizedPct": 0.04475707642399197,
-          "assignedReturnPct": 0.7015436594054312,
-          "assignedAnnualizedPct": 0.4013533474654897,
-          "effectiveCostBasis": 117.705,
-          "effectiveDiscountPct": 0.04464104541211802
+          "staticReturnPct": 0.07869250179082658,
+          "staticAnnualizedPct": 0.04502000494302775,
+          "assignedReturnPct": 0.7200548325253363,
+          "assignedAnnualizedPct": 0.411943595410263,
+          "effectiveCostBasis": 116.35,
+          "effectiveDiscountPct": 0.04513746409519902
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 196.3697357826024,
+          "contract": {
+            "contractSymbol": "DG280121P00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 120,
+            "bid": 19,
+            "ask": 22.2,
+            "lastPrice": 20.45,
+            "volume": 1,
+            "openInterest": 19,
+            "impliedVolatility": 0.3658510681152344,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15833333333333333,
+          "notAssignedAnnualizedPct": 0.09058254963427377,
+          "effectiveCostBasis": 101,
+          "effectiveDiscountPct": 0.1711120229790726,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

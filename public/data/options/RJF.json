@@ -1,7 +1,7 @@
 {
   "symbol": "RJF",
-  "fetchedAt": "2026-04-23T13:53:31.052Z",
-  "currentPrice": 156.99,
+  "fetchedAt": "2026-04-23T14:43:48.742Z",
+  "currentPrice": 156.15,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 173.25650083387387,
+          "anchorPrice": 172.95411263327748,
           "contract": {
             "contractSymbol": "RJF270115P00155000",
             "expiration": "2027-01-15",
@@ -22,7 +22,7 @@
             "lastPrice": 15.5,
             "volume": 2,
             "openInterest": 7,
-            "impliedVolatility": 0.23435213897705076,
+            "impliedVolatility": 0.22736368347167968,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +30,7 @@
           "notAssignedReturnPct": 0.04838709677419355,
           "notAssignedAnnualizedPct": 0.06614715476621964,
           "effectiveCostBasis": 147.5,
-          "effectiveDiscountPct": 0.06044971017262252,
+          "effectiveDiscountPct": 0.05539545308997762,
           "inTheMoney": false
         }
       ]
@@ -39,7 +39,33 @@
       "expiration": "2026-07-17",
       "selectionReason": "leap-fallback",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 172.95411263327748,
+          "contract": {
+            "contractSymbol": "RJF260717P00155000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 155,
+            "bid": 6.7,
+            "ask": 9.5,
+            "lastPrice": 12.92,
+            "volume": 2,
+            "openInterest": 3,
+            "impliedVolatility": 0.33447931152343746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.043225806451612905,
+          "notAssignedAnnualizedPct": 0.1856166982922201,
+          "effectiveCostBasis": 148.3,
+          "effectiveDiscountPct": 0.05027217419148251,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

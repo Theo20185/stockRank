@@ -1,19 +1,125 @@
 {
   "symbol": "KR",
-  "fetchedAt": "2026-04-23T13:55:07.018Z",
-  "currentPrice": 68.39,
+  "fetchedAt": "2026-04-23T14:45:23.535Z",
+  "currentPrice": 68.31,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 72.39811560778625,
+          "contract": {
+            "contractSymbol": "KR270115C00072500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 72.5,
+            "bid": 5,
+            "ask": 5.65,
+            "lastPrice": 4.85,
+            "volume": 1,
+            "openInterest": 301,
+            "impliedVolatility": 0.31513136047363277,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08826697171270216,
+          "staticAnnualizedPct": 0.12066458679826325,
+          "assignedReturnPct": 0.1496049895724591,
+          "assignedAnnualizedPct": 0.20451618424699466,
+          "effectiveCostBasis": 63.31,
+          "effectiveDiscountPct": 0.0731957253696384
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 72.39811560778625,
+          "contract": {
+            "contractSymbol": "KR270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 67.5,
+            "bid": 5.45,
+            "ask": 6,
+            "lastPrice": 5.67,
+            "volume": 1,
+            "openInterest": 464,
+            "impliedVolatility": 0.2763133892822265,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08074074074074074,
+          "notAssignedAnnualizedPct": 0.1103759189901512,
+          "effectiveCostBasis": 62.05,
+          "effectiveDiscountPct": 0.09164104816278737,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 72.39811560778625,
+          "contract": {
+            "contractSymbol": "KR280121C00072500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 72.5,
+            "bid": 7.4,
+            "ask": 10.85,
+            "lastPrice": 10.82,
+            "volume": 6,
+            "openInterest": 22,
+            "impliedVolatility": 0.3484562225341796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14434261424696998,
+          "staticAnnualizedPct": 0.08257845485915995,
+          "assignedReturnPct": 0.20568063210672693,
+          "assignedAnnualizedPct": 0.11766995410494567,
+          "effectiveCostBasis": 60.910000000000004,
+          "effectiveDiscountPct": 0.10832967354706485
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 72.39811560778625,
+          "contract": {
+            "contractSymbol": "KR280121P00067500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 67.5,
+            "bid": 8.15,
+            "ask": 9.6,
+            "lastPrice": 9,
+            "volume": 10,
+            "openInterest": 88,
+            "impliedVolatility": 0.28076891113281244,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12074074074074075,
+          "notAssignedAnnualizedPct": 0.06907581562753977,
+          "effectiveCostBasis": 59.35,
+          "effectiveDiscountPct": 0.13116673986239205,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

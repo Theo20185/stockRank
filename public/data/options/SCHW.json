@@ -1,19 +1,125 @@
 {
   "symbol": "SCHW",
-  "fetchedAt": "2026-04-23T13:55:26.206Z",
-  "currentPrice": 90.84,
+  "fetchedAt": "2026-04-23T14:45:42.588Z",
+  "currentPrice": 90.6701,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.73051606300001,
+          "contract": {
+            "contractSymbol": "SCHW270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 0.94,
+            "ask": 1.34,
+            "lastPrice": 1.15,
+            "volume": 1,
+            "openInterest": 535,
+            "impliedVolatility": 0.29761444580078117,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02060382074575535,
+          "staticAnnualizedPct": 0.028166271805995145,
+          "assignedReturnPct": 0.39922808607688426,
+          "assignedAnnualizedPct": 0.5457612412661527,
+          "effectiveCostBasis": 89.73010000000001,
+          "effectiveDiscountPct": 0.01036725447529009
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.73051606300001,
+          "contract": {
+            "contractSymbol": "SCHW270115P00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 90,
+            "bid": 7.65,
+            "ask": 8.3,
+            "lastPrice": 7.75,
+            "volume": 100,
+            "openInterest": 5451,
+            "impliedVolatility": 0.2802806347656249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.085,
+          "notAssignedAnnualizedPct": 0.11619850187265919,
+          "effectiveCostBasis": 82.35,
+          "effectiveDiscountPct": 0.09176233399985233,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.73051606300001,
+          "contract": {
+            "contractSymbol": "SCHW280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 4.8,
+            "ask": 6.45,
+            "lastPrice": 5.66,
+            "volume": 1,
+            "openInterest": 413,
+            "impliedVolatility": 0.33661552062988287,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0773995810791904,
+          "staticAnnualizedPct": 0.04428032459859639,
+          "assignedReturnPct": 0.45602384641031934,
+          "assignedAnnualizedPct": 0.26089138548552754,
+          "effectiveCostBasis": 85.87010000000001,
+          "effectiveDiscountPct": 0.05293917178871535
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.73051606300001,
+          "contract": {
+            "contractSymbol": "SCHW280121P00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 90,
+            "bid": 10.9,
+            "ask": 12.45,
+            "lastPrice": 11.5,
+            "volume": 4,
+            "openInterest": 86,
+            "impliedVolatility": 0.2696606237792969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12111111111111111,
+          "notAssignedAnnualizedPct": 0.06928770463253223,
+          "effectiveCostBasis": 79.1,
+          "effectiveDiscountPct": 0.12760656489846167,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

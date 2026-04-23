@@ -1,19 +1,71 @@
 {
   "symbol": "ZBRA",
-  "fetchedAt": "2026-04-23T13:54:27.963Z",
-  "currentPrice": 228.66,
+  "fetchedAt": "2026-04-23T14:44:43.196Z",
+  "currentPrice": 227.22,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 522.001218989169,
+          "contract": {
+            "contractSymbol": "ZBRA260515P00220000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 220,
+            "bid": 7.3,
+            "ask": 13.1,
+            "lastPrice": 8.5,
+            "volume": 10,
+            "openInterest": 46,
+            "impliedVolatility": 0.6037026934814456,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.03318181818181818,
+          "notAssignedAnnualizedPct": 0.5505165289256198,
+          "effectiveCostBasis": 212.7,
+          "effectiveDiscountPct": 0.06390282545550573,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-08-21",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 522.001218989169,
+          "contract": {
+            "contractSymbol": "ZBRA260821P00220000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 120,
+            "strike": 220,
+            "bid": 16.7,
+            "ask": 23.5,
+            "lastPrice": 24.85,
+            "volume": 11,
+            "openInterest": 25,
+            "impliedVolatility": 0.5269517520141601,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07590909090909091,
+          "notAssignedAnnualizedPct": 0.23089015151515152,
+          "effectiveCostBasis": 203.3,
+          "effectiveDiscountPct": 0.10527242320218286,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

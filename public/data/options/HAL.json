@@ -1,19 +1,125 @@
 {
   "symbol": "HAL",
-  "fetchedAt": "2026-04-23T13:53:41.543Z",
-  "currentPrice": 40.085,
+  "fetchedAt": "2026-04-23T14:43:59.126Z",
+  "currentPrice": 39.825,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 44.45845580304807,
+          "contract": {
+            "contractSymbol": "HAL270115C00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 45,
+            "bid": 3.45,
+            "ask": 3.65,
+            "lastPrice": 3.45,
+            "volume": 57,
+            "openInterest": 6932,
+            "impliedVolatility": 0.40796490478515623,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09934763294894615,
+          "staticAnnualizedPct": 0.1358123072148515,
+          "assignedReturnPct": 0.2292911357738048,
+          "assignedAnnualizedPct": 0.3134504290540777,
+          "effectiveCostBasis": 36.375,
+          "effectiveDiscountPct": 0.08662900188323917
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 44.45845580304807,
+          "contract": {
+            "contractSymbol": "HAL270115P00037000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 37,
+            "bid": 3.35,
+            "ask": 4.8,
+            "lastPrice": 4.35,
+            "volume": 50,
+            "openInterest": 684,
+            "impliedVolatility": 0.4686332434082031,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09054054054054055,
+          "notAssignedAnnualizedPct": 0.12377264905354794,
+          "effectiveCostBasis": 33.65,
+          "effectiveDiscountPct": 0.15505335844318904,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 44.45845580304807,
+          "contract": {
+            "contractSymbol": "HAL280121C00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 45,
+            "bid": 5.9,
+            "ask": 7.25,
+            "lastPrice": 6.22,
+            "volume": 11,
+            "openInterest": 163,
+            "impliedVolatility": 0.4359187268066406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1785394838032832,
+          "staticAnnualizedPct": 0.10214249465234854,
+          "assignedReturnPct": 0.3084829866281419,
+          "assignedAnnualizedPct": 0.17648321335309058,
+          "effectiveCostBasis": 33.925000000000004,
+          "effectiveDiscountPct": 0.14814814814814814
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 44.45845580304807,
+          "contract": {
+            "contractSymbol": "HAL280121P00037000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 37,
+            "bid": 4.8,
+            "ask": 7.2,
+            "lastPrice": 5.81,
+            "volume": 2,
+            "openInterest": 74,
+            "impliedVolatility": 0.4271297521972657,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12972972972972974,
+          "notAssignedAnnualizedPct": 0.07421841904600526,
+          "effectiveCostBasis": 32.2,
+          "effectiveDiscountPct": 0.19146264908976773,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

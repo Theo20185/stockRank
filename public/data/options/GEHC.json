@@ -1,13 +1,66 @@
 {
   "symbol": "GEHC",
-  "fetchedAt": "2026-04-23T13:54:43.961Z",
-  "currentPrice": 70.61,
+  "fetchedAt": "2026-04-23T14:45:02.460Z",
+  "currentPrice": 70.7,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.72317138792116,
+          "contract": {
+            "contractSymbol": "GEHC270115C00082500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 82.5,
+            "bid": 3.8,
+            "ask": 5.3,
+            "lastPrice": 5.9,
+            "volume": 8,
+            "openInterest": 198,
+            "impliedVolatility": 0.3891662646484375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05520690007944042,
+          "staticAnnualizedPct": 0.07547010685017136,
+          "assignedReturnPct": 0.22210930460560727,
+          "assignedAnnualizedPct": 0.30363256996646687,
+          "effectiveCostBasis": 66.9,
+          "effectiveDiscountPct": 0.053748231966053744
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.72317138792116,
+          "contract": {
+            "contractSymbol": "GEHC270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 70,
+            "bid": 6.1,
+            "ask": 8.1,
+            "lastPrice": 7.8,
+            "volume": 8,
+            "openInterest": 101,
+            "impliedVolatility": 0.3526676062011719,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08714285714285713,
+          "notAssignedAnnualizedPct": 0.1191278758694489,
+          "effectiveCostBasis": 63.9,
+          "effectiveDiscountPct": 0.09618104667609624,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -27,20 +80,46 @@
             "lastPrice": 18,
             "volume": 2,
             "openInterest": 5,
-            "impliedVolatility": 0.44550115051269534,
+            "impliedVolatility": 0.4442804595947265,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.14512111792927776,
-          "staticAnnualizedPct": 0.08302383705985326,
-          "assignedReturnPct": 0.3135108644241085,
-          "assignedAnnualizedPct": 0.17935966381630034,
-          "effectiveCostBasis": 60.61,
-          "effectiveDiscountPct": 0.141622999575131
+          "staticReturnPct": 0.1449282222781965,
+          "staticAnnualizedPct": 0.08291348139740082,
+          "assignedReturnPct": 0.31183062680436335,
+          "assignedAnnualizedPct": 0.17839839934732388,
+          "effectiveCostBasis": 60.7,
+          "effectiveDiscountPct": 0.14144271570014144
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.72317138792116,
+          "contract": {
+            "contractSymbol": "GEHC280121P00070000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 70,
+            "bid": 8.7,
+            "ask": 13,
+            "lastPrice": 9.35,
+            "volume": 2,
+            "openInterest": 7,
+            "impliedVolatility": 0.36310451354980466,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12428571428571428,
+          "notAssignedAnnualizedPct": 0.0711038961038961,
+          "effectiveCostBasis": 61.3,
+          "effectiveDiscountPct": 0.13295615275813302,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

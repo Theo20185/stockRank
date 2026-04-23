@@ -1,19 +1,125 @@
 {
   "symbol": "APO",
-  "fetchedAt": "2026-04-23T13:55:14.017Z",
-  "currentPrice": 125.45,
+  "fetchedAt": "2026-04-23T14:45:30.516Z",
+  "currentPrice": 125.57,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 136.336084956,
+          "contract": {
+            "contractSymbol": "APO270115C00140000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 140,
+            "bid": 11.4,
+            "ask": 14.1,
+            "lastPrice": 14.47,
+            "volume": 15,
+            "openInterest": 2444,
+            "impliedVolatility": 0.45514460876464846,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10225868516889484,
+          "staticAnnualizedPct": 0.1397918355305117,
+          "assignedReturnPct": 0.21717466828588144,
+          "assignedAnnualizedPct": 0.296886718817778,
+          "effectiveCostBasis": 114.16999999999999,
+          "effectiveDiscountPct": 0.09078601576809749
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 136.336084956,
+          "contract": {
+            "contractSymbol": "APO270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 15.2,
+            "ask": 17.6,
+            "lastPrice": 15.2,
+            "volume": 7,
+            "openInterest": 540,
+            "impliedVolatility": 0.41992767578125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1216,
+          "notAssignedAnnualizedPct": 0.1662322097378277,
+          "effectiveCostBasis": 109.8,
+          "effectiveDiscountPct": 0.12558732181253482,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 136.336084956,
+          "contract": {
+            "contractSymbol": "APO280121C00140000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 140,
+            "bid": 21.4,
+            "ask": 24.4,
+            "lastPrice": 21,
+            "volume": 1,
+            "openInterest": 224,
+            "impliedVolatility": 0.45038391418457036,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.19783696562902772,
+          "staticAnnualizedPct": 0.11318259005422433,
+          "assignedReturnPct": 0.3127529487460143,
+          "assignedAnnualizedPct": 0.1789260600192715,
+          "effectiveCostBasis": 104.16999999999999,
+          "effectiveDiscountPct": 0.1704228717050251
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 136.336084956,
+          "contract": {
+            "contractSymbol": "APO280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 22.8,
+            "ask": 25.4,
+            "lastPrice": 23,
+            "volume": 1,
+            "openInterest": 496,
+            "impliedVolatility": 0.3929504064941406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1824,
+          "notAssignedAnnualizedPct": 0.10435109717868339,
+          "effectiveCostBasis": 102.2,
+          "effectiveDiscountPct": 0.18611133232459975,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

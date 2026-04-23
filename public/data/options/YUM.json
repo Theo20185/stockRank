@@ -1,7 +1,7 @@
 {
   "symbol": "YUM",
-  "fetchedAt": "2026-04-23T13:55:15.772Z",
-  "currentPrice": 160.385,
+  "fetchedAt": "2026-04-23T14:45:32.245Z",
+  "currentPrice": 160.855,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -21,20 +21,46 @@
             "lastPrice": 2.06,
             "volume": 50,
             "openInterest": 25,
-            "impliedVolatility": 0.24643697906494144,
+            "impliedVolatility": 0.24378197631835938,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.023147804371416215,
-          "staticAnnualizedPct": 0.031644002230587706,
-          "assignedReturnPct": 0.20779724166293356,
-          "assignedAnnualizedPct": 0.28406739028828,
-          "effectiveCostBasis": 158.885,
-          "effectiveDiscountPct": 0.009352495557564611
+          "staticReturnPct": 0.02315365633049079,
+          "staticAnnualizedPct": 0.0316520020997346,
+          "assignedReturnPct": 0.2043416828139698,
+          "assignedAnnualizedPct": 0.2793434989778988,
+          "effectiveCostBasis": 159.355,
+          "effectiveDiscountPct": 0.009325168630132729
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 185.30037485172005,
+          "contract": {
+            "contractSymbol": "YUM270115P00160000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 160,
+            "bid": 10.3,
+            "ask": 12.8,
+            "lastPrice": 11.2,
+            "volume": 1,
+            "openInterest": 87,
+            "impliedVolatility": 0.24164576721191405,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.064375,
+          "notAssignedAnnualizedPct": 0.08800327715355806,
+          "effectiveCostBasis": 149.7,
+          "effectiveDiscountPct": 0.06934817071275373,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",

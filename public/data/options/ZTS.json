@@ -1,19 +1,125 @@
 {
   "symbol": "ZTS",
-  "fetchedAt": "2026-04-23T13:53:48.721Z",
-  "currentPrice": 116.615,
+  "fetchedAt": "2026-04-23T14:44:09.691Z",
+  "currentPrice": 117.34,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 128.55247268174998,
+          "contract": {
+            "contractSymbol": "ZTS270115C00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 130,
+            "bid": 8.8,
+            "ask": 11.5,
+            "lastPrice": 11.8,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.40656111022949215,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08816622856889358,
+          "staticAnnualizedPct": 0.12052686677021034,
+          "assignedReturnPct": 0.19605782563724194,
+          "assignedAnnualizedPct": 0.2680191249348064,
+          "effectiveCostBasis": 108.54,
+          "effectiveDiscountPct": 0.07499573887847281
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 128.55247268174998,
+          "contract": {
+            "contractSymbol": "ZTS270115P00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 115,
+            "bid": 10.5,
+            "ask": 12.8,
+            "lastPrice": 9.35,
+            "volume": 17,
+            "openInterest": 115,
+            "impliedVolatility": 0.3524539852905273,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09130434782608696,
+          "notAssignedAnnualizedPct": 0.12481680508060576,
+          "effectiveCostBasis": 104.5,
+          "effectiveDiscountPct": 0.10942560081813536,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 128.55247268174998,
+          "contract": {
+            "contractSymbol": "ZTS280121C00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 130,
+            "bid": 15.5,
+            "ask": 19.8,
+            "lastPrice": 19.58,
+            "volume": 2,
+            "openInterest": 56,
+            "impliedVolatility": 0.39743644561767577,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.16356582510489365,
+          "staticAnnualizedPct": 0.09357605981706299,
+          "assignedReturnPct": 0.271457422173242,
+          "assignedAnnualizedPct": 0.15530087632168232,
+          "effectiveCostBasis": 101.84,
+          "effectiveDiscountPct": 0.13209476734276462
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 128.55247268174998,
+          "contract": {
+            "contractSymbol": "ZTS280121P00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 115,
+            "bid": 15.5,
+            "ask": 18.9,
+            "lastPrice": 17.3,
+            "volume": 17,
+            "openInterest": 57,
+            "impliedVolatility": 0.32971861694335935,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13478260869565217,
+          "notAssignedAnnualizedPct": 0.07710917268638409,
+          "effectiveCostBasis": 99.5,
+          "effectiveDiscountPct": 0.15203681608999492,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

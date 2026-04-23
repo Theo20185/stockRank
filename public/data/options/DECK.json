@@ -1,19 +1,125 @@
 {
   "symbol": "DECK",
-  "fetchedAt": "2026-04-23T13:52:20.133Z",
-  "currentPrice": 107.22,
+  "fetchedAt": "2026-04-23T14:42:35.102Z",
+  "currentPrice": 107.04,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 156.21778611501978,
+          "contract": {
+            "contractSymbol": "DECK270115C00160000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 160,
+            "bid": 2.75,
+            "ask": 5.8,
+            "lastPrice": 5.2,
+            "volume": 1,
+            "openInterest": 581,
+            "impliedVolatility": 0.5218553674316406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02569133034379671,
+          "staticAnnualizedPct": 0.03512110702429139,
+          "assignedReturnPct": 0.5204596412556053,
+          "assignedAnnualizedPct": 0.7114897717539174,
+          "effectiveCostBasis": 104.29,
+          "effectiveDiscountPct": 0.02569133034379671
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 156.21778611501978,
+          "contract": {
+            "contractSymbol": "DECK270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 105,
+            "bid": 13.6,
+            "ask": 16.2,
+            "lastPrice": 13,
+            "volume": 2,
+            "openInterest": 54,
+            "impliedVolatility": 0.47803256347656253,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1295238095238095,
+          "notAssignedAnnualizedPct": 0.17706438380595682,
+          "effectiveCostBasis": 91.4,
+          "effectiveDiscountPct": 0.1461136023916293,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 156.21778611501978,
+          "contract": {
+            "contractSymbol": "DECK280121C00160000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 160,
+            "bid": 13.5,
+            "ask": 17.5,
+            "lastPrice": 16.65,
+            "volume": 1,
+            "openInterest": 37,
+            "impliedVolatility": 0.5272264074707032,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12612107623318386,
+          "staticAnnualizedPct": 0.07215390724939202,
+          "assignedReturnPct": 0.6208893871449924,
+          "assignedAnnualizedPct": 0.35521101302182173,
+          "effectiveCostBasis": 93.54,
+          "effectiveDiscountPct": 0.12612107623318386
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 156.21778611501978,
+          "contract": {
+            "contractSymbol": "DECK280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 105,
+            "bid": 21.5,
+            "ask": 26,
+            "lastPrice": 22.45,
+            "volume": 1,
+            "openInterest": 13,
+            "impliedVolatility": 0.49133809448242194,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.20476190476190476,
+          "notAssignedAnnualizedPct": 0.1171443499029706,
+          "effectiveCostBasis": 83.5,
+          "effectiveDiscountPct": 0.21991778774289988,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }
