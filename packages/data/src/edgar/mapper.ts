@@ -55,6 +55,24 @@ const EMPTY_RATIOS: AnnualRatios = {
  * the unit key. */
 const DEFAULT_REPORTING_CURRENCY = "USD";
 
+/** How many fiscal years to retain in the mapped output. Engine needs
+ * 5y for own-historical anchors + normalized 5y averages — 7 gives a
+ * safety buffer without bloating the snapshot. EDGAR cache keeps the
+ * full ~18y history on disk for back-test / sparkline use. */
+export const DEFAULT_MAX_ANNUAL_PERIODS = 7;
+
+/** Trailing-12-month TTM reconstruction needs 4 quarters; back-test
+ * sparkline samples at quarterly cadence over a few years; 12 is
+ * comfortably above both. */
+export const DEFAULT_MAX_QUARTERLY_PERIODS = 12;
+
+export type MapOptions = {
+  /** Override the annual truncation cap. Set to Infinity to disable. */
+  maxAnnualPeriods?: number;
+  /** Override the quarterly truncation cap. Set to Infinity to disable. */
+  maxQuarterlyPeriods?: number;
+};
+
 type PeriodKey = "annual" | "quarterly";
 
 /**
@@ -240,13 +258,20 @@ function latestFilingDate(maps: IncomeMaps, end: string): string | null {
 
 /** Map EDGAR companyfacts → AnnualPeriod[]. Newest first. The
  * priceAt* fields are left null — the caller (Yahoo provider) fills
- * them from the chart data. */
-export function mapAnnualPeriods(facts: EdgarCompanyFacts): AnnualPeriod[] {
+ * them from the chart data. Truncates to DEFAULT_MAX_ANNUAL_PERIODS
+ * by default so the snapshot doesn't carry decades of history that
+ * the engine never reads. */
+export function mapAnnualPeriods(
+  facts: EdgarCompanyFacts,
+  opts: MapOptions = {},
+): AnnualPeriod[] {
+  const cap = opts.maxAnnualPeriods ?? DEFAULT_MAX_ANNUAL_PERIODS;
   const maps = buildConceptMaps(facts, "annual");
   const ends = periodEndsFromMaps(maps.income);
 
   const out: AnnualPeriod[] = [];
   for (const end of ends) {
+    if (out.length >= cap) break;
     const income = incomeAt(maps.income, end);
     const balance = balanceAt(maps.balance, end);
     const cashFlow = cashFlowAt(maps.cashFlow, end);
@@ -279,15 +304,19 @@ export function mapAnnualPeriods(facts: EdgarCompanyFacts): AnnualPeriod[] {
   return out;
 }
 
-/** Map EDGAR companyfacts → QuarterlyPeriod[]. Newest first. */
+/** Map EDGAR companyfacts → QuarterlyPeriod[]. Newest first.
+ * Truncates to DEFAULT_MAX_QUARTERLY_PERIODS by default. */
 export function mapQuarterlyPeriods(
   facts: EdgarCompanyFacts,
+  opts: MapOptions = {},
 ): QuarterlyPeriod[] {
+  const cap = opts.maxQuarterlyPeriods ?? DEFAULT_MAX_QUARTERLY_PERIODS;
   const maps = buildConceptMaps(facts, "quarterly");
   const ends = periodEndsFromMaps(maps.income);
 
   const out: QuarterlyPeriod[] = [];
   for (const end of ends) {
+    if (out.length >= cap) break;
     const income = incomeAt(maps.income, end);
     const balance = balanceAt(maps.balance, end);
     const cashFlow = cashFlowAt(maps.cashFlow, end);
@@ -445,4 +474,62 @@ export function withAnnualRatios(period: AnnualPeriod): AnnualPeriod {
 
 export function withQuarterlyRatios(period: QuarterlyPeriod): QuarterlyPeriod {
   return { ...period, ratios: computeRatios(period.income, period.balance) };
+}
+
+// ---------------------------------------------------------------
+// Shares-magnitude normalization. EDGAR's `units: ["shares"]`
+// claim is misleading — many large-cap filers (MCD, WAT, IBKR, OMC,
+// AMCR, BX, TKO) report `WeightedAverageNumberOfDilutedSharesOutstanding`
+// in millions for income-statement readability, while others (AAPL)
+// report raw counts. The XBRL response doesn't surface this scale
+// difference cleanly. We detect it by cross-referencing against an
+// authoritative external count (Yahoo's defaultKeyStatistics
+// .sharesOutstanding) and rescale all per-period EDGAR shares by the
+// inferred power-of-1000 factor. Without this fix, the price-
+// consistency check throws false positives for ~8 S&P 500 names per
+// refresh, and downstream FV anchors (own-historical EV/EBITDA,
+// P/FCF) compute per-share implied prices that are off by ≥1e6×.
+// ---------------------------------------------------------------
+
+/**
+ * Returns the multiplier to apply to EDGAR's share counts so they
+ * align with `authoritativeShares` (typically Yahoo's sharesOutstanding).
+ *
+ * Rounds to the nearest power of 1000 (1, 1_000, 1_000_000,
+ * 1_000_000_000) within a 30% tolerance. If no clear match → 1
+ * (leave the EDGAR values unchanged).
+ *
+ * Returns 1 when either input is null/zero/negative — the consistency
+ * check's `if (recentShares > 0)` guard handles the unscaled case.
+ */
+export function inferSharesScale(
+  edgarMostRecentShares: number | null,
+  authoritativeShares: number,
+): number {
+  if (edgarMostRecentShares === null || edgarMostRecentShares <= 0) return 1;
+  if (authoritativeShares <= 0) return 1;
+  const ratio = authoritativeShares / edgarMostRecentShares;
+  for (const candidate of [1, 1_000, 1_000_000, 1_000_000_000]) {
+    if (Math.abs(ratio / candidate - 1) < 0.3) return candidate;
+  }
+  return 1;
+}
+
+/** Apply a uniform scale factor to `sharesDiluted` across every
+ * period. EPS itself is unaffected — it's reported in the right
+ * unit (USD/shares) regardless of the share-count convention. */
+export function rescaleSharesInPeriods<
+  T extends { income: { sharesDiluted: number | null } },
+>(periods: T[], scale: number): T[] {
+  if (scale === 1) return periods;
+  return periods.map((p) => ({
+    ...p,
+    income: {
+      ...p.income,
+      sharesDiluted:
+        p.income.sharesDiluted === null
+          ? null
+          : p.income.sharesDiluted * scale,
+    },
+  }));
 }

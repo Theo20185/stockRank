@@ -13,6 +13,8 @@ import {
   decorateQuarterlyPeriodsWithPrices,
   EdgarNotFoundError,
   getEdgarFundamentals,
+  inferSharesScale,
+  rescaleSharesInPeriods,
   type HistoricalBar as EdgarHistoricalBar,
   withAnnualRatios,
   withQuarterlyRatios,
@@ -164,6 +166,28 @@ export class YahooProvider implements MarketDataProvider {
       const endpoint =
         err instanceof EdgarNotFoundError ? "edgar-not-found" : "edgar";
       reportError(makeError(symbol, endpoint, err));
+    }
+
+    // Normalize EDGAR share-count magnitude. Some filers report
+    // `WeightedAverageNumberOfDilutedSharesOutstanding` in millions
+    // (MCD, WAT, IBKR, OMC, AMCR, BX, TKO …) while others use raw
+    // counts (AAPL). EDGAR's `units` claim is always "shares" and
+    // doesn't disambiguate. We cross-reference against Yahoo's
+    // `defaultKeyStatistics.sharesOutstanding` (always raw count)
+    // and rescale the entire EDGAR series by the inferred power of
+    // 1000. Fixes the price-consistency check + every per-share
+    // calculation downstream (own-historical EV/EBITDA, P/FCF).
+    const yahooShares =
+      summary.defaultKeyStatistics?.sharesOutstanding ?? 0;
+    if (yahooShares > 0 && edgarAnnual.length > 0) {
+      const scale = inferSharesScale(
+        edgarAnnual[0]!.income.sharesDiluted,
+        yahooShares,
+      );
+      if (scale !== 1) {
+        edgarAnnual = rescaleSharesInPeriods(edgarAnnual, scale);
+        edgarQuarterly = rescaleSharesInPeriods(edgarQuarterly, scale);
+      }
     }
 
     let priceBars: Array<{ close: number; volume: number }> = [];

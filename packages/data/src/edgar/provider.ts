@@ -34,8 +34,13 @@ export {
   mapQuarterlyPeriods,
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
+  inferSharesScale,
+  rescaleSharesInPeriods,
   withAnnualRatios,
   withQuarterlyRatios,
+  DEFAULT_MAX_ANNUAL_PERIODS,
+  DEFAULT_MAX_QUARTERLY_PERIODS,
   type HistoricalBar,
+  type MapOptions,
 } from "./mapper.js";
 export { cikFor, formatCik } from "./cik-lookup.js";

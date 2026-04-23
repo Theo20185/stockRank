@@ -360,6 +360,103 @@ describe("YahooProvider", () => {
     ).toHaveLength(0);
   });
 
+  it("rescales EDGAR shares when filer reports in millions (MCD case)", async () => {
+    // Mimic MCD: Yahoo's defaultKeyStatistics.sharesOutstanding = 716M
+    // (raw count); EDGAR returns 716.4 for the same period (millions).
+    // Without rescaling, marketCap/sharesDiluted is off by 1M× and the
+    // price-consistency check excludes the symbol.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 215_000_000_000,
+      },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 716_000_000,
+      },
+      price: { ...stubSummary().price, regularMarketPrice: 300 },
+    });
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2025",
+          periodEndDate: "2025-12-31",
+          income: {
+            netIncome: 8_200_000_000,
+            epsDiluted: 11.45,
+            sharesDiluted: 716.4, // EDGAR's millions-scale value
+          },
+          balance: { totalDebt: 50_000_000_000, cash: 1_000_000_000 },
+        }),
+        annualPeriod({
+          fiscalYear: "2024",
+          periodEndDate: "2024-12-31",
+          income: { sharesDiluted: 721.9 },
+        }),
+      ],
+      quarterly: [],
+    });
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "MCD",
+      { priceFrom: "2025-04-23", priceTo: "2026-04-23" },
+      (e) => errors.push(e),
+    );
+
+    // Without the fix: price-consistency check excludes; with the fix:
+    // shares get rescaled by 1M and the check passes.
+    expect(result).not.toBeNull();
+    expect(
+      errors.filter(
+        (e) => (e as { endpoint: string }).endpoint === "price-consistency",
+      ),
+    ).toHaveLength(0);
+    // All periods should be rescaled by the same factor.
+    expect(result!.annual[0]!.income.sharesDiluted).toBe(716_400_000);
+    expect(result!.annual[1]!.income.sharesDiluted).toBe(721_900_000);
+  });
+
+  it("leaves shares unscaled when EDGAR already reports raw counts (AAPL case)", async () => {
+    // Numbers picked so implied price ≈ quote price (consistency check
+    // passes): 15B shares × $65.5 ≈ $983B market cap.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 983_000_000_000,
+      },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 15_000_000_000,
+      },
+    });
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2025",
+          periodEndDate: "2025-09-30",
+          income: { sharesDiluted: 15_004_000_000 }, // already raw
+        }),
+      ],
+      quarterly: [],
+    });
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const result = await provider.fetchCompany(
+      "AAPL",
+      { priceFrom: "2025-04-23", priceTo: "2026-04-23" },
+      () => {},
+    );
+
+    expect(result).not.toBeNull();
+    expect(result!.annual[0]!.income.sharesDiluted).toBe(15_004_000_000);
+  });
+
   it("reports chart failure as a non-fatal error and still returns the company", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
     getEdgarFundamentalsMock.mockResolvedValue({ annual: [], quarterly: [] });

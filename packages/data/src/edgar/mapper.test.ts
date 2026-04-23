@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+  DEFAULT_MAX_ANNUAL_PERIODS,
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
   fiscalQuarterOf,
   type HistoricalBar,
+  inferSharesScale,
   mapAnnualPeriods,
   mapQuarterlyPeriods,
+  rescaleSharesInPeriods,
   withAnnualRatios,
 } from "./mapper.js";
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
@@ -187,6 +190,99 @@ describe("decorateQuarterlyPeriodsWithPrices", () => {
     const q2 = decorated.find((p) => p.fiscalQuarter === "2025Q2")!;
     expect(q1.priceAtQuarterEnd).toBe(110);
     expect(q2.priceAtQuarterEnd).toBe(130);
+  });
+});
+
+describe("truncation defaults", () => {
+  it("caps annual periods at DEFAULT_MAX_ANNUAL_PERIODS", () => {
+    // Build 10 years of NetIncome facts; mapper should keep only the
+    // most-recent DEFAULT_MAX_ANNUAL_PERIODS (newest-first).
+    const f = synthFacts();
+    const niFacts = [];
+    for (let y = 2015; y <= 2025; y += 1) {
+      niFacts.push(fact(`${y}-12-31`, y, "FY"));
+    }
+    f.facts["us-gaap"]!.NetIncomeLoss = { units: { USD: niFacts } };
+    const periods = mapAnnualPeriods(f);
+    expect(periods.length).toBe(DEFAULT_MAX_ANNUAL_PERIODS);
+    expect(periods[0]!.fiscalYear).toBe("2025");
+    expect(periods[periods.length - 1]!.fiscalYear).toBe(
+      String(2025 - DEFAULT_MAX_ANNUAL_PERIODS + 1),
+    );
+  });
+
+  it("respects an explicit maxAnnualPeriods override", () => {
+    const f = synthFacts();
+    const periods = mapAnnualPeriods(f, { maxAnnualPeriods: 1 });
+    expect(periods.length).toBe(1);
+    expect(periods[0]!.fiscalYear).toBe("2025");
+  });
+
+  it("caps quarterly periods at the configured limit", () => {
+    const f = synthFacts();
+    const niFacts = [];
+    for (let y = 2022; y <= 2025; y += 1) {
+      for (const q of [1, 2, 3, 4]) {
+        niFacts.push(fact(`${y}-${String(q * 3).padStart(2, "0")}-30`, y * 10 + q, `Q${q}`));
+      }
+    }
+    f.facts["us-gaap"]!.NetIncomeLoss = { units: { USD: niFacts } };
+    const periods = mapQuarterlyPeriods(f, { maxQuarterlyPeriods: 5 });
+    expect(periods.length).toBe(5);
+  });
+});
+
+describe("inferSharesScale", () => {
+  it("returns 1 when EDGAR matches authoritative within 30%", () => {
+    expect(inferSharesScale(15_000_000_000, 14_900_000_000)).toBe(1);
+  });
+
+  it("detects a 1M scale (filer reports in millions)", () => {
+    // MCD case: EDGAR returns 716.4, Yahoo says 716_000_000.
+    expect(inferSharesScale(716.4, 716_000_000)).toBe(1_000_000);
+  });
+
+  it("detects a 1K scale (filer reports in thousands)", () => {
+    expect(inferSharesScale(716_000, 716_000_000)).toBe(1_000);
+  });
+
+  it("returns 1 when EDGAR shares are missing", () => {
+    expect(inferSharesScale(null, 1_000_000_000)).toBe(1);
+    expect(inferSharesScale(0, 1_000_000_000)).toBe(1);
+  });
+
+  it("returns 1 when authoritative shares are missing", () => {
+    expect(inferSharesScale(100, 0)).toBe(1);
+  });
+
+  it("returns 1 when ratio doesn't match any power-of-1000", () => {
+    // 47x is not 1×, 1000×, 1M×, or 1B× — leave alone.
+    expect(inferSharesScale(100, 4_700)).toBe(1);
+  });
+});
+
+describe("rescaleSharesInPeriods", () => {
+  it("multiplies sharesDiluted across all periods uniformly", () => {
+    const periods = mapAnnualPeriods(synthFacts());
+    const rescaled = rescaleSharesInPeriods(periods, 1_000_000);
+    expect(rescaled[0]!.income.sharesDiluted).toBe(periods[0]!.income.sharesDiluted! * 1_000_000);
+    expect(rescaled[1]!.income.sharesDiluted).toBe(periods[1]!.income.sharesDiluted! * 1_000_000);
+  });
+
+  it("is a no-op when scale is 1 (returns original array)", () => {
+    const periods = mapAnnualPeriods(synthFacts());
+    const rescaled = rescaleSharesInPeriods(periods, 1);
+    expect(rescaled).toBe(periods);
+  });
+
+  it("preserves null sharesDiluted entries", () => {
+    const periods = [
+      {
+        income: { sharesDiluted: null as number | null },
+      },
+    ];
+    const rescaled = rescaleSharesInPeriods(periods, 1_000_000);
+    expect(rescaled[0]!.income.sharesDiluted).toBeNull();
   });
 });
 

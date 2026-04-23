@@ -1,6 +1,6 @@
 {
   "symbol": "POOL",
-  "fetchedAt": "2026-04-23T00:53:00.900Z",
+  "fetchedAt": "2026-04-23T01:49:06.557Z",
   "currentPrice": 234.22,
   "expirations": [
     {
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 316.1034206051462,
+          "anchorPrice": 309.7246824219968,
           "contract": {
             "contractSymbol": "POOL260515C00270000",
             "expiration": "2026-05-15",
@@ -38,7 +38,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 316.1034206051462,
+          "anchorPrice": 309.7246824219968,
           "contract": {
             "contractSymbol": "POOL260515P00230000",
             "expiration": "2026-05-15",
@@ -65,39 +65,12 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 316.1034206051462,
-          "contract": {
-            "contractSymbol": "POOL260717C00320000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 320,
-            "bid": 0.1,
-            "ask": 10,
-            "lastPrice": 0.15,
-            "volume": 2,
-            "openInterest": 22,
-            "impliedVolatility": 0.5758099060058592,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0054105106661223555,
-          "staticAnnualizedPct": 0.023233369330995995,
-          "assignedReturnPct": 0.371647381983687,
-          "assignedAnnualizedPct": 1.595897581459362,
-          "effectiveCostBasis": 234.12,
-          "effectiveDiscountPct": 0.000426949022286739
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 316.1034206051462,
+          "anchorPrice": 309.7246824219968,
           "contract": {
             "contractSymbol": "POOL260717P00230000",
             "expiration": "2026-07-17",
