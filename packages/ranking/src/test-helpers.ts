@@ -92,5 +92,6 @@ export function makeCompany(
         makePeriod({ fiscalYear: String(2025 - i) }),
       ),
     pctOffYearHigh: overrides.pctOffYearHigh ?? 9.09,
+    pctAboveYearLow: overrides.pctAboveYearLow ?? 25,
   };
 }
