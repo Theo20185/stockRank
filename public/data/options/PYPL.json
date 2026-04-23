@@ -1,98 +1,19 @@
 {
   "symbol": "PYPL",
-  "fetchedAt": "2026-04-23T03:21:34.355Z",
+  "fetchedAt": "2026-04-23T12:46:35.257Z",
   "currentPrice": 51.22,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 110.19374470000001,
-          "contract": {
-            "contractSymbol": "PYPL270115P00050000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 50,
-            "bid": 5.7,
-            "ask": 6.6,
-            "lastPrice": 6.03,
-            "volume": 3,
-            "openInterest": 9571,
-            "impliedVolatility": 0.41809663940429687,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.114,
-          "notAssignedAnnualizedPct": 0.1558426966292135,
-          "effectiveCostBasis": 44.3,
-          "effectiveDiscountPct": 0.13510347520499807,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 110.19374470000001,
-          "contract": {
-            "contractSymbol": "PYPL280121C00115000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 115,
-            "bid": 0.86,
-            "ask": 1.01,
-            "lastPrice": 0.97,
-            "volume": 82,
-            "openInterest": 15838,
-            "impliedVolatility": 0.3934386828613281,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.035842919022428095,
-          "staticAnnualizedPct": 0.020505745208755886,
-          "assignedReturnPct": 1.2810596312442166,
-          "assignedAnnualizedPct": 0.7328946166209077,
-          "effectiveCostBasis": 50.36,
-          "effectiveDiscountPct": 0.01679031628270207
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 110.19374470000001,
-          "contract": {
-            "contractSymbol": "PYPL280121P00050000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 50,
-            "bid": 7.4,
-            "ask": 9.75,
-            "lastPrice": 8.15,
-            "volume": 5,
-            "openInterest": 5945,
-            "impliedVolatility": 0.3919128192138671,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.14800000000000002,
-          "notAssignedAnnualizedPct": 0.08467084639498434,
-          "effectiveCostBasis": 42.6,
-          "effectiveDiscountPct": 0.16829363529871139,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

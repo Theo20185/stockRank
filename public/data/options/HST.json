@@ -1,66 +1,13 @@
 {
   "symbol": "HST",
-  "fetchedAt": "2026-04-23T03:21:53.776Z",
+  "fetchedAt": "2026-04-23T12:46:54.441Z",
   "currentPrice": 20.85,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 21.001489703750842,
-          "contract": {
-            "contractSymbol": "HST270115C00021850",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 21.85,
-            "bid": 1.5,
-            "ask": 1.9,
-            "lastPrice": 1.8,
-            "volume": 1,
-            "openInterest": 273,
-            "impliedVolatility": 0.32520206054687495,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.10003230759385039,
-          "staticAnnualizedPct": 0.1367482856620052,
-          "assignedReturnPct": 0.14799393828929402,
-          "assignedAnnualizedPct": 0.20231381077000868,
-          "effectiveCostBasis": 19.35,
-          "effectiveDiscountPct": 0.07194244604316546
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 21.001489703750842,
-          "contract": {
-            "contractSymbol": "HST270115P00019850",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 19.85,
-            "bid": 1.45,
-            "ask": 1.85,
-            "lastPrice": 2.55,
-            "volume": 50,
-            "openInterest": 79,
-            "impliedVolatility": 0.33423517333984376,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07304785894206549,
-          "notAssignedAnnualizedPct": 0.09985943263615694,
-          "effectiveCostBasis": 18.400000000000002,
-          "effectiveDiscountPct": 0.1175059952038369,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",

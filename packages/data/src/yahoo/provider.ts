@@ -18,6 +18,7 @@ import {
   type HistoricalBar as EdgarHistoricalBar,
   withAnnualRatios,
   withQuarterlyRatios,
+  writeMonthlyBars,
 } from "../edgar/index.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
@@ -236,6 +237,13 @@ export class YahooProvider implements MarketDataProvider {
           high: typeof q.high === "number" ? q.high : null,
           low: typeof q.low === "number" ? q.low : null,
         }));
+      // Persist these monthly bars so the historical FV-trend
+      // reconstruction (compute-fv-trend) can read them without
+      // re-fetching Yahoo. Best-effort — the cache module logs and
+      // continues on write failure.
+      if (historicalBars.length > 0) {
+        await writeMonthlyBars(symbol, historicalBars);
+      }
     } catch (err) {
       reportError(makeError(symbol, "chart-historical", err));
     }

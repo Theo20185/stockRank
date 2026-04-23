@@ -1,125 +1,19 @@
 {
   "symbol": "LMT",
-  "fetchedAt": "2026-04-23T03:23:28.003Z",
+  "fetchedAt": "2026-04-23T12:48:26.504Z",
   "currentPrice": 555.43,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 784.9842916377289,
-          "contract": {
-            "contractSymbol": "LMT270115C00800000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 800,
-            "bid": 6.8,
-            "ask": 7.9,
-            "lastPrice": 7.1,
-            "volume": 499,
-            "openInterest": 744,
-            "impliedVolatility": 0.32163153961181634,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.030018384766681425,
-          "staticAnnualizedPct": 0.04103636868853453,
-          "assignedReturnPct": 0.47034389833274753,
-          "assignedAnnualizedPct": 0.6429794864848422,
-          "effectiveCostBasis": 548.63,
-          "effectiveDiscountPct": 0.01224276686531156
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 784.9842916377289,
-          "contract": {
-            "contractSymbol": "LMT270115P00550000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 550,
-            "bid": 49.6,
-            "ask": 53.6,
-            "lastPrice": 51.21,
-            "volume": 4,
-            "openInterest": 262,
-            "impliedVolatility": 0.2987588435363769,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09018181818181818,
-          "notAssignedAnnualizedPct": 0.1232822608103507,
-          "effectiveCostBasis": 500.4,
-          "effectiveDiscountPct": 0.09907639126442572,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 784.9842916377289,
-          "contract": {
-            "contractSymbol": "LMT280121C00800000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 800,
-            "bid": 26.2,
-            "ask": 33.4,
-            "lastPrice": 30.5,
-            "volume": 2,
-            "openInterest": 25,
-            "impliedVolatility": 0.33411310424804685,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08964573255832976,
-          "staticAnnualizedPct": 0.051286351698730984,
-          "assignedReturnPct": 0.5299712461243958,
-          "assignedAnnualizedPct": 0.30319671604295373,
-          "effectiveCostBasis": 529.2299999999999,
-          "effectiveDiscountPct": 0.04717066056928866
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 784.9842916377289,
-          "contract": {
-            "contractSymbol": "LMT280121P00550000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 550,
-            "bid": 74,
-            "ask": 81,
-            "lastPrice": 69.53,
-            "volume": 1,
-            "openInterest": 14,
-            "impliedVolatility": 0.2887796952819824,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.13454545454545455,
-          "notAssignedAnnualizedPct": 0.07697349672271303,
-          "effectiveCostBasis": 476,
-          "effectiveDiscountPct": 0.1430063194281907,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

@@ -1,66 +1,13 @@
 {
   "symbol": "DHR",
-  "fetchedAt": "2026-04-23T03:23:45.660Z",
+  "fetchedAt": "2026-04-23T12:48:40.439Z",
   "currentPrice": 184.04,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 215.06590035600053,
-          "contract": {
-            "contractSymbol": "DHR270115C00220000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 220,
-            "bid": 7.6,
-            "ask": 8.6,
-            "lastPrice": 9,
-            "volume": 4,
-            "openInterest": 128,
-            "impliedVolatility": 0.3214789532470703,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.047659480160655965,
-          "staticAnnualizedPct": 0.06515247287879936,
-          "assignedReturnPct": 0.24305178618108636,
-          "assignedAnnualizedPct": 0.3322618050790132,
-          "effectiveCostBasis": 176.44,
-          "effectiveDiscountPct": 0.041295370571614864
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 215.06590035600053,
-          "contract": {
-            "contractSymbol": "DHR270115P00180000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 180,
-            "bid": 14.8,
-            "ask": 16.3,
-            "lastPrice": 14.81,
-            "volume": 1,
-            "openInterest": 473,
-            "impliedVolatility": 0.2941965112304687,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08222222222222222,
-          "notAssignedAnnualizedPct": 0.11240116521015397,
-          "effectiveCostBasis": 165.2,
-          "effectiveDiscountPct": 0.10236905020647688,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
@@ -93,33 +40,7 @@
           "effectiveDiscountPct": 0.12768963268854597
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 215.06590035600053,
-          "contract": {
-            "contractSymbol": "DHR280121P00180000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 180,
-            "bid": 22,
-            "ask": 24.8,
-            "lastPrice": 21.25,
-            "volume": 2,
-            "openInterest": 14,
-            "impliedVolatility": 0.28043322113037106,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.12222222222222222,
-          "notAssignedAnnualizedPct": 0.06992337164750959,
-          "effectiveCostBasis": 158,
-          "effectiveDiscountPct": 0.1414909802216909,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

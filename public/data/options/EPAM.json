@@ -1,66 +1,13 @@
 {
   "symbol": "EPAM",
-  "fetchedAt": "2026-04-23T03:21:15.097Z",
+  "fetchedAt": "2026-04-23T12:46:15.893Z",
   "currentPrice": 129.12,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 179.26824043323353,
-          "contract": {
-            "contractSymbol": "EPAM270115C00200000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 200,
-            "bid": 4.2,
-            "ask": 6.6,
-            "lastPrice": 5.45,
-            "volume": 0,
-            "openInterest": 10,
-            "impliedVolatility": 0.5355271057128907,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.032527881040892194,
-          "staticAnnualizedPct": 0.044466953482867604,
-          "assignedReturnPct": 0.5814745972738538,
-          "assignedAnnualizedPct": 0.7948997303556428,
-          "effectiveCostBasis": 124.92,
-          "effectiveDiscountPct": 0.032527881040892194
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 179.26824043323353,
-          "contract": {
-            "contractSymbol": "EPAM270115P00125000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 125,
-            "bid": 16.5,
-            "ask": 19.9,
-            "lastPrice": 17.6,
-            "volume": 1,
-            "openInterest": 47,
-            "impliedVolatility": 0.5083056982421875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.132,
-          "notAssignedAnnualizedPct": 0.1804494382022472,
-          "effectiveCostBasis": 108.5,
-          "effectiveDiscountPct": 0.15969640644361838,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
@@ -93,33 +40,7 @@
           "effectiveDiscountPct": 0.01006815365551425
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 179.26824043323353,
-          "contract": {
-            "contractSymbol": "EPAM260717P00125000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 125,
-            "bid": 10.1,
-            "ask": 11.2,
-            "lastPrice": 8.7,
-            "volume": 9,
-            "openInterest": 33,
-            "impliedVolatility": 0.5136767382812499,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0808,
-          "notAssignedAnnualizedPct": 0.3469647058823529,
-          "effectiveCostBasis": 114.9,
-          "effectiveDiscountPct": 0.11013011152416356,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

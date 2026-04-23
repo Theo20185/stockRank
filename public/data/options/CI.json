@@ -1,66 +1,13 @@
 {
   "symbol": "CI",
-  "fetchedAt": "2026-04-23T03:21:59.001Z",
+  "fetchedAt": "2026-04-23T12:46:59.590Z",
   "currentPrice": 274.7,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 360.810923073295,
-          "contract": {
-            "contractSymbol": "CI270115C00370000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 370,
-            "bid": 4.4,
-            "ask": 6.9,
-            "lastPrice": 6.3,
-            "volume": 2,
-            "openInterest": 439,
-            "impliedVolatility": 0.332587240600586,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03262267908702395,
-          "staticAnnualizedPct": 0.0445965463174672,
-          "assignedReturnPct": 0.37954659608738806,
-          "assignedAnnualizedPct": 0.5188558336026091,
-          "effectiveCostBasis": 270.3,
-          "effectiveDiscountPct": 0.0160174736075719
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 360.810923073295,
-          "contract": {
-            "contractSymbol": "CI270115P00270000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 270,
-            "bid": 24.5,
-            "ask": 27.1,
-            "lastPrice": 30.6,
-            "volume": 1,
-            "openInterest": 145,
-            "impliedVolatility": 0.31676403457641594,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09074074074074075,
-          "notAssignedAnnualizedPct": 0.12404633097516994,
-          "effectiveCostBasis": 245.5,
-          "effectiveDiscountPct": 0.10629777939570437,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
@@ -69,57 +16,31 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 360.810923073295,
+          "anchorPrice": 370.31682708836786,
           "contract": {
-            "contractSymbol": "CI280121C00370000",
+            "contractSymbol": "CI280121C00380000",
             "expiration": "2028-01-21",
             "daysToExpiry": 638,
-            "strike": 370,
-            "bid": 19,
-            "ask": 23.5,
-            "lastPrice": 25.5,
+            "strike": 380,
+            "bid": 17.5,
+            "ask": 22.5,
+            "lastPrice": 19.2,
             "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.35468174621582027,
+            "openInterest": 40,
+            "impliedVolatility": 0.36113614944458,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10884471946980766,
-          "staticAnnualizedPct": 0.06227009812927868,
-          "assignedReturnPct": 0.45576863647017174,
-          "assignedAnnualizedPct": 0.260745379798766,
-          "effectiveCostBasis": 255.7,
-          "effectiveDiscountPct": 0.0691663633054241
+          "staticReturnPct": 0.10338421710358997,
+          "staticAnnualizedPct": 0.05914614301380931,
+          "assignedReturnPct": 0.4867114832120721,
+          "assignedAnnualizedPct": 0.2784477921197591,
+          "effectiveCostBasis": 257.2,
+          "effectiveDiscountPct": 0.06370586093920641
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 360.810923073295,
-          "contract": {
-            "contractSymbol": "CI280121P00270000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 270,
-            "bid": 39,
-            "ask": 42.2,
-            "lastPrice": 38.9,
-            "volume": 1,
-            "openInterest": 463,
-            "impliedVolatility": 0.31200333999633784,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.14444444444444443,
-          "notAssignedAnnualizedPct": 0.08263671194705677,
-          "effectiveCostBasis": 231,
-          "effectiveDiscountPct": 0.1590826356024754,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

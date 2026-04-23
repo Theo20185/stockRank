@@ -1,39 +1,12 @@
 {
   "symbol": "NRG",
-  "fetchedAt": "2026-04-23T03:22:16.259Z",
+  "fetchedAt": "2026-04-23T12:47:18.601Z",
   "currentPrice": 149.6,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 168.50202488553697,
-          "contract": {
-            "contractSymbol": "NRG270115C00170000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 170,
-            "bid": 16.4,
-            "ask": 18.1,
-            "lastPrice": 16.95,
-            "volume": 1,
-            "openInterest": 55,
-            "impliedVolatility": 0.5002491381835938,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11891580543549922,
-          "staticAnnualizedPct": 0.16256280518336036,
-          "assignedReturnPct": 0.25527944179913564,
-          "assignedAnnualizedPct": 0.34897751406997946,
-          "effectiveCostBasis": 133.2,
-          "effectiveDiscountPct": 0.10962566844919786
-        }
-      ],
+      "coveredCalls": [],
       "puts": []
     },
     {
@@ -67,33 +40,7 @@
           "effectiveDiscountPct": 0.26737967914438504
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 168.50202488553697,
-          "contract": {
-            "contractSymbol": "NRG280121P00145000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 145,
-            "bid": 28,
-            "ask": 32,
-            "lastPrice": 29.75,
-            "volume": 2,
-            "openInterest": 12,
-            "impliedVolatility": 0.44717960052490235,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.19310344827586207,
-          "notAssignedAnnualizedPct": 0.11047454329261702,
-          "effectiveCostBasis": 117,
-          "effectiveDiscountPct": 0.21791443850267378,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

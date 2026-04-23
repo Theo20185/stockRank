@@ -1,98 +1,19 @@
 {
   "symbol": "BXP",
-  "fetchedAt": "2026-04-23T03:24:11.924Z",
+  "fetchedAt": "2026-04-23T12:49:09.908Z",
   "currentPrice": 58.29,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 87.861144618,
-          "contract": {
-            "contractSymbol": "BXP270115C00090000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 90,
-            "bid": 0.05,
-            "ask": 0.75,
-            "lastPrice": 0.35,
-            "volume": 3,
-            "openInterest": 45,
-            "impliedVolatility": 0.3544986425781249,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03948134390354744,
-          "staticAnnualizedPct": 0.053972623688370094,
-          "assignedReturnPct": 0.5834854612478604,
-          "assignedAnnualizedPct": 0.797648664252693,
-          "effectiveCostBasis": 58.24,
-          "effectiveDiscountPct": 0.000857780065191285
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 87.861144618,
-          "contract": {
-            "contractSymbol": "BXP270115P00057500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 57.5,
-            "bid": 6,
-            "ask": 7,
-            "lastPrice": 10.12,
-            "volume": 1,
-            "openInterest": 50,
-            "impliedVolatility": 0.37500625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10434782608695652,
-          "notAssignedAnnualizedPct": 0.142647777234978,
-          "effectiveCostBasis": 51.5,
-          "effectiveDiscountPct": 0.11648653285297648,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "leap-fallback",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 87.861144618,
-          "contract": {
-            "contractSymbol": "BXP260717P00057500",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 57.5,
-            "bid": 3.3,
-            "ask": 3.7,
-            "lastPrice": 3.62,
-            "volume": 30,
-            "openInterest": 148,
-            "impliedVolatility": 0.36475244628906256,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.057391304347826085,
-          "notAssignedAnnualizedPct": 0.24644501278772377,
-          "effectiveCostBasis": 54.2,
-          "effectiveDiscountPct": 0.07016640933264705,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

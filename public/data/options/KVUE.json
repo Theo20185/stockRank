@@ -1,125 +1,19 @@
 {
   "symbol": "KVUE",
-  "fetchedAt": "2026-04-23T03:23:12.438Z",
+  "fetchedAt": "2026-04-23T12:48:07.450Z",
   "currentPrice": 17.31,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 21.47356260718617,
-          "contract": {
-            "contractSymbol": "KVUE270115C00022000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 22,
-            "bid": 0.1,
-            "ask": 0.33,
-            "lastPrice": 0.23,
-            "volume": 16,
-            "openInterest": 4689,
-            "impliedVolatility": 0.264655791015625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04081618559230154,
-          "staticAnnualizedPct": 0.055797407270374764,
-          "assignedReturnPct": 0.31175783781644956,
-          "assignedAnnualizedPct": 0.42618580825095165,
-          "effectiveCostBasis": 17.209999999999997,
-          "effectiveDiscountPct": 0.005777007510109764
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 21.47356260718617,
-          "contract": {
-            "contractSymbol": "KVUE270115P00015000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 15,
-            "bid": 0.5,
-            "ask": 1.14,
-            "lastPrice": 0.74,
-            "volume": 2,
-            "openInterest": 3238,
-            "impliedVolatility": 0.38184211914062494,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.03333333333333333,
-          "notAssignedAnnualizedPct": 0.04556803995006242,
-          "effectiveCostBasis": 14.5,
-          "effectiveDiscountPct": 0.1623339110340843,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 21.47356260718617,
-          "contract": {
-            "contractSymbol": "KVUE280121C00022000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 22,
-            "bid": 0.68,
-            "ask": 2.3,
-            "lastPrice": 0.88,
-            "volume": 2,
-            "openInterest": 835,
-            "impliedVolatility": 0.4155331884765625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12301022641121215,
-          "staticAnnualizedPct": 0.07037418909105397,
-          "assignedReturnPct": 0.39395187863536013,
-          "assignedAnnualizedPct": 0.22537999326317626,
-          "effectiveCostBasis": 16.63,
-          "effectiveDiscountPct": 0.03928365106874639
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 21.47356260718617,
-          "contract": {
-            "contractSymbol": "KVUE280121P00017000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 17,
-            "bid": 1.45,
-            "ask": 2.86,
-            "lastPrice": 2,
-            "volume": 1,
-            "openInterest": 798,
-            "impliedVolatility": 0.33570000244140624,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08529411764705883,
-          "notAssignedAnnualizedPct": 0.048796791443850275,
-          "effectiveCostBasis": 15.55,
-          "effectiveDiscountPct": 0.10167533217793172,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

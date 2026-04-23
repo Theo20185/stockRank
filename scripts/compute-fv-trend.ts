@@ -1,35 +1,29 @@
 #!/usr/bin/env tsx
 /**
- * Build the FV-trend signal directly from the dated snapshot archive.
+ * Build the FV-trend signal by reconstructing the snapshot at every
+ * historical quarter end (over the past N years) using EDGAR
+ * companyfacts + persisted Yahoo monthly chart bars, then running
+ * the production FV engine against the synthetic historical
+ * universe.
  *
- * Each refresh writes `public/data/snapshot-YYYY-MM-DD.json`. Those
- * archived snapshots carry Yahoo's authoritative TTM ratios as they
- * stood on the snapshot date — no historical reconstruction, no
- * quarterly-sum approximation. Recomputing fair value against the
- * archive therefore uses the same engine and the same data the
- * production page used on that date, so the right-most sparkline
- * sample on the stock-detail page is identical to the FV bar shown
- * directly above it.
- *
- * Trade-off the user accepted: history starts when the archive
- * starts. Older synthetic reconstructions from `tmp/backtest/*.csv`
- * are no longer used by the sparkline — they relied on a different
- * TTM derivation that diverged from production by 30%+ on a
- * meaningful tail of names.
+ * Outputs a per-symbol time series of (date, price, fvP25, fvMedian,
+ * fvP75) that mirrors what the engine *would have* computed at each
+ * date — using the same data source (EDGAR) and the same fairValueFor
+ * code path. The rightmost samples come from the daily snapshot
+ * archive (most recent days, identical to today's FV bar).
  *
  * Methodology:
- *   - Walk every `snapshot-YYYY-MM-DD.json` in `public/data/`,
- *     sorted ascending.
- *   - For each archive, call `fairValueFor(company, archive.companies)`
- *     once per company. Append (date, price, fvP25, fvMedian, fvP75)
- *     to that symbol's series.
- *   - For each symbol, regress fvMedian vs time on the most recent
- *     `TREND_WINDOW_YEARS`. Slope is normalised to %/yr of the start
- *     value. Below threshold → declining; above → improving; else
- *     stable. Until ≥ MIN_SAMPLES land in the window the symbol is
- *     marked `insufficient_data` (true while the archive is fresh).
- *   - Downsample the in-window samples to one per calendar quarter
- *     for the sparkline payload — same shape the UI already consumes.
+ *   1. Enumerate quarter-end dates over the past TREND_WINDOW_YEARS.
+ *   2. For each quarter end, synthesize a CompanySnapshot for every
+ *      symbol in the universe (sum trailing 4 EDGAR quarters →
+ *      historical TTM, point-in-time balance, historical price from
+ *      cached monthly bars).
+ *   3. Run fairValueFor for each subject against the synthetic
+ *      universe. Record (subject, date, p25, median, p75).
+ *   4. Append the daily snapshot-archive samples (Apr 20+) for
+ *      most-recent fidelity.
+ *   5. Fit a linear regression of fvMedian vs time over the most
+ *      recent 2-year window and classify the trend.
  *
  * Usage:
  *   npx tsx scripts/compute-fv-trend.ts
@@ -40,17 +34,26 @@ import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import type { CompanySnapshot, Snapshot } from "@stockrank/core";
 import { fairValueFor } from "@stockrank/ranking";
+import {
+  EdgarNotFoundError,
+  fetchCompanyFacts,
+  quarterEndsBetween,
+  readMonthlyBars,
+  synthesizeSnapshotAt,
+  type SymbolProfile,
+} from "@stockrank/data";
 
 const SNAPSHOT_DIR = resolve(process.cwd(), "public/data");
 const OUTPUT_PATH = resolve(process.cwd(), "public/data/fv-trend.json");
 
-/** Slope threshold (percent of starting FV per year) for declining /
- * improving classification. Below this in absolute value → "stable". */
 const SLOPE_THRESHOLD_PCT = 5;
-
-/** Window for the regression. Sparkline payload uses the same window. */
 const TREND_WINDOW_YEARS = 2;
 const MIN_SAMPLES = 6;
+
+/** How far back to reconstruct historical samples. EDGAR caps us at
+ * ~10y for most filers; we go 3y to keep compute time reasonable
+ * while still giving plenty of trend depth. */
+const HISTORICAL_RECONSTRUCTION_YEARS = 3;
 
 type FvTrend = "declining" | "stable" | "improving" | "insufficient_data";
 
@@ -96,87 +99,220 @@ function linearSlope(xs: number[], ys: number[]): number | null {
   return num / den;
 }
 
-function classifyTrend(slopePctPerYear: number | null): FvTrend {
-  if (slopePctPerYear === null) return "insufficient_data";
-  if (slopePctPerYear < -SLOPE_THRESHOLD_PCT) return "declining";
-  if (slopePctPerYear > SLOPE_THRESHOLD_PCT) return "improving";
+function classifyTrend(slope: number | null): FvTrend {
+  if (slope === null) return "insufficient_data";
+  if (slope < -SLOPE_THRESHOLD_PCT) return "declining";
+  if (slope > SLOPE_THRESHOLD_PCT) return "improving";
   return "stable";
 }
 
-type ArchiveEntry = { date: string; snapshot: Snapshot };
-
-async function loadDatedSnapshots(): Promise<ArchiveEntry[]> {
+async function loadDatedSnapshots(): Promise<
+  Array<{ date: string; snapshot: Snapshot }>
+> {
   const files = (await readdir(SNAPSHOT_DIR))
     .filter((f) => /^snapshot-\d{4}-\d{2}-\d{2}\.json$/.test(f))
     .sort();
-  const out: ArchiveEntry[] = [];
+  const out: Array<{ date: string; snapshot: Snapshot }> = [];
   for (const file of files) {
-    const date = file.slice("snapshot-".length, "snapshot-".length + 10);
+    const date = file.slice(9, 19);
     const text = await readFile(resolve(SNAPSHOT_DIR, file), "utf8");
     out.push({ date, snapshot: JSON.parse(text) as Snapshot });
   }
   return out;
 }
 
-function fvSampleFor(
-  date: string,
-  company: CompanySnapshot,
-  universe: CompanySnapshot[],
-): FvTrendSample {
-  const fv = fairValueFor(company, universe);
-  return {
-    date,
-    price: company.quote.price,
-    fvP25: fv.range?.p25 ?? null,
-    fvMedian: fv.range?.median ?? null,
-    fvP75: fv.range?.p75 ?? null,
-  };
+/** Build a SymbolProfile for every symbol in the latest snapshot. */
+function profilesFromSnapshot(
+  snapshot: Snapshot,
+): Map<string, SymbolProfile> {
+  const out = new Map<string, SymbolProfile>();
+  for (const c of snapshot.companies) {
+    const annualShares = c.annual[0]?.income.sharesDiluted ?? null;
+    const marketCap = c.marketCap;
+    // Authoritative shares = marketCap / price (Yahoo's
+    // sharesOutstanding implied). Fall back to the snapshot's annual
+    // shares for symbols where the implied calc would divide by zero.
+    const implied =
+      marketCap > 0 && c.quote.price > 0 ? marketCap / c.quote.price : null;
+    const authoritativeShares = implied ?? annualShares ?? 0;
+    out.set(c.symbol, {
+      symbol: c.symbol,
+      name: c.name,
+      sector: c.sector,
+      industry: c.industry,
+      exchange: c.exchange,
+      currency: c.currency,
+      authoritativeShares,
+    });
+  }
+  return out;
 }
 
-/**
- * Walk every archive once. Build per-symbol time series. fairValueFor
- * is pure and cheap — one pass over the universe per archive is fine
- * even at hundreds of archives × 500 symbols.
- */
-function buildSymbolSeries(archives: ArchiveEntry[]): Map<string, FvTrendSample[]> {
+async function loadAllEdgarFacts(
+  profiles: Map<string, SymbolProfile>,
+): Promise<Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>> {
+  const out = new Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>();
+  let loaded = 0;
+  let missing = 0;
+  for (const symbol of profiles.keys()) {
+    try {
+      // Cache-only: 24h TTL — if cache empty, fetchCompanyFacts will
+      // hit Yahoo, which we want to avoid in a script run. Use a
+      // generous TTL so stale-but-existent caches still work.
+      const facts = await fetchCompanyFacts(symbol, {
+        cacheTtlHours: 24 * 365,
+      });
+      out.set(symbol, facts);
+      loaded += 1;
+    } catch (err) {
+      if (err instanceof EdgarNotFoundError) {
+        missing += 1;
+      } else {
+        process.stderr.write(
+          `[fv-trend] EDGAR fetch failed for ${symbol}: ${
+            (err as Error).message
+          }\n`,
+        );
+        missing += 1;
+      }
+    }
+  }
+  console.log(
+    `Loaded EDGAR facts for ${loaded} symbols (${missing} missing/failed).`,
+  );
+  return out;
+}
+
+async function loadAllChartBars(
+  profiles: Map<string, SymbolProfile>,
+): Promise<Map<string, Awaited<ReturnType<typeof readMonthlyBars>>>> {
+  const out = new Map<string, Awaited<ReturnType<typeof readMonthlyBars>>>();
+  let loaded = 0;
+  let missing = 0;
+  for (const symbol of profiles.keys()) {
+    const bars = await readMonthlyBars(symbol);
+    if (bars && bars.length > 0) {
+      out.set(symbol, bars);
+      loaded += 1;
+    } else {
+      missing += 1;
+    }
+  }
+  console.log(
+    `Loaded chart bars for ${loaded} symbols (${missing} missing — re-run ingest to populate).`,
+  );
+  return out;
+}
+
+/** Build the synthetic universe at a single historical date by
+ * reconstructing every symbol's snapshot. Symbols missing data at
+ * this date are silently dropped. */
+function synthesizeUniverseAt(
+  date: string,
+  profiles: Map<string, SymbolProfile>,
+  allFacts: Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>,
+  allBars: Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+): CompanySnapshot[] {
+  const out: CompanySnapshot[] = [];
+  for (const [symbol, profile] of profiles) {
+    const facts = allFacts.get(symbol);
+    const bars = allBars.get(symbol);
+    if (!facts || !bars) continue;
+    const snap = synthesizeSnapshotAt(facts, bars, date, profile);
+    if (snap) out.push(snap);
+  }
+  return out;
+}
+
+/** Walk historical quarter ends, synthesize the universe at each,
+ * run fairValueFor per subject. Yields per-symbol historical samples. */
+function reconstructHistoricalSamples(
+  todayIso: string,
+  profiles: Map<string, SymbolProfile>,
+  allFacts: Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>,
+  allBars: Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+): Map<string, FvTrendSample[]> {
+  const startIso = (() => {
+    const d = new Date(`${todayIso}T00:00:00.000Z`);
+    d.setUTCFullYear(d.getUTCFullYear() - HISTORICAL_RECONSTRUCTION_YEARS);
+    return d.toISOString().slice(0, 10);
+  })();
+  const dates = quarterEndsBetween(startIso, todayIso);
+  console.log(
+    `Reconstructing FV at ${dates.length} historical quarter ends ` +
+      `(${dates[0]} → ${dates[dates.length - 1]})…`,
+  );
+
   const series = new Map<string, FvTrendSample[]>();
-  for (const { date, snapshot } of archives) {
-    for (const company of snapshot.companies) {
+  for (const date of dates) {
+    const universe = synthesizeUniverseAt(date, profiles, allFacts, allBars);
+    if (universe.length === 0) continue;
+    for (const subject of universe) {
       let sample: FvTrendSample;
       try {
-        sample = fvSampleFor(date, company, snapshot.companies);
+        const fv = fairValueFor(subject, universe);
+        sample = {
+          date,
+          price: subject.quote.price,
+          fvP25: fv.range?.p25 ?? null,
+          fvMedian: fv.range?.median ?? null,
+          fvP75: fv.range?.p75 ?? null,
+        };
       } catch {
-        // A bad single-snapshot fairValueFor must not poison the rest.
-        sample = { date, price: company.quote.price, fvP25: null, fvMedian: null, fvP75: null };
+        sample = {
+          date,
+          price: subject.quote.price,
+          fvP25: null,
+          fvMedian: null,
+          fvP75: null,
+        };
       }
-      const list = series.get(company.symbol);
+      const list = series.get(subject.symbol);
       if (list) list.push(sample);
-      else series.set(company.symbol, [sample]);
+      else series.set(subject.symbol, [sample]);
     }
   }
   return series;
 }
 
-/**
- * Sparkline samples = every archived snapshot inside the trend
- * window. Earlier this downsampled to one-per-calendar-quarter, but
- * the dated snapshot archive is small (days, not years) — quarterly
- * collapsing yielded a single dot per symbol and the FvTrendSparkline
- * component requires ≥2 to render anything.
- *
- * As the archive grows past hundreds of samples we can re-introduce
- * downsampling for visual density, but for now show everything we
- * have. The artifact is small (one row per refresh × 500 symbols).
- */
-function sparklineSamples(samples: FvTrendSample[]): FvTrendSample[] {
-  if (samples.length === 0) return [];
-  const latestDate = samples[samples.length - 1]!.date;
-  const windowStartIso = (() => {
-    const d = new Date(`${latestDate}T00:00:00.000Z`);
-    d.setUTCFullYear(d.getUTCFullYear() - TREND_WINDOW_YEARS);
-    return d.toISOString().slice(0, 10);
-  })();
-  return samples.filter((s) => s.date >= windowStartIso);
+/** Append daily-snapshot-archive samples (most recent days) on top of
+ * historical reconstructions. Dedupe by date — archive wins for any
+ * date that overlaps a historical quarter end. */
+function appendArchiveSamples(
+  series: Map<string, FvTrendSample[]>,
+  archives: Array<{ date: string; snapshot: Snapshot }>,
+): void {
+  for (const { date, snapshot } of archives) {
+    for (const company of snapshot.companies) {
+      let sample: FvTrendSample;
+      try {
+        const fv = fairValueFor(company, snapshot.companies);
+        sample = {
+          date,
+          price: company.quote.price,
+          fvP25: fv.range?.p25 ?? null,
+          fvMedian: fv.range?.median ?? null,
+          fvP75: fv.range?.p75 ?? null,
+        };
+      } catch {
+        sample = {
+          date,
+          price: company.quote.price,
+          fvP25: null,
+          fvMedian: null,
+          fvP75: null,
+        };
+      }
+      const list = series.get(company.symbol) ?? [];
+      // Dedupe by date — archive supersedes any historical quarter-end
+      // sample on the same day (the archive uses Yahoo's authoritative
+      // current TTM, which is more accurate than reconstruction).
+      const filtered = list.filter((s) => s.date !== date);
+      filtered.push(sample);
+      filtered.sort((a, b) => a.date.localeCompare(b.date));
+      series.set(company.symbol, filtered);
+    }
+  }
 }
 
 function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
@@ -184,7 +320,6 @@ function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
     (r): r is FvTrendSample & { fvMedian: number } =>
       r.fvMedian !== null && r.fvMedian > 0,
   );
-  const quarterly = sparklineSamples(samples);
 
   if (fvSamples.length === 0) {
     return {
@@ -196,7 +331,7 @@ function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
       windowStart: null,
       windowEnd: null,
       sampleCount: 0,
-      quarterly,
+      quarterly: samples,
     };
   }
 
@@ -207,6 +342,7 @@ function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
     return d.toISOString().slice(0, 10);
   })();
   const windowed = fvSamples.filter((r) => r.date >= windowStartIso);
+  const sparkline = samples.filter((r) => r.date >= windowStartIso);
 
   if (windowed.length < MIN_SAMPLES) {
     return {
@@ -218,46 +354,58 @@ function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
       windowStart: windowed[0]?.date ?? null,
       windowEnd: latest.date,
       sampleCount: windowed.length,
-      quarterly,
+      quarterly: sparkline,
     };
   }
 
   const earliestMs = new Date(`${windowed[0]!.date}T00:00:00.000Z`).getTime();
   const xs = windowed.map(
-    (r) => (new Date(`${r.date}T00:00:00.000Z`).getTime() - earliestMs) /
+    (r) =>
+      (new Date(`${r.date}T00:00:00.000Z`).getTime() - earliestMs) /
       (365.25 * 24 * 3600 * 1000),
   );
   const ys = windowed.map((r) => r.fvMedian);
   const slope = linearSlope(xs, ys);
   const start = ys[0]!;
   const end = ys[ys.length - 1]!;
-  const slopePctPerYear = slope !== null && start > 0 ? (slope / start) * 100 : null;
+  const slopePct = slope !== null && start > 0 ? (slope / start) * 100 : null;
 
   return {
-    trend: classifyTrend(slopePctPerYear),
-    slopePctPerYear,
+    trend: classifyTrend(slopePct),
+    slopePctPerYear: slopePct,
     fvMedianStart: start,
     fvMedianEnd: end,
     totalChangePct: ((end - start) / start) * 100,
     windowStart: windowed[0]!.date,
     windowEnd: latest.date,
     sampleCount: windowed.length,
-    quarterly,
+    quarterly: sparkline,
   };
 }
 
 async function main(): Promise<void> {
   const archives = await loadDatedSnapshots();
   if (archives.length === 0) {
-    console.error("no dated snapshots found in public/data — nothing to compute");
+    console.error("no dated snapshots found in public/data — aborting");
     process.exit(1);
   }
+  const latest = archives[archives.length - 1]!;
   console.log(
-    `Reading FV history from ${archives.length} dated snapshots ` +
-      `(${archives[0]!.date} → ${archives[archives.length - 1]!.date})...`,
+    `Latest snapshot: ${latest.date} (${latest.snapshot.companies.length} companies)`,
   );
 
-  const series = buildSymbolSeries(archives);
+  const profiles = profilesFromSnapshot(latest.snapshot);
+  const allFacts = await loadAllEdgarFacts(profiles);
+  const allBars = await loadAllChartBars(profiles);
+
+  const series = reconstructHistoricalSamples(
+    latest.date,
+    profiles,
+    allFacts,
+    allBars as Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+  );
+
+  appendArchiveSamples(series, archives);
 
   const symbols: Record<string, SymbolTrendEntry> = {};
   const counts = { declining: 0, stable: 0, improving: 0, insufficient_data: 0 };

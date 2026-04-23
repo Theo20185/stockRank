@@ -1,125 +1,19 @@
 {
   "symbol": "ED",
-  "fetchedAt": "2026-04-23T03:22:00.729Z",
+  "fetchedAt": "2026-04-23T12:47:01.331Z",
   "currentPrice": 108.13,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 108.47258849115337,
-          "contract": {
-            "contractSymbol": "ED270115C00110000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 110,
-            "bid": 5.6,
-            "ask": 6.6,
-            "lastPrice": 6.5,
-            "volume": 1,
-            "openInterest": 259,
-            "impliedVolatility": 0.20124089782714843,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0752708824867074,
-          "staticAnnualizedPct": 0.1028983974069221,
-          "assignedReturnPct": 0.09256488045211944,
-          "assignedAnnualizedPct": 0.12654000511244792,
-          "effectiveCostBasis": 102.53,
-          "effectiveDiscountPct": 0.051789512623693704
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 108.47258849115337,
-          "contract": {
-            "contractSymbol": "ED270115P00105000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 105,
-            "bid": 5.2,
-            "ask": 6,
-            "lastPrice": 5.6,
-            "volume": 1,
-            "openInterest": 36,
-            "impliedVolatility": 0.20520814331054685,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.049523809523809526,
-          "notAssignedAnnualizedPct": 0.06770108792580704,
-          "effectiveCostBasis": 99.8,
-          "effectiveDiscountPct": 0.07703690002774437,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 108.47258849115337,
-          "contract": {
-            "contractSymbol": "ED280121C00110000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 110,
-            "bid": 9.5,
-            "ask": 13,
-            "lastPrice": 10.2,
-            "volume": 29,
-            "openInterest": 64,
-            "impliedVolatility": 0.24262231994628902,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.14396625001108507,
-          "staticAnnualizedPct": 0.08236313676182767,
-          "assignedReturnPct": 0.16126024797649713,
-          "assignedAnnualizedPct": 0.09225703841915589,
-          "effectiveCostBasis": 98.63,
-          "effectiveDiscountPct": 0.08785720891519468
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 108.47258849115337,
-          "contract": {
-            "contractSymbol": "ED280121P00105000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 105,
-            "bid": 7,
-            "ask": 11.5,
-            "lastPrice": 9,
-            "volume": 2,
-            "openInterest": 6,
-            "impliedVolatility": 0.23230748168945312,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.06666666666666667,
-          "notAssignedAnnualizedPct": 0.03814002089864159,
-          "effectiveCostBasis": 98,
-          "effectiveDiscountPct": 0.09368352908536018,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

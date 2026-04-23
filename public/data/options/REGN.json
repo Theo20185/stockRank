@@ -1,98 +1,18 @@
 {
   "symbol": "REGN",
-  "fetchedAt": "2026-04-23T03:21:46.727Z",
+  "fetchedAt": "2026-04-23T12:46:49.291Z",
   "currentPrice": 746.58,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 795.1260548692882,
-          "contract": {
-            "contractSymbol": "REGN270115C00800000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 800,
-            "bid": 71.1,
-            "ask": 77.9,
-            "lastPrice": 70.8,
-            "volume": 5,
-            "openInterest": 84,
-            "impliedVolatility": 0.3892425578308106,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09889180250985588,
-          "staticAnnualizedPct": 0.1351891682250839,
-          "assignedReturnPct": 0.1704447506199043,
-          "assignedAnnualizedPct": 0.2330049961657868,
-          "effectiveCostBasis": 675.48,
-          "effectiveDiscountPct": 0.09523426826328055
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 795.1260548692882,
-          "contract": {
-            "contractSymbol": "REGN270115P00740000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 740,
-            "bid": 76.8,
-            "ask": 81.7,
-            "lastPrice": 79.8,
-            "volume": 6,
-            "openInterest": 66,
-            "impliedVolatility": 0.33560082130432134,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10378378378378378,
-          "notAssignedAnnualizedPct": 0.14187670816884299,
-          "effectiveCostBasis": 663.2,
-          "effectiveDiscountPct": 0.1116826060167698,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 795.1260548692882,
-          "contract": {
-            "contractSymbol": "REGN280121C00800000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 800,
-            "bid": 138,
-            "ask": 147,
-            "lastPrice": 141.95,
-            "volume": 1,
-            "openInterest": 11,
-            "impliedVolatility": 0.42804527038574225,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.19358260957638063,
-          "staticAnnualizedPct": 0.110748671622851,
-          "assignedReturnPct": 0.26513555768642905,
-          "assignedAnnualizedPct": 0.15168413566700095,
-          "effectiveCostBasis": 608.58,
-          "effectiveDiscountPct": 0.18484288354898334
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",

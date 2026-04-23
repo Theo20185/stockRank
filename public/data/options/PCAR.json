@@ -1,66 +1,13 @@
 {
   "symbol": "PCAR",
-  "fetchedAt": "2026-04-23T03:22:26.765Z",
+  "fetchedAt": "2026-04-23T12:47:29.111Z",
   "currentPrice": 125.27,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 194.9774101824543,
-          "contract": {
-            "contractSymbol": "PCAR270115C00175000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 175,
-            "bid": 0.9,
-            "ask": 3.9,
-            "lastPrice": 2.1,
-            "volume": 1,
-            "openInterest": 56,
-            "impliedVolatility": 0.38385625915527344,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.0148653034377252,
-          "staticAnnualizedPct": 0.020321482227601866,
-          "assignedReturnPct": 0.4118478211993601,
-          "assignedAnnualizedPct": 0.5630129390927582,
-          "effectiveCostBasis": 124.36999999999999,
-          "effectiveDiscountPct": 0.00718448151991698
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 194.9774101824543,
-          "contract": {
-            "contractSymbol": "PCAR270115P00123600",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 123.6,
-            "bid": 9.4,
-            "ask": 12.6,
-            "lastPrice": 11.9,
-            "volume": 2,
-            "openInterest": 2,
-            "impliedVolatility": 0.31653515502929686,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0760517799352751,
-          "notAssignedAnnualizedPct": 0.10396591639091914,
-          "effectiveCostBasis": 114.19999999999999,
-          "effectiveDiscountPct": 0.0883691226949789,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
@@ -69,7 +16,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 194.9774101824543,
+          "anchorPrice": 192.31454551083235,
           "contract": {
             "contractSymbol": "PCAR280121C00185000",
             "expiration": "2028-01-21",
@@ -83,7 +30,7 @@
             "impliedVolatility": 0.30109341491699215,
             "inTheMoney": false
           },
-          "snapWarning": true,
+          "snapWarning": false,
           "shortDated": false,
           "staticReturnPct": 0.03431893914623865,
           "staticAnnualizedPct": 0.01963387584385127,
@@ -93,33 +40,7 @@
           "effectiveDiscountPct": 0.0159655144887044
         }
       ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 194.9774101824543,
-          "contract": {
-            "contractSymbol": "PCAR280121P00118600",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 118.6,
-            "bid": 11.5,
-            "ask": 16.5,
-            "lastPrice": 14.38,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.30774618041992186,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09696458684654301,
-          "notAssignedAnnualizedPct": 0.05547347053132947,
-          "effectiveCostBasis": 107.1,
-          "effectiveDiscountPct": 0.14504669912987947,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

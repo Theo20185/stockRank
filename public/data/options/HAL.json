@@ -1,125 +1,19 @@
 {
   "symbol": "HAL",
-  "fetchedAt": "2026-04-23T03:22:30.290Z",
+  "fetchedAt": "2026-04-23T12:47:34.302Z",
   "currentPrice": 39.11,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 44.45845580304807,
-          "contract": {
-            "contractSymbol": "HAL270115C00045000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 45,
-            "bid": 2.95,
-            "ask": 3.5,
-            "lastPrice": 3.2,
-            "volume": 72,
-            "openInterest": 6959,
-            "impliedVolatility": 0.4194393994140625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08815649839055982,
-          "staticAnnualizedPct": 0.12051356521555931,
-          "assignedReturnPct": 0.23875736773343892,
-          "assignedAnnualizedPct": 0.32639115813747266,
-          "effectiveCostBasis": 36.16,
-          "effectiveDiscountPct": 0.07542827921247763
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 44.45845580304807,
-          "contract": {
-            "contractSymbol": "HAL270115P00037000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 37,
-            "bid": 3.6,
-            "ask": 4.1,
-            "lastPrice": 4.35,
-            "volume": 50,
-            "openInterest": 684,
-            "impliedVolatility": 0.3929504064941406,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0972972972972973,
-          "notAssignedAnnualizedPct": 0.13300941390829032,
-          "effectiveCostBasis": 33.4,
-          "effectiveDiscountPct": 0.14599846586550758,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 44.45845580304807,
-          "contract": {
-            "contractSymbol": "HAL280121C00045000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 45,
-            "bid": 4.05,
-            "ask": 7.05,
-            "lastPrice": 6.22,
-            "volume": 11,
-            "openInterest": 163,
-            "impliedVolatility": 0.44446356323242187,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.13396832481620158,
-          "staticAnnualizedPct": 0.07664332062368899,
-          "assignedReturnPct": 0.28456919415908066,
-          "assignedAnnualizedPct": 0.162802125185054,
-          "effectiveCostBasis": 35.06,
-          "effectiveDiscountPct": 0.10355407824085912
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 44.45845580304807,
-          "contract": {
-            "contractSymbol": "HAL280121P00037000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 37,
-            "bid": 4,
-            "ask": 8.5,
-            "lastPrice": 5.81,
-            "volume": 2,
-            "openInterest": 74,
-            "impliedVolatility": 0.4821829125976563,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10810810810810811,
-          "notAssignedAnnualizedPct": 0.06184868253833772,
-          "effectiveCostBasis": 33,
-          "effectiveDiscountPct": 0.15622602914855535,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

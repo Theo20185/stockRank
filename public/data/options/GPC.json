@@ -1,71 +1,19 @@
 {
   "symbol": "GPC",
-  "fetchedAt": "2026-04-23T03:23:58.071Z",
+  "fetchedAt": "2026-04-23T12:48:47.358Z",
   "currentPrice": 111.74,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 246.06684223989419,
-          "contract": {
-            "contractSymbol": "GPC270115P00110000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 110,
-            "bid": 9.8,
-            "ask": 12.3,
-            "lastPrice": 13.95,
-            "volume": 1,
-            "openInterest": 4,
-            "impliedVolatility": 0.34839518798828123,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0890909090909091,
-          "notAssignedAnnualizedPct": 0.12179094313925776,
-          "effectiveCostBasis": 100.2,
-          "effectiveDiscountPct": 0.10327546089135486,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 246.06684223989419,
-          "contract": {
-            "contractSymbol": "GPC260821P00110000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 120,
-            "strike": 110,
-            "bid": 6.4,
-            "ask": 7.7,
-            "lastPrice": 6.7,
-            "volume": 1,
-            "openInterest": 28,
-            "impliedVolatility": 0.33600517517089845,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.05818181818181818,
-          "notAssignedAnnualizedPct": 0.17696969696969697,
-          "effectiveCostBasis": 103.6,
-          "effectiveDiscountPct": 0.07284768211920531,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

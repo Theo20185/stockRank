@@ -1,98 +1,18 @@
 {
   "symbol": "EMR",
-  "fetchedAt": "2026-04-23T03:24:04.974Z",
+  "fetchedAt": "2026-04-23T12:49:01.173Z",
   "currentPrice": 142.77,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 164.3962398541818,
-          "contract": {
-            "contractSymbol": "EMR270115C00165000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 165,
-            "bid": 7.4,
-            "ask": 9.4,
-            "lastPrice": 9.12,
-            "volume": 21,
-            "openInterest": 492,
-            "impliedVolatility": 0.35205726074218746,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06316997345092835,
-          "staticAnnualizedPct": 0.08635595621568858,
-          "assignedReturnPct": 0.21887495348875136,
-          "assignedAnnualizedPct": 0.2992110787393043,
-          "effectiveCostBasis": 135.37,
-          "effectiveDiscountPct": 0.05183161728654479
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 164.3962398541818,
-          "contract": {
-            "contractSymbol": "EMR270115P00140000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 140,
-            "bid": 12.4,
-            "ask": 15.1,
-            "lastPrice": 13.4,
-            "volume": 1,
-            "openInterest": 66,
-            "impliedVolatility": 0.3416508706665039,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08857142857142858,
-          "notAssignedAnnualizedPct": 0.12108079186730873,
-          "effectiveCostBasis": 127.6,
-          "effectiveDiscountPct": 0.10625481543741692,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 164.3962398541818,
-          "contract": {
-            "contractSymbol": "EMR280121C00165000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 165,
-            "bid": 15.3,
-            "ask": 19,
-            "lastPrice": 11.4,
-            "volume": 3,
-            "openInterest": 14,
-            "impliedVolatility": 0.35785554260253905,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.134258521561166,
-          "staticAnnualizedPct": 0.07680934227245391,
-          "assignedReturnPct": 0.289963501598989,
-          "assignedAnnualizedPct": 0.16588821016243102,
-          "effectiveCostBasis": 127.47000000000001,
-          "effectiveDiscountPct": 0.1071653708762345
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",

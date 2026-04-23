@@ -1,125 +1,19 @@
 {
   "symbol": "GM",
-  "fetchedAt": "2026-04-23T03:23:43.822Z",
+  "fetchedAt": "2026-04-23T12:48:42.184Z",
   "currentPrice": 79,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 155.135905416,
-          "contract": {
-            "contractSymbol": "GM270115C00130000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 130,
-            "bid": 0.46,
-            "ask": 0.95,
-            "lastPrice": 0.54,
-            "volume": 3,
-            "openInterest": 21,
-            "impliedVolatility": 0.3850159155273437,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.012479497138893705,
-          "staticAnnualizedPct": 0.017059986725453943,
-          "assignedReturnPct": 0.6580491173920583,
-          "assignedAnnualizedPct": 0.8995802541127389,
-          "effectiveCostBasis": 78.54,
-          "effectiveDiscountPct": 0.005822784810126582
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 155.135905416,
-          "contract": {
-            "contractSymbol": "GM270115P00077500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 77.5,
-            "bid": 7.9,
-            "ask": 8.45,
-            "lastPrice": 8.03,
-            "volume": 2,
-            "openInterest": 1984,
-            "impliedVolatility": 0.3446110461425781,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10193548387096775,
-          "notAssignedAnnualizedPct": 0.13935000604083606,
-          "effectiveCostBasis": 69.6,
-          "effectiveDiscountPct": 0.11898734177215196,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 155.135905416,
-          "contract": {
-            "contractSymbol": "GM280121C00130000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 130,
-            "bid": 1.62,
-            "ask": 5.4,
-            "lastPrice": 3.2,
-            "volume": 0,
-            "openInterest": 2,
-            "impliedVolatility": 0.41522801574707036,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.03641263048378707,
-          "staticAnnualizedPct": 0.02083167731439229,
-          "assignedReturnPct": 0.6819822507369516,
-          "assignedAnnualizedPct": 0.39016225943414945,
-          "effectiveCostBasis": 77.38,
-          "effectiveDiscountPct": 0.02050632911392405
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 155.135905416,
-          "contract": {
-            "contractSymbol": "GM280121P00077500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 77.5,
-            "bid": 10.6,
-            "ask": 12.65,
-            "lastPrice": 11.9,
-            "volume": 1,
-            "openInterest": 41,
-            "impliedVolatility": 0.3268194760131836,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1367741935483871,
-          "notAssignedAnnualizedPct": 0.078248559004955,
-          "effectiveCostBasis": 66.9,
-          "effectiveDiscountPct": 0.15316455696202524,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

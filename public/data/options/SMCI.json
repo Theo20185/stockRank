@@ -1,125 +1,19 @@
 {
   "symbol": "SMCI",
-  "fetchedAt": "2026-04-23T03:23:07.221Z",
+  "fetchedAt": "2026-04-23T12:48:03.962Z",
   "currentPrice": 29.18,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 40.530296965401746,
-          "contract": {
-            "contractSymbol": "SMCI270115C00041000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 41,
-            "bid": 4.1,
-            "ask": 4.35,
-            "lastPrice": 4.2,
-            "volume": 2,
-            "openInterest": 2580,
-            "impliedVolatility": 0.7637963073730469,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1405071967100754,
-          "staticAnnualizedPct": 0.19207912658867984,
-          "assignedReturnPct": 0.5455791638108294,
-          "assignedAnnualizedPct": 0.7458291939736057,
-          "effectiveCostBasis": 25.08,
-          "effectiveDiscountPct": 0.1405071967100754
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 40.530296965401746,
-          "contract": {
-            "contractSymbol": "SMCI270115P00029000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 29,
-            "bid": 6.75,
-            "ask": 7.05,
-            "lastPrice": 6.85,
-            "volume": 1,
-            "openInterest": 1567,
-            "impliedVolatility": 0.713992117919922,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.23275862068965517,
-          "notAssignedAnnualizedPct": 0.31819062378922897,
-          "effectiveCostBasis": 22.25,
-          "effectiveDiscountPct": 0.23749143248800547,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 40.530296965401746,
-          "contract": {
-            "contractSymbol": "SMCI280121C00043000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 43,
-            "bid": 7.75,
-            "ask": 9.5,
-            "lastPrice": 8,
-            "volume": 2,
-            "openInterest": 400,
-            "impliedVolatility": 0.8072529040527343,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.26559287183002056,
-          "staticAnnualizedPct": 0.15194576523190834,
-          "assignedReturnPct": 0.7392049348869089,
-          "assignedAnnualizedPct": 0.4228993749744855,
-          "effectiveCostBasis": 21.43,
-          "effectiveDiscountPct": 0.26559287183002056
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 40.530296965401746,
-          "contract": {
-            "contractSymbol": "SMCI280121P00028000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 28,
-            "bid": 9.5,
-            "ask": 11.55,
-            "lastPrice": 9.7,
-            "volume": 3,
-            "openInterest": 835,
-            "impliedVolatility": 0.7679466564941408,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.3392857142857143,
-          "notAssignedAnnualizedPct": 0.19410546350201524,
-          "effectiveCostBasis": 18.5,
-          "effectiveDiscountPct": 0.36600411240575736,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

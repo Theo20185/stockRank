@@ -1,71 +1,18 @@
 {
   "symbol": "SWKS",
-  "fetchedAt": "2026-04-23T03:21:18.580Z",
+  "fetchedAt": "2026-04-23T12:46:19.478Z",
   "currentPrice": 61.77,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 213.94031454523622,
-          "contract": {
-            "contractSymbol": "SWKS270115P00060000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 60,
-            "bid": 8.4,
-            "ask": 10.1,
-            "lastPrice": 10.95,
-            "volume": 10,
-            "openInterest": 152,
-            "impliedVolatility": 0.5313767565917968,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.14,
-          "notAssignedAnnualizedPct": 0.1913857677902622,
-          "effectiveCostBasis": 51.6,
-          "effectiveDiscountPct": 0.1646430305973774,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 213.94031454523622,
-          "contract": {
-            "contractSymbol": "SWKS280121C00135000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 135,
-            "bid": 1.75,
-            "ask": 4,
-            "lastPrice": 1.5,
-            "volume": 1,
-            "openInterest": 20,
-            "impliedVolatility": 0.5258836474609375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.10873638442210498,
-          "staticAnnualizedPct": 0.06220811961452715,
-          "assignedReturnPct": 1.2942633392545477,
-          "assignedAnnualizedPct": 0.7404484621127115,
-          "effectiveCostBasis": 60.02,
-          "effectiveDiscountPct": 0.028330904970050183
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",

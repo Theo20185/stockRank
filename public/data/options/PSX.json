@@ -1,103 +1,23 @@
 {
   "symbol": "PSX",
-  "fetchedAt": "2026-04-23T03:23:03.723Z",
+  "fetchedAt": "2026-04-23T12:48:00.472Z",
   "currentPrice": 160.65,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 206.44392025849584,
-          "contract": {
-            "contractSymbol": "PSX270115C00210000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 210,
-            "bid": 4.2,
-            "ask": 5.4,
-            "lastPrice": 4.9,
-            "volume": 1,
-            "openInterest": 80,
-            "impliedVolatility": 0.3460148406982422,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.049259408751043066,
-          "staticAnnualizedPct": 0.06733964117651954,
-          "assignedReturnPct": 0.35644895123470316,
-          "assignedAnnualizedPct": 0.4872804015006242,
-          "effectiveCostBasis": 156.45000000000002,
-          "effectiveDiscountPct": 0.026143790849673203
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 206.44392025849584,
-          "contract": {
-            "contractSymbol": "PSX270115P00160000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 160,
-            "bid": 16.8,
-            "ask": 18.4,
-            "lastPrice": 18.63,
-            "volume": 14,
-            "openInterest": 94,
-            "impliedVolatility": 0.3429631134033203,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10500000000000001,
-          "notAssignedAnnualizedPct": 0.14353932584269663,
-          "effectiveCostBasis": 143.2,
-          "effectiveDiscountPct": 0.1086212262682852,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 206.44392025849584,
-          "contract": {
-            "contractSymbol": "PSX280121C00210000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 210,
-            "bid": 10,
-            "ask": 14.5,
-            "lastPrice": 20.5,
-            "volume": 3,
-            "openInterest": 189,
-            "impliedVolatility": 0.3480594979858398,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11748219305969157,
-          "staticAnnualizedPct": 0.06721159947772323,
-          "assignedReturnPct": 0.4246717355433516,
-          "assignedAnnualizedPct": 0.24295483303028736,
-          "effectiveCostBasis": 150.65,
-          "effectiveDiscountPct": 0.06224712107065048
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 206.44392025849584,
+          "anchorPrice": 206.63513650849586,
           "contract": {
             "contractSymbol": "PSX280121P00160000",
             "expiration": "2028-01-21",

@@ -1,98 +1,19 @@
 {
   "symbol": "POOL",
-  "fetchedAt": "2026-04-23T03:23:14.137Z",
+  "fetchedAt": "2026-04-23T12:48:10.933Z",
   "currentPrice": 234.22,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 309.7246824219968,
-          "contract": {
-            "contractSymbol": "POOL260515C00270000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 22,
-            "strike": 270,
-            "bid": 0.75,
-            "ask": 1.85,
-            "lastPrice": 1.1,
-            "volume": 4,
-            "openInterest": 17,
-            "impliedVolatility": 0.48633326171875,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "staticReturnPct": 0.004485953343862871,
-          "staticAnnualizedPct": 0.07442604411408854,
-          "assignedReturnPct": 0.15724831351805807,
-          "assignedAnnualizedPct": 2.6088924742768724,
-          "effectiveCostBasis": 233.47,
-          "effectiveDiscountPct": 0.0032021176671505423
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 309.7246824219968,
-          "contract": {
-            "contractSymbol": "POOL260515P00230000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 22,
-            "strike": 230,
-            "bid": 8.6,
-            "ask": 9.9,
-            "lastPrice": 8.7,
-            "volume": 26,
-            "openInterest": 51,
-            "impliedVolatility": 0.5119677709960937,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.03739130434782609,
-          "notAssignedAnnualizedPct": 0.6203557312252964,
-          "effectiveCostBasis": 221.4,
-          "effectiveDiscountPct": 0.054734864657159904,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 309.7246824219968,
-          "contract": {
-            "contractSymbol": "POOL260717P00230000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 230,
-            "bid": 14.2,
-            "ask": 15.7,
-            "lastPrice": 15,
-            "volume": 1,
-            "openInterest": 101,
-            "impliedVolatility": 0.39514765014648445,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.06173913043478261,
-          "notAssignedAnnualizedPct": 0.2651150895140665,
-          "effectiveCostBasis": 215.8,
-          "effectiveDiscountPct": 0.07864400990521726,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

@@ -1,98 +1,19 @@
 {
   "symbol": "AOS",
-  "fetchedAt": "2026-04-23T03:21:01.034Z",
+  "fetchedAt": "2026-04-23T12:46:02.017Z",
   "currentPrice": 64.81,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 78.53242846229762,
-          "contract": {
-            "contractSymbol": "AOS260515P00060000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 22,
-            "strike": 60,
-            "bid": 0.55,
-            "ask": 0.95,
-            "lastPrice": 0.8,
-            "volume": 2,
-            "openInterest": 1877,
-            "impliedVolatility": 0.432622861328125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.009166666666666667,
-          "notAssignedAnnualizedPct": 0.15208333333333332,
-          "effectiveCostBasis": 59.45,
-          "effectiveDiscountPct": 0.08270328652985649,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 78.53242846229762,
-          "contract": {
-            "contractSymbol": "AOS260717C00080000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 80,
-            "bid": 0.1,
-            "ask": 0.6,
-            "lastPrice": 0.3,
-            "volume": 1,
-            "openInterest": 313,
-            "impliedVolatility": 0.3452213916015625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0066429717636167255,
-          "staticAnnualizedPct": 0.028525702279060056,
-          "assignedReturnPct": 0.24102038265699735,
-          "assignedAnnualizedPct": 1.0349698784682828,
-          "effectiveCostBasis": 64.71000000000001,
-          "effectiveDiscountPct": 0.0015429717636167258
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 78.53242846229762,
-          "contract": {
-            "contractSymbol": "AOS260717P00060000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 85,
-            "strike": 60,
-            "bid": 1.4,
-            "ask": 2.05,
-            "lastPrice": 2.15,
-            "volume": 1,
-            "openInterest": 75,
-            "impliedVolatility": 0.33179379150390625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.02333333333333333,
-          "notAssignedAnnualizedPct": 0.10019607843137253,
-          "effectiveCostBasis": 58.6,
-          "effectiveDiscountPct": 0.09581854652059868,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

@@ -32,3 +32,12 @@ export type {
   SelectionReason,
   SelectedExpiration,
 } from "./options/expiration-selector.js";
+export {
+  EdgarNotFoundError,
+  fetchCompanyFacts,
+  quarterEndsBetween,
+  readMonthlyBars,
+  synthesizeSnapshotAt,
+  writeMonthlyBars,
+} from "./edgar/index.js";
+export type { SymbolProfile } from "./edgar/index.js";

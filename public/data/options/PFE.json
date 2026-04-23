@@ -1,125 +1,19 @@
 {
   "symbol": "PFE",
-  "fetchedAt": "2026-04-23T03:22:19.864Z",
+  "fetchedAt": "2026-04-23T12:47:20.330Z",
   "currentPrice": 26.8,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 36.9165217809248,
-          "contract": {
-            "contractSymbol": "PFE270115C00037000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 37,
-            "bid": 0.2,
-            "ask": 0.24,
-            "lastPrice": 0.18,
-            "volume": 403,
-            "openInterest": 7435,
-            "impliedVolatility": 0.26270268554687504,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05442542629319157,
-          "staticAnnualizedPct": 0.07440179998881993,
-          "assignedReturnPct": 0.43502244121856465,
-          "assignedAnnualizedPct": 0.5946935994186371,
-          "effectiveCostBasis": 26.6,
-          "effectiveDiscountPct": 0.007462686567164179
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 36.9165217809248,
-          "contract": {
-            "contractSymbol": "PFE270115P00025000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 25,
-            "bid": 1.64,
-            "ask": 1.77,
-            "lastPrice": 1.7,
-            "volume": 176,
-            "openInterest": 53880,
-            "impliedVolatility": 0.2912668530273437,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.06559999999999999,
-          "notAssignedAnnualizedPct": 0.08967790262172283,
-          "effectiveCostBasis": 23.36,
-          "effectiveDiscountPct": 0.12835820895522393,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 36.9165217809248,
-          "contract": {
-            "contractSymbol": "PFE280121C00037000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 37,
-            "bid": 0.76,
-            "ask": 0.98,
-            "lastPrice": 0.76,
-            "volume": 143,
-            "openInterest": 1892,
-            "impliedVolatility": 0.2574537145996094,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1405762911470047,
-          "staticAnnualizedPct": 0.08042374023300426,
-          "assignedReturnPct": 0.5211733060723778,
-          "assignedAnnualizedPct": 0.2981634117812193,
-          "effectiveCostBasis": 26.04,
-          "effectiveDiscountPct": 0.02835820895522388
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 36.9165217809248,
-          "contract": {
-            "contractSymbol": "PFE280121P00025000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 25,
-            "bid": 2.86,
-            "ask": 3.3,
-            "lastPrice": 3.15,
-            "volume": 4,
-            "openInterest": 20193,
-            "impliedVolatility": 0.30493859130859374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1144,
-          "notAssignedAnnualizedPct": 0.06544827586206897,
-          "effectiveCostBasis": 22.14,
-          "effectiveDiscountPct": 0.17388059701492536,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }
