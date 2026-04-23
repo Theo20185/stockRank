@@ -87,6 +87,20 @@ export function classifyRow(row: RankedRow): BucketKey {
   // trends pass; only "declining" demotes.)
   if (row.fvTrend === "declining") return "watch";
 
+  // Munger-inversion defense (peer-multiple expansion mirage):
+  // when fvTrend says "improving" but the company's own fundamentals
+  // (EPS history + forward EPS) don't confirm, the FV improvement
+  // is being driven by peer-cohort multiples expanding, not by the
+  // company getting better. Don't act on the signal — demote to
+  // Watch until fundamentals confirm. Validated by the LULU 2026-04
+  // case: FV-trend "improving" while EPS plateaued and forward flat.
+  if (
+    row.fvTrend === "improving" &&
+    row.fundamentalsDirection !== "improving"
+  ) {
+    return "watch";
+  }
+
   // Illiquid options chain is itself a quality signal — quality stocks
   // have active options markets. Demote to Watch if the options
   // pipeline didn't surface at least one OTM call AND one OTM put.

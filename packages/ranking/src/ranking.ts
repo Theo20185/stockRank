@@ -3,6 +3,7 @@ import { percentRank } from "./percentile.js";
 import { FACTORS } from "./factors.js";
 import type { FactorDef } from "./factors.js";
 import { buildFloorContext, checkQualityFloor } from "./floor.js";
+import { classifyFundamentalsDirection } from "./fundamentals.js";
 import { evaluateTurnaround } from "./turnaround.js";
 import { buildCohortResolver, groupByIndustry } from "./cohort.js";
 import { normalizeWeights } from "./weights.js";
@@ -138,6 +139,7 @@ function buildIneligibleRow(company: CompanySnapshot): RankedRow {
     optionsLiquid: false,
     annualDividend,
     fvTrend: "insufficient_data",
+    fundamentalsDirection: "insufficient_data",
   };
 }
 
@@ -306,5 +308,29 @@ function assembleRow(
     // Default insufficient_data; the web layer overrides from the
     // loaded fv-trend.json. "declining" demotes the row to Watch.
     fvTrend: "insufficient_data",
+    fundamentalsDirection: computeFundamentalsDirection(raw.company),
   };
+}
+
+/** Compute the fundamentals-direction signal from a company snapshot.
+ * Prefers Yahoo's TTM-implied EPS (most current) with fallback to
+ * the most-recent annual EPS. Forward EPS comes from
+ * `ttm.forwardEps`. Past EPS history from the annual periods. */
+function computeFundamentalsDirection(
+  company: import("@stockrank/core").CompanySnapshot,
+): import("./fundamentals.js").FundamentalsDirection {
+  const pe = company.ttm.peRatio;
+  const price = company.quote.price;
+  // Prefer TTM EPS implied by Yahoo's authoritative trailing PE
+  // (captures the most recent quarter); fall back to the most-recent
+  // annual when peRatio is missing or zero.
+  const trailingEps =
+    pe !== null && pe !== 0 && price > 0
+      ? price / pe
+      : (company.annual[0]?.income.epsDiluted ?? null);
+  return classifyFundamentalsDirection({
+    trailingEps,
+    forwardEps: company.ttm.forwardEps,
+    pastAnnualEps: company.annual.map((a) => a.income.epsDiluted),
+  });
 }

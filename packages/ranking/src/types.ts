@@ -100,6 +100,17 @@ export type RankedRow = {
    * @stockrank/core for the artifact shape.
    */
   fvTrend: import("@stockrank/core").FvTrend;
+
+  /**
+   * Direction of the company's own fundamentals (EPS history + forward
+   * EPS), independent of peer-multiple movements. Defends against the
+   * LULU pattern: when fvTrend says "improving" but this signal says
+   * the company's own EPS is flat or falling, the FV improvement is
+   * likely a peer-multiple-expansion mirage — not a real value gap.
+   * Bucket classifier demotes Candidates → Watch when fvTrend ===
+   * "improving" AND this is not "improving."
+   */
+  fundamentalsDirection: import("./fundamentals.js").FundamentalsDirection;
 };
 
 export type TurnaroundReason =

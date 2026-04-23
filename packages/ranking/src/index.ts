@@ -55,3 +55,16 @@ export type {
   TradeKey,
   TradeLeg,
 } from "./trade-comparison/types.js";
+export {
+  classifyNonRecovery,
+  didRecover,
+  fvDirection,
+  type DidRecoverResult,
+  type FvDirectionResult,
+  type NonRecoveryClass,
+  type PriceBar,
+} from "./backtest/recovery.js";
+export {
+  classifyFundamentalsDirection,
+  type FundamentalsDirection,
+} from "./fundamentals.js";

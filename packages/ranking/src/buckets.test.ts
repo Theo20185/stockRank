@@ -38,6 +38,7 @@ function row(opts: {
   negativeEquity?: boolean;
   optionsLiquid?: boolean;
   fvTrend?: import("@stockrank/core").FvTrend;
+  fundamentalsDirection?: import("./fundamentals.js").FundamentalsDirection;
 }): RankedRow {
   const baseScores: CategoryScores = {
     valuation: 0.5, health: 0.5, quality: 0.6,
@@ -57,6 +58,7 @@ function row(opts: {
     industryRank: 1,
     universeRank: 1,
     pctOffYearHigh: 10,
+    pctAboveYearLow: 25,
     categoryScores: baseScores,
     factorDetails: [],
     missingFactors: [],
@@ -65,6 +67,7 @@ function row(opts: {
     optionsLiquid: opts.optionsLiquid ?? true,
     annualDividend: 0,
     fvTrend: opts.fvTrend ?? "insufficient_data",
+    fundamentalsDirection: opts.fundamentalsDirection ?? "insufficient_data",
   };
 }
 
@@ -96,10 +99,63 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ fvTrend: "declining" }))).toBe("watch");
   });
 
-  it("ranked: stable / improving / unknown FV trend does not demote", () => {
+  it("ranked: stable / unknown FV trend does not demote (when fundamentals not contradicting)", () => {
     expect(classifyRow(row({ fvTrend: "stable" }))).toBe("ranked");
-    expect(classifyRow(row({ fvTrend: "improving" }))).toBe("ranked");
     expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
+  });
+
+  // ---- Munger inversion: peer-multiple-expansion mirage defense ----
+  // When fvTrend says "improving" but fundamentals don't confirm, the
+  // FV improvement is being driven by peer-cohort multiples expanding,
+  // not by the company's own earnings. Demote → Watch. Only confirmed
+  // fundamental improvement keeps the row in Candidates.
+
+  it("ranked: improving FV + improving fundamentals = confirmed value play", () => {
+    expect(
+      classifyRow(
+        row({ fvTrend: "improving", fundamentalsDirection: "improving" }),
+      ),
+    ).toBe("ranked");
+  });
+
+  it("watch: improving FV + STABLE fundamentals = peer-multiple mirage (LULU pattern)", () => {
+    // LULU: FV trend "improving" because consumer-cyclical sector
+    // multiples expanded, but EPS plateaued. Don't trust the FV signal.
+    expect(
+      classifyRow(
+        row({ fvTrend: "improving", fundamentalsDirection: "stable" }),
+      ),
+    ).toBe("watch");
+  });
+
+  it("watch: improving FV + DECLINING fundamentals = explicit divergence", () => {
+    expect(
+      classifyRow(
+        row({ fvTrend: "improving", fundamentalsDirection: "declining" }),
+      ),
+    ).toBe("watch");
+  });
+
+  it("watch: improving FV + insufficient fundamentals data = can't confirm → demote", () => {
+    expect(
+      classifyRow(
+        row({
+          fvTrend: "improving",
+          fundamentalsDirection: "insufficient_data",
+        }),
+      ),
+    ).toBe("watch");
+  });
+
+  it("ranked: improving fundamentals alone (without improving FV) is fine — passes through", () => {
+    // The new rule only fires when fvTrend === "improving". If fvTrend
+    // is stable/insufficient, fundamentalsDirection doesn't trigger
+    // demotion. Below-p25 + liquid + non-declining FV is enough.
+    expect(
+      classifyRow(
+        row({ fvTrend: "stable", fundamentalsDirection: "improving" }),
+      ),
+    ).toBe("ranked");
   });
 
   it("excluded: missing all 5 categories (ineligible-row stub)", () => {
