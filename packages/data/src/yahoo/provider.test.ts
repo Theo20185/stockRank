@@ -265,40 +265,24 @@ describe("YahooProvider", () => {
     expect(errors.some((e) => e.endpoint === "edgar-not-found")).toBe(true);
   });
 
-  it("excludes a symbol when quote.price disagrees with marketCap/sharesDiluted (>50% off)", async () => {
-    // Mimic the BKNG case: marketCap and per-share-from-fundamentals are
-    // correct, but quote.price is scaled by a phantom-split factor.
+  it("excludes a symbol when quote.price disagrees with marketCap/sharesOutstanding (>50% off)", async () => {
+    // Mimic the BKNG case: Yahoo's marketCap ($152B) and sharesOutstanding
+    // (32.6M) imply ~$4664/share, but quote.price reports ~$192 — phantom
+    // split. Both inputs come from the same Yahoo response, so the gap is
+    // genuine Yahoo data corruption.
     quoteSummaryMock.mockResolvedValue({
       ...stubSummary(),
       summaryDetail: {
         ...stubSummary().summaryDetail,
         marketCap: 152_000_000_000,
       },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 32_600_000, // real BKNG share count
+      },
       price: { ...stubSummary().price, regularMarketPrice: 192 },
     });
-    getEdgarFundamentalsMock.mockResolvedValue({
-      annual: [
-        annualPeriod({
-          fiscalYear: "2025",
-          periodEndDate: "2025-12-31",
-          income: {
-            revenue: 25_000_000_000,
-            netIncome: 5_400_000_000,
-            epsDiluted: 165.57,
-            sharesDiluted: 32_600_000, // real BKNG share count
-            ebitda: 7_000_000_000,
-            ebit: 6_500_000_000,
-          },
-          balance: { totalDebt: 16_000_000_000, cash: 5_000_000_000 },
-          cashFlow: {
-            operatingCashFlow: 8_000_000_000,
-            capex: -200_000_000,
-            freeCashFlow: 7_800_000_000,
-          },
-        }),
-      ],
-      quarterly: [],
-    });
+    getEdgarFundamentalsMock.mockResolvedValue({ annual: [], quarterly: [] });
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -316,6 +300,51 @@ describe("YahooProvider", () => {
         endpoint: "price-consistency",
       }),
     ]);
+  });
+
+  it("does NOT exclude when EDGAR's per-period shares differ from Yahoo's current sharesOutstanding (Berry-Amcor case)", async () => {
+    // After AMCR's Berry merger, EDGAR's most-recent fiscal year
+    // (pre-merger) shows ~1.45B shares while Yahoo's sharesOutstanding
+    // (post-merger) shows ~4.95B. Both are correct for what they
+    // represent. The price-consistency check should pass.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 58_000_000_000,
+      },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 4_950_000_000,
+      },
+      price: { ...stubSummary().price, regularMarketPrice: 11.72 },
+    });
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2024",
+          periodEndDate: "2024-06-30",
+          income: { sharesDiluted: 1_450_000_000 }, // pre-merger
+        }),
+      ],
+      quarterly: [],
+    });
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "AMCR",
+      { priceFrom: "2025-04-23", priceTo: "2026-04-23" },
+      (e) => errors.push(e),
+    );
+
+    expect(result).not.toBeNull();
+    expect(
+      errors.filter(
+        (e) => (e as { endpoint: string }).endpoint === "price-consistency",
+      ),
+    ).toHaveLength(0);
   });
 
   it("does NOT exclude when implied price is within 50% of quote price", async () => {

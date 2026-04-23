@@ -158,37 +158,25 @@ function buildSymbolSeries(archives: ArchiveEntry[]): Map<string, FvTrendSample[
 }
 
 /**
- * Pick the latest sample in each calendar quarter that falls inside
- * the trend window. Same shape the UI's sparkline already expects.
+ * Sparkline samples = every archived snapshot inside the trend
+ * window. Earlier this downsampled to one-per-calendar-quarter, but
+ * the dated snapshot archive is small (days, not years) — quarterly
+ * collapsing yielded a single dot per symbol and the FvTrendSparkline
+ * component requires ≥2 to render anything.
+ *
+ * As the archive grows past hundreds of samples we can re-introduce
+ * downsampling for visual density, but for now show everything we
+ * have. The artifact is small (one row per refresh × 500 symbols).
  */
-function quarterlySamples(samples: FvTrendSample[]): FvTrendSample[] {
+function sparklineSamples(samples: FvTrendSample[]): FvTrendSample[] {
   if (samples.length === 0) return [];
   const latestDate = samples[samples.length - 1]!.date;
-  const latestYear = parseInt(latestDate.slice(0, 4), 10);
-  const latestMonth = parseInt(latestDate.slice(5, 7), 10);
-  const latestQuarter = Math.ceil(latestMonth / 3);
-  const quarters: Array<{ year: number; quarter: number }> = [];
-  for (let q = TREND_WINDOW_YEARS * 4; q >= 0; q -= 1) {
-    let year = latestYear;
-    let quarter = latestQuarter - q;
-    while (quarter <= 0) { quarter += 4; year -= 1; }
-    quarters.push({ year, quarter });
-  }
-  const byQuarter = new Map<string, FvTrendSample>();
-  for (const r of samples) {
-    const y = parseInt(r.date.slice(0, 4), 10);
-    const m = parseInt(r.date.slice(5, 7), 10);
-    const q = Math.ceil(m / 3);
-    const key = `${y}-Q${q}`;
-    const existing = byQuarter.get(key);
-    if (!existing || r.date > existing.date) byQuarter.set(key, r);
-  }
-  const out: FvTrendSample[] = [];
-  for (const { year, quarter } of quarters) {
-    const r = byQuarter.get(`${year}-Q${quarter}`);
-    if (r) out.push(r);
-  }
-  return out;
+  const windowStartIso = (() => {
+    const d = new Date(`${latestDate}T00:00:00.000Z`);
+    d.setUTCFullYear(d.getUTCFullYear() - TREND_WINDOW_YEARS);
+    return d.toISOString().slice(0, 10);
+  })();
+  return samples.filter((s) => s.date >= windowStartIso);
 }
 
 function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
@@ -196,7 +184,7 @@ function computeTrend(samples: FvTrendSample[]): SymbolTrendEntry {
     (r): r is FvTrendSample & { fvMedian: number } =>
       r.fvMedian !== null && r.fvMedian > 0,
   );
-  const quarterly = quarterlySamples(samples);
+  const quarterly = sparklineSamples(samples);
 
   if (fvSamples.length === 0) {
     return {

@@ -298,26 +298,28 @@ export class YahooProvider implements MarketDataProvider {
 
     // Cross-check spot price against marketCap / latest share count.
     // Yahoo occasionally serves names (BKNG observed 2026-04) where
-    // per-share fields (price, EPS, shareCount-from-key-stats) are scaled
-    // by an old phantom-split factor while aggregates (marketCap, NI) are
-    // real. The fundamentalsTimeSeries share count tracks the real number,
-    // so marketCap/sharesDiluted is a trustworthy implied price. >50%
-    // deviation almost certainly means upstream data is corrupt — exclude
-    // rather than poison downstream fair-value math.
-    const recentShares = annual[0]?.income.sharesDiluted ?? null;
-    if (
-      recentShares !== null &&
-      recentShares > 0 &&
-      marketCap > 0 &&
-      currentPrice > 0
-    ) {
-      const impliedPrice = marketCap / recentShares;
+    // per-share fields (price, EPS) are scaled by an old phantom-split
+    // factor while aggregates (marketCap) are real. We catch this by
+    // checking that Yahoo's own marketCap / sharesOutstanding implies a
+    // price close to the quoted price. Both inputs come from the same
+    // Yahoo response, so disagreement is internal Yahoo data corruption.
+    //
+    // Note: we deliberately do NOT use EDGAR's most-recent annual share
+    // count here — for names with recent corporate actions (Berry-Amcor
+    // merger, BX/IBKR partnership units, OMC/TKO/WAT post-spinoff /
+    // buyback share-count changes), EDGAR's per-period count
+    // legitimately predates Yahoo's current sharesOutstanding, and the
+    // mismatch is real, not corruption.
+    const yahooSharesForCheck =
+      summary.defaultKeyStatistics?.sharesOutstanding ?? 0;
+    if (yahooSharesForCheck > 0 && marketCap > 0 && currentPrice > 0) {
+      const impliedPrice = marketCap / yahooSharesForCheck;
       const deviation = Math.abs(impliedPrice - currentPrice) / currentPrice;
       if (deviation > 0.5) {
         reportError({
           symbol,
           endpoint: "price-consistency",
-          message: `quote.price $${currentPrice.toFixed(2)} disagrees with marketCap/sharesDiluted $${impliedPrice.toFixed(2)} (${Math.round(deviation * 100)}% off); excluding`,
+          message: `quote.price $${currentPrice.toFixed(2)} disagrees with marketCap/sharesOutstanding $${impliedPrice.toFixed(2)} (${Math.round(deviation * 100)}% off); excluding`,
         });
         return null;
       }
