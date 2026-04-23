@@ -42,18 +42,64 @@ describe("classifyFundamentalsDirection", () => {
 
   // ---------- THE LULU PATTERN (the user's specific case) ----------
 
-  it("returns 'stable' for the LULU plateau pattern — past growth + flat forward = NOT improving", () => {
-    // LULU: long-term growth ($4.50→$14.64) but recent plateau (TTM
-    // $13.26, forward $13.27 ≈ flat). Past slope is still positive
-    // because the multi-year arc dominates, but forward gives no
-    // evidence the growth resumes. → "stable" — NOT confirmed
-    // improving. The bucket layer's demote rule treats "stable" the
-    // same as "declining" when fvTrend is "improving" — so LULU
-    // still gets pushed to Watch.
+  it("returns 'declining' for the LULU post-peak stall pattern (recent-decay signal)", () => {
+    // LULU: peak FY2025 $14.64 → just-released FY2026 $13.26 → TTM
+    // $13.26 → forward $13.27. Forward-vs-TTM alone reads flat, and
+    // TTM-vs-most-recent-annual reads flat too (both $13.26).
+    // The decay only shows up when comparing TTM to the PEAK of the
+    // last few annuals: $13.26 / $14.64 = −9.4%. Classifier must
+    // catch this peak-rollover pattern.
+    const r = classifyFundamentalsDirection({
+      trailingEps: 13.26,
+      forwardEps: 13.27,
+      pastAnnualEps: [13.26, 14.64, 12.20, 7.76, 7.49, 4.50, 4.93],
+    });
+    expect(r).toBe("declining");
+  });
+
+  it("returns 'declining' for the LULU 5-annual variant (no FY-0 in the array)", () => {
+    // Same data shape as the original audit fixture — past annuals
+    // start with FY2025 $14.64 (TTM $13.26 is below). Should also
+    // catch as declining.
     const r = classifyFundamentalsDirection({
       trailingEps: 13.26,
       forwardEps: 13.27,
       pastAnnualEps: [14.64, 12.20, 7.76, 7.49, 4.50],
+    });
+    expect(r).toBe("declining");
+  });
+
+  it("returns 'stable' when TTM is up modestly from most-recent annual (no decay)", () => {
+    // Same long-term arc as LULU but TTM has continued rising past
+    // the most-recent annual — no post-peak stall. Forward is flat.
+    const r = classifyFundamentalsDirection({
+      trailingEps: 15.40,
+      forwardEps: 15.30,
+      pastAnnualEps: [14.64, 12.20, 7.76, 7.49, 4.50],
+    });
+    expect(r).toBe("stable"); // forward unknown direction; not confirmed improving
+  });
+
+  it("returns 'declining' when TTM has fallen materially from most-recent annual even if forward is slightly up", () => {
+    // The decay signal fires: TTM $11 vs annual $15 = −27%. Forward
+    // $11.50 is barely above TTM (no real recovery). Classify as
+    // declining because the post-peak rollover is unambiguous.
+    const r = classifyFundamentalsDirection({
+      trailingEps: 11,
+      forwardEps: 11.5, // +4.5% vs TTM, under the +5% improving threshold
+      pastAnnualEps: [15, 14, 13, 10],
+    });
+    expect(r).toBe("declining");
+  });
+
+  it("does NOT trigger 'declining' from recent-decay when forward shows clear recovery (turnaround)", () => {
+    // TTM $11 vs FY-1 $15 (down 27%) — but analysts see recovery
+    // ($14, +27% from TTM). The forward-improving signal offsets
+    // the recent-decay → "stable" (analyst-led turnaround thesis).
+    const r = classifyFundamentalsDirection({
+      trailingEps: 11,
+      forwardEps: 14,
+      pastAnnualEps: [15, 14, 13, 10],
     });
     expect(r).toBe("stable");
   });

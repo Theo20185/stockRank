@@ -83,6 +83,37 @@ function classifyPastTrend(
   return "flat";
 }
 
+/** Classify the recent-decay signal: TTM vs the PEAK of the recent
+ * annuals. Catches the post-peak stall pattern (LULU 2026: peak
+ * $14.64 → TTM $13.26, down 9.4% from peak — even though TTM equals
+ * the just-released annual). Comparing to the most-recent annual
+ * alone misses this when TTM ≈ FY-0 because the company just
+ * filed; the peak is one year back. */
+function classifyRecentDecay(
+  trailingEps: number,
+  recentAnnualEps: number[], // newest-first, already filtered non-null
+  thresholdPct: number,
+): Direction {
+  if (recentAnnualEps.length === 0) return "unknown";
+  // Use peak of the LAST 3 annuals as the comparator — captures the
+  // most-recent earnings cycle high. (3 covers a typical 1-2 year
+  // peak-to-trough cyclical move; longer windows would over-flag.)
+  const window = recentAnnualEps.slice(0, 3);
+  const peak = Math.max(...window);
+  // Sign-change cases.
+  if (peak <= 0 && trailingEps > 0) return "improving";
+  if (peak > 0 && trailingEps <= 0) return "declining";
+  if (peak <= 0 && trailingEps <= 0) {
+    if (trailingEps > peak) return "improving";
+    if (trailingEps < peak) return "declining";
+    return "flat";
+  }
+  const pct = ((trailingEps - peak) / peak) * 100;
+  if (pct < -thresholdPct) return "declining";
+  if (pct > thresholdPct) return "improving";
+  return "flat";
+}
+
 /** Classify the forward signal: forward EPS vs trailing. Negative-
  * crossing cases (loss → profit, profit → loss) are explicit. */
 function classifyForwardSignal(
@@ -120,6 +151,7 @@ export function classifyFundamentalsDirection(
 
   const past = classifyPastTrend(trailingEps, pastAnnualEps, threshold);
   const forward = classifyForwardSignal(trailingEps, forwardEps, threshold);
+  const recentDecay = classifyRecentDecay(trailingEps, cleanPast, threshold);
 
   // ---- Negative-EPS shortcuts (sign changes carry more weight) ----
   // A clear sign-change forward signal overrides past-trend ambiguity.
@@ -134,15 +166,19 @@ export function classifyFundamentalsDirection(
   }
 
   // ---- Standard combination rules ----
-  // Munger discipline: only confirm "improving" when BOTH past trend
+  // Munger discipline: only confirm "improving" when both past trend
   // and forward signal point that way.
   if (past === "improving" && forward === "improving") return "improving";
 
   // Forward "declining" (analyst-consensus cut) is a strong present-
-  // time signal — overrides historical strength. Past "improving"
-  // plus forward "declining" still classifies as declining (the
-  // company has peaked and analysts see it falling).
+  // time signal — overrides historical strength.
   if (forward === "declining") return "declining";
+
+  // Recent-decay "declining" (TTM materially below most-recent annual)
+  // catches the LULU pattern: forward-vs-TTM reads flat but TTM has
+  // already rolled over from peak. Treat as declining unless forward
+  // gives clear evidence of recovery.
+  if (recentDecay === "declining" && forward !== "improving") return "declining";
 
   // Past "declining" alone is enough to classify as declining unless
   // forward signal pushes back with an "improving" reading.
