@@ -37,6 +37,7 @@ export type {
   OptionsView,
 } from "./options/types.js";
 export { computeCallReturns, computePutReturns } from "./options/returns.js";
+export { estimateCallPremiumPct } from "./options/premium-estimate.js";
 export { snapStrike } from "./options/strike-snap.js";
 export { computeTradeComparison, SPAXX_RATE } from "./trade-comparison/index.js";
 export {
