@@ -1,36 +1,63 @@
 {
   "symbol": "DGX",
-  "fetchedAt": "2026-04-23T14:43:27.752Z",
-  "currentPrice": 201.24,
+  "fetchedAt": "2026-04-23T16:00:42.146Z",
+  "currentPrice": 198.9,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 257.81009059715836,
+          "anchorPrice": 201.55782026102656,
           "contract": {
-            "contractSymbol": "DGX260515P00200000",
+            "contractSymbol": "DGX260515C00210000",
             "expiration": "2026-05-15",
             "daysToExpiry": 22,
-            "strike": 200,
-            "bid": 2.35,
-            "ask": 4.5,
-            "lastPrice": 4.29,
-            "volume": 33,
-            "openInterest": 260,
-            "impliedVolatility": 0.2537306072998047,
+            "strike": 210,
+            "bid": 1.15,
+            "ask": 1.7,
+            "lastPrice": 2.5,
+            "volume": 1,
+            "openInterest": 889,
+            "impliedVolatility": 0.27259028198242186,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01175,
-          "notAssignedAnnualizedPct": 0.19494318181818182,
-          "effectiveCostBasis": 197.65,
-          "effectiveDiscountPct": 0.017839395746372506,
+          "staticReturnPct": 0.006799713112154107,
+          "staticAnnualizedPct": 0.11281342208801132,
+          "assignedReturnPct": 0.06260665127203341,
+          "assignedAnnualizedPct": 1.0387012597405543,
+          "effectiveCostBasis": 197.75,
+          "effectiveDiscountPct": 0.005781799899446958
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 201.55782026102656,
+          "contract": {
+            "contractSymbol": "DGX260515P00195000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 195,
+            "bid": 2.75,
+            "ask": 3.1,
+            "lastPrice": 2.6,
+            "volume": 89,
+            "openInterest": 373,
+            "impliedVolatility": 0.24341576904296874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.014102564102564103,
+          "notAssignedAnnualizedPct": 0.23397435897435898,
+          "effectiveCostBasis": 192.25,
+          "effectiveDiscountPct": 0.03343388637506287,
           "inTheMoney": false
         }
       ]
@@ -38,31 +65,58 @@
     {
       "expiration": "2026-08-21",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 257.81009059715836,
+          "anchorPrice": 201.55782026102656,
           "contract": {
-            "contractSymbol": "DGX260821P00200000",
+            "contractSymbol": "DGX260821C00210000",
             "expiration": "2026-08-21",
             "daysToExpiry": 120,
-            "strike": 200,
-            "bid": 8,
-            "ask": 10.5,
-            "lastPrice": 14.8,
-            "volume": 2,
-            "openInterest": 1,
-            "impliedVolatility": 0.24134059448242187,
+            "strike": 210,
+            "bid": 7,
+            "ask": 8.4,
+            "lastPrice": 9.1,
+            "volume": 25,
+            "openInterest": 902,
+            "impliedVolatility": 0.28171494659423824,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.04,
-          "notAssignedAnnualizedPct": 0.12166666666666666,
-          "effectiveCostBasis": 192,
-          "effectiveDiscountPct": 0.04591532498509247,
+          "staticReturnPct": 0.040745818492822855,
+          "staticAnnualizedPct": 0.12393519791566951,
+          "assignedReturnPct": 0.09655275665270217,
+          "assignedAnnualizedPct": 0.2936813014853024,
+          "effectiveCostBasis": 191.9,
+          "effectiveDiscountPct": 0.03519356460532931
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 201.55782026102656,
+          "contract": {
+            "contractSymbol": "DGX260821P00195000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 120,
+            "strike": 195,
+            "bid": 6.5,
+            "ask": 9.9,
+            "lastPrice": 8.3,
+            "volume": 2,
+            "openInterest": 7,
+            "impliedVolatility": 0.25998664825439455,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03333333333333333,
+          "notAssignedAnnualizedPct": 0.10138888888888888,
+          "effectiveCostBasis": 188.5,
+          "effectiveDiscountPct": 0.052287581699346435,
           "inTheMoney": false
         }
       ]

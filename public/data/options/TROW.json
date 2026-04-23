@@ -1,7 +1,7 @@
 {
   "symbol": "TROW",
-  "fetchedAt": "2026-04-23T14:42:17.026Z",
-  "currentPrice": 100,
+  "fetchedAt": "2026-04-23T15:59:24.794Z",
+  "currentPrice": 100.065,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -11,18 +11,18 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 148.4459843293845,
+          "anchorPrice": 129.99302068465522,
           "contract": {
             "contractSymbol": "TROW270115P00100000",
             "expiration": "2027-01-15",
             "daysToExpiry": 267,
             "strike": 100,
             "bid": 8.9,
-            "ask": 10.3,
+            "ask": 10.2,
             "lastPrice": 9.85,
             "volume": 2,
             "openInterest": 61,
-            "impliedVolatility": 0.30225307128906254,
+            "impliedVolatility": 0.3001778967285156,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +30,7 @@
           "notAssignedReturnPct": 0.08900000000000001,
           "notAssignedAnnualizedPct": 0.12166666666666669,
           "effectiveCostBasis": 91.1,
-          "effectiveDiscountPct": 0.08900000000000005,
+          "effectiveDiscountPct": 0.08959176535252089,
           "inTheMoney": false
         }
       ]
@@ -38,12 +38,39 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 129.99302068465522,
+          "contract": {
+            "contractSymbol": "TROW280121C00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 130,
+            "bid": 2.3,
+            "ask": 5.8,
+            "lastPrice": 3.6,
+            "volume": 35,
+            "openInterest": 168,
+            "impliedVolatility": 0.2774120111083984,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11369888290419448,
+          "staticAnnualizedPct": 0.06504716655177271,
+          "assignedReturnPct": 0.41285443179741393,
+          "assignedAnnualizedPct": 0.2361941498527525,
+          "effectiveCostBasis": 97.765,
+          "effectiveDiscountPct": 0.022985059711187725
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 148.4459843293845,
+          "anchorPrice": 129.99302068465522,
           "contract": {
             "contractSymbol": "TROW280121P00100000",
             "expiration": "2028-01-21",
@@ -54,7 +81,7 @@
             "lastPrice": 17.32,
             "volume": 1,
             "openInterest": 12,
-            "impliedVolatility": 0.3324956887817383,
+            "impliedVolatility": 0.33301448242187504,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -62,7 +89,7 @@
           "notAssignedReturnPct": 0.139,
           "notAssignedAnnualizedPct": 0.07952194357366772,
           "effectiveCostBasis": 86.1,
-          "effectiveDiscountPct": 0.13900000000000007,
+          "effectiveDiscountPct": 0.13955928646379856,
           "inTheMoney": false
         }
       ]

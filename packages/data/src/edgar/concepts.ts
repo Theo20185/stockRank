@@ -55,6 +55,100 @@ export function dedupeByPeriod(
   return byEnd;
 }
 
+/** Days between two ISO yyyy-mm-dd dates. */
+function daysBetween(start: string, end: string): number {
+  const s = new Date(`${start}T00:00:00.000Z`).getTime();
+  const e = new Date(`${end}T00:00:00.000Z`).getTime();
+  return Math.round((e - s) / (24 * 3600 * 1000));
+}
+
+/** Returns true when this fact's period covers a single fiscal
+ * quarter (~3 months), false for YTD-cumulative variants (~6/9
+ * months).
+ *
+ * Per LULU 2026-04 investigation: EDGAR returns BOTH standalone-Q
+ * (start ≈ end-3mo) AND YTD (start ≈ start-of-fiscal-year) for
+ * income/cashflow concepts in 10-Q filings. They share `end`, `fp`,
+ * `fy`, and `filed`. The only disambiguator is `start`. Without
+ * filtering, our trailing-4-quarter sums add YTD figures as if they
+ * were standalone, inflating TTM by 2-3×.
+ *
+ * Threshold: 60-100 days. Standard fiscal quarters land at 84-98
+ * days (13 weeks); 4-4-5 fiscal calendars can stretch to 91-98.
+ * YTD-Q2 starts at ~180, YTD-Q3 at ~270, both well above the
+ * upper bound. */
+export function isStandaloneQuarterFact(f: EdgarFact): boolean {
+  if (!f.start) return false;
+  const days = daysBetween(f.start, f.end);
+  return days >= 60 && days <= 100;
+}
+
+/**
+ * Quarterly extraction for FLOW concepts (income statement, cash
+ * flow): keeps only standalone-quarter facts so trailing-4 sums are
+ * arithmetically valid. Use `quarterlyMap` for balance-sheet
+ * concepts (point-in-time, no YTD/standalone duality).
+ */
+export function standaloneQuarterlyMap(
+  facts: EdgarFactsByConcept,
+  concepts: readonly string[],
+  preferredUnit?: string,
+): Map<string, EdgarFact> {
+  const hit = firstAvailable(facts, concepts, preferredUnit);
+  if (!hit) return new Map();
+  return dedupeByPeriod(
+    hit.facts,
+    (f) => isQuarterly(f) && isStandaloneQuarterFact(f),
+  );
+}
+
+/**
+ * Companies file a 10-K (annual) for Q4, not a 10-Q — so EDGAR has
+ * no standalone-Q4 fact for income/cashflow concepts. Derive it as
+ * `(FY annual) − (sum of standalone Q1+Q2+Q3 within the same fy)`
+ * and inject the synthetic Q4 entry at the FY end date.
+ *
+ * Returns a NEW map (does not mutate `quarterly`). Symbols missing
+ * any of Q1/Q2/Q3 in a given fy, or missing the FY annual fact,
+ * just don't get a Q4 — same passthrough as before.
+ *
+ * Mirror this pipeline for every flow concept (revenue, netIncome,
+ * EPS, OpInc, D&A, OCF, capex, divs, buybacks). Without it, TTM at
+ * dates between Q4 and the next Q1 would only see 3 standalone
+ * quarters and bail out.
+ */
+export function deriveQ4FromAnnual(
+  quarterly: Map<string, EdgarFact>,
+  annual: Map<string, EdgarFact>,
+): Map<string, EdgarFact> {
+  const out = new Map(quarterly);
+  // Group quarterly standalone facts by fiscal year for fast lookup.
+  const byFy = new Map<number, EdgarFact[]>();
+  for (const f of quarterly.values()) {
+    if (f.fy === null) continue;
+    const arr = byFy.get(f.fy) ?? [];
+    arr.push(f);
+    byFy.set(f.fy, arr);
+  }
+  for (const annualFact of annual.values()) {
+    if (annualFact.fy === null) continue;
+    const qs = byFy.get(annualFact.fy) ?? [];
+    if (qs.length !== 3) continue;
+    const fps = new Set(qs.map((q) => q.fp));
+    if (!fps.has("Q1") || !fps.has("Q2") || !fps.has("Q3")) continue;
+    const ytdQ3 = qs.reduce((s, q) => s + q.val, 0);
+    out.set(annualFact.end, {
+      end: annualFact.end,
+      val: annualFact.val - ytdQ3,
+      fy: annualFact.fy,
+      fp: "Q4",
+      form: "DERIVED",
+      filed: annualFact.filed,
+    });
+  }
+  return out;
+}
+
 /** Dedupe → annual (fp === "FY"), keyed by period-end date. */
 export function annualMap(
   facts: EdgarFactsByConcept,

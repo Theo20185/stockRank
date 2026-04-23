@@ -1,17 +1,44 @@
 {
   "symbol": "BLDR",
-  "fetchedAt": "2026-04-23T14:43:13.669Z",
-  "currentPrice": 90.52,
+  "fetchedAt": "2026-04-23T16:00:22.762Z",
+  "currentPrice": 91.0325,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 221.37135747999994,
+          "contract": {
+            "contractSymbol": "BLDR270115C00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 230,
+            "bid": 2.25,
+            "ask": 4.4,
+            "lastPrice": 2.72,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.7695335546875001,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02471644742262379,
+          "staticAnnualizedPct": 0.03378840190733215,
+          "assignedReturnPct": 1.5512866284019444,
+          "assignedAnnualizedPct": 2.120672731710523,
+          "effectiveCostBasis": 88.7825,
+          "effectiveDiscountPct": 0.02471644742262379
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 245.7335649148046,
+          "anchorPrice": 221.37135747999994,
           "contract": {
             "contractSymbol": "BLDR270115P00090000",
             "expiration": "2027-01-15",
@@ -22,7 +49,7 @@
             "lastPrice": 16.5,
             "volume": 1,
             "openInterest": 44,
-            "impliedVolatility": 0.5067188000488281,
+            "impliedVolatility": 0.5136157037353515,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.1622222222222222,
           "notAssignedAnnualizedPct": 0.2217644610903038,
           "effectiveCostBasis": 75.4,
-          "effectiveDiscountPct": 0.16703490941228447,
+          "effectiveDiscountPct": 0.17172438414851832,
           "inTheMoney": false
         }
       ]
@@ -42,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 245.7335649148046,
+          "anchorPrice": 221.37135747999994,
           "contract": {
             "contractSymbol": "BLDR280121C00195000",
             "expiration": "2028-01-21",
@@ -53,24 +80,24 @@
             "lastPrice": 5.18,
             "volume": 2,
             "openInterest": 2112,
-            "impliedVolatility": 0.5198717446899414,
+            "impliedVolatility": 0.5167284655761719,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.04418912947414936,
-          "staticAnnualizedPct": 0.025280614824552534,
-          "assignedReturnPct": 1.1984091913389308,
-          "assignedAnnualizedPct": 0.6856102740418648,
-          "effectiveCostBasis": 86.52,
-          "effectiveDiscountPct": 0.04418912947414936
+          "staticReturnPct": 0.0439403509735534,
+          "staticAnnualizedPct": 0.025138288566374595,
+          "assignedReturnPct": 1.1860324609342818,
+          "assignedAnnualizedPct": 0.6785295426975124,
+          "effectiveCostBasis": 87.0325,
+          "effectiveDiscountPct": 0.0439403509735534
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 245.7335649148046,
+          "anchorPrice": 221.37135747999994,
           "contract": {
             "contractSymbol": "BLDR280121P00090000",
             "expiration": "2028-01-21",
@@ -81,7 +108,7 @@
             "lastPrice": 22,
             "volume": 1,
             "openInterest": 245,
-            "impliedVolatility": 0.5038501763916017,
+            "impliedVolatility": 0.5080005255126954,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -89,7 +116,7 @@
           "notAssignedReturnPct": 0.21666666666666667,
           "notAssignedAnnualizedPct": 0.12395506792058518,
           "effectiveCostBasis": 70.5,
-          "effectiveDiscountPct": 0.2211665930181175,
+          "effectiveDiscountPct": 0.22555131409112128,
           "inTheMoney": false
         }
       ]

@@ -1,0 +1,125 @@
+{
+  "symbol": "VRSK",
+  "fetchedAt": "2026-04-23T16:01:31.068Z",
+  "currentPrice": 174.19,
+  "expirations": [
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 180.28785595213768,
+          "contract": {
+            "contractSymbol": "VRSK260918C00185000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 185,
+            "bid": 12.3,
+            "ask": 14.4,
+            "lastPrice": 15.9,
+            "volume": 1,
+            "openInterest": 13,
+            "impliedVolatility": 0.42352871398925784,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07515339795074974,
+          "staticAnnualizedPct": 0.18534452872988957,
+          "assignedReturnPct": 0.13721206951628165,
+          "assignedAnnualizedPct": 0.33839463090164057,
+          "effectiveCostBasis": 161.89,
+          "effectiveDiscountPct": 0.07061254951489752
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 180.28785595213768,
+          "contract": {
+            "contractSymbol": "VRSK260918P00170000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 148,
+            "strike": 170,
+            "bid": 12.8,
+            "ask": 14.7,
+            "lastPrice": 14,
+            "volume": 1,
+            "openInterest": 21,
+            "impliedVolatility": 0.3820252227783203,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07529411764705883,
+          "notAssignedAnnualizedPct": 0.18569157392686805,
+          "effectiveCostBasis": 157.2,
+          "effectiveDiscountPct": 0.09753717205350484,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "quarterly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 180.28785595213768,
+          "contract": {
+            "contractSymbol": "VRSK261218C00185000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 185,
+            "bid": 17.5,
+            "ask": 20.3,
+            "lastPrice": 20.27,
+            "volume": 2,
+            "openInterest": 2,
+            "impliedVolatility": 0.43848217773437503,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10779786606814949,
+          "staticAnnualizedPct": 0.1646285402296007,
+          "assignedReturnPct": 0.1698565376336814,
+          "assignedAnnualizedPct": 0.25940433571671007,
+          "effectiveCostBasis": 156.69,
+          "effectiveDiscountPct": 0.10046500947241518
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 180.28785595213768,
+          "contract": {
+            "contractSymbol": "VRSK261218P00165000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 239,
+            "strike": 165,
+            "bid": 14,
+            "ask": 16.7,
+            "lastPrice": 13.83,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 0.3840698800659179,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08484848484848485,
+          "notAssignedAnnualizedPct": 0.1295803220489413,
+          "effectiveCostBasis": 151,
+          "effectiveDiscountPct": 0.13313048969516045,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

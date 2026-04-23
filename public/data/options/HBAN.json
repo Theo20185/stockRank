@@ -1,0 +1,125 @@
+{
+  "symbol": "HBAN",
+  "fetchedAt": "2026-04-23T15:59:49.363Z",
+  "currentPrice": 16.4,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 16.924517301285743,
+          "contract": {
+            "contractSymbol": "HBAN270115C00017000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 17,
+            "bid": 1.15,
+            "ask": 1.55,
+            "lastPrice": 1.43,
+            "volume": 6,
+            "openInterest": 2053,
+            "impliedVolatility": 0.32227240234374993,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09715570121951221,
+          "staticAnnualizedPct": 0.13281584623641182,
+          "assignedReturnPct": 0.13374106707317082,
+          "assignedAnnualizedPct": 0.18282954862062678,
+          "effectiveCostBasis": 15.249999999999998,
+          "effectiveDiscountPct": 0.0701219512195122
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 16.924517301285743,
+          "contract": {
+            "contractSymbol": "HBAN270115P00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 15,
+            "bid": 0.95,
+            "ask": 1.15,
+            "lastPrice": 1,
+            "volume": 5,
+            "openInterest": 819,
+            "impliedVolatility": 0.32959654785156245,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06333333333333332,
+          "notAssignedAnnualizedPct": 0.08657927590511859,
+          "effectiveCostBasis": 14.05,
+          "effectiveDiscountPct": 0.14329268292682915,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 16.924517301285743,
+          "contract": {
+            "contractSymbol": "HBAN280121C00017000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 17,
+            "bid": 2.3,
+            "ask": 2.65,
+            "lastPrice": 2.6,
+            "volume": 15,
+            "openInterest": 190,
+            "impliedVolatility": 0.33618827880859375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.2048414024390244,
+          "staticAnnualizedPct": 0.11718983054897165,
+          "assignedReturnPct": 0.24142676829268303,
+          "assignedAnnualizedPct": 0.1381203298226165,
+          "effectiveCostBasis": 14.099999999999998,
+          "effectiveDiscountPct": 0.1402439024390244
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 16.924517301285743,
+          "contract": {
+            "contractSymbol": "HBAN280121P00015000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 15,
+            "bid": 0.3,
+            "ask": 3.9,
+            "lastPrice": 1.8,
+            "volume": 1,
+            "openInterest": 18,
+            "impliedVolatility": 0.5644574804687501,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.02,
+          "notAssignedAnnualizedPct": 0.011442006269592478,
+          "effectiveCostBasis": 14.7,
+          "effectiveDiscountPct": 0.10365853658536582,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

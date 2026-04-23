@@ -1,0 +1,125 @@
+{
+  "symbol": "VLTO",
+  "fetchedAt": "2026-04-23T16:01:11.776Z",
+  "currentPrice": 88.201,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.88380275763701,
+          "contract": {
+            "contractSymbol": "VLTO260515C00095000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 95,
+            "bid": 0.25,
+            "ask": 1.9,
+            "lastPrice": 0.97,
+            "volume": 512,
+            "openInterest": 528,
+            "impliedVolatility": 0.4919484399414063,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0031843569629953256,
+          "staticAnnualizedPct": 0.05283137688605881,
+          "assignedReturnPct": 0.08026965078052582,
+          "assignedAnnualizedPct": 1.3317464788587239,
+          "effectiveCostBasis": 87.951,
+          "effectiveDiscountPct": 0.0028344349837303435
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.88380275763701,
+          "contract": {
+            "contractSymbol": "VLTO260515P00085000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 22,
+            "strike": 85,
+            "bid": 1.3,
+            "ask": 1.65,
+            "lastPrice": 1.5,
+            "volume": 1,
+            "openInterest": 15,
+            "impliedVolatility": 0.34400070068359373,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.015294117647058824,
+          "notAssignedAnnualizedPct": 0.25374331550802137,
+          "effectiveCostBasis": 83.7,
+          "effectiveDiscountPct": 0.05103116744708099,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 90.88380275763701,
+          "contract": {
+            "contractSymbol": "VLTO260717C00095000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 95,
+            "bid": 1.25,
+            "ask": 2.65,
+            "lastPrice": 2.65,
+            "volume": 1,
+            "openInterest": 37,
+            "impliedVolatility": 0.30371790039062496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.015524146202175512,
+          "staticAnnualizedPct": 0.06666251016228307,
+          "assignedReturnPct": 0.09260944001970602,
+          "assignedAnnualizedPct": 0.3976758306728552,
+          "effectiveCostBasis": 86.951,
+          "effectiveDiscountPct": 0.014172174918651716
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 90.88380275763701,
+          "contract": {
+            "contractSymbol": "VLTO260717P00085000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 85,
+            "bid": 2.05,
+            "ask": 2.9,
+            "lastPrice": 1.7,
+            "volume": 2,
+            "openInterest": 22,
+            "impliedVolatility": 0.2574537145996094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.02411764705882353,
+          "notAssignedAnnualizedPct": 0.10356401384083044,
+          "effectiveCostBasis": 82.95,
+          "effectiveDiscountPct": 0.059534472398272024,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

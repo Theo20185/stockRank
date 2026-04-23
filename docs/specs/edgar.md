@@ -106,7 +106,41 @@ positive number (the magnitude of cash spent). Our snapshot schema
 treats `capex` as a cash-flow outflow (negative). Mapper flips the
 sign: `capex = -abs(edgar.capex)`.
 
-### 3.5 Period selection (dedupe)
+### 3.5 Standalone vs YTD-cumulative (CRITICAL)
+
+EDGAR's quarterly flow concepts (income statement + cash flow) are
+reported in 10-Q filings in **two flavors with the same `end`/`fp`/`fy`**:
+
+| Period | `start` | Example: LULU FY2025 Q3 EPS |
+|---|---|---|
+| Standalone quarter | end − ~90 days | $2.59 |
+| YTD-cumulative      | start of fiscal year (~270 days for Q3) | $8.29 |
+
+Naively deduping by `(end, fp)` picks one arbitrarily — usually
+the YTD value. Summing four trailing YTD values would multi-count.
+The `isStandaloneQuarterFact(fact)` filter checks `(end − start)` is
+60-100 days; only standalone-quarter facts feed `trailing4Sum`.
+
+**Q4 derivation:** companies file a 10-K (not 10-Q) for Q4 — EDGAR
+has no standalone-Q4 fact for income/cashflow concepts. We derive:
+
+```
+standalone Q4 = (FY annual) − (sum of standalone Q1+Q2+Q3 same fy)
+```
+
+`deriveQ4FromAnnual(quarterly, annual)` injects the synthetic Q4
+fact at the FY end date. Without this, TTM at dates between Q4
+year-end and the next Q1 release would only see 3 standalone
+quarters and bail out (ttmIncome.epsDiluted = null).
+
+This was the root cause of the LULU 2026-04 sparkline anomaly: the
+previous (broken) reconstruction summed YTD figures and produced
+TTM EPS of $25 (vs reality $11), masked by the FV engine's
+outlier-fallback rule. After the fix, reconstructed historical FV
+values track within ~25% of today's peer-median calculation
+instead of being 3× lower.
+
+### 3.6 Period selection (dedupe)
 
 A single (concept, period-end) pair can have multiple facts —
 restatements, 10-K/A amendments, or facts that appear in both a

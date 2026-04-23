@@ -1,17 +1,44 @@
 {
   "symbol": "NSC",
-  "fetchedAt": "2026-04-23T14:45:28.783Z",
-  "currentPrice": 313.35,
+  "fetchedAt": "2026-04-23T16:02:06.361Z",
+  "currentPrice": 316.415,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 349.58230606,
+          "contract": {
+            "contractSymbol": "NSC270115C00350000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 350,
+            "bid": 10.2,
+            "ask": 14,
+            "lastPrice": 9.85,
+            "volume": 6,
+            "openInterest": 134,
+            "impliedVolatility": 0.242896975402832,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.045476209586192654,
+          "staticAnnualizedPct": 0.062167852056031155,
+          "assignedReturnPct": 0.15161845947952887,
+          "assignedAnnualizedPct": 0.20726868056190276,
+          "effectiveCostBasis": 306.21500000000003,
+          "effectiveDiscountPct": 0.03223614556832008
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 334.1566703333333,
+          "anchorPrice": 349.58230606,
           "contract": {
             "contractSymbol": "NSC270115P00310000",
             "expiration": "2027-01-15",
@@ -22,7 +49,7 @@
             "lastPrice": 29.4,
             "volume": 1,
             "openInterest": 157,
-            "impliedVolatility": 0.29321995849609367,
+            "impliedVolatility": 0.3055336781311035,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.08258064516129032,
           "notAssignedAnnualizedPct": 0.1128911441343482,
           "effectiveCostBasis": 284.4,
-          "effectiveDiscountPct": 0.09238870272857841,
+          "effectiveDiscountPct": 0.10118041180095773,
           "inTheMoney": false
         }
       ]
@@ -42,35 +69,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 334.1566703333333,
+          "anchorPrice": 349.58230606,
           "contract": {
-            "contractSymbol": "NSC280121C00340000",
+            "contractSymbol": "NSC280121C00350000",
             "expiration": "2028-01-21",
             "daysToExpiry": 638,
-            "strike": 340,
-            "bid": 15.5,
-            "ask": 20,
-            "lastPrice": 22,
+            "strike": 350,
+            "bid": 18.5,
+            "ask": 23.5,
+            "lastPrice": 18,
             "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.18340355178833007,
+            "openInterest": 6,
+            "impliedVolatility": 0.21657582748413085,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08112446337041576,
-          "staticAnnualizedPct": 0.04641133092508112,
-          "assignedReturnPct": 0.16617313099447822,
-          "assignedAnnualizedPct": 0.09506770033383159,
-          "effectiveCostBasis": 297.85,
-          "effectiveDiscountPct": 0.049465453965214616
+          "staticReturnPct": 0.09010482545253162,
+          "staticAnnualizedPct": 0.051548998887420136,
+          "assignedReturnPct": 0.19624707534586783,
+          "assignedAnnualizedPct": 0.11227301332483035,
+          "effectiveCostBasis": 297.915,
+          "effectiveDiscountPct": 0.05846751892293348
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 334.1566703333333,
+          "anchorPrice": 349.58230606,
           "contract": {
             "contractSymbol": "NSC280121P00300000",
             "expiration": "2028-01-21",
@@ -81,15 +108,15 @@
             "lastPrice": 39.25,
             "volume": 5,
             "openInterest": 208,
-            "impliedVolatility": 0.2757411904144287,
+            "impliedVolatility": 0.28302718933105464,
             "inTheMoney": false
           },
-          "snapWarning": false,
+          "snapWarning": true,
           "shortDated": false,
           "notAssignedReturnPct": 0.11,
           "notAssignedAnnualizedPct": 0.06293103448275862,
           "effectiveCostBasis": 267,
-          "effectiveDiscountPct": 0.14791766395404507,
+          "effectiveDiscountPct": 0.15617148365279782,
           "inTheMoney": false
         }
       ]

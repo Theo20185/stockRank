@@ -1,36 +1,63 @@
 {
   "symbol": "PRU",
-  "fetchedAt": "2026-04-23T14:43:01.305Z",
-  "currentPrice": 95.0201,
+  "fetchedAt": "2026-04-23T16:00:15.794Z",
+  "currentPrice": 94.435,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 211.15173533087238,
+          "anchorPrice": 117.1949375906602,
           "contract": {
-            "contractSymbol": "PRU270115P00095000",
+            "contractSymbol": "PRU270115C00120000",
             "expiration": "2027-01-15",
             "daysToExpiry": 267,
-            "strike": 95,
-            "bid": 8.8,
-            "ask": 10.2,
-            "lastPrice": 10.1,
-            "volume": 31,
-            "openInterest": 427,
-            "impliedVolatility": 0.3154365332031249,
+            "strike": 120,
+            "bid": 0.8,
+            "ask": 1.4,
+            "lastPrice": 1.25,
+            "volume": 1,
+            "openInterest": 680,
+            "impliedVolatility": 0.24451439086914065,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.09263157894736843,
-          "notAssignedAnnualizedPct": 0.12663118470333137,
-          "effectiveCostBasis": 86.2,
-          "effectiveDiscountPct": 0.09282351839242431,
+          "staticReturnPct": 0.05053307921444844,
+          "staticAnnualizedPct": 0.06908080117330967,
+          "assignedReturnPct": 0.32124838603924855,
+          "assignedAnnualizedPct": 0.4391597786678866,
+          "effectiveCostBasis": 93.635,
+          "effectiveDiscountPct": 0.008471435378832002
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.1949375906602,
+          "contract": {
+            "contractSymbol": "PRU270115P00092500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 92.5,
+            "bid": 8.1,
+            "ask": 8.8,
+            "lastPrice": 8.58,
+            "volume": 27,
+            "openInterest": 82,
+            "impliedVolatility": 0.30573204040527346,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08756756756756756,
+          "notAssignedAnnualizedPct": 0.11970847251746128,
+          "effectiveCostBasis": 84.4,
+          "effectiveDiscountPct": 0.10626356753322387,
           "inTheMoney": false
         }
       ]
@@ -38,31 +65,58 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 211.15173533087238,
+          "anchorPrice": 117.1949375906602,
           "contract": {
-            "contractSymbol": "PRU280121P00095000",
+            "contractSymbol": "PRU280121C00120000",
             "expiration": "2028-01-21",
             "daysToExpiry": 638,
-            "strike": 95,
-            "bid": 13.5,
-            "ask": 16.9,
-            "lastPrice": 13.6,
-            "volume": 4,
-            "openInterest": 113,
-            "impliedVolatility": 0.3402165588378906,
+            "strike": 120,
+            "bid": 3.9,
+            "ask": 5.3,
+            "lastPrice": 4,
+            "volume": 1,
+            "openInterest": 79,
+            "impliedVolatility": 0.2617261328125,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.14210526315789473,
-          "notAssignedAnnualizedPct": 0.08129846559973603,
-          "effectiveCostBasis": 81.5,
-          "effectiveDiscountPct": 0.14228673722717614,
+          "staticReturnPct": 0.1418050967868745,
+          "staticAnnualizedPct": 0.0811267403247793,
+          "assignedReturnPct": 0.4125204036116746,
+          "assignedAnnualizedPct": 0.23600305222298,
+          "effectiveCostBasis": 90.535,
+          "effectiveDiscountPct": 0.041298247471806
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.1949375906602,
+          "contract": {
+            "contractSymbol": "PRU280121P00092500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 92.5,
+            "bid": 12.3,
+            "ask": 15.6,
+            "lastPrice": 14.99,
+            "volume": 6,
+            "openInterest": 6,
+            "impliedVolatility": 0.3384465570068359,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13297297297297297,
+          "notAssignedAnnualizedPct": 0.07607387952215539,
+          "effectiveCostBasis": 80.2,
+          "effectiveDiscountPct": 0.1507386032720919,
           "inTheMoney": false
         }
       ]

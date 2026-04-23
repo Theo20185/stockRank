@@ -1,0 +1,125 @@
+{
+  "symbol": "ED",
+  "fetchedAt": "2026-04-23T16:00:35.047Z",
+  "currentPrice": 109.5,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 117.3438269135979,
+          "contract": {
+            "contractSymbol": "ED270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 120,
+            "bid": 2.7,
+            "ask": 3.3,
+            "lastPrice": 2.85,
+            "volume": 1,
+            "openInterest": 369,
+            "impliedVolatility": 0.1887898504638672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04813890410958904,
+          "staticAnnualizedPct": 0.06580786516853933,
+          "assignedReturnPct": 0.14402931506849315,
+          "assignedAnnualizedPct": 0.1968940074906367,
+          "effectiveCostBasis": 106.8,
+          "effectiveDiscountPct": 0.024657534246575345
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.3438269135979,
+          "contract": {
+            "contractSymbol": "ED270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 105,
+            "bid": 3.9,
+            "ask": 6.6,
+            "lastPrice": 5.6,
+            "volume": 1,
+            "openInterest": 37,
+            "impliedVolatility": 0.23688507263183595,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.037142857142857144,
+          "notAssignedAnnualizedPct": 0.05077581594435527,
+          "effectiveCostBasis": 101.1,
+          "effectiveDiscountPct": 0.07671232876712333,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 117.3438269135979,
+          "contract": {
+            "contractSymbol": "ED280121C00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 120,
+            "bid": 6.5,
+            "ask": 7.8,
+            "lastPrice": 8,
+            "volume": 1,
+            "openInterest": 49,
+            "impliedVolatility": 0.20447572875976558,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11546977168949772,
+          "staticAnnualizedPct": 0.06606029258098224,
+          "assignedReturnPct": 0.21136018264840184,
+          "assignedAnnualizedPct": 0.12091922675026125,
+          "effectiveCostBasis": 103,
+          "effectiveDiscountPct": 0.0593607305936073
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.3438269135979,
+          "contract": {
+            "contractSymbol": "ED280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 105,
+            "bid": 6.5,
+            "ask": 11,
+            "lastPrice": 9,
+            "volume": 2,
+            "openInterest": 6,
+            "impliedVolatility": 0.23300937896728519,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06190476190476191,
+          "notAssignedAnnualizedPct": 0.035415733691595765,
+          "effectiveCostBasis": 98.5,
+          "effectiveDiscountPct": 0.1004566210045662,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

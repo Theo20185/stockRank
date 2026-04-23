@@ -1,36 +1,63 @@
 {
   "symbol": "LVS",
-  "fetchedAt": "2026-04-23T14:45:00.733Z",
-  "currentPrice": 52.49,
+  "fetchedAt": "2026-04-23T16:01:48.608Z",
+  "currentPrice": 51.58,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.91441560963092,
+          "contract": {
+            "contractSymbol": "LVS270115C00060000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 60,
+            "bid": 2.73,
+            "ask": 4.95,
+            "lastPrice": 3.6,
+            "volume": 2,
+            "openInterest": 348,
+            "impliedVolatility": 0.44946839599609373,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06649054016370368,
+          "staticAnnualizedPct": 0.09089530771442637,
+          "assignedReturnPct": 0.22973210666234659,
+          "assignedAnnualizedPct": 0.3140532544260543,
+          "effectiveCostBasis": 48.85,
+          "effectiveDiscountPct": 0.05292749127568825
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 81.46197627712883,
+          "anchorPrice": 57.91441560963092,
           "contract": {
             "contractSymbol": "LVS270115P00050000",
             "expiration": "2027-01-15",
             "daysToExpiry": 267,
             "strike": 50,
-            "bid": 4.9,
-            "ask": 5.75,
-            "lastPrice": 4.03,
-            "volume": 5,
+            "bid": 5.3,
+            "ask": 5.95,
+            "lastPrice": 5.5,
+            "volume": 443,
             "openInterest": 427,
-            "impliedVolatility": 0.3973448937988281,
+            "impliedVolatility": 0.38843385009765624,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.098,
-          "notAssignedAnnualizedPct": 0.13397003745318353,
-          "effectiveCostBasis": 45.1,
-          "effectiveDiscountPct": 0.14078872166126882,
+          "notAssignedReturnPct": 0.106,
+          "notAssignedAnnualizedPct": 0.1449063670411985,
+          "effectiveCostBasis": 44.7,
+          "effectiveDiscountPct": 0.13338503295851098,
           "inTheMoney": false
         }
       ]
@@ -42,35 +69,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 81.46197627712883,
+          "anchorPrice": 57.91441560963092,
           "contract": {
-            "contractSymbol": "LVS280121C00085000",
+            "contractSymbol": "LVS280121C00060000",
             "expiration": "2028-01-21",
             "daysToExpiry": 638,
-            "strike": 85,
-            "bid": 1.57,
-            "ask": 4.75,
-            "lastPrice": 4.49,
-            "volume": 1,
-            "openInterest": 13,
-            "impliedVolatility": 0.45691461059570315,
+            "strike": 60,
+            "bid": 7,
+            "ask": 9.5,
+            "lastPrice": 9.6,
+            "volume": 62,
+            "openInterest": 59,
+            "impliedVolatility": 0.45892875061035165,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.06241994221991403,
-          "staticAnnualizedPct": 0.035710468511392826,
-          "assignedReturnPct": 0.6817760100423563,
-          "assignedAnnualizedPct": 0.39004426906811923,
-          "effectiveCostBasis": 50.92,
-          "effectiveDiscountPct": 0.02991045913507335
+          "staticReturnPct": 0.1681205992021969,
+          "staticAnnualizedPct": 0.09618184750595905,
+          "assignedReturnPct": 0.33136216570083976,
+          "assignedAnnualizedPct": 0.1895723988727375,
+          "effectiveCostBasis": 44.58,
+          "effectiveDiscountPct": 0.13571151609150833
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 81.46197627712883,
+          "anchorPrice": 57.91441560963092,
           "contract": {
             "contractSymbol": "LVS280121P00050000",
             "expiration": "2028-01-21",
@@ -81,7 +108,7 @@
             "lastPrice": 8.17,
             "volume": 1,
             "openInterest": 88,
-            "impliedVolatility": 0.4583794396972657,
+            "impliedVolatility": 0.44574528869628904,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -89,7 +116,7 @@
           "notAssignedReturnPct": 0.15,
           "notAssignedAnnualizedPct": 0.08581504702194358,
           "effectiveCostBasis": 42.5,
-          "effectiveDiscountPct": 0.19032196608877885,
+          "effectiveDiscountPct": 0.17603722373012792,
           "inTheMoney": false
         }
       ]

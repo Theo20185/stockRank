@@ -1,0 +1,125 @@
+{
+  "symbol": "VICI",
+  "fetchedAt": "2026-04-23T15:59:37.111Z",
+  "currentPrice": 28.335,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 31.244325618933274,
+          "contract": {
+            "contractSymbol": "VICI270115C00032500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 32.5,
+            "bid": 0.45,
+            "ask": 0.55,
+            "lastPrice": 0.43,
+            "volume": 32,
+            "openInterest": 3288,
+            "impliedVolatility": 0.18994950683593753,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06211265454281384,
+          "staticAnnualizedPct": 0.08491055770834102,
+          "assignedReturnPct": 0.20910400799261086,
+          "assignedAnnualizedPct": 0.2858537936977639,
+          "effectiveCostBasis": 27.885,
+          "effectiveDiscountPct": 0.015881418740074114
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 31.244325618933274,
+          "contract": {
+            "contractSymbol": "VICI270115P00027500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 27.5,
+            "bid": 1.7,
+            "ask": 1.95,
+            "lastPrice": 1.75,
+            "volume": 72,
+            "openInterest": 1369,
+            "impliedVolatility": 0.2461012890625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.061818181818181814,
+          "notAssignedAnnualizedPct": 0.08450800136193394,
+          "effectiveCostBasis": 25.8,
+          "effectiveDiscountPct": 0.08946532556908417,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 31.244325618933274,
+          "contract": {
+            "contractSymbol": "VICI280121C00032500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 32.5,
+            "bid": 0.55,
+            "ask": 2,
+            "lastPrice": 1.24,
+            "volume": 11,
+            "openInterest": 168,
+            "impliedVolatility": 0.23267368896484375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1298807668826172,
+          "staticAnnualizedPct": 0.07430482744851925,
+          "assignedReturnPct": 0.27687212033241426,
+          "assignedAnnualizedPct": 0.15839862683594233,
+          "effectiveCostBasis": 27.785,
+          "effectiveDiscountPct": 0.01941062290453503
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 31.244325618933274,
+          "contract": {
+            "contractSymbol": "VICI280121P00027500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 27.5,
+            "bid": 2,
+            "ask": 3.8,
+            "lastPrice": 3.12,
+            "volume": 1,
+            "openInterest": 372,
+            "impliedVolatility": 0.2872385729980468,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07272727272727272,
+          "notAssignedAnnualizedPct": 0.04160729552579082,
+          "effectiveCostBasis": 25.5,
+          "effectiveDiscountPct": 0.10005293806246694,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

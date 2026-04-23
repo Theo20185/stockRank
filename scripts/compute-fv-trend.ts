@@ -275,43 +275,47 @@ function reconstructHistoricalSamples(
   return series;
 }
 
-/** Append daily-snapshot-archive samples (most recent days) on top of
- * historical reconstructions. Dedupe by date — archive wins for any
- * date that overlaps a historical quarter end. */
-function appendArchiveSamples(
+/** Append exactly ONE "today" sample per symbol — the latest dated
+ * snapshot only. Per the design rule: "the only daily data is the
+ * present snapshot, everything else should be from quarterly
+ * filings." Older dated archives are NOT consumed; the historical
+ * reconstruction (quarter ends) covers history.
+ *
+ * Dedupes by date so a today-sample on a calendar quarter end
+ * supersedes the reconstructed sample on that day (the archive uses
+ * Yahoo's authoritative current TTM, more accurate than recon).
+ *
+ * Exported for testability. */
+export function appendTodaySample(
   series: Map<string, FvTrendSample[]>,
-  archives: Array<{ date: string; snapshot: Snapshot }>,
+  archive: { date: string; snapshot: Snapshot },
 ): void {
-  for (const { date, snapshot } of archives) {
-    for (const company of snapshot.companies) {
-      let sample: FvTrendSample;
-      try {
-        const fv = fairValueFor(company, snapshot.companies);
-        sample = {
-          date,
-          price: company.quote.price,
-          fvP25: fv.range?.p25 ?? null,
-          fvMedian: fv.range?.median ?? null,
-          fvP75: fv.range?.p75 ?? null,
-        };
-      } catch {
-        sample = {
-          date,
-          price: company.quote.price,
-          fvP25: null,
-          fvMedian: null,
-          fvP75: null,
-        };
-      }
-      const list = series.get(company.symbol) ?? [];
-      // Dedupe by date — archive supersedes any historical quarter-end
-      // sample on the same day (the archive uses Yahoo's authoritative
-      // current TTM, which is more accurate than reconstruction).
-      const filtered = list.filter((s) => s.date !== date);
-      filtered.push(sample);
-      filtered.sort((a, b) => a.date.localeCompare(b.date));
-      series.set(company.symbol, filtered);
+  const { date, snapshot } = archive;
+  for (const company of snapshot.companies) {
+    let sample: FvTrendSample;
+    try {
+      const fv = fairValueFor(company, snapshot.companies);
+      sample = {
+        date,
+        price: company.quote.price,
+        fvP25: fv.range?.p25 ?? null,
+        fvMedian: fv.range?.median ?? null,
+        fvP75: fv.range?.p75 ?? null,
+      };
+    } catch {
+      sample = {
+        date,
+        price: company.quote.price,
+        fvP25: null,
+        fvMedian: null,
+        fvP75: null,
+      };
     }
+    const list = series.get(company.symbol) ?? [];
+    const filtered = list.filter((s) => s.date !== date);
+    filtered.push(sample);
+    filtered.sort((a, b) => a.date.localeCompare(b.date));
+    series.set(company.symbol, filtered);
   }
 }
 
@@ -405,7 +409,11 @@ async function main(): Promise<void> {
     allBars as Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
   );
 
-  appendArchiveSamples(series, archives);
+  // Only the latest dated snapshot ("today") gets injected. Older
+  // dated archives are intentionally not consumed — historical
+  // samples come from quarterly EDGAR reconstruction, not from
+  // bunched-up daily snapshots.
+  appendTodaySample(series, latest);
 
   const symbols: Record<string, SymbolTrendEntry> = {};
   const counts = { declining: 0, stable: 0, improving: 0, insufficient_data: 0 };

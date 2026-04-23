@@ -25,6 +25,7 @@ import {
   CURRENT_ASSETS_CONCEPTS,
   CURRENT_LIABILITIES_CONCEPTS,
   DA_CONCEPTS,
+  deriveQ4FromAnnual,
   DIVIDENDS_CONCEPTS,
   EPS_CONCEPTS,
   GROSS_PROFIT_CONCEPTS,
@@ -39,6 +40,7 @@ import {
   REVENUE_CONCEPTS,
   SHARES_CONCEPTS,
   SHORT_TERM_DEBT_CONCEPTS,
+  standaloneQuarterlyMap,
   STOCKHOLDERS_EQUITY_CONCEPTS,
 } from "./concepts.js";
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
@@ -118,19 +120,42 @@ function buildConceptMaps(
   period: PeriodKey,
 ): ConceptMaps {
   const us = facts.facts["us-gaap"] ?? {};
-  const flowMap = period === "annual" ? annualMap : quarterlyMap;
+
+  // Flow concepts (income statement, cash flow):
+  //   - annual → annualMap (FY only)
+  //   - quarterly → standaloneQuarterlyMap (filters out YTD-cumulative
+  //     facts so trailing-4 sums are arithmetically valid) PLUS
+  //     deriveQ4FromAnnual injects the Q4 standalone that EDGAR
+  //     doesn't ship directly (companies file 10-K, not 10-Q for Q4).
+  // Balance concepts are point-in-time snapshots — no YTD/standalone
+  // duality; quarterlyMap / balanceMap are correct.
+  const flowQuarterly = (concepts: readonly string[], unit?: string): Map<string, EdgarFact> => {
+    const standalone = standaloneQuarterlyMap(us, concepts, unit);
+    const annual = annualMap(us, concepts, unit);
+    return deriveQ4FromAnnual(standalone, annual);
+  };
+  const flowMap = period === "annual"
+    ? (concepts: readonly string[], unit?: string) => annualMap(us, concepts, unit)
+    : flowQuarterly;
 
   return {
     income: {
-      revenue: flowMap(us, REVENUE_CONCEPTS),
-      cogs: flowMap(us, COST_OF_REVENUE_CONCEPTS),
-      grossProfit: flowMap(us, GROSS_PROFIT_CONCEPTS),
-      operatingIncome: flowMap(us, OPERATING_INCOME_CONCEPTS),
-      netIncome: flowMap(us, NET_INCOME_CONCEPTS),
-      epsDiluted: flowMap(us, EPS_CONCEPTS, "USD/shares"),
-      sharesDiluted: flowMap(us, SHARES_CONCEPTS, "shares"),
-      interestExpense: flowMap(us, INTEREST_EXPENSE_CONCEPTS),
-      dna: flowMap(us, DA_CONCEPTS),
+      revenue: flowMap(REVENUE_CONCEPTS),
+      cogs: flowMap(COST_OF_REVENUE_CONCEPTS),
+      grossProfit: flowMap(GROSS_PROFIT_CONCEPTS),
+      operatingIncome: flowMap(OPERATING_INCOME_CONCEPTS),
+      netIncome: flowMap(NET_INCOME_CONCEPTS),
+      epsDiluted: flowMap(EPS_CONCEPTS, "USD/shares"),
+      // Shares is a flow-statement field (weighted average) but the
+      // standalone-vs-YTD distinction doesn't matter — both report the
+      // same period-end weighted-average count. Use plain quarterly
+      // dedupe to avoid the standalone filter discarding it.
+      sharesDiluted:
+        period === "annual"
+          ? annualMap(us, SHARES_CONCEPTS, "shares")
+          : quarterlyMap(us, SHARES_CONCEPTS, "shares"),
+      interestExpense: flowMap(INTEREST_EXPENSE_CONCEPTS),
+      dna: flowMap(DA_CONCEPTS),
     },
     balance: {
       cash: balanceMap(us, CASH_CONCEPTS),
@@ -146,10 +171,10 @@ function buildConceptMaps(
       shortTermDebt: balanceMap(us, SHORT_TERM_DEBT_CONCEPTS),
     },
     cashFlow: {
-      operatingCashFlow: flowMap(us, OPERATING_CASH_FLOW_CONCEPTS),
-      capex: flowMap(us, CAPEX_CONCEPTS),
-      dividendsPaid: flowMap(us, DIVIDENDS_CONCEPTS),
-      buybacks: flowMap(us, BUYBACKS_CONCEPTS),
+      operatingCashFlow: flowMap(OPERATING_CASH_FLOW_CONCEPTS),
+      capex: flowMap(CAPEX_CONCEPTS),
+      dividendsPaid: flowMap(DIVIDENDS_CONCEPTS),
+      buybacks: flowMap(BUYBACKS_CONCEPTS),
     },
   };
 }

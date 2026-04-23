@@ -14,7 +14,22 @@ import {
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
 
 function fact(end: string, val: number, fp = "FY", filed = "2026-01-01"): EdgarFact {
-  return { end, val, fy: parseInt(end.slice(0, 4), 10), fp, form: "10-K", filed };
+  // Add a sensible `start` date so flow facts pass the
+  // standalone-quarter filter (~90-day period for quarters, ~365 for FY).
+  const endMs = new Date(`${end}T00:00:00.000Z`).getTime();
+  const offsetDays = fp === "FY" ? 365 : 90;
+  const start = new Date(endMs - offsetDays * 24 * 3600 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  return {
+    end,
+    start,
+    val,
+    fy: parseInt(end.slice(0, 4), 10),
+    fp,
+    form: fp === "FY" ? "10-K" : "10-Q",
+    filed,
+  };
 }
 
 /** Compact synthetic companyfacts payload: enough to exercise EBITDA
@@ -139,7 +154,10 @@ describe("mapQuarterlyPeriods", () => {
     };
     const q = mapQuarterlyPeriods(f);
     const quarters = q.map((p) => p.fiscalQuarter);
-    expect(quarters).toEqual(["2025Q3", "2025Q2", "2025Q1"]);
+    // Q4 is derived from FY annual − (Q1+Q2+Q3 standalones); the FY
+    // annual fact is in the synth fixture too, so Q4 is injected at
+    // the FY end date (2025-12-31 → "2025Q4").
+    expect(quarters).toEqual(["2025Q4", "2025Q3", "2025Q2", "2025Q1"]);
   });
 });
 

@@ -7,9 +7,23 @@ import {
 import type { HistoricalBar } from "./mapper.js";
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
 
-function fact(end: string, val: number, fp: string, filed = "2026-01-01"): EdgarFact {
+/** Synthesize an EDGAR fact with a sensible `start` date so it
+ * passes `isStandaloneQuarterFact` (90-day periods for quarters,
+ * ~365-day for FY). Tests can override start by passing it explicitly. */
+function fact(
+  end: string,
+  val: number,
+  fp: string,
+  filed = "2026-01-01",
+  startOverride?: string,
+): EdgarFact {
+  const endMs = new Date(`${end}T00:00:00.000Z`).getTime();
+  const offsetDays = fp === "FY" ? 365 : 90;
+  const startMs = endMs - offsetDays * 24 * 3600 * 1000;
+  const start = startOverride ?? new Date(startMs).toISOString().slice(0, 10);
   return {
     end,
+    start,
     val,
     fy: parseInt(end.slice(0, 4), 10),
     fp,

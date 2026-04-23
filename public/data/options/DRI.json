@@ -1,0 +1,125 @@
+{
+  "symbol": "DRI",
+  "fetchedAt": "2026-04-23T16:02:17.071Z",
+  "currentPrice": 202.62,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 216.37972657931087,
+          "contract": {
+            "contractSymbol": "DRI270115C00220000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 220,
+            "bid": 11.8,
+            "ask": 14.5,
+            "lastPrice": 10.4,
+            "volume": 1,
+            "openInterest": 223,
+            "impliedVolatility": 0.307074800415039,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08016930268280052,
+          "staticAnnualizedPct": 0.10959473962255502,
+          "assignedReturnPct": 0.16594563275880483,
+          "assignedAnnualizedPct": 0.22685451669274817,
+          "effectiveCostBasis": 190.82,
+          "effectiveDiscountPct": 0.05823709406771296
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 216.37972657931087,
+          "contract": {
+            "contractSymbol": "DRI270115P00200000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 200,
+            "bid": 16.1,
+            "ask": 19.2,
+            "lastPrice": 20.81,
+            "volume": 3,
+            "openInterest": 39,
+            "impliedVolatility": 0.2985909985351562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0805,
+          "notAssignedAnnualizedPct": 0.11004681647940075,
+          "effectiveCostBasis": 183.9,
+          "effectiveDiscountPct": 0.09238969499555819,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 216.37972657931087,
+          "contract": {
+            "contractSymbol": "DRI280121C00220000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 220,
+            "bid": 29,
+            "ask": 33,
+            "lastPrice": 26.3,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.37235124725341795,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.19553236167845064,
+          "staticAnnualizedPct": 0.1118641254116528,
+          "assignedReturnPct": 0.28130869175445494,
+          "assignedAnnualizedPct": 0.16093679073726655,
+          "effectiveCostBasis": 173.62,
+          "effectiveDiscountPct": 0.14312506169183695
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 216.37972657931087,
+          "contract": {
+            "contractSymbol": "DRI280121P00200000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 200,
+            "bid": 26,
+            "ask": 30.5,
+            "lastPrice": 29.8,
+            "volume": 3,
+            "openInterest": 78,
+            "impliedVolatility": 0.3013680703735352,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13,
+          "notAssignedAnnualizedPct": 0.0743730407523511,
+          "effectiveCostBasis": 174,
+          "effectiveDiscountPct": 0.1412496298489784,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

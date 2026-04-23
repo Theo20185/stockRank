@@ -1,63 +1,36 @@
 {
   "symbol": "MDT",
-  "fetchedAt": "2026-04-23T14:44:41.440Z",
-  "currentPrice": 83.93,
+  "fetchedAt": "2026-04-23T16:01:38.053Z",
+  "currentPrice": 83.41,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 121.91409774084208,
-          "contract": {
-            "contractSymbol": "MDT270115C00125000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 125,
-            "bid": 0.01,
-            "ask": 0.41,
-            "lastPrice": 0.2,
-            "volume": 2,
-            "openInterest": 95,
-            "impliedVolatility": 0.2700268310546875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.025011519661688054,
-          "staticAnnualizedPct": 0.03419177781466719,
-          "assignedReturnPct": 0.5143478713833607,
-          "assignedAnnualizedPct": 0.7031347305427964,
-          "effectiveCostBasis": 83.92,
-          "effectiveDiscountPct": 0.00011914690813773382
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 121.91409774084208,
+          "anchorPrice": 119.77854753577192,
           "contract": {
             "contractSymbol": "MDT270115P00082500",
             "expiration": "2027-01-15",
             "daysToExpiry": 267,
             "strike": 82.5,
-            "bid": 5.6,
+            "bid": 5.95,
             "ask": 6.6,
             "lastPrice": 6.7,
             "volume": 59,
             "openInterest": 308,
-            "impliedVolatility": 0.2569654382324219,
+            "impliedVolatility": 0.249030947265625,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.06787878787878787,
-          "notAssignedAnnualizedPct": 0.09279309953467256,
-          "effectiveCostBasis": 76.9,
-          "effectiveDiscountPct": 0.08376027642082688,
+          "notAssignedReturnPct": 0.07212121212121213,
+          "notAssignedAnnualizedPct": 0.09859266825558961,
+          "effectiveCostBasis": 76.55,
+          "effectiveDiscountPct": 0.08224433521160532,
           "inTheMoney": false
         }
       ]
@@ -65,12 +38,39 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 119.77854753577192,
+          "contract": {
+            "contractSymbol": "MDT280121C00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 120,
+            "bid": 1.5,
+            "ask": 2.5,
+            "lastPrice": 1.9,
+            "volume": 2,
+            "openInterest": 1313,
+            "impliedVolatility": 0.25843026733398444,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07755980265826672,
+          "staticAnnualizedPct": 0.04437198741421215,
+          "assignedReturnPct": 0.5162362203539866,
+          "assignedAnnualizedPct": 0.29533890349405195,
+          "effectiveCostBasis": 81.91,
+          "effectiveDiscountPct": 0.0179834552211965
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 121.91409774084208,
+          "anchorPrice": 119.77854753577192,
           "contract": {
             "contractSymbol": "MDT280121P00082500",
             "expiration": "2028-01-21",
@@ -81,7 +81,7 @@
             "lastPrice": 9.83,
             "volume": 5,
             "openInterest": 12,
-            "impliedVolatility": 0.2679516564941406,
+            "impliedVolatility": 0.26297734100341796,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -89,7 +89,7 @@
           "notAssignedReturnPct": 0.09454545454545454,
           "notAssignedAnnualizedPct": 0.054089484183528075,
           "effectiveCostBasis": 74.7,
-          "effectiveDiscountPct": 0.10997259621112836,
+          "effectiveDiscountPct": 0.10442392998441427,
           "inTheMoney": false
         }
       ]
