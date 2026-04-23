@@ -1,0 +1,125 @@
+{
+  "symbol": "XOM",
+  "fetchedAt": "2026-04-23T00:53:33.647Z",
+  "currentPrice": 149.5,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 151.9828020095536,
+          "contract": {
+            "contractSymbol": "XOM270115C00155000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 155,
+            "bid": 12.1,
+            "ask": 13,
+            "lastPrice": 13,
+            "volume": 1,
+            "openInterest": 1953,
+            "impliedVolatility": 0.3004220349121094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10127234526045722,
+          "staticAnnualizedPct": 0.13844346823995088,
+          "assignedReturnPct": 0.1380616429193201,
+          "assignedAnnualizedPct": 0.18873595380356495,
+          "effectiveCostBasis": 137.4,
+          "effectiveDiscountPct": 0.08093645484949832
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.9828020095536,
+          "contract": {
+            "contractSymbol": "XOM270115P00145000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 145,
+            "bid": 12,
+            "ask": 12.55,
+            "lastPrice": 12.4,
+            "volume": 2,
+            "openInterest": 768,
+            "impliedVolatility": 0.29273168212890616,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08275862068965517,
+          "notAssignedAnnualizedPct": 0.11313444401394808,
+          "effectiveCostBasis": 133,
+          "effectiveDiscountPct": 0.11036789297658862,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 151.9828020095536,
+          "contract": {
+            "contractSymbol": "XOM280121C00155000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 155,
+            "bid": 19.7,
+            "ask": 21.35,
+            "lastPrice": 19.77,
+            "volume": 6,
+            "openInterest": 526,
+            "impliedVolatility": 0.30049832809448246,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.18036545196316486,
+          "staticAnnualizedPct": 0.10318713160902065,
+          "assignedReturnPct": 0.21715474962202777,
+          "assignedAnnualizedPct": 0.12423430033235132,
+          "effectiveCostBasis": 129.8,
+          "effectiveDiscountPct": 0.1317725752508361
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 151.9828020095536,
+          "contract": {
+            "contractSymbol": "XOM280121P00145000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 145,
+            "bid": 16.7,
+            "ask": 20.25,
+            "lastPrice": 19,
+            "volume": 12,
+            "openInterest": 506,
+            "impliedVolatility": 0.29053443847656246,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11517241379310345,
+          "notAssignedAnnualizedPct": 0.06589017403523943,
+          "effectiveCostBasis": 128.3,
+          "effectiveDiscountPct": 0.14180602006688955,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

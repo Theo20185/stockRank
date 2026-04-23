@@ -1,0 +1,125 @@
+{
+  "symbol": "MDLZ",
+  "fetchedAt": "2026-04-23T00:54:52.152Z",
+  "currentPrice": 56.06,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 58.40689714946071,
+          "contract": {
+            "contractSymbol": "MDLZ270115C00060000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 60,
+            "bid": 2.55,
+            "ask": 3.9,
+            "lastPrice": 3.33,
+            "volume": 7,
+            "openInterest": 896,
+            "impliedVolatility": 0.28565167480468745,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.071528622073219,
+          "staticAnnualizedPct": 0.09778257324616081,
+          "assignedReturnPct": 0.14181046295798527,
+          "assignedAnnualizedPct": 0.1938607452421896,
+          "effectiveCostBasis": 53.510000000000005,
+          "effectiveDiscountPct": 0.04548697823760257
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 58.40689714946071,
+          "contract": {
+            "contractSymbol": "MDLZ270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 55,
+            "bid": 3.9,
+            "ask": 4.5,
+            "lastPrice": 4.2,
+            "volume": 2,
+            "openInterest": 3435,
+            "impliedVolatility": 0.26471682556152343,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07090909090909091,
+          "notAssignedAnnualizedPct": 0.09693564862104188,
+          "effectiveCostBasis": 51.1,
+          "effectiveDiscountPct": 0.08847663217980736,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 58.40689714946071,
+          "contract": {
+            "contractSymbol": "MDLZ280121C00060000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 60,
+            "bid": 5,
+            "ask": 8.5,
+            "lastPrice": 7,
+            "volume": 187,
+            "openInterest": 320,
+            "impliedVolatility": 0.34076586975097656,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15141700272213235,
+          "staticAnnualizedPct": 0.08662571472347698,
+          "assignedReturnPct": 0.22169884360689865,
+          "assignedAnnualizedPct": 0.12683397792557682,
+          "effectiveCostBasis": 51.06,
+          "effectiveDiscountPct": 0.08919015340706386
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 58.40689714946071,
+          "contract": {
+            "contractSymbol": "MDLZ280121P00055000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 55,
+            "bid": 4,
+            "ask": 9,
+            "lastPrice": 6.74,
+            "volume": 1,
+            "openInterest": 81,
+            "impliedVolatility": 0.3275213732910156,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07272727272727272,
+          "notAssignedAnnualizedPct": 0.04160729552579082,
+          "effectiveCostBasis": 51,
+          "effectiveDiscountPct": 0.09026043524794866,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

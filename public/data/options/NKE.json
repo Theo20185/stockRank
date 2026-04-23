@@ -1,0 +1,125 @@
+{
+  "symbol": "NKE",
+  "fetchedAt": "2026-04-23T00:53:09.478Z",
+  "currentPrice": 45.68,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 85.23157434043993,
+          "contract": {
+            "contractSymbol": "NKE270115C00087500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 87.5,
+            "bid": 0.34,
+            "ask": 0.49,
+            "lastPrice": 0.4,
+            "volume": 1,
+            "openInterest": 2607,
+            "impliedVolatility": 0.45654840332031255,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.033338424777487226,
+          "staticAnnualizedPct": 0.04557500016398067,
+          "assignedReturnPct": 0.9488375491207447,
+          "assignedAnnualizedPct": 1.2971000203336023,
+          "effectiveCostBasis": 45.339999999999996,
+          "effectiveDiscountPct": 0.007443082311733801
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 85.23157434043993,
+          "contract": {
+            "contractSymbol": "NKE270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 45,
+            "bid": 5.85,
+            "ask": 6.2,
+            "lastPrice": 5.9,
+            "volume": 68,
+            "openInterest": 9732,
+            "impliedVolatility": 0.42407802490234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13,
+          "notAssignedAnnualizedPct": 0.17771535580524345,
+          "effectiveCostBasis": 39.15,
+          "effectiveDiscountPct": 0.14295096322241685,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 85.23157434043993,
+          "contract": {
+            "contractSymbol": "NKE280121C00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 90,
+            "bid": 1.7,
+            "ask": 1.88,
+            "lastPrice": 1.68,
+            "volume": 55,
+            "openInterest": 1712,
+            "impliedVolatility": 0.4206600903320313,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.09909267183264162,
+          "staticAnnualizedPct": 0.05669094861898776,
+          "assignedReturnPct": 1.0693203425857065,
+          "assignedAnnualizedPct": 0.6117585032034215,
+          "effectiveCostBasis": 43.98,
+          "effectiveDiscountPct": 0.037215411558669004
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 85.23157434043993,
+          "contract": {
+            "contractSymbol": "NKE280121P00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 45,
+            "bid": 8.35,
+            "ask": 8.8,
+            "lastPrice": 8.8,
+            "volume": 10,
+            "openInterest": 4314,
+            "impliedVolatility": 0.38611453735351553,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.18555555555555556,
+          "notAssignedAnnualizedPct": 0.1061563915012191,
+          "effectiveCostBasis": 36.65,
+          "effectiveDiscountPct": 0.1976795096322242,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

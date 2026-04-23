@@ -1,0 +1,125 @@
+{
+  "symbol": "APO",
+  "fetchedAt": "2026-04-23T00:54:38.263Z",
+  "currentPrice": 129.06,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 137.392140396,
+          "contract": {
+            "contractSymbol": "APO270115C00140000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 140,
+            "bid": 13.7,
+            "ask": 14.9,
+            "lastPrice": 14.47,
+            "volume": 15,
+            "openInterest": 2459,
+            "impliedVolatility": 0.4352473468017578,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11785628687092549,
+          "staticAnnualizedPct": 0.1611143996550105,
+          "assignedReturnPct": 0.20262306201426963,
+          "assignedAnnualizedPct": 0.2769940735401064,
+          "effectiveCostBasis": 115.36,
+          "effectiveDiscountPct": 0.10615217728188439
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.392140396,
+          "contract": {
+            "contractSymbol": "APO270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 14.6,
+            "ask": 15.7,
+            "lastPrice": 15.2,
+            "volume": 7,
+            "openInterest": 540,
+            "impliedVolatility": 0.40881938842773435,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1168,
+          "notAssignedAnnualizedPct": 0.15967041198501872,
+          "effectiveCostBasis": 110.4,
+          "effectiveDiscountPct": 0.14458391445839142,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 137.392140396,
+          "contract": {
+            "contractSymbol": "APO280121C00140000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 140,
+            "bid": 23,
+            "ask": 27,
+            "lastPrice": 21,
+            "volume": 1,
+            "openInterest": 224,
+            "impliedVolatility": 0.46024099334716795,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.20617880777550635,
+          "staticAnnualizedPct": 0.11795496056122229,
+          "assignedReturnPct": 0.29094558291885053,
+          "assignedAnnualizedPct": 0.1664500591933863,
+          "effectiveCostBasis": 106.06,
+          "effectiveDiscountPct": 0.17821168448783511
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.392140396,
+          "contract": {
+            "contractSymbol": "APO280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 21,
+            "ask": 24.6,
+            "lastPrice": 23,
+            "volume": 1,
+            "openInterest": 496,
+            "impliedVolatility": 0.40131213928222653,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.168,
+          "notAssignedAnnualizedPct": 0.09611285266457681,
+          "effectiveCostBasis": 104,
+          "effectiveDiscountPct": 0.1941732527506586,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

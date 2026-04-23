@@ -1,0 +1,125 @@
+{
+  "symbol": "OXY",
+  "fetchedAt": "2026-04-23T00:55:04.185Z",
+  "currentPrice": 57.05,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 71.046193598,
+          "contract": {
+            "contractSymbol": "OXY270115C00072500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 72.5,
+            "bid": 2.57,
+            "ask": 2.86,
+            "lastPrice": 2.67,
+            "volume": 1,
+            "openInterest": 608,
+            "impliedVolatility": 0.38403936279296874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05858108004274069,
+          "staticAnnualizedPct": 0.08008274987116236,
+          "assignedReturnPct": 0.32939615453879684,
+          "assignedAnnualizedPct": 0.4502981138826249,
+          "effectiveCostBasis": 54.48,
+          "effectiveDiscountPct": 0.04504820333041192
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 71.046193598,
+          "contract": {
+            "contractSymbol": "OXY270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 55,
+            "bid": 5.5,
+            "ask": 5.9,
+            "lastPrice": 5.7,
+            "volume": 8,
+            "openInterest": 1833,
+            "impliedVolatility": 0.3606020971679687,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1,
+          "notAssignedAnnualizedPct": 0.13670411985018727,
+          "effectiveCostBasis": 49.5,
+          "effectiveDiscountPct": 0.1323400525854513,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 71.046193598,
+          "contract": {
+            "contractSymbol": "OXY280121C00072500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 72.5,
+            "bid": 5.65,
+            "ask": 7,
+            "lastPrice": 4.85,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.3959410992431641,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1313729196931315,
+          "staticAnnualizedPct": 0.07515848853917398,
+          "assignedReturnPct": 0.4021879941891876,
+          "assignedAnnualizedPct": 0.23009187755337537,
+          "effectiveCostBasis": 51.4,
+          "effectiveDiscountPct": 0.09903593339176163
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 71.046193598,
+          "contract": {
+            "contractSymbol": "OXY280121P00055000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 55,
+            "bid": 6.5,
+            "ask": 9.1,
+            "lastPrice": 8.07,
+            "volume": 5,
+            "openInterest": 1267,
+            "impliedVolatility": 0.34442794250488284,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11818181818181818,
+          "notAssignedAnnualizedPct": 0.06761185522941009,
+          "effectiveCostBasis": 48.5,
+          "effectiveDiscountPct": 0.14986853637160383,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

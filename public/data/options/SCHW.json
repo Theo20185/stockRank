@@ -1,0 +1,125 @@
+{
+  "symbol": "SCHW",
+  "fetchedAt": "2026-04-23T00:54:53.878Z",
+  "currentPrice": 91.71,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.82774499700002,
+          "contract": {
+            "contractSymbol": "SCHW270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 0.99,
+            "ask": 1.51,
+            "lastPrice": 1.15,
+            "volume": 1,
+            "openInterest": 535,
+            "impliedVolatility": 0.29932341308593746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.020962842163281217,
+          "staticAnnualizedPct": 0.028657068874897544,
+          "assignedReturnPct": 0.383954882289767,
+          "assignedAnnualizedPct": 0.5248821424560485,
+          "effectiveCostBasis": 90.72,
+          "effectiveDiscountPct": 0.010794896957801767
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.82774499700002,
+          "contract": {
+            "contractSymbol": "SCHW270115P00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 90,
+            "bid": 7.5,
+            "ask": 8.15,
+            "lastPrice": 7.75,
+            "volume": 100,
+            "openInterest": 5451,
+            "impliedVolatility": 0.2899851275634765,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08333333333333333,
+          "notAssignedAnnualizedPct": 0.11392009987515606,
+          "effectiveCostBasis": 82.5,
+          "effectiveDiscountPct": 0.1004252535165194,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.82774499700002,
+          "contract": {
+            "contractSymbol": "SCHW280121C00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 4.65,
+            "ask": 5.85,
+            "lastPrice": 5.66,
+            "volume": 1,
+            "openInterest": 414,
+            "impliedVolatility": 0.31488722229003896,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07499974224886966,
+          "staticAnnualizedPct": 0.04290737605146932,
+          "assignedReturnPct": 0.43799178237535535,
+          "assignedAnnualizedPct": 0.25057523599844,
+          "effectiveCostBasis": 87.05999999999999,
+          "effectiveDiscountPct": 0.050703303892705276
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.82774499700002,
+          "contract": {
+            "contractSymbol": "SCHW280121P00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 90,
+            "bid": 10.2,
+            "ask": 12.25,
+            "lastPrice": 11.5,
+            "volume": 4,
+            "openInterest": 86,
+            "impliedVolatility": 0.27457390472412113,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11333333333333333,
+          "notAssignedAnnualizedPct": 0.0648380355276907,
+          "effectiveCostBasis": 79.8,
+          "effectiveDiscountPct": 0.12986588158325152,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

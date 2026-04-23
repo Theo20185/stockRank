@@ -1,10 +1,6 @@
 import YahooFinance from "yahoo-finance2";
 import type {
-  AnnualBalance,
-  AnnualCashFlow,
-  AnnualIncome,
   AnnualPeriod,
-  AnnualRatios,
   CompanySnapshot,
   QuarterlyPeriod,
   TtmMetrics,
@@ -12,6 +8,15 @@ import type {
 import { pctOffHigh } from "@stockrank/core";
 import type { ErrorReporter, FetchOptions, MarketDataProvider } from "../provider.js";
 import { inferReportingCurrency } from "./currency.js";
+import {
+  decorateAnnualPeriodsWithPrices,
+  decorateQuarterlyPeriodsWithPrices,
+  EdgarNotFoundError,
+  getEdgarFundamentals,
+  type HistoricalBar as EdgarHistoricalBar,
+  withAnnualRatios,
+  withQuarterlyRatios,
+} from "../edgar/index.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
@@ -100,38 +105,6 @@ type YahooQuoteSummary = {
   };
 };
 
-// fundamentalsTimeSeries returns rows shaped like this; the actual list is
-// huge. We declare only the fields we read.
-type YahooFundamentalsRow = {
-  date: string | Date;
-  periodType?: string;
-  TYPE?: string;
-  totalRevenue?: number | null;
-  grossProfit?: number | null;
-  operatingIncome?: number | null;
-  EBIT?: number | null;
-  EBITDA?: number | null;
-  normalizedEBITDA?: number | null;
-  interestExpense?: number | null;
-  netIncome?: number | null;
-  dilutedEPS?: number | null;
-  dilutedAverageShares?: number | null;
-  cashAndCashEquivalents?: number | null;
-  currentAssets?: number | null;
-  currentLiabilities?: number | null;
-  totalDebt?: number | null;
-  longTermDebt?: number | null;
-  currentDebt?: number | null;
-  stockholdersEquity?: number | null;
-  netDebt?: number | null;
-  operatingCashFlow?: number | null;
-  capitalExpenditure?: number | null;
-  freeCashFlow?: number | null;
-  cashDividendsPaid?: number | null;
-  repurchaseOfCapitalStock?: number | null;
-  reconciledDepreciation?: number | null;
-};
-
 /**
  * Yahoo uses `-` instead of `.` for share-class delimiters: `BRK-B` not
  * `BRK.B`, `BF-B` not `BF.B`. The canonical S&P 500 list uses dots, so we
@@ -173,34 +146,24 @@ export class YahooProvider implements MarketDataProvider {
       return null;
     }
 
-    let fundamentals: YahooFundamentalsRow[] = [];
+    // Fundamentals come from SEC EDGAR (XBRL companyfacts). Yahoo's
+    // fundamentalsTimeSeries caps at ~6 quarters of history, which
+    // isn't enough to reconstruct TTM at past dates. EDGAR is the
+    // authoritative source — same data Yahoo and FMP both repackage —
+    // and reaches back to ~2009 (when XBRL tagging was mandated).
+    // Cached per-symbol at tmp/edgar-cache/{SYMBOL}/facts.json.
+    // See docs/specs/edgar.md for the spec, fallback chains, and
+    // sign-convention notes.
+    let edgarAnnual: AnnualPeriod[] = [];
+    let edgarQuarterly: QuarterlyPeriod[] = [];
     try {
-      const result = await yahooFinance.fundamentalsTimeSeries(yahooSymbol, {
-        period1: priceFromMinusYears(options.priceTo, 5),
-        type: "annual",
-        module: "all",
-      });
-      fundamentals = (result as unknown as YahooFundamentalsRow[]) ?? [];
+      const fundamentals = await getEdgarFundamentals(symbol);
+      edgarAnnual = fundamentals.annual;
+      edgarQuarterly = fundamentals.quarterly;
     } catch (err) {
-      reportError(makeError(symbol, "fundamentalsTimeSeries", err));
-    }
-
-    // Quarterly fundamentals — needed by the back-test to reconstruct
-    // TTM (sum of trailing 4 quarters) at any historical date,
-    // matching what Yahoo's defaultKeyStatistics provides as TTM for
-    // the live snapshot. Without this the back-test uses annual[0] as
-    // a TTM proxy, which can differ materially when the most recent
-    // quarter swings away from the prior fiscal year's run-rate.
-    let fundamentalsQuarterly: YahooFundamentalsRow[] = [];
-    try {
-      const result = await yahooFinance.fundamentalsTimeSeries(yahooSymbol, {
-        period1: priceFromMinusYears(options.priceTo, 5),
-        type: "quarterly",
-        module: "all",
-      });
-      fundamentalsQuarterly = (result as unknown as YahooFundamentalsRow[]) ?? [];
-    } catch (err) {
-      reportError(makeError(symbol, "fundamentalsTimeSeries-quarterly", err));
+      const endpoint =
+        err instanceof EdgarNotFoundError ? "edgar-not-found" : "edgar";
+      reportError(makeError(symbol, endpoint, err));
     }
 
     let priceBars: Array<{ close: number; volume: number }> = [];
@@ -295,8 +258,18 @@ export class YahooProvider implements MarketDataProvider {
       }
     }
 
-    const annual = mapAnnualPeriods(fundamentals, fxRate, historicalBars);
-    const quarterly = mapQuarterlyPeriods(fundamentalsQuarterly, fxRate, historicalBars);
+    // EDGAR returns periods with priceAt* and ratios all null.
+    // Decorate with prices from Yahoo's monthly chart, then compute
+    // ratios (ROIC, netDebt/EBITDA, current ratio) from the
+    // already-extracted income/balance figures.
+    const annual = decorateAnnualPeriodsWithPrices(
+      edgarAnnual,
+      historicalBars as EdgarHistoricalBar[],
+    ).map(withAnnualRatios);
+    const quarterly = decorateQuarterlyPeriodsWithPrices(
+      edgarQuarterly,
+      historicalBars as EdgarHistoricalBar[],
+    ).map(withQuarterlyRatios);
     const ttm = mapTtm(summary, currentPrice, annual[0], fxRate);
 
     // Cross-check spot price against marketCap / latest share count.
@@ -370,17 +343,6 @@ function priceFromMinusYears(iso: string, years: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-function fiscalYearOf(date: string | Date): string {
-  const d = typeof date === "string" ? new Date(date) : date;
-  return String(d.getUTCFullYear());
-}
-
-function fiscalQuarterOf(date: string | Date): string {
-  const d = typeof date === "string" ? new Date(date) : date;
-  const q = Math.ceil((d.getUTCMonth() + 1) / 3);
-  return `${d.getUTCFullYear()}Q${q}`;
-}
-
 /** Multiply a nullable amount by an FX rate. Pass-through if null. */
 function fx(value: number | null, rate: number): number | null {
   return value === null ? null : value * rate;
@@ -388,263 +350,15 @@ function fx(value: number | null, rate: number): number | null {
 
 type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
 
-function mapAnnualPeriods(
-  rows: YahooFundamentalsRow[],
-  fxRate: number,
-  historicalBars: HistoricalBar[] = [],
-): AnnualPeriod[] {
-  // fundamentalsTimeSeries returns rows oldest-first. Sort newest-first for
-  // consistency with the rest of the codebase.
-  const sorted = [...rows].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
-
-  // Sort historical chart oldest-first so we can walk forward to find
-  // the close at-or-before each period-end.
-  const barsAsc = [...historicalBars].sort((a, b) =>
-    a.date.localeCompare(b.date),
-  );
-  function closeAtOrBefore(targetIso: string): number | null {
-    let result: number | null = null;
-    for (const q of barsAsc) {
-      if (q.date <= targetIso) result = q.close;
-      else break;
-    }
-    return result;
-  }
-  function rangeInWindow(startIso: string, endIso: string): { high: number | null; low: number | null } {
-    let high: number | null = null;
-    let low: number | null = null;
-    for (const bar of barsAsc) {
-      if (bar.date < startIso || bar.date > endIso) continue;
-      const barHigh = bar.high ?? bar.close;
-      const barLow = bar.low ?? bar.close;
-      if (high === null || barHigh > high) high = barHigh;
-      if (low === null || barLow < low) low = barLow;
-    }
-    return { high, low };
-  }
-  function fyWindow(periodEndIso: string): { start: string; end: string } {
-    const d = new Date(`${periodEndIso}T00:00:00.000Z`);
-    d.setUTCFullYear(d.getUTCFullYear() - 1);
-    return { start: d.toISOString().slice(0, 10), end: periodEndIso };
-  }
-
-  return sorted.map((row) => {
-    const ebit = fx(n(row.EBIT) ?? n(row.operatingIncome), fxRate);
-    const depreciation = fx(n(row.reconciledDepreciation), fxRate);
-    const ebitda =
-      fx(n(row.EBITDA), fxRate) ??
-      fx(n(row.normalizedEBITDA), fxRate) ??
-      (ebit !== null && depreciation !== null ? ebit + depreciation : ebit);
-
-    const totalDebt =
-      fx(n(row.totalDebt), fxRate) ??
-      (() => {
-        const long = n(row.longTermDebt) ?? 0;
-        const current = n(row.currentDebt) ?? 0;
-        const sum = long + current;
-        return sum > 0 ? sum * fxRate : null;
-      })();
-    const cash = fx(n(row.cashAndCashEquivalents), fxRate);
-
-    const ratios = computeAnnualRatios({
-      ebit,
-      ebitda,
-      totalDebt,
-      cash,
-      equity: fx(n(row.stockholdersEquity), fxRate),
-      currentAssets: fx(n(row.currentAssets), fxRate),
-      currentLiabilities: fx(n(row.currentLiabilities), fxRate),
-    });
-
-    const periodEndDate = new Date(row.date).toISOString().slice(0, 10);
-    const window = fyWindow(periodEndDate);
-    const range = rangeInWindow(window.start, window.end);
-    const period: AnnualPeriod = {
-      fiscalYear: fiscalYearOf(row.date),
-      periodEndDate,
-      filingDate: null,
-      // After FX conversion every numeric value is in the quote currency
-      // (USD for ADR listings). The literal "USD" here is loose — to be
-      // strictly correct we'd carry the actual quote currency, but for our
-      // S&P 500 + selected ADR universe this is true.
-      reportedCurrency: "USD",
-      // Close at or just before the period-end date, looked up from the
-      // historical monthly chart fetched alongside the fundamentals.
-      // FX rate doesn't apply: chart prices are already in the listing's
-      // quote currency. Null when the chart didn't reach far enough back
-      // (rare — only the oldest period of a long history).
-      priceAtYearEnd: closeAtOrBefore(periodEndDate),
-      priceHighInYear: range.high,
-      priceLowInYear: range.low,
-      income: {
-        revenue: fx(n(row.totalRevenue), fxRate),
-        grossProfit: fx(n(row.grossProfit), fxRate),
-        operatingIncome: fx(n(row.operatingIncome), fxRate),
-        ebit,
-        ebitda,
-        interestExpense: fx(n(row.interestExpense), fxRate),
-        netIncome: fx(n(row.netIncome), fxRate),
-        epsDiluted: fx(n(row.dilutedEPS), fxRate),
-        sharesDiluted: n(row.dilutedAverageShares), // count, no FX
-      } satisfies AnnualIncome,
-      balance: {
-        cash,
-        totalCurrentAssets: fx(n(row.currentAssets), fxRate),
-        totalCurrentLiabilities: fx(n(row.currentLiabilities), fxRate),
-        totalDebt,
-        totalEquity: fx(n(row.stockholdersEquity), fxRate),
-      } satisfies AnnualBalance,
-      cashFlow: {
-        operatingCashFlow: fx(n(row.operatingCashFlow), fxRate),
-        capex: fx(n(row.capitalExpenditure), fxRate),
-        freeCashFlow: fx(n(row.freeCashFlow), fxRate),
-        dividendsPaid:
-          row.cashDividendsPaid !== null && row.cashDividendsPaid !== undefined
-            ? Math.abs(row.cashDividendsPaid) * fxRate
-            : null,
-        buybacks:
-          row.repurchaseOfCapitalStock !== null && row.repurchaseOfCapitalStock !== undefined
-            ? Math.abs(row.repurchaseOfCapitalStock) * fxRate
-            : null,
-      } satisfies AnnualCashFlow,
-      ratios,
-    };
-    return period;
-  });
-}
-
-/**
- * Same shape as mapAnnualPeriods but at quarterly cadence. Yahoo's
- * `fundamentalsTimeSeries` with type="quarterly" returns the same
- * row shape as annual, just one entry per fiscal quarter. The
- * mapping is mechanical — the back-test sums these to reconstruct
- * TTM at any historical date.
- */
-function mapQuarterlyPeriods(
-  rows: YahooFundamentalsRow[],
-  fxRate: number,
-  historicalBars: HistoricalBar[] = [],
-): QuarterlyPeriod[] {
-  const sorted = [...rows].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
-  const barsAsc = [...historicalBars].sort((a, b) =>
-    a.date.localeCompare(b.date),
-  );
-  function closeAtOrBefore(targetIso: string): number | null {
-    let result: number | null = null;
-    for (const q of barsAsc) {
-      if (q.date <= targetIso) result = q.close;
-      else break;
-    }
-    return result;
-  }
-
-  return sorted.map((row) => {
-    const ebit = fx(n(row.EBIT) ?? n(row.operatingIncome), fxRate);
-    const depreciation = fx(n(row.reconciledDepreciation), fxRate);
-    const ebitda =
-      fx(n(row.EBITDA), fxRate) ??
-      fx(n(row.normalizedEBITDA), fxRate) ??
-      (ebit !== null && depreciation !== null ? ebit + depreciation : ebit);
-    const totalDebt =
-      fx(n(row.totalDebt), fxRate) ??
-      (() => {
-        const long = n(row.longTermDebt) ?? 0;
-        const current = n(row.currentDebt) ?? 0;
-        const sum = long + current;
-        return sum > 0 ? sum * fxRate : null;
-      })();
-    const cash = fx(n(row.cashAndCashEquivalents), fxRate);
-    const ratios = computeAnnualRatios({
-      ebit,
-      ebitda,
-      totalDebt,
-      cash,
-      equity: fx(n(row.stockholdersEquity), fxRate),
-      currentAssets: fx(n(row.currentAssets), fxRate),
-      currentLiabilities: fx(n(row.currentLiabilities), fxRate),
-    });
-    const periodEndDate = new Date(row.date).toISOString().slice(0, 10);
-    return {
-      fiscalQuarter: fiscalQuarterOf(row.date),
-      periodEndDate,
-      filingDate: null,
-      reportedCurrency: "USD",
-      priceAtQuarterEnd: closeAtOrBefore(periodEndDate),
-      income: {
-        revenue: fx(n(row.totalRevenue), fxRate),
-        grossProfit: fx(n(row.grossProfit), fxRate),
-        operatingIncome: fx(n(row.operatingIncome), fxRate),
-        ebit,
-        ebitda,
-        interestExpense: fx(n(row.interestExpense), fxRate),
-        netIncome: fx(n(row.netIncome), fxRate),
-        epsDiluted: fx(n(row.dilutedEPS), fxRate),
-        sharesDiluted: n(row.dilutedAverageShares),
-      } satisfies AnnualIncome,
-      balance: {
-        cash,
-        totalCurrentAssets: fx(n(row.currentAssets), fxRate),
-        totalCurrentLiabilities: fx(n(row.currentLiabilities), fxRate),
-        totalDebt,
-        totalEquity: fx(n(row.stockholdersEquity), fxRate),
-      } satisfies AnnualBalance,
-      cashFlow: {
-        operatingCashFlow: fx(n(row.operatingCashFlow), fxRate),
-        capex: fx(n(row.capitalExpenditure), fxRate),
-        freeCashFlow: fx(n(row.freeCashFlow), fxRate),
-        dividendsPaid:
-          row.cashDividendsPaid !== null && row.cashDividendsPaid !== undefined
-            ? Math.abs(row.cashDividendsPaid) * fxRate
-            : null,
-        buybacks:
-          row.repurchaseOfCapitalStock !== null && row.repurchaseOfCapitalStock !== undefined
-            ? Math.abs(row.repurchaseOfCapitalStock) * fxRate
-            : null,
-      } satisfies AnnualCashFlow,
-      ratios,
-    };
-  });
-}
-
-function computeAnnualRatios(input: {
-  ebit: number | null;
-  ebitda: number | null;
-  totalDebt: number | null;
-  cash: number | null;
-  equity: number | null;
-  currentAssets: number | null;
-  currentLiabilities: number | null;
-}): AnnualRatios {
-  const netDebt =
-    input.totalDebt !== null && input.cash !== null
-      ? input.totalDebt - input.cash
-      : null;
-  const netDebtToEbitda =
-    netDebt !== null && input.ebitda !== null && input.ebitda > 0
-      ? netDebt / input.ebitda
-      : null;
-  const currentRatio =
-    input.currentAssets !== null &&
-    input.currentLiabilities !== null &&
-    input.currentLiabilities > 0
-      ? input.currentAssets / input.currentLiabilities
-      : null;
-  // ROIC ≈ EBIT × (1 - 0.21 effective tax) / Invested Capital.
-  // Flat 21% tax assumption since per-period tax rate isn't always present.
-  const investedCapital =
-    input.equity !== null && input.totalDebt !== null && input.cash !== null
-      ? input.equity + input.totalDebt - input.cash
-      : null;
-  const roic =
-    input.ebit !== null && investedCapital !== null && investedCapital > 0
-      ? (input.ebit * (1 - 0.21)) / investedCapital
-      : null;
-  return { roic, netDebtToEbitda, currentRatio };
-}
+// EDGAR replaces these mappers — kept for reference of the prior FX
+// + ratios behavior; entire block is dead code that the EDGAR mapper
+// + price-decoration helpers now own.
+//
+// Removed: mapAnnualPeriods, mapQuarterlyPeriods, computeAnnualRatios.
+// Live equivalents: see packages/data/src/edgar/mapper.ts
+//   (mapAnnualPeriods, mapQuarterlyPeriods, decorateAnnualPeriodsWithPrices,
+//    decorateQuarterlyPeriodsWithPrices, withAnnualRatios,
+//    withQuarterlyRatios).
 
 function mapTtm(
   summary: YahooQuoteSummary,

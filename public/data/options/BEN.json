@@ -1,0 +1,125 @@
+{
+  "symbol": "BEN",
+  "fetchedAt": "2026-04-23T00:54:50.386Z",
+  "currentPrice": 27.49,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 29.855124060162325,
+          "contract": {
+            "contractSymbol": "BEN270115C00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 30,
+            "bid": 1.55,
+            "ask": 2.15,
+            "lastPrice": 1.81,
+            "volume": 10,
+            "openInterest": 1020,
+            "impliedVolatility": 0.33228206787109377,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0918622204159261,
+          "staticAnnualizedPct": 0.1255794398944308,
+          "assignedReturnPct": 0.18316814984480942,
+          "assignedAnnualizedPct": 0.25039840709121886,
+          "effectiveCostBasis": 25.939999999999998,
+          "effectiveDiscountPct": 0.05638413968715897
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 29.855124060162325,
+          "contract": {
+            "contractSymbol": "BEN270115P00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 25,
+            "bid": 1.8,
+            "ask": 2.25,
+            "lastPrice": 1.91,
+            "volume": 2,
+            "openInterest": 814,
+            "impliedVolatility": 0.37525038818359374,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07200000000000001,
+          "notAssignedAnnualizedPct": 0.09842696629213485,
+          "effectiveCostBasis": 23.2,
+          "effectiveDiscountPct": 0.15605674790833027,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 29.855124060162325,
+          "contract": {
+            "contractSymbol": "BEN280121C00030000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 30,
+            "bid": 1.55,
+            "ask": 4.7,
+            "lastPrice": 3.02,
+            "volume": 26,
+            "openInterest": 60,
+            "impliedVolatility": 0.3913635083007812,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.141159478657022,
+          "staticAnnualizedPct": 0.08075738199030257,
+          "assignedReturnPct": 0.2324654080859053,
+          "assignedAnnualizedPct": 0.1329935328391151,
+          "effectiveCostBasis": 25.939999999999998,
+          "effectiveDiscountPct": 0.05638413968715897
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 29.855124060162325,
+          "contract": {
+            "contractSymbol": "BEN280121P00025000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 25,
+            "bid": 1.5,
+            "ask": 4.9,
+            "lastPrice": 6.25,
+            "volume": 1,
+            "openInterest": 26,
+            "impliedVolatility": 0.4445856323242187,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06,
+          "notAssignedAnnualizedPct": 0.034326018808777434,
+          "effectiveCostBasis": 23.5,
+          "effectiveDiscountPct": 0.14514368861404142,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "symbol": "CTRA",
+  "fetchedAt": "2026-04-23T00:53:11.247Z",
+  "currentPrice": 32.93,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 34.34257074139056,
+          "contract": {
+            "contractSymbol": "CTRA270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 35,
+            "bid": 2.85,
+            "ask": 3.5,
+            "lastPrice": 3.05,
+            "volume": 4,
+            "openInterest": 1472,
+            "impliedVolatility": 0.3857483300781249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10673681041977794,
+          "staticAnnualizedPct": 0.1459136172405204,
+          "assignedReturnPct": 0.16959742384218912,
+          "assignedAnnualizedPct": 0.2318466655520563,
+          "effectiveCostBasis": 30.08,
+          "effectiveDiscountPct": 0.08654722137868205
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 34.34257074139056,
+          "contract": {
+            "contractSymbol": "CTRA270115P00032000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 32,
+            "bid": 3,
+            "ask": 5.7,
+            "lastPrice": 3.5,
+            "volume": 1,
+            "openInterest": 4,
+            "impliedVolatility": 0.5600629931640625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09375,
+          "notAssignedAnnualizedPct": 0.12816011235955055,
+          "effectiveCostBasis": 29,
+          "effectiveDiscountPct": 0.11934406316428788,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 34.34257074139056,
+          "contract": {
+            "contractSymbol": "CTRA280121C00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 35,
+            "bid": 3,
+            "ask": 7.1,
+            "lastPrice": 4.6,
+            "volume": 5,
+            "openInterest": 71,
+            "impliedVolatility": 0.4583794396972657,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13934562596458241,
+          "staticAnnualizedPct": 0.07971967629635202,
+          "assignedReturnPct": 0.2022062393869936,
+          "assignedAnnualizedPct": 0.11568225294083491,
+          "effectiveCostBasis": 29.93,
+          "effectiveDiscountPct": 0.09110233829334953
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 34.34257074139056,
+          "contract": {
+            "contractSymbol": "CTRA280121P00032000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 32,
+            "bid": 4,
+            "ask": 8,
+            "lastPrice": 5,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.5028125891113282,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.125,
+          "notAssignedAnnualizedPct": 0.07151253918495298,
+          "effectiveCostBasis": 28,
+          "effectiveDiscountPct": 0.14971150926207105,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

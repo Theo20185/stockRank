@@ -1,0 +1,125 @@
+{
+  "symbol": "TMO",
+  "fetchedAt": "2026-04-23T00:54:39.996Z",
+  "currentPrice": 513.98,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 566.7143644406544,
+          "contract": {
+            "contractSymbol": "TMO270115C00570000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 570,
+            "bid": 33.6,
+            "ask": 37.8,
+            "lastPrice": 40.9,
+            "volume": 4,
+            "openInterest": 150,
+            "impliedVolatility": 0.3349981051635742,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06785931675823428,
+          "staticAnnualizedPct": 0.0927664817106948,
+          "assignedReturnPct": 0.17685188456242895,
+          "assignedAnnualizedPct": 0.24176381222953772,
+          "effectiveCostBasis": 480.38,
+          "effectiveDiscountPct": 0.06537219347056306
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 566.7143644406544,
+          "contract": {
+            "contractSymbol": "TMO270115P00510000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 510,
+            "bid": 43.9,
+            "ask": 47.8,
+            "lastPrice": 44.55,
+            "volume": 1,
+            "openInterest": 190,
+            "impliedVolatility": 0.28515576911926266,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08607843137254902,
+          "notAssignedAnnualizedPct": 0.1176727619886906,
+          "effectiveCostBasis": 466.1,
+          "effectiveDiscountPct": 0.09315537569555235,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 566.7143644406544,
+          "contract": {
+            "contractSymbol": "TMO280121C00570000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 570,
+            "bid": 76,
+            "ask": 84.2,
+            "lastPrice": 55.7,
+            "volume": 6,
+            "openInterest": 7,
+            "impliedVolatility": 0.38877716941833496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1538086894058561,
+          "staticAnnualizedPct": 0.08799399942498037,
+          "assignedReturnPct": 0.26280125721005076,
+          "assignedAnnualizedPct": 0.1503486816327093,
+          "effectiveCostBasis": 437.98,
+          "effectiveDiscountPct": 0.14786567570722595
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 566.7143644406544,
+          "contract": {
+            "contractSymbol": "TMO280121P00510000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 510,
+            "bid": 65.6,
+            "ask": 69.6,
+            "lastPrice": 67.1,
+            "volume": 8,
+            "openInterest": 0,
+            "impliedVolatility": 0.26638764625549316,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12862745098039213,
+          "notAssignedAnnualizedPct": 0.07358780502796729,
+          "effectiveCostBasis": 444.4,
+          "effectiveDiscountPct": 0.13537491731195775,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

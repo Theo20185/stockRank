@@ -1,0 +1,72 @@
+{
+  "symbol": "NXPI",
+  "fetchedAt": "2026-04-23T00:53:56.316Z",
+  "currentPrice": 225.75,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 440.4853264425866,
+          "contract": {
+            "contractSymbol": "NXPI270115C00380000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 380,
+            "bid": 2.4,
+            "ask": 4,
+            "lastPrice": 3.2,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.4354914849853516,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.023871502476976288,
+          "staticAnnualizedPct": 0.032633327356166086,
+          "assignedReturnPct": 0.7071494648247061,
+          "assignedAnnualizedPct": 0.966702451913924,
+          "effectiveCostBasis": 223.35,
+          "effectiveDiscountPct": 0.010631229235880398
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 440.4853264425866,
+          "contract": {
+            "contractSymbol": "NXPI270115P00220000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 220,
+            "bid": 25.6,
+            "ask": 28.4,
+            "lastPrice": 32.7,
+            "volume": 9,
+            "openInterest": 125,
+            "impliedVolatility": 0.41165749481201175,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11636363636363636,
+          "notAssignedAnnualizedPct": 0.15907388491658156,
+          "effectiveCostBasis": 194.4,
+          "effectiveDiscountPct": 0.1388704318936877,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": []
+    }
+  ]
+}

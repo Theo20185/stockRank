@@ -1,0 +1,98 @@
+{
+  "symbol": "ALGN",
+  "fetchedAt": "2026-04-23T00:53:31.893Z",
+  "currentPrice": 196.05,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 207.97124189421027,
+          "contract": {
+            "contractSymbol": "ALGN270115C00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 210,
+            "bid": 26,
+            "ask": 29.4,
+            "lastPrice": 28.99,
+            "volume": 1,
+            "openInterest": 66,
+            "impliedVolatility": 0.5223741610717773,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1326192297883193,
+          "staticAnnualizedPct": 0.18129595083421926,
+          "assignedReturnPct": 0.2037745473093598,
+          "assignedAnnualizedPct": 0.27856820137796373,
+          "effectiveCostBasis": 170.05,
+          "effectiveDiscountPct": 0.1326192297883193
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 207.97124189421027,
+          "contract": {
+            "contractSymbol": "ALGN270115P00195000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 195,
+            "bid": 26.8,
+            "ask": 29.9,
+            "lastPrice": 27.15,
+            "volume": 80,
+            "openInterest": 101,
+            "impliedVolatility": 0.45819633605957044,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13743589743589743,
+          "notAssignedAnnualizedPct": 0.18788053394794968,
+          "effectiveCostBasis": 168.2,
+          "effectiveDiscountPct": 0.14205559806171905,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 207.97124189421027,
+          "contract": {
+            "contractSymbol": "ALGN280121P00195000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 195,
+            "bid": 62.3,
+            "ask": 68.7,
+            "lastPrice": 78.05,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 0.6603427520751954,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.3194871794871795,
+          "notAssignedAnnualizedPct": 0.18277871553733624,
+          "effectiveCostBasis": 132.7,
+          "effectiveDiscountPct": 0.3231318541188473,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

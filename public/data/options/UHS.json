@@ -1,6 +1,6 @@
 {
   "symbol": "UHS",
-  "fetchedAt": "2026-04-22T21:24:54.730Z",
+  "fetchedAt": "2026-04-23T00:52:06.966Z",
   "currentPrice": 180.72,
   "expirations": [
     {
@@ -10,26 +10,26 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 248.15689505934805,
+          "anchorPrice": 229.25826729507986,
           "contract": {
             "contractSymbol": "UHS260515C00220000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 23,
+            "daysToExpiry": 22,
             "strike": 220,
             "bid": 0.05,
             "ask": 1.2,
             "lastPrice": 1.25,
             "volume": 3,
             "openInterest": 5,
-            "impliedVolatility": 0.5698285205078125,
+            "impliedVolatility": 0.5820354296875,
             "inTheMoney": false
           },
-          "snapWarning": true,
+          "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0005602327372397775,
-          "staticAnnualizedPct": 0.008890649960544296,
-          "assignedReturnPct": 0.21791304371554876,
-          "assignedAnnualizedPct": 3.4581852589641433,
+          "staticReturnPct": 0.0005479039701164899,
+          "staticAnnualizedPct": 0.009090224958750856,
+          "assignedReturnPct": 0.2179007149484255,
+          "assignedAnnualizedPct": 3.615170952553423,
           "effectiveCostBasis": 180.67,
           "effectiveDiscountPct": 0.0002766710934041612
         }
@@ -38,24 +38,24 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 248.15689505934805,
+          "anchorPrice": 229.25826729507986,
           "contract": {
             "contractSymbol": "UHS260515P00180000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 23,
+            "daysToExpiry": 22,
             "strike": 180,
             "bid": 6.9,
             "ask": 8.3,
             "lastPrice": 8.27,
             "volume": 2,
             "openInterest": 2984,
-            "impliedVolatility": 0.46936565795898444,
+            "impliedVolatility": 0.47949739257812496,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
           "notAssignedReturnPct": 0.03833333333333334,
-          "notAssignedAnnualizedPct": 0.6083333333333334,
+          "notAssignedAnnualizedPct": 0.6359848484848485,
           "effectiveCostBasis": 173.1,
           "effectiveDiscountPct": 0.04216467463479418,
           "inTheMoney": false
@@ -65,29 +65,56 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 229.25826729507986,
+          "contract": {
+            "contractSymbol": "UHS260717C00230000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 85,
+            "strike": 230,
+            "bid": 0.35,
+            "ask": 1.55,
+            "lastPrice": 0.99,
+            "volume": 1,
+            "openInterest": 28,
+            "impliedVolatility": 0.3719545227050781,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0029846428593085796,
+          "staticAnnualizedPct": 0.012816407572325076,
+          "assignedReturnPct": 0.2756716725184498,
+          "assignedAnnualizedPct": 1.1837665937556963,
+          "effectiveCostBasis": 180.37,
+          "effectiveDiscountPct": 0.0019366976538291278
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 248.15689505934805,
+          "anchorPrice": 229.25826729507986,
           "contract": {
             "contractSymbol": "UHS260717P00180000",
             "expiration": "2026-07-17",
-            "daysToExpiry": 86,
+            "daysToExpiry": 85,
             "strike": 180,
             "bid": 10.7,
             "ask": 13.1,
             "lastPrice": 12.3,
             "volume": 1,
             "openInterest": 16,
-            "impliedVolatility": 0.3836731555175781,
+            "impliedVolatility": 0.3859314337158203,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.05944444444444444,
-          "notAssignedAnnualizedPct": 0.25229328165374676,
+          "notAssignedAnnualizedPct": 0.2552614379084967,
           "effectiveCostBasis": 169.3,
           "effectiveDiscountPct": 0.06319167773351034,
           "inTheMoney": false

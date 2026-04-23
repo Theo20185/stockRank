@@ -1,0 +1,99 @@
+{
+  "symbol": "NSC",
+  "fetchedAt": "2026-04-23T00:54:31.212Z",
+  "currentPrice": 298.33,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 312.82134155666665,
+          "contract": {
+            "contractSymbol": "NSC270115C00320000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 320,
+            "bid": 15.1,
+            "ask": 19.2,
+            "lastPrice": 17,
+            "volume": 3,
+            "openInterest": 52,
+            "impliedVolatility": 0.2726360578918457,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06370906327414388,
+          "staticAnnualizedPct": 0.0870929142137173,
+          "assignedReturnPct": 0.13634674637674843,
+          "assignedAnnualizedPct": 0.18639161957870104,
+          "effectiveCostBasis": 283.22999999999996,
+          "effectiveDiscountPct": 0.05061509067140415
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 312.82134155666665,
+          "contract": {
+            "contractSymbol": "NSC270115P00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 290,
+            "bid": 17.5,
+            "ask": 21.6,
+            "lastPrice": 20,
+            "volume": 1,
+            "openInterest": 113,
+            "impliedVolatility": 0.2547071600341797,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0603448275862069,
+          "notAssignedAnnualizedPct": 0.08249386542683715,
+          "effectiveCostBasis": 272.5,
+          "effectiveDiscountPct": 0.08658197298293831,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 312.82134155666665,
+          "contract": {
+            "contractSymbol": "NSC280121C00320000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 320,
+            "bid": 36,
+            "ask": 41,
+            "lastPrice": 27.25,
+            "volume": 5,
+            "openInterest": 8,
+            "impliedVolatility": 0.3154365332031249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15195995852712518,
+          "staticAnnualizedPct": 0.08693633990971895,
+          "assignedReturnPct": 0.22459764162972976,
+          "assignedAnnualizedPct": 0.12849238118315262,
+          "effectiveCostBasis": 262.33,
+          "effectiveDiscountPct": 0.12067173934904302
+        }
+      ],
+      "puts": []
+    }
+  ]
+}

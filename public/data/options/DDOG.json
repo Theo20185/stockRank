@@ -1,0 +1,125 @@
+{
+  "symbol": "DDOG",
+  "fetchedAt": "2026-04-23T00:53:58.061Z",
+  "currentPrice": 132.14,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG270115C00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 290,
+            "bid": 1.8,
+            "ask": 2.5,
+            "lastPrice": 1.85,
+            "volume": 1,
+            "openInterest": 67,
+            "impliedVolatility": 0.5712933496093751,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.01362191614953837,
+          "staticAnnualizedPct": 0.01862172057895695,
+          "assignedReturnPct": 1.2082639624640537,
+          "assignedAnnualizedPct": 1.6517466153534817,
+          "effectiveCostBasis": 130.33999999999997,
+          "effectiveDiscountPct": 0.01362191614953837
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG270115P00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 130,
+            "bid": 23.7,
+            "ask": 24.9,
+            "lastPrice": 24.87,
+            "volume": 7,
+            "openInterest": 1275,
+            "impliedVolatility": 0.5717205914306642,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1823076923076923,
+          "notAssignedAnnualizedPct": 0.24922212618841832,
+          "effectiveCostBasis": 106.3,
+          "effectiveDiscountPct": 0.1955501740578174,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG280121C00290000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 290,
+            "bid": 9,
+            "ask": 12.5,
+            "lastPrice": 11,
+            "volume": 1,
+            "openInterest": 110,
+            "impliedVolatility": 0.56836369140625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.06810958074769186,
+          "staticAnnualizedPct": 0.03896551249672026,
+          "assignedReturnPct": 1.262751627062207,
+          "assignedAnnualizedPct": 0.7224206016891938,
+          "effectiveCostBasis": 123.13999999999999,
+          "effectiveDiscountPct": 0.06810958074769186
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 350.32384814723764,
+          "contract": {
+            "contractSymbol": "DDOG280121P00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 130,
+            "bid": 33,
+            "ask": 37,
+            "lastPrice": 40.06,
+            "volume": 25,
+            "openInterest": 418,
+            "impliedVolatility": 0.532231240234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.25384615384615383,
+          "notAssignedAnnualizedPct": 0.14522546419098142,
+          "effectiveCostBasis": 97,
+          "effectiveDiscountPct": 0.26593007416376563,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

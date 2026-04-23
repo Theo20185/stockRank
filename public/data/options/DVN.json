@@ -1,0 +1,99 @@
+{
+  "symbol": "DVN",
+  "fetchedAt": "2026-04-23T00:52:31.512Z",
+  "currentPrice": 47.12,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 72.64274013333966,
+          "contract": {
+            "contractSymbol": "DVN270115C00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 75,
+            "bid": 0.61,
+            "ask": 0.89,
+            "lastPrice": 0.73,
+            "volume": 1,
+            "openInterest": 6622,
+            "impliedVolatility": 0.40918559570312496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.028380465148731313,
+          "staticAnnualizedPct": 0.038797265090962284,
+          "assignedReturnPct": 0.6200612800893087,
+          "assignedAnnualizedPct": 0.8476493154778939,
+          "effectiveCostBasis": 46.51,
+          "effectiveDiscountPct": 0.012945670628183362
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 72.64274013333966,
+          "contract": {
+            "contractSymbol": "DVN270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 45,
+            "bid": 4.4,
+            "ask": 5,
+            "lastPrice": 4.8,
+            "volume": 17,
+            "openInterest": 1066,
+            "impliedVolatility": 0.38294074096679687,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09777777777777778,
+          "notAssignedAnnualizedPct": 0.1336662505201831,
+          "effectiveCostBasis": 40.6,
+          "effectiveDiscountPct": 0.13837011884550077,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 72.64274013333966,
+          "contract": {
+            "contractSymbol": "DVN280121C00075000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 75,
+            "bid": 1.8,
+            "ask": 3,
+            "lastPrice": 1.82,
+            "volume": 10,
+            "openInterest": 34,
+            "impliedVolatility": 0.3891662646484375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0750819833941903,
+          "staticAnnualizedPct": 0.04295442623648818,
+          "assignedReturnPct": 0.6667627983347676,
+          "assignedAnnualizedPct": 0.3814552059438718,
+          "effectiveCostBasis": 45.32,
+          "effectiveDiscountPct": 0.038200339558573854
+        }
+      ],
+      "puts": []
+    }
+  ]
+}

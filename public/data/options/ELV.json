@@ -1,0 +1,125 @@
+{
+  "symbol": "ELV",
+  "fetchedAt": "2026-04-23T00:51:49.684Z",
+  "currentPrice": 328.2,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 490.7533387764558,
+          "contract": {
+            "contractSymbol": "ELV270115C00500000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 500,
+            "bid": 2.75,
+            "ask": 4.6,
+            "lastPrice": 4,
+            "volume": 1,
+            "openInterest": 175,
+            "impliedVolatility": 0.3541324353027343,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.023740681008072258,
+          "staticAnnualizedPct": 0.032454489018525746,
+          "assignedReturnPct": 0.5472019850909485,
+          "assignedAnnualizedPct": 0.7480476575213342,
+          "effectiveCostBasis": 325.45,
+          "effectiveDiscountPct": 0.00837903717245582
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 490.7533387764558,
+          "contract": {
+            "contractSymbol": "ELV270115P00320000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 320,
+            "bid": 29.2,
+            "ask": 32.5,
+            "lastPrice": 32.84,
+            "volume": 1,
+            "openInterest": 103,
+            "impliedVolatility": 0.3302526692199707,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09125,
+          "notAssignedAnnualizedPct": 0.12474250936329588,
+          "effectiveCostBasis": 290.8,
+          "effectiveDiscountPct": 0.11395490554539908,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 490.7533387764558,
+          "contract": {
+            "contractSymbol": "ELV280121C00500000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 500,
+            "bid": 15.5,
+            "ask": 22,
+            "lastPrice": 18.06,
+            "volume": 1,
+            "openInterest": 55,
+            "impliedVolatility": 0.37657788955688476,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08393414974163767,
+          "staticAnnualizedPct": 0.0480187533788366,
+          "assignedReturnPct": 0.607395453824514,
+          "assignedAnnualizedPct": 0.3474911295391029,
+          "effectiveCostBasis": 312.7,
+          "effectiveDiscountPct": 0.04722730042656917
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 490.7533387764558,
+          "contract": {
+            "contractSymbol": "ELV280121P00320000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 320,
+            "bid": 45,
+            "ask": 53,
+            "lastPrice": 59.16,
+            "volume": 13,
+            "openInterest": 28,
+            "impliedVolatility": 0.33617302017211914,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.140625,
+          "notAssignedAnnualizedPct": 0.0804516065830721,
+          "effectiveCostBasis": 275,
+          "effectiveDiscountPct": 0.162096282754418,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

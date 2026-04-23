@@ -1,0 +1,98 @@
+{
+  "symbol": "BLDR",
+  "fetchedAt": "2026-04-23T00:52:14.052Z",
+  "currentPrice": 90.63,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.7335649148046,
+          "contract": {
+            "contractSymbol": "BLDR270115P00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 90,
+            "bid": 15,
+            "ask": 16.7,
+            "lastPrice": 16.5,
+            "volume": 1,
+            "openInterest": 44,
+            "impliedVolatility": 0.5281419256591797,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16666666666666666,
+          "notAssignedAnnualizedPct": 0.2278401997503121,
+          "effectiveCostBasis": 75,
+          "effectiveDiscountPct": 0.1724594505130751,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 245.7335649148046,
+          "contract": {
+            "contractSymbol": "BLDR280121C00195000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 195,
+            "bid": 4.1,
+            "ask": 8,
+            "lastPrice": 5.18,
+            "volume": 2,
+            "openInterest": 2112,
+            "impliedVolatility": 0.5247850256347657,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.04523888337195189,
+          "staticAnnualizedPct": 0.025881179358561823,
+          "assignedReturnPct": 1.1968443120379566,
+          "assignedAnnualizedPct": 0.6847150061032198,
+          "effectiveCostBasis": 86.53,
+          "effectiveDiscountPct": 0.04523888337195189
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 245.7335649148046,
+          "contract": {
+            "contractSymbol": "BLDR280121P00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 90,
+            "bid": 20.3,
+            "ask": 24,
+            "lastPrice": 22,
+            "volume": 1,
+            "openInterest": 245,
+            "impliedVolatility": 0.5203295037841795,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.22555555555555556,
+          "notAssignedAnnualizedPct": 0.12904040404040407,
+          "effectiveCostBasis": 69.7,
+          "effectiveDiscountPct": 0.23093898267681776,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

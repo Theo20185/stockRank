@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { AnnualPeriod } from "@stockrank/core";
 
 const quoteSummaryMock = vi.fn();
 const chartMock = vi.fn();
@@ -14,6 +15,22 @@ vi.mock("yahoo-finance2", () => {
     };
   };
   return { default: FakeYahoo };
+});
+
+const getEdgarFundamentalsMock = vi.fn();
+
+vi.mock("../edgar/index.js", async () => {
+  // Bring along the real classes / helpers we re-export through this
+  // module so the provider's `instanceof EdgarNotFoundError` check
+  // still works.
+  const real = await vi.importActual<typeof import("../edgar/index.js")>(
+    "../edgar/index.js",
+  );
+  return {
+    ...real,
+    getEdgarFundamentals: (...args: unknown[]) =>
+      getEdgarFundamentalsMock(...args),
+  };
 });
 
 // eslint-disable-next-line import/first
@@ -55,67 +72,104 @@ function stubSummary(): unknown {
   };
 }
 
-function stubFundamentals() {
-  // fundamentalsTimeSeries returns oldest-first.
-  return [
-    {
-      date: new Date("2023-12-30"),
-      totalRevenue: 54_228_000_000,
-      grossProfit: 21_711_000_000,
-      operatingIncome: 93_000_000,
-      EBIT: 1_640_000_000,
-      EBITDA: 11_242_000_000,
-      interestExpense: 878_000_000,
-      netIncome: 1_689_000_000,
-      dilutedEPS: 0.40,
-      dilutedAverageShares: 4_212_000_000,
-      cashAndCashEquivalents: 25_000_000_000,
-      currentAssets: 50_000_000_000,
-      currentLiabilities: 30_000_000_000,
-      totalDebt: 49_000_000_000,
-      stockholdersEquity: 105_000_000_000,
-      operatingCashFlow: 11_000_000_000,
-      capitalExpenditure: -25_000_000_000,
-      freeCashFlow: -14_000_000_000,
-      cashDividendsPaid: -3_087_000_000,
-      repurchaseOfCapitalStock: 0,
+/** Minimal AnnualPeriod fixture in the EDGAR-output shape. The EDGAR
+ * mapper itself owns concept extraction + EBITDA reconstruction +
+ * sign-normalization tests; here we stub the post-mapper output. */
+function annualPeriod(overrides: Partial<AnnualPeriod> & {
+  fiscalYear: string;
+  periodEndDate: string;
+}): AnnualPeriod {
+  return {
+    fiscalYear: overrides.fiscalYear,
+    periodEndDate: overrides.periodEndDate,
+    filingDate: null,
+    reportedCurrency: "USD",
+    priceAtYearEnd: null,
+    priceHighInYear: null,
+    priceLowInYear: null,
+    income: {
+      revenue: null,
+      grossProfit: null,
+      operatingIncome: null,
+      ebit: null,
+      ebitda: null,
+      interestExpense: null,
+      netIncome: null,
+      epsDiluted: null,
+      sharesDiluted: null,
+      ...overrides.income,
     },
-    {
-      date: new Date("2024-12-28"),
-      totalRevenue: 53_101_000_000,
-      grossProfit: 17_345_000_000,
-      operatingIncome: -11_678_000_000,
-      EBIT: -10_176_000_000,
-      // No EBITDA in this row — provider should reconstruct from EBIT + depreciation
-      reconciledDepreciation: 11_000_000_000,
-      interestExpense: 824_000_000,
-      netIncome: -18_756_000_000,
-      dilutedEPS: -4.38,
-      dilutedAverageShares: 4_280_000_000,
-      cashAndCashEquivalents: 22_062_000_000,
-      currentAssets: 47_324_000_000,
-      currentLiabilities: 35_666_000_000,
-      totalDebt: 50_011_000_000,
-      stockholdersEquity: 99_270_000_000,
-      operatingCashFlow: 8_288_000_000,
-      capitalExpenditure: -23_944_000_000,
-      freeCashFlow: -15_656_000_000,
-      cashDividendsPaid: -1_599_000_000,
-      repurchaseOfCapitalStock: 0,
+    balance: {
+      cash: null,
+      totalCurrentAssets: null,
+      totalCurrentLiabilities: null,
+      totalDebt: null,
+      totalEquity: null,
+      ...overrides.balance,
     },
-  ];
+    cashFlow: {
+      operatingCashFlow: null,
+      capex: null,
+      freeCashFlow: null,
+      dividendsPaid: null,
+      buybacks: null,
+      ...overrides.cashFlow,
+    },
+    ratios: {
+      roic: null,
+      netDebtToEbitda: null,
+      currentRatio: null,
+      ...overrides.ratios,
+    },
+  };
+}
+
+/** Two-year INTC-shaped EDGAR fundamentals fixture in the
+ * provider-consumed shape (newest-first per the EDGAR mapper). */
+function stubEdgarPeriods(): { annual: AnnualPeriod[]; quarterly: never[] } {
+  return {
+    annual: [
+      annualPeriod({
+        fiscalYear: "2024",
+        periodEndDate: "2024-12-28",
+        income: {
+          revenue: 53_101_000_000,
+          netIncome: -18_756_000_000,
+          epsDiluted: -4.38,
+          sharesDiluted: 4_280_000_000,
+        },
+        balance: { totalDebt: 50_011_000_000, cash: 22_062_000_000 },
+        cashFlow: { dividendsPaid: 1_599_000_000, buybacks: 0 },
+      }),
+      annualPeriod({
+        fiscalYear: "2023",
+        periodEndDate: "2023-12-30",
+        income: {
+          revenue: 54_228_000_000,
+          netIncome: 1_689_000_000,
+          epsDiluted: 0.4,
+          sharesDiluted: 4_212_000_000,
+          ebitda: 11_242_000_000,
+        },
+        balance: { totalDebt: 49_000_000_000, cash: 25_000_000_000 },
+        cashFlow: { dividendsPaid: 3_087_000_000, buybacks: 0 },
+      }),
+    ],
+    quarterly: [],
+  };
 }
 
 beforeEach(() => {
   quoteSummaryMock.mockReset();
   chartMock.mockReset();
   fundamentalsTimeSeriesMock.mockReset();
+  getEdgarFundamentalsMock.mockReset();
 });
 
 describe("YahooProvider", () => {
-  it("maps quoteSummary + fundamentalsTimeSeries + chart into a CompanySnapshot", async () => {
+  it("maps quoteSummary + EDGAR + chart into a CompanySnapshot", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
+    getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());
     chartMock.mockResolvedValue({
       quotes: [
         { close: 20, volume: 100_000_000 },
@@ -143,9 +197,9 @@ describe("YahooProvider", () => {
     expect(errors).toHaveLength(0);
   });
 
-  it("sorts annual periods most-recent-first regardless of API order", async () => {
+  it("preserves EDGAR's newest-first annual ordering", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
+    getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -157,43 +211,6 @@ describe("YahooProvider", () => {
 
     expect(snap!.annual[0]!.fiscalYear).toBe("2024");
     expect(snap!.annual[1]!.fiscalYear).toBe("2023");
-  });
-
-  it("uses EBITDA when present and reconstructs from EBIT + depreciation when missing", async () => {
-    quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
-    chartMock.mockResolvedValue({ quotes: [] });
-
-    const provider = new YahooProvider();
-    const snap = await provider.fetchCompany(
-      "INTC",
-      { priceFrom: "2024-08-22", priceTo: "2025-08-22" },
-      () => {},
-    );
-
-    const fy2023 = snap!.annual.find((p) => p.fiscalYear === "2023")!;
-    expect(fy2023.income.ebitda).toBe(11_242_000_000); // direct from EBITDA field
-
-    const fy2024 = snap!.annual.find((p) => p.fiscalYear === "2024")!;
-    // EBIT -10.176B + depreciation 11B = 824M
-    expect(fy2024.income.ebitda).toBe(824_000_000);
-  });
-
-  it("normalizes outflow sign on dividends and buybacks (stores positive)", async () => {
-    quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
-    chartMock.mockResolvedValue({ quotes: [] });
-
-    const provider = new YahooProvider();
-    const snap = await provider.fetchCompany(
-      "INTC",
-      { priceFrom: "2024-08-22", priceTo: "2025-08-22" },
-      () => {},
-    );
-
-    const fy2024 = snap!.annual.find((p) => p.fiscalYear === "2024")!;
-    expect(fy2024.cashFlow.dividendsPaid).toBe(1_599_000_000);
-    expect(fy2024.cashFlow.buybacks).toBe(0);
   });
 
   it("returns null and reports an error when quoteSummary fails entirely", async () => {
@@ -213,9 +230,9 @@ describe("YahooProvider", () => {
     ]);
   });
 
-  it("reports fundamentalsTimeSeries failure as a non-fatal error and returns the company", async () => {
+  it("reports EDGAR failure as a non-fatal error and returns the company", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockRejectedValue(new Error("history unavailable"));
+    getEdgarFundamentalsMock.mockRejectedValue(new Error("EDGAR down"));
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -228,7 +245,24 @@ describe("YahooProvider", () => {
 
     expect(result).not.toBeNull();
     expect(result!.annual).toEqual([]);
-    expect(errors.some((e) => e.endpoint === "fundamentalsTimeSeries")).toBe(true);
+    expect(errors.some((e) => e.endpoint === "edgar")).toBe(true);
+  });
+
+  it("flags edgar-not-found separately when the symbol has no CIK", async () => {
+    quoteSummaryMock.mockResolvedValue(stubSummary());
+    const { EdgarNotFoundError } = await import("../edgar/index.js");
+    getEdgarFundamentalsMock.mockRejectedValue(new EdgarNotFoundError("INTC", -1));
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    await provider.fetchCompany(
+      "INTC",
+      { priceFrom: "2024-01-01", priceTo: "2025-01-01" },
+      (e) => errors.push(e),
+    );
+
+    expect(errors.some((e) => e.endpoint === "edgar-not-found")).toBe(true);
   });
 
   it("excludes a symbol when quote.price disagrees with marketCap/sharesDiluted (>50% off)", async () => {
@@ -242,25 +276,29 @@ describe("YahooProvider", () => {
       },
       price: { ...stubSummary().price, regularMarketPrice: 192 },
     });
-    fundamentalsTimeSeriesMock.mockResolvedValue([
-      {
-        date: "2025-12-31",
-        totalRevenue: 25_000_000_000,
-        netIncome: 5_400_000_000,
-        dilutedEPS: 165.57,
-        dilutedAverageShares: 32_600_000,  // real BKNG share count
-        EBITDA: 7_000_000_000,
-        EBIT: 6_500_000_000,
-        currentAssets: 10_000_000_000,
-        currentLiabilities: 8_000_000_000,
-        totalDebt: 16_000_000_000,
-        stockholdersEquity: 2_000_000_000,
-        operatingCashFlow: 8_000_000_000,
-        capitalExpenditure: -200_000_000,
-        freeCashFlow: 7_800_000_000,
-        cashAndCashEquivalents: 5_000_000_000,
-      },
-    ]);
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2025",
+          periodEndDate: "2025-12-31",
+          income: {
+            revenue: 25_000_000_000,
+            netIncome: 5_400_000_000,
+            epsDiluted: 165.57,
+            sharesDiluted: 32_600_000, // real BKNG share count
+            ebitda: 7_000_000_000,
+            ebit: 6_500_000_000,
+          },
+          balance: { totalDebt: 16_000_000_000, cash: 5_000_000_000 },
+          cashFlow: {
+            operatingCashFlow: 8_000_000_000,
+            capex: -200_000_000,
+            freeCashFlow: 7_800_000_000,
+          },
+        }),
+      ],
+      quarterly: [],
+    });
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -281,8 +319,8 @@ describe("YahooProvider", () => {
   });
 
   it("does NOT exclude when implied price is within 50% of quote price", async () => {
-    quoteSummaryMock.mockResolvedValue(stubSummary());  // INTC: $65.50, $320B mcap
-    fundamentalsTimeSeriesMock.mockResolvedValue(stubFundamentals());
+    quoteSummaryMock.mockResolvedValue(stubSummary()); // INTC: $65.50, $320B mcap
+    getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -294,13 +332,16 @@ describe("YahooProvider", () => {
     );
 
     expect(result).not.toBeNull();
-    expect(errors.filter((e) => (e as { endpoint: string }).endpoint === "price-consistency")).toHaveLength(0);
+    expect(
+      errors.filter(
+        (e) => (e as { endpoint: string }).endpoint === "price-consistency",
+      ),
+    ).toHaveLength(0);
   });
 
   it("skips the consistency check when annual shares are unavailable", async () => {
-    // No fundamentals → no sharesDiluted → check is skipped, company returned.
     quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue([]);
+    getEdgarFundamentalsMock.mockResolvedValue({ annual: [], quarterly: [] });
     chartMock.mockResolvedValue({ quotes: [] });
 
     const provider = new YahooProvider();
@@ -312,12 +353,16 @@ describe("YahooProvider", () => {
     );
 
     expect(result).not.toBeNull();
-    expect(errors.filter((e) => (e as { endpoint: string }).endpoint === "price-consistency")).toHaveLength(0);
+    expect(
+      errors.filter(
+        (e) => (e as { endpoint: string }).endpoint === "price-consistency",
+      ),
+    ).toHaveLength(0);
   });
 
   it("reports chart failure as a non-fatal error and still returns the company", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
-    fundamentalsTimeSeriesMock.mockResolvedValue([]);
+    getEdgarFundamentalsMock.mockResolvedValue({ annual: [], quarterly: [] });
     chartMock.mockRejectedValue(new Error("chart unavailable"));
 
     const provider = new YahooProvider();

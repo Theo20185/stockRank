@@ -1,6 +1,6 @@
 {
   "symbol": "GDDY",
-  "fetchedAt": "2026-04-22T21:24:49.541Z",
+  "fetchedAt": "2026-04-23T00:52:17.545Z",
   "currentPrice": 88.4,
   "expirations": [
     {
@@ -10,52 +10,52 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 119.96459321163991,
+          "anchorPrice": 100.23479387718078,
           "contract": {
-            "contractSymbol": "GDDY270115C00120000",
+            "contractSymbol": "GDDY270115C00105000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 268,
-            "strike": 120,
-            "bid": 5,
-            "ask": 6,
-            "lastPrice": 5.6,
-            "volume": 6,
-            "openInterest": 19,
-            "impliedVolatility": 0.4958546508789063,
+            "daysToExpiry": 267,
+            "strike": 105,
+            "bid": 8.7,
+            "ask": 10,
+            "lastPrice": 8.4,
+            "volume": 1,
+            "openInterest": 30,
+            "impliedVolatility": 0.5206346765136718,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.05656108597285067,
-          "staticAnnualizedPct": 0.07703282231377051,
-          "assignedReturnPct": 0.4140271493212669,
-          "assignedAnnualizedPct": 0.5638802593368001,
-          "effectiveCostBasis": 83.4,
-          "effectiveDiscountPct": 0.05656108597285067
+          "staticReturnPct": 0.09841628959276016,
+          "staticAnnualizedPct": 0.13453912247699423,
+          "assignedReturnPct": 0.28619909502262436,
+          "assignedAnnualizedPct": 0.39124595386987976,
+          "effectiveCostBasis": 79.7,
+          "effectiveDiscountPct": 0.09841628959276016
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 119.96459321163991,
+          "anchorPrice": 100.23479387718078,
           "contract": {
             "contractSymbol": "GDDY270115P00087500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 268,
+            "daysToExpiry": 267,
             "strike": 87.5,
             "bid": 13.3,
             "ask": 15.7,
             "lastPrice": 15.9,
             "volume": 100,
             "openInterest": 43,
-            "impliedVolatility": 0.5001270690917969,
+            "impliedVolatility": 0.5010425872802735,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.152,
-          "notAssignedAnnualizedPct": 0.20701492537313432,
+          "notAssignedAnnualizedPct": 0.20779026217228463,
           "effectiveCostBasis": 74.2,
           "effectiveDiscountPct": 0.16063348416289594,
           "inTheMoney": false
@@ -65,29 +65,56 @@
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 100.23479387718078,
+          "contract": {
+            "contractSymbol": "GDDY260821C00105000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 120,
+            "strike": 105,
+            "bid": 4.5,
+            "ask": 5.8,
+            "lastPrice": 3.9,
+            "volume": 1,
+            "openInterest": 24,
+            "impliedVolatility": 0.5260057165527343,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05090497737556561,
+          "staticAnnualizedPct": 0.1548359728506787,
+          "assignedReturnPct": 0.2386877828054298,
+          "assignedAnnualizedPct": 0.7260086726998489,
+          "effectiveCostBasis": 83.9,
+          "effectiveDiscountPct": 0.05090497737556561
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 119.96459321163991,
+          "anchorPrice": 100.23479387718078,
           "contract": {
             "contractSymbol": "GDDY260821P00087500",
             "expiration": "2026-08-21",
-            "daysToExpiry": 121,
+            "daysToExpiry": 120,
             "strike": 87.5,
             "bid": 9.3,
             "ask": 10.8,
             "lastPrice": 11.2,
             "volume": 31,
             "openInterest": 61,
-            "impliedVolatility": 0.5193529510498047,
+            "impliedVolatility": 0.5214891601562499,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.10628571428571429,
-          "notAssignedAnnualizedPct": 0.3206139315230224,
+          "notAssignedAnnualizedPct": 0.3232857142857143,
           "effectiveCostBasis": 78.2,
           "effectiveDiscountPct": 0.1153846153846154,
           "inTheMoney": false

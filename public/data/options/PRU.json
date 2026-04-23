@@ -1,61 +1,34 @@
 {
   "symbol": "PRU",
-  "fetchedAt": "2026-04-22T21:24:59.967Z",
+  "fetchedAt": "2026-04-23T00:51:59.996Z",
   "currentPrice": 94.85,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 112.10976333363321,
-          "contract": {
-            "contractSymbol": "PRU270115C00115000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 268,
-            "strike": 115,
-            "bid": 1.55,
-            "ask": 2.2,
-            "lastPrice": 2.2,
-            "volume": 6,
-            "openInterest": 882,
-            "impliedVolatility": 0.24768818725585937,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.016341591987348445,
-          "staticAnnualizedPct": 0.0222562726693365,
-          "assignedReturnPct": 0.22878228782287832,
-          "assignedAnnualizedPct": 0.3115878173707111,
-          "effectiveCostBasis": 93.3,
-          "effectiveDiscountPct": 0.016341591987348445
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 112.10976333363321,
+          "anchorPrice": 210.10670938333334,
           "contract": {
             "contractSymbol": "PRU270115P00092500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 268,
+            "daysToExpiry": 267,
             "strike": 92.5,
             "bid": 8,
             "ask": 8.7,
             "lastPrice": 8.58,
             "volume": 27,
             "openInterest": 60,
-            "impliedVolatility": 0.3074410076904296,
+            "impliedVolatility": 0.30799031860351556,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.08648648648648649,
-          "notAssignedAnnualizedPct": 0.11778943122226705,
+          "notAssignedAnnualizedPct": 0.1182305901407025,
           "effectiveCostBasis": 84.5,
           "effectiveDiscountPct": 0.10911966262519762,
           "inTheMoney": false
@@ -65,56 +38,29 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 112.10976333363321,
-          "contract": {
-            "contractSymbol": "PRU280121C00115000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 639,
-            "strike": 115,
-            "bid": 4.1,
-            "ask": 6.8,
-            "lastPrice": 5.28,
-            "volume": 8,
-            "openInterest": 122,
-            "impliedVolatility": 0.2679516564941406,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04322614654717975,
-          "staticAnnualizedPct": 0.02469099137671457,
-          "assignedReturnPct": 0.25566684238270965,
-          "assignedAnnualizedPct": 0.1460381807037387,
-          "effectiveCostBasis": 90.75,
-          "effectiveDiscountPct": 0.04322614654717975
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 112.10976333363321,
+          "anchorPrice": 210.10670938333334,
           "contract": {
             "contractSymbol": "PRU280121P00092500",
             "expiration": "2028-01-21",
-            "daysToExpiry": 639,
+            "daysToExpiry": 638,
             "strike": 92.5,
             "bid": 12.5,
             "ask": 15.5,
             "lastPrice": 14.99,
             "volume": 6,
             "openInterest": 6,
-            "impliedVolatility": 0.3394841442871094,
+            "impliedVolatility": 0.3397282824707031,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.13513513513513514,
-          "notAssignedAnnualizedPct": 0.07718986592226029,
+          "notAssignedAnnualizedPct": 0.07731085317292215,
           "effectiveCostBasis": 80,
           "effectiveDiscountPct": 0.15656299420137054,
           "inTheMoney": false

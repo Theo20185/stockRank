@@ -1,0 +1,125 @@
+{
+  "symbol": "NEM",
+  "fetchedAt": "2026-04-23T00:51:44.474Z",
+  "currentPrice": 111.85,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 162.1155954446421,
+          "contract": {
+            "contractSymbol": "NEM270115C00165000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 165,
+            "bid": 5.05,
+            "ask": 5.95,
+            "lastPrice": 5.55,
+            "volume": 2,
+            "openInterest": 47,
+            "impliedVolatility": 0.5086719055175781,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.052099069203495385,
+          "staticAnnualizedPct": 0.07122157400477834,
+          "assignedReturnPct": 0.5272890557926774,
+          "assignedAnnualizedPct": 0.7208258627877425,
+          "effectiveCostBasis": 106.8,
+          "effectiveDiscountPct": 0.04514975413500224
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 162.1155954446421,
+          "contract": {
+            "contractSymbol": "NEM270115P00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 110,
+            "bid": 15.25,
+            "ask": 15.85,
+            "lastPrice": 15.34,
+            "volume": 16,
+            "openInterest": 691,
+            "impliedVolatility": 0.444768735961914,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13863636363636364,
+          "notAssignedAnnualizedPct": 0.189521620701396,
+          "effectiveCostBasis": 94.75,
+          "effectiveDiscountPct": 0.1528833258828788,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 162.1155954446421,
+          "contract": {
+            "contractSymbol": "NEM280121C00165000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 165,
+            "bid": 15,
+            "ask": 17.9,
+            "lastPrice": 17.2,
+            "volume": 2,
+            "openInterest": 117,
+            "impliedVolatility": 0.5247850256347657,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15071366005107134,
+          "staticAnnualizedPct": 0.08622333216087938,
+          "assignedReturnPct": 0.6259036466402533,
+          "assignedAnnualizedPct": 0.35807967245092864,
+          "effectiveCostBasis": 96.85,
+          "effectiveDiscountPct": 0.13410818059901655
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 162.1155954446421,
+          "contract": {
+            "contractSymbol": "NEM280121P00110000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 110,
+            "bid": 20.9,
+            "ask": 23.75,
+            "lastPrice": 20.81,
+            "volume": 11,
+            "openInterest": 77,
+            "impliedVolatility": 0.4270687176513672,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.18999999999999997,
+          "notAssignedAnnualizedPct": 0.10869905956112852,
+          "effectiveCostBasis": 89.1,
+          "effectiveDiscountPct": 0.20339740724184177,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

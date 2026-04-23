@@ -17,7 +17,8 @@
     "refresh-all": "tsx scripts/refresh-all.ts",
     "screenshot": "tsx scripts/screenshot.ts",
     "backtest": "tsx scripts/backtest.ts",
-    "fv-trend": "tsx scripts/compute-fv-trend.ts"
+    "fv-trend": "tsx scripts/compute-fv-trend.ts",
+    "refresh-cik": "tsx packages/data/src/edgar/refresh-cik-cli.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

@@ -1,0 +1,125 @@
+{
+  "symbol": "BG",
+  "fetchedAt": "2026-04-23T00:54:36.430Z",
+  "currentPrice": 125.77,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 197.32714327199997,
+          "contract": {
+            "contractSymbol": "BG270115C00185000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 185,
+            "bid": 1.2,
+            "ask": 2.45,
+            "lastPrice": 1.2,
+            "volume": 0,
+            "openInterest": 4,
+            "impliedVolatility": 0.36389796264648444,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.025853828787273134,
+          "staticAnnualizedPct": 0.035343249091216083,
+          "assignedReturnPct": 0.4967928444507859,
+          "assignedAnnualizedPct": 0.6791362854851568,
+          "effectiveCostBasis": 124.57,
+          "effectiveDiscountPct": 0.00954122604754711
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 197.32714327199997,
+          "contract": {
+            "contractSymbol": "BG270115P00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 125,
+            "bid": 12.7,
+            "ask": 13.9,
+            "lastPrice": 13.8,
+            "volume": 4,
+            "openInterest": 53,
+            "impliedVolatility": 0.33447931152343746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1016,
+          "notAssignedAnnualizedPct": 0.13889138576779025,
+          "effectiveCostBasis": 112.3,
+          "effectiveDiscountPct": 0.1071002623837163,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 197.32714327199997,
+          "contract": {
+            "contractSymbol": "BG280121C00185000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 185,
+            "bid": 4,
+            "ask": 8.5,
+            "lastPrice": 8.23,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.36105985626220705,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.0707832649073488,
+          "staticAnnualizedPct": 0.04049512804260551,
+          "assignedReturnPct": 0.5417222805708616,
+          "assignedAnnualizedPct": 0.30991948653348667,
+          "effectiveCostBasis": 121.77,
+          "effectiveDiscountPct": 0.031804086825157035
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 197.32714327199997,
+          "contract": {
+            "contractSymbol": "BG280121P00125000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 125,
+            "bid": 17,
+            "ask": 21.5,
+            "lastPrice": 20.53,
+            "volume": 2,
+            "openInterest": 5,
+            "impliedVolatility": 0.33350275878906255,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.136,
+          "notAssignedAnnualizedPct": 0.07780564263322885,
+          "effectiveCostBasis": 108,
+          "effectiveDiscountPct": 0.14128965572076008,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}
