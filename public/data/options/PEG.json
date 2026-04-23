@@ -1,7 +1,7 @@
 {
   "symbol": "PEG",
-  "fetchedAt": "2026-04-23T19:32:23.864Z",
-  "currentPrice": 79.825,
+  "fetchedAt": "2026-04-23T20:13:08.665Z",
+  "currentPrice": 80.16,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,7 +10,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 80.07857049274605,
+          "anchorPrice": 80.17775594474607,
           "contract": {
             "contractSymbol": "PEG270115C00082500",
             "expiration": "2027-01-15",
@@ -21,20 +21,46 @@
             "lastPrice": 5.79,
             "volume": 60,
             "openInterest": 71,
-            "impliedVolatility": 0.2401199035644531,
+            "impliedVolatility": 0.2342605871582031,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.07628798941176974,
-          "staticAnnualizedPct": 0.10428882447676388,
-          "assignedReturnPct": 0.10979879429745713,
-          "assignedAnnualizedPct": 0.15009947535045637,
-          "effectiveCostBasis": 75.72500000000001,
-          "effectiveDiscountPct": 0.051362355151894766
+          "staticReturnPct": 0.0760920881524622,
+          "staticAnnualizedPct": 0.10402101938445207,
+          "assignedReturnPct": 0.1052837049189293,
+          "assignedAnnualizedPct": 0.1439271621550906,
+          "effectiveCostBasis": 76.06,
+          "effectiveDiscountPct": 0.05114770459081836
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.17775594474607,
+          "contract": {
+            "contractSymbol": "PEG270115P00080000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 80,
+            "bid": 4.5,
+            "ask": 7.1,
+            "lastPrice": 6.9,
+            "volume": 3,
+            "openInterest": 10,
+            "impliedVolatility": 0.2629468237304688,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05625,
+          "notAssignedAnnualizedPct": 0.07689606741573034,
+          "effectiveCostBasis": 75.5,
+          "effectiveDiscountPct": 0.0581337325349301,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-08-21",
@@ -43,7 +69,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 80.07857049274605,
+          "anchorPrice": 80.17775594474607,
           "contract": {
             "contractSymbol": "PEG260821C00082500",
             "expiration": "2026-08-21",
@@ -54,43 +80,43 @@
             "lastPrice": 2.5,
             "volume": 3,
             "openInterest": 18,
-            "impliedVolatility": 0.2366409344482422,
+            "impliedVolatility": 0.22864540893554688,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.04377378186014784,
-          "staticAnnualizedPct": 0.13314525315794967,
-          "assignedReturnPct": 0.07728458674583524,
-          "assignedAnnualizedPct": 0.23507395135191553,
-          "effectiveCostBasis": 77.22500000000001,
-          "effectiveDiscountPct": 0.032571249608518635
+          "staticReturnPct": 0.04364608864462856,
+          "staticAnnualizedPct": 0.1327568529607452,
+          "assignedReturnPct": 0.07283770541109566,
+          "assignedAnnualizedPct": 0.22154802062541595,
+          "effectiveCostBasis": 77.56,
+          "effectiveDiscountPct": 0.032435129740518966
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.07857049274605,
+          "anchorPrice": 80.17775594474607,
           "contract": {
-            "contractSymbol": "PEG260821P00077500",
+            "contractSymbol": "PEG260821P00080000",
             "expiration": "2026-08-21",
             "daysToExpiry": 120,
-            "strike": 77.5,
-            "bid": 2.05,
-            "ask": 2.75,
-            "lastPrice": 2.55,
-            "volume": 2,
+            "strike": 80,
+            "bid": 3.8,
+            "ask": 4.2,
+            "lastPrice": 5,
+            "volume": 1,
             "openInterest": 4,
-            "impliedVolatility": 0.2104571142578125,
+            "impliedVolatility": 0.2329178271484375,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.026451612903225803,
-          "notAssignedAnnualizedPct": 0.08045698924731182,
-          "effectiveCostBasis": 75.45,
-          "effectiveDiscountPct": 0.05480739116818039,
+          "notAssignedReturnPct": 0.0475,
+          "notAssignedAnnualizedPct": 0.14447916666666666,
+          "effectiveCostBasis": 76.2,
+          "effectiveDiscountPct": 0.049401197604790344,
           "inTheMoney": false
         }
       ]

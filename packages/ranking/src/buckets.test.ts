@@ -104,58 +104,60 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
   });
 
-  // ---- Munger inversion: peer-multiple-expansion mirage defense ----
-  // When fvTrend says "improving" but fundamentals don't confirm, the
-  // FV improvement is being driven by peer-cohort multiples expanding,
-  // not by the company's own earnings. Demote → Watch. Only confirmed
-  // fundamental improvement keeps the row in Candidates.
+  // ---- Munger inversion: declining-fundamentals defense ----
+  // Demote to Watch when the company's own fundamentals (EPS history
+  // + forward EPS) are explicitly declining — Munger's "find out
+  // where death is so you can avoid that place." Symmetrical with the
+  // existing `fvTrend === "declining"` rule.
+  //
+  // Validated by 4y back-test (2020-2024 flag dates): the declining-
+  // fundamentals cohort had 47% recovery vs 65% for stable (18-point
+  // edge in favor of avoidance), and 19.4% loss rate vs 16.5%.
+  //
+  // Earlier draft (demote on anything except "improving") was too
+  // strict — the back-test showed 0 of 1493 historical undervalued
+  // flags had improving fundamentals (great companies don't trade
+  // below peer-median FV). That rule would have demoted the entire
+  // strategy.
 
-  it("ranked: improving FV + improving fundamentals = confirmed value play", () => {
+  it("watch: DECLINING fundamentals demotes to Watch (Munger death-zone defense)", () => {
     expect(
-      classifyRow(
-        row({ fvTrend: "improving", fundamentalsDirection: "improving" }),
-      ),
-    ).toBe("ranked");
-  });
-
-  it("watch: improving FV + STABLE fundamentals = peer-multiple mirage (LULU pattern)", () => {
-    // LULU: FV trend "improving" because consumer-cyclical sector
-    // multiples expanded, but EPS plateaued. Don't trust the FV signal.
-    expect(
-      classifyRow(
-        row({ fvTrend: "improving", fundamentalsDirection: "stable" }),
-      ),
+      classifyRow(row({ fundamentalsDirection: "declining" })),
     ).toBe("watch");
   });
 
-  it("watch: improving FV + DECLINING fundamentals = explicit divergence", () => {
+  it("ranked: STABLE fundamentals does NOT demote (the bulk of value plays sit here)", () => {
+    expect(
+      classifyRow(row({ fundamentalsDirection: "stable" })),
+    ).toBe("ranked");
+  });
+
+  it("ranked: INSUFFICIENT fundamentals data does NOT demote (similar outcomes to stable)", () => {
+    expect(
+      classifyRow(row({ fundamentalsDirection: "insufficient_data" })),
+    ).toBe("ranked");
+  });
+
+  it("ranked: IMPROVING fundamentals confirmed Buffett-style 'great company at fair price'", () => {
+    expect(
+      classifyRow(row({ fundamentalsDirection: "improving" })),
+    ).toBe("ranked");
+  });
+
+  it("watch: declining fundamentals demote regardless of fvTrend value", () => {
+    // The fundamentals-declining signal stands on its own — even if
+    // FV-trend is improving (peer multiples expanding), declining
+    // EPS is a death signal.
     expect(
       classifyRow(
         row({ fvTrend: "improving", fundamentalsDirection: "declining" }),
       ),
     ).toBe("watch");
-  });
-
-  it("watch: improving FV + insufficient fundamentals data = can't confirm → demote", () => {
     expect(
       classifyRow(
-        row({
-          fvTrend: "improving",
-          fundamentalsDirection: "insufficient_data",
-        }),
+        row({ fvTrend: "stable", fundamentalsDirection: "declining" }),
       ),
     ).toBe("watch");
-  });
-
-  it("ranked: improving fundamentals alone (without improving FV) is fine — passes through", () => {
-    // The new rule only fires when fvTrend === "improving". If fvTrend
-    // is stable/insufficient, fundamentalsDirection doesn't trigger
-    // demotion. Below-p25 + liquid + non-declining FV is enough.
-    expect(
-      classifyRow(
-        row({ fvTrend: "stable", fundamentalsDirection: "improving" }),
-      ),
-    ).toBe("ranked");
   });
 
   it("excluded: missing all 5 categories (ineligible-row stub)", () => {

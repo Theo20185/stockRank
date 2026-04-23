@@ -87,19 +87,23 @@ export function classifyRow(row: RankedRow): BucketKey {
   // trends pass; only "declining" demotes.)
   if (row.fvTrend === "declining") return "watch";
 
-  // Munger-inversion defense (peer-multiple expansion mirage):
-  // when fvTrend says "improving" but the company's own fundamentals
-  // (EPS history + forward EPS) don't confirm, the FV improvement
-  // is being driven by peer-cohort multiples expanding, not by the
-  // company getting better. Don't act on the signal — demote to
-  // Watch until fundamentals confirm. Validated by the LULU 2026-04
-  // case: FV-trend "improving" while EPS plateaued and forward flat.
-  if (
-    row.fvTrend === "improving" &&
-    row.fundamentalsDirection !== "improving"
-  ) {
-    return "watch";
-  }
+  // Munger-inversion defense: declining own-fundamentals (EPS history
+  // + forward EPS) is the "death zone" the inversion principle tells
+  // us to avoid. Symmetric with the fvTrend === "declining" rule
+  // above; both signals demote independently.
+  //
+  // Calibration: the back-test (2020-2024 flag dates, n=1493 events)
+  // showed the declining-fundamentals cohort recovers 47% of the
+  // time vs 65% for stable cohort, and loses money 19.4% of the
+  // time vs 16.5%. Stable / insufficient_data cohorts perform
+  // similarly to each other and represent the bulk of the strategy's
+  // edge — they pass through to Candidates.
+  //
+  // We deliberately do NOT demote on "stable" or "insufficient_data"
+  // — that earlier draft was too strict, would have removed all 1493
+  // historical undervalued flags from Candidates (improving
+  // fundamentals don't intersect with sub-FV pricing in practice).
+  if (row.fundamentalsDirection === "declining") return "watch";
 
   // Illiquid options chain is itself a quality signal — quality stocks
   // have active options markets. Demote to Watch if the options
