@@ -103,6 +103,88 @@ export function standaloneQuarterlyMap(
 }
 
 /**
+ * Recover the standalone-quarter value for every (fy, end-date) pair
+ * present in the input, using both standalone-quarter facts (when
+ * available) and YTD-cumulative facts (when only those exist).
+ *
+ * EDGAR concepts vary in reporting pattern across filers:
+ *   - Income statement (NetIncome, Revenue, EPS, OpInc): generally
+ *     reported standalone for every quarter
+ *   - Cash flow + D&A: many filers (AAPL among them) report ONLY
+ *     YTD-cumulative — so Q2/Q3 standalone has to be derived as
+ *     successive YTD differences
+ *
+ * Algorithm per fiscal year (sort end-dates ascending):
+ *   - For each end date, prefer the standalone fact (60-100 day
+ *     period) when present.
+ *   - Otherwise take the YTD fact (longest duration, latest filed)
+ *     and compute standalone = YTD − running_sum_so_far.
+ *   - Update running_sum after each quarter.
+ *
+ * Returns a Map keyed by end-date. Q4 is NOT injected here — caller
+ * uses `deriveQ4FromAnnual` for that (annual fact lives in a
+ * separate map).
+ */
+export function extractStandaloneQuarters(
+  allFacts: EdgarFact[],
+): Map<string, EdgarFact> {
+  // Group by fiscal year, restricting to quarterly facts with a
+  // computable period duration.
+  type ByEnd = { end: string; facts: EdgarFact[] };
+  const byFy = new Map<number, ByEnd[]>();
+  const fyEndIndex = new Map<string, ByEnd>();
+  for (const f of allFacts) {
+    if (f.fy === null || !f.fp || !f.fp.startsWith("Q") || !f.start) continue;
+    const key = `${f.fy}|${f.end}`;
+    let entry = fyEndIndex.get(key);
+    if (!entry) {
+      entry = { end: f.end, facts: [] };
+      fyEndIndex.set(key, entry);
+      const arr = byFy.get(f.fy) ?? [];
+      arr.push(entry);
+      byFy.set(f.fy, arr);
+    }
+    entry.facts.push(f);
+  }
+
+  const out = new Map<string, EdgarFact>();
+  for (const [, ends] of byFy) {
+    ends.sort((a, b) => a.end.localeCompare(b.end));
+    let runningSum = 0;
+    for (const { end, facts } of ends) {
+      // Standalone first (latest filed).
+      const standalone = facts
+        .filter((f) => isStandaloneQuarterFact(f))
+        .sort((a, b) => b.filed.localeCompare(a.filed))[0];
+      if (standalone) {
+        out.set(end, standalone);
+        runningSum += standalone.val;
+        continue;
+      }
+      // No standalone — derive from YTD. Pick the longest-duration
+      // YTD fact (most cumulative), latest filed.
+      const ytd = facts
+        .slice()
+        .sort((a, b) => {
+          const aDays = daysBetween(a.start!, a.end);
+          const bDays = daysBetween(b.start!, b.end);
+          if (aDays !== bDays) return bDays - aDays;
+          return b.filed.localeCompare(a.filed);
+        })[0];
+      if (!ytd) continue;
+      const derivedVal = ytd.val - runningSum;
+      out.set(end, {
+        ...ytd,
+        val: derivedVal,
+        form: ytd.form === "10-Q" ? "10-Q (derived)" : `${ytd.form} (derived)`,
+      });
+      runningSum = ytd.val;
+    }
+  }
+  return out;
+}
+
+/**
  * Companies file a 10-K (annual) for Q4, not a 10-Q — so EDGAR has
  * no standalone-Q4 fact for income/cashflow concepts. Derive it as
  * `(FY annual) − (sum of standalone Q1+Q2+Q3 within the same fy)`

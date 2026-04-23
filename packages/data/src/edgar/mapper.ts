@@ -28,6 +28,8 @@ import {
   deriveQ4FromAnnual,
   DIVIDENDS_CONCEPTS,
   EPS_CONCEPTS,
+  extractStandaloneQuarters,
+  firstAvailable,
   GROSS_PROFIT_CONCEPTS,
   INTEREST_EXPENSE_CONCEPTS,
   LONG_TERM_DEBT_CONCEPTS,
@@ -40,7 +42,6 @@ import {
   REVENUE_CONCEPTS,
   SHARES_CONCEPTS,
   SHORT_TERM_DEBT_CONCEPTS,
-  standaloneQuarterlyMap,
   STOCKHOLDERS_EQUITY_CONCEPTS,
 } from "./concepts.js";
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
@@ -123,14 +124,15 @@ function buildConceptMaps(
 
   // Flow concepts (income statement, cash flow):
   //   - annual → annualMap (FY only)
-  //   - quarterly → standaloneQuarterlyMap (filters out YTD-cumulative
-  //     facts so trailing-4 sums are arithmetically valid) PLUS
-  //     deriveQ4FromAnnual injects the Q4 standalone that EDGAR
-  //     doesn't ship directly (companies file 10-K, not 10-Q for Q4).
+  //   - quarterly → extractStandaloneQuarters (prefers standalone-Q
+  //     facts when present; derives Q2/Q3 from YTD differences when
+  //     not — see AAPL D&A pattern) PLUS deriveQ4FromAnnual injects
+  //     standalone Q4 (companies file 10-K, not 10-Q for Q4).
   // Balance concepts are point-in-time snapshots — no YTD/standalone
   // duality; quarterlyMap / balanceMap are correct.
   const flowQuarterly = (concepts: readonly string[], unit?: string): Map<string, EdgarFact> => {
-    const standalone = standaloneQuarterlyMap(us, concepts, unit);
+    const hit = firstAvailable(us, concepts, unit);
+    const standalone = hit ? extractStandaloneQuarters(hit.facts) : new Map();
     const annual = annualMap(us, concepts, unit);
     return deriveQ4FromAnnual(standalone, annual);
   };

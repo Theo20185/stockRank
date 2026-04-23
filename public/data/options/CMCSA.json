@@ -1,0 +1,125 @@
+{
+  "symbol": "CMCSA",
+  "fetchedAt": "2026-04-23T16:30:32.442Z",
+  "currentPrice": 31.8402,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 33.15114473944962,
+          "contract": {
+            "contractSymbol": "CMCSA270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 35,
+            "bid": 1.76,
+            "ask": 2.01,
+            "lastPrice": 2,
+            "volume": 527,
+            "openInterest": 11625,
+            "impliedVolatility": 0.2946847875976562,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.08813079846457564,
+          "staticAnnualizedPct": 0.12047843235794048,
+          "assignedReturnPct": 0.18737012485071644,
+          "assignedAnnualizedPct": 0.2561426800393689,
+          "effectiveCostBasis": 30.080199999999998,
+          "effectiveDiscountPct": 0.05527603469827451
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 33.15114473944962,
+          "contract": {
+            "contractSymbol": "CMCSA270115P00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 267,
+            "strike": 30,
+            "bid": 2.1,
+            "ask": 2.63,
+            "lastPrice": 2.43,
+            "volume": 3,
+            "openInterest": 1016,
+            "impliedVolatility": 0.3298406860351562,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07,
+          "notAssignedAnnualizedPct": 0.0956928838951311,
+          "effectiveCostBasis": 27.9,
+          "effectiveDiscountPct": 0.12374922268076208,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 33.15114473944962,
+          "contract": {
+            "contractSymbol": "CMCSA280121C00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 35,
+            "bid": 2.72,
+            "ask": 4,
+            "lastPrice": 3.75,
+            "volume": 83,
+            "openInterest": 5731,
+            "impliedVolatility": 0.3103096313476562,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.16393348777915195,
+          "staticAnnualizedPct": 0.09378639974826092,
+          "assignedReturnPct": 0.26317281416529276,
+          "assignedAnnualizedPct": 0.1505612494832788,
+          "effectiveCostBasis": 29.1202,
+          "effectiveDiscountPct": 0.08542659907915152
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 33.15114473944962,
+          "contract": {
+            "contractSymbol": "CMCSA280121P00030000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 638,
+            "strike": 30,
+            "bid": 3.95,
+            "ask": 4.55,
+            "lastPrice": 4.05,
+            "volume": 10,
+            "openInterest": 181,
+            "impliedVolatility": 0.3350896569824219,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13166666666666668,
+          "notAssignedAnnualizedPct": 0.07532654127481715,
+          "effectiveCostBasis": 26.05,
+          "effectiveDiscountPct": 0.18185187278974374,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

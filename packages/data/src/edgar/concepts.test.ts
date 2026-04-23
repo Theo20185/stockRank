@@ -4,6 +4,7 @@ import {
   balanceMap,
   dedupeByPeriod,
   deriveQ4FromAnnual,
+  extractStandaloneQuarters,
   firstAvailable,
   isStandaloneQuarterFact,
   quarterlyMap,
@@ -316,6 +317,100 @@ describe("deriveQ4FromAnnual", () => {
     expect(enriched.size).toBe(8);
     expect(enriched.get("2025-02-02")?.val).toBeCloseTo(12.2 - 8.56, 5);
     expect(enriched.get("2026-02-01")?.val).toBeCloseTo(14.64 - 8.29, 5);
+  });
+});
+
+describe("extractStandaloneQuarters (YTD-chain derivation)", () => {
+  // Some EDGAR concepts (D&A, OCF, Capex on many filers) only have
+  // YTD-cumulative facts, no standalone-quarter ones. Deriving the
+  // standalone value via successive YTD differences recovers them.
+  it("uses standalone facts directly when present (happy path)", () => {
+    const facts: EdgarFact[] = [
+      // Q1 standalone (also same as YTD-Q1)
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      // Q2 standalone
+      { end: "2025-06-30", start: "2025-04-01", val: 110, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" },
+      // Q3 standalone
+      { end: "2025-09-30", start: "2025-07-01", val: 120, fy: 2025, fp: "Q3", form: "10-Q", filed: "2025-10-30" },
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2025-03-31")?.val).toBe(100);
+    expect(out.get("2025-06-30")?.val).toBe(110);
+    expect(out.get("2025-09-30")?.val).toBe(120);
+  });
+
+  it("derives standalone Q2/Q3 from YTD differences when no standalone facts exist (D&A pattern)", () => {
+    // Apple-style: only YTD facts for D&A. Q1 = 100 (also Q1 YTD).
+    // Q2 YTD = 210 → Q2 standalone = 110. Q3 YTD = 330 → Q3 standalone = 120.
+    const facts: EdgarFact[] = [
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      { end: "2025-06-30", start: "2025-01-01", val: 210, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" }, // YTD-Q2
+      { end: "2025-09-30", start: "2025-01-01", val: 330, fy: 2025, fp: "Q3", form: "10-Q", filed: "2025-10-30" }, // YTD-Q3
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2025-03-31")?.val).toBe(100);
+    expect(out.get("2025-06-30")?.val).toBe(110); // 210 - 100
+    expect(out.get("2025-09-30")?.val).toBe(120); // 330 - 210
+  });
+
+  it("handles MIXED data — uses standalone where present, derives the rest from YTD", () => {
+    // Q1 standalone, Q2 only-YTD, Q3 standalone present too. The
+    // running YTD tracker should still produce correct values.
+    const facts: EdgarFact[] = [
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      { end: "2025-06-30", start: "2025-01-01", val: 210, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" }, // only YTD
+      { end: "2025-09-30", start: "2025-07-01", val: 120, fy: 2025, fp: "Q3", form: "10-Q", filed: "2025-10-30" }, // standalone
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2025-03-31")?.val).toBe(100);
+    expect(out.get("2025-06-30")?.val).toBe(110); // derived from YTD diff
+    expect(out.get("2025-09-30")?.val).toBe(120); // standalone preferred
+  });
+
+  it("prefers standalone fact when both standalone AND YTD share an end date", () => {
+    // LULU pattern: Q3 has both YTD ($8.29) and standalone ($2.59).
+    const facts: EdgarFact[] = [
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      { end: "2025-06-30", start: "2025-01-01", val: 210, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" },
+      { end: "2025-06-30", start: "2025-04-01", val: 110, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" },
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2025-06-30")?.val).toBe(110); // standalone wins
+  });
+
+  it("processes multiple fiscal years independently", () => {
+    const facts: EdgarFact[] = [
+      // FY2024
+      { end: "2024-03-31", start: "2024-01-01", val: 80, fy: 2024, fp: "Q1", form: "10-Q", filed: "2024-04-30" },
+      { end: "2024-06-30", start: "2024-01-01", val: 170, fy: 2024, fp: "Q2", form: "10-Q", filed: "2024-07-30" },
+      // FY2025 — running YTD restarts at 0
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      { end: "2025-06-30", start: "2025-01-01", val: 210, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" },
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2024-03-31")?.val).toBe(80);
+    expect(out.get("2024-06-30")?.val).toBe(90); // 170 - 80
+    expect(out.get("2025-03-31")?.val).toBe(100);
+    expect(out.get("2025-06-30")?.val).toBe(110); // 210 - 100, NOT 210 - 170
+  });
+
+  it("ignores facts without a `start` date (can't determine duration)", () => {
+    const facts: EdgarFact[] = [
+      { end: "2025-03-31", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" }, // no start
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.size).toBe(0);
+  });
+
+  it("handles restatements — picks latest-filed YTD when multiple amendments exist", () => {
+    const facts: EdgarFact[] = [
+      { end: "2025-03-31", start: "2025-01-01", val: 100, fy: 2025, fp: "Q1", form: "10-Q", filed: "2025-04-30" },
+      // YTD-Q2 with two amendments
+      { end: "2025-06-30", start: "2025-01-01", val: 210, fy: 2025, fp: "Q2", form: "10-Q", filed: "2025-07-30" },
+      { end: "2025-06-30", start: "2025-01-01", val: 215, fy: 2025, fp: "Q2", form: "10-Q/A", filed: "2025-09-15" }, // restated
+    ];
+    const out = extractStandaloneQuarters(facts);
+    expect(out.get("2025-06-30")?.val).toBe(115); // 215 (restated) - 100
   });
 });
 
