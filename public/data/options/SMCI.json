@@ -1,18 +1,98 @@
 {
   "symbol": "SMCI",
-  "fetchedAt": "2026-04-24T12:50:09.115Z",
-  "currentPrice": 26.75,
+  "fetchedAt": "2026-04-24T14:01:39.465Z",
+  "currentPrice": 28.24,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 29.34341651314976,
+          "contract": {
+            "contractSymbol": "SMCI270115C00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 30,
+            "bid": 6.15,
+            "ask": 6.7,
+            "lastPrice": 6.05,
+            "volume": 3863,
+            "openInterest": 13278,
+            "impliedVolatility": 0.7443873217773438,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.2177762039660057,
+          "staticAnnualizedPct": 0.29882824980297773,
+          "assignedReturnPct": 0.28009915014164316,
+          "assignedAnnualizedPct": 0.3843465782018788,
+          "effectiveCostBasis": 22.089999999999996,
+          "effectiveDiscountPct": 0.2177762039660057
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 29.34341651314976,
+          "contract": {
+            "contractSymbol": "SMCI270115P00028000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 28,
+            "bid": 6.75,
+            "ask": 7.25,
+            "lastPrice": 6.96,
+            "volume": 1,
+            "openInterest": 1931,
+            "impliedVolatility": 0.7551294018554688,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.24107142857142858,
+          "notAssignedAnnualizedPct": 0.33079350161117077,
+          "effectiveCostBasis": 21.25,
+          "effectiveDiscountPct": 0.24752124645892348,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 29.34341651314976,
+          "contract": {
+            "contractSymbol": "SMCI280121C00030000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 30,
+            "bid": 10.35,
+            "ask": 10.75,
+            "lastPrice": 10.75,
+            "volume": 2,
+            "openInterest": 2580,
+            "impliedVolatility": 0.7756370092773439,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.3665014164305949,
+          "staticAnnualizedPct": 0.21000473625928906,
+          "assignedReturnPct": 0.42882436260623236,
+          "assignedAnnualizedPct": 0.24571568657970927,
+          "effectiveCostBasis": 17.89,
+          "effectiveDiscountPct": 0.3665014164305949
+        }
+      ],
       "puts": []
     }
   ]

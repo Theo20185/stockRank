@@ -1,7 +1,7 @@
 {
   "symbol": "QCOM",
-  "fetchedAt": "2026-04-24T12:49:11.841Z",
-  "currentPrice": 133.95,
+  "fetchedAt": "2026-04-24T14:00:37.455Z",
+  "currentPrice": 146.5,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -12,7 +12,34 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 274.512287056088,
+          "contract": {
+            "contractSymbol": "QCOM280121C00280000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 280,
+            "bid": 2.45,
+            "ask": 7.85,
+            "lastPrice": 2.99,
+            "volume": 2,
+            "openInterest": 26,
+            "impliedVolatility": 0.4434564932250976,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0648042999579223,
+          "staticAnnualizedPct": 0.03713276214229457,
+          "assignedReturnPct": 0.9760670985927345,
+          "assignedAnnualizedPct": 0.5592849152061979,
+          "effectiveCostBasis": 144.05,
+          "effectiveDiscountPct": 0.016723549488054608
+        }
+      ],
       "puts": []
     }
   ]

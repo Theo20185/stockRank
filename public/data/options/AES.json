@@ -1,13 +1,39 @@
 {
   "symbol": "AES",
-  "fetchedAt": "2026-04-24T12:50:07.391Z",
-  "currentPrice": 14.5,
+  "fetchedAt": "2026-04-24T14:01:34.165Z",
+  "currentPrice": 14.495,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 25.10343744029373,
+          "contract": {
+            "contractSymbol": "AES270115P00013000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 13,
+            "bid": 0.17,
+            "ask": 0,
+            "lastPrice": 0.2,
+            "volume": 20,
+            "openInterest": 12636,
+            "impliedVolatility": 0.0312596875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.013076923076923078,
+          "notAssignedAnnualizedPct": 0.0179438982070561,
+          "effectiveCostBasis": 12.83,
+          "effectiveDiscountPct": 0.11486719558468432,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",

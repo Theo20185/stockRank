@@ -1,13 +1,39 @@
 {
   "symbol": "GD",
-  "fetchedAt": "2026-04-24T12:50:02.106Z",
-  "currentPrice": 318.71,
+  "fetchedAt": "2026-04-24T14:01:30.665Z",
+  "currentPrice": 313.815,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 373.6942724424441,
+          "contract": {
+            "contractSymbol": "GD270115P00310000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 310,
+            "bid": 19.1,
+            "ask": 24.1,
+            "lastPrice": 16.55,
+            "volume": 40,
+            "openInterest": 36,
+            "impliedVolatility": 0.24451439086914065,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.061612903225806454,
+          "notAssignedAnnualizedPct": 0.08454402134368179,
+          "effectiveCostBasis": 290.9,
+          "effectiveDiscountPct": 0.07302072877332193,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",

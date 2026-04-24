@@ -1,19 +1,125 @@
 {
   "symbol": "KMB",
-  "fetchedAt": "2026-04-24T12:50:10.908Z",
-  "currentPrice": 97.93,
+  "fetchedAt": "2026-04-24T14:01:35.914Z",
+  "currentPrice": 98.81,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 125.49806695432598,
+          "contract": {
+            "contractSymbol": "KMB270115C00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 130,
+            "bid": 0.85,
+            "ask": 1.5,
+            "lastPrice": 1.2,
+            "volume": 1,
+            "openInterest": 302,
+            "impliedVolatility": 0.2700268310546875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04679403582078792,
+          "staticAnnualizedPct": 0.06420986118266012,
+          "assignedReturnPct": 0.36245034591085973,
+          "assignedAnnualizedPct": 0.4973472791633977,
+          "effectiveCostBasis": 97.96000000000001,
+          "effectiveDiscountPct": 0.008602368181358162
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 125.49806695432598,
+          "contract": {
+            "contractSymbol": "KMB270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 95,
+            "bid": 6.3,
+            "ask": 9,
+            "lastPrice": 8,
+            "volume": 1,
+            "openInterest": 405,
+            "impliedVolatility": 0.32776551147460936,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0663157894736842,
+          "notAssignedAnnualizedPct": 0.09099722991689749,
+          "effectiveCostBasis": 88.7,
+          "effectiveDiscountPct": 0.10231757919238943,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 125.49806695432598,
+          "contract": {
+            "contractSymbol": "KMB280121C00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 130,
+            "bid": 3.2,
+            "ask": 5.7,
+            "lastPrice": 4.35,
+            "volume": 1,
+            "openInterest": 130,
+            "impliedVolatility": 0.28363753479003895,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12384437965210664,
+          "staticAnnualizedPct": 0.07096263512247868,
+          "assignedReturnPct": 0.4395006897421785,
+          "assignedAnnualizedPct": 0.25183320526828123,
+          "effectiveCostBasis": 95.61,
+          "effectiveDiscountPct": 0.03238538609452485
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 125.49806695432598,
+          "contract": {
+            "contractSymbol": "KMB280121P00095000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 95,
+            "bid": 10.8,
+            "ask": 14.1,
+            "lastPrice": 12.55,
+            "volume": 10,
+            "openInterest": 160,
+            "impliedVolatility": 0.314185325012207,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11368421052631579,
+          "notAssignedAnnualizedPct": 0.06514087416343055,
+          "effectiveCostBasis": 84.2,
+          "effectiveDiscountPct": 0.147859528387815,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

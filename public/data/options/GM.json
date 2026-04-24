@@ -1,19 +1,125 @@
 {
   "symbol": "GM",
-  "fetchedAt": "2026-04-24T12:50:30.020Z",
-  "currentPrice": 78.52,
+  "fetchedAt": "2026-04-24T14:01:59.037Z",
+  "currentPrice": 77.45,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 115.47292708433437,
+          "contract": {
+            "contractSymbol": "GM270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 120,
+            "bid": 0.77,
+            "ask": 1.34,
+            "lastPrice": 1.21,
+            "volume": 2,
+            "openInterest": 710,
+            "impliedVolatility": 0.3846497082519531,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01665952335346711,
+          "staticAnnualizedPct": 0.02285987227073494,
+          "assignedReturnPct": 0.5660462244509492,
+          "assignedAnnualizedPct": 0.7767175636263025,
+          "effectiveCostBasis": 76.68,
+          "effectiveDiscountPct": 0.009941897998708845
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 115.47292708433437,
+          "contract": {
+            "contractSymbol": "GM270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 75,
+            "bid": 7.05,
+            "ask": 7.9,
+            "lastPrice": 7.58,
+            "volume": 2,
+            "openInterest": 1226,
+            "impliedVolatility": 0.35028725891113277,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.094,
+          "notAssignedAnnualizedPct": 0.12898496240601504,
+          "effectiveCostBasis": 67.95,
+          "effectiveDiscountPct": 0.12265978050355067,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 115.47292708433437,
+          "contract": {
+            "contractSymbol": "GM280121C00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 120,
+            "bid": 4.15,
+            "ask": 5.4,
+            "lastPrice": 5.65,
+            "volume": 5,
+            "openInterest": 110,
+            "impliedVolatility": 0.39087523193359375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06966990167478798,
+          "staticAnnualizedPct": 0.03992074428775135,
+          "assignedReturnPct": 0.6190566027722701,
+          "assignedAnnualizedPct": 0.35471846155710923,
+          "effectiveCostBasis": 73.3,
+          "effectiveDiscountPct": 0.05358295674628793
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 115.47292708433437,
+          "contract": {
+            "contractSymbol": "GM280121P00075000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 75,
+            "bid": 10.9,
+            "ask": 11.95,
+            "lastPrice": 11.46,
+            "volume": 1,
+            "openInterest": 116,
+            "impliedVolatility": 0.32959654785156245,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14533333333333334,
+          "notAssignedAnnualizedPct": 0.08327577184720042,
+          "effectiveCostBasis": 64.1,
+          "effectiveDiscountPct": 0.172369270497095,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

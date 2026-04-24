@@ -1,13 +1,39 @@
 {
   "symbol": "SWKS",
-  "fetchedAt": "2026-04-24T12:49:13.575Z",
-  "currentPrice": 61.55,
+  "fetchedAt": "2026-04-24T14:00:39.229Z",
+  "currentPrice": 62.065,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 94.29632851822862,
+          "contract": {
+            "contractSymbol": "SWKS270115P00060000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 60,
+            "bid": 8,
+            "ask": 9.5,
+            "lastPrice": 8.76,
+            "volume": 1,
+            "openInterest": 152,
+            "impliedVolatility": 0.5083667327880859,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13333333333333333,
+          "notAssignedAnnualizedPct": 0.18295739348370926,
+          "effectiveCostBasis": 52,
+          "effectiveDiscountPct": 0.16216869411101262,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -28,7 +54,7 @@
             "lastPrice": 16.21,
             "volume": 1,
             "openInterest": 140,
-            "impliedVolatility": 0.5674481732177734,
+            "impliedVolatility": 0.5732464550781251,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -36,7 +62,7 @@
           "notAssignedReturnPct": 0.2,
           "notAssignedAnnualizedPct": 0.11459968602825746,
           "effectiveCostBasis": 48,
-          "effectiveDiscountPct": 0.2201462225832656,
+          "effectiveDiscountPct": 0.22661725610247319,
           "inTheMoney": false
         }
       ]

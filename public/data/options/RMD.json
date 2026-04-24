@@ -1,19 +1,125 @@
 {
   "symbol": "RMD",
-  "fetchedAt": "2026-04-24T12:49:41.323Z",
-  "currentPrice": 219.51,
+  "fetchedAt": "2026-04-24T14:01:09.693Z",
+  "currentPrice": 219.47,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 257.43255813410633,
+          "contract": {
+            "contractSymbol": "RMD270115C00260000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 260,
+            "bid": 9.5,
+            "ask": 12.9,
+            "lastPrice": 12.57,
+            "volume": 1,
+            "openInterest": 6,
+            "impliedVolatility": 0.35336950347900387,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.051244680603521185,
+          "staticAnnualizedPct": 0.07031694894844072,
+          "assignedReturnPct": 0.23591684536408072,
+          "assignedAnnualizedPct": 0.3237204833003363,
+          "effectiveCostBasis": 209.97,
+          "effectiveDiscountPct": 0.04328609832778967
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 257.43255813410633,
+          "contract": {
+            "contractSymbol": "RMD270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 210,
+            "bid": 17.9,
+            "ask": 21.6,
+            "lastPrice": 19.2,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.3572451971435546,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08523809523809524,
+          "notAssignedAnnualizedPct": 0.11696204797708556,
+          "effectiveCostBasis": 192.1,
+          "effectiveDiscountPct": 0.12470952749806354,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 257.43255813410633,
+          "contract": {
+            "contractSymbol": "RMD260717C00260000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 84,
+            "strike": 260,
+            "bid": 0.9,
+            "ask": 3.8,
+            "lastPrice": 3.8,
+            "volume": 11,
+            "openInterest": 34,
+            "impliedVolatility": 0.36646141357421874,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.006614024770758446,
+          "staticAnnualizedPct": 0.028739512396748008,
+          "assignedReturnPct": 0.19128618953131798,
+          "assignedAnnualizedPct": 0.8311840378444174,
+          "effectiveCostBasis": 218.57,
+          "effectiveDiscountPct": 0.0041007882626327066
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 257.43255813410633,
+          "contract": {
+            "contractSymbol": "RMD260717P00210000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 84,
+            "strike": 210,
+            "bid": 8.9,
+            "ask": 11.3,
+            "lastPrice": 10.2,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.3775086663818359,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04238095238095238,
+          "notAssignedAnnualizedPct": 0.1841553287981859,
+          "effectiveCostBasis": 201.1,
+          "effectiveDiscountPct": 0.08370164487173648,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

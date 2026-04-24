@@ -1,19 +1,125 @@
 {
   "symbol": "HON",
-  "fetchedAt": "2026-04-24T12:50:36.968Z",
-  "currentPrice": 214.34,
+  "fetchedAt": "2026-04-24T14:02:04.256Z",
+  "currentPrice": 211.11,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 231.2240065526653,
+          "contract": {
+            "contractSymbol": "HON270115C00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 240,
+            "bid": 9.3,
+            "ask": 11.7,
+            "lastPrice": 10.28,
+            "volume": 509,
+            "openInterest": 1016,
+            "impliedVolatility": 0.304694453125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06026751250240899,
+          "staticAnnualizedPct": 0.08269790249390707,
+          "assignedReturnPct": 0.19711560117655985,
+          "assignedAnnualizedPct": 0.27047817454678325,
+          "effectiveCostBasis": 201.81,
+          "effectiveDiscountPct": 0.04405286343612335
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 231.2240065526653,
+          "contract": {
+            "contractSymbol": "HON270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 210,
+            "bid": 14.9,
+            "ask": 17.3,
+            "lastPrice": 15.8,
+            "volume": 3,
+            "openInterest": 243,
+            "impliedVolatility": 0.249030947265625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07095238095238095,
+          "notAssignedAnnualizedPct": 0.09735947010383099,
+          "effectiveCostBasis": 195.1,
+          "effectiveDiscountPct": 0.07583724124863823,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 231.2240065526653,
+          "contract": {
+            "contractSymbol": "HON280121C00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 240,
+            "bid": 21.8,
+            "ask": 23.7,
+            "lastPrice": 22,
+            "volume": 6,
+            "openInterest": 2130,
+            "impliedVolatility": 0.3078072149658203,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14209351888874397,
+          "staticAnnualizedPct": 0.08141936325650165,
+          "assignedReturnPct": 0.2789416075628948,
+          "assignedAnnualizedPct": 0.15983310323462577,
+          "effectiveCostBasis": 189.31,
+          "effectiveDiscountPct": 0.10326370138790204
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 231.2240065526653,
+          "contract": {
+            "contractSymbol": "HON280121P00210000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 210,
+            "bid": 22.4,
+            "ask": 25.6,
+            "lastPrice": 22.4,
+            "volume": 8,
+            "openInterest": 21,
+            "impliedVolatility": 0.23662567581176758,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10666666666666666,
+          "notAssignedAnnualizedPct": 0.061119832548403974,
+          "effectiveCostBasis": 187.6,
+          "effectiveDiscountPct": 0.11136374401970545,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

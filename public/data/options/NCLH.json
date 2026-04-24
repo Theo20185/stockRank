@@ -1,19 +1,125 @@
 {
   "symbol": "NCLH",
-  "fetchedAt": "2026-04-24T12:50:40.435Z",
-  "currentPrice": 18.42,
+  "fetchedAt": "2026-04-24T14:02:07.793Z",
+  "currentPrice": 18.3626,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 26.583416751630356,
+          "contract": {
+            "contractSymbol": "NCLH270115C00027000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 27,
+            "bid": 1.09,
+            "ask": 1.44,
+            "lastPrice": 1.46,
+            "volume": 4,
+            "openInterest": 4682,
+            "impliedVolatility": 0.5629926513671876,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05935978565126943,
+          "staticAnnualizedPct": 0.08145233745380956,
+          "assignedReturnPct": 0.5297397971964753,
+          "assignedAnnualizedPct": 0.7268985938974192,
+          "effectiveCostBasis": 17.2726,
+          "effectiveDiscountPct": 0.05935978565126943
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 26.583416751630356,
+          "contract": {
+            "contractSymbol": "NCLH270115P00017000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 17,
+            "bid": 2.47,
+            "ask": 2.75,
+            "lastPrice": 2.69,
+            "volume": 254,
+            "openInterest": 5609,
+            "impliedVolatility": 0.5432174584960938,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14529411764705882,
+          "notAssignedAnnualizedPct": 0.19936974789915965,
+          "effectiveCostBasis": 14.53,
+          "effectiveDiscountPct": 0.20871771971289474,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 26.583416751630356,
+          "contract": {
+            "contractSymbol": "NCLH280121C00027000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 27,
+            "bid": 2.83,
+            "ask": 3.4,
+            "lastPrice": 3.2,
+            "volume": 11,
+            "openInterest": 9582,
+            "impliedVolatility": 0.5668988623046876,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15411760861751603,
+          "staticAnnualizedPct": 0.08830914779496601,
+          "assignedReturnPct": 0.624497620162722,
+          "assignedAnnualizedPct": 0.3578361559802096,
+          "effectiveCostBasis": 15.5326,
+          "effectiveDiscountPct": 0.15411760861751603
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 26.583416751630356,
+          "contract": {
+            "contractSymbol": "NCLH280121P00018000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 18,
+            "bid": 4.2,
+            "ask": 4.6,
+            "lastPrice": 4.4,
+            "volume": 1,
+            "openInterest": 1801,
+            "impliedVolatility": 0.5080615600585938,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.23333333333333334,
+          "notAssignedAnnualizedPct": 0.1336996336996337,
+          "effectiveCostBasis": 13.8,
+          "effectiveDiscountPct": 0.24847243854356135,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

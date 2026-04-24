@@ -1,17 +1,44 @@
 {
   "symbol": "F",
-  "fetchedAt": "2026-04-24T12:50:47.373Z",
-  "currentPrice": 12.48,
+  "fetchedAt": "2026-04-24T14:02:13.037Z",
+  "currentPrice": 12.375,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 12.798077897723207,
+          "contract": {
+            "contractSymbol": "F270115C00013000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 13,
+            "bid": 1.05,
+            "ask": 1.22,
+            "lastPrice": 1.12,
+            "volume": 84,
+            "openInterest": 661,
+            "impliedVolatility": 0.3505924316406249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11999877589262488,
+          "staticAnnualizedPct": 0.1646599744391281,
+          "assignedReturnPct": 0.1705038263976754,
+          "assignedAnnualizedPct": 0.23396201742538164,
+          "effectiveCostBasis": 11.325,
+          "effectiveDiscountPct": 0.08484848484848485
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 12.798779407723206,
+          "anchorPrice": 12.798077897723207,
           "contract": {
             "contractSymbol": "F270115P00012000",
             "expiration": "2027-01-15",
@@ -22,7 +49,7 @@
             "lastPrice": 3.6,
             "volume": 2,
             "openInterest": 2872,
-            "impliedVolatility": 0.850587431640625,
+            "impliedVolatility": 0.8413101806640625,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -30,7 +57,7 @@
           "notAssignedReturnPct": 0.24416666666666667,
           "notAssignedAnnualizedPct": 0.3350407268170426,
           "effectiveCostBasis": 9.07,
-          "effectiveDiscountPct": 0.2732371794871795,
+          "effectiveDiscountPct": 0.26707070707070707,
           "inTheMoney": false
         }
       ]
@@ -38,8 +65,61 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 12.798077897723207,
+          "contract": {
+            "contractSymbol": "F280121C00015000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 15,
+            "bid": 1.1,
+            "ask": 1.33,
+            "lastPrice": 1.27,
+            "volume": 20,
+            "openInterest": 8265,
+            "impliedVolatility": 0.33887379882812496,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.1730645858630137,
+          "staticAnnualizedPct": 0.09916573601255887,
+          "assignedReturnPct": 0.38518579798422586,
+          "assignedAnnualizedPct": 0.22071085755768044,
+          "effectiveCostBasis": 11.275,
+          "effectiveDiscountPct": 0.08888888888888889
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 12.798077897723207,
+          "contract": {
+            "contractSymbol": "F280121P00012000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 12,
+            "bid": 2,
+            "ask": 2.12,
+            "lastPrice": 2.08,
+            "volume": 2,
+            "openInterest": 20627,
+            "impliedVolatility": 0.3618227880859375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16666666666666666,
+          "notAssignedAnnualizedPct": 0.0954997383568812,
+          "effectiveCostBasis": 10,
+          "effectiveDiscountPct": 0.1919191919191919,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

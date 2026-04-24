@@ -1,19 +1,71 @@
 {
   "symbol": "SYF",
-  "fetchedAt": "2026-04-24T12:49:20.520Z",
-  "currentPrice": 76.62,
+  "fetchedAt": "2026-04-24T14:00:46.175Z",
+  "currentPrice": 76.13,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 139.85189037149763,
+          "contract": {
+            "contractSymbol": "SYF270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 75,
+            "bid": 6.1,
+            "ask": 9,
+            "lastPrice": 7.2,
+            "volume": 1,
+            "openInterest": 58,
+            "impliedVolatility": 0.3722596954345704,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08133333333333333,
+          "notAssignedAnnualizedPct": 0.11160401002506265,
+          "effectiveCostBasis": 68.9,
+          "effectiveDiscountPct": 0.09496913174832511,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 139.85189037149763,
+          "contract": {
+            "contractSymbol": "SYF280121P00070000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 70,
+            "bid": 8.4,
+            "ask": 0,
+            "lastPrice": 9.3,
+            "volume": 11,
+            "openInterest": 32,
+            "impliedVolatility": 0.015634843750000002,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12000000000000001,
+          "notAssignedAnnualizedPct": 0.06875981161695448,
+          "effectiveCostBasis": 61.6,
+          "effectiveDiscountPct": 0.19085774333377112,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

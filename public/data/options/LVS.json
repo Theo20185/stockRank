@@ -1,18 +1,72 @@
 {
   "symbol": "LVS",
-  "fetchedAt": "2026-04-24T12:50:33.492Z",
-  "currentPrice": 51.95,
+  "fetchedAt": "2026-04-24T14:02:00.784Z",
+  "currentPrice": 52.51,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.452522824630925,
+          "contract": {
+            "contractSymbol": "LVS270115C00057500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 266,
+            "strike": 57.5,
+            "bid": 4.55,
+            "ask": 5.3,
+            "lastPrice": 4.29,
+            "volume": 47,
+            "openInterest": 197,
+            "impliedVolatility": 0.4035704174804688,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10207354445206784,
+          "staticAnnualizedPct": 0.14006332227445398,
+          "assignedReturnPct": 0.19710306263907987,
+          "assignedAnnualizedPct": 0.27046096941076747,
+          "effectiveCostBasis": 47.96,
+          "effectiveDiscountPct": 0.08665016187392878
+        }
+      ],
       "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.452522824630925,
+          "contract": {
+            "contractSymbol": "LVS280121C00057500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 637,
+            "strike": 57.5,
+            "bid": 8.7,
+            "ask": 10.25,
+            "lastPrice": 11.3,
+            "volume": 10,
+            "openInterest": 41,
+            "impliedVolatility": 0.4401911450195312,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.20261766958935415,
+          "staticAnnualizedPct": 0.11609960659358597,
+          "assignedReturnPct": 0.2976471877763662,
+          "assignedAnnualizedPct": 0.17055137133182677,
+          "effectiveCostBasis": 43.81,
+          "effectiveDiscountPct": 0.16568272709960008
+        }
+      ],
       "puts": []
     }
   ]
