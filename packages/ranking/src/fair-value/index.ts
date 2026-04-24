@@ -27,7 +27,17 @@ import type { EbitdaTreatment, EpsTreatment } from "./anchors.js";
 const HIGH_SPREAD_LIMIT = 1.5;
 const MEDIUM_SPREAD_LIMIT = 2.5;
 const HIGH_MIN_ANCHORS = 6;
-const MEDIUM_MIN_ANCHORS = 4;
+// Tightened from 4 → 6 (Munger discipline, 2026-04). The earlier
+// MEDIUM threshold (≥4) let TROW-style PE-only valuations claim
+// "medium" confidence on what's effectively a single-metric
+// estimate. Per the data audit: industries with <6 anchors
+// available (Asset Management, Utilities, Steel, Credit Services)
+// are typically structurally engine-incompatible — the engine can
+// produce a number but it lacks the cross-validation that other
+// anchors provide. Forcing them to "low" surfaces the limitation
+// honestly. Fewer-than-6 fired → confidence: low, regardless of
+// peer set or spread.
+const MEDIUM_MIN_ANCHORS = 6;
 
 /**
  * When the peer cohort's median P/E differs from the subject's own
@@ -180,7 +190,7 @@ function isPeerCohortDivergent(
   return ratio > PEER_DIVERGE_THRESHOLD;
 }
 
-function computeConfidence(
+export function computeConfidence(
   peerSet: FairValue["peerSet"],
   anchorCount: number,
   range: FairValue["range"],

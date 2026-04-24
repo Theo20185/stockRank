@@ -81,6 +81,23 @@ export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelP
             Confidence: <strong>{row.fairValue.confidence}</strong> ({row.fairValue.peerSet} peers, {row.fairValue.peerCount})
           </p>
         )}
+        {row.fairValue?.anchors &&
+          (() => {
+            const fired = Object.values(row.fairValue.anchors).filter(
+              (v) => v !== null && v !== undefined,
+            ).length;
+            if (fired >= 6) return null;
+            return (
+              <p className="drill-down__neg-equity">
+                <strong>Limited-anchor estimate</strong> — only {fired} of 9
+                valuation anchors fired. The fair-value range above is
+                computed on a narrow set of metrics (typically PE-only for
+                names where EV/EBITDA and P/FCF aren't meaningful, like
+                asset managers, insurers, utilities). Treat the precision
+                with skepticism.
+              </p>
+            );
+          })()}
         {row.fairValue?.peerCohortDivergent && (
           <p className="drill-down__neg-equity">
             <strong>Peer cohort deemed unreliable</strong> — peer-median

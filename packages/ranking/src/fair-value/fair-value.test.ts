@@ -111,6 +111,98 @@ describe("fairValueFor", () => {
     expect(fv.confidence).toBe("low");
   });
 
+  // B2 (Munger discipline): when fewer than 6 of 9 anchors fire,
+  // force confidence to 'low'. Even at the boundary (5 anchors, good
+  // spread, cohort peer set) the engine shouldn't claim medium.
+  it("computeConfidence(cohort, 5 anchors, tight spread) returns 'low' (B2 boundary)", async () => {
+    const { computeConfidence } = await import("./index.js");
+    const tightRange = { p25: 100, median: 110, p75: 120 }; // spread 1.2x
+    expect(computeConfidence("cohort", 5, tightRange)).toBe("low");
+  });
+
+  it("computeConfidence(cohort, 6 anchors, tight spread) returns 'high' (preserved)", async () => {
+    const { computeConfidence } = await import("./index.js");
+    const tightRange = { p25: 100, median: 110, p75: 120 };
+    expect(computeConfidence("cohort", 6, tightRange)).toBe("high");
+  });
+
+  it("computeConfidence(cohort, 4 anchors, tight spread) returns 'low' (B2)", async () => {
+    const { computeConfidence } = await import("./index.js");
+    const tightRange = { p25: 100, median: 110, p75: 120 };
+    expect(computeConfidence("cohort", 4, tightRange)).toBe("low");
+  });
+
+  it("returns confidence 'low' when fewer than 6 of 9 anchors fire (TROW pattern)", () => {
+    // Build a subject with positive TTM PE but no EBITDA / FCF data —
+    // exercises the asset-manager pattern where only PE anchors fire.
+    const subject = makeCompany({
+      symbol: "TROW_LIKE",
+      industry: "Asset Management",
+      sector: "Financial Services",
+      ttm: makeTtm({
+        peRatio: 11,
+        evToEbitda: null, // forces peer-EVE + own-EVE + normalized-EVE → null
+        priceToFcf: null, // forces all P/FCF anchors → null
+      }),
+      annual: Array.from({ length: 5 }, (_, i) =>
+        makePeriod({
+          fiscalYear: String(2025 - i),
+          income: {
+            revenue: 7e9,
+            grossProfit: 3e9,
+            operatingIncome: 2e9,
+            ebit: 2e9,
+            ebitda: null, // no EBITDA → all EV/EBITDA anchors fail
+            interestExpense: 50e6,
+            netIncome: 2e9,
+            epsDiluted: 9,
+            sharesDiluted: 220_000_000,
+          },
+          cashFlow: {
+            operatingCashFlow: 2.2e9,
+            capex: -200e6,
+            freeCashFlow: null, // no FCF → all P/FCF anchors fail
+            dividendsPaid: 1e9,
+            buybacks: 500e6,
+          },
+        }),
+      ),
+    });
+    const peers = Array.from({ length: 10 }, (_, i) =>
+      makeCompany({
+        symbol: `PEER${i}`,
+        industry: "Asset Management",
+        sector: "Financial Services",
+        ttm: makeTtm({
+          peRatio: 18 + i,
+          evToEbitda: null,
+          priceToFcf: null,
+        }),
+        annual: Array.from({ length: 5 }, (_, j) =>
+          makePeriod({
+            fiscalYear: String(2025 - j),
+            income: {
+              revenue: 7e9, grossProfit: 3e9, operatingIncome: 2e9,
+              ebit: 2e9, ebitda: null, interestExpense: 50e6,
+              netIncome: 2e9, epsDiluted: 9, sharesDiluted: 220_000_000,
+            },
+            cashFlow: {
+              operatingCashFlow: 2.2e9, capex: -200e6, freeCashFlow: null,
+              dividendsPaid: 1e9, buybacks: 500e6,
+            },
+          }),
+        ),
+      }),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    // Count actual anchors fired
+    const fired = Object.values(fv.anchors).filter(
+      (v) => v !== null && v !== undefined,
+    ).length;
+    expect(fired).toBeLessThan(6);
+    expect(fv.confidence).toBe("low");
+  });
+
   it("excludes negative-EPS peers from the P/E anchor (drops them, doesn't crash)", () => {
     const subject = makeCompany({
       symbol: "S",

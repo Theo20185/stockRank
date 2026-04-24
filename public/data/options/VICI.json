@@ -1,125 +1,19 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-04-23T23:32:39.684Z",
+  "fetchedAt": "2026-04-24T12:49:06.681Z",
   "currentPrice": 28.51,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 31.24672674699135,
-          "contract": {
-            "contractSymbol": "VICI270115C00032500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 32.5,
-            "bid": 0.45,
-            "ask": 0.5,
-            "lastPrice": 0.45,
-            "volume": 1,
-            "openInterest": 3288,
-            "impliedVolatility": 0.17774259765625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.06201517126398139,
-          "staticAnnualizedPct": 0.08477729405001201,
-          "assignedReturnPct": 0.2019660656869908,
-          "assignedAnnualizedPct": 0.2760959324934518,
-          "effectiveCostBasis": 28.060000000000002,
-          "effectiveDiscountPct": 0.01578393546124167
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 31.24672674699135,
-          "contract": {
-            "contractSymbol": "VICI270115P00027500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 27.5,
-            "bid": 1.55,
-            "ask": 1.8,
-            "lastPrice": 1.69,
-            "volume": 174,
-            "openInterest": 1369,
-            "impliedVolatility": 0.2375564526367187,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.056363636363636366,
-          "notAssignedAnnualizedPct": 0.07705141300646919,
-          "effectiveCostBasis": 25.95,
-          "effectiveDiscountPct": 0.08979305506839713,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 31.24672674699135,
-          "contract": {
-            "contractSymbol": "VICI280121C00032500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 32.5,
-            "bid": 0.55,
-            "ask": 2,
-            "lastPrice": 1.24,
-            "volume": 11,
-            "openInterest": 168,
-            "impliedVolatility": 0.2280350634765625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.12976162065293315,
-          "staticAnnualizedPct": 0.07423666385316709,
-          "assignedReturnPct": 0.2697125150759425,
-          "assignedAnnualizedPct": 0.1543026144243245,
-          "effectiveCostBasis": 27.96,
-          "effectiveDiscountPct": 0.01929147667485093
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 31.24672674699135,
-          "contract": {
-            "contractSymbol": "VICI280121P00027500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 27.5,
-            "bid": 2,
-            "ask": 3.8,
-            "lastPrice": 3.12,
-            "volume": 1,
-            "openInterest": 372,
-            "impliedVolatility": 0.2919992675781249,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07272727272727272,
-          "notAssignedAnnualizedPct": 0.04160729552579082,
-          "effectiveCostBasis": 25.5,
-          "effectiveDiscountPct": 0.10557699052963877,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

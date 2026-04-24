@@ -1,125 +1,19 @@
 {
   "symbol": "PYPL",
-  "fetchedAt": "2026-04-23T23:33:04.467Z",
+  "fetchedAt": "2026-04-24T12:49:25.701Z",
   "currentPrice": 49.75,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 121.03793842727273,
-          "contract": {
-            "contractSymbol": "PYPL270115C00125000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 125,
-            "bid": 0.05,
-            "ask": 0.34,
-            "lastPrice": 0.12,
-            "volume": 14,
-            "openInterest": 14456,
-            "impliedVolatility": 0.5029346582031251,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.008978449783162387,
-          "staticAnnualizedPct": 0.012273910752263188,
-          "assignedReturnPct": 1.5215412638535142,
-          "assignedAnnualizedPct": 2.080009592908362,
-          "effectiveCostBasis": 49.7,
-          "effectiveDiscountPct": 0.0010050251256281408
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 121.03793842727273,
-          "contract": {
-            "contractSymbol": "PYPL270115P00047500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 47.5,
-            "bid": 5.2,
-            "ask": 5.6,
-            "lastPrice": 5.4,
-            "volume": 22,
-            "openInterest": 2298,
-            "impliedVolatility": 0.4030821411132813,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10947368421052632,
-          "notAssignedAnnualizedPct": 0.14965503646757344,
-          "effectiveCostBasis": 42.3,
-          "effectiveDiscountPct": 0.149748743718593,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 121.03793842727273,
-          "contract": {
-            "contractSymbol": "PYPL280121C00115000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 115,
-            "bid": 0.8,
-            "ask": 1.01,
-            "lastPrice": 0.85,
-            "volume": 25,
-            "openInterest": 15796,
-            "impliedVolatility": 0.4058897302246094,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03513300474977628,
-          "staticAnnualizedPct": 0.020099603030828122,
-          "assignedReturnPct": 1.3466907936945,
-          "assignedAnnualizedPct": 0.770442225232747,
-          "effectiveCostBasis": 48.95,
-          "effectiveDiscountPct": 0.016080402010050253
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 121.03793842727273,
-          "contract": {
-            "contractSymbol": "PYPL280121P00047500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 47.5,
-            "bid": 6.35,
-            "ask": 9.05,
-            "lastPrice": 7.2,
-            "volume": 1,
-            "openInterest": 2056,
-            "impliedVolatility": 0.3997252410888672,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1336842105263158,
-          "notAssignedAnnualizedPct": 0.07648077874938129,
-          "effectiveCostBasis": 41.15,
-          "effectiveDiscountPct": 0.17286432160804022,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

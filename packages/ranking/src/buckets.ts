@@ -1,6 +1,33 @@
 import type { CategoryKey, RankedRow } from "./types.js";
 
 /**
+ * Industries where the engine's PE / EV-EBITDA / P-FCF anchors
+ * structurally don't apply — the accounting framework is too
+ * different (banks, capital markets, reinsurance). For these names
+ * we go straight to Excluded; computing a fair value here would
+ * just be model-incompatibility noise.
+ *
+ * Calibrated from snapshot audit (2026-04-23): 100% of names in
+ * these industries had EV/EBITDA AND P/FCF anchors null because
+ * EBITDA isn't meaningful (banks treat deposits as liabilities
+ * not debt; capital-markets firms have carry-comp distorting
+ * earnings; reinsurers have claims-reserve accounting).
+ *
+ * Asset Management is intentionally NOT here — it's partially
+ * compatible (PE-only) and downstream confidence layer flags it.
+ *
+ * Future-improvement note: each of these has a dedicated valuation
+ * framework (book value / NAV / embedded value). When we build
+ * those, names move out of this list and into their proper anchor.
+ */
+export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
+  "Banks - Regional",
+  "Banks - Diversified",
+  "Capital Markets",
+  "Insurance - Reinsurance",
+]);
+
+/**
  * Three-bucket classifier for the Results screen tabs.
  *
  *   - **ranked**   — actionable buy candidates: passed the quality floor,
@@ -53,6 +80,14 @@ function missingCategoryCount(row: RankedRow): number {
 }
 
 export function classifyRow(row: RankedRow): BucketKey {
+  // Model-incompatible industries (banks, capital markets, reinsurance)
+  // skip the entire pipeline — even an attractive-looking FV is just
+  // PE-extrapolation noise on accounting structures the model wasn't
+  // built for. This precedes the quality-floor / negative-equity
+  // checks because it's a stronger statement: not "this name failed
+  // a screen" but "this name is outside our model's domain."
+  if (MODEL_INCOMPATIBLE_INDUSTRIES.has(row.industry)) return "excluded";
+
   const missing = missingCategoryCount(row);
 
   // Names that failed the quality floor — surfaced as RankedRow stubs

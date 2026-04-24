@@ -39,6 +39,8 @@ function row(opts: {
   optionsLiquid?: boolean;
   fvTrend?: import("@stockrank/core").FvTrend;
   fundamentalsDirection?: import("./fundamentals.js").FundamentalsDirection;
+  industry?: string;
+  sector?: string;
 }): RankedRow {
   const baseScores: CategoryScores = {
     valuation: 0.5, health: 0.5, quality: 0.6,
@@ -50,8 +52,8 @@ function row(opts: {
   return {
     symbol: opts.symbol ?? "TEST",
     name: opts.symbol ?? "TEST Inc",
-    sector: "Industrials",
-    industry: "Test Industry",
+    sector: opts.sector ?? "Industrials",
+    industry: opts.industry ?? "Test Industry",
     marketCap: 50_000_000_000,
     price: 80,
     composite: 0.55,
@@ -191,6 +193,70 @@ describe("classifyRow", () => {
   it("excluded: fair value present but range is null", () => {
     const noRange = { ...fv(null), range: null };
     expect(classifyRow(row({ fairValue: noRange }))).toBe("excluded");
+  });
+
+  // ---- Model-incompatible industries: hard-exclude ----
+  // The engine's PE / EV-EBITDA / P-FCF anchors don't fit banks (no
+  // meaningful EBITDA, deposits ≠ debt), capital markets (carry-comp
+  // accounting), or reinsurers (claims-reserve accounting). Force
+  // these to Excluded regardless of how attractive the FV looks —
+  // it's a value the engine can't reliably compute.
+
+  it("excluded: Banks - Regional industry (engine can't value bank balance sheets)", () => {
+    expect(
+      classifyRow(row({ symbol: "FITB", industry: "Banks - Regional", sector: "Financial Services" })),
+    ).toBe("excluded");
+  });
+
+  it("excluded: Banks - Diversified industry", () => {
+    expect(
+      classifyRow(row({ symbol: "JPM", industry: "Banks - Diversified", sector: "Financial Services" })),
+    ).toBe("excluded");
+  });
+
+  it("excluded: Capital Markets industry", () => {
+    expect(
+      classifyRow(row({ symbol: "SCHW", industry: "Capital Markets", sector: "Financial Services" })),
+    ).toBe("excluded");
+  });
+
+  it("excluded: Insurance - Reinsurance industry", () => {
+    expect(
+      classifyRow(row({ symbol: "EG", industry: "Insurance - Reinsurance", sector: "Financial Services" })),
+    ).toBe("excluded");
+  });
+
+  it("model-incompatible: hard-exclude wins over fair-value-attractive setup", () => {
+    // Even with great category scores + below-p25 + improving fundamentals
+    // + liquid options, JPM goes to Excluded because the model doesn't apply.
+    expect(
+      classifyRow(
+        row({
+          symbol: "JPM",
+          industry: "Banks - Diversified",
+          sector: "Financial Services",
+          fundamentalsDirection: "improving",
+        }),
+      ),
+    ).toBe("excluded");
+  });
+
+  it("does NOT exclude other Financial Services industries (Asset Management still allowed)", () => {
+    // Asset Management has partial coverage (50% EV/EBITDA + P/FCF
+    // missing). Soft-flag is handled in the fair-value confidence layer
+    // (B2), not here. Bucket logic still allows it through.
+    expect(
+      classifyRow(row({ industry: "Asset Management", sector: "Financial Services" })),
+    ).toBe("ranked");
+  });
+
+  it("does NOT exclude other Insurance subindustries (only Reinsurance)", () => {
+    expect(
+      classifyRow(row({ industry: "Insurance - Property & Casualty", sector: "Financial Services" })),
+    ).toBe("ranked");
+    expect(
+      classifyRow(row({ industry: "Insurance - Life", sector: "Financial Services" })),
+    ).toBe("ranked");
   });
 });
 

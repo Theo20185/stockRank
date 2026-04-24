@@ -1,61 +1,34 @@
 {
   "symbol": "PEG",
-  "fetchedAt": "2026-04-23T23:33:31.231Z",
+  "fetchedAt": "2026-04-24T12:49:53.491Z",
   "currentPrice": 80.16,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 80.17026726724606,
-          "contract": {
-            "contractSymbol": "PEG270115C00082500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 82.5,
-            "bid": 4.2,
-            "ask": 6.1,
-            "lastPrice": 5.79,
-            "volume": 60,
-            "openInterest": 71,
-            "impliedVolatility": 0.25977302734375,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.07733959314248216,
-          "staticAnnualizedPct": 0.10572641010114603,
-          "assignedReturnPct": 0.10653120990894928,
-          "assignedAnnualizedPct": 0.1456325528717846,
-          "effectiveCostBasis": 75.96,
-          "effectiveDiscountPct": 0.05239520958083833
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.17026726724606,
+          "anchorPrice": 80.20695851274607,
           "contract": {
             "contractSymbol": "PEG270115P00080000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 267,
+            "daysToExpiry": 266,
             "strike": 80,
             "bid": 4.5,
             "ask": 7.1,
             "lastPrice": 6.9,
             "volume": 3,
             "openInterest": 10,
-            "impliedVolatility": 0.2629468237304688,
+            "impliedVolatility": 0.26343510009765625,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.05625,
-          "notAssignedAnnualizedPct": 0.07689606741573034,
+          "notAssignedAnnualizedPct": 0.07718515037593984,
           "effectiveCostBasis": 75.5,
           "effectiveDiscountPct": 0.0581337325349301,
           "inTheMoney": false
@@ -65,61 +38,8 @@
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 80.17026726724606,
-          "contract": {
-            "contractSymbol": "PEG260821C00082500",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 120,
-            "strike": 82.5,
-            "bid": 2.75,
-            "ask": 3.4,
-            "lastPrice": 2.5,
-            "volume": 3,
-            "openInterest": 18,
-            "impliedVolatility": 0.23963162719726558,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04551734612965849,
-          "staticAnnualizedPct": 0.13844859447771124,
-          "assignedReturnPct": 0.0747089628961256,
-          "assignedAnnualizedPct": 0.227239762142382,
-          "effectiveCostBasis": 77.41,
-          "effectiveDiscountPct": 0.03430638722554891
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 80.17026726724606,
-          "contract": {
-            "contractSymbol": "PEG260821P00080000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 120,
-            "strike": 80,
-            "bid": 3.5,
-            "ask": 4.1,
-            "lastPrice": 5,
-            "volume": 1,
-            "openInterest": 4,
-            "impliedVolatility": 0.2274247180175781,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04375,
-          "notAssignedAnnualizedPct": 0.13307291666666665,
-          "effectiveCostBasis": 76.5,
-          "effectiveDiscountPct": 0.045658682634730496,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

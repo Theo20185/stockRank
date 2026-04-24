@@ -1,125 +1,19 @@
 {
   "symbol": "TROW",
-  "fetchedAt": "2026-04-23T23:32:36.228Z",
+  "fetchedAt": "2026-04-24T12:49:01.491Z",
   "currentPrice": 99.49,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 129.8254096473675,
-          "contract": {
-            "contractSymbol": "TROW270115C00130000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 130,
-            "bid": 0.5,
-            "ask": 1.25,
-            "lastPrice": 1.05,
-            "volume": 5,
-            "openInterest": 0,
-            "impliedVolatility": 0.25098405273437496,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04299083619610699,
-          "staticAnnualizedPct": 0.058770244238123784,
-          "assignedReturnPct": 0.3496548225263915,
-          "assignedAnnualizedPct": 0.47799254764843785,
-          "effectiveCostBasis": 98.99,
-          "effectiveDiscountPct": 0.005025630716654941
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 129.8254096473675,
-          "contract": {
-            "contractSymbol": "TROW270115P00095000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 95,
-            "bid": 6.9,
-            "ask": 8.6,
-            "lastPrice": 7.9,
-            "volume": 1,
-            "openInterest": 158,
-            "impliedVolatility": 0.32294378234863275,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07263157894736842,
-          "notAssignedAnnualizedPct": 0.0992903607332939,
-          "effectiveCostBasis": 88.1,
-          "effectiveDiscountPct": 0.11448386772539955,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 129.8254096473675,
-          "contract": {
-            "contractSymbol": "TROW280121C00130000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 130,
-            "bid": 2.65,
-            "ask": 4.1,
-            "lastPrice": 3.8,
-            "volume": 20,
-            "openInterest": 168,
-            "impliedVolatility": 0.2423781817626953,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.11735419896265475,
-          "staticAnnualizedPct": 0.06713837401468493,
-          "assignedReturnPct": 0.42401818529293933,
-          "assignedAnnualizedPct": 0.24258093672715184,
-          "effectiveCostBasis": 96.83999999999999,
-          "effectiveDiscountPct": 0.026635842798271185
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 129.8254096473675,
-          "contract": {
-            "contractSymbol": "TROW280121P00095000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 638,
-            "strike": 95,
-            "bid": 11.6,
-            "ask": 14.9,
-            "lastPrice": 13.1,
-            "volume": 20,
-            "openInterest": 137,
-            "impliedVolatility": 0.33515069152832033,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.12210526315789473,
-          "notAssignedAnnualizedPct": 0.06985645933014355,
-          "effectiveCostBasis": 83.4,
-          "effectiveDiscountPct": 0.16172479646195587,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

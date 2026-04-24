@@ -1,66 +1,13 @@
 {
   "symbol": "CHTR",
-  "fetchedAt": "2026-04-23T23:33:36.410Z",
+  "fetchedAt": "2026-04-24T12:50:03.852Z",
   "currentPrice": 241.78,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 304.2643604,
-          "contract": {
-            "contractSymbol": "CHTR270115C00310000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 310,
-            "bid": 18.2,
-            "ask": 23.8,
-            "lastPrice": 20,
-            "volume": 2,
-            "openInterest": 218,
-            "impliedVolatility": 0.510472424621582,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.07527504342790967,
-          "staticAnnualizedPct": 0.10290408558497015,
-          "assignedReturnPct": 0.3574323765406568,
-          "assignedAnnualizedPct": 0.4886247844095121,
-          "effectiveCostBasis": 223.58,
-          "effectiveDiscountPct": 0.07527504342790967
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 304.2643604,
-          "contract": {
-            "contractSymbol": "CHTR270115P00240000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 267,
-            "strike": 240,
-            "bid": 34.1,
-            "ask": 36.7,
-            "lastPrice": 34.9,
-            "volume": 1,
-            "openInterest": 212,
-            "impliedVolatility": 0.4594780615234375,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.14208333333333334,
-          "notAssignedAnnualizedPct": 0.1942337702871411,
-          "effectiveCostBasis": 205.9,
-          "effectiveDiscountPct": 0.1483993713293076,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2028-01-21",
@@ -69,26 +16,26 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 304.2643604,
+          "anchorPrice": 307.3280119,
           "contract": {
             "contractSymbol": "CHTR280121C00310000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 638,
+            "daysToExpiry": 637,
             "strike": 310,
             "bid": 39,
             "ask": 46,
             "lastPrice": 34.29,
             "volume": 32,
             "openInterest": 23,
-            "impliedVolatility": 0.5024311231994629,
+            "impliedVolatility": 0.5028278477478028,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "staticReturnPct": 0.16130366448837785,
-          "staticAnnualizedPct": 0.09228187701921305,
+          "staticAnnualizedPct": 0.09242674652787741,
           "assignedReturnPct": 0.443460997601125,
-          "assignedAnnualizedPct": 0.25370417574359033,
+          "assignedAnnualizedPct": 0.2541024554543338,
           "effectiveCostBasis": 202.78,
           "effectiveDiscountPct": 0.16130366448837785
         }

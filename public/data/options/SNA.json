@@ -1,125 +1,19 @@
 {
   "symbol": "SNA",
-  "fetchedAt": "2026-04-23T23:32:45.022Z",
+  "fetchedAt": "2026-04-24T12:49:08.382Z",
   "currentPrice": 390.75,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 421.8380265290025,
-          "contract": {
-            "contractSymbol": "SNA260918C00430000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 148,
-            "strike": 430,
-            "bid": 5.5,
-            "ask": 9.6,
-            "lastPrice": 4.4,
-            "volume": 29,
-            "openInterest": 29,
-            "impliedVolatility": 0.2332229998779297,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.024415221868728035,
-          "staticAnnualizedPct": 0.06021321609517387,
-          "assignedReturnPct": 0.12486307855458856,
-          "assignedAnnualizedPct": 0.3079393491380056,
-          "effectiveCostBasis": 385.25,
-          "effectiveDiscountPct": 0.014075495841330775
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 421.8380265290025,
-          "contract": {
-            "contractSymbol": "SNA260918P00390000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 148,
-            "strike": 390,
-            "bid": 20.4,
-            "ask": 22.6,
-            "lastPrice": 24.8,
-            "volume": 2,
-            "openInterest": 6,
-            "impliedVolatility": 0.23117834259033204,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.052307692307692305,
-          "notAssignedAnnualizedPct": 0.129002079002079,
-          "effectiveCostBasis": 369.6,
-          "effectiveDiscountPct": 0.05412667946257192,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 421.8380265290025,
-          "contract": {
-            "contractSymbol": "SNA261218C00420000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 239,
-            "strike": 420,
-            "bid": 15,
-            "ask": 17.9,
-            "lastPrice": 9.76,
-            "volume": 0,
-            "openInterest": 1,
-            "impliedVolatility": 0.23146825668334958,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.055084976204874715,
-          "staticAnnualizedPct": 0.08412559127522708,
-          "assignedReturnPct": 0.12994102227013385,
-          "assignedAnnualizedPct": 0.19844549426191987,
-          "effectiveCostBasis": 375.75,
-          "effectiveDiscountPct": 0.03838771593090211
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 421.8380265290025,
-          "contract": {
-            "contractSymbol": "SNA261218P00320000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 239,
-            "strike": 320,
-            "bid": 5,
-            "ask": 8.7,
-            "lastPrice": 9.1,
-            "volume": 2,
-            "openInterest": 19,
-            "impliedVolatility": 0.2847666738891601,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.015625,
-          "notAssignedAnnualizedPct": 0.02386244769874477,
-          "effectiveCostBasis": 315,
-          "effectiveDiscountPct": 0.19385796545105566,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }
