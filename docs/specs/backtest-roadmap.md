@@ -21,6 +21,25 @@ Full audit trail in `docs/specs/backtest-test-log.md`.
 
 Three phases, in priority order.
 
+### Phase 1 — A + C — **COMPLETE 2026-04-25**
+
+**A — REJECTED** (0/2 PIT regimes; per decision rule, can't reach
+2/3). value-deep-evtilt 3y excess vs default: -1.95 pp (PIT
+2018-2023), -2.90 pp (PIT 2010-2018). Equal-weighting within
+Valuation outperforms tilting toward EV/EBITDA. See
+`docs/specs/backtest-actions-2026-04-25-phase1.md` §1.
+
+**C — STRONG SIGNAL on INTC, MIXED on TGT, GAP on NVO.** INTC
+@ 2025-08-22: SG rank 1/36 (engine confirms user instinct). TGT
+@ 2026-04-09: SG rank 11/35 (engine sees more value elsewhere).
+NVO @ 2026-03-06: not in S&P 500 universe (Danish ADR — engine
+gap, queued as v2 follow-up "extended universe for personal
+holdings"). See `docs/specs/backtest-actions-2026-04-25-phase1.md` §2.
+
+Original spec preserved below for reference.
+
+---
+
 ### Phase 1 — A + C (cheap, high-value, do first)
 
 **A. In-Valuation factor reweighting.**
@@ -189,6 +208,12 @@ These are recorded so we don't forget but aren't priority work:
   uses narrow industry for percentiles; the IC uses super-groups.
   Test whether widening the ranker's cohort improves forward
   returns.
+- **I. Extended universe for personal holdings** (added 2026-04-25
+  from Phase 1C NVO miss) — let the user specify non-S&P 500
+  symbols of personal interest (NVO, foreign ADRs, etc.); fetch
+  their EDGAR (or Yahoo fallback) data; include them in the
+  snapshot universe. Small effort, high value for users with
+  international holdings.
 
 Move any of these up if Phase 1-3 work surfaces a reason.
 

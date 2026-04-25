@@ -269,6 +269,26 @@ right default, with a soft caveat that more defensive weights can
 outperform during recovery periods. See
 `docs/specs/backtest-actions-2026-04-25-crisis.md` §3.4-§3.5.
 
+**Phase 1A re-confirmation (2026-04-25):** tested an EV/EBITDA-
+tilted variant of value-deep (60% EV/EBITDA, 20% P/FCF, 10% P/E,
+10% P/B within the Valuation category). Rejected in 2 of 2 PIT
+regimes by -1.95 pp and -2.90 pp at 3y. **Equal-weighting within
+Valuation outperforms tilting toward the IC heatmap's strongest
+factor.** Insight: factor diversification within a category
+captures more of the tail consensus than concentration does. See
+`docs/specs/backtest-actions-2026-04-25-phase1.md` §1.
+
+**Phase 1C user-picks validation (2026-04-25):** the value-deep
+composite ranks INTC #1 of 36 in Semiconductors & Hardware on the
+date the user actually bought (2025-08-22) — strong validation
+that the engine surfaces deep-value turnaround opportunities at
+the right time. TGT was ranked #11 of 35 in Consumer Staples on
+2026-04-09 — engine saw more value in branded-beverage and
+packaged-food peers (TAP, STZ, KDP, GIS, CPB) ranked above. NVO
+@ 2026-03-06 not in universe (Danish ADR; queued as v2 "extended
+universe" follow-up). See
+`docs/specs/backtest-actions-2026-04-25-phase1.md` §2.
+
 | Category | Weight | Rationale |
 |---|---|---|
 | Valuation | **50%** | Half the composite — value lenses (EV/EBITDA, P/FCF, P/E, P/B) are the dominant predictor of forward excess return in the validation backtest |
