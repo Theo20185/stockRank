@@ -32,16 +32,17 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
  *
  *   - **ranked**   — actionable buy candidates: passed the quality floor,
  *                    fair value present, current price below the
- *                    conservative-tail (p25), FV trend not declining,
- *                    own-fundamentals not declining. Options liquidity
- *                    is NOT a gate — names without options still show as
- *                    share-purchase candidates; the UI hides the
- *                    options-strategy panels (CSP, buy-write, covered
- *                    call) for illiquid-options rows.
+ *                    conservative-tail (p25), FV trend not declining.
+ *                    Options liquidity is NOT a gate — names without
+ *                    options still show as share-purchase candidates;
+ *                    the UI hides the options-strategy panels (CSP,
+ *                    buy-write, covered call) for illiquid-options
+ *                    rows. fundamentalsDirection is also NOT a gate
+ *                    (Phase 2B rejected the filter as regime-unstable).
  *   - **watch**    — interesting but not actionable today: above the
- *                    conservative-tail, declining FV trend, declining
- *                    own-fundamentals, or carrying a structural-but-
- *                    tracked flag like negative equity.
+ *                    conservative-tail, declining FV trend, or
+ *                    carrying a structural-but-tracked flag like
+ *                    negative equity.
  *   - **excluded** — diagnostic bucket: failed the quality floor entirely
  *                    (all 5 category scores null — the ineligible-row
  *                    stub) or no fair value range computable.
@@ -126,23 +127,23 @@ export function classifyRow(row: RankedRow): BucketKey {
   // trends pass; only "declining" demotes.)
   if (row.fvTrend === "declining") return "watch";
 
-  // Munger-inversion defense: declining own-fundamentals (EPS history
-  // + forward EPS) is the "death zone" the inversion principle tells
-  // us to avoid. Symmetric with the fvTrend === "declining" rule
-  // above; both signals demote independently.
+  // The fundamentalsDirection=declining demotion was REMOVED 2026-04-25.
+  // Phase 2B weight-validation backtest evidence
+  // (docs/specs/backtest-actions-2026-04-25-phase2.md §1) showed that
+  // filtering declining-fundamentals names from the top decile is
+  // regime-unstable — within noise in the COVID window (+0.20 pp at
+  // 3y) and substantially HARMFUL in pre-COVID (-5.36 pp at 3y).
+  // The filter kicks out companies emerging from troughs that
+  // value-deep specifically wants to buy; the Quality category
+  // (10% weight) already captures profitability via ROIC + accruals.
   //
-  // Calibration: the back-test (2020-2024 flag dates, n=1493 events)
-  // showed the declining-fundamentals cohort recovers 47% of the
-  // time vs 65% for stable cohort, and loses money 19.4% of the
-  // time vs 16.5%. Stable / insufficient_data cohorts perform
-  // similarly to each other and represent the bulk of the strategy's
-  // edge — they pass through to Candidates.
-  //
-  // We deliberately do NOT demote on "stable" or "insufficient_data"
-  // — that earlier draft was too strict, would have removed all 1493
-  // historical undervalued flags from Candidates (improving
-  // fundamentals don't intersect with sub-FV pricing in practice).
-  if (row.fundamentalsDirection === "declining") return "watch";
+  // Earlier calibration (2020-2024, n=1493 flag-date events) showed
+  // declining-cohort recovery rate 47% vs stable 65% — but that was
+  // measuring a different question (recovery to FV) on biased
+  // survivor-only data. The PIT-aware Phase 2B test is more
+  // rigorous and the right authority on the engine's downstream
+  // bucket placement. The fundamentalsDirection field stays on the
+  // RankedRow as informational for the UI drill-down.
 
   // Note: options liquidity is NOT a bucket gate. Names without an
   // active options market still show up in Ranked when they pass the

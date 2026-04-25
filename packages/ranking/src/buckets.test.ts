@@ -106,58 +106,45 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
   });
 
-  // ---- Munger inversion: declining-fundamentals defense ----
-  // Demote to Watch when the company's own fundamentals (EPS history
-  // + forward EPS) are explicitly declining — Munger's "find out
-  // where death is so you can avoid that place." Symmetrical with the
-  // existing `fvTrend === "declining"` rule.
-  //
-  // Validated by 4y back-test (2020-2024 flag dates): the declining-
-  // fundamentals cohort had 47% recovery vs 65% for stable (18-point
-  // edge in favor of avoidance), and 19.4% loss rate vs 16.5%.
-  //
-  // Earlier draft (demote on anything except "improving") was too
-  // strict — the back-test showed 0 of 1493 historical undervalued
-  // flags had improving fundamentals (great companies don't trade
-  // below peer-median FV). That rule would have demoted the entire
-  // strategy.
+  // ---- fundamentalsDirection — informational only as of 2026-04-25 ----
+  // The bucket classifier no longer demotes on fundamentalsDirection
+  // (any value). Phase 2B PIT weight-validation evidence
+  // (docs/specs/backtest-actions-2026-04-25-phase2.md §1) showed
+  // the filter is regime-unstable: -5.36 pp at 3y in pre-COVID, the
+  // opposite of what it should do. The fundamentalsDirection field
+  // stays on RankedRow as informational; no bucket consequence.
 
-  it("watch: DECLINING fundamentals demotes to Watch (Munger death-zone defense)", () => {
+  it("ranked: DECLINING fundamentals does NOT demote (Phase 2B rejected the filter)", () => {
     expect(
       classifyRow(row({ fundamentalsDirection: "declining" })),
-    ).toBe("watch");
+    ).toBe("ranked");
   });
 
-  it("ranked: STABLE fundamentals does NOT demote (the bulk of value plays sit here)", () => {
+  it("ranked: STABLE fundamentals does NOT demote", () => {
     expect(
       classifyRow(row({ fundamentalsDirection: "stable" })),
     ).toBe("ranked");
   });
 
-  it("ranked: INSUFFICIENT fundamentals data does NOT demote (similar outcomes to stable)", () => {
+  it("ranked: INSUFFICIENT fundamentals data does NOT demote", () => {
     expect(
       classifyRow(row({ fundamentalsDirection: "insufficient_data" })),
     ).toBe("ranked");
   });
 
-  it("ranked: IMPROVING fundamentals confirmed Buffett-style 'great company at fair price'", () => {
+  it("ranked: IMPROVING fundamentals does NOT demote", () => {
     expect(
       classifyRow(row({ fundamentalsDirection: "improving" })),
     ).toBe("ranked");
   });
 
-  it("watch: declining fundamentals demote regardless of fvTrend value", () => {
-    // The fundamentals-declining signal stands on its own — even if
-    // FV-trend is improving (peer multiples expanding), declining
-    // EPS is a death signal.
+  it("watch: declining fundamentals + declining fvTrend → watch (fvTrend rule still active)", () => {
+    // The fvTrend === "declining" rule still demotes; only the
+    // fundamentalsDirection rule was removed. With declining
+    // fvTrend, the row goes to Watch regardless of fundamentalsDirection.
     expect(
       classifyRow(
-        row({ fvTrend: "improving", fundamentalsDirection: "declining" }),
-      ),
-    ).toBe("watch");
-    expect(
-      classifyRow(
-        row({ fvTrend: "stable", fundamentalsDirection: "declining" }),
+        row({ fvTrend: "declining", fundamentalsDirection: "declining" }),
       ),
     ).toBe("watch");
   });

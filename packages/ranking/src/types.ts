@@ -112,12 +112,12 @@ export type RankedRow = {
 
   /**
    * Direction of the company's own fundamentals (EPS history + forward
-   * EPS), independent of peer-multiple movements. Defends against the
-   * LULU pattern: when fvTrend says "improving" but this signal says
-   * the company's own EPS is flat or falling, the FV improvement is
-   * likely a peer-multiple-expansion mirage — not a real value gap.
-   * Bucket classifier demotes Candidates → Watch when fvTrend ===
-   * "improving" AND this is not "improving."
+   * EPS), independent of peer-multiple movements. As of 2026-04-25
+   * this field is **informational only** — the bucket classifier no
+   * longer demotes on fundamentalsDirection. Phase 2B PIT weight-
+   * validation (docs/specs/backtest-actions-2026-04-25-phase2.md §1)
+   * showed the filter is regime-unstable: -5.36 pp at 3y in
+   * pre-COVID. The field stays for UI drill-down visibility.
    */
   fundamentalsDirection: import("./fundamentals.js").FundamentalsDirection;
 };
