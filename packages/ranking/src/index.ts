@@ -131,3 +131,18 @@ export type {
   HorizonPerformance,
   WeightValidationReport,
 } from "./backtest/weight-validation/types.js";
+
+// Legacy-rule audit (backtest.md §3.5: H10/H11/H12)
+export {
+  runLegacyAudit,
+  type LegacyAuditInput,
+} from "./backtest/legacy-audit/engine.js";
+export { renderLegacyAuditReport } from "./backtest/legacy-audit/report.js";
+export type {
+  FloorAuditRow,
+  FloorClassification,
+  FloorRuleKey,
+  LegacyAuditReport,
+  TurnaroundAuditRow,
+  TurnaroundClassification,
+} from "./backtest/legacy-audit/types.js";

@@ -51,6 +51,8 @@ import {
   falseDiscoveryCheck,
   runWeightValidation,
   renderWeightValidationReport,
+  runLegacyAudit,
+  renderLegacyAuditReport,
   DEFAULT_WEIGHTS,
   type CandidateWeights,
   type IcCalibration,
@@ -70,6 +72,8 @@ type IcArgs = {
   candidatesPath: string | null;
   /** Test-period start date for weight validation. */
   testPeriodStart: string;
+  /** When true, also run the H11/H12 legacy-rule audit (§3.5). */
+  legacyAudit: boolean;
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -89,6 +93,7 @@ function parseIcArgs(argv: string[]): IcArgs {
       d.setUTCFullYear(d.getUTCFullYear() - 5);
       return d.toISOString().slice(0, 10);
     })(),
+    legacyAudit: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -124,6 +129,9 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--test-period-start":
         args.testPeriodStart = argv[++i]!;
+        break;
+      case "--legacy-rule-audit":
+        args.legacyAudit = true;
         break;
       default:
         if (a.startsWith("--")) {
@@ -416,6 +424,34 @@ async function main(): Promise<void> {
       const wvArchivePath = resolve(docsDir, wvFilename);
       writeFileSync(wvArchivePath, wvMd, "utf-8");
       console.log(`  Archived to ${wvArchivePath}`);
+    }
+  }
+
+  // ── Optional: legacy-rule audit (§3.5: H10/H11/H12) ─────────────────
+  if (args.legacyAudit) {
+    console.log(`\nRunning legacy-rule audit (H11 + H12)...`);
+    const auditReport = runLegacyAudit({
+      snapshotsByDate,
+      forwardReturnsByDate,
+      spyReturnsByDate,
+      horizons: args.horizons,
+      bootstrapResamples: 1000,
+      seed: 1,
+    });
+    console.log(`  H11: ${auditReport.verdicts.h11.verdict} — ${auditReport.verdicts.h11.evidence}`);
+    console.log(`  H12: ${auditReport.verdicts.h12.verdict} — ${auditReport.verdicts.h12.evidence}`);
+    const auditFilename = args.archive
+      ? `backtest-legacy-rules-${today}.md`
+      : "legacy-rules.md";
+    const auditMd = renderLegacyAuditReport(auditReport);
+    const auditPath = resolve(tmpDir, "legacy-rules.md");
+    writeFileSync(auditPath, auditMd, "utf-8");
+    console.log(`  Wrote ${auditPath}`);
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const auditArchivePath = resolve(docsDir, auditFilename);
+      writeFileSync(auditArchivePath, auditMd, "utf-8");
+      console.log(`  Archived to ${auditArchivePath}`);
     }
   }
 }
