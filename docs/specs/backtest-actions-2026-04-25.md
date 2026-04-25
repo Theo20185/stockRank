@@ -25,7 +25,7 @@ month-end snapshots over 8 years, EDGAR-derived fundamentals,
 
 ## 2. Three findings, three engine changes
 
-### 2.1 Adopt `value-deep` as a named preset
+### 2.1 Promote `value-deep` to the new universal default
 
 **Evidence:** weight-validation §3.11.1 adoption rule passed for
 the value-deep candidate.
@@ -38,128 +38,86 @@ the value-deep candidate.
 | equal-weight | +17.94% | [+11.97%, +25.82%] | reject (-9.01 pp) |
 | quality-tilt | +14.89% | [+10.10%, +19.98%] | reject (-12.07 pp) |
 
-**Engine change:** add `value-deep` as a named preset in
-`packages/ranking/src/presets/super-group-weights.ts` (the file
-ranking.md §11.5 reserves but currently ships empty). The preset
-applies *universally* (all super-groups) since the validation was
-done on the universe-wide composite. Per-super-group refinements
-fall under §2.4.
+**Engine change:** update `DEFAULT_WEIGHTS` in
+`packages/ranking/src/weights.ts` to the value-deep vector. Update
+`ranking.md` §8.1 to reflect the new default and preserve the prior
+35/25/15/15/10 in the prose for traceability.
 
 ```ts
-// packages/ranking/src/presets/named-presets.ts (new file)
-import type { CategoryWeights } from "../types.js";
-
-export type NamedPreset = {
-  name: string;
-  description: string;
-  weights: CategoryWeights;
-  evidenceRef: string;
-  adoptedAt: string;
+// packages/ranking/src/weights.ts
+export const DEFAULT_WEIGHTS: CategoryWeights = {
+  valuation: 0.50,        // was 0.35
+  health: 0.20,           // was 0.25
+  quality: 0.10,          // was 0.15
+  shareholderReturn: 0.10, // was 0.15
+  growth: 0.10,           // unchanged
+  momentum: 0,            // unchanged
 };
-
-export const NAMED_PRESETS: NamedPreset[] = [
-  {
-    name: "value-deep",
-    description:
-      "Heavy value tilt — 50% Valuation. Validated to beat default by +8.81 pp at 3y.",
-    weights: {
-      valuation: 0.50,
-      health: 0.20,
-      quality: 0.10,
-      shareholderReturn: 0.10,
-      growth: 0.10,
-      momentum: 0,
-    },
-    evidenceRef: "docs/backtest-weight-validation-2026-04-25.md",
-    adoptedAt: "2026-04-25",
-  },
-];
 ```
 
-**UI change:** the existing weight-slider panel gains a "Presets"
-dropdown that lets the user select a named preset; selecting one
-populates the sliders. The user can still hand-tune from there.
-Default (value-tilted defensive) and value-deep are the v1
-options; future entries get added as new evidence arrives.
+**UI change:** none in v1 — the weight-slider panel reads
+`DEFAULT_WEIGHTS` for its initial values and the reset-to-defaults
+button. With `DEFAULT_WEIGHTS` now value-deep, both behaviors update
+automatically. A "presets" dropdown listing the prior
+"value-tilted-defensive (legacy)" weights for users who want to
+A/B compare in-app is a v2 enhancement.
 
-**Why named-preset rather than new universal default:**
-`ranking.md` §8.1 explicitly calls out the user's defaults as
-*the user's*, not generic. Promoting value-deep to the universal
-default would silently change every saved preset and dashboard
-view; making it an opt-in preset preserves backwards-compatibility
-and lets the user A/B compare in the UI before committing.
+**Why promote to universal default rather than ship as preset:**
+the `backtest.md` §3.11.1 adoption rule was purpose-built to be
+conservative (≥1%/yr excess at 3y, CI not crossing zero). value-deep
+cleared it cleanly with +8.81 pp at 3y. The whole point of the
+evidence pipeline is to update beliefs based on data; refusing to
+act on a passing verdict undercuts the workflow. Caveats on the
+test window (2018-2023, COVID recovery) apply equally to the prior
+default — the relative comparison is still apples-to-apples.
 
-### 2.2 Build per-super-group presets from passing IC cells
+**Regression-test impact:** the NVO/TGT/INTC golden fixture in
+`packages/ranking/src/validation.test.ts` will shift since composite
+scores are weighted differently. The structural assertions (NVO in
+top quartile of Pharma, TGT in top quartile of Discount Stores,
+INTC on turnaround watchlist) should still hold because they test
+relative rankings, not absolute composites. If any structural
+assertion breaks, that's a real regression to investigate, not just
+a fixture refresh.
 
-**Evidence:** 10 cells passed all three gates of §3.10 at the 3y
-horizon. Five super-groups have ≥1 passing cell:
+### 2.2 Per-super-group presets — DEFERRED pending validation
 
-| Super-group | Passing factors (3y) | Implication |
+**Status:** the original draft of this section proposed five
+per-super-group presets (Utilities, Semiconductors & Hardware,
+Consumer Discretionary, Consumer Staples, Transportation & Autos)
+based on the IC heatmap's 10 passing 3y cells. **Decision (2026-04-25):
+do not ship those presets in v1.**
+
+**Why deferred:** the IC heatmap is *step 1* (evidence) of the §11.5
+two-step adoption process. Step 2 is the §3.11 weight-validation
+backtest — each candidate per-super-group preset must clear the
+same +1%/yr × 3y bar that value-deep cleared in §2.1 above. We
+have not run that validation. Shipping presets on IC evidence alone
+sidesteps the curve-fit guard the spec is built around.
+
+**Evidence still recorded** (for the next iteration):
+
+| Super-group | Passing 3y cells | Suggests |
 |---|---|---|
-| **Utilities** | EV/EBITDA +0.430, D/EBITDA +0.581 | Boost Valuation + Health |
-| **Semiconductors & Hardware** | EV/EBITDA +0.388, P/E +0.286, P/FCF +0.224, Accruals -0.231 | Boost Valuation + Quality (Sloan-accruals signal works here) |
-| **Consumer Discretionary** | EV/EBITDA +0.293, P/FCF +0.241 | Boost Valuation |
-| **Consumer Staples** | NetIssuance -0.257 | Boost Shareholder Return (anti-dilution signal) |
-| **Transportation & Autos** | D/EBITDA -0.442 | Boost Health |
+| Utilities | EV/EBITDA +0.430, D/EBITDA +0.581 | Test a "boost Valuation + Health" preset |
+| Semiconductors & Hardware | EV/EBITDA +0.388, P/E +0.286, P/FCF +0.224, Accruals -0.231 | Test a "boost Valuation + Quality" preset (Sloan-accruals working) |
+| Consumer Discretionary | EV/EBITDA +0.293, P/FCF +0.241 | Test a deeper Valuation tilt |
+| Consumer Staples | NetIssuance -0.257 | Test a "boost Shareholder Return" preset |
+| Transportation & Autos | D/EBITDA -0.442 | Test a "boost Health" preset |
 
-**Engine change:** populate
-`packages/ranking/src/presets/super-group-weights.ts` with five
-per-super-group presets, each citing the IC report. Each preset
-re-allocates ~10 percentage points of weight toward the categories
-with surviving signal, drawn proportionally from the categories
-with no signal in that super-group.
+**Next-iteration plan** (separate spec when revisited):
+1. Hand-set candidate per-super-group presets informed by the table
+   above, redistributing ~10 pp toward categories with passing IC.
+2. Pass each candidate through `runWeightValidation` constrained to
+   the relevant super-group's universe.
+3. Adopt only those presets that beat the §8.1 default by the
+   §3.11.1 floor (+1%/yr × 3y, CI not crossing zero).
+4. Each adopted preset gets an `evidenceRef` pointing at both the
+   IC report **and** the per-super-group validation report.
 
-```ts
-// packages/ranking/src/presets/super-group-weights.ts
-export const SUPER_GROUP_PRESETS: WeightPreset[] = [
-  {
-    superGroup: "utilities",
-    weights: { valuation: 0.40, health: 0.35, quality: 0.10,
-               shareholderReturn: 0.10, growth: 0.05, momentum: 0 },
-    source: "ic-derived",
-    evidenceRef: "docs/backtest-ic-2026-04-25.md#utilities",
-    adoptedAt: "2026-04-25",
-  },
-  {
-    superGroup: "semis-hardware",
-    weights: { valuation: 0.40, health: 0.20, quality: 0.25,
-               shareholderReturn: 0.05, growth: 0.10, momentum: 0 },
-    source: "ic-derived",
-    evidenceRef: "docs/backtest-ic-2026-04-25.md#semiconductors-hardware",
-    adoptedAt: "2026-04-25",
-  },
-  // ... three more for consumer-discretionary, consumer-staples,
-  // transport-autos, with similar 10-pp redistributions
-];
-```
-
-**Engine change — resolution layer:** the ranker's weight
-resolution (today: hardcoded `DEFAULT_WEIGHTS` from `weights.ts`)
-gets a cohort-aware override. Per `ranking.md` §11.5: "super-group
-preset if present → fall back to user defaults."
-
-```ts
-// packages/ranking/src/ranking.ts — composite computation
-function resolveWeights(
-  company: CompanySnapshot,
-  userDefault: CategoryWeights,
-): CategoryWeights {
-  const sg = superGroupOf(company.industry);
-  if (sg === null) return userDefault;
-  const preset = SUPER_GROUP_PRESETS.find((p) => p.superGroup === sg);
-  return preset ? preset.weights : userDefault;
-}
-```
-
-The `rank()` entry point gains a per-row preset reference field so
-the UI can surface "this row was scored using the
-super-group-utilities preset" in the drill-down panel.
-
-**Why not auto-derive weights from IC magnitudes:** per `ranking.md`
-§11.5 explicit non-goal — auto-derivation is the canonical
-curve-fit failure mode. The preset weights above are *human-set
-informed by IC evidence*, not mechanical transformations of IC
-values.
+This deferral does not affect §2.1 — the universe-wide value-deep
+validation already passed on the universe-wide composite, so it can
+ship now.
 
 ### 2.3 Hold the Quality floor pending a survivorship-clean rerun
 
@@ -209,32 +167,42 @@ report, removing the rule from the audit-pending list.
 
 ## 3. Implementation order
 
-The four changes can ship in two PRs:
+Three PRs, in this order:
 
-**PR 1 — Named presets + per-super-group presets + UI dropdown.**
-- Add `packages/ranking/src/presets/named-presets.ts` (§2.1).
-- Add `packages/ranking/src/presets/super-group-weights.ts` (§2.2).
-- Update `rank()` to resolve per-company weights via the
-  super-group preset table.
-- Add a `Presets` dropdown to the web app's weight-slider panel.
+**PR 1 — Spec annotations** (this PR).
+- `ranking.md` §8.1: update default weights from 35/25/15/15/10 to
+  value-deep (50/20/10/10/10). Preserve prior default in prose for
+  traceability.
+- `ranking.md` §11.5: mark per-super-group presets as deferred
+  pending step-2 validation; preserve the evidence table for the
+  next iteration.
+- `ranking.md` §11.7: H11 = HOLD (re-verify pending Phase 2b or
+  non-COVID window); H12 = passed; H10 = deferred.
+- This spec (§2.2): scratch the per-super-group preset implementation
+  proposal; record decision rationale.
+- No code changes; keeps spec in sync with audit trail.
+
+**PR 2 — value-deep as the new default.**
+- `packages/ranking/src/weights.ts`: update `DEFAULT_WEIGHTS`
+  literal to value-deep.
+- Run all tests, regenerate the NVO/TGT/INTC golden fixture if
+  composite scores shift (likely they do; structural assertions
+  should still hold).
 - Tests:
-  - Each preset weight vector sums to 1.
-  - `rank()` applies the correct per-company preset (verify via a
-    fixture with companies in three different super-groups).
-  - UI render test: selecting a preset updates the sliders.
-  - Regression: NVO/TGT/INTC golden file shifts under the
-    super-group presets (Utilities preset doesn't apply to NVO since
-    Pharma & Biotech has no preset; TGT (Consumer Staples) and INTC
-    (Semiconductors & Hardware) do shift). Update golden file in
-    the same commit.
+  - Existing `validation.test.ts` regression assertions still pass
+    (NVO top quartile of Pharma, TGT top quartile of Discount
+    Stores, INTC on turnaround watchlist).
+  - Existing `ranking.test.ts` weight-normalization unit tests
+    still pass.
 
-**PR 2 — Spec annotations.**
-- `ranking.md` §11.7: annotate H10 as still deferred; mark H11 as
-  evidence-pending on Phase 2b; mark H12 as **passed**.
-- `ranking.md` §8.1: add a sentence noting `value-deep` is now a
-  shipped named preset, with `evidenceRef`.
-- No code changes; just keeps the spec in sync with the audit
-  trail.
+**PR 3 — Phase 2b point-in-time S&P 500 universe** (separate spec).
+- New `docs/specs/point-in-time-universe.md` for the design.
+- Wikipedia revision-history scraper for historical index
+  membership.
+- Wire into `scripts/backtest-ic.ts` so the test universe at date T
+  uses S&P 500 members as of T, not today.
+- Re-run the 2026-04-25 backtest with the un-biased universe;
+  produce a follow-up actions spec comparing the verdicts.
 
 ## 4. Test strategy
 
@@ -257,30 +225,39 @@ For PR 1:
 
 For PR 2: spec edits only, no test changes.
 
-## 5. Open questions
+## 5. Resolved questions and remaining work
 
-1. **Should the universal default migrate to value-deep?** The
-   adoption rule says yes — it beats the user's default by +8.81
-   pp at 3y. But the spec calls the default "the user's, not
-   generic," so this is ultimately a user decision. v1 ships
-   value-deep as a named preset; revisit once the user has run
-   their portfolio against it for a quarter.
-2. **Per-super-group preset discovery cadence.** The IC pipeline
-   currently runs ad hoc; should presets be re-validated on every
-   snapshot refresh, every quarter, or only on user request? The
-   FDR check at "noise" verdict argues for caution — adding a
-   recurring run that auto-suggests preset edits would be a
-   curve-fit risk. Defer to manual reruns for now.
-3. **Phase 2b point-in-time universe.** The H11 caveat hinges on
-   getting this built. Wikipedia revision history of the S&P 500
-   list is the primary source per `backtest.md` §3.6. A separate
-   spec for Phase 2b is overdue.
-4. **Momentum default weight.** `momentum-on` validation showed
-   +0.47 pp at 3y (within noise of default). H9 (IC for momentum
-   in any super-group) didn't have a single passing cell. Net
-   conclusion: leave momentum default at 0% until the next IC
-   refresh shows clear positive evidence in at least one
-   super-group.
+Decisions taken 2026-04-25 (recorded for the audit trail):
+
+1. **Universal default migrates to value-deep** (§2.1) — promoted
+   from the original 35/25/15/15/10 to 50/20/10/10/10/0. Prior
+   default preserved in prose only.
+2. **Per-super-group presets deferred** (§2.2) — IC evidence
+   recorded; step-2 validation backtest is the next-iteration
+   blocker.
+3. **IC pipeline cadence: ad-hoc** — no recurring schedule. Manual
+   `npm run backtest-ic` invocation; revisit cadence after ≥ 3
+   archived runs to compare stability across.
+4. **Phase 2b point-in-time universe: build now** — separate spec
+   `docs/specs/point-in-time-universe.md`. Once delivered, re-run
+   the 2026-04-25 audit and compare verdicts (especially H11).
+5. **Momentum default weight: stay at 0%** — momentum-on validation
+   was within noise (+0.47 pp at 3y); H9 found zero passing cells.
+
+Remaining open items:
+
+- **Decision trigger for the Quality floor (H11).** Spec §11.7
+  holds the floor pending re-verification. Two options were on the
+  table — Phase 2b rerun OR a 2012-2019 (non-COVID) test window
+  rerun. The non-COVID rerun is cheaper (one CLI flag change once
+  Phase 2b unlocks deeper history); Phase 2b is more thorough.
+  Recommend running both as soon as Phase 2b is available.
+- **In-Valuation factor reweighting.** value-deep boosts the
+  Valuation *category* but the four Valuation factors stay equal-
+  weighted within. The 2026-04-25 IC heatmap showed EV/EBITDA had
+  the strongest cross-super-group signal at 3y. A future
+  validation should test "value-deep with EV/EBITDA-tilted
+  Valuation" as a candidate.
 
 ## 6. Caveats applying to all four findings
 

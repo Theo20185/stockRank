@@ -220,23 +220,35 @@ slider change).
 5. **Within-group rank** = rank of composite within industry group.
 6. **Universe rank** = rank of composite across the full filtered set.
 
-### 8.1 Default category weights (value-tilted defensive)
+### 8.1 Default category weights (value-deep)
+
+**Updated 2026-04-25:** the default migrated from the original
+35/25/15/15/10/0 (value-tilted defensive) to the value-deep weights
+below. Evidence: the value-deep candidate beat the prior default by
++8.81 pp at the 3y horizon under the §3.11.1 weight-validation rule
+(see `docs/backtest-weight-validation-2026-04-25.md` and
+`docs/specs/backtest-actions-2026-04-25.md` §2.1).
 
 | Category | Weight | Rationale |
 |---|---|---|
-| Valuation | **35%** | Heaviest — user buys cheap |
-| Health | **25%** | Fallen-angel strategy needs strong balance sheet to survive the trough |
-| Quality | 15% | Floor already excludes junk; remaining variation gets modest weight (now includes accruals) |
-| Shareholder Return | 15% | Income matters; user writes covered calls and likes dividends (now penalizes dilution) |
-| Growth | 10% | User actively fades momentum; growth is a tiebreaker, not a thesis |
-| Momentum | **0%** | Off by default — see §11.6. Available as a factor for IC analysis; raised to a non-zero weight only after `backtest.md` IC pipeline confirms signal in the user's universe at the user's horizons |
+| Valuation | **50%** | Half the composite — value lenses (EV/EBITDA, P/FCF, P/E, P/B) are the dominant predictor of forward excess return in the validation backtest |
+| Health | **20%** | Strong balance sheet still matters for the fallen-angel side of the strategy, but the validation evidence trims it from 25% in favor of more value |
+| Quality | 10% | Floor already excludes junk; remaining variation gets modest weight (includes accruals) |
+| Shareholder Return | 10% | Income matters; covered-call writing and dividends (also penalizes dilution) |
+| Growth | 10% | Growth is a tiebreaker, not a thesis |
+| Momentum | **0%** | Off by default — see §11.6. Stays at 0% until the IC pipeline finds a passing cell in at least one super-group at 1y or 3y |
 
 The six categories live in a single config object loaded by the
 engine. Sliders in the UI mutate this in-browser; the user can save
-and name preset weight schemes (per-super-group presets are §11.5).
-Weights renormalize over non-null categories per §8.3, so a default
-0% Momentum weight is a no-op for ranking but still produces factor
-detail rows for inspection and IC.
+and name preset weight schemes. Weights renormalize over non-null
+categories per §8.3, so a default 0% Momentum weight is a no-op for
+ranking but still produces factor detail rows for inspection and IC.
+
+**Prior default (preserved for reference):** 35% Valuation, 25%
+Health, 15% Quality, 15% Shareholder Return, 10% Growth, 0%
+Momentum. Available in the UI preset dropdown as
+"value-tilted-defensive (legacy)" so users with saved screens can
+still reproduce historical results.
 
 ### 8.2 Tie-breaking
 Higher composite wins. Tiebreakers in order:
@@ -363,29 +375,41 @@ type TurnaroundRow = {
 
 ## 11.5 Industry-conditional weight presets
 
-Default weights (§8.1) are the *user's* defaults across all super-
-groups. Different factors carry different IC in different super-
-groups (per `backtest.md` §3.7 IC analysis); a one-size-fits-all
-weight vector leaves signal on the table.
+Default weights (§8.1) apply universally across all super-groups.
+Different factors carry different IC in different super-groups (per
+`backtest.md` §3.9 IC analysis); a one-size-fits-all weight vector
+leaves signal on the table.
 
 **Two-step adoption process** to avoid curve-fitting:
 
-1. **Evidence (b):** the IC heatmap surfaces super-group × factor
-   cells that pass the three-gate filter (statistical floor from
-   Phase 0 Monte Carlo, economic floor of |IC| ≥ 0.05, sign-stable
-   in ≥ 2 of 3 rolling windows). For each super-group, we *propose*
-   a preset that re-allocates weight toward the categories with
+1. **Evidence:** the IC heatmap surfaces super-group × factor cells
+   that pass the three-gate filter (statistical floor from Phase 0
+   Monte Carlo, economic floor of |IC| ≥ 0.05, sign-stable in ≥ 2
+   of 3 rolling windows). For each super-group, we *propose* a
+   preset that re-allocates weight toward the categories with
    surviving cells.
-2. **Validation (c):** `backtest.md` §3.8 weight-validation mode
+2. **Validation:** `backtest.md` §3.11 weight-validation mode
    compares the proposed preset to the default on the same
    point-in-time forward windows. The preset is adopted only if
    top-decile composite return beats the default by a meaningful
    margin (target: ≥ 1%/yr excess on the 3y horizon, with bootstrap
    CI not crossing zero).
 
-### Storage and resolution
+**Status as of 2026-04-25:** the IC pipeline (Phase B) found
+passing cells across five super-groups — Utilities, Semiconductors
+& Hardware, Consumer Discretionary, Consumer Staples, and
+Transportation & Autos (see `docs/backtest-ic-2026-04-25.md`).
+Step 1 (evidence) is complete for those super-groups. **Step 2
+(validation) was deliberately skipped for v1** — the spec's
+adoption rule requires running each candidate per-super-group
+preset through the weight-validation backtest, and that work is
+deferred to a follow-up PR. Until then, no per-super-group presets
+ship; §8.1 default applies universally.
 
-Presets live at `packages/ranking/src/presets/super-group-weights.ts`:
+### Storage and resolution (deferred to v2)
+
+When per-super-group presets ship, they will live at
+`packages/ranking/src/presets/super-group-weights.ts`:
 
 ```ts
 export type WeightPreset = {
@@ -399,24 +423,20 @@ export type WeightPreset = {
 export const SUPER_GROUP_PRESETS: WeightPreset[] = [];
 ```
 
-`SUPER_GROUP_PRESETS` ships **empty in v1** — the user's §8.1
-defaults apply universally until the IC pipeline produces evidence.
-Each preset added later carries an `evidenceRef` pointing at the
-specific archived IC report that justified it.
-
-The ranker resolves weights per-row as: super-group preset if
-present → fall back to user defaults. UI surfaces the active preset
-on each row's drill-down so the user always knows whether they're
-looking at the universal default or an IC-derived override.
+The ranker would resolve weights per-row as: super-group preset if
+present → fall back to user defaults. UI would surface the active
+preset on each row's drill-down so the user always knows whether
+they're looking at the universal default or a super-group override.
 
 ### Hard non-goal: auto-derivation
 
-We do **not** mechanically derive weights from IC magnitudes (option
-(a) from the design conversation). Auto-deriving from in-sample IC
-is the canonical curve-fit failure mode in factor investing — it
-overweights whatever was lucky in the training window and crashes
-out-of-sample. The IC heatmap is *evidence input* for human-set
-presets, never a direct weight transformation.
+We do **not** mechanically derive weights from IC magnitudes —
+auto-deriving from in-sample IC is the canonical curve-fit failure
+mode in factor investing (overweights whatever was lucky in the
+training window, crashes out-of-sample). The IC heatmap is
+*evidence input* for human-set presets, never a direct weight
+transformation. v1 enforces this by also requiring the candidate
+to clear the §3.11 validation backtest before shipping.
 
 ## 11.6 Momentum philosophy
 
@@ -467,14 +487,16 @@ here so the audit trail is honest about what's measured vs assumed.
 Each entry points at the hypothesis or parameter sweep in
 `backtest.md` that will produce its verdict.
 
-### Rules awaiting up-or-down verdict
+### Rules with verdicts
 
-| Rule | Spec ref | Evidence test | What happens if it fails |
+Updated 2026-04-25 from `docs/backtest-legacy-rules-2026-04-25.md`.
+
+| Rule | Spec ref | Verdict | Status |
 |---|---|---|---|
-| **Quality floor — combined gate** | §4 (3-of-5 profitable + sector-relative ROIC + interest coverage) | `backtest.md` H11 | Floor disabled; excluded names rejoin the main composite. The §7 turnaround machinery becomes redundant and is removed with §7. |
-| **Quality floor — per-rule** | §4 each rule independently | `backtest.md` H11 (per-rule stratification) | Failing sub-rule dropped; combined gate keeps the surviving rules. The 3-of-5 / 33rd-pct / 25th-pct thresholds are also tested at neighboring values, not just on/off. |
-| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | `backtest.md` H12 | Watchlist criteria weakened or §7 removed entirely; "evaluate qualitatively" becomes "browse the §4-excluded list directly." |
-| **FV-trend declining → demote to Watch** | FV-trend signal (memory-referenced; 5%/yr slope, 2-year window) | `backtest.md` H10 | Demotion threshold widens (e.g., 8%/yr) or the demotion is removed. |
+| **Quality floor — combined gate** | §4 | **fail** (H11) — passed cohort 3y +6.07% vs failed +17.45% (gap -11.38 pp) | **HOLD pending re-verification.** Result is too contaminated to act on alone — test period (2018-2023) includes COVID recovery (favors floor-failed cyclical/distressed names) and survivorship bias (delisted floor-failures invisible). Decision rule: revisit after **either** (a) a Phase 2b point-in-time-universe rerun re-confirms H11=fail with delisted names included, **or** (b) a 2012-2019 (non-COVID) test window shows the same pattern. Spec §4 unchanged until then. |
+| **Quality floor — per-rule** | §4 each rule | **fail** (H11 per-rule) — all three sub-rules show floor harmful at 3y | Same hold as above. |
+| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **pass** (H12) — watchlist 3y +32.77% vs broader excluded set +17.38% (gap +15.39 pp), N=61, CI [+12.38%, +54.78%] | **No change.** Criteria validated as picking real fallen-angel signal. |
+| **FV-trend declining → demote to Watch** | FV-trend signal (5%/yr slope, 2-year window) | deferred (H10) | Backtest-side FV-trend reconstruction not yet built. Defer until a Phase 4 backtest-side FV-trend computer exists. |
 
 ### Design choices awaiting parameter sweeps
 
