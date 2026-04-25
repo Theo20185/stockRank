@@ -120,13 +120,36 @@ A new `tmp/backtest/accuracy.md` summary report contains:
 
 This is the honest hard part. Today's S&P 500 list silently excludes companies that went bankrupt, got acquired, or were dropped from the index. A back-test that runs over today's list will systematically over-estimate accuracy.
 
-**Phase 2a (this iteration):** accept the bias, document loudly. Caveat banner on every accuracy report explaining that the universe is today's S&P 500 and realized returns are biased upward by an unknown amount (literature suggests 1–2% / yr for survivorship in S&P over multi-year windows).
+**Phase 2a:** accept the bias, document loudly. Caveat banner on every accuracy report explaining that the universe is today's S&P 500 and realized returns are biased upward by an unknown amount (literature suggests 1–2% / yr for survivorship in S&P over multi-year windows).
 
-**Phase 2b (separate effort):** point-in-time S&P 500 membership. Two viable sources:
-- Wikipedia revision history of *List of S&P 500 companies* — has a "removed" table going back ~20 years. Scrapeable.
-- iShares historical fund holdings (`IVV` constituents per quarter) — scrapeable from iShares but rate-limited.
+**Phase 2b — OPERATIONAL as of 2026-04-25.** Implemented per
+`docs/specs/point-in-time-universe.md`. Wikipedia "Selected changes
+to the list" table on the same page as the constituents is parsed
+and reverse-applied to back-construct historical membership; cached
+at `tmp/sp500-history/` with a 7-day TTL. The backtest CLI gains
+`--point-in-time` which restricts the per-date universe to S&P 500
+members as of that date.
 
-A point-in-time universe lets us include delisted names with realized return = -100% (or whatever the takeover price was). Big lift; deferred.
+The first PIT rerun (2026-04-25,
+`docs/specs/backtest-actions-2026-04-25-pit.md`) revealed
+survivorship bias was inflating absolute 3y excess-return numbers
+by ~22 pp on this universe — far above the literature's 1-2%/yr
+rule of thumb, driven by COVID-era distressed-name recovery.
+Relative comparisons (candidate vs default, watchlist vs
+excluded) were largely preserved. The H11 Quality-floor verdict
+flipped from `fail` (biased) to `pass` (PIT) — the floor is doing
+real work that the biased view was hiding.
+
+v1 PIT limitation: today's symbols are filtered by historical
+membership, but historically-included-but-now-delisted names
+(LEH, ENRN, etc.) are NOT yet added back into the universe — we
+don't have EDGAR or chart data for those names. v2 work would
+synthesize -100% returns for them (or recover takeout prices),
+which would push H11's gap even wider.
+
+**Phase 2c (separate effort):** the secondary `IVV` fund-holdings
+source remains a future option for cross-validating the Wikipedia-
+derived membership history.
 
 ### 3.7 Total-return treatment
 

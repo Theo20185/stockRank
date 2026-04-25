@@ -229,6 +229,15 @@ below. Evidence: the value-deep candidate beat the prior default by
 (see `docs/backtest-weight-validation-2026-04-25.md` and
 `docs/specs/backtest-actions-2026-04-25.md` §2.1).
 
+**Re-confirmed 2026-04-25 (PIT):** the same-day point-in-time
+rerun (with `--point-in-time` enabled per
+`docs/specs/point-in-time-universe.md`) showed value-deep still
+beats the legacy 35/25/15/15/10 by +4.05 pp at 3y under the
+unbiased universe (CI [+0.93%, +5.72%] vs legacy's [-3.41%,
++2.14%] which crosses zero). Survivorship bias inflated absolute
+returns by ~22 pp at 3y but preserved the relative ranking. See
+`docs/specs/backtest-actions-2026-04-25-pit.md`.
+
 | Category | Weight | Rationale |
 |---|---|---|
 | Valuation | **50%** | Half the composite — value lenses (EV/EBITDA, P/FCF, P/E, P/B) are the dominant predictor of forward excess return in the validation backtest |
@@ -493,8 +502,8 @@ Updated 2026-04-25 from `docs/backtest-legacy-rules-2026-04-25.md`.
 
 | Rule | Spec ref | Verdict | Status |
 |---|---|---|---|
-| **Quality floor — combined gate** | §4 | **fail** (H11) — passed cohort 3y +6.07% vs failed +17.45% (gap -11.38 pp) | **HOLD pending re-verification.** Result is too contaminated to act on alone — test period (2018-2023) includes COVID recovery (favors floor-failed cyclical/distressed names) and survivorship bias (delisted floor-failures invisible). Decision rule: revisit after **either** (a) a Phase 2b point-in-time-universe rerun re-confirms H11=fail with delisted names included, **or** (b) a 2012-2019 (non-COVID) test window shows the same pattern. Spec §4 unchanged until then. |
-| **Quality floor — per-rule** | §4 each rule | **fail** (H11 per-rule) — all three sub-rules show floor harmful at 3y | Same hold as above. |
+| **Quality floor — combined gate** | §4 | **pass** (H11 under PIT, 2026-04-25) — passed cohort 3y -1.70% vs failed -4.65% (gap +2.95 pp). Biased run had verdict reversed (passed +6.07% vs failed +17.45%); survivorship bias hid the floor's value. | **No change to §4.** PIT verdict re-confirmed the floor. See `docs/backtest-legacy-rules-2026-04-25-pit.md` and `docs/specs/backtest-actions-2026-04-25-pit.md`. |
+| **Quality floor — per-rule** | §4 each rule | mixed (H11 per-rule under PIT) — sector-relative-ROIC carries the load (gap +7.18 pp); profitable-3of5 and interest-coverage individually look harmful (-7.87 pp and -11.12 pp) but combine usefully | Recorded for the audit trail. v2 experiment could test "sector-relative-ROIC alone" once we have ≥ 3 archived PIT runs to confirm stability. |
 | **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **pass** (H12) — watchlist 3y +32.77% vs broader excluded set +17.38% (gap +15.39 pp), N=61, CI [+12.38%, +54.78%] | **No change.** Criteria validated as picking real fallen-angel signal. |
 | **FV-trend declining → demote to Watch** | FV-trend signal (5%/yr slope, 2-year window) | deferred (H10) | Backtest-side FV-trend reconstruction not yet built. Defer until a Phase 4 backtest-side FV-trend computer exists. |
 
