@@ -93,6 +93,10 @@ type IcArgs = {
   /** When true with --point-in-time, force a fresh fetch of the
    * Wikipedia changes table (bypasses the 7-day cache TTL). */
   refreshHistory: boolean;
+  /** Optional ISO date — caps the latest backtest snapshot date.
+   * Used for regime-specific reruns (e.g., pre-COVID window:
+   * `--max-snapshot-date 2018-12-31`). Defaults to today. */
+  maxSnapshotDate: string | null;
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -115,6 +119,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     legacyAudit: false,
     pointInTime: false,
     refreshHistory: false,
+    maxSnapshotDate: null,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -160,6 +165,9 @@ function parseIcArgs(argv: string[]): IcArgs {
       case "--refresh-history":
         args.refreshHistory = true;
         break;
+      case "--max-snapshot-date":
+        args.maxSnapshotDate = argv[++i]!;
+        break;
       default:
         if (a.startsWith("--")) {
           console.error(`Unknown flag: ${a}`);
@@ -179,9 +187,22 @@ function loadCandidates(path: string | null): CandidateWeights[] {
     return [
       {
         name: "default",
-        description: "ranking.md §8.1 default value-tilted defensive weights",
+        description: "ranking.md §8.1 current default (value-deep, 50/20/10/10/10/0 since 2026-04-25)",
         source: "default",
         weights: { ...DEFAULT_WEIGHTS },
+      },
+      {
+        name: "value-tilted-defensive-legacy",
+        description: "Prior default before the 2026-04-25 migration (35/25/15/15/10/0)",
+        source: "legacy-default",
+        weights: {
+          valuation: 0.35,
+          health: 0.25,
+          quality: 0.15,
+          shareholderReturn: 0.15,
+          growth: 0.10,
+          momentum: 0,
+        },
       },
       {
         name: "equal-weight",
@@ -210,28 +231,15 @@ function loadCandidates(path: string | null): CandidateWeights[] {
         },
       },
       {
-        name: "value-deep",
-        description: "Heavy value tilt — 50% Valuation",
-        source: "manual",
-        weights: {
-          valuation: 0.50,
-          health: 0.20,
-          quality: 0.10,
-          shareholderReturn: 0.10,
-          growth: 0.10,
-          momentum: 0,
-        },
-      },
-      {
         name: "momentum-on",
         description: "Default + 10% Momentum (testing whether the IC pipeline's marginal momentum signal earns its keep)",
         source: "academic-prior",
         weights: {
-          valuation: 0.30,
-          health: 0.25,
-          quality: 0.15,
-          shareholderReturn: 0.15,
-          growth: 0.05,
+          valuation: 0.40,
+          health: 0.20,
+          quality: 0.10,
+          shareholderReturn: 0.10,
+          growth: 0.10,
           momentum: 0.10,
         },
       },
@@ -308,11 +316,15 @@ async function main(): Promise<void> {
   const dates = monthEnds(args.years);
   const today = new Date().toISOString().slice(0, 10);
   // Only keep dates where the longest horizon's forward window has
-  // already closed.
+  // already closed. Optionally cap at --max-snapshot-date for
+  // regime-specific reruns (e.g., pre-COVID).
   const maxHorizon = Math.max(...args.horizons);
-  const usableDates = dates.filter((d) => addYears(d, maxHorizon) <= today);
+  const cap = args.maxSnapshotDate ?? today;
+  const usableDates = dates.filter(
+    (d) => d <= cap && addYears(d, maxHorizon) <= today,
+  );
   console.log(
-    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y).`,
+    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y${args.maxSnapshotDate ? `, capped at ${args.maxSnapshotDate}` : ""}).`,
   );
 
   // Point-in-time membership history (optional; off by default).
