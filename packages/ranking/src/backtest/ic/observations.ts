@@ -46,13 +46,27 @@ export type IcObservationsInput = {
   spyReturnsByDate: ReadonlyMap<string, ReadonlyMap<string, number>>;
   /** Horizons in years to emit observations for. */
   horizons: readonly number[];
+  /**
+   * When true, emit a "snapshot-only" observation (horizon=0,
+   * excessReturn=0) for any company that has no forward return at any
+   * horizon at a given date. Used by the user-picks pipeline so we
+   * can rank companies at recent dates whose forward windows haven't
+   * closed yet. Default false — IC / calibration / weight-validation
+   * all want the strict "drop missing" behavior.
+   */
+  emitSnapshotOnlyForMissing?: boolean;
 };
 
 export function buildIcObservations(
   input: IcObservationsInput,
 ): IcObservation[] {
-  const { snapshotsByDate, forwardReturnsByDate, spyReturnsByDate, horizons } =
-    input;
+  const {
+    snapshotsByDate,
+    forwardReturnsByDate,
+    spyReturnsByDate,
+    horizons,
+    emitSnapshotOnlyForMissing = false,
+  } = input;
   const observations: IcObservation[] = [];
 
   for (const [date, universe] of snapshotsByDate) {
@@ -98,12 +112,21 @@ export function buildIcObservations(
       void sg;
     }
 
-    // Emit observations.
+    // Emit observations. For each (company, horizon) where we have a
+    // forward return AND an SPY return, emit a normal observation
+    // with the realized excess. For dates where NO horizons have
+    // forward returns (e.g., a recent user-pick date whose window
+    // hasn't closed yet), emit one "snapshot-only" observation per
+    // company with horizon=0 and excessReturn=0 so consumers like
+    // user-picks can still find the factor percentiles. Downstream
+    // pipelines (IC, calibration, weight-validation) iterate horizons
+    // explicitly and naturally skip horizon=0.
     const snapshotYear = parseInt(date.slice(0, 4), 10);
     for (const c of universe) {
       const sg = superGroupOf(c.industry);
       if (sg === null) continue;
       const factorPercentiles = percentilesPerCompany.get(c.symbol) ?? {};
+      let emittedAny = false;
       for (const h of horizons) {
         const fwd = forwardAtDate.get(`${c.symbol}|${h}`);
         const spy = spyAtDate.get(String(h));
@@ -116,6 +139,18 @@ export function buildIcObservations(
           horizon: h,
           factorPercentiles,
           excessReturn: fwd - spy,
+        });
+        emittedAny = true;
+      }
+      if (!emittedAny && emitSnapshotOnlyForMissing) {
+        observations.push({
+          symbol: c.symbol,
+          snapshotDate: date,
+          snapshotYear,
+          superGroup: sg,
+          horizon: 0,
+          factorPercentiles,
+          excessReturn: 0,
         });
       }
     }

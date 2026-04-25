@@ -361,9 +361,10 @@ async function main(): Promise<void> {
     (d) => d <= cap && addYears(d, maxHorizon) <= today,
   );
   // When --user-picks is supplied, force-include each pick's date in
-  // usableDates (even if it doesn't fall on a month-end). This way the
-  // user-picks validation has a snapshot universe at the exact buy
-  // date, not just the nearest month-end.
+  // usableDates EVEN WHEN the forward window hasn't closed yet — the
+  // user wants to see "what was the rank at the time I bought," and
+  // realized return is informational. The user-picks engine reports
+  // null for realized excess on incomplete windows.
   if (args.userPicks) {
     const existing = new Set(usableDates);
     for (const pick of args.userPicks) {
@@ -374,7 +375,7 @@ async function main(): Promise<void> {
     usableDates.sort();
   }
   console.log(
-    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y${args.maxSnapshotDate ? `, capped at ${args.maxSnapshotDate}` : ""}${args.userPicks ? `, +${args.userPicks.length} user-pick dates` : ""}).`,
+    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y${args.maxSnapshotDate ? `, capped at ${args.maxSnapshotDate}` : ""}${args.userPicks ? `, +${args.userPicks.length} user-pick dates (forward windows may be open)` : ""}).`,
   );
 
   // Point-in-time membership history (optional; off by default).
@@ -480,6 +481,11 @@ async function main(): Promise<void> {
     forwardReturnsByDate,
     spyReturnsByDate,
     horizons: args.horizons,
+    // For --user-picks mode, also emit "snapshot-only" observations
+    // (horizon=0, excessReturn=0) for companies at dates whose forward
+    // windows haven't closed yet — needed so the user-picks engine
+    // can rank picks at recent dates.
+    emitSnapshotOnlyForMissing: !!args.userPicks,
   });
   console.log(`Built ${observations.length} IC observations.`);
 
