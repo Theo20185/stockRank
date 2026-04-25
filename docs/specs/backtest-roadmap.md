@@ -93,6 +93,33 @@ Original spec preserved below for reference.
    does this engine work for the actual investor it's built for?
 4. Neither blocks on anything.
 
+### Phase 2 — B + D — **COMPLETE-WITH-CAVEAT 2026-04-25**
+
+**B — REJECTED** (regime-stable: +0.20 pp PIT 2018-2023, -5.36 pp
+PIT 2010-2018). Filtering "declining fundamentals" actively hurts
+in recovery regimes — kicks out names emerging from troughs that
+value-deep wants to buy. PreDecileFilter machinery stays in code
+as a reusable mechanism. See
+`docs/specs/backtest-actions-2026-04-25-phase2.md` §1.
+
+**D — INFRASTRUCTURE BUILT, EDGAR RECOVERY 0%.** Of 345 delisted
+S&P 500 symbols identified from the Wikipedia changes table, we
+recovered Yahoo chart data for 41.4% but EDGAR fundamentals for
+0%. Local CIK lookup excludes delisted tickers (only knows current
+S&P 500). H11 verdict unchanged because no delisted snapshots got
+built. **§4 Quality floor decision STILL on HOLD — now blocked
+specifically on CIK lookup expansion.** See
+`docs/specs/backtest-actions-2026-04-25-phase2.md` §2.
+
+**Phase 2D.1 — CIK lookup fallback** (new, blocks the §4 decision):
+extend `cikFor` to fall back to SEC's broader `company_tickers.json`
+when the local lookup misses. Should recover ~70-80% of cap-change
+removals (still-trading delisted names) — small fix, big payoff.
+
+Original Phase 2 spec preserved below.
+
+---
+
 ### Phase 2 — B + D (after Phase 1, in parallel if possible)
 
 **B. Combined-screen stacking.**
