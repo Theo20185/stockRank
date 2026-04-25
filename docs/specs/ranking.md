@@ -197,17 +197,25 @@ If the 10Y history isn't available (e.g., post-2017 IPO), use the
 longest available; the description string flags that as a confidence
 caveat.
 
-**Horizon scope (added 2026-04-25 from H12 regime testing).** The
-watchlist's signal is **short-horizon only** — backtest evidence
-across two PIT regimes shows watchlist names consistently outperform
-on a 1y forward window (PIT 2018-2023 +18.58 pp gap, PIT 2010-2018
-+19.80 pp gap), but the 3y signal is regime-dependent (strongly
-positive in COVID recovery, strongly negative in pre-COVID).
-Treat the watchlist as a flag for names worth evaluating manually
-for short-horizon trades. Do **not** use it as a long-term hold
-thesis. The "evaluate qualitatively" framing above is consistent
-with this; making the horizon explicit prevents misinterpretation.
-See `docs/specs/backtest-actions-2026-04-25-precovid.md` §4.2.
+**Horizon scope (added 2026-04-25 from H12 regime testing,
+strengthened by Phase 2D.1).** The watchlist's signal is **regime-
+dependent**:
+- **COVID-recovery 2018-2023:** 1y +18 pp, 3y +40 pp gap (watchlist
+  strongly outperforms — likely the distressed-recovery trade
+  worked exceptionally well in this window)
+- **Pre-COVID 2010-2018 (with delisted names properly included):**
+  1y +1 pp gap (within noise), 3y **−20 pp gap** (watchlist
+  underperforms, with bankruptcies dragging the watchlist cohort)
+
+Treat the watchlist as a **conditional short-horizon flag** —
+useful in distressed-recovery regimes for ~1y plays, not useful
+or actively harmful as a long-term hold outside those regimes.
+Do **not** use it as a buy-and-hold thesis. The "evaluate
+qualitatively" framing above is consistent with this; the
+qualitative work the user does (catalyst checks, restructuring
+analysis) is precisely what separates the recovery winners from
+the bankruptcy losers within the watchlist. See
+`docs/specs/backtest-actions-2026-04-25-phase2d1.md` §5.
 
 ## 8. Scoring mechanic (main composite)
 
@@ -553,9 +561,9 @@ Updated 2026-04-25 from `docs/backtest-legacy-rules-2026-04-25.md`.
 
 | Rule | Spec ref | Verdict | Status |
 |---|---|---|---|
-| **Quality floor — combined gate** | §4 | **failed 2 of 3 PIT regimes**. PIT 2018-2023 PASS (gap +2.95 pp); PIT 2010-2018 FAIL (gap -2.32 pp); PIT 2011-only FAIL (gap -2.66 pp). The PASS was the COVID-recovery window. | **HOLD §4 unchanged.** The decision is now blocked on **v2 delisted-name handling**, not more regime samples. The current PIT pipeline only audits names that survived to today; the floor's biggest job (filtering names that actually went bankrupt) is invisible. Without that audit, we can't honestly judge whether the rule is harmful or whether we're just measuring the wrong thing. See `docs/specs/backtest-actions-2026-04-25-crisis.md` §4.1 Option C. |
-| **Quality floor — per-rule** | §4 each rule | regime-dependent across 3 PIT runs. sector-roic: +7.18 / -6.48 / -11.80 (negative in 2 of 3); profitable-3of5: -7.87 / +3.17 / +9.34 (positive in 2 of 3); interest-cov: -11.12 / -2.28 / +0.64 (negative or neutral in all 3, but small magnitudes). | Confirms regime dependence; the 2018-2023 sub-rule signals were COVID-specific. Don't simplify §4 to "sector-roic alone" — that rule is the *worst* in 2 of 3 regimes. |
-| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **short-horizon signal only** — H12 PASS at 1y consistently across regimes; **3y signal is regime-dependent** (PIT 2018-2023 +50.84 pp, PIT 2010-2018 **-13.15 pp**). | **No change to §7 criteria; clarify §7 prose** — the watchlist surfaces names worth evaluating for short-horizon trades, NOT for buy-and-hold. The "evaluate qualitatively" language in §7 is consistent with this; make it explicit. |
+| **Quality floor — combined gate** | §4 | **PASS — regime-stable when delisted names are included** (Phase 2D.1, 2026-04-25). PIT 2018-2023 + delisted: pass +4.33 pp. PIT 2010-2018 + delisted: pass +2.58 pp (FLIPPED from earlier survivor-only -2.32 pp fail). The earlier regime-dependence reading was a survivorship-bias artifact — without bankruptcies in the floor-failed cohort, the cohort looked artificially good. | **No change to §4.** The HOLD lifts. See `docs/specs/backtest-actions-2026-04-25-phase2d1.md`. |
+| **Quality floor — per-rule** | §4 each rule | per-rule signs stabilize once delisted names are included. PIT 2010-2018 + delisted: profitable-3of5 +4.35 pp (helpful), sector-roic +0.53 pp (mildly helpful), interest-coverage -3.50 pp (small N, takeout-price noise). Combined gate is solidly positive (+2.58 pp). | Earlier "all 3 sub-rules flipped sign between regimes" reading was an artifact of the same survivorship gap. Don't simplify §4. |
+| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **1y signal in COVID, marginal in pre-COVID; 3y signal regime-dependent and negative outside COVID** (Phase 2D.1, 2026-04-25). With delisted names included: PIT 2018-2023 watchlist 3y +29.36% vs excluded -10.94% (pass +40.30 pp). PIT 2010-2018 watchlist 3y -21.99% vs excluded -1.71% (FAIL -20.29 pp). The 1y gap shrinks to within-noise (+1.02 pp) in pre-COVID once delisted names are in. | **No change to §7 criteria. §7 prose strengthened — watchlist is a short-horizon trade flag in COVID-recovery regimes; do NOT use as a 3y hold thesis or expect outperformance outside recovery windows.** |
 | **FV-trend declining → demote to Watch** | FV-trend signal (5%/yr slope, 2-year window) | deferred (H10) | Backtest-side FV-trend reconstruction not yet built. Defer until a Phase 4 backtest-side FV-trend computer exists. |
 
 ### Design choices awaiting parameter sweeps

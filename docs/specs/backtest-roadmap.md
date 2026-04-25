@@ -111,10 +111,19 @@ built. **§4 Quality floor decision STILL on HOLD — now blocked
 specifically on CIK lookup expansion.** See
 `docs/specs/backtest-actions-2026-04-25-phase2.md` §2.
 
-**Phase 2D.1 — CIK lookup fallback** (new, blocks the §4 decision):
-extend `cikFor` to fall back to SEC's broader `company_tickers.json`
-when the local lookup misses. Should recover ~70-80% of cap-change
-removals (still-trading delisted names) — small fix, big payoff.
+**Phase 2D.1 — CIK lookup fallback — COMPLETE 2026-04-25.**
+EDGAR recovery on delisted symbols: 0% → 36.8% (127/345). Both
+PIT regimes' H11 verdicts settled with delisted included:
+- PIT 2018-2023 + delisted: PASS +4.33 pp (was +2.95 pp without)
+- PIT 2010-2018 + delisted: PASS +2.58 pp (FLIPPED from -2.32 fail)
+
+**§4 HOLD lifts.** H12 watchlist verdict downgraded to "regime-
+dependent at 1y, regime-dependent and worse at 3y." See
+`docs/specs/backtest-actions-2026-04-25-phase2d1.md`.
+
+**v3 historical-filer index** for the 218 still-missing
+bankruptcies / pre-2009 inactive filers — deferred (lower priority
+now that §4 is settled).
 
 Original Phase 2 spec preserved below.
 

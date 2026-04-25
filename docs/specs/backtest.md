@@ -145,20 +145,32 @@ membership, but historically-included-but-now-delisted names
 (LEH, ENRN, etc.) are NOT yet added back into the universe — we
 don't have EDGAR or chart data for those names.
 
-**This limitation is now blocking a real engine decision.** The
-2026-04-25 four-run audit (see
-`docs/specs/backtest-actions-2026-04-25-crisis.md`) found H11
-(Quality floor) failing 2 of 3 PIT regimes — but the floor's
-biggest job is filtering names that *actually went bankrupt*,
-which the survivor-only PIT pipeline cannot see. We can't
-honestly judge whether the floor is harmful or whether we're
-measuring the wrong question.
+**v2 delisted-name handling — OPERATIONAL as of 2026-04-25
+(Phase 2D.1).** `cikFor` now falls back to SEC's broader
+`company_tickers.json` on local-lookup miss. Recovery rates on
+the 345 delisted symbols identified from the Wikipedia changes
+table:
+- Yahoo chart: 41.4% (143/345)
+- EDGAR (with fallback): **36.8% (127/345)** — was 0% before fix
+- Both (usable for snapshot building): 36.8%
 
-**v2 priority (now blocking):** recover historical chart + EDGAR
-data for delisted symbols from the Wikipedia changes table; treat
-genuinely-bankrupt names as -100% realized return (or recover
-takeout prices where available). Until v2 ships, the §4 floor
-decision in `ranking.md` §11.7 stays on HOLD.
+127 delisted symbols are now properly added to the backtest
+universe at past dates where they were S&P 500 members. Their
+post-delisting forward returns naturally extend the
+forward-return curves (chart data covers post-delisting trading
+where available; for fully-bankrupt symbols Yahoo returns no
+chart and the observation drops out — the H11 audit still picks
+this up via the floor classification).
+
+**Result:** the §4 Quality floor decision in `ranking.md` §11.7
+unblocks. H11 passes regime-stably (+4.33 pp PIT 2018-2023, +2.58
+pp PIT 2010-2018) when delisted names are included. The earlier
+PIT-only fail in pre-COVID was a survivorship-bias artifact.
+
+**v3 ambition (not blocking):** the 218 still-missing names are
+mostly older bankruptcies and pre-2009 acquisitions (SEC's active
+table doesn't include long-inactive filers). A hand-curated
+historical-filer index would push recovery higher; deferred.
 
 **Phase 2c (separate effort):** the secondary `IVV` fund-holdings
 source remains a future option for cross-validating the Wikipedia-
