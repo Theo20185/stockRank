@@ -30,7 +30,14 @@ describe("rank() — main composite", () => {
       companies: makeUniverse(10),
       snapshotDate: "2026-04-20",
     });
-    expect(result.weights).toEqual(DEFAULT_WEIGHTS);
+    // normalizeWeights divides each weight by the sum, which can
+    // introduce tiny float drift (e.g., 0.5+0.2+0.1+0.1+0.1 in IEEE
+    // 754 sums to 0.9999… not exactly 1). Compare with tolerance.
+    for (const cat of Object.keys(DEFAULT_WEIGHTS) as Array<
+      keyof typeof DEFAULT_WEIGHTS
+    >) {
+      expect(result.weights[cat]).toBeCloseTo(DEFAULT_WEIGHTS[cat], 10);
+    }
   });
 
   it("normalizes user-provided weights to sum to 1", () => {

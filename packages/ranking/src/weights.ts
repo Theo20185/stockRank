@@ -1,21 +1,28 @@
 import type { CategoryWeights } from "./types.js";
 
 /**
- * Default weights — value-tilted defensive (per ranking.md §8.1).
- * These are the user's defaults, not generic. Sliders in the UI mutate
- * these in-browser; this constant is the reset target.
+ * Default weights — value-deep (per ranking.md §8.1, updated
+ * 2026-04-25). These are the universal default; sliders in the UI
+ * mutate them in-browser, and this constant is the reset target.
  *
- * Momentum is intentionally 0% at default per ranking.md §11.6 —
- * factor still computed and visible, but doesn't shift composite
- * scores until the IC pipeline (backtest.md §3.9) provides evidence
- * for raising it.
+ * Migrated from the original value-tilted-defensive weights
+ * (35/25/15/15/10) after the §3.11.1 weight-validation rule
+ * confirmed value-deep beats the prior default by +8.81 pp at the
+ * 3y horizon (CI [+30.84%, +40.99%] vs default [+21.09%, +32.99%]).
+ * Evidence: docs/backtest-weight-validation-2026-04-25.md +
+ * docs/specs/backtest-actions-2026-04-25.md §2.1.
+ *
+ * Momentum stays 0% at default per ranking.md §11.6 — factor still
+ * computed and visible for the IC pipeline, but doesn't shift
+ * composite scores until evidence justifies a non-zero weight in
+ * at least one super-group.
  */
 export const DEFAULT_WEIGHTS: CategoryWeights = {
-  valuation: 0.35,
-  health: 0.25,
-  quality: 0.15,
-  shareholderReturn: 0.15,
-  growth: 0.1,
+  valuation: 0.50,
+  health: 0.20,
+  quality: 0.10,
+  shareholderReturn: 0.10,
+  growth: 0.10,
   momentum: 0,
 };
 

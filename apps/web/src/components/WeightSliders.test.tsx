@@ -28,10 +28,11 @@ describe("<WeightSliders />", () => {
         onReset={() => {}}
       />,
     );
-    expect(screen.getByText("35%")).toBeInTheDocument(); // valuation
-    expect(screen.getByText("25%")).toBeInTheDocument(); // health
-    expect(screen.getAllByText("15%").length).toBeGreaterThan(0); // quality + shr
-    expect(screen.getByText("10%")).toBeInTheDocument(); // growth
+    // Default = value-deep per ranking.md §8.1 (updated 2026-04-25)
+    expect(screen.getByText("50%")).toBeInTheDocument(); // valuation
+    expect(screen.getByText("20%")).toBeInTheDocument(); // health
+    // quality, shareholderReturn, growth all = 10% — three matches
+    expect(screen.getAllByText("10%").length).toBe(3);
   });
 
   it("calls onChange with the new weights when a slider is adjusted", () => {
