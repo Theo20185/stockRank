@@ -93,5 +93,12 @@ export function makeCompany(
       ),
     pctOffYearHigh: overrides.pctOffYearHigh ?? 9.09,
     pctAboveYearLow: overrides.pctAboveYearLow ?? 25,
+    // Both fields are optional on CompanySnapshot. With
+    // exactOptionalPropertyTypes, conditional spread is the way to
+    // avoid assigning `undefined` explicitly.
+    ...(overrides.monthlyCloses !== undefined && {
+      monthlyCloses: overrides.monthlyCloses,
+    }),
+    ...(overrides.quarterly !== undefined && { quarterly: overrides.quarterly }),
   };
 }

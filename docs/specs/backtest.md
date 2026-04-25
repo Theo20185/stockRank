@@ -41,8 +41,27 @@ Each hypothesis maps to one or more concrete metrics in §3.4. We list them up f
 | H4 | "Outlier rule fired" snapshots have *better* forward accuracy than the same snapshots with the rule bypassed. | Validates the rule's contribution. (Tests the right thing — naive median should be more wrong, on average.) |
 | H5 | High-confidence rows (`confidence: "high"`) have a tighter realized-return distribution than low-confidence rows. | Validates the confidence label. |
 | H6 | Names flagged as `peerCohortDivergent` have *worse* accuracy than their non-divergent peers. | Validates the divergence rule's pull-back is the right call. |
+| H7 | At least one factor in the §5 ranking model carries IC ≥ 0.05 in at least one super-group at the 1y or 3y horizon (per `super-groups.md`), passing all three gates of §3.10. | Validates that the composite has *any* per-super-group signal worth conditioning weights on. |
+| H8 | Per-super-group weight presets derived from H7 evidence beat the universal default weight vector on top-decile composite forward return, out-of-sample. | Validates that knowing per-super-group IC translates into a usable ranking improvement, not just an academic measurement. |
+| H9 | The Momentum factor (introduced at default weight 0% per `ranking.md` §11.6) carries IC ≥ 0.05 in at least one super-group at 1y or 3y, passing all three gates. | Decides whether Momentum's default weight rises above 0 in v2 or whether the factor is removed as noise in this universe. |
+| H10 | Names demoted to Watch by `fvTrend = "declining"` (per `ranking.md` FV-trend signal; 5%/yr slope over 2-year window) underperform their non-demoted same-bucket peers on 1y and 3y forward excess return. | Validates the demotion rule is genuine signal, not a false alarm that costs us upside. If H10 fails, the demotion threshold widens or the rule is dropped. |
+| H11 | Names excluded by the §4 Quality floor (3-of-5 profitable + sector-relative ROIC + interest coverage) underperform the included set on forward 3y excess return, **net of survivorship**. Tested per-rule independently (one rule on at a time) and as the combined gate. | Validates the floor is a filter rather than a baby-with-bathwater problem. The floor's whole job is to remove names that hurt returns; if removal doesn't hurt, the floor is unjustified work and the names should rejoin the main composite. Tested per-rule because the combined gate could pass while one rule alone is dead weight. |
+| H12 | Turnaround watchlist names (the §7 three-criterion gate: 10Y avg ROIC > 12%, TTM trough, 40% off 52w high) beat the broader §4-excluded set on 3y forward return by a meaningful margin. | Validates the §7 criteria are picking real fallen-angel signal, not just curiosities. The watchlist's job is to be more useful than "everything we excluded" — if it isn't, the criteria collapse to the excluded list itself. |
 
-If H1/H2/H3 don't hold, the model is broken and we should be alarmed. If H4/H5/H6 don't hold, the rules are noise and should be removed.
+If H1/H2/H3 don't hold, the model is broken and we should be alarmed. If H4/H5/H6 don't hold, the rules are noise and should be removed. If H7 fails, we have no per-super-group signal and the §11.5 preset machinery is shelved. H8 and H9 are conditional on H7 / on the IC pipeline finding any momentum signal at all. **H10–H12 apply the same evidence bar to legacy rules that H7–H9 apply to new factors** — no rule, old or new, gets a free pass.
+
+### 3.1.1 Parameter sweeps (not hypotheses)
+
+A handful of legacy parameters are *design choices* rather than rules with up-or-down verdicts. They get the same Phase 3 IC pipeline run multiple times with the parameter swept, and the version with the highest stable per-cell IC wins:
+
+| Parameter | Spec ref | Sweep range |
+|---|---|---|
+| Growth window | `ranking.md` §6 | 5Y / 7Y / 10Y CAGR |
+| Cohort fallback N threshold | `ranking.md` §3.2 | N ∈ {5, 8, 12, 15} |
+| Intra-category weighting | `ranking.md` §8 step 3 | Equal-weight vs IC-weighted vs single-best-factor per category |
+| Winsorization bounds | `ranking.md` §8 step 2 | (5/95) vs (10/90) vs (1/99) |
+
+Sweep results land in `docs/backtest-parameter-sweep-<date>.md`. Adoption rule: change the default only if the new parameter beats current on top-decile excess return at 3y, with bootstrap CI not crossing zero (same bar as §3.11.1 weight-validation).
 
 ### 3.2 Forward window mechanics
 
@@ -117,10 +136,222 @@ For names with significant special dividends (rare in S&P 500), the adjusted clo
 
 ### 3.8 Statistical hygiene
 
-- **Multiple-testing problem.** We're slicing the data many ways (6 hypotheses × 4 horizons × N strata). Don't draw conclusions from individual slices that don't survive a Bonferroni-style correction. Headline number is "did the model beat SPY across all Candidates over 3y" — that's the one that matters.
+- **Multiple-testing problem.** We're slicing the data many ways (9 hypotheses × 4 horizons × N strata, plus a ~17 super-group × ~16 factor heatmap in §3.9). Don't draw conclusions from individual slices that don't survive an FDR correction. Headline number is "did the model beat SPY across all Candidates over 3y" — that's the one that matters. The IC heatmap has its own purpose-built three-gate filter — see §3.10.
 - **Sample-size guardrails.** Don't display a hit rate when N < 30. Show "—" with an `(n=X, insufficient)` annotation.
 - **Snapshot independence.** Adjacent month-end snapshots on the same symbol are highly correlated — they share most of the underlying fundamentals. For headline metrics, **deduplicate to one snapshot per symbol per (calendar) year** so we don't claim N = 6,000 when the effective sample size is 60.
-- **Don't curve-fit.** If H1–H6 don't hit, that's a finding, not a bug to tune away. The whole point is honest measurement.
+- **Don't curve-fit.** If H1–H9 don't hit, that's a finding, not a bug to tune away. The whole point is honest measurement.
+
+## 3.9 IC analysis by super-group
+
+Goal: measure how much each ranking factor (§5 of `ranking.md`)
+predicts forward return *within each super-group* (per
+`super-groups.md`), so that per-super-group weight presets
+(`ranking.md` §11.5) and the Momentum factor inclusion decision
+(`ranking.md` §11.6) rest on evidence rather than priors.
+
+### 3.9.1 What we compute
+
+For each `(superGroup, factor, horizon)` cell, across all snapshots
+where `windowComplete = true` and the company's industry maps to
+`superGroup` per `INDUSTRY_TO_SUPER_GROUP`:
+
+```
+IC(superGroup, factor, horizon) =
+    Spearman correlation between
+        factor.percentile (computed at snapshot date T using only
+            data public at T, exactly as ranking.md does it)
+    and
+        excessReturn at T+horizon (realizedReturn − spyReturn)
+```
+
+Excess return is the right target — we care about predicting
+*outperformance vs SPY*, not absolute return that's dominated by
+beta.
+
+The output is a heatmap: rows = ~17 super-groups, columns = the ~16
+factors in `ranking.md` §5 (across all categories, including the new
+Accruals, Net Issuance, and Momentum factors), one heatmap per
+horizon (1y / 2y / 3y / 5y).
+
+### 3.9.2 Per-cell drill-down
+
+A cell that passes §3.10's filter is clickable in the rendered
+report (Markdown table cells are not, but the per-cell detail file
+generated alongside is). The drill-down shows:
+- N effective observations
+- IC point estimate and bootstrap 95% CI
+- Per-rolling-window IC values (sign-stability evidence)
+- Top 5 / bottom 5 contributing snapshots (highest absolute residual
+  after IC fit) — sanity-check that the IC isn't driven by 2 outlier
+  observations
+- Per-industry IC within the super-group (e.g., for Banks & Lending
+  super-group, separate IC for Banks-Regional, Banks-Diversified,
+  Credit Services). Surfaces intra-super-group divergence that would
+  motivate a `super-groups.md` v2 split.
+
+### 3.9.3 Effective N accounting
+
+Snapshot autocorrelation (monthly snapshots on the same symbol share
+most of the underlying fundamentals) inflates raw N badly. Effective
+N for IC follows the same yearly-dedup rule as headline metrics
+(§3.8): **at most one snapshot per (symbol, calendar year)** enters
+the IC computation per cell. The cell's reported N is this effective
+count, not the raw snapshot count.
+
+A cell whose effective N falls below the per-cell N threshold from
+the §3.10 Phase 0 calibration renders as "—" in the heatmap.
+
+## 3.10 Three-gate filter for IC cells (Monte Carlo Phase 0)
+
+A cell shows a colored IC value in the heatmap only when **all three
+gates pass**. Otherwise it renders as "—" with a tooltip explaining
+which gate failed.
+
+### Gate 1: Statistical (Monte Carlo derived)
+
+The IC magnitude must exceed the 99th percentile of the cell's own
+**null distribution under shuffled returns**. Per-cell, not global,
+because Banks-3y at N=2000 effective obs has a very different noise
+floor than Tobacco-1y at N=80 effective obs.
+
+The null distribution comes from the Phase 0 calibration described
+in §3.10.1. Each cell gets its own derived threshold; the calibration
+output is a lookup table indexed by `(superGroup, horizon)` →
+`{ic_99th_null: number, ic_99_5th_null: number, n_effective: number}`.
+
+### Gate 2: Economic (hand-set floor)
+
+Cell IC must be ≥ **0.05 in absolute value**, regardless of the
+statistical threshold. Below 0.05, transaction costs and slippage
+typically eat the edge in a long-only portfolio (literature
+consensus, defensible without further calibration). A cell that
+passes Gate 1 (above noise) but fails Gate 2 (too small to act on)
+is real-but-useless — we don't want to act on it.
+
+This is the only hand-set number in the filter; everything else is
+data-derived. We tag it explicitly so it's tunable in one place if
+the user's transaction-cost assumptions change.
+
+### Gate 3: Sign-stability (rolling windows)
+
+Compute IC in three rolling windows: typically `[T−15y, T−10y]`,
+`[T−10y, T−5y]`, `[T−5y, T]` (exact windows depend on data
+availability per `super-groups.md` membership history). The cell's
+sign must agree in **at least 2 of 3 windows**.
+
+A cell with full-sample IC = +0.13 made up of `+0.30 / −0.10 / +0.20`
+is flagged as regime-dependent and renders as "—" with a tooltip
+"sign unstable across windows."
+
+### 3.10.1 Phase 0 — Monte Carlo calibration
+
+Run **before** any IC heatmap is published. One-time per spec /
+universe / horizon-set; results archived to
+`docs/backtest-ic-calibration-<date>.md` so every IC report can
+reference the calibration that derived its thresholds.
+
+**Procedure** (purpose: destroy the signal while preserving every
+other structural feature of our data):
+
+1. Take the real Phase 1 backtest dataset (all snapshots × all
+   symbols × forward returns).
+2. For each `(snapshot date, super-group)` cell, **randomly permute
+   which forward-return value is paired with which symbol within
+   the cell**. This breaks any genuine factor → return relationship
+   while keeping intact: real return distributions per super-group,
+   real industry sizes, real snapshot autocorrelation, real
+   cross-sectional return correlation, real survivorship pattern.
+3. Run the full §3.9 IC computation on the shuffled data.
+4. Record IC values per cell.
+5. Repeat steps 2–4 for **N = 1,000 iterations**.
+6. For each `(superGroup, horizon)` cell, sort the 1,000 |IC| values
+   and record the 99th and 99.5th percentiles. These are the
+   per-cell statistical thresholds for Gate 1.
+
+**N-vs-noise curve.** As a byproduct, plot
+`null_99th_percentile_IC` vs `n_effective` across all cells. This
+curve answers "at what N does the noise floor drop below the 0.05
+economic threshold?" — that's the honest minimum-N gate, derived
+not guessed. Cells below that N are "—" in the heatmap regardless
+of measured IC.
+
+**False-discovery sanity check.** With per-cell thresholds in hand,
+run the *real* (unshuffled) data through the §3.9 pipeline. Count
+surviving cells. The Monte Carlo predicts ~1% of cells survive Gate
+1 alone by chance; if ~30% survive on real data, that's a real
+signal-density story. If ~1.5% survive, the heatmap is mostly noise
+and we should not build presets on top of it.
+
+**Calibration archival.** The calibration output (per-cell
+thresholds + N-vs-noise curve + FDR sanity check) is committed under
+`docs/backtest-ic-calibration-<YYYY-MM-DD>.md`. Re-run the
+calibration when:
+- The super-group mapping changes (super-groups.md mutation)
+- A new factor is added to the §5 ranking model
+- The horizon set changes
+- The S&P 500 universe drifts materially (annual refresh is fine)
+
+The active calibration file's path is hard-coded in
+`packages/ranking/src/backtest/ic-calibration.ts`; mismatches
+between the calibration and the current spec produce a hard error,
+not a silent fallback.
+
+## 3.11 Weight-validation backtest mode
+
+Goal: before any per-super-group preset (or any change to the
+universal default weights) is adopted into `ranking.md` §8.1 / §11.5,
+prove out-of-sample that it actually improves top-decile composite
+forward return.
+
+### 3.11.1 Procedure
+
+1. **Train/test split by date**, not by symbol. Train on
+   `[T−15y, T−5y]` snapshots; test on `[T−5y, T]` snapshots. (Train
+   period is when IC is measured and presets proposed; test period
+   is what validates them.)
+2. For each candidate weight vector (default weights, IC-derived
+   per-super-group preset, momentum-on alternative, etc.):
+   a. Recompute composite scores at every test-period snapshot using
+      that weight vector.
+   b. Take the top decile by composite at each snapshot.
+   c. Compute equal-weight forward return of that top decile at
+      T+1y, T+3y, T+5y.
+   d. Compute excess return vs SPY for the same windows.
+3. Bootstrap (1,000 resamples) to get 95% CI on mean excess return
+   per horizon per weight vector.
+4. Adoption rule: **a candidate weight vector is adopted only if its
+   mean excess return at the 3y horizon is at least 1%/yr higher
+   than the default's, with bootstrap CI not crossing zero.**
+
+The 1%/yr threshold is the same hand-set economic floor as Gate 2
+in §3.10 — coherent with our transaction-cost / slippage
+assumptions for long-only.
+
+### 3.11.2 Honest reporting
+
+Report **all** candidate weight vectors evaluated, not just the ones
+that pass. The headline table in
+`docs/backtest-weight-validation-<date>.md` contains:
+
+| Weight vector | Source | 1y excess (CI) | 3y excess (CI) | 5y excess (CI) | Adopted? |
+|---|---|---|---|---|---|
+
+A vector that fails validation is logged as "rejected" with the
+underlying numbers, so we can't selectively re-run until something
+sticks. The Phase 0 / IC / weight-validation chain is a single
+auditable pipeline, not a fishing expedition.
+
+### 3.11.3 What we explicitly do *not* do
+
+- **No grid search over weights to maximize backtest excess return.**
+  This is the canonical curve-fit. Candidate vectors come from §3.9
+  IC evidence (a small handful per super-group) plus a few academic-
+  prior alternatives (equal-weight, quality-tilt). Not from
+  optimization over thousands of combinations.
+- **No re-running validation with tweaked weights after seeing the
+  result.** If a proposed preset fails, the next iteration starts
+  from new IC evidence on a refreshed snapshot, not from
+  hill-climbing the validation output.
 
 ## 4. Out of scope (this spec)
 
@@ -148,9 +379,32 @@ npm run backtest -- --all-sp500 --accuracy --options-overlay-pct 4
 
 # Persist to docs/:
 npm run backtest -- --all-sp500 --accuracy --archive
+
+# Phase 0 — Monte Carlo IC threshold calibration (run before --ic):
+npm run backtest -- --all-sp500 --ic-calibrate --iterations 1000 --archive
+
+# §3.9 IC analysis by super-group (requires fresh calibration):
+npm run backtest -- --all-sp500 --ic --horizons 1,2,3,5 --archive
+
+# §3.11 weight-validation (compares one or more candidate weight vectors
+# to the default). Vectors are loaded from the named JSON file; one entry
+# per candidate. Train/test split per §3.11.1 is automatic.
+npm run backtest -- --all-sp500 --weight-test config/candidate-weights.json --archive
+
+# Convenience: full pipeline (calibration + IC + weight-test) in one shot,
+# used after a snapshot refresh that materially changes the universe:
+npm run backtest -- --all-sp500 --full-ic-pipeline --archive
+
+# Legacy-rule audit (H10–H12 + §3.1.1 parameter sweeps):
+npm run backtest -- --all-sp500 --legacy-rule-audit --archive
+npm run backtest -- --all-sp500 --parameter-sweep --archive
 ```
 
-`--accuracy` is opt-in; without it Phase 1 output stays unchanged.
+`--accuracy`, `--ic-calibrate`, `--ic`, and `--weight-test` are
+independently opt-in; without any of them Phase 1 output stays
+unchanged. `--ic` errors out if no calibration archive exists or if
+the calibration's super-group / factor signature doesn't match the
+current spec — never silently uses stale thresholds.
 
 ### Disk cache
 
@@ -207,9 +461,64 @@ The single commit produced by phase 3 captures every changed file from all three
 - Mark delisted names; capture takeover/bankruptcy outcome where possible.
 - Re-run accuracy with the un-biased universe; compare to the biased baseline.
 
+**Phase 3 — IC analysis and weight presets** (this iteration)
+
+- **3.0 Monte Carlo calibration (§3.10.1).** Implement the shuffle-
+  and-rerun pipeline. Output: per-cell statistical thresholds,
+  N-vs-noise curve, FDR sanity check. Archive as
+  `docs/backtest-ic-calibration-<date>.md`. Block §3.1+ until this
+  exists.
+- **3.1 IC computation (§3.9).** Compute per-cell Spearman IC,
+  bootstrap CIs, rolling-window sign-stability flags. Apply the
+  three-gate filter from §3.10.
+- **3.2 IC heatmap report.** Markdown heatmap (one per horizon),
+  per-cell drill-down files, intra-super-group divergence flags.
+  Archive as `docs/backtest-ic-<date>.md`. Hypothesis verdicts for
+  H7 and H9 written here.
+- **3.3 Weight-validation mode (§3.11).** Load candidate weight
+  vectors from JSON, run train/test split, bootstrap excess-return
+  CIs, output adoption verdicts. Archive as
+  `docs/backtest-weight-validation-<date>.md`. Hypothesis verdict
+  for H8 written here.
+- **3.4 Adopted presets.** For each candidate that passes §3.11.1
+  adoption rules, append an entry to
+  `packages/ranking/src/presets/super-group-weights.ts` with the
+  archived `evidenceRef`. The Momentum default weight in
+  `ranking.md` §8.1 is updated only via this same evidence chain
+  (per `ranking.md` §11.6).
+- **3.5 Legacy-rule audit (H10–H12 + §3.1.1 sweeps).** Run the
+  legacy-rule hypothesis tests and parameter sweeps using the same
+  three-gate filter and bootstrap CIs as the new-factor work. Each
+  legacy rule that fails its hypothesis is either weakened (move
+  threshold to where the data supports it) or removed in v2 with the
+  archived report as justification. Each parameter sweep that
+  surfaces a clearly better default updates `ranking.md` in the same
+  PR that publishes the sweep report.
+  - **H10 (fvTrend demotion):** stratify all snapshots by `fvTrend`
+    label at T; compare 1y/3y forward excess return of `declining`
+    vs `stable`/`improving` *within the same composite-bucket*
+    (Candidates → Watch demotion is the rule under test, so the
+    comparison must hold composite quality constant).
+  - **H11 (Quality floor):** run the ranker twice per snapshot —
+    once with the §4 floor applied (current behavior), once with the
+    floor disabled. Compare 3y forward excess return of names the
+    floor *would have excluded* to the included set's same-decile
+    return. Report per-rule: 3-of-5 profitable alone, sector-ROIC
+    alone, interest-coverage alone, and combined.
+  - **H12 (Turnaround):** identify the §7 watchlist set at each
+    snapshot, compare its mean 3y forward return to (a) the
+    broader §4-excluded set, (b) SPY. If (a) gap fails, the §7
+    criteria aren't doing useful work above the floor.
+
 ## 8. Done criteria
 
 - `npm run backtest -- --symbols EIX,INCY,TGT,NVO,INTC --accuracy` produces `tmp/backtest/accuracy.md` with the headline table and at least the `outlierFired` + `confidence` strata.
 - For each horizon, hit rates and mean returns include N and CIs.
 - Survivorship-bias caveat is the first thing in the report, not a footnote.
 - A first-pass accuracy run is committed under `docs/backtest-accuracy-<date>.md` with one paragraph per hypothesis (verdict + supporting number).
+- `npm run backtest -- --all-sp500 --ic-calibrate --archive` produces `docs/backtest-ic-calibration-<date>.md` with per-cell thresholds, N-vs-noise plot, and FDR sanity check.
+- `npm run backtest -- --all-sp500 --ic --archive` produces `docs/backtest-ic-<date>.md` with the heatmap (cells filtered by §3.10's three gates), per-cell drill-downs, and H7 / H9 verdicts.
+- `npm run backtest -- --all-sp500 --weight-test config/candidate-weights.json --archive` produces `docs/backtest-weight-validation-<date>.md` with the candidate-vs-default table, all candidates listed (passing and failing), and H8 verdict.
+- Any preset adopted into `super-group-weights.ts` carries an `evidenceRef` pointing at the specific archived calibration / IC / validation files that justified it.
+- `npm run backtest -- --all-sp500 --legacy-rule-audit --archive` produces `docs/backtest-legacy-rules-<date>.md` with H10/H11/H12 verdicts and per-rule numbers. Any rule that fails its hypothesis is queued for a v2 weakening or removal PR with the report as justification.
+- `npm run backtest -- --all-sp500 --parameter-sweep --archive` produces `docs/backtest-parameter-sweep-<date>.md` with per-parameter sweep results (growth window, fallback N, intra-category weighting, winsorization). Any parameter where the data clearly favors a different default updates `ranking.md` in the same PR.

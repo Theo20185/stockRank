@@ -5,7 +5,8 @@ export type CategoryKey =
   | "health"
   | "quality"
   | "shareholderReturn"
-  | "growth";
+  | "growth"
+  | "momentum";
 
 export type FactorKey =
   // Valuation (lower = better, inverted)
@@ -19,13 +20,17 @@ export type FactorKey =
   | "interestCoverage"
   // Quality
   | "roic"
+  | "accruals"
   // Shareholder Return
   | "dividendYield"
   | "buybackYield"
   | "dividendGrowth5Y"
+  | "netIssuance"
   // Growth
   | "revenueGrowth7Y"
-  | "epsGrowth7Y";
+  | "epsGrowth7Y"
+  // Momentum
+  | "momentum12_1";
 
 export type CategoryWeights = Record<CategoryKey, number>;
 

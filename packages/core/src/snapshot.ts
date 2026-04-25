@@ -56,6 +56,28 @@ export type CompanySnapshot = {
    * range on the stock-detail page ("X% off the high · Y% above
    * the low"). Computed from quote.price + quote.yearLow. */
   pctAboveYearLow: number;
+
+  /**
+   * Trailing month-end closing prices, sorted oldest → newest. ~13
+   * months when fully populated. Drives the §5 Momentum factor in
+   * `ranking.md`: 12-1 momentum = monthlyCloses[N-1].close /
+   * monthlyCloses[N-13].close − 1, skipping the most recent month
+   * to avoid the short-horizon reversal effect.
+   *
+   * Optional for backwards-compat: snapshots from before this field
+   * was added still load. The Momentum factor falls back to a
+   * quarterly-price approximation in that case (see ranking.md §5
+   * Momentum), with `momentumApprox: true` flagged on the factor
+   * detail.
+   */
+  monthlyCloses?: MonthlyClose[];
+};
+
+export type MonthlyClose = {
+  /** ISO YYYY-MM-DD date of the month-end bar. */
+  date: string;
+  /** Close price on that date, in `quoteCurrency`. */
+  close: number;
 };
 
 export type QuoteSnapshot = {

@@ -12,6 +12,7 @@ export type {
   AnnualBalance,
   AnnualCashFlow,
   AnnualRatios,
+  MonthlyClose,
   SnapshotError,
 } from "./snapshot.js";
 export { SNAPSHOT_SCHEMA_VERSION, pctAboveLow, pctOffHigh } from "./snapshot.js";

@@ -326,6 +326,15 @@ export class YahooProvider implements MarketDataProvider {
       return null;
     }
 
+    // Trailing month-end closes for the Momentum factor (ranking.md
+    // §5 Momentum). historicalBars is sorted oldest → newest already.
+    // Trim to the trailing 14 entries — that's exactly what 12-1
+    // momentum needs (closes[N-2] / closes[N-14] - 1), and keeping
+    // the snapshot lean matters when there are 500 of them.
+    const monthlyCloses = historicalBars
+      .slice(-14)
+      .map((b) => ({ date: b.date, close: b.close }));
+
     return {
       symbol,
       name: price.longName ?? price.shortName ?? symbol,
@@ -347,6 +356,7 @@ export class YahooProvider implements MarketDataProvider {
       quarterly,
       pctOffYearHigh: pctOffHigh(currentPrice, yearHigh),
       pctAboveYearLow: pctAboveLow(currentPrice, yearLow),
+      monthlyCloses,
     };
   }
 }

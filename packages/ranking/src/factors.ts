@@ -105,6 +105,85 @@ function interestCoverageFromAnnual(snapshot: CompanySnapshot): number | null {
   return ebit / interest;
 }
 
+/**
+ * Sloan accruals ratio (ranking.md §5 Quality, lower = better).
+ *   accruals = (NetIncome − OperatingCashFlow) / Revenue
+ *
+ * Direction is `lower` *including into negative values*: a company
+ * with CFO > NI (conservative accounting, e.g., earnings backed by
+ * even more cash than reported) scores best, not just neutral.
+ *
+ * Returns null when revenue is missing/non-positive (no meaningful
+ * denominator) or when NI / OCF aren't both present.
+ */
+export function accrualsFromAnnual(snapshot: CompanySnapshot): number | null {
+  const recent = snapshot.annual[0];
+  if (!recent) return null;
+  const ni = recent.income.netIncome;
+  const cfo = recent.cashFlow.operatingCashFlow;
+  const rev = recent.income.revenue;
+  if (ni === null || cfo === null || rev === null || rev <= 0) return null;
+  return (ni - cfo) / rev;
+}
+
+/**
+ * Net share issuance — YoY change in diluted share count
+ * (ranking.md §5 Shareholder Return, lower = better).
+ *   netIssuance = sharesDiluted[0] / sharesDiluted[1] − 1
+ *
+ * Positive values = dilution (penalized via direction `lower`).
+ * Negative values = net buybacks beyond what cancels SBC (rewarded).
+ * SBC dilution counts as issuance — that's intentional, not a bug to
+ * back out.
+ *
+ * Splits are pre-adjusted by the EDGAR mapper (FMP `sharesDiluted`
+ * reports split-adjusted counts), so this calculation doesn't need
+ * to handle them separately.
+ */
+export function netIssuanceFromAnnual(
+  snapshot: CompanySnapshot,
+): number | null {
+  const recent = snapshot.annual[0];
+  const prior = snapshot.annual[1];
+  if (!recent || !prior) return null;
+  const cur = recent.income.sharesDiluted;
+  const prev = prior.income.sharesDiluted;
+  if (cur === null || prev === null || prev <= 0) return null;
+  return cur / prev - 1;
+}
+
+/**
+ * 12-1 month price momentum from monthly closes (ranking.md §5
+ * Momentum, higher = better).
+ *   momentum12_1 = closes[N-2].close / closes[N-14].close - 1
+ *
+ * Skips the most recent month (Jegadeesh-Titman 1993) to avoid the
+ * short-horizon reversal effect — the most recent month's return
+ * tends to mean-revert and contaminates the momentum signal.
+ *
+ * Requires at least 14 monthly closes (sorted oldest → newest).
+ * Returns null otherwise — older snapshots without `monthlyCloses`
+ * and newer ones with too few bars both fall through cleanly.
+ *
+ * Quarterly fallback (per ranking.md §5 Momentum) is intentionally
+ * NOT applied here — the fallback contaminates the IC measurement
+ * because it has different staleness characteristics. We surface
+ * the lack of momentum data as a missing factor instead.
+ */
+export function momentum12_1(snapshot: CompanySnapshot): number | null {
+  const closes = snapshot.monthlyCloses;
+  if (!closes || closes.length < 14) return null;
+  // monthlyCloses is sorted oldest → newest per the schema.
+  //   closes[N-1] = most recent month (skipped)
+  //   closes[N-2] = "T-1m" — numerator
+  //   closes[N-14] = "T-13m" — denominator
+  const numer = closes[closes.length - 2];
+  const denom = closes[closes.length - 14];
+  if (!numer || !denom) return null;
+  if (denom.close <= 0) return null;
+  return numer.close / denom.close - 1;
+}
+
 export const FACTORS: FactorDef[] = [
   // Valuation
   {
@@ -167,6 +246,12 @@ export const FACTORS: FactorDef[] = [
     direction: "higher",
     extract: (s) => nz(s.ttm.roic),
   },
+  {
+    key: "accruals",
+    category: "quality",
+    direction: "lower",
+    extract: (s) => accrualsFromAnnual(s),
+  },
   // Shareholder Return
   {
     key: "dividendYield",
@@ -186,6 +271,12 @@ export const FACTORS: FactorDef[] = [
     direction: "higher",
     extract: (s) => periodCagr(s.annual, dividendsPerShare, 5),
   },
+  {
+    key: "netIssuance",
+    category: "shareholderReturn",
+    direction: "lower",
+    extract: (s) => netIssuanceFromAnnual(s),
+  },
   // Growth (per §6: 7Y CAGR, peer-relative percentile)
   {
     key: "revenueGrowth7Y",
@@ -199,6 +290,15 @@ export const FACTORS: FactorDef[] = [
     direction: "higher",
     extract: (s) => periodCagr(s.annual, (p) => p.income.epsDiluted, 7),
   },
+  // Momentum (per §11.6: ships at default weight 0%; factor still
+  // computed so it appears in factor detail and is available to the
+  // IC pipeline)
+  {
+    key: "momentum12_1",
+    category: "momentum",
+    direction: "higher",
+    extract: (s) => momentum12_1(s),
+  },
 ];
 
 export function factorsByCategory(): Record<CategoryKey, FactorDef[]> {
@@ -208,6 +308,7 @@ export function factorsByCategory(): Record<CategoryKey, FactorDef[]> {
     quality: [],
     shareholderReturn: [],
     growth: [],
+    momentum: [],
   };
   for (const f of FACTORS) out[f.category].push(f);
   return out;

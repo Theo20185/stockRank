@@ -130,7 +130,7 @@ function buildIneligibleRow(company: CompanySnapshot): RankedRow {
     pctAboveYearLow: company.pctAboveYearLow ?? 0,
     categoryScores: {
       valuation: null, health: null, quality: null,
-      shareholderReturn: null, growth: null,
+      shareholderReturn: null, growth: null, momentum: null,
     },
     factorDetails: [],
     missingFactors: [],
@@ -225,6 +225,7 @@ function computeCategoryScores(
     "quality",
     "shareholderReturn",
     "growth",
+    "momentum",
   ];
   const scores: CategoryScores = {
     valuation: null,
@@ -232,6 +233,7 @@ function computeCategoryScores(
     quality: null,
     shareholderReturn: null,
     growth: null,
+    momentum: null,
   };
 
   for (const cat of categories) {

@@ -41,14 +41,24 @@ the turnaround rules and §8 for the unified output.
 ## 3. Inputs
 
 ### 3.1 Per-stock
-From cached FMP data (see `financial-api.md`):
+From cached FMP / Yahoo data (see `financial-api.md`):
 
 - Identity: `symbol`, `name`, `sector`, `industry`
 - Quote: `price`, `marketCap`, `52wHigh`, `52wLow`
 - Ratios (TTM): from `ratios-ttm` and `key-metrics-ttm`
-- 5Y annual statements: IS / BS / CF
+- 5Y annual statements: IS / BS / CF (the §5 Accruals factor reads
+  `income.netIncome` and `cashFlow.operatingCashFlow` from the most
+  recent annual period; Net Issuance reads `income.sharesDiluted`
+  from the two most recent annual periods)
 - 5Y annual ratios + key-metrics
-- Price history: last 365 days EOD
+- Price history: last 365 days EOD plus a new
+  `monthlyCloses: {date, close}[]` field on `CompanySnapshot`
+  (~13 months of month-end closes, sourced from Yahoo monthly bars
+  that we already pull for `priceHighInYear`). Drives the §5
+  Momentum factor. Optional for backwards-compat: snapshots without
+  it fall back to the quarterly-price approximation noted in §5
+  Momentum, with `momentumApprox: true` flagged in the factor
+  detail.
 
 ### 3.2 Industry grouping
 
@@ -90,6 +100,13 @@ been re-evaluated and replaced where better metrics exist.
 
 ### Quality (gated by §4 floor; remaining variation captured here)
 - **ROIC (TTM)** — replaces ROE and Net Profit Margin from the POC
+- **Accruals ratio (annual)** — `(NetIncome − OperatingCashFlow) /
+  Revenue`, lower better. Sloan (1996) earnings-quality signal:
+  earnings backed by cash flow predict future returns; earnings
+  driven by accruals don't. **Direction is `lower` even into negative
+  values** — a company with CFO > NI (conservative accounting) scores
+  best, not just neutral. Computed from the most recent annual period
+  to align with the cash-flow statement cadence.
 
 ### Financial Health
 - **Debt / EBITDA (TTM)** — lower better. Replaces raw debt ratio
@@ -112,12 +129,31 @@ been re-evaluated and replaced where better metrics exist.
 - **Dividend Yield (TTM)**
 - **Buyback Yield (TTM buybacks / market cap)**
 - **5Y Dividend per Share Growth**
+- **Net share issuance (annual)** — `sharesDiluted[0] /
+  sharesDiluted[1] − 1`, lower better. Penalizes dilution
+  symmetrically to how Buyback Yield rewards repurchases. SBC-driven
+  share growth counts as issuance — that's the intended behavior, not
+  a bug to back out. Splits must be pre-adjusted (FMP `sharesDiluted`
+  is split-adjusted out of the box).
+
+### Momentum (new category — see §11.6 for philosophy)
+- **12-1 month price momentum** — `close[T−1m] / close[T−13m] − 1`,
+  higher better. Skips the most recent month to avoid the
+  short-horizon reversal effect (Jegadeesh-Titman 1993). Requires
+  the new `monthlyCloses` field on `CompanySnapshot`; back-compat
+  fallback to `quarterly[0].priceAtQuarterEnd / quarterly[3].
+  priceAtQuarterEnd − 1` when monthly data is missing (older
+  snapshots), with a `momentumApprox: true` flag in the factor
+  detail.
 
 ### Surfaced separately, not in composite
 - **% off 52-week high** — opportunity signal, displayed as a column
   next to the rank (PLAN.md §3 user requirement). Rolling it into the
   composite would muddy "this is a great long-term hold" with "and
-  it's currently in a trough," which are different decisions.
+  it's currently in a trough," which are different decisions. Note
+  this signal is the *opposite sign* to Momentum (high
+  pctOffYearHigh = recent loser); the two coexist because they answer
+  different questions — see §11.6.
 
 ## 6. Cyclicality-aware growth
 
@@ -190,13 +226,17 @@ slider change).
 |---|---|---|
 | Valuation | **35%** | Heaviest — user buys cheap |
 | Health | **25%** | Fallen-angel strategy needs strong balance sheet to survive the trough |
-| Quality | 15% | Floor already excludes junk; remaining variation gets modest weight |
-| Shareholder Return | 15% | Income matters; user writes covered calls and likes dividends |
+| Quality | 15% | Floor already excludes junk; remaining variation gets modest weight (now includes accruals) |
+| Shareholder Return | 15% | Income matters; user writes covered calls and likes dividends (now penalizes dilution) |
 | Growth | 10% | User actively fades momentum; growth is a tiebreaker, not a thesis |
+| Momentum | **0%** | Off by default — see §11.6. Available as a factor for IC analysis; raised to a non-zero weight only after `backtest.md` IC pipeline confirms signal in the user's universe at the user's horizons |
 
-All five live in a single config object loaded by the engine. Sliders
-in the UI mutate this in-browser; the user can save and name preset
-weight schemes.
+The six categories live in a single config object loaded by the
+engine. Sliders in the UI mutate this in-browser; the user can save
+and name preset weight schemes (per-super-group presets are §11.5).
+Weights renormalize over non-null categories per §8.3, so a default
+0% Momentum weight is a no-op for ranking but still produces factor
+detail rows for inspection and IC.
 
 ### 8.2 Tie-breaking
 Higher composite wins. Tiebreakers in order:
@@ -299,13 +339,16 @@ type TurnaroundRow = {
   composite ∈ [0, 100]; scaling all raw inputs of a single factor by
   a positive constant leaves percentile ranks unchanged.
 
-## 11. Open questions
+## 11. Open questions and conditional features
 
 1. **REITs and banks.** Their ratios behave differently (FFO matters
    for REITs; net interest margin for banks; debt is structurally
    high). v1 lets industry-group percentile handle most of it, but
    industry-specific factor sets are likely a v2 addition. Same caveat
-   as `fair-value.md` §10.
+   as `fair-value.md` §10. Partially addressed by §11.5 — per-super-
+   group weight presets let us up-weight the factors that already
+   work in those groups (e.g., bump Health weight in Banks) without
+   needing per-group factor *additions* yet.
 2. **Liquidity floor.** Should we exclude stocks below some average
    daily volume threshold so the rankings don't surface names that are
    illiquid for a covered-call writer? Default `null`; user can opt in.
@@ -315,4 +358,150 @@ type TurnaroundRow = {
    group-level summary in the UI? Probably yes once we see the data.
 4. **Weight presets.** Should we ship 2–3 named presets ("Value",
    "Income", "GARP") in addition to the user's default? Trivial to add
-   later; defer.
+   later; defer. Per-super-group presets are §11.5 — a different,
+   data-driven path.
+
+## 11.5 Industry-conditional weight presets
+
+Default weights (§8.1) are the *user's* defaults across all super-
+groups. Different factors carry different IC in different super-
+groups (per `backtest.md` §3.7 IC analysis); a one-size-fits-all
+weight vector leaves signal on the table.
+
+**Two-step adoption process** to avoid curve-fitting:
+
+1. **Evidence (b):** the IC heatmap surfaces super-group × factor
+   cells that pass the three-gate filter (statistical floor from
+   Phase 0 Monte Carlo, economic floor of |IC| ≥ 0.05, sign-stable
+   in ≥ 2 of 3 rolling windows). For each super-group, we *propose*
+   a preset that re-allocates weight toward the categories with
+   surviving cells.
+2. **Validation (c):** `backtest.md` §3.8 weight-validation mode
+   compares the proposed preset to the default on the same
+   point-in-time forward windows. The preset is adopted only if
+   top-decile composite return beats the default by a meaningful
+   margin (target: ≥ 1%/yr excess on the 3y horizon, with bootstrap
+   CI not crossing zero).
+
+### Storage and resolution
+
+Presets live at `packages/ranking/src/presets/super-group-weights.ts`:
+
+```ts
+export type WeightPreset = {
+  superGroup: SuperGroupKey;
+  weights: CategoryWeights;       // sums to 1
+  source: "default" | "ic-derived" | "manual";
+  evidenceRef: string | null;     // e.g., "docs/backtest-ic-2026-05-01.md#banks"
+  adoptedAt: string;              // ISO date
+};
+
+export const SUPER_GROUP_PRESETS: WeightPreset[] = [];
+```
+
+`SUPER_GROUP_PRESETS` ships **empty in v1** — the user's §8.1
+defaults apply universally until the IC pipeline produces evidence.
+Each preset added later carries an `evidenceRef` pointing at the
+specific archived IC report that justified it.
+
+The ranker resolves weights per-row as: super-group preset if
+present → fall back to user defaults. UI surfaces the active preset
+on each row's drill-down so the user always knows whether they're
+looking at the universal default or an IC-derived override.
+
+### Hard non-goal: auto-derivation
+
+We do **not** mechanically derive weights from IC magnitudes (option
+(a) from the design conversation). Auto-deriving from in-sample IC
+is the canonical curve-fit failure mode in factor investing — it
+overweights whatever was lucky in the training window and crashes
+out-of-sample. The IC heatmap is *evidence input* for human-set
+presets, never a direct weight transformation.
+
+## 11.6 Momentum philosophy
+
+Momentum sits awkwardly in this composite for a real reason: the
+user's stated style explicitly *fades* momentum. The `pctOffYearHigh`
+column rewards recent losers; a Momentum factor rewards recent
+winners. Naively summing both into one composite would give
+inconsistent guidance.
+
+**Resolution:** ship Momentum as a factor with **default weight
+0%**. This achieves three things at once:
+
+1. **No change to existing rankings.** The current composite is
+   preserved bit-for-bit until evidence justifies changing it. The
+   regression tests (NVO, TGT, INTC golden file) still pass with
+   only accruals + issuance changes flowing through.
+2. **The factor is computed and visible.** Factor detail rows show
+   the momentum percentile per stock so the user can eyeball the
+   correlation with realized returns informally before any weight
+   change.
+3. **The IC pipeline can test it rigorously.** `backtest.md` §3.7
+   measures momentum's IC across each super-group at each horizon
+   with the same three-gate filter as every other factor. If
+   momentum carries signal in (say) Semiconductors at 1y but not
+   in Utilities at any horizon, that is exactly the per-super-group
+   weight preset the §11.5 machinery is built to capture.
+
+Momentum's default weight rises above 0 **only** when:
+- IC analysis shows it passes the three-gate filter in at least one
+  super-group, AND
+- a weight-validation backtest with a non-zero Momentum weight beats
+  the 0% baseline on out-of-sample 3y forward returns.
+
+Both conditions, both archived, both reproducible. If the data says
+"momentum is noise in this universe at these horizons," the weight
+stays at 0% and we remove the factor in v2 with documented
+justification rather than sprinkling it in based on academic priors
+that may not generalize.
+
+## 11.7 Evidence-pending legacy rules
+
+The §11.5 / §11.6 evidence bar (data justifies the rule, archived
+report cited, no curve-fit) applies symmetrically to rules already
+in the spec. The following rules predate the IC pipeline and have
+never been validated against forward returns; they are catalogued
+here so the audit trail is honest about what's measured vs assumed.
+
+Each entry points at the hypothesis or parameter sweep in
+`backtest.md` that will produce its verdict.
+
+### Rules awaiting up-or-down verdict
+
+| Rule | Spec ref | Evidence test | What happens if it fails |
+|---|---|---|---|
+| **Quality floor — combined gate** | §4 (3-of-5 profitable + sector-relative ROIC + interest coverage) | `backtest.md` H11 | Floor disabled; excluded names rejoin the main composite. The §7 turnaround machinery becomes redundant and is removed with §7. |
+| **Quality floor — per-rule** | §4 each rule independently | `backtest.md` H11 (per-rule stratification) | Failing sub-rule dropped; combined gate keeps the surviving rules. The 3-of-5 / 33rd-pct / 25th-pct thresholds are also tested at neighboring values, not just on/off. |
+| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | `backtest.md` H12 | Watchlist criteria weakened or §7 removed entirely; "evaluate qualitatively" becomes "browse the §4-excluded list directly." |
+| **FV-trend declining → demote to Watch** | FV-trend signal (memory-referenced; 5%/yr slope, 2-year window) | `backtest.md` H10 | Demotion threshold widens (e.g., 8%/yr) or the demotion is removed. |
+
+### Design choices awaiting parameter sweeps
+
+| Parameter | Spec ref | Sweep | Default updates if… |
+|---|---|---|---|
+| Growth window (5Y / 7Y / 10Y CAGR) | §6 | `backtest.md` §3.1.1 | A different window beats current 7Y on stable per-cell IC |
+| Cohort fallback N threshold (5 / 8 / 12 / 15) | §3.2 | `backtest.md` §3.1.1 | A different N beats current 8 on top-decile composite IC |
+| Intra-category weighting (equal vs IC vs single-best) | §8 step 3 | `backtest.md` §3.1.1 | IC-weighted intra-category beats equal-weight on top-decile excess return at 3y, CI not crossing zero |
+| Winsorization bounds (5/95 vs 10/90 vs 1/99) | §8 step 2 | `backtest.md` §3.1.1 | A different bound beats current 5/95 on out-of-sample weight-validation |
+
+### Rules already validated by existing hypotheses
+
+For completeness — these aren't in the legacy-rule audit because
+they're already covered:
+
+| Rule | Validated by |
+|---|---|
+| TTM-EPS outlier rule | `backtest.md` H4 |
+| Confidence labels | `backtest.md` H5 |
+| `peerCohortDivergent` pull-back | `backtest.md` H6 |
+| `PEER_DIVERGE_THRESHOLD = 5.0` | Phase 1 calibration (per `backtest.md` §2) |
+| Options-liquid Candidate gate | `backtest.md` §6 decision 4 (parallel gate-off / today-liquid buckets) |
+
+### Tie-breaker order (§8.2)
+
+Not catalogued above because the impact is almost certainly tiny —
+ties are rare in a 110-factor-percentile system. **Skipped from
+audit on a low-priority basis**; revisit only if a future change
+makes ties materially more common (e.g., aggressive winsorization
+or a much smaller factor count).
