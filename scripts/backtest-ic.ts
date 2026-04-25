@@ -32,13 +32,20 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   pullHistory,
-  buildSnapshotAtDate,
   priceAtOrAfter,
   addYears,
   monthEnds,
   type SymbolHistory,
 } from "./backtest.js";
 import { loadSp500Universe } from "../packages/data/src/universe/loader.js";
+import {
+  fetchCompanyFacts,
+  EdgarNotFoundError,
+  synthesizeSnapshotAt,
+  type SymbolProfile,
+} from "../packages/data/src/edgar/index.js";
+import type { EdgarCompanyFacts } from "../packages/data/src/edgar/types.js";
+import type { HistoricalBar } from "../packages/data/src/edgar/mapper.js";
 import type { CompanySnapshot } from "@stockrank/core";
 import {
   buildIcObservations,
@@ -226,7 +233,7 @@ async function main(): Promise<void> {
   // SPY is the excess-return baseline.
   const baselineSymbols = ["SPY"];
 
-  console.log(`Pulling history for ${symbols.length} symbols + SPY...`);
+  console.log(`Pulling chart history for ${symbols.length} symbols + SPY...`);
   const histories = new Map<string, SymbolHistory>();
   let pulled = 0;
   for (const sym of [...symbols, ...baselineSymbols]) {
@@ -248,6 +255,35 @@ async function main(): Promise<void> {
     }
   }
   console.log(`History pulled for ${histories.size} symbols.`);
+
+  // EDGAR fundamentals for deep history (15+ years vs Yahoo's
+  // truncated ~5 years). Cache hits are local; misses pace to SEC's
+  // 10 req/s rate limit.
+  console.log(`Loading EDGAR fundamentals for ${symbols.length} symbols...`);
+  const edgarFacts = new Map<string, EdgarCompanyFacts>();
+  let edgarLoaded = 0;
+  let edgarMissing = 0;
+  for (const sym of symbols) {
+    try {
+      const facts = await fetchCompanyFacts(sym);
+      edgarFacts.set(sym, facts);
+      edgarLoaded += 1;
+    } catch (err) {
+      if (err instanceof EdgarNotFoundError) {
+        edgarMissing += 1;
+      } else {
+        console.warn(
+          `  ${sym}: EDGAR load failed — ${err instanceof Error ? err.message : err}`,
+        );
+      }
+    }
+    if ((edgarLoaded + edgarMissing) % 100 === 0) {
+      console.log(`  EDGAR: ${edgarLoaded + edgarMissing}/${symbols.length}`);
+    }
+  }
+  console.log(
+    `EDGAR loaded: ${edgarLoaded} symbols, ${edgarMissing} missing.`,
+  );
 
   const dates = monthEnds(args.years);
   const today = new Date().toISOString().slice(0, 10);
@@ -275,7 +311,28 @@ async function main(): Promise<void> {
     for (const sym of symbols) {
       const h = histories.get(sym);
       if (!h) continue;
-      const snap = buildSnapshotAtDate(h, date);
+      const facts = edgarFacts.get(sym);
+      if (!facts) continue;
+      // Use EDGAR for deep history. Build SymbolProfile from cached
+      // Yahoo metadata + EDGAR-derived shares.
+      const sharesAuth = currentAuthoritativeShares(h);
+      if (sharesAuth === null) continue;
+      const profile: SymbolProfile = {
+        symbol: sym,
+        name: h.meta.name,
+        sector: h.meta.sector,
+        industry: h.meta.industry,
+        exchange: "NYSE",
+        authoritativeShares: sharesAuth,
+        currency: h.meta.currency,
+      };
+      const bars: HistoricalBar[] = h.prices.map((p) => ({
+        date: p.date,
+        close: p.close,
+        high: p.high ?? null,
+        low: p.low ?? null,
+      }));
+      const snap = synthesizeSnapshotAt(facts, bars, date, profile);
       if (!snap) continue;
       universe.push(snap);
 
@@ -454,6 +511,20 @@ async function main(): Promise<void> {
       console.log(`  Archived to ${auditArchivePath}`);
     }
   }
+}
+
+/**
+ * Most recent diluted share count from the cached annual fundamentals
+ * — used as the EDGAR shares-magnitude reference. Returns null when
+ * the symbol has no cached annual data with a share count.
+ */
+function currentAuthoritativeShares(h: SymbolHistory): number | null {
+  for (const a of h.annual) {
+    if (a.income.sharesDiluted !== null && a.income.sharesDiluted > 0) {
+      return a.income.sharesDiluted;
+    }
+  }
+  return null;
 }
 
 main().catch((err) => {

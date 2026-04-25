@@ -385,6 +385,29 @@ export function synthesizeSnapshotAt(
   const annual = decoratedAnnual.slice(0, 7);
   const quarterly = decoratedQuarterly.slice(0, 12);
 
+  // Trailing 14 month-end closes for the Momentum factor — sample
+  // one bar per calendar month over the 14 months ending at `date`.
+  // Mirrors the live ingest's monthlyCloses shape so backtest IC
+  // analysis sees the same momentum input as production.
+  const monthlyCloses: { date: string; close: number }[] = [];
+  {
+    const seenMonths = new Set<string>();
+    for (const b of sortedBars) {
+      if (b.date > date) break;
+      seenMonths.add(b.date.slice(0, 7));
+    }
+    const months = [...seenMonths].sort().slice(-14);
+    for (const yyyymm of months) {
+      let last: { date: string; close: number } | null = null;
+      for (const b of sortedBars) {
+        if (b.date.slice(0, 7) !== yyyymm) continue;
+        if (b.date > date) break;
+        last = { date: b.date, close: b.close };
+      }
+      if (last) monthlyCloses.push(last);
+    }
+  }
+
   return {
     symbol: profile.symbol,
     name: profile.name,
@@ -412,6 +435,7 @@ export function synthesizeSnapshotAt(
       yearLow > 0 && price > yearLow
         ? ((price - yearLow) / yearLow) * 100
         : 0,
+    monthlyCloses,
   };
 }
 
