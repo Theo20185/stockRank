@@ -136,3 +136,131 @@ export function groupBy<T, K>(items: T[], key: (item: T) => K): Map<K, T[]> {
   }
   return out;
 }
+
+/**
+ * Convert raw values to fractional (mid)ranks. Ties get the average of
+ * their tied positions. Used as the building block for Spearman.
+ *
+ * Pairs with `spearmanCorrelation` below; exposed for re-use in
+ * stratified IC reporting where multiple correlations share the same
+ * ranked vectors.
+ */
+export function ranksWithTies(values: readonly number[]): number[] {
+  const n = values.length;
+  if (n === 0) return [];
+  const indexed = values.map((v, i) => ({ v, i }));
+  indexed.sort((a, b) => a.v - b.v);
+
+  const ranks = new Array<number>(n);
+  let i = 0;
+  while (i < n) {
+    let j = i;
+    while (j + 1 < n && indexed[j + 1]!.v === indexed[i]!.v) j += 1;
+    // [i..j] are tied. Average rank = (i+1 + j+1) / 2 (1-based).
+    const avgRank = (i + 1 + j + 1) / 2;
+    for (let k = i; k <= j; k += 1) {
+      ranks[indexed[k]!.i] = avgRank;
+    }
+    i = j + 1;
+  }
+  return ranks;
+}
+
+/**
+ * Spearman rank correlation. Robust to monotone non-linearities — what
+ * we want for factor → return IC where the relationship doesn't have to
+ * be linear, just consistent in sign.
+ *
+ * Returns null when:
+ * - The arrays have different lengths (caller bug)
+ * - Either array has < 2 elements (no degrees of freedom)
+ * - Either array is constant (zero variance — correlation is undefined)
+ */
+export function spearmanCorrelation(
+  xs: readonly number[],
+  ys: readonly number[],
+): number | null {
+  if (xs.length !== ys.length) {
+    throw new Error(
+      `spearmanCorrelation: length mismatch (${xs.length} vs ${ys.length})`,
+    );
+  }
+  if (xs.length < 2) return null;
+
+  const rx = ranksWithTies(xs);
+  const ry = ranksWithTies(ys);
+
+  const n = rx.length;
+  let sumX = 0;
+  let sumY = 0;
+  for (let i = 0; i < n; i += 1) {
+    sumX += rx[i]!;
+    sumY += ry[i]!;
+  }
+  const meanX = sumX / n;
+  const meanY = sumY / n;
+
+  let num = 0;
+  let denX = 0;
+  let denY = 0;
+  for (let i = 0; i < n; i += 1) {
+    const dx = rx[i]! - meanX;
+    const dy = ry[i]! - meanY;
+    num += dx * dy;
+    denX += dx * dx;
+    denY += dy * dy;
+  }
+  const denom = Math.sqrt(denX * denY);
+  if (denom === 0) return null;
+  return num / denom;
+}
+
+/**
+ * Bootstrap CI for a Spearman correlation by paired resampling — keeps
+ * the (x, y) pairing intact while resampling pair indices with
+ * replacement. Returns null when the sample is too small for a
+ * meaningful CI (< 5 pairs) or the correlation itself is undefined.
+ */
+export function bootstrapSpearmanCi(
+  xs: readonly number[],
+  ys: readonly number[],
+  resamples = 1000,
+  alpha = 0.05,
+  rng: () => number = Math.random,
+): Interval | null {
+  if (xs.length !== ys.length) {
+    throw new Error("bootstrapSpearmanCi: length mismatch");
+  }
+  const n = xs.length;
+  if (n < 5) return null;
+  const corrs: number[] = [];
+  for (let i = 0; i < resamples; i += 1) {
+    const sx = new Array<number>(n);
+    const sy = new Array<number>(n);
+    for (let j = 0; j < n; j += 1) {
+      const idx = Math.floor(rng() * n);
+      sx[j] = xs[idx]!;
+      sy[j] = ys[idx]!;
+    }
+    const c = spearmanCorrelation(sx, sy);
+    if (c !== null) corrs.push(c);
+  }
+  if (corrs.length < 10) return null;
+  corrs.sort((a, b) => a - b);
+  const loIdx = Math.floor((alpha / 2) * corrs.length);
+  const hiIdx = Math.min(corrs.length - 1, Math.floor((1 - alpha / 2) * corrs.length));
+  return { lo: corrs[loIdx]!, hi: corrs[hiIdx]! };
+}
+
+/**
+ * In-place Fisher-Yates shuffle using the supplied RNG. Returns the
+ * mutated array for chaining. Used by the IC Monte Carlo to permute
+ * forward returns within (date, super-group) cells.
+ */
+export function shuffleInPlace<T>(array: T[], rng: () => number = Math.random): T[] {
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rng() * (i + 1));
+    [array[i], array[j]] = [array[j]!, array[i]!];
+  }
+  return array;
+}

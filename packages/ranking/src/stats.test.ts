@@ -1,13 +1,127 @@
 import { describe, expect, it } from "vitest";
 import {
   bootstrapMeanCi,
+  bootstrapSpearmanCi,
   groupBy,
   mean,
   mulberry32,
   quantileSorted,
   quartileBin,
+  ranksWithTies,
+  shuffleInPlace,
+  spearmanCorrelation,
   wilsonInterval,
 } from "./stats.js";
+
+describe("ranksWithTies", () => {
+  it("returns 1..N when all values are unique", () => {
+    expect(ranksWithTies([10, 20, 30])).toEqual([1, 2, 3]);
+    expect(ranksWithTies([30, 10, 20])).toEqual([3, 1, 2]);
+  });
+
+  it("averages tied positions", () => {
+    // [10, 10, 20] — first two tied at positions 1+2 → avg 1.5
+    expect(ranksWithTies([10, 10, 20])).toEqual([1.5, 1.5, 3]);
+    // All equal → avg of 1+2+3+4 = 2.5
+    expect(ranksWithTies([5, 5, 5, 5])).toEqual([2.5, 2.5, 2.5, 2.5]);
+  });
+
+  it("handles empty array", () => {
+    expect(ranksWithTies([])).toEqual([]);
+  });
+});
+
+describe("spearmanCorrelation", () => {
+  it("returns 1 for perfectly monotone-increasing pairs", () => {
+    expect(spearmanCorrelation([1, 2, 3, 4], [10, 20, 30, 40])).toBeCloseTo(1, 6);
+  });
+
+  it("returns -1 for perfectly monotone-decreasing pairs", () => {
+    expect(spearmanCorrelation([1, 2, 3, 4], [40, 30, 20, 10])).toBeCloseTo(-1, 6);
+  });
+
+  it("equals 1 even with non-linear monotone transform (the point of Spearman)", () => {
+    // y = exp(x) is non-linear but monotone — Pearson would NOT be 1
+    const xs = [1, 2, 3, 4, 5];
+    const ys = xs.map((x) => Math.exp(x));
+    expect(spearmanCorrelation(xs, ys)).toBeCloseTo(1, 6);
+  });
+
+  it("returns null when either array is constant", () => {
+    expect(spearmanCorrelation([1, 1, 1], [1, 2, 3])).toBeNull();
+    expect(spearmanCorrelation([1, 2, 3], [5, 5, 5])).toBeNull();
+  });
+
+  it("returns null when arrays are too short", () => {
+    expect(spearmanCorrelation([1], [2])).toBeNull();
+    expect(spearmanCorrelation([], [])).toBeNull();
+  });
+
+  it("throws on length mismatch (caller bug)", () => {
+    expect(() => spearmanCorrelation([1, 2], [1, 2, 3])).toThrow();
+  });
+
+  it("computes a known intermediate value correctly", () => {
+    // Reference computation by hand:
+    //   xs = [1,2,3,4,5], ys = [3,1,4,1,5]
+    //   ranks(xs) = [1,2,3,4,5]
+    //   ranks(ys) = [3, 1.5, 4, 1.5, 5]  (ties at value 1 average to 1.5)
+    //   mean(rx) = 3, mean(ry) = 3
+    //   dx = [-2,-1,0,1,2], dy = [0,-1.5,1,-1.5,2]
+    //   sum(dx*dy) = 0 + 1.5 + 0 - 1.5 + 4 = 4
+    //   sum(dx^2) = 10, sum(dy^2) = 9.5
+    //   r = 4 / sqrt(10*9.5) = 4 / sqrt(95) ≈ 0.4104
+    const result = spearmanCorrelation([1, 2, 3, 4, 5], [3, 1, 4, 1, 5])!;
+    expect(result).toBeCloseTo(0.4104, 3);
+  });
+});
+
+describe("bootstrapSpearmanCi", () => {
+  it("produces a CI containing the point estimate when correlation is real", () => {
+    const xs = Array.from({ length: 30 }, (_, i) => i);
+    const ys = xs.map((x) => x + (x % 5)); // strongly correlated with some noise
+    const point = spearmanCorrelation(xs, ys)!;
+    const ci = bootstrapSpearmanCi(xs, ys, 500, 0.05, mulberry32(42))!;
+    expect(ci.lo).toBeLessThanOrEqual(point);
+    expect(ci.hi).toBeGreaterThanOrEqual(point);
+  });
+
+  it("returns null when sample is too small", () => {
+    expect(bootstrapSpearmanCi([1, 2], [1, 2])).toBeNull();
+  });
+
+  it("CI for an uncorrelated sample includes 0", () => {
+    const rng = mulberry32(7);
+    const xs = Array.from({ length: 50 }, () => rng());
+    const ys = Array.from({ length: 50 }, () => rng());
+    const ci = bootstrapSpearmanCi(xs, ys, 500, 0.05, mulberry32(11))!;
+    expect(ci.lo).toBeLessThan(0);
+    expect(ci.hi).toBeGreaterThan(0);
+  });
+});
+
+describe("shuffleInPlace", () => {
+  it("preserves the multiset of values", () => {
+    const arr = [1, 2, 3, 4, 5];
+    shuffleInPlace(arr, mulberry32(42));
+    expect([...arr].sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it("is deterministic with a seeded RNG", () => {
+    const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const b = [...a];
+    shuffleInPlace(a, mulberry32(99));
+    shuffleInPlace(b, mulberry32(99));
+    expect(a).toEqual(b);
+  });
+
+  it("does change order on a non-trivial input (with high probability)", () => {
+    const a = Array.from({ length: 20 }, (_, i) => i);
+    const original = [...a];
+    shuffleInPlace(a, mulberry32(123));
+    expect(a).not.toEqual(original);
+  });
+});
 
 describe("wilsonInterval", () => {
   it("returns null for n=0", () => {
