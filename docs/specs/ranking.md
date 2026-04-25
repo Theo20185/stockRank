@@ -257,7 +257,17 @@ beating the legacy default by +5.72 pp at 3y (value-deep +8.29%
 is the **only** finding from the 2026-04-25 batch that proved
 regime-stable. The Quality floor (H11) and Turnaround watchlist
 3y (H12) both flipped between regimes — see §11.7. See
-`docs/specs/backtest-actions-2026-04-25-precovid.md`.
+`docs/specs/backtest-actions-2026-04-25-pit.md`.
+
+**Recovery-regime caveat (4th run, 2026-04-25 crisis-attempt):**
+the EDGAR-sparsity-collapsed 2011-only run showed the legacy
+weights modestly OUTPERFORM value-deep (+2.30 pp legacy advantage
+at 3y, sub-threshold so legacy stays rejected). value-deep wins
+2 of 3 PIT regimes by meaningful margins (+4.05 pp and +5.72 pp)
+and loses 1 (recovery) by a sub-threshold margin. Net: still the
+right default, with a soft caveat that more defensive weights can
+outperform during recovery periods. See
+`docs/specs/backtest-actions-2026-04-25-crisis.md` §3.4-§3.5.
 
 | Category | Weight | Rationale |
 |---|---|---|
@@ -523,8 +533,8 @@ Updated 2026-04-25 from `docs/backtest-legacy-rules-2026-04-25.md`.
 
 | Rule | Spec ref | Verdict | Status |
 |---|---|---|---|
-| **Quality floor — combined gate** | §4 | **regime-dependent** (H11 under PIT, 2026-04-25). PIT 2018-2023 PASS (gap +2.95 pp); PIT 2010-2018 FAIL (gap -2.32 pp). The COVID-recovery window made the floor look helpful by inflating the floor-failed cohort with distressed-then-recovered names; the pre-COVID window has no such bias. | **HOLD §4 unchanged pending a 3rd regime sample.** Two-regime split is not enough to drop a long-standing rule. Recommended next test: 2003-2007 mid-cycle window or 2008-2010 financial-crisis window. See `docs/specs/backtest-actions-2026-04-25-precovid.md` §4.1. |
-| **Quality floor — per-rule** | §4 each rule | regime-dependent — all 3 sub-rules **flipped sign** between PIT 2018-2023 and PIT 2010-2018. sector-roic +7.18 → -6.48; profitable-3of5 -7.87 → +3.17; interest-cov -11.12 → -2.28. | Confirms the regime-dependence reading at the per-rule level. No v2 floor simplification until we have ≥ 3 stable regime samples — pre-COVID actively contradicts the 2018-2023 "sector-roic is the workhorse" finding. |
+| **Quality floor — combined gate** | §4 | **failed 2 of 3 PIT regimes**. PIT 2018-2023 PASS (gap +2.95 pp); PIT 2010-2018 FAIL (gap -2.32 pp); PIT 2011-only FAIL (gap -2.66 pp). The PASS was the COVID-recovery window. | **HOLD §4 unchanged.** The decision is now blocked on **v2 delisted-name handling**, not more regime samples. The current PIT pipeline only audits names that survived to today; the floor's biggest job (filtering names that actually went bankrupt) is invisible. Without that audit, we can't honestly judge whether the rule is harmful or whether we're just measuring the wrong thing. See `docs/specs/backtest-actions-2026-04-25-crisis.md` §4.1 Option C. |
+| **Quality floor — per-rule** | §4 each rule | regime-dependent across 3 PIT runs. sector-roic: +7.18 / -6.48 / -11.80 (negative in 2 of 3); profitable-3of5: -7.87 / +3.17 / +9.34 (positive in 2 of 3); interest-cov: -11.12 / -2.28 / +0.64 (negative or neutral in all 3, but small magnitudes). | Confirms regime dependence; the 2018-2023 sub-rule signals were COVID-specific. Don't simplify §4 to "sector-roic alone" — that rule is the *worst* in 2 of 3 regimes. |
 | **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **short-horizon signal only** — H12 PASS at 1y consistently across regimes; **3y signal is regime-dependent** (PIT 2018-2023 +50.84 pp, PIT 2010-2018 **-13.15 pp**). | **No change to §7 criteria; clarify §7 prose** — the watchlist surfaces names worth evaluating for short-horizon trades, NOT for buy-and-hold. The "evaluate qualitatively" language in §7 is consistent with this; make it explicit. |
 | **FV-trend declining → demote to Watch** | FV-trend signal (5%/yr slope, 2-year window) | deferred (H10) | Backtest-side FV-trend reconstruction not yet built. Defer until a Phase 4 backtest-side FV-trend computer exists. |
 

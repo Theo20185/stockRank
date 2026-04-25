@@ -143,9 +143,22 @@ real work that the biased view was hiding.
 v1 PIT limitation: today's symbols are filtered by historical
 membership, but historically-included-but-now-delisted names
 (LEH, ENRN, etc.) are NOT yet added back into the universe — we
-don't have EDGAR or chart data for those names. v2 work would
-synthesize -100% returns for them (or recover takeout prices),
-which would push H11's gap even wider.
+don't have EDGAR or chart data for those names.
+
+**This limitation is now blocking a real engine decision.** The
+2026-04-25 four-run audit (see
+`docs/specs/backtest-actions-2026-04-25-crisis.md`) found H11
+(Quality floor) failing 2 of 3 PIT regimes — but the floor's
+biggest job is filtering names that *actually went bankrupt*,
+which the survivor-only PIT pipeline cannot see. We can't
+honestly judge whether the floor is harmful or whether we're
+measuring the wrong question.
+
+**v2 priority (now blocking):** recover historical chart + EDGAR
+data for delisted symbols from the Wikipedia changes table; treat
+genuinely-bankrupt names as -100% realized return (or recover
+takeout prices where available). Until v2 ships, the §4 floor
+decision in `ranking.md` §11.7 stays on HOLD.
 
 **Phase 2c (separate effort):** the secondary `IVV` fund-holdings
 source remains a future option for cross-validating the Wikipedia-
