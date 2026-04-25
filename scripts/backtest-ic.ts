@@ -65,6 +65,9 @@ import {
   renderWeightValidationReport,
   runLegacyAudit,
   renderLegacyAuditReport,
+  evaluateUserPicks,
+  renderUserPicksReport,
+  type UserPick,
   DEFAULT_WEIGHTS,
   type CandidateWeights,
   type IcCalibration,
@@ -97,6 +100,11 @@ type IcArgs = {
    * Used for regime-specific reruns (e.g., pre-COVID window:
    * `--max-snapshot-date 2018-12-31`). Defaults to today. */
   maxSnapshotDate: string | null;
+  /** Comma-separated SYM:DATE pairs (e.g., "NVO:2026-03-06,TGT:2026-04-09").
+   * When supplied, after building observations we run the user-picks
+   * validation. Each date becomes a forced backtest snapshot date if
+   * not already in the iteration. */
+  userPicks: UserPick[] | null;
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -120,6 +128,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     pointInTime: false,
     refreshHistory: false,
     maxSnapshotDate: null,
+    userPicks: null,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -167,6 +176,16 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--max-snapshot-date":
         args.maxSnapshotDate = argv[++i]!;
+        break;
+      case "--user-picks":
+        args.userPicks = argv[++i]!.split(",").map((pair) => {
+          const [symbol, snapshotDate] = pair.split(":");
+          if (!symbol || !snapshotDate) {
+            console.error(`--user-picks: bad format "${pair}", expected SYM:YYYY-MM-DD`);
+            process.exit(2);
+          }
+          return { symbol: symbol.trim(), snapshotDate: snapshotDate.trim() };
+        });
         break;
       default:
         if (a.startsWith("--")) {
@@ -241,6 +260,24 @@ function loadCandidates(path: string | null): CandidateWeights[] {
           shareholderReturn: 0.10,
           growth: 0.10,
           momentum: 0.10,
+        },
+      },
+      {
+        // Phase 1A — in-Valuation reweighting. value-deep with the
+        // four valuation sub-factors weighted EV/EBITDA-heavy per the
+        // 2026-04-25 IC heatmap finding that EV/EBITDA had the
+        // strongest cross-super-group signal at 3y.
+        name: "value-deep-evtilt",
+        description: "value-deep with EV/EBITDA-tilted Valuation (60% EV/EBITDA, 20% P/FCF, 10% P/E, 10% P/B)",
+        source: "ic-derived",
+        weights: { ...DEFAULT_WEIGHTS },
+        subFactorWeights: {
+          valuation: {
+            evToEbitda: 0.6,
+            priceToFcf: 0.2,
+            peRatio: 0.1,
+            priceToBook: 0.1,
+          },
         },
       },
     ];
@@ -323,8 +360,21 @@ async function main(): Promise<void> {
   const usableDates = dates.filter(
     (d) => d <= cap && addYears(d, maxHorizon) <= today,
   );
+  // When --user-picks is supplied, force-include each pick's date in
+  // usableDates (even if it doesn't fall on a month-end). This way the
+  // user-picks validation has a snapshot universe at the exact buy
+  // date, not just the nearest month-end.
+  if (args.userPicks) {
+    const existing = new Set(usableDates);
+    for (const pick of args.userPicks) {
+      if (!existing.has(pick.snapshotDate)) {
+        usableDates.push(pick.snapshotDate);
+      }
+    }
+    usableDates.sort();
+  }
   console.log(
-    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y${args.maxSnapshotDate ? `, capped at ${args.maxSnapshotDate}` : ""}).`,
+    `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y${args.maxSnapshotDate ? `, capped at ${args.maxSnapshotDate}` : ""}${args.userPicks ? `, +${args.userPicks.length} user-pick dates` : ""}).`,
   );
 
   // Point-in-time membership history (optional; off by default).
@@ -539,6 +589,48 @@ async function main(): Promise<void> {
       const wvArchivePath = resolve(docsDir, wvFilename);
       writeFileSync(wvArchivePath, wvMd, "utf-8");
       console.log(`  Archived to ${wvArchivePath}`);
+    }
+  }
+
+  // ── Optional: user-picks validation (Phase 1 C) ─────────────────────
+  if (args.userPicks) {
+    console.log(
+      `\nRunning user-picks validation on ${args.userPicks.length} pick(s)...`,
+    );
+    // Group observations by snapshot date for the engine.
+    const obsByDate = new Map<string, typeof observations>();
+    for (const o of observations) {
+      const arr = obsByDate.get(o.snapshotDate) ?? [];
+      arr.push(o);
+      obsByDate.set(o.snapshotDate, arr);
+    }
+    const upReport = evaluateUserPicks({
+      picks: args.userPicks,
+      observationsByDate: obsByDate,
+      weights: DEFAULT_WEIGHTS,
+      weightSchemeName: "default (value-deep, ranking.md §8.1)",
+    });
+    const upMd = renderUserPicksReport(upReport);
+    const upPath = resolve(tmpDir, "user-picks.md");
+    writeFileSync(upPath, upMd, "utf-8");
+    console.log(`  Wrote ${upPath}`);
+    for (const entry of upReport.picks) {
+      if (entry.ranking) {
+        const r = entry.ranking;
+        console.log(
+          `  ${entry.pick.symbol} @ ${entry.pick.snapshotDate}: SG rank ${r.rankInSuperGroup}/${r.superGroupSize}, universe rank ${r.rankInUniverse}/${r.universeSize}`,
+        );
+      } else {
+        console.log(
+          `  ${entry.pick.symbol} @ ${entry.pick.snapshotDate}: ${entry.notFoundReason}`,
+        );
+      }
+    }
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const upArchivePath = resolve(docsDir, `backtest-user-picks-${today}.md`);
+      writeFileSync(upArchivePath, upMd, "utf-8");
+      console.log(`  Archived to ${upArchivePath}`);
     }
   }
 

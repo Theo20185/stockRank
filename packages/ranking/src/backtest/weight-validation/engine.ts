@@ -25,6 +25,7 @@ import type {
   CandidateResult,
   CandidateWeights,
   HorizonPerformance,
+  SubFactorWeights,
   WeightValidationReport,
 } from "./types.js";
 
@@ -113,6 +114,7 @@ export function runWeightValidation(
             composite: composeFromPercentiles(
               obs.factorPercentiles,
               candidate.weights,
+              candidate.subFactorWeights,
             ),
           }));
           const valid = composites.filter((c) => c.composite !== null);
@@ -261,25 +263,60 @@ function ciToString(ci: { lo: number; hi: number }): string {
 function composeFromPercentiles(
   percentiles: Partial<Record<FactorKey, number>>,
   weights: CategoryWeights,
+  subFactorWeights?: SubFactorWeights,
 ): number | null {
-  // Group factor percentiles by category.
+  // Compute category scores. When sub-factor weights are supplied
+  // for a category, use the explicit weights; otherwise equal-
+  // weight present factors.
   const categoryScores: Partial<Record<CategoryKey, number>> = {};
-  const counts: Partial<Record<CategoryKey, number>> = {};
   for (const factor of FACTORS) {
-    const pct = percentiles[factor.key];
-    if (pct === undefined || pct === null) continue;
-    categoryScores[factor.category] =
-      (categoryScores[factor.category] ?? 0) + pct;
-    counts[factor.category] = (counts[factor.category] ?? 0) + 1;
+    void factor; // category iteration happens below
   }
+  // Group factors by category once for sub-weight resolution.
+  const factorsByCat = new Map<CategoryKey, typeof FACTORS>();
+  for (const f of FACTORS) {
+    const arr = factorsByCat.get(f.category);
+    if (arr) arr.push(f);
+    else factorsByCat.set(f.category, [f]);
+  }
+
+  for (const [cat, factors] of factorsByCat) {
+    const subWeights = subFactorWeights?.[cat];
+    if (subWeights) {
+      // Explicit per-factor weights. Factors not listed are
+      // weight-zero (excluded from the category score).
+      let weightedSum = 0;
+      let weightUsed = 0;
+      for (const f of factors) {
+        const w = subWeights[f.key];
+        if (w === undefined || w === null) continue;
+        const pct = percentiles[f.key];
+        if (pct === undefined || pct === null) continue;
+        weightedSum += pct * w;
+        weightUsed += w;
+      }
+      if (weightUsed > 0) categoryScores[cat] = weightedSum / weightUsed;
+    } else {
+      // Default — equal-weight over present factors.
+      let sum = 0;
+      let n = 0;
+      for (const f of factors) {
+        const pct = percentiles[f.key];
+        if (pct === undefined || pct === null) continue;
+        sum += pct;
+        n += 1;
+      }
+      if (n > 0) categoryScores[cat] = sum / n;
+    }
+  }
+
+  // Composite from category scores under category weights.
   let numerator = 0;
   let denominator = 0;
   for (const cat of Object.keys(weights) as CategoryKey[]) {
-    const sum = categoryScores[cat];
-    const n = counts[cat];
-    if (sum === undefined || n === undefined || n === 0) continue;
-    const avg = sum / n;
-    numerator += avg * weights[cat];
+    const score = categoryScores[cat];
+    if (score === undefined) continue;
+    numerator += score * weights[cat];
     denominator += weights[cat];
   }
   if (denominator === 0) return null;

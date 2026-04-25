@@ -129,6 +129,7 @@ export type {
   CandidateResult,
   CandidateWeights,
   HorizonPerformance,
+  SubFactorWeights,
   WeightValidationReport,
 } from "./backtest/weight-validation/types.js";
 
@@ -146,3 +147,13 @@ export type {
   TurnaroundAuditRow,
   TurnaroundClassification,
 } from "./backtest/legacy-audit/types.js";
+
+// User-picks validation (backtest-roadmap §Phase 1 C)
+export {
+  evaluateUserPicks,
+  type UserPick,
+  type UserPickRanking,
+  type UserPicksInput,
+  type UserPicksReport,
+} from "./backtest/user-picks/engine.js";
+export { renderUserPicksReport } from "./backtest/user-picks/report.js";

@@ -143,6 +143,70 @@ describe("runWeightValidation", () => {
     expect(report.verdicts[0]?.verdict).toBe("reject");
   });
 
+  it("subFactorWeights override equal-weighting within a category", () => {
+    // Build a snapshot where EV/EBITDA percentile predicts return
+    // perfectly but P/FCF, P/E, P/B are random noise. A candidate
+    // that weights only EV/EBITDA should beat one that equal-weights
+    // all four valuation factors.
+    const obs: IcObservation[] = [];
+    for (let s = 0; s < 20; s += 1) {
+      // EV/EBITDA percentile = s*5 (monotone with future return)
+      // Other valuation factors random-ish
+      obs.push({
+        symbol: `S${s}`,
+        snapshotDate: "2022-06-30",
+        snapshotYear: 2022,
+        superGroup: "industrials",
+        horizon: 3,
+        factorPercentiles: {
+          evToEbitda: s * 5,
+          priceToFcf: ((s * 7) % 100),
+          peRatio: ((s * 11) % 100),
+          priceToBook: ((s * 13) % 100),
+        },
+        excessReturn: s * 0.02 - 0.10,
+      });
+    }
+    const equalWeightInValuation = runWeightValidation(
+      obs,
+      [
+        {
+          name: "valuation-only-equal",
+          weights: {
+            valuation: 1.0, health: 0, quality: 0, shareholderReturn: 0,
+            growth: 0, momentum: 0,
+          },
+        },
+      ],
+      { testPeriodStart: "2020-01-01" },
+    );
+    const evTiltedInValuation = runWeightValidation(
+      obs,
+      [
+        {
+          name: "valuation-only-evtilt",
+          weights: {
+            valuation: 1.0, health: 0, quality: 0, shareholderReturn: 0,
+            growth: 0, momentum: 0,
+          },
+          subFactorWeights: {
+            valuation: { evToEbitda: 1.0 },
+          },
+        },
+      ],
+      { testPeriodStart: "2020-01-01" },
+    );
+    const equalH3 = equalWeightInValuation.candidates[0]!.perHorizon.find(
+      (p) => p.horizon === 3,
+    )!;
+    const evTiltH3 = evTiltedInValuation.candidates[0]!.perHorizon.find(
+      (p) => p.horizon === 3,
+    )!;
+    // EV-tilted should produce a higher mean excess (the signal-only
+    // factor is now the only one driving the composite).
+    expect(evTiltH3.meanExcess).toBeGreaterThan(equalH3.meanExcess!);
+  });
+
   it("only includes test-period observations in the metric calculations", () => {
     const obs: IcObservation[] = [];
     // Pre-test (training) period — should be EXCLUDED

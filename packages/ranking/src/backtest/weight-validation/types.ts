@@ -10,7 +10,26 @@
  * bootstrap CI not crossing zero.
  */
 
-import type { CategoryWeights } from "../../types.js";
+import type { CategoryKey, CategoryWeights, FactorKey } from "../../types.js";
+
+/**
+ * Optional sub-factor weight overrides — per category, a partial map
+ * of factor → weight. When provided for a category, the listed factors
+ * are weighted as specified (with the remainder of the category's
+ * weight, if any, distributed equally to unlisted factors). When
+ * omitted for a category, the historical equal-weight-within-category
+ * convention applies.
+ *
+ * Example — boost EV/EBITDA inside the Valuation category:
+ *   { valuation: { evToEbitda: 0.6, priceToFcf: 0.2,
+ *                  peRatio: 0.1, priceToBook: 0.1 } }
+ *
+ * Within each category map, the supplied weights should sum to 1
+ * (caller-validated).
+ */
+export type SubFactorWeights = Partial<
+  Record<CategoryKey, Partial<Record<FactorKey, number>>>
+>;
 
 /** A named weight vector to evaluate. */
 export type CandidateWeights = {
@@ -21,6 +40,9 @@ export type CandidateWeights = {
   /** Source label — "default", "ic-derived", "academic-prior", etc. */
   source?: string;
   weights: CategoryWeights;
+  /** Optional within-category factor weights. When omitted, factors
+   * within each category are equal-weighted (historical default). */
+  subFactorWeights?: SubFactorWeights;
 };
 
 /** Per-horizon performance metric for a single candidate. */
