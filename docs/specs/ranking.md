@@ -558,7 +558,7 @@ they're already covered:
 | Confidence labels | `backtest.md` H5 |
 | `peerCohortDivergent` pull-back | `backtest.md` H6 |
 | `PEER_DIVERGE_THRESHOLD = 5.0` | Phase 1 calibration (per `backtest.md` §2) |
-| Options-liquid Candidate gate | `backtest.md` §6 decision 4 (parallel gate-off / today-liquid buckets) |
+| Options-liquid Candidate gate | **Removed 2026-04-25** — names without an active options market still appear in Ranked as share-purchase candidates; the OptionsPanel UI hides the CSP/buy-write/covered-call panels for them. The bucket classifier in `buckets.ts` no longer treats `optionsLiquid` as a demote signal. `backtest.md` §6 decision 4's parallel-bucket-assignment is correspondingly retired. |
 
 ### Tie-breaker order (§8.2)
 

@@ -81,9 +81,13 @@ export type RankedRow = {
    * True when the stock has at least one usable OTM call AND one usable
    * OTM put after the orchestrator's filters. Set to true by `rank()`
    * (which has no options visibility); the web layer overrides it to
-   * false based on the loaded options-summary file. Bucket downgrade
-   * rule: an illiquid options chain is itself a quality signal — names
-   * without an active options market drop out of Ranked into Watch.
+   * false based on the loaded options-summary file.
+   *
+   * As of 2026-04-25 this field is **informational only** — the bucket
+   * classifier no longer demotes illiquid-options names. Stocks without
+   * an active options market still appear in the Ranked bucket as
+   * share-purchase candidates; the OptionsPanel UI hides the
+   * cash-secured-put / buy-write / covered-call panels for them.
    */
   optionsLiquid: boolean;
 

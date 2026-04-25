@@ -93,8 +93,8 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ fairValue: fvAtP25() }))).toBe("watch");
   });
 
-  it("watch: illiquid options chain demotes from ranked", () => {
-    expect(classifyRow(row({ optionsLiquid: false }))).toBe("watch");
+  it("ranked: illiquid options chain does NOT demote from ranked (share-purchase strategy still actionable)", () => {
+    expect(classifyRow(row({ optionsLiquid: false }))).toBe("ranked");
   });
 
   it("watch: declining FV trend demotes from ranked (avoid until trend reverses)", () => {
@@ -295,11 +295,11 @@ describe("bucketRows", () => {
     const a = row({ symbol: "AAA" });                                            // ranked
     const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
     const c = row({ symbol: "CCC", fvTrend: "declining" });                      // watch (declining)
-    const d = row({ symbol: "DDD", optionsLiquid: false });                      // watch (illiquid)
+    const d = row({ symbol: "DDD", optionsLiquid: false });                      // ranked (illiquid options no longer demotes)
     const e = row({ symbol: "EEE", fairValue: null });                           // excluded (no FV)
     const result = bucketRows([a, b, c, d, e]);
-    expect(result.ranked.map((r) => r.symbol)).toEqual(["AAA"]);
-    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC", "DDD"]);
+    expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "DDD"]);
+    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC"]);
     expect(result.excluded.map((r) => r.symbol)).toEqual(["EEE"]);
   });
 

@@ -32,12 +32,16 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
  *
  *   - **ranked**   — actionable buy candidates: passed the quality floor,
  *                    fair value present, current price below the
- *                    conservative-tail (p25), FV trend not declining, and
- *                    the options chain is liquid enough to act on.
+ *                    conservative-tail (p25), FV trend not declining,
+ *                    own-fundamentals not declining. Options liquidity
+ *                    is NOT a gate — names without options still show as
+ *                    share-purchase candidates; the UI hides the
+ *                    options-strategy panels (CSP, buy-write, covered
+ *                    call) for illiquid-options rows.
  *   - **watch**    — interesting but not actionable today: above the
- *                    conservative-tail, declining FV trend, illiquid
- *                    options, or carrying a structural-but-tracked flag
- *                    like negative equity.
+ *                    conservative-tail, declining FV trend, declining
+ *                    own-fundamentals, or carrying a structural-but-
+ *                    tracked flag like negative equity.
  *   - **excluded** — diagnostic bucket: failed the quality floor entirely
  *                    (all 5 category scores null — the ineligible-row
  *                    stub) or no fair value range computable.
@@ -140,11 +144,15 @@ export function classifyRow(row: RankedRow): BucketKey {
   // fundamentals don't intersect with sub-FV pricing in practice).
   if (row.fundamentalsDirection === "declining") return "watch";
 
-  // Illiquid options chain is itself a quality signal — quality stocks
-  // have active options markets. Demote to Watch if the options
-  // pipeline didn't surface at least one OTM call AND one OTM put.
-  if (!row.optionsLiquid) return "watch";
-
+  // Note: options liquidity is NOT a bucket gate. Names without an
+  // active options market still show up in Ranked when they pass the
+  // valuation/quality screens — the user can buy shares directly even
+  // when CSPs / buy-writes / covered calls aren't available. The
+  // `optionsLiquid` field stays on the row so the UI can hide the
+  // options-strategy panels for those rows; bucket placement doesn't
+  // change. (Earlier this rule demoted illiquid-options names to Watch
+  // on a "quality signal" theory; user override 2026-04-25 removed it
+  // because the share-purchase strategy itself is still actionable.)
   return "ranked";
 }
 
