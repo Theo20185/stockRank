@@ -69,3 +69,50 @@ export {
   classifyFundamentalsDirection,
   type FundamentalsDirection,
 } from "./fundamentals.js";
+
+// Super-group mapping (super-groups.md)
+export {
+  ALL_SUPER_GROUPS,
+  INDUSTRY_TO_SUPER_GROUP,
+  SUPER_GROUP_LABELS,
+  superGroupOf,
+  type SuperGroupKey,
+} from "./super-groups.js";
+
+// IC analysis pipeline (backtest.md §3.9–3.10)
+export {
+  buildIcObservations,
+  type IcObservationsInput,
+} from "./backtest/ic/observations.js";
+export {
+  buildRollingWindows,
+  computeIcCells,
+  computeIcForCell,
+  dedupeYearly,
+  type RollingWindow,
+} from "./backtest/ic/pipeline.js";
+export {
+  applyGatesToAll,
+  applyThreeGates,
+  ECONOMIC_FLOOR_IC,
+} from "./backtest/ic/three-gate.js";
+export {
+  falseDiscoveryCheck,
+  runCalibration,
+  type CalibrationOptions,
+  type FalseDiscoveryCheck,
+} from "./backtest/ic/calibration.js";
+export {
+  buildIcReport,
+  renderCalibrationReport,
+  renderIcReport,
+} from "./backtest/ic/report.js";
+export type {
+  IcCalibration,
+  IcCell,
+  IcCellWithVerdict,
+  IcNullThreshold,
+  IcObservation,
+  IcReport,
+  ThreeGateVerdict,
+} from "./backtest/ic/types.js";

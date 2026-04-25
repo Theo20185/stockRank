@@ -201,7 +201,7 @@ function parseArgs(argv: string[]): Args {
 
 // ─── Data fetch (with disk cache) ───────────────────────────────────────
 
-type SymbolHistory = {
+export type SymbolHistory = {
   symbol: string;
   meta: { name: string; sector: string; industry: string; currency: string };
   annual: AnnualPeriod[];
@@ -249,7 +249,7 @@ async function writeCachedJson(path: string, data: unknown): Promise<void> {
   await writeFile(path, JSON.stringify(data), "utf8");
 }
 
-type FetchOptions = {
+export type FetchOptions = {
   cacheDir: string;
   refreshCache: boolean;
   mergeCache: boolean;
@@ -310,7 +310,7 @@ function mergeChart(oldChart: RawChart | null, fresh: RawChart): RawChart {
  * chart, profile}.json so analysis-side iteration doesn't trigger
  * re-fetches.
  */
-async function pullHistory(
+export async function pullHistory(
   symbol: string,
   _years: number,
   options: FetchOptions,
@@ -530,7 +530,7 @@ function mapAnnualRow(row: Record<string, unknown>): AnnualPeriod | null {
 
 // ─── Point-in-time simulation ────────────────────────────────────────────
 
-function priceAtOrBefore(history: SymbolHistory, dateIso: string): number | null {
+export function priceAtOrBefore(history: SymbolHistory, dateIso: string): number | null {
   // prices are date-ascending; walk down to find last close <= date
   for (let i = history.prices.length - 1; i >= 0; i -= 1) {
     if (history.prices[i]!.date <= dateIso) return history.prices[i]!.close;
@@ -620,7 +620,7 @@ function reconstructTtmFromQuarters(quarterly: AnnualPeriod[]): TtmAggregate | n
   };
 }
 
-function buildSnapshotAtDate(
+export function buildSnapshotAtDate(
   history: SymbolHistory,
   dateIso: string,
 ): CompanySnapshot | null {
@@ -716,6 +716,32 @@ function buildSnapshotAtDate(
   const currentRatio = tca !== null && tcl !== null && tcl > 0 ? tca / tcl : null;
   const netDebtToEbitda = ebitda !== null && ebitda > 0 ? ((debt ?? 0) - (cash ?? 0)) / ebitda : null;
 
+  // Trailing 14 month-end closes for the Momentum factor — sample one
+  // bar per calendar month (approximately) over the 14 months ending
+  // at dateIso. Mirrors the live ingest's `monthlyCloses` field so the
+  // momentum factor in IC analysis sees the same shape of data it sees
+  // in production.
+  const monthlyCloses: { date: string; close: number }[] = [];
+  {
+    const seenMonths = new Set<string>();
+    for (const p of history.prices) {
+      if (p.date > dateIso) break;
+      const yyyymm = p.date.slice(0, 7);
+      seenMonths.add(yyyymm);
+    }
+    const months = [...seenMonths].sort().slice(-14);
+    for (const yyyymm of months) {
+      // Take the last bar in each month
+      let last: { date: string; close: number } | null = null;
+      for (const p of history.prices) {
+        if (p.date.slice(0, 7) !== yyyymm) continue;
+        if (p.date > dateIso) break;
+        last = { date: p.date, close: p.close };
+      }
+      if (last) monthlyCloses.push(last);
+    }
+  }
+
   return {
     symbol: history.symbol,
     name: history.meta.name,
@@ -743,12 +769,13 @@ function buildSnapshotAtDate(
     },
     annual,
     pctOffYearHigh: 0,
+    monthlyCloses,
   };
 }
 
 // ─── Month-end iterator ──────────────────────────────────────────────────
 
-function monthEnds(years: number): string[] {
+export function monthEnds(years: number): string[] {
   const out: string[] = [];
   const today = new Date();
   const cursor = new Date(today.getFullYear() - years, today.getMonth(), 1);
@@ -995,7 +1022,7 @@ function loadTodayLiquidSet(path: string): Set<string> {
   }
 }
 
-function priceAtOrAfter(history: SymbolHistory, dateIso: string): { date: string; close: number } | null {
+export function priceAtOrAfter(history: SymbolHistory, dateIso: string): { date: string; close: number } | null {
   for (const p of history.prices) {
     if (p.date >= dateIso) return p;
   }
@@ -1018,7 +1045,7 @@ function priceWindowExtremes(
   return { peak, trough };
 }
 
-function addYears(dateIso: string, years: number): string {
+export function addYears(dateIso: string, years: number): string {
   const d = new Date(`${dateIso}T00:00:00.000Z`);
   d.setUTCFullYear(d.getUTCFullYear() + years);
   return d.toISOString().slice(0, 10);
@@ -1957,7 +1984,14 @@ ${summarySections.join("\n")}
   }
 }
 
-main().catch((err) => {
-  console.error("fatal:", err instanceof Error ? err.message : err);
-  process.exit(1);
-});
+// Only auto-run when invoked directly (e.g., `npm run backtest`).
+// scripts/backtest-ic.ts and other consumers import the helpers above
+// and don't want this script's `main()` to fire.
+const invokedDirectly =
+  import.meta.url === `file://${process.argv[1]?.replace(/\\/g, "/")}`;
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error("fatal:", err instanceof Error ? err.message : err);
+    process.exit(1);
+  });
+}
