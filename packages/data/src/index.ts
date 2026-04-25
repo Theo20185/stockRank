@@ -16,6 +16,22 @@ export type {
 } from "./fmp/types.js";
 export { loadSp500Universe } from "./universe/loader.js";
 export type { UniverseEntry } from "./universe/loader.js";
+export {
+  buildMembershipHistory,
+  fetchChangesFromWikipedia,
+  membersAt,
+  parseChangesTable,
+  parseWikiDate,
+} from "./universe/wikipedia-history.js";
+export type {
+  IndexChange,
+  Membership,
+} from "./universe/wikipedia-history.js";
+export {
+  cacheAgeHours as wikipediaHistoryCacheAgeHours,
+  loadHistoryArtifact,
+} from "./universe/wikipedia-history-cache.js";
+export type { HistoryArtifact, LoadOptions as WikipediaHistoryLoadOptions } from "./universe/wikipedia-history-cache.js";
 export type { MarketDataProvider, FetchOptions, ErrorReporter } from "./provider.js";
 export { YahooOptionsProvider } from "./yahoo/options-provider.js";
 export type {

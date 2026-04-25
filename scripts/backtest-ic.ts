@@ -38,6 +38,11 @@ import {
   type SymbolHistory,
 } from "./backtest.js";
 import { loadSp500Universe } from "../packages/data/src/universe/loader.js";
+import { loadHistoryArtifact } from "../packages/data/src/universe/wikipedia-history-cache.js";
+import {
+  buildMembershipHistory,
+  membersAt,
+} from "../packages/data/src/universe/wikipedia-history.js";
 import {
   fetchCompanyFacts,
   EdgarNotFoundError,
@@ -81,6 +86,13 @@ type IcArgs = {
   testPeriodStart: string;
   /** When true, also run the H11/H12 legacy-rule audit (§3.5). */
   legacyAudit: boolean;
+  /** When true, restrict the universe at each backtest date to the
+   * S&P 500 members AS OF that date (point-in-time membership from
+   * `wikipedia-history`). Defaults false for backwards-compat. */
+  pointInTime: boolean;
+  /** When true with --point-in-time, force a fresh fetch of the
+   * Wikipedia changes table (bypasses the 7-day cache TTL). */
+  refreshHistory: boolean;
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -101,6 +113,8 @@ function parseIcArgs(argv: string[]): IcArgs {
       return d.toISOString().slice(0, 10);
     })(),
     legacyAudit: false,
+    pointInTime: false,
+    refreshHistory: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -139,6 +153,12 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--legacy-rule-audit":
         args.legacyAudit = true;
+        break;
+      case "--point-in-time":
+        args.pointInTime = true;
+        break;
+      case "--refresh-history":
+        args.refreshHistory = true;
         break;
       default:
         if (a.startsWith("--")) {
@@ -295,6 +315,26 @@ async function main(): Promise<void> {
     `${usableDates.length} usable backtest dates (max horizon ${maxHorizon}y).`,
   );
 
+  // Point-in-time membership history (optional; off by default).
+  // When enabled, the backtest universe at date T is filtered to
+  // S&P 500 members as of T — eliminates the survivorship bias
+  // that makes today's biased universe under-represent failures.
+  let membershipHistory: ReturnType<typeof buildMembershipHistory> | null =
+    null;
+  if (args.pointInTime) {
+    console.log(`Loading point-in-time S&P 500 membership history...`);
+    const artifact = await loadHistoryArtifact({
+      refresh: args.refreshHistory,
+    });
+    membershipHistory = buildMembershipHistory(
+      artifact.currentConstituents,
+      artifact.changes,
+    );
+    console.log(
+      `  ${artifact.changes.length} historical changes loaded; cache fetched ${artifact.fetchedAt}.`,
+    );
+  }
+
   const snapshotsByDate = new Map<string, CompanySnapshot[]>();
   const forwardReturnsByDate = new Map<string, Map<string, number>>();
   const spyReturnsByDate = new Map<string, Map<string, number>>();
@@ -308,7 +348,13 @@ async function main(): Promise<void> {
   for (const date of usableDates) {
     const universe: CompanySnapshot[] = [];
     const fwdMap = new Map<string, number>();
+    // When point-in-time is enabled, restrict the per-date universe
+    // to companies that were S&P 500 members at this date.
+    const ptiMembers = membershipHistory
+      ? membersAt(membershipHistory, date)
+      : null;
     for (const sym of symbols) {
+      if (ptiMembers && !ptiMembers.has(sym)) continue;
       const h = histories.get(sym);
       if (!h) continue;
       const facts = edgarFacts.get(sym);
