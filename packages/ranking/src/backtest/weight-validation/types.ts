@@ -1,0 +1,64 @@
+/**
+ * Types for the weight-validation backtest (backtest.md §3.11).
+ *
+ * The validation runs candidate weight vectors against a held-out
+ * test window and asks: does the top decile by composite (under this
+ * weight vector) beat SPY by a meaningful margin out-of-sample?
+ *
+ * Adoption rule: a candidate is adopted only if mean excess return
+ * at the 3y horizon is ≥ 1%/yr higher than the default's, with
+ * bootstrap CI not crossing zero.
+ */
+
+import type { CategoryWeights } from "../../types.js";
+
+/** A named weight vector to evaluate. */
+export type CandidateWeights = {
+  /** Stable identifier — appears in the report. */
+  name: string;
+  /** Optional human-readable description, surfaced in the report. */
+  description?: string;
+  /** Source label — "default", "ic-derived", "academic-prior", etc. */
+  source?: string;
+  weights: CategoryWeights;
+};
+
+/** Per-horizon performance metric for a single candidate. */
+export type HorizonPerformance = {
+  horizon: number;
+  /** Mean realized return of the top-decile cohort across all
+   * test-period snapshots, equal-weighted within each snapshot then
+   * averaged across snapshots. */
+  meanRealized: number | null;
+  /** Mean excess return vs SPY (mean of (realized - spy) per snapshot). */
+  meanExcess: number | null;
+  /** Bootstrap 95% CI on the mean excess return. */
+  excessCi95: { lo: number; hi: number } | null;
+  /** Number of (snapshot) data points contributing to the mean. */
+  nSnapshots: number;
+};
+
+/** Validation result for one candidate. */
+export type CandidateResult = {
+  candidate: CandidateWeights;
+  perHorizon: HorizonPerformance[];
+};
+
+/** Adoption verdict for a candidate vs the default. */
+export type AdoptionVerdict = {
+  candidateName: string;
+  verdict: "adopt" | "reject";
+  reason: string;
+  /** Excess vs default at the 3y horizon (positive = candidate
+   * outperforms). Null when 3y data is missing for either. */
+  excessVsDefault3y: number | null;
+};
+
+export type WeightValidationReport = {
+  generatedAt: string;
+  trainPeriod: { start: string; end: string };
+  testPeriod: { start: string; end: string };
+  /** First entry is the default — others are compared against it. */
+  candidates: CandidateResult[];
+  verdicts: AdoptionVerdict[];
+};

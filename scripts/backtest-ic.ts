@@ -49,6 +49,10 @@ import {
   renderIcReport,
   renderCalibrationReport,
   falseDiscoveryCheck,
+  runWeightValidation,
+  renderWeightValidationReport,
+  DEFAULT_WEIGHTS,
+  type CandidateWeights,
   type IcCalibration,
 } from "@stockrank/ranking";
 
@@ -60,6 +64,12 @@ type IcArgs = {
   iterations: number;
   archive: boolean;
   cacheDir: string;
+  /** When true, also run weight-validation (backtest.md §3.11). */
+  weightValidation: boolean;
+  /** Optional path to a JSON file with candidate weight vectors. */
+  candidatesPath: string | null;
+  /** Test-period start date for weight validation. */
+  testPeriodStart: string;
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -71,6 +81,14 @@ function parseIcArgs(argv: string[]): IcArgs {
     iterations: 200,
     archive: false,
     cacheDir: "tmp/backtest-cache",
+    weightValidation: false,
+    candidatesPath: null,
+    // Default test-period split: 5y back from today. Backtest spec §3.11.1.
+    testPeriodStart: (() => {
+      const d = new Date();
+      d.setUTCFullYear(d.getUTCFullYear() - 5);
+      return d.toISOString().slice(0, 10);
+    })(),
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -97,6 +115,16 @@ function parseIcArgs(argv: string[]): IcArgs {
       case "--cache-dir":
         args.cacheDir = argv[++i]!;
         break;
+      case "--weight-test":
+        args.weightValidation = true;
+        // optional argument: path to candidates.json
+        if (i + 1 < argv.length && !argv[i + 1]!.startsWith("--")) {
+          args.candidatesPath = argv[++i]!;
+        }
+        break;
+      case "--test-period-start":
+        args.testPeriodStart = argv[++i]!;
+        break;
       default:
         if (a.startsWith("--")) {
           console.error(`Unknown flag: ${a}`);
@@ -109,6 +137,76 @@ function parseIcArgs(argv: string[]): IcArgs {
     process.exit(2);
   }
   return args;
+}
+
+function loadCandidates(path: string | null): CandidateWeights[] {
+  if (!path) {
+    return [
+      {
+        name: "default",
+        description: "ranking.md §8.1 default value-tilted defensive weights",
+        source: "default",
+        weights: { ...DEFAULT_WEIGHTS },
+      },
+      {
+        name: "equal-weight",
+        description: "Academic prior — all categories weighted equally (excluding momentum)",
+        source: "academic-prior",
+        weights: {
+          valuation: 0.20,
+          health: 0.20,
+          quality: 0.20,
+          shareholderReturn: 0.20,
+          growth: 0.20,
+          momentum: 0,
+        },
+      },
+      {
+        name: "quality-tilt",
+        description: "Boosts Quality from 15% to 30% (academic prior favoring profitability)",
+        source: "academic-prior",
+        weights: {
+          valuation: 0.30,
+          health: 0.20,
+          quality: 0.30,
+          shareholderReturn: 0.10,
+          growth: 0.10,
+          momentum: 0,
+        },
+      },
+      {
+        name: "value-deep",
+        description: "Heavy value tilt — 50% Valuation",
+        source: "manual",
+        weights: {
+          valuation: 0.50,
+          health: 0.20,
+          quality: 0.10,
+          shareholderReturn: 0.10,
+          growth: 0.10,
+          momentum: 0,
+        },
+      },
+      {
+        name: "momentum-on",
+        description: "Default + 10% Momentum (testing whether the IC pipeline's marginal momentum signal earns its keep)",
+        source: "academic-prior",
+        weights: {
+          valuation: 0.30,
+          health: 0.25,
+          quality: 0.15,
+          shareholderReturn: 0.15,
+          growth: 0.05,
+          momentum: 0.10,
+        },
+      },
+    ];
+  }
+  // Load from file
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { readFileSync } = require("node:fs") as typeof import("node:fs");
+  const raw = readFileSync(path, "utf-8");
+  return JSON.parse(raw) as CandidateWeights[];
 }
 
 async function main(): Promise<void> {
@@ -289,6 +387,37 @@ async function main(): Promise<void> {
     JSON.stringify(calibration, null, 2),
     "utf-8",
   );
+
+  // ── Optional: weight-validation backtest (§3.11) ────────────────────
+  if (args.weightValidation) {
+    console.log(
+      `\nRunning weight validation (test period start ${args.testPeriodStart})...`,
+    );
+    const candidates = loadCandidates(args.candidatesPath);
+    console.log(`  Candidates: ${candidates.map((c) => c.name).join(", ")}`);
+    const wvReport = runWeightValidation(observations, candidates, {
+      testPeriodStart: args.testPeriodStart,
+      bootstrapResamples: 1000,
+      seed: 1,
+    });
+    const wvFilename = args.archive
+      ? `backtest-weight-validation-${today}.md`
+      : "weight-validation.md";
+    const wvMd = renderWeightValidationReport(wvReport);
+    const wvPath = resolve(tmpDir, "weight-validation.md");
+    writeFileSync(wvPath, wvMd, "utf-8");
+    console.log(`  Wrote ${wvPath}`);
+    console.log(`  Adoption verdicts:`);
+    for (const v of wvReport.verdicts) {
+      console.log(`    - ${v.candidateName}: ${v.verdict} — ${v.reason}`);
+    }
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const wvArchivePath = resolve(docsDir, wvFilename);
+      writeFileSync(wvArchivePath, wvMd, "utf-8");
+      console.log(`  Archived to ${wvArchivePath}`);
+    }
+  }
 }
 
 main().catch((err) => {

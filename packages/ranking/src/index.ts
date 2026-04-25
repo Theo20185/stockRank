@@ -116,3 +116,18 @@ export type {
   IcReport,
   ThreeGateVerdict,
 } from "./backtest/ic/types.js";
+
+// Weight validation (backtest.md §3.11)
+export {
+  ADOPTION_EXCESS_FLOOR_PER_YEAR,
+  runWeightValidation,
+  type WeightValidationOptions,
+} from "./backtest/weight-validation/engine.js";
+export { renderWeightValidationReport } from "./backtest/weight-validation/report.js";
+export type {
+  AdoptionVerdict,
+  CandidateResult,
+  CandidateWeights,
+  HorizonPerformance,
+  WeightValidationReport,
+} from "./backtest/weight-validation/types.js";
