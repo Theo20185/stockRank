@@ -37,6 +37,17 @@ export type IcObservation = {
    * forward window are filtered out at construction.
    */
   excessReturn: number;
+  /**
+   * Pre-computed fundamentals-direction signal at snapshot date.
+   * Used by Phase 2B combined-screen stacking — candidates can opt
+   * to filter out names whose fundamentals were declining at T.
+   * "insufficient_data" when the snapshot lacks enough EPS history.
+   */
+  fundamentalsDirection?:
+    | "improving"
+    | "stable"
+    | "declining"
+    | "insufficient_data";
 };
 
 /**

@@ -31,6 +31,23 @@ export type SubFactorWeights = Partial<
   Record<CategoryKey, Partial<Record<FactorKey, number>>>
 >;
 
+/**
+ * Pre-decile filters that screen names OUT before the top-decile
+ * selection. Used by Phase 2B combined-screen stacking — candidates
+ * can opt to filter on signals that are validated independently
+ * (e.g., fundamentalsDirection ≠ declining).
+ *
+ * When `excludeFundamentalsDirections` is supplied, observations
+ * whose `fundamentalsDirection` field matches any listed direction
+ * are dropped from the candidate's universe before the top-decile
+ * cut. The filter applies per-snapshot.
+ */
+export type PreDecileFilter = {
+  excludeFundamentalsDirections?: ReadonlyArray<
+    "improving" | "stable" | "declining" | "insufficient_data"
+  >;
+};
+
 /** A named weight vector to evaluate. */
 export type CandidateWeights = {
   /** Stable identifier — appears in the report. */
@@ -43,6 +60,9 @@ export type CandidateWeights = {
   /** Optional within-category factor weights. When omitted, factors
    * within each category are equal-weighted (historical default). */
   subFactorWeights?: SubFactorWeights;
+  /** Optional pre-decile screen. When omitted, no filtering — all
+   * observations participate in the top-decile selection. */
+  filter?: PreDecileFilter;
 };
 
 /** Per-horizon performance metric for a single candidate. */

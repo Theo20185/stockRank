@@ -32,6 +32,11 @@ export {
   loadHistoryArtifact,
 } from "./universe/wikipedia-history-cache.js";
 export type { HistoryArtifact, LoadOptions as WikipediaHistoryLoadOptions } from "./universe/wikipedia-history-cache.js";
+export {
+  classifyRemovalReason,
+  extractDelistedSymbols,
+} from "./universe/delisted-symbols.js";
+export type { DelistedSymbol } from "./universe/delisted-symbols.js";
 export type { MarketDataProvider, FetchOptions, ErrorReporter } from "./provider.js";
 export { YahooOptionsProvider } from "./yahoo/options-provider.js";
 export type {

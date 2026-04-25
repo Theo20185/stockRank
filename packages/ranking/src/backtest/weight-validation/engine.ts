@@ -25,6 +25,7 @@ import type {
   CandidateResult,
   CandidateWeights,
   HorizonPerformance,
+  PreDecileFilter,
   SubFactorWeights,
   WeightValidationReport,
 } from "./types.js";
@@ -109,7 +110,12 @@ export function runWeightValidation(
         let snapshotCount = 0;
         for (const [key, snapshotObs] of grouped) {
           if (!key.endsWith(`|${horizon}`)) continue;
-          const composites = snapshotObs.map((obs) => ({
+          // Apply pre-decile filter if specified — drops names matching
+          // the exclusion criteria BEFORE the top-decile selection.
+          const filteredObs = candidate.filter
+            ? snapshotObs.filter((o) => !rejectedByFilter(o, candidate.filter!))
+            : snapshotObs;
+          const composites = filteredObs.map((obs) => ({
             obs,
             composite: composeFromPercentiles(
               obs.factorPercentiles,
@@ -250,6 +256,24 @@ function adoptionVerdict(
 
 function ciToString(ci: { lo: number; hi: number }): string {
   return `[${(ci.lo * 100).toFixed(2)}%, ${(ci.hi * 100).toFixed(2)}%]`;
+}
+
+/**
+ * True iff the observation should be REJECTED (filtered out) by the
+ * pre-decile filter. Returns false (keep) when no filter criterion
+ * matches the observation.
+ */
+function rejectedByFilter(
+  obs: IcObservation,
+  filter: PreDecileFilter,
+): boolean {
+  const ex = filter.excludeFundamentalsDirections;
+  if (ex && ex.length > 0) {
+    if (obs.fundamentalsDirection !== undefined && ex.includes(obs.fundamentalsDirection)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**

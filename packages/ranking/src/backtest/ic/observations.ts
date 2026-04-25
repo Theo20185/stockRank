@@ -21,6 +21,7 @@ import type { FactorKey } from "../../types.js";
 import { percentRank } from "../../percentile.js";
 import { groupBy } from "../../stats.js";
 import { superGroupOf } from "../../super-groups.js";
+import { classifyFundamentalsDirection } from "../../fundamentals.js";
 import type { IcObservation } from "./types.js";
 
 export type IcObservationsInput = {
@@ -126,6 +127,7 @@ export function buildIcObservations(
       const sg = superGroupOf(c.industry);
       if (sg === null) continue;
       const factorPercentiles = percentilesPerCompany.get(c.symbol) ?? {};
+      const fundamentalsDirection = computeFundamentalsDirectionForObs(c);
       let emittedAny = false;
       for (const h of horizons) {
         const fwd = forwardAtDate.get(`${c.symbol}|${h}`);
@@ -139,6 +141,7 @@ export function buildIcObservations(
           horizon: h,
           factorPercentiles,
           excessReturn: fwd - spy,
+          fundamentalsDirection,
         });
         emittedAny = true;
       }
@@ -151,12 +154,33 @@ export function buildIcObservations(
           horizon: 0,
           factorPercentiles,
           excessReturn: 0,
+          fundamentalsDirection,
         });
       }
     }
   }
 
   return observations;
+}
+
+/** Compute the fundamentals-direction signal for an observation,
+ * mirroring the live ranker's logic in ranking.ts so backtest values
+ * match production. Prefers TTM EPS implied by Yahoo's trailing PE;
+ * falls back to most-recent annual EPS. */
+function computeFundamentalsDirectionForObs(
+  c: CompanySnapshot,
+): "improving" | "stable" | "declining" | "insufficient_data" {
+  const pe = c.ttm.peRatio;
+  const price = c.quote.price;
+  const trailingEps =
+    pe !== null && pe !== 0 && price > 0
+      ? price / pe
+      : (c.annual[0]?.income.epsDiluted ?? null);
+  return classifyFundamentalsDirection({
+    trailingEps,
+    forwardEps: c.ttm.forwardEps,
+    pastAnnualEps: c.annual.map((a) => a.income.epsDiluted),
+  });
 }
 
 /**

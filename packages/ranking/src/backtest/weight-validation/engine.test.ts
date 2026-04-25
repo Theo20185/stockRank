@@ -207,6 +207,61 @@ describe("runWeightValidation", () => {
     expect(evTiltH3.meanExcess).toBeGreaterThan(equalH3.meanExcess!);
   });
 
+  it("PreDecileFilter excludes observations matching fundamentalsDirection criteria", () => {
+    // 20 companies, half declining + half stable. Returns are
+    // negatively correlated with declining (declining names lose).
+    // A candidate that filters out declining should beat one that
+    // doesn't.
+    const obs: IcObservation[] = [];
+    for (let s = 0; s < 20; s += 1) {
+      const isDeclining = s % 2 === 0;
+      obs.push({
+        symbol: `S${s}`,
+        snapshotDate: "2022-06-30",
+        snapshotYear: 2022,
+        superGroup: "industrials",
+        horizon: 3,
+        factorPercentiles: { roic: 50 + s }, // all roughly similar valuation
+        excessReturn: isDeclining ? -0.20 : 0.20,
+        fundamentalsDirection: isDeclining ? "declining" : "stable",
+      });
+    }
+    const noFilter = runWeightValidation(
+      obs,
+      [
+        {
+          name: "no-filter",
+          weights: {
+            valuation: 0, health: 0, quality: 1.0,
+            shareholderReturn: 0, growth: 0, momentum: 0,
+          },
+        },
+      ],
+      { testPeriodStart: "2020-01-01", topPercentile: 0.5 }, // top half = 10
+    );
+    const withFilter = runWeightValidation(
+      obs,
+      [
+        {
+          name: "exclude-declining",
+          weights: {
+            valuation: 0, health: 0, quality: 1.0,
+            shareholderReturn: 0, growth: 0, momentum: 0,
+          },
+          filter: { excludeFundamentalsDirections: ["declining"] },
+        },
+      ],
+      { testPeriodStart: "2020-01-01", topPercentile: 0.5 },
+    );
+    const noFilterH3 = noFilter.candidates[0]!.perHorizon.find((p) => p.horizon === 3)!;
+    const withFilterH3 = withFilter.candidates[0]!.perHorizon.find((p) => p.horizon === 3)!;
+    // With filter: only the 10 stable companies (excessReturn=+0.20),
+    // top-half = 5 picks → mean +0.20
+    // Without filter: top half = 10 picks of 20 sorted by ROIC, which
+    // includes both declining (-0.20) and stable (+0.20) → mixed
+    expect(withFilterH3.meanExcess).toBeGreaterThan(noFilterH3.meanExcess!);
+  });
+
   it("only includes test-period observations in the metric calculations", () => {
     const obs: IcObservation[] = [];
     // Pre-test (training) period — should be EXCLUDED

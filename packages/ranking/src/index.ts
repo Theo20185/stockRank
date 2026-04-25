@@ -129,6 +129,7 @@ export type {
   CandidateResult,
   CandidateWeights,
   HorizonPerformance,
+  PreDecileFilter,
   SubFactorWeights,
   WeightValidationReport,
 } from "./backtest/weight-validation/types.js";

@@ -44,6 +44,10 @@ import {
   membersAt,
 } from "../packages/data/src/universe/wikipedia-history.js";
 import {
+  extractDelistedSymbols,
+  type DelistedSymbol,
+} from "../packages/data/src/universe/delisted-symbols.js";
+import {
   fetchCompanyFacts,
   EdgarNotFoundError,
   synthesizeSnapshotAt,
@@ -100,6 +104,11 @@ type IcArgs = {
    * Used for regime-specific reruns (e.g., pre-COVID window:
    * `--max-snapshot-date 2018-12-31`). Defaults to today. */
   maxSnapshotDate: string | null;
+  /** When true (with --point-in-time), also attempt to fetch and
+   * include delisted symbols (companies once in the S&P 500 but no
+   * longer there) in the backtest universe at the dates they were
+   * members. Phase 2D — fixes the survivorship bias gap. */
+  includeDelisted: boolean;
   /** Comma-separated SYM:DATE pairs (e.g., "NVO:2026-03-06,TGT:2026-04-09").
    * When supplied, after building observations we run the user-picks
    * validation. Each date becomes a forced backtest snapshot date if
@@ -129,6 +138,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     refreshHistory: false,
     maxSnapshotDate: null,
     userPicks: null,
+    includeDelisted: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -176,6 +186,9 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--max-snapshot-date":
         args.maxSnapshotDate = argv[++i]!;
+        break;
+      case "--include-delisted":
+        args.includeDelisted = true;
         break;
       case "--user-picks":
         args.userPicks = argv[++i]!.split(",").map((pair) => {
@@ -280,6 +293,17 @@ function loadCandidates(path: string | null): CandidateWeights[] {
           },
         },
       },
+      {
+        // Phase 2B — combined-screen stacking. value-deep top-decile
+        // PLUS a pre-decile screen excluding names whose own EPS
+        // history shows a declining trajectory. Tests whether the
+        // fundamentalsDirection signal earns its keep.
+        name: "value-deep-no-declining-fundamentals",
+        description: "value-deep + pre-decile filter excluding fundamentalsDirection='declining'",
+        source: "screen-stack",
+        weights: { ...DEFAULT_WEIGHTS },
+        filter: { excludeFundamentalsDirections: ["declining"] },
+      },
     ];
   }
   // Load from file
@@ -291,7 +315,7 @@ function loadCandidates(path: string | null): CandidateWeights[] {
 
 async function main(): Promise<void> {
   const args = parseIcArgs(process.argv.slice(2));
-  const symbols = args.allSp500
+  const symbols: string[] = args.allSp500
     ? (await loadSp500Universe()).map((e) => e.symbol)
     : args.symbols!;
 
@@ -384,6 +408,7 @@ async function main(): Promise<void> {
   // that makes today's biased universe under-represent failures.
   let membershipHistory: ReturnType<typeof buildMembershipHistory> | null =
     null;
+  let delistedSymbols: DelistedSymbol[] = [];
   if (args.pointInTime) {
     console.log(`Loading point-in-time S&P 500 membership history...`);
     const artifact = await loadHistoryArtifact({
@@ -396,6 +421,73 @@ async function main(): Promise<void> {
     console.log(
       `  ${artifact.changes.length} historical changes loaded; cache fetched ${artifact.fetchedAt}.`,
     );
+
+    if (args.includeDelisted) {
+      delistedSymbols = extractDelistedSymbols(
+        artifact.changes,
+        artifact.currentConstituents,
+      );
+      const byReason = new Map<string, number>();
+      for (const d of delistedSymbols) {
+        byReason.set(d.removalReason, (byReason.get(d.removalReason) ?? 0) + 1);
+      }
+      console.log(
+        `  Phase 2D: ${delistedSymbols.length} delisted symbols identified — ${[...byReason].map(([k, v]) => `${k}:${v}`).join(", ")}`,
+      );
+    }
+  }
+
+  // Phase 2D — attempt to fetch chart + EDGAR data for delisted
+  // symbols. Successful loads get added to the working symbol set
+  // and the membership filter naturally includes them at past dates
+  // where they were members.
+  if (args.includeDelisted && delistedSymbols.length > 0) {
+    console.log(`Fetching data for ${delistedSymbols.length} delisted symbols...`);
+    let chartOk = 0;
+    let edgarOk = 0;
+    let bothOk = 0;
+    for (const d of delistedSymbols) {
+      // Yahoo chart
+      let chartLoaded = false;
+      try {
+        const h = await pullHistory(d.ticker, args.years, {
+          cacheDir: args.cacheDir,
+          refreshCache: false,
+          mergeCache: false,
+        });
+        if (h.prices.length > 0) {
+          histories.set(d.ticker, h);
+          chartOk += 1;
+          chartLoaded = true;
+        }
+      } catch {
+        // Quietly skip — many delisted symbols won't have Yahoo data
+      }
+      // EDGAR fundamentals
+      let edgarLoaded = false;
+      try {
+        const facts = await fetchCompanyFacts(d.ticker);
+        edgarFacts.set(d.ticker, facts);
+        edgarOk += 1;
+        edgarLoaded = true;
+      } catch (err) {
+        if (!(err instanceof EdgarNotFoundError)) {
+          // Real error — log; otherwise quiet
+        }
+      }
+      if (chartLoaded && edgarLoaded) bothOk += 1;
+    }
+    console.log(
+      `  Recovery rates: chart ${chartOk}/${delistedSymbols.length} (${((chartOk / delistedSymbols.length) * 100).toFixed(1)}%), EDGAR ${edgarOk}/${delistedSymbols.length} (${((edgarOk / delistedSymbols.length) * 100).toFixed(1)}%), both ${bothOk}/${delistedSymbols.length}`,
+    );
+    // Add the recoverable delisted tickers to the working symbol list
+    // so the per-date snapshot loop sees them.
+    for (const d of delistedSymbols) {
+      if (histories.has(d.ticker) && edgarFacts.has(d.ticker)) {
+        symbols.push(d.ticker);
+      }
+    }
+    console.log(`  Added ${bothOk} delisted symbols to working universe (now ${symbols.length} total).`);
   }
 
   const snapshotsByDate = new Map<string, CompanySnapshot[]>();
