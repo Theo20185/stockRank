@@ -100,7 +100,6 @@ function snapshot(rows: RankedRow[]): RankedSnapshot {
     excludedCount: 0,
     rows,
     ineligibleRows: [],
-    turnaroundWatchlist: [],
   };
 }
 

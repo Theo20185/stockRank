@@ -9,20 +9,19 @@
  * Outputs:
  *   - H11 (Quality floor exclusion): per-rule pass/fail × horizon
  *     mean forward excess return + bootstrap CIs
- *   - H12 (Turnaround watchlist): watchlist vs excluded-not-watchlist
- *     × horizon mean forward excess return
  *
  * H10 (FV-trend demotion) requires backtest-side FV-trend
  * reconstruction which isn't yet built — left as a stub.
+ *
+ * H12 (Turnaround watchlist) was REMOVED 2026-04-26 along with the
+ * turnaround engine. Phase 2D.1 evidence had downgraded the watchlist
+ * to a regime-dependent short-horizon flag (3y signal flipped from
+ * +50.84 pp COVID to -20.29 pp pre-COVID + delisted). The downgraded
+ * conclusion stands as final.
  */
 
 import type { AnnualPeriod, CompanySnapshot } from "@stockrank/core";
 import { bootstrapMeanCi, mulberry32 } from "../../stats.js";
-import {
-  buildFloorContext,
-  checkQualityFloor,
-} from "../../floor.js";
-import { evaluateTurnaround } from "../../turnaround.js";
 import { profitableInNOf5 } from "../../factors.js";
 import { percentRank } from "../../percentile.js";
 import type {
@@ -30,8 +29,6 @@ import type {
   FloorClassification,
   FloorRuleKey,
   LegacyAuditReport,
-  TurnaroundAuditRow,
-  TurnaroundClassification,
 } from "./types.js";
 
 const ROIC_FLOOR_PERCENTILE = 33;
@@ -177,9 +174,7 @@ export function runLegacyAudit(input: LegacyAuditInput): LegacyAuditReport {
   // failure — that inference would mark untested rules as "passed"
   // by default, which is wrong).
   const floorClass: FloorClassification[] = [];
-  const turnaroundClass: TurnaroundClassification[] = [];
   for (const [date, universe] of snapshotsByDate) {
-    const ctx = buildFloorContext(universe);
     // Group sector peers once for the per-rule evaluations.
     const sectorPeersByName = new Map<string, CompanySnapshot[]>();
     for (const c of universe) {
@@ -192,10 +187,6 @@ export function runLegacyAudit(input: LegacyAuditInput): LegacyAuditReport {
       // Use the backtest-friendly combined evaluator (inline ROIC)
       // rather than checkQualityFloor (reads null ratios).
       const combinedPassed = evaluateCombinedFloor(c, sectorPeers);
-      // Profitable rule: only meaningful when we have ≥ 3 annual
-      // periods to evaluate. Backtest snapshots at older dates may
-      // have fewer than 5 periods; mark `null` when the rule can't
-      // be honestly evaluated.
       const profitable =
         c.annual.length < 3 ? null : profitableInNOf5(c.annual, 3);
       const sectorRoic = evaluateSectorRoicRule(c, sectorPeers);
@@ -210,12 +201,6 @@ export function runLegacyAudit(input: LegacyAuditInput): LegacyAuditReport {
           "interest-coverage": interestCov,
           combined: combinedPassed,
         },
-      });
-      turnaroundClass.push({
-        symbol: c.symbol,
-        snapshotDate: date,
-        isOnWatchlist: !combinedPassed && evaluateTurnaround(c) !== null,
-        failedFloor: !combinedPassed,
       });
     }
   }
@@ -277,58 +262,6 @@ export function runLegacyAudit(input: LegacyAuditInput): LegacyAuditReport {
     }
   }
 
-  // ── H12: turnaround stratification ───────────────────────────────
-  const turnaroundRows: TurnaroundAuditRow[] = [];
-  for (const horizon of horizons) {
-    const watchlistExcess: number[] = [];
-    const excludedNotWatchlist: number[] = [];
-    for (const tc of turnaroundClass) {
-      if (!tc.failedFloor) continue;
-      const fwd = forwardReturnsByDate
-        .get(tc.snapshotDate)
-        ?.get(`${tc.symbol}|${horizon}`);
-      const spy = spyReturnsByDate.get(tc.snapshotDate)?.get(String(horizon));
-      if (fwd === undefined || spy === undefined) continue;
-      const excess = fwd - spy;
-      if (tc.isOnWatchlist) watchlistExcess.push(excess);
-      else excludedNotWatchlist.push(excess);
-    }
-    const mkRow = (
-      cohort: TurnaroundAuditRow["cohort"],
-      excessArr: number[],
-    ): TurnaroundAuditRow => {
-      const mean =
-        excessArr.length === 0
-          ? null
-          : excessArr.reduce((a, b) => a + b, 0) / excessArr.length;
-      const ci =
-        excessArr.length >= 5
-          ? bootstrapMeanCi(
-              excessArr,
-              bootstrapResamples,
-              0.05,
-              mulberry32(seed + rngOffset++),
-            )
-          : null;
-      return {
-        cohort,
-        horizon,
-        nObservations: excessArr.length,
-        meanForwardExcess: mean,
-        excessCi95: ci,
-      };
-    };
-    turnaroundRows.push(mkRow("watchlist", watchlistExcess));
-    turnaroundRows.push(mkRow("excluded-not-watchlist", excludedNotWatchlist));
-    turnaroundRows.push({
-      cohort: "spy",
-      horizon,
-      nObservations: 0,
-      meanForwardExcess: 0,
-      excessCi95: null,
-    });
-  }
-
   // ── Verdicts ─────────────────────────────────────────────────────
   // H11 verdict: combined-floor failed group should UNDERPERFORM the
   // passed group on 3y excess. If failed > passed by a meaningful
@@ -362,54 +295,16 @@ export function runLegacyAudit(input: LegacyAuditInput): LegacyAuditReport {
     }
   }
 
-  // H12 verdict: watchlist set should outperform excluded-not-watchlist.
-  const wl3y = turnaroundRows.find(
-    (r) => r.cohort === "watchlist" && r.horizon === 3,
-  );
-  const exNotWl3y = turnaroundRows.find(
-    (r) => r.cohort === "excluded-not-watchlist" && r.horizon === 3,
-  );
-  let h12Verdict: "pass" | "fail" | "inconclusive" = "inconclusive";
-  let h12Evidence = "missing 3y data on turnaround stratification";
-  if (
-    wl3y?.meanForwardExcess !== null &&
-    wl3y?.meanForwardExcess !== undefined &&
-    exNotWl3y?.meanForwardExcess !== null &&
-    exNotWl3y?.meanForwardExcess !== undefined
-  ) {
-    const gap = wl3y.meanForwardExcess - exNotWl3y.meanForwardExcess;
-    if (wl3y.nObservations < 5) {
-      h12Verdict = "inconclusive";
-      h12Evidence = `watchlist N=${wl3y.nObservations} too small for verdict`;
-    } else if (gap > 0.02) {
-      h12Verdict = "pass";
-      h12Evidence = `watchlist 3y excess ${(wl3y.meanForwardExcess * 100).toFixed(2)}% vs excluded-not-watchlist ${(exNotWl3y.meanForwardExcess * 100).toFixed(2)}% — gap ${(gap * 100).toFixed(2)}% (criteria pick real signal)`;
-    } else if (gap < -0.02) {
-      h12Verdict = "fail";
-      h12Evidence = `watchlist 3y excess ${(wl3y.meanForwardExcess * 100).toFixed(2)}% vs excluded-not-watchlist ${(exNotWl3y.meanForwardExcess * 100).toFixed(2)}% — watchlist UNDERPERFORMED by ${(-gap * 100).toFixed(2)}%`;
-    } else {
-      h12Verdict = "inconclusive";
-      h12Evidence = `watchlist and excluded-not-watchlist within ${Math.abs(gap * 100).toFixed(2)}% — no edge demonstrated`;
-    }
-  }
-
   return {
     generatedAt: new Date().toISOString(),
     snapshotRange,
     floorRows,
-    turnaroundRows,
     verdicts: {
       h11: {
         hypothesis:
           "Names excluded by the §4 Quality floor underperform the included set on 3y forward excess return",
         verdict: h11Verdict,
         evidence: h11Evidence,
-      },
-      h12: {
-        hypothesis:
-          "Turnaround watchlist names beat the broader §4-excluded set on 3y forward return",
-        verdict: h12Verdict,
-        evidence: h12Evidence,
       },
     },
   };

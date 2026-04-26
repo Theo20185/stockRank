@@ -122,25 +122,6 @@ export type RankedRow = {
   fundamentalsDirection: import("./fundamentals.js").FundamentalsDirection;
 };
 
-export type TurnaroundReason =
-  | "longTermQuality"
-  | "ttmTrough"
-  | "deepDrawdown";
-
-export type TurnaroundRow = {
-  symbol: string;
-  name: string;
-  industry: string;
-  marketCap: number;
-  price: number;
-  pctOffYearHigh: number;
-  pctAboveYearLow: number;
-  reasons: TurnaroundReason[];
-  longTermAvgRoic: number | null;
-  ttmEpsRelativeTo5YAvg: number | null;
-  fairValue: import("./fair-value/types.js").FairValue | null;
-};
-
 export type RankedSnapshot = {
   snapshotDate: string;
   weights: CategoryWeights;
@@ -152,11 +133,10 @@ export type RankedSnapshot = {
    * Companies that FAILED the quality floor — surfaced here as stub
    * RankedRows (categoryScores all null, factorDetails empty,
    * composite/rank zero) so the bucket classifier can place them in
-   * Excluded alongside other diagnostic-only rows. Keeps every name in
+   * Avoid alongside other diagnostic-only rows. Keeps every name in
    * the universe visible in exactly one bucket.
    */
   ineligibleRows: RankedRow[];
-  turnaroundWatchlist: TurnaroundRow[];
 };
 
 export type RankInput = {

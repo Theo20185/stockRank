@@ -50,7 +50,7 @@ export function StockDetailScreen({
       ) : (
         <p className="screen__not-found" role="status">
           {symbol} isn't in the current ranked snapshot. It may have been
-          excluded by the quality floor (check the turnaround watchlist) or
+          excluded by the quality floor (now lives in the Avoid bucket) or
           dropped from the universe.
         </p>
       )}

@@ -14,13 +14,12 @@ function makeUniverse(count: number, industry = "Industrial Conglomerates") {
 }
 
 describe("rank() — main composite", () => {
-  it("returns one row per eligible company plus an empty turnaround list when all pass the floor", () => {
+  it("returns one row per eligible company when all pass the floor", () => {
     const result = rank({
       companies: makeUniverse(10),
       snapshotDate: "2026-04-20",
     });
     expect(result.rows.length).toBe(10);
-    expect(result.turnaroundWatchlist.length).toBe(0);
     expect(result.universeSize).toBe(10);
     expect(result.excludedCount).toBe(0);
   });
@@ -121,73 +120,12 @@ describe("rank() — main composite", () => {
   });
 });
 
-describe("rank() — turnaround watchlist", () => {
-  it("places a long-track-record name with TTM losses + 40%+ drawdown on the watchlist", () => {
-    // Universe of 10 healthy peers, plus one fallen-blue-chip.
-    const universe = makeUniverse(10);
-    const fallen = makeCompany({
-      symbol: "FALL",
-      industry: "Industrial Conglomerates",
-      sector: "Industrials",
-      pctOffYearHigh: 55,
-      quote: { price: 50, yearHigh: 110, yearLow: 40, volume: 0, averageVolume: 1_000_000 },
-      annual: [
-        // Trough year (TTM-equivalent for the fixture) — net income negative
-        makePeriod({
-          fiscalYear: "2025",
-          income: {
-            revenue: 50_000_000_000,
-            grossProfit: 10_000_000_000,
-            operatingIncome: -2_000_000_000,
-            ebit: -2_000_000_000,
-            ebitda: 1_000_000_000,
-            interestExpense: 500_000_000,
-            netIncome: -3_000_000_000,
-            epsDiluted: -3,
-            sharesDiluted: 1_000_000_000,
-          },
-          ratios: { roic: -0.05, netDebtToEbitda: 5, currentRatio: 1.2 },
-        }),
-        // Earlier years strong — long-term avg ROIC > 12%
-        makePeriod({ fiscalYear: "2024", ratios: { roic: 0.18, netDebtToEbitda: 1, currentRatio: 1.2 } }),
-        makePeriod({ fiscalYear: "2023", ratios: { roic: 0.20, netDebtToEbitda: 1, currentRatio: 1.2 } }),
-        makePeriod({ fiscalYear: "2022", ratios: { roic: 0.22, netDebtToEbitda: 1, currentRatio: 1.2 } }),
-        makePeriod({ fiscalYear: "2021", ratios: { roic: 0.18, netDebtToEbitda: 1, currentRatio: 1.2 } }),
-      ],
-    });
-    universe.push(fallen);
-
-    const result = rank({ companies: universe, snapshotDate: "2026-04-20" });
-    expect(result.rows.find((r) => r.symbol === "FALL")).toBeUndefined();
-    expect(result.turnaroundWatchlist.find((r) => r.symbol === "FALL")).toBeDefined();
-    const tw = result.turnaroundWatchlist.find((r) => r.symbol === "FALL")!;
-    expect(tw.reasons).toContain("longTermQuality");
-    expect(tw.reasons).toContain("ttmTrough");
-    expect(tw.reasons).toContain("deepDrawdown");
-  });
-
-  it("does NOT add a name to turnaround when drawdown is shallow", () => {
-    const universe = makeUniverse(10);
-    universe.push(
-      makeCompany({
-        symbol: "MEHFALL",
-        pctOffYearHigh: 10, // not deep
-        annual: [
-          makePeriod({
-            fiscalYear: "2025",
-            income: { ...makePeriod().income, netIncome: -1_000_000_000 },
-          }),
-          ...Array.from({ length: 4 }, (_, i) =>
-            makePeriod({ fiscalYear: String(2024 - i), ratios: { roic: 0.18, netDebtToEbitda: 1, currentRatio: 1.2 } }),
-          ),
-        ],
-      }),
-    );
-
-    const result = rank({ companies: universe, snapshotDate: "2026-04-20" });
-    expect(result.turnaroundWatchlist.find((r) => r.symbol === "MEHFALL")).toBeUndefined();
-  });
-});
+// `rank() — turnaround watchlist` test block was REMOVED 2026-04-26.
+// The turnaround engine itself was removed after Phase 2D.1 evidence
+// downgraded the watchlist to a regime-dependent short-horizon flag
+// (3y signal flipped from +50.84 pp COVID to -20.29 pp pre-COVID +
+// delisted). Names that fail the §4 quality floor now surface only
+// as ineligibleRows (Avoid bucket); no second-chance watchlist.
 
 describe("rank() — tie-breaking and missing data", () => {
   it("breaks identical composites by Quality, then ShareholderReturn, then market cap", () => {

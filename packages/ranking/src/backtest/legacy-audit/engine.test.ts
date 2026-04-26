@@ -25,7 +25,7 @@ function unprofitableCompany(symbol: string): CompanySnapshot {
   });
 }
 
-describe("runLegacyAudit (H11 + H12)", () => {
+describe("runLegacyAudit (H11)", () => {
   it("emits floor rows for each (rule, classification, horizon)", () => {
     const universe: CompanySnapshot[] = [
       healthyCompany("OK1"),
@@ -103,21 +103,9 @@ describe("runLegacyAudit (H11 + H12)", () => {
     expect(report.verdicts.h11.verdict).toBe("fail");
   });
 
-  it("H12 verdict: inconclusive when watchlist N is too small", () => {
-    // No turnaround-eligible companies in the universe — watchlist
-    // N = 0 → inconclusive
-    const universe = Array.from({ length: 5 }, (_, i) => healthyCompany(`OK${i}`));
-    const snapshotsByDate = new Map([["2022-06-30", universe]]);
-    const fwdMap = new Map<string, number>();
-    for (let i = 0; i < 5; i += 1) fwdMap.set(`OK${i}|3`, 0.10);
-    const fwd = new Map([["2022-06-30", fwdMap]]);
-    const spy = new Map([["2022-06-30", new Map([["3", 0.05]])]]);
-    const report = runLegacyAudit({
-      snapshotsByDate,
-      forwardReturnsByDate: fwd,
-      spyReturnsByDate: spy,
-      horizons: [3],
-    });
-    expect(report.verdicts.h12.verdict).toBe("inconclusive");
-  });
+  // H12 (turnaround watchlist) hypothesis was REMOVED 2026-04-26
+  // along with the turnaround engine. Phase 2D.1 evidence had
+  // downgraded the watchlist to a regime-dependent short-horizon
+  // flag (3y signal flipped from +50.84 pp COVID to -20.29 pp
+  // pre-COVID + delisted). The downgraded conclusion stands.
 });

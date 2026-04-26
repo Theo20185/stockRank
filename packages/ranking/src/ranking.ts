@@ -4,7 +4,6 @@ import { FACTORS } from "./factors.js";
 import type { FactorDef } from "./factors.js";
 import { buildFloorContext, checkQualityFloor } from "./floor.js";
 import { classifyFundamentalsDirection } from "./fundamentals.js";
-import { evaluateTurnaround } from "./turnaround.js";
 import { buildCohortResolver, groupByIndustry } from "./cohort.js";
 import { normalizeWeights } from "./weights.js";
 import type {
@@ -15,7 +14,6 @@ import type {
   RankedRow,
   RankedSnapshot,
   RankInput,
-  TurnaroundRow,
 } from "./types.js";
 
 /**
@@ -27,8 +25,8 @@ export function rank(input: RankInput): RankedSnapshot {
   const universe = input.companies;
   const floorContext = buildFloorContext(universe);
 
-  // 1. Partition: eligible names go to the main composite, failures go to
-  //    the turnaround check.
+  // 1. Partition: eligible names go to the main composite, failures
+  //    surface as ineligible-row stubs so they land in Avoid for the UI.
   const eligible: CompanySnapshot[] = [];
   const ineligible: CompanySnapshot[] = [];
   for (const c of universe) {
@@ -87,16 +85,8 @@ export function rank(input: RankInput): RankedSnapshot {
     .map((r) => assembleRow(r, industryRanks, universeRanks))
     .sort((a, b) => a.universeRank - b.universeRank);
 
-  // 7. Turnaround watchlist from ineligible set.
-  const turnaroundWatchlist: TurnaroundRow[] = [];
-  for (const c of ineligible) {
-    const t = evaluateTurnaround(c);
-    if (t) turnaroundWatchlist.push(t);
-  }
-  turnaroundWatchlist.sort((a, b) => b.pctOffYearHigh - a.pctOffYearHigh);
-
-  // 8. Stub rows for ineligible names so the bucket classifier can put
-  //    them in Excluded — keeps every name in the universe visible
+  // 7. Stub rows for ineligible names so the bucket classifier can put
+  //    them in Avoid — keeps every name in the universe visible
   //    somewhere instead of hiding 150+ behind the quality floor.
   const ineligibleRows: RankedRow[] = ineligible.map(buildIneligibleRow);
 
@@ -107,7 +97,6 @@ export function rank(input: RankInput): RankedSnapshot {
     excludedCount: ineligible.length,
     rows,
     ineligibleRows,
-    turnaroundWatchlist,
   };
 }
 

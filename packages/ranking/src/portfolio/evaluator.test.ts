@@ -70,7 +70,6 @@ function snapshot(rows: RankedRow[], snapshotDate = "2026-04-26"): RankedSnapsho
     excludedCount: 0,
     rows,
     ineligibleRows: [],
-    turnaroundWatchlist: [],
   };
 }
 

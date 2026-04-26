@@ -99,10 +99,6 @@ export async function ingest(options: IngestOptions): Promise<Snapshot> {
     const company = companies.find((c) => c.symbol === row.symbol);
     if (company) row.fairValue = fairValueFor(company, companies);
   }
-  for (const row of ranked.turnaroundWatchlist) {
-    const company = companies.find((c) => c.symbol === row.symbol);
-    if (company) row.fairValue = fairValueFor(company, companies);
-  }
 
   return {
     schemaVersion: SNAPSHOT_SCHEMA_VERSION,

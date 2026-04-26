@@ -13,7 +13,6 @@ const EMPTY_SNAPSHOT: RankedSnapshot = {
   excludedCount: 0,
   rows: [],
   ineligibleRows: [],
-  turnaroundWatchlist: [],
 };
 
 function buildProps(portfolio: Portfolio) {

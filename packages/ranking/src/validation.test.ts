@@ -833,7 +833,14 @@ describe("validation acceptance — case study 2026-04-20", () => {
     expect(tgt!.pctOffYearHigh).toBeGreaterThan(35);
   });
 
-  it("places INTC on the turnaround watchlist (NOT in the main composite)", () => {
+  it("excludes INTC from the main composite (failed §4 floor — surfaces in Avoid)", () => {
+    // Pre-2026-04-26 this test asserted INTC landed on the
+    // turnaround watchlist. The watchlist was removed; INTC now just
+    // surfaces as an ineligibleRow → Avoid bucket. The qualitative
+    // "long-term-quality + TTM trough + deep drawdown" pattern that
+    // previously distinguished it as a recovery candidate is no
+    // longer surfaced by the engine — the user can recognize it
+    // directly from the company history.
     const universe = [
       INTC_AT_ENTRY,
       ...makeSyntheticPeers(15, {
@@ -848,10 +855,9 @@ describe("validation acceptance — case study 2026-04-20", () => {
       result.rows.find((r) => r.symbol === "INTC"),
       "INTC should be excluded from the main composite",
     ).toBeUndefined();
-
-    const tw = result.turnaroundWatchlist.find((r) => r.symbol === "INTC");
-    expect(tw, "INTC should appear on the turnaround watchlist").toBeDefined();
-    expect(tw!.reasons).toContain("ttmTrough");
-    expect(tw!.reasons).toContain("deepDrawdown");
+    expect(
+      result.ineligibleRows.find((r) => r.symbol === "INTC"),
+      "INTC should appear as an ineligibleRow stub (Avoid bucket)",
+    ).toBeDefined();
   });
 });

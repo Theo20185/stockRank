@@ -41,8 +41,6 @@ export type {
   RankInput,
   RankedRow,
   RankedSnapshot,
-  TurnaroundReason,
-  TurnaroundRow,
 } from "./types.js";
 export { buildExpirationView, buildOptionsView } from "./options/index.js";
 export type {
@@ -160,7 +158,7 @@ export {
 } from "./backtest/weight-validation/per-super-group.js";
 export { renderPerSuperGroupReport } from "./backtest/weight-validation/per-super-group-report.js";
 
-// Legacy-rule audit (backtest.md §3.5: H10/H11/H12)
+// Legacy-rule audit (backtest.md §3.5: H10/H11; H12 removed 2026-04-26)
 export {
   runLegacyAudit,
   type LegacyAuditInput,
@@ -171,8 +169,6 @@ export type {
   FloorClassification,
   FloorRuleKey,
   LegacyAuditReport,
-  TurnaroundAuditRow,
-  TurnaroundClassification,
 } from "./backtest/legacy-audit/types.js";
 
 // User-picks validation (backtest-roadmap §Phase 1 C)

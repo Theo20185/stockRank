@@ -19,24 +19,21 @@ A name we ultimately buy should rank well on **both** questions.
 
 The user's strategy is **value-tilted defensive on quality companies**
 — buying temporarily depressed prices on names that pass a multi-year
-quality bar. The factor list, weights, and turnaround handling below
-all reflect that style. They are tunable in the UI; the defaults are
-the *user's* defaults, not generic.
+quality bar. The factor list and weights below all reflect that
+style. They are tunable in the UI; the defaults are the *user's*
+defaults, not generic.
 
-## 2. Two parallel outputs
+## 2. Single output (turnaround removed 2026-04-26)
 
-The validation revealed that the user's actual buys split into two
-distinct trade types that the same composite cannot serve well:
-
-1. **Main composite** — quality-value mean-reversion. Captures NVO and
-   TGT cleanly. Backward-looking ratios, peer-relative percentiles,
-   composite score within and across industry groups.
-2. **Turnaround watchlist** — fallen blue-chips. Captures INTC, which
-   no backward-looking quantitative ranker would surface. Separate
-   list, no composite score; just "evaluate qualitatively."
-
-Both are shipped from the same engine off the same snapshot. See §7 for
-the turnaround rules and §8 for the unified output.
+Originally the engine produced two parallel outputs: a quality-value
+main composite plus a separate "turnaround watchlist" for fallen
+blue-chips like INTC. The watchlist was REMOVED 2026-04-26 after
+Phase 2D.1 backtest evidence downgraded it to a regime-dependent
+short-horizon flag — the 3y signal flipped from +50.84 pp
+(COVID-recovery 2018-2023) to −20.29 pp (pre-COVID 2010-2018 with
+delisted included). Names that fail the §4 quality floor now surface
+only as ineligibleRows in the Avoid bucket; recognizing recovery
+candidates within Avoid is left to qualitative judgment.
 
 ## 3. Inputs
 
@@ -74,8 +71,8 @@ sector for percentile calculation (mirrors the peer-set fallback in
 ## 4. Quality eligibility floor
 
 **The floor is a filter, not a factor.** Stocks that fail are excluded
-from the main composite (and may instead appear on the turnaround
-watchlist — see §7).
+from the main composite and surface as ineligibleRow stubs that the
+bucket classifier places in Avoid.
 
 Validation finding: a TTM-net-income > 0 floor is too brittle. INTC
 failed it during a recovery year that the user correctly bought into.
@@ -175,47 +172,25 @@ The growth category therefore can score *high* for a stock with
 negative absolute growth, provided peers were worse. That's the right
 behavior for cyclicals.
 
-## 7. Turnaround watchlist (parallel output)
+## 7. Turnaround watchlist — REMOVED 2026-04-26
 
-Stocks **excluded** from the main composite by the §4 floor are
-re-evaluated against the turnaround rules. Names matching all three
-criteria appear on a separate watchlist with no score, just a
-description of *why they qualified*:
+The turnaround watchlist was a parallel output that flagged §4-floor-
+failed names matching three criteria (long-term-quality, TTM trough,
+deep drawdown) as recovery candidates. It was REMOVED 2026-04-26
+along with the engine code, after Phase 2D.1 backtest evidence
+showed the 3y signal was a regime artifact:
 
-| Criterion | Threshold |
-|---|---|
-| **Long-term track record** | 10-year average ROIC > 12% (was a quality name historically, not a perpetual loser) |
-| **Currently in TTM trough** | TTM net income < 0 OR TTM EPS < 50% of 5Y average EPS |
-| **Deep drawdown** | Current price ≥ 40% below the 52-week high |
+- **COVID-recovery 2018-2023:** +50.84 pp 3y excess
+- **Pre-COVID 2010-2018 + delisted:** −20.29 pp 3y excess
 
-These are not ranked. They are a list of "fallen blue-chips, evaluate
-qualitatively." The user does the rest of the work themselves —
-checking catalysts (CHIPS Act for INTC, drug pipelines, restructurings)
-that the model can't see.
-
-If the 10Y history isn't available (e.g., post-2017 IPO), use the
-longest available; the description string flags that as a confidence
-caveat.
-
-**Horizon scope (added 2026-04-25 from H12 regime testing,
-strengthened by Phase 2D.1).** The watchlist's signal is **regime-
-dependent**:
-- **COVID-recovery 2018-2023:** 1y +18 pp, 3y +40 pp gap (watchlist
-  strongly outperforms — likely the distressed-recovery trade
-  worked exceptionally well in this window)
-- **Pre-COVID 2010-2018 (with delisted names properly included):**
-  1y +1 pp gap (within noise), 3y **−20 pp gap** (watchlist
-  underperforms, with bankruptcies dragging the watchlist cohort)
-
-Treat the watchlist as a **conditional short-horizon flag** —
-useful in distressed-recovery regimes for ~1y plays, not useful
-or actively harmful as a long-term hold outside those regimes.
-Do **not** use it as a buy-and-hold thesis. The "evaluate
-qualitatively" framing above is consistent with this; the
-qualitative work the user does (catalyst checks, restructuring
-analysis) is precisely what separates the recovery winners from
-the bankruptcy losers within the watchlist. See
-`docs/specs/backtest-actions-2026-04-25-phase2d1.md` §5.
+The 1y signal had been more stable (~+19 pp both regimes) but
+short-horizon flags don't earn their keep against the cost of a
+parallel output the user has to mentally combine with the main
+composite. Names that fail §4 now surface only as ineligibleRows
+in the Avoid bucket; the qualitative work of recognizing recovery
+candidates (catalyst checks, restructurings) is left to the user.
+See `docs/specs/backtest-actions-2026-04-25-phase2d1.md` §5 for
+the original H12 evidence.
 
 ## 8. Scoring mechanic (main composite)
 
@@ -263,9 +238,9 @@ returns by ~22 pp at 3y but preserved the relative ranking. See
 beating the legacy default by +5.72 pp at 3y (value-deep +8.29%
 [+4.91%, +11.86%] vs legacy +2.56% [-1.74%, +6.87%]). value-deep
 is the **only** finding from the 2026-04-25 batch that proved
-regime-stable. The Quality floor (H11) and Turnaround watchlist
-3y (H12) both flipped between regimes — see §11.7. See
-`docs/specs/backtest-actions-2026-04-25-pit.md`.
+regime-stable. The Quality floor (H11) and the (now-removed)
+Turnaround watchlist 3y (H12) both flipped between regimes —
+see §11.7. See `docs/specs/backtest-actions-2026-04-25-pit.md`.
 
 **Recovery-regime caveat (4th run, 2026-04-25 crisis-attempt):**
 the EDGAR-sparsity-collapsed 2011-only run showed the legacy
@@ -343,7 +318,7 @@ type RankedSnapshot = {
   weights: CategoryWeights;        // what was used
 
   rows: RankedRow[];               // main composite (filtered)
-  turnaroundWatchlist: TurnaroundRow[]; // §7
+  ineligibleRows: RankedRow[];     // §4 floor failures (Avoid bucket)
 };
 
 type RankedRow = {
@@ -371,18 +346,7 @@ type RankedRow = {
 
   fairValue: FairValue | null;     // see fair-value.md
 };
-
-type TurnaroundRow = {
-  symbol: string;
-  name: string;
-  industry: string;
-  reasons: string[];               // human-readable: "10Y avg ROIC 18%
-                                   // (passes track record); TTM EPS
-                                   // -$4.38 (in trough); 70% off 52w
-                                   // high (deep drawdown)"
-  pctOffYearHigh: number;
-  fairValue: FairValue | null;
-};
+// TurnaroundRow type removed 2026-04-26 — see §7
 ```
 
 ## 10. Test strategy
@@ -395,8 +359,6 @@ type TurnaroundRow = {
   - Quality floor: explicit cases for "fails 3-of-5 profitable", "fails
     sector-relative ROIC floor", "passes both", "no interest expense
     so coverage rule skipped".
-  - Turnaround rules: explicit cases for each of the three criteria
-    independently, and the combined gate.
 
 - **Mapping tests:** known FMP fixture → assert the right snapshot
   fields populate the right ranking inputs (catches drift if FMP
@@ -408,9 +370,11 @@ type TurnaroundRow = {
     `pctOffYearHigh ≥ 50%` flagged.
   - **TGT at 2026-04-09**: top quartile of its industry group
     composite; `pctOffYearHigh ≥ 35%` flagged.
-  - **INTC at 2025-08-22**: appears on `turnaroundWatchlist`, NOT in
-    `rows`. The reasons array must mention "deep drawdown" and "TTM
-    trough."
+  - **INTC at 2025-08-22**: excluded from `rows` by the §4 floor;
+    surfaces in `ineligibleRows` (Avoid bucket). The qualitative
+    "deep drawdown / TTM trough" recognition is left to the user
+    (the turnaround watchlist that previously surfaced it was
+    removed 2026-04-26 — see §7).
 
   The golden file is committed; deliberate scoring changes update it
   in the same commit so the diff is reviewed.
@@ -572,7 +536,7 @@ Updated 2026-04-25 from `docs/backtest-legacy-rules-2026-04-25.md`.
 |---|---|---|---|
 | **Quality floor — combined gate** | §4 | **PASS — regime-stable when delisted names are included** (Phase 2D.1, 2026-04-25). PIT 2018-2023 + delisted: pass +4.33 pp. PIT 2010-2018 + delisted: pass +2.58 pp (FLIPPED from earlier survivor-only -2.32 pp fail). The earlier regime-dependence reading was a survivorship-bias artifact — without bankruptcies in the floor-failed cohort, the cohort looked artificially good. | **No change to §4.** The HOLD lifts. See `docs/specs/backtest-actions-2026-04-25-phase2d1.md`. |
 | **Quality floor — per-rule** | §4 each rule | per-rule signs stabilize once delisted names are included. PIT 2010-2018 + delisted: profitable-3of5 +4.35 pp (helpful), sector-roic +0.53 pp (mildly helpful), interest-coverage -3.50 pp (small N, takeout-price noise). Combined gate is solidly positive (+2.58 pp). | Earlier "all 3 sub-rules flipped sign between regimes" reading was an artifact of the same survivorship gap. Don't simplify §4. |
-| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **1y signal in COVID, marginal in pre-COVID; 3y signal regime-dependent and negative outside COVID** (Phase 2D.1, 2026-04-25). With delisted names included: PIT 2018-2023 watchlist 3y +29.36% vs excluded -10.94% (pass +40.30 pp). PIT 2010-2018 watchlist 3y -21.99% vs excluded -1.71% (FAIL -20.29 pp). The 1y gap shrinks to within-noise (+1.02 pp) in pre-COVID once delisted names are in. | **No change to §7 criteria. §7 prose strengthened — watchlist is a short-horizon trade flag in COVID-recovery regimes; do NOT use as a 3y hold thesis or expect outperformance outside recovery windows.** |
+| **Turnaround watchlist criteria** | §7 (10Y avg ROIC > 12%, TTM trough, 40% off 52w high) | **REMOVED 2026-04-26.** Phase 2D.1 evidence: PIT 2018-2023 3y +40.30 pp pass; PIT 2010-2018 + delisted 3y −20.29 pp FAIL. 1y signal regime-dependent within-noise. The 3y verdict was a COVID-recovery artifact. | **REMOVED 2026-04-26.** Engine code (`packages/ranking/src/turnaround.ts`), the `turnaroundWatchlist` field, and the H12 audit deleted. §4-failed names now surface only as ineligibleRows in the Avoid bucket. |
 | **FV-trend declining → demote to Watch** | FV-trend signal (5%/yr slope, 2-year window) | **fail (Phase 4C, 2026-04-26)** — H10 audit showed declining cohort 3y excess -4.76% vs stable+improving -10.05% in PIT 2018-2023 (declining +5.30 pp BETTER, demotion harmful); inconclusive in pre-COVID. Same defensive-instinct pattern as the fundamentalsDirection rule. | **REMOVED 2026-04-26.** `buckets.ts` no longer demotes on `fvTrend === "declining"`. The fvTrend field stays on RankedRow as informational metadata. See `docs/specs/backtest-actions-2026-04-26-phase4.md` §3. |
 
 ### Design choices awaiting parameter sweeps
