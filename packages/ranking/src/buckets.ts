@@ -120,12 +120,21 @@ export function classifyRow(row: RankedRow): BucketKey {
   const belowP25 = row.fairValue.current < row.fairValue.range.p25;
   if (!belowP25) return "watch";
 
-  // Declining FV trend is a "fundamentals deteriorating" signal — per
-  // the back-test miss-analysis, ~96% of names that miss p25 within
-  // the horizon also see their FV decline over the same period. Avoid
-  // entering until the trend reverses. (Stable / improving / unknown
-  // trends pass; only "declining" demotes.)
-  if (row.fvTrend === "declining") return "watch";
+  // The fvTrend === "declining" demotion was REMOVED 2026-04-26.
+  // Phase 4C H10 audit
+  // (docs/specs/backtest-actions-2026-04-26-phase4.md §3) showed
+  // the rule is unjustified by forward-return evidence:
+  //   PIT 2018-2023: declining cohort 3y -4.76% vs stable+improving
+  //                  -10.05% — declining OUTPERFORMS by +5.30 pp
+  //                  (rule actively HARMFUL)
+  //   PIT 2010-2018: declining vs stable+improving within 2 pp —
+  //                  no clear edge
+  // Original calibration (~96% of miss-p25 events coincide with
+  // declining FV) was measuring a different question on biased data.
+  // Same pattern as the fundamentalsDirection rule we removed
+  // 2026-04-25 — defensive intuition that doesn't survive PIT
+  // weight-validation. fvTrend stays on RankedRow as informational
+  // metadata for the UI drill-down.
 
   // The fundamentalsDirection=declining demotion was REMOVED 2026-04-25.
   // Phase 2B weight-validation backtest evidence

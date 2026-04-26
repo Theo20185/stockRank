@@ -204,10 +204,31 @@ adoption rule (≥ 2 of N PIT regimes). Each won at most one regime:
 machinery stays in code as reusable infrastructure. See
 `docs/specs/backtest-actions-2026-04-26-phase3.md`.
 
-**With Phase 3 done, the roadmap arc is complete.** Tier-3
-follow-ups (F/G/H/I + v3 historical-filer index) recorded but not
-prioritized. Recommend shipping current state, running with it
-for a quarter, and letting Tier-3 surface based on actual usage.
+**With Phase 3 done, the roadmap arc was originally complete.**
+Tier-3 follow-ups (F/G/H/I + v3 historical-filer index) recorded
+but not prioritized.
+
+### Phase 4 — Long/short, risk-adjusted, H10 — **COMPLETE 2026-04-26**
+
+User-requested follow-up at the end of Phase 3. Three additions:
+
+- **4A Long/short:** value-deep's edge is mostly tail-avoidance
+  (COVID-era top -2.03%, bottom -25.01%, L/S +22.98 pp); inverts
+  pre-COVID (top -0.86%, bottom +5.03%, L/S -5.88 pp). No engine
+  change.
+- **4B Risk-adjusted (Sharpe/Sortino/MDD):** no candidate flips
+  verdict by switching from mean to risk-adjusted; value-deep
+  also leads on Sharpe/Sortino in COVID. No engine change.
+- **4C H10 FV-trend demotion:** **REMOVED.** Declining cohort
+  outperforms stable+improving by +5.30 pp at 3y in COVID era;
+  inconclusive in pre-COVID. Same defensive-instinct pattern as
+  fundamentalsDirection. Production rule in `buckets.ts`
+  removed. See `docs/specs/backtest-actions-2026-04-26-phase4.md`.
+
+The bucket classifier is now down to 3 demotion conditions tied
+directly to the price-vs-FV thesis (no more defensive overlays).
+
+Recommend: ship current state, run with it for a quarter.
 
 Original spec preserved below.
 

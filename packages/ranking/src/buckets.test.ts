@@ -97,13 +97,19 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ optionsLiquid: false }))).toBe("ranked");
   });
 
-  it("watch: declining FV trend demotes from ranked (avoid until trend reverses)", () => {
-    expect(classifyRow(row({ fvTrend: "declining" }))).toBe("watch");
+  it("ranked: declining FV trend does NOT demote (Phase 4C H10 rejected the filter)", () => {
+    // Until 2026-04-26 this test asserted Watch. The fvTrend rule
+    // was removed after Phase 4C H10 audit showed declining-trend
+    // names actually OUTPERFORM stable+improving by +5.30 pp at 3y
+    // in PIT 2018-2023 + delisted, and within-noise in pre-COVID.
+    // See docs/specs/backtest-actions-2026-04-26-phase4.md §3.
+    expect(classifyRow(row({ fvTrend: "declining" }))).toBe("ranked");
   });
 
-  it("ranked: stable / unknown FV trend does not demote (when fundamentals not contradicting)", () => {
+  it("ranked: stable / unknown FV trend does not demote", () => {
     expect(classifyRow(row({ fvTrend: "stable" }))).toBe("ranked");
     expect(classifyRow(row({ fvTrend: "insufficient_data" }))).toBe("ranked");
+    expect(classifyRow(row({ fvTrend: "improving" }))).toBe("ranked");
   });
 
   // ---- fundamentalsDirection — informational only as of 2026-04-25 ----
@@ -138,15 +144,18 @@ describe("classifyRow", () => {
     ).toBe("ranked");
   });
 
-  it("watch: declining fundamentals + declining fvTrend → watch (fvTrend rule still active)", () => {
-    // The fvTrend === "declining" rule still demotes; only the
-    // fundamentalsDirection rule was removed. With declining
-    // fvTrend, the row goes to Watch regardless of fundamentalsDirection.
+  it("ranked: both fundamentalsDirection and fvTrend declining → ranked (both rules removed)", () => {
+    // Both fundamentalsDirection (Phase 2B, 2026-04-25) and fvTrend
+    // (Phase 4C, 2026-04-26) demote-on-declining rules were removed
+    // after PIT weight-validation evidence. A row with BOTH signals
+    // declining now goes to Ranked, not Watch — the engine's only
+    // remaining demotion conditions are price ≥ p25 (above FV) or
+    // negative-equity / no-FV-range (excluded).
     expect(
       classifyRow(
         row({ fvTrend: "declining", fundamentalsDirection: "declining" }),
       ),
-    ).toBe("watch");
+    ).toBe("ranked");
   });
 
   it("excluded: missing all 5 categories (ineligible-row stub)", () => {
@@ -281,12 +290,12 @@ describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
     const a = row({ symbol: "AAA" });                                            // ranked
     const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
-    const c = row({ symbol: "CCC", fvTrend: "declining" });                      // watch (declining)
+    const c = row({ symbol: "CCC", fvTrend: "declining" });                      // ranked (Phase 4C removed this demote)
     const d = row({ symbol: "DDD", optionsLiquid: false });                      // ranked (illiquid options no longer demotes)
     const e = row({ symbol: "EEE", fairValue: null });                           // excluded (no FV)
     const result = bucketRows([a, b, c, d, e]);
-    expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "DDD"]);
-    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB", "CCC"]);
+    expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "CCC", "DDD"]);
+    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB"]);
     expect(result.excluded.map((r) => r.symbol)).toEqual(["EEE"]);
   });
 
