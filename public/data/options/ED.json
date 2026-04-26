@@ -1,19 +1,125 @@
 {
   "symbol": "ED",
-  "fetchedAt": "2026-04-24T14:01:11.476Z",
-  "currentPrice": 109.84,
+  "fetchedAt": "2026-04-26T03:16:18.643Z",
+  "currentPrice": 109.06,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 117.39970686359791,
+          "contract": {
+            "contractSymbol": "ED270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 120,
+            "bid": 2.5,
+            "ask": 3.4,
+            "lastPrice": 2.8,
+            "volume": 4,
+            "openInterest": 369,
+            "impliedVolatility": 0.19702951416015624,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04599603827477146,
+          "staticAnnualizedPct": 0.06359300746322569,
+          "assignedReturnPct": 0.14630779327202065,
+          "assignedAnnualizedPct": 0.20228160812230128,
+          "effectiveCostBasis": 106.56,
+          "effectiveDiscountPct": 0.02292316156244269
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.39970686359791,
+          "contract": {
+            "contractSymbol": "ED270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 105,
+            "bid": 4.5,
+            "ask": 6.3,
+            "lastPrice": 5.6,
+            "volume": 1,
+            "openInterest": 37,
+            "impliedVolatility": 0.22504437072753902,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04285714285714286,
+          "notAssignedAnnualizedPct": 0.05925324675324675,
+          "effectiveCostBasis": 100.5,
+          "effectiveDiscountPct": 0.0784889051898038,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 117.39970686359791,
+          "contract": {
+            "contractSymbol": "ED280121C00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 120,
+            "bid": 6.1,
+            "ask": 7.8,
+            "lastPrice": 8,
+            "volume": 1,
+            "openInterest": 49,
+            "impliedVolatility": 0.20822935333251946,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11142977448633276,
+          "staticAnnualizedPct": 0.06405018533466371,
+          "assignedReturnPct": 0.21174152948358196,
+          "assignedAnnualizedPct": 0.12170969804961798,
+          "effectiveCostBasis": 102.96000000000001,
+          "effectiveDiscountPct": 0.05593251421236017
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.39970686359791,
+          "contract": {
+            "contractSymbol": "ED280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 105,
+            "bid": 6.5,
+            "ask": 11,
+            "lastPrice": 9,
+            "volume": 2,
+            "openInterest": 6,
+            "impliedVolatility": 0.2304764453125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06190476190476191,
+          "notAssignedAnnualizedPct": 0.03558305211848519,
+          "effectiveCostBasis": 98.5,
+          "effectiveDiscountPct": 0.09682743443975796,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

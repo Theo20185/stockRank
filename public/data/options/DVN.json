@@ -1,36 +1,63 @@
 {
   "symbol": "DVN",
-  "fetchedAt": "2026-04-24T14:01:25.449Z",
-  "currentPrice": 47.64,
+  "fetchedAt": "2026-04-26T03:16:38.037Z",
+  "currentPrice": 47.94,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 56.792471226418385,
+          "anchorPrice": 56.69896217141839,
           "contract": {
-            "contractSymbol": "DVN270115P00047500",
+            "contractSymbol": "DVN270115C00057500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 266,
-            "strike": 47.5,
-            "bid": 5.45,
-            "ask": 5.75,
-            "lastPrice": 5.85,
-            "volume": 23,
-            "openInterest": 1063,
-            "impliedVolatility": 0.3601138208007812,
+            "daysToExpiry": 264,
+            "strike": 57.5,
+            "bid": 2.73,
+            "ask": 3.4,
+            "lastPrice": 1.85,
+            "volume": 11,
+            "openInterest": 30,
+            "impliedVolatility": 0.40430283203125,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.11473684210526316,
-          "notAssignedAnnualizedPct": 0.1574396517609814,
-          "effectiveCostBasis": 42.05,
-          "effectiveDiscountPct": 0.11733837111670872,
+          "staticReturnPct": 0.07141193615306805,
+          "staticAnnualizedPct": 0.0987324117267797,
+          "assignedReturnPct": 0.27082787274046904,
+          "assignedAnnualizedPct": 0.3744400513267849,
+          "effectiveCostBasis": 45.21,
+          "effectiveDiscountPct": 0.05694618272841052
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 56.69896217141839,
+          "contract": {
+            "contractSymbol": "DVN270115P00047500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 47.5,
+            "bid": 5.55,
+            "ask": 5.9,
+            "lastPrice": 5.67,
+            "volume": 2,
+            "openInterest": 1063,
+            "impliedVolatility": 0.3789124609375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11684210526315789,
+          "notAssignedAnnualizedPct": 0.16154306220095693,
+          "effectiveCostBasis": 41.95,
+          "effectiveDiscountPct": 0.12494785148101784,
           "inTheMoney": false
         }
       ]
@@ -38,8 +65,61 @@
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 56.69896217141839,
+          "contract": {
+            "contractSymbol": "DVN280121C00057500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 57.5,
+            "bid": 5.1,
+            "ask": 7.45,
+            "lastPrice": 4.2,
+            "volume": 3,
+            "openInterest": 3,
+            "impliedVolatility": 0.4246883703613281,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14117749927134945,
+          "staticAnnualizedPct": 0.08114927123471267,
+          "assignedReturnPct": 0.3405934358587504,
+          "assignedAnnualizedPct": 0.19577417966684077,
+          "effectiveCostBasis": 42.839999999999996,
+          "effectiveDiscountPct": 0.10638297872340426
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 56.69896217141839,
+          "contract": {
+            "contractSymbol": "DVN280121P00047500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 47.5,
+            "bid": 6,
+            "ask": 9.45,
+            "lastPrice": 8,
+            "volume": 5,
+            "openInterest": 21,
+            "impliedVolatility": 0.3891662646484375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12631578947368421,
+          "notAssignedAnnualizedPct": 0.0726067136344799,
+          "effectiveCostBasis": 41.5,
+          "effectiveDiscountPct": 0.13433458489778885,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

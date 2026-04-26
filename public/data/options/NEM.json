@@ -1,19 +1,125 @@
 {
   "symbol": "NEM",
-  "fetchedAt": "2026-04-24T14:00:55.046Z",
-  "currentPrice": 116.545,
+  "fetchedAt": "2026-04-26T03:16:01.137Z",
+  "currentPrice": 120.7,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 128.05254130738555,
+          "contract": {
+            "contractSymbol": "NEM270115C00130000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 130,
+            "bid": 16.4,
+            "ask": 17.35,
+            "lastPrice": 16.6,
+            "volume": 9,
+            "openInterest": 2363,
+            "impliedVolatility": 0.5015003463745118,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.14209434190963668,
+          "staticAnnualizedPct": 0.19645619241294465,
+          "assignedReturnPct": 0.21914488043490593,
+          "assignedAnnualizedPct": 0.3029843990861389,
+          "effectiveCostBasis": 104.30000000000001,
+          "effectiveDiscountPct": 0.13587406793703397
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 128.05254130738555,
+          "contract": {
+            "contractSymbol": "NEM270115P00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 120,
+            "bid": 16.4,
+            "ask": 17.9,
+            "lastPrice": 17.46,
+            "volume": 30,
+            "openInterest": 509,
+            "impliedVolatility": 0.4488885678100586,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13666666666666666,
+          "notAssignedAnnualizedPct": 0.18895202020202018,
+          "effectiveCostBasis": 103.6,
+          "effectiveDiscountPct": 0.14167357083678547,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 128.05254130738555,
+          "contract": {
+            "contractSymbol": "NEM280121C00130000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 130,
+            "bid": 27.05,
+            "ask": 30.15,
+            "lastPrice": 28,
+            "volume": 27,
+            "openInterest": 3111,
+            "impliedVolatility": 0.5101367346191408,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.23907100589029745,
+          "staticAnnualizedPct": 0.13741876716528909,
+          "assignedReturnPct": 0.31612154441556667,
+          "assignedAnnualizedPct": 0.18170765938847533,
+          "effectiveCostBasis": 93.65,
+          "effectiveDiscountPct": 0.22410936205468102
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 128.05254130738555,
+          "contract": {
+            "contractSymbol": "NEM280121P00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 120,
+            "bid": 24.55,
+            "ask": 28.5,
+            "lastPrice": 28.6,
+            "volume": 1,
+            "openInterest": 740,
+            "impliedVolatility": 0.46246875427246104,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.20458333333333334,
+          "notAssignedAnnualizedPct": 0.11759514435695538,
+          "effectiveCostBasis": 95.45,
+          "effectiveDiscountPct": 0.2091963545981773,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

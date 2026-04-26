@@ -1,19 +1,125 @@
 {
   "symbol": "LMT",
-  "fetchedAt": "2026-04-24T14:01:46.750Z",
-  "currentPrice": 514.555,
+  "fetchedAt": "2026-04-26T03:17:33.899Z",
+  "currentPrice": 513.45,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 719.7261714535754,
+          "contract": {
+            "contractSymbol": "LMT270115C00720000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 720,
+            "bid": 18.7,
+            "ask": 24.8,
+            "lastPrice": 49.2,
+            "volume": 1,
+            "openInterest": 44,
+            "impliedVolatility": 0.45618219604492194,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.055442761289005736,
+          "staticAnnualizedPct": 0.076653817691239,
+          "assignedReturnPct": 0.4577214641812054,
+          "assignedAnnualizedPct": 0.632834600099015,
+          "effectiveCostBasis": 494.75000000000006,
+          "effectiveDiscountPct": 0.03642029408900574
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 719.7261714535754,
+          "contract": {
+            "contractSymbol": "LMT270115P00510000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 510,
+            "bid": 48.3,
+            "ask": 51.9,
+            "lastPrice": 40,
+            "volume": 2,
+            "openInterest": 67,
+            "impliedVolatility": 0.30918049224853517,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09470588235294117,
+          "notAssignedAnnualizedPct": 0.1309380570409982,
+          "effectiveCostBasis": 461.7,
+          "effectiveDiscountPct": 0.10078878177037696,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 719.7261714535754,
+          "contract": {
+            "contractSymbol": "LMT280121C00720000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 720,
+            "bid": 24,
+            "ask": 32,
+            "lastPrice": 33.18,
+            "volume": 1,
+            "openInterest": 16,
+            "impliedVolatility": 0.3266974069213867,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.09249742142973999,
+          "staticAnnualizedPct": 0.05316780916827574,
+          "assignedReturnPct": 0.4947761243219397,
+          "assignedAnnualizedPct": 0.28439887461024876,
+          "effectiveCostBasis": 489.45000000000005,
+          "effectiveDiscountPct": 0.04674262342973999
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 719.7261714535754,
+          "contract": {
+            "contractSymbol": "LMT280121P00510000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 510,
+            "bid": 70.3,
+            "ask": 76.7,
+            "lastPrice": 73.3,
+            "volume": 8,
+            "openInterest": 16,
+            "impliedVolatility": 0.2929834496307372,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13784313725490197,
+          "notAssignedAnnualizedPct": 0.07923266944573104,
+          "effectiveCostBasis": 439.7,
+          "effectiveDiscountPct": 0.14363618658097196,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

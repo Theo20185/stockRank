@@ -1,19 +1,125 @@
 {
   "symbol": "GEN",
-  "fetchedAt": "2026-04-24T14:01:51.987Z",
-  "currentPrice": 18.845,
+  "fetchedAt": "2026-04-26T03:16:41.558Z",
+  "currentPrice": 19.04,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 20.129782096199367,
+          "contract": {
+            "contractSymbol": "GEN260515C00021000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 19,
+            "strike": 21,
+            "bid": 0.25,
+            "ask": 0.45,
+            "lastPrice": 0.3,
+            "volume": 36,
+            "openInterest": 238,
+            "impliedVolatility": 0.5634809277343751,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.014499293300840337,
+          "staticAnnualizedPct": 0.2785390555161433,
+          "assignedReturnPct": 0.11744046977142863,
+          "assignedAnnualizedPct": 2.256093235082708,
+          "effectiveCostBasis": 18.79,
+          "effectiveDiscountPct": 0.013130252100840336
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 20.129782096199367,
+          "contract": {
+            "contractSymbol": "GEN260515P00019000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 19,
+            "strike": 19,
+            "bid": 0.8,
+            "ask": 1.05,
+            "lastPrice": 1.02,
+            "volume": 1,
+            "openInterest": 111,
+            "impliedVolatility": 0.532231240234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.042105263157894736,
+          "notAssignedAnnualizedPct": 0.8088642659279778,
+          "effectiveCostBasis": 18.2,
+          "effectiveDiscountPct": 0.044117647058823525,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 20.129782096199367,
+          "contract": {
+            "contractSymbol": "GEN260717C00021000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 82,
+            "strike": 21,
+            "bid": 0.7,
+            "ask": 1.05,
+            "lastPrice": 0.73,
+            "volume": 1,
+            "openInterest": 65,
+            "impliedVolatility": 0.49219257812500006,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.042673199482352944,
+          "staticAnnualizedPct": 0.1899477781836442,
+          "assignedReturnPct": 0.14561437595294122,
+          "assignedAnnualizedPct": 0.648161551497848,
+          "effectiveCostBasis": 18.34,
+          "effectiveDiscountPct": 0.03676470588235294
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 20.129782096199367,
+          "contract": {
+            "contractSymbol": "GEN260717P00019000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 82,
+            "strike": 19,
+            "bid": 1.3,
+            "ask": 1.7,
+            "lastPrice": 1.6,
+            "volume": 5,
+            "openInterest": 781,
+            "impliedVolatility": 0.476567734375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06842105263157895,
+          "notAssignedAnnualizedPct": 0.3045571245186136,
+          "effectiveCostBasis": 17.7,
+          "effectiveDiscountPct": 0.0703781512605042,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,36 +1,63 @@
 {
   "symbol": "FSLR",
-  "fetchedAt": "2026-04-24T14:00:44.450Z",
-  "currentPrice": 192.97,
+  "fetchedAt": "2026-04-26T03:16:20.366Z",
+  "currentPrice": 193.76,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 262.46991365667384,
+          "anchorPrice": 265.71607847267387,
           "contract": {
-            "contractSymbol": "FSLR270115P00190000",
+            "contractSymbol": "FSLR270115C00270000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 266,
-            "strike": 190,
-            "bid": 28.45,
-            "ask": 30.7,
-            "lastPrice": 29.88,
-            "volume": 2,
-            "openInterest": 1496,
-            "impliedVolatility": 0.49609878906250005,
+            "daysToExpiry": 264,
+            "strike": 270,
+            "bid": 14.25,
+            "ask": 15.6,
+            "lastPrice": 14.89,
+            "volume": 9,
+            "openInterest": 1509,
+            "impliedVolatility": 0.5507857421875001,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.14973684210526314,
-          "notAssignedAnnualizedPct": 0.20546596755045504,
-          "effectiveCostBasis": 161.55,
-          "effectiveDiscountPct": 0.16282323677255525,
+          "staticReturnPct": 0.07354459124690339,
+          "staticAnnualizedPct": 0.1016809689587869,
+          "assignedReturnPct": 0.46702105697770446,
+          "assignedAnnualizedPct": 0.6456919916547808,
+          "effectiveCostBasis": 179.51,
+          "effectiveDiscountPct": 0.07354459124690339
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 265.71607847267387,
+          "contract": {
+            "contractSymbol": "FSLR270115P00190000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 190,
+            "bid": 29.8,
+            "ask": 31.4,
+            "lastPrice": 31.5,
+            "volume": 2,
+            "openInterest": 1496,
+            "impliedVolatility": 0.5013477600097658,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1568421052631579,
+          "notAssignedAnnualizedPct": 0.21684609250398723,
+          "effectiveCostBasis": 160.2,
+          "effectiveDiscountPct": 0.17320396366639143,
           "inTheMoney": false
         }
       ]
@@ -42,54 +69,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 262.46991365667384,
+          "anchorPrice": 265.71607847267387,
           "contract": {
             "contractSymbol": "FSLR280121C00270000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 637,
+            "daysToExpiry": 635,
             "strike": 270,
-            "bid": 34.8,
-            "ask": 38.5,
+            "bid": 33.2,
+            "ask": 35.9,
             "lastPrice": 34.7,
             "volume": 18,
             "openInterest": 2161,
-            "impliedVolatility": 0.5789837023925781,
+            "impliedVolatility": 0.5555464367675782,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.18033891278437061,
-          "staticAnnualizedPct": 0.10333391391883089,
-          "assignedReturnPct": 0.5795201326631082,
-          "assignedAnnualizedPct": 0.33206412625123155,
-          "effectiveCostBasis": 158.17000000000002,
-          "effectiveDiscountPct": 0.18033891278437061
+          "staticReturnPct": 0.17134599504541703,
+          "staticAnnualizedPct": 0.09849021762453104,
+          "assignedReturnPct": 0.5648224607762181,
+          "assignedAnnualizedPct": 0.32466172942255056,
+          "effectiveCostBasis": 160.56,
+          "effectiveDiscountPct": 0.17134599504541703
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 262.46991365667384,
+          "anchorPrice": 265.71607847267387,
           "contract": {
             "contractSymbol": "FSLR280121P00190000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 637,
+            "daysToExpiry": 635,
             "strike": 190,
-            "bid": 42.45,
-            "ask": 44.85,
+            "bid": 42.95,
+            "ask": 47.25,
             "lastPrice": 44,
             "volume": 1,
             "openInterest": 42,
-            "impliedVolatility": 0.466100309753418,
+            "impliedVolatility": 0.49486283950805665,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.22342105263157896,
-          "notAssignedAnnualizedPct": 0.12801991241840865,
-          "effectiveCostBasis": 147.55,
-          "effectiveDiscountPct": 0.2353733740996009,
+          "notAssignedReturnPct": 0.2260526315789474,
+          "notAssignedAnnualizedPct": 0.12993576460837133,
+          "effectiveCostBasis": 147.05,
+          "effectiveDiscountPct": 0.24107142857142846,
           "inTheMoney": false
         }
       ]

@@ -1,19 +1,125 @@
 {
   "symbol": "DAL",
-  "fetchedAt": "2026-04-24T14:01:27.211Z",
-  "currentPrice": 68.4,
+  "fetchedAt": "2026-04-26T03:16:36.309Z",
+  "currentPrice": 68.45,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.82118363033021,
+          "contract": {
+            "contractSymbol": "DAL270115C00082500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 82.5,
+            "bid": 5.45,
+            "ask": 6,
+            "lastPrice": 6.16,
+            "volume": 1194,
+            "openInterest": 1200,
+            "impliedVolatility": 0.46057668334960944,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08757632508480342,
+          "staticAnnualizedPct": 0.12108090399982292,
+          "assignedReturnPct": 0.2928356384522248,
+          "assignedAnnualizedPct": 0.4048674546782654,
+          "effectiveCostBasis": 63,
+          "effectiveDiscountPct": 0.07962016070124178
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.82118363033021,
+          "contract": {
+            "contractSymbol": "DAL270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 67.5,
+            "bid": 8.45,
+            "ask": 9.55,
+            "lastPrice": 8.82,
+            "volume": 70,
+            "openInterest": 301,
+            "impliedVolatility": 0.4361628649902344,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12518518518518518,
+          "notAssignedAnnualizedPct": 0.1730780022446689,
+          "effectiveCostBasis": 59.05,
+          "effectiveDiscountPct": 0.13732651570489415,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.82118363033021,
+          "contract": {
+            "contractSymbol": "DAL280121C00082500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 82.5,
+            "bid": 10.05,
+            "ask": 13.3,
+            "lastPrice": 11.92,
+            "volume": 2,
+            "openInterest": 67,
+            "impliedVolatility": 0.5015918981933594,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1659594844752194,
+          "staticAnnualizedPct": 0.09539403438339383,
+          "assignedReturnPct": 0.37121879784264084,
+          "assignedAnnualizedPct": 0.213377734193014,
+          "effectiveCostBasis": 58.400000000000006,
+          "effectiveDiscountPct": 0.14682249817384954
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.82118363033021,
+          "contract": {
+            "contractSymbol": "DAL280121P00067500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 67.5,
+            "bid": 11.6,
+            "ask": 14.65,
+            "lastPrice": 13.27,
+            "volume": 1,
+            "openInterest": 160,
+            "impliedVolatility": 0.4282283740234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.17185185185185184,
+          "notAssignedAnnualizedPct": 0.09878098571011956,
+          "effectiveCostBasis": 55.9,
+          "effectiveDiscountPct": 0.18334550766983204,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

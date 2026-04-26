@@ -1,19 +1,125 @@
 {
   "symbol": "BLDR",
-  "fetchedAt": "2026-04-24T14:01:00.915Z",
-  "currentPrice": 89.61,
+  "fetchedAt": "2026-04-26T03:16:04.716Z",
+  "currentPrice": 90.04,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 152.0290611105149,
+          "contract": {
+            "contractSymbol": "BLDR270115C00155000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 155,
+            "bid": 2.7,
+            "ask": 3.4,
+            "lastPrice": 3.1,
+            "volume": 3,
+            "openInterest": 32,
+            "impliedVolatility": 0.5365036584472658,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.029986672589960017,
+          "staticAnnualizedPct": 0.04145884657324018,
+          "assignedReturnPct": 0.7514438027543313,
+          "assignedAnnualizedPct": 1.0389279848686777,
+          "effectiveCostBasis": 87.34,
+          "effectiveDiscountPct": 0.029986672589960017
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 152.0290611105149,
+          "contract": {
+            "contractSymbol": "BLDR270115P00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 90,
+            "bid": 14.9,
+            "ask": 16.3,
+            "lastPrice": 15.46,
+            "volume": 1,
+            "openInterest": 45,
+            "impliedVolatility": 0.514653291015625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.16555555555555557,
+          "notAssignedAnnualizedPct": 0.22889309764309765,
+          "effectiveCostBasis": 75.1,
+          "effectiveDiscountPct": 0.16592625499777888,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 152.0290611105149,
+          "contract": {
+            "contractSymbol": "BLDR280121C00155000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 155,
+            "bid": 9.4,
+            "ask": 11.6,
+            "lastPrice": 7.3,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.541569525756836,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10439804531319413,
+          "staticAnnualizedPct": 0.06000832525876513,
+          "assignedReturnPct": 0.8258551754775655,
+          "assignedAnnualizedPct": 0.47470415598316756,
+          "effectiveCostBasis": 80.64,
+          "effectiveDiscountPct": 0.10439804531319413
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 152.0290611105149,
+          "contract": {
+            "contractSymbol": "BLDR280121P00090000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 90,
+            "bid": 19.5,
+            "ask": 24.5,
+            "lastPrice": 22,
+            "volume": 1,
+            "openInterest": 245,
+            "impliedVolatility": 0.5279588220214844,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.21666666666666667,
+          "notAssignedAnnualizedPct": 0.12454068241469816,
+          "effectiveCostBasis": 70.5,
+          "effectiveDiscountPct": 0.21701466015104404,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,45 @@
+{
+  "symbol": "EIX",
+  "fetchedAt": "2026-04-26T03:15:40.375Z",
+  "currentPrice": 68.86,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 99.30721833937358,
+          "contract": {
+            "contractSymbol": "EIX270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 67.5,
+            "bid": 5.7,
+            "ask": 6.9,
+            "lastPrice": 6.24,
+            "volume": 3,
+            "openInterest": 1,
+            "impliedVolatility": 0.32739930419921875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08444444444444445,
+          "notAssignedAnnualizedPct": 0.11675084175084176,
+          "effectiveCostBasis": 61.8,
+          "effectiveDiscountPct": 0.1025268661051409,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [],
+      "puts": []
+    }
+  ]
+}

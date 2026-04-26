@@ -1,19 +1,125 @@
 {
   "symbol": "MDT",
-  "fetchedAt": "2026-04-24T14:01:44.857Z",
-  "currentPrice": 83.22,
+  "fetchedAt": "2026-04-26T03:17:04.152Z",
+  "currentPrice": 83.32,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 91.1205959280057,
+          "contract": {
+            "contractSymbol": "MDT270115C00092500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 92.5,
+            "bid": 3.25,
+            "ask": 3.75,
+            "lastPrice": 3.4,
+            "volume": 3,
+            "openInterest": 164,
+            "impliedVolatility": 0.25025163818359375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06367035058760087,
+          "staticAnnualizedPct": 0.08802908319876636,
+          "assignedReturnPct": 0.17384797900814825,
+          "assignedAnnualizedPct": 0.24035800128020496,
+          "effectiveCostBasis": 80.07,
+          "effectiveDiscountPct": 0.039006240998559774
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 91.1205959280057,
+          "contract": {
+            "contractSymbol": "MDT270115P00082500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 82.5,
+            "bid": 6.05,
+            "ask": 6.85,
+            "lastPrice": 6.7,
+            "volume": 59,
+            "openInterest": 308,
+            "impliedVolatility": 0.25794199096679693,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07333333333333333,
+          "notAssignedAnnualizedPct": 0.10138888888888889,
+          "effectiveCostBasis": 76.45,
+          "effectiveDiscountPct": 0.08245319251080162,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 91.1205959280057,
+          "contract": {
+            "contractSymbol": "MDT280121C00092500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 92.5,
+            "bid": 5,
+            "ask": 9,
+            "lastPrice": 10,
+            "volume": 4,
+            "openInterest": 59,
+            "impliedVolatility": 0.28436994934082027,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11933425907049237,
+          "staticAnnualizedPct": 0.0685937079696531,
+          "assignedReturnPct": 0.22951188749103976,
+          "assignedAnnualizedPct": 0.13192415580193623,
+          "effectiveCostBasis": 78.32,
+          "effectiveDiscountPct": 0.06000960153624581
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 91.1205959280057,
+          "contract": {
+            "contractSymbol": "MDT280121P00082500",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 82.5,
+            "bid": 8,
+            "ask": 12,
+            "lastPrice": 9.83,
+            "volume": 5,
+            "openInterest": 12,
+            "impliedVolatility": 0.28601788208007806,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09696969696969697,
+          "notAssignedAnnualizedPct": 0.05573848723455022,
+          "effectiveCostBasis": 74.5,
+          "effectiveDiscountPct": 0.10585693710993752,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

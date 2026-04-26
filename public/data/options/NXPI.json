@@ -1,13 +1,66 @@
 {
   "symbol": "NXPI",
-  "fetchedAt": "2026-04-24T14:01:32.412Z",
-  "currentPrice": 242.76,
+  "fetchedAt": "2026-04-26T03:17:09.413Z",
+  "currentPrice": 244.04,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 329.1387621101353,
+          "contract": {
+            "contractSymbol": "NXPI270115C00330000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 330,
+            "bid": 11.1,
+            "ask": 13,
+            "lastPrice": 9.2,
+            "volume": 1,
+            "openInterest": 325,
+            "impliedVolatility": 0.4465082205200196,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.057490922170854546,
+          "staticAnnualizedPct": 0.07948555527409815,
+          "assignedReturnPct": 0.40972826031214293,
+          "assignedAnnualizedPct": 0.5664803599012582,
+          "effectiveCostBasis": 232.94,
+          "effectiveDiscountPct": 0.04548434682838879
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 329.1387621101353,
+          "contract": {
+            "contractSymbol": "NXPI270115P00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 240,
+            "bid": 30.8,
+            "ask": 33.1,
+            "lastPrice": 32.5,
+            "volume": 4,
+            "openInterest": 83,
+            "impliedVolatility": 0.42894552993774415,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12833333333333333,
+          "notAssignedAnnualizedPct": 0.17743055555555554,
+          "effectiveCostBasis": 209.2,
+          "effectiveDiscountPct": 0.1427634813964924,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -16,31 +69,57 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 329.9804771359198,
+          "anchorPrice": 329.1387621101353,
           "contract": {
             "contractSymbol": "NXPI280121C00340000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 637,
+            "daysToExpiry": 635,
             "strike": 340,
             "bid": 13,
             "ask": 17.9,
             "lastPrice": 10.3,
             "volume": 1,
             "openInterest": 10,
-            "impliedVolatility": 0.35048562118530263,
+            "impliedVolatility": 0.34752544570922844,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08279783095046238,
-          "staticAnnualizedPct": 0.04744302715371863,
-          "assignedReturnPct": 0.48335805504009827,
-          "assignedAnnualizedPct": 0.27696340673412223,
-          "effectiveCostBasis": 229.76,
-          "effectiveDiscountPct": 0.0535508320975449
+          "staticReturnPct": 0.08214940779975438,
+          "staticAnnualizedPct": 0.0472197383415911,
+          "assignedReturnPct": 0.4753636349756272,
+          "assignedAnnualizedPct": 0.27324051459228965,
+          "effectiveCostBasis": 231.04,
+          "effectiveDiscountPct": 0.053269955744959845
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 329.1387621101353,
+          "contract": {
+            "contractSymbol": "NXPI280121P00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 240,
+            "bid": 45,
+            "ask": 48.6,
+            "lastPrice": 70.18,
+            "volume": 1,
+            "openInterest": 80,
+            "impliedVolatility": 0.40183093292236327,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1875,
+          "notAssignedAnnualizedPct": 0.1077755905511811,
+          "effectiveCostBasis": 195,
+          "effectiveDiscountPct": 0.20095066382560234,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

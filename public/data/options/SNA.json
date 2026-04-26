@@ -1,19 +1,125 @@
 {
   "symbol": "SNA",
-  "fetchedAt": "2026-04-24T14:00:33.967Z",
-  "currentPrice": 391.41,
+  "fetchedAt": "2026-04-26T03:15:54.282Z",
+  "currentPrice": 378.42,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 415.6359901714227,
+          "contract": {
+            "contractSymbol": "SNA260918C00420000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 145,
+            "strike": 420,
+            "bid": 5.3,
+            "ask": 8.1,
+            "lastPrice": 5.45,
+            "volume": 2,
+            "openInterest": 58,
+            "impliedVolatility": 0.23069006622314453,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.024254916912129235,
+          "staticAnnualizedPct": 0.061055480502946,
+          "assignedReturnPct": 0.13413283034165194,
+          "assignedAnnualizedPct": 0.3376447108600204,
+          "effectiveCostBasis": 373.12,
+          "effectiveDiscountPct": 0.014005602240896357
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 415.6359901714227,
+          "contract": {
+            "contractSymbol": "SNA260918P00370000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 145,
+            "strike": 370,
+            "bid": 17.2,
+            "ask": 18.5,
+            "lastPrice": 18.05,
+            "volume": 28,
+            "openInterest": 4,
+            "impliedVolatility": 0.23818205673217768,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.046486486486486484,
+          "notAssignedAnnualizedPct": 0.11701770736253493,
+          "effectiveCostBasis": 352.8,
+          "effectiveDiscountPct": 0.06770255271920089,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 415.6359901714227,
+          "contract": {
+            "contractSymbol": "SNA261218C00420000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 236,
+            "strike": 420,
+            "bid": 11.1,
+            "ask": 14.4,
+            "lastPrice": 9.76,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.24077602493286132,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04601413090110705,
+          "staticAnnualizedPct": 0.07116592279196642,
+          "assignedReturnPct": 0.15589204433062975,
+          "assignedAnnualizedPct": 0.2411042211045757,
+          "effectiveCostBasis": 367.32,
+          "effectiveDiscountPct": 0.029332487712065956
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 415.6359901714227,
+          "contract": {
+            "contractSymbol": "SNA261218P00320000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 236,
+            "strike": 320,
+            "bid": 7.3,
+            "ask": 10.5,
+            "lastPrice": 9.1,
+            "volume": 2,
+            "openInterest": 19,
+            "impliedVolatility": 0.28147080841064454,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0228125,
+          "notAssignedAnnualizedPct": 0.03528204449152542,
+          "effectiveCostBasis": 312.7,
+          "effectiveDiscountPct": 0.17366946778711492,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

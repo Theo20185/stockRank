@@ -1,19 +1,125 @@
 {
   "symbol": "ADBE",
-  "fetchedAt": "2026-04-24T14:00:28.707Z",
-  "currentPrice": 239.93,
+  "fetchedAt": "2026-04-26T03:15:50.828Z",
+  "currentPrice": 245.44,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 379.12152020341654,
+          "contract": {
+            "contractSymbol": "ADBE270115C00380000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 380,
+            "bid": 7.6,
+            "ask": 8.25,
+            "lastPrice": 7.9,
+            "volume": 3,
+            "openInterest": 541,
+            "impliedVolatility": 0.4668632415771484,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.030964797913950456,
+          "staticAnnualizedPct": 0.042811178934060286,
+          "assignedReturnPct": 0.5792046936114733,
+          "assignedAnnualizedPct": 0.8007943680613172,
+          "effectiveCostBasis": 237.84,
+          "effectiveDiscountPct": 0.030964797913950456
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 379.12152020341654,
+          "contract": {
+            "contractSymbol": "ADBE270115P00240000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 240,
+            "bid": 30.3,
+            "ask": 32.7,
+            "lastPrice": 31.45,
+            "volume": 3,
+            "openInterest": 771,
+            "impliedVolatility": 0.43103596313476567,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12625,
+          "notAssignedAnnualizedPct": 0.1745501893939394,
+          "effectiveCostBasis": 209.7,
+          "effectiveDiscountPct": 0.14561603650586705,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 379.12152020341654,
+          "contract": {
+            "contractSymbol": "ADBE280121C00380000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 380,
+            "bid": 22,
+            "ask": 31,
+            "lastPrice": 25,
+            "volume": 3,
+            "openInterest": 40,
+            "impliedVolatility": 0.5099078550720215,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08963494132985658,
+          "staticAnnualizedPct": 0.051522446591177405,
+          "assignedReturnPct": 0.6378748370273795,
+          "assignedAnnualizedPct": 0.3666524653779425,
+          "effectiveCostBasis": 223.44,
+          "effectiveDiscountPct": 0.08963494132985658
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 379.12152020341654,
+          "contract": {
+            "contractSymbol": "ADBE280121P00240000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 240,
+            "bid": 43.3,
+            "ask": 50.75,
+            "lastPrice": 51,
+            "volume": 1,
+            "openInterest": 206,
+            "impliedVolatility": 0.42365078308105464,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.18041666666666664,
+          "notAssignedAnnualizedPct": 0.1037040682414698,
+          "effectiveCostBasis": 196.7,
+          "effectiveDiscountPct": 0.1985821382007823,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

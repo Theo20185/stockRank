@@ -1,19 +1,98 @@
 {
   "symbol": "NWSA",
-  "fetchedAt": "2026-04-24T14:01:23.705Z",
-  "currentPrice": 26.3,
+  "fetchedAt": "2026-04-26T03:16:57.291Z",
+  "currentPrice": 26.2,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 43.98425557089262,
+          "contract": {
+            "contractSymbol": "NWSA270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 40,
+            "bid": 0.1,
+            "ask": 0.35,
+            "lastPrice": 0.25,
+            "volume": 1,
+            "openInterest": 9262,
+            "impliedVolatility": 0.3530338134765625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.009313780194499634,
+          "staticAnnualizedPct": 0.012877006708304418,
+          "assignedReturnPct": 0.5360313374464081,
+          "assignedAnnualizedPct": 0.7411039324543142,
+          "effectiveCostBasis": 26.099999999999998,
+          "effectiveDiscountPct": 0.0038167938931297713
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.98425557089262,
+          "contract": {
+            "contractSymbol": "NWSA270115P00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 25,
+            "bid": 1.6,
+            "ask": 2,
+            "lastPrice": 1.9,
+            "volume": 1,
+            "openInterest": 32,
+            "impliedVolatility": 0.29456271850585936,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.064,
+          "notAssignedAnnualizedPct": 0.08848484848484849,
+          "effectiveCostBasis": 23.4,
+          "effectiveDiscountPct": 0.10687022900763361,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-07-17",
       "selectionReason": "leap-fallback",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.98425557089262,
+          "contract": {
+            "contractSymbol": "NWSA260717P00025000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 82,
+            "strike": 25,
+            "bid": 0.8,
+            "ask": 1.1,
+            "lastPrice": 0.85,
+            "volume": 2,
+            "openInterest": 95,
+            "impliedVolatility": 0.33521172607421873,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.032,
+          "notAssignedAnnualizedPct": 0.1424390243902439,
+          "effectiveCostBasis": 24.2,
+          "effectiveDiscountPct": 0.07633587786259542,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

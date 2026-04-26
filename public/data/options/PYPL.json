@@ -1,19 +1,125 @@
 {
   "symbol": "PYPL",
-  "fetchedAt": "2026-04-24T14:00:49.750Z",
-  "currentPrice": 49.935,
+  "fetchedAt": "2026-04-26T03:16:27.624Z",
+  "currentPrice": 50.48,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.58820778413224,
+          "contract": {
+            "contractSymbol": "PYPL270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 125,
+            "bid": 0.1,
+            "ask": 0.38,
+            "lastPrice": 0.17,
+            "volume": 3,
+            "openInterest": 14456,
+            "impliedVolatility": 0.5141650146484374,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01000947571803834,
+          "staticAnnualizedPct": 0.013838858473803006,
+          "assignedReturnPct": 1.4862376849097976,
+          "assignedAnnualizedPct": 2.0548361931518033,
+          "effectiveCostBasis": 50.379999999999995,
+          "effectiveDiscountPct": 0.0019809825673534074
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.58820778413224,
+          "contract": {
+            "contractSymbol": "PYPL270115P00050000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 50,
+            "bid": 6,
+            "ask": 6.6,
+            "lastPrice": 6.21,
+            "volume": 65,
+            "openInterest": 9573,
+            "impliedVolatility": 0.4024717956542969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12,
+          "notAssignedAnnualizedPct": 0.1659090909090909,
+          "effectiveCostBasis": 44,
+          "effectiveDiscountPct": 0.12836767036450075,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.58820778413224,
+          "contract": {
+            "contractSymbol": "PYPL280121C00115000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 115,
+            "bid": 0.8,
+            "ask": 1,
+            "lastPrice": 0.95,
+            "volume": 22,
+            "openInterest": 15796,
+            "impliedVolatility": 0.3996642065429688,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03515881944293685,
+          "staticAnnualizedPct": 0.02020940015223929,
+          "assignedReturnPct": 1.3132887718993556,
+          "assignedAnnualizedPct": 0.7548825224303382,
+          "effectiveCostBasis": 49.68,
+          "effectiveDiscountPct": 0.01584786053882726
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 120.58820778413224,
+          "contract": {
+            "contractSymbol": "PYPL280121P00050000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 50,
+            "bid": 7.05,
+            "ask": 10.3,
+            "lastPrice": 9.02,
+            "volume": 17,
+            "openInterest": 5946,
+            "impliedVolatility": 0.40320421020507813,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.141,
+          "notAssignedAnnualizedPct": 0.08104724409448817,
+          "effectiveCostBasis": 42.95,
+          "effectiveDiscountPct": 0.14916798732171146,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,42 +1,122 @@
 {
   "symbol": "REGN",
-  "fetchedAt": "2026-04-24T14:01:02.665Z",
-  "currentPrice": 750,
+  "fetchedAt": "2026-04-26T03:16:31.129Z",
+  "currentPrice": 751.57,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 822.0607974258787,
+          "contract": {
+            "contractSymbol": "REGN270115C00840000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 840,
+            "bid": 61.6,
+            "ask": 66.8,
+            "lastPrice": 65,
+            "volume": 2,
+            "openInterest": 164,
+            "impliedVolatility": 0.3908447146606445,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08557819840512855,
+          "staticAnnualizedPct": 0.1183183424919391,
+          "assignedReturnPct": 0.2032385627091853,
+          "assignedAnnualizedPct": 0.28099270980626,
+          "effectiveCostBasis": 689.97,
+          "effectiveDiscountPct": 0.08196176004896416
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 829.066262895492,
+          "anchorPrice": 822.0607974258787,
+          "contract": {
+            "contractSymbol": "REGN270115P00740000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 740,
+            "bid": 76.3,
+            "ask": 81.9,
+            "lastPrice": 79.8,
+            "volume": 6,
+            "openInterest": 66,
+            "impliedVolatility": 0.3467777725219726,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10310810810810811,
+          "notAssignedAnnualizedPct": 0.14255477067977068,
+          "effectiveCostBasis": 663.7,
+          "effectiveDiscountPct": 0.1169152573945208,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 822.0607974258787,
+          "contract": {
+            "contractSymbol": "REGN280121C00840000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 840,
+            "bid": 127,
+            "ask": 135,
+            "lastPrice": 133.8,
+            "volume": 3,
+            "openInterest": 6,
+            "impliedVolatility": 0.4250545776367188,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.17767823283533776,
+          "staticAnnualizedPct": 0.10213000785023352,
+          "assignedReturnPct": 0.29533859713939453,
+          "assignedAnnualizedPct": 0.16976155583602992,
+          "effectiveCostBasis": 624.57,
+          "effectiveDiscountPct": 0.16897960269835144
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 822.0607974258787,
           "contract": {
             "contractSymbol": "REGN280121P00740000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 637,
+            "daysToExpiry": 635,
             "strike": 740,
             "bid": 126,
             "ask": 136,
             "lastPrice": 127.05,
             "volume": 1,
             "openInterest": 22,
-            "impliedVolatility": 0.3623186937713623,
+            "impliedVolatility": 0.3645083081054688,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
           "notAssignedReturnPct": 0.17027027027027028,
-          "notAssignedAnnualizedPct": 0.09756459756459757,
+          "notAssignedAnnualizedPct": 0.09787188763566716,
           "effectiveCostBasis": 614,
-          "effectiveDiscountPct": 0.18133333333333335,
+          "effectiveDiscountPct": 0.1830434956158442,
           "inTheMoney": false
         }
       ]

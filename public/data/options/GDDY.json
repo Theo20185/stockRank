@@ -1,19 +1,125 @@
 {
   "symbol": "GDDY",
-  "fetchedAt": "2026-04-24T14:01:14.968Z",
-  "currentPrice": 83.97,
+  "fetchedAt": "2026-04-26T03:16:52.047Z",
+  "currentPrice": 86.04,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 86.63411500862632,
+          "contract": {
+            "contractSymbol": "GDDY270115C00087500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 87.5,
+            "bid": 13.3,
+            "ask": 15.8,
+            "lastPrice": 14,
+            "volume": 1,
+            "openInterest": 25,
+            "impliedVolatility": 0.5218553674316406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.15457926545792655,
+          "staticAnnualizedPct": 0.21371754504599694,
+          "assignedReturnPct": 0.17154811715481164,
+          "assignedAnnualizedPct": 0.2371782680360085,
+          "effectiveCostBasis": 72.74000000000001,
+          "effectiveDiscountPct": 0.15457926545792655
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 86.63411500862632,
+          "contract": {
+            "contractSymbol": "GDDY270115P00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 85,
+            "bid": 12.4,
+            "ask": 14.6,
+            "lastPrice": 13.77,
+            "volume": 1,
+            "openInterest": 27,
+            "impliedVolatility": 0.5243577838134765,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14588235294117646,
+          "notAssignedAnnualizedPct": 0.2016934046345811,
+          "effectiveCostBasis": 72.6,
+          "effectiveDiscountPct": 0.1562064156206417,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-08-21",
       "selectionReason": "leap-fallback",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 86.63411500862632,
+          "contract": {
+            "contractSymbol": "GDDY260821C00087500",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 117,
+            "strike": 87.5,
+            "bid": 9.9,
+            "ask": 11.6,
+            "lastPrice": 11.05,
+            "volume": 3,
+            "openInterest": 132,
+            "impliedVolatility": 0.5852092260742188,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.11506276150627615,
+          "staticAnnualizedPct": 0.3589564782033401,
+          "assignedReturnPct": 0.13203161320316123,
+          "assignedAnnualizedPct": 0.4118934941808021,
+          "effectiveCostBasis": 76.14,
+          "effectiveDiscountPct": 0.11506276150627615
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 86.63411500862632,
+          "contract": {
+            "contractSymbol": "GDDY260821P00085000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 117,
+            "strike": 85,
+            "bid": 9.2,
+            "ask": 11,
+            "lastPrice": 8.4,
+            "volume": 1,
+            "openInterest": 202,
+            "impliedVolatility": 0.5493209130859377,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10823529411764705,
+          "notAssignedAnnualizedPct": 0.33765711412770233,
+          "effectiveCostBasis": 75.8,
+          "effectiveDiscountPct": 0.11901441190144128,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

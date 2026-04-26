@@ -1,19 +1,125 @@
 {
   "symbol": "TSCO",
-  "fetchedAt": "2026-04-24T14:02:02.517Z",
-  "currentPrice": 37.69,
+  "fetchedAt": "2026-04-26T03:17:21.609Z",
+  "currentPrice": 36.74,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 43.94317395125656,
+          "contract": {
+            "contractSymbol": "TSCO270115C00044000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 44,
+            "bid": 1.7,
+            "ask": 2.35,
+            "lastPrice": 2.2,
+            "volume": 6,
+            "openInterest": 14,
+            "impliedVolatility": 0.3809876354980468,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06514890167117621,
+          "staticAnnualizedPct": 0.09007329208325499,
+          "assignedReturnPct": 0.2627536920903378,
+          "assignedAnnualizedPct": 0.3632768848976261,
+          "effectiveCostBasis": 35.04,
+          "effectiveDiscountPct": 0.04627109417528579
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.94317395125656,
+          "contract": {
+            "contractSymbol": "TSCO270115P00036000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 36,
+            "bid": 3.4,
+            "ask": 4.3,
+            "lastPrice": 3.6,
+            "volume": 1,
+            "openInterest": 25,
+            "impliedVolatility": 0.3786683227539062,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09444444444444444,
+          "notAssignedAnnualizedPct": 0.13057659932659932,
+          "effectiveCostBasis": 32.6,
+          "effectiveDiscountPct": 0.11268372346216658,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 43.94317395125656,
+          "contract": {
+            "contractSymbol": "TSCO280121C00045000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 45,
+            "bid": 4,
+            "ask": 4.6,
+            "lastPrice": 5.15,
+            "volume": 10,
+            "openInterest": 43,
+            "impliedVolatility": 0.379889013671875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1542800103407208,
+          "staticAnnualizedPct": 0.08868063586513873,
+          "assignedReturnPct": 0.379103091451227,
+          "assignedAnnualizedPct": 0.21790965099165016,
+          "effectiveCostBasis": 32.74,
+          "effectiveDiscountPct": 0.10887316276537833
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.94317395125656,
+          "contract": {
+            "contractSymbol": "TSCO280121P00035000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 35,
+            "bid": 3.4,
+            "ask": 6.5,
+            "lastPrice": 5.2,
+            "volume": 6,
+            "openInterest": 30,
+            "impliedVolatility": 0.3930724755859375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09714285714285714,
+          "notAssignedAnnualizedPct": 0.05583802024746906,
+          "effectiveCostBasis": 31.6,
+          "effectiveDiscountPct": 0.13990201415351117,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

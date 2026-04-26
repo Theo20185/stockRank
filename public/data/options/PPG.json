@@ -1,19 +1,71 @@
 {
   "symbol": "PPG",
-  "fetchedAt": "2026-04-24T14:01:04.422Z",
-  "currentPrice": 110.27,
+  "fetchedAt": "2026-04-26T03:16:48.497Z",
+  "currentPrice": 109.8,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 204.39585440601633,
+          "contract": {
+            "contractSymbol": "PPG270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 264,
+            "strike": 105,
+            "bid": 8.5,
+            "ask": 10.6,
+            "lastPrice": 8.72,
+            "volume": 4,
+            "openInterest": 128,
+            "impliedVolatility": 0.35370519348144525,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08095238095238096,
+          "notAssignedAnnualizedPct": 0.11192279942279942,
+          "effectiveCostBasis": 96.5,
+          "effectiveDiscountPct": 0.1211293260473588,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 204.39585440601633,
+          "contract": {
+            "contractSymbol": "PPG280121P00105000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 105,
+            "bid": 11,
+            "ask": 15.5,
+            "lastPrice": 10.5,
+            "volume": 2,
+            "openInterest": 3,
+            "impliedVolatility": 0.3172065350341796,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10476190476190476,
+          "notAssignedAnnualizedPct": 0.06021747281589801,
+          "effectiveCostBasis": 94,
+          "effectiveDiscountPct": 0.14389799635701273,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "symbol": "AES",
-  "fetchedAt": "2026-04-24T14:01:34.165Z",
-  "currentPrice": 14.495,
+  "fetchedAt": "2026-04-26T03:16:44.971Z",
+  "currentPrice": 14.49,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 25.10343744029373,
+          "anchorPrice": 25.017461835293734,
           "contract": {
             "contractSymbol": "AES270115P00013000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 266,
+            "daysToExpiry": 264,
             "strike": 13,
-            "bid": 0.17,
-            "ask": 0,
+            "bid": 0.2,
+            "ask": 0.25,
             "lastPrice": 0.2,
             "volume": 20,
             "openInterest": 12636,
-            "impliedVolatility": 0.0312596875,
+            "impliedVolatility": 0.16700051757812504,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.013076923076923078,
-          "notAssignedAnnualizedPct": 0.0179438982070561,
-          "effectiveCostBasis": 12.83,
-          "effectiveDiscountPct": 0.11486719558468432,
+          "notAssignedReturnPct": 0.015384615384615385,
+          "notAssignedAnnualizedPct": 0.021270396270396272,
+          "effectiveCostBasis": 12.8,
+          "effectiveDiscountPct": 0.11663216011042095,
           "inTheMoney": false
         }
       ]
@@ -39,7 +39,33 @@
       "expiration": "2028-01-21",
       "selectionReason": "leap",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 25.017461835293734,
+          "contract": {
+            "contractSymbol": "AES280121P00012000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 635,
+            "strike": 12,
+            "bid": 0.25,
+            "ask": 0.35,
+            "lastPrice": 0.28,
+            "volume": 12,
+            "openInterest": 1358,
+            "impliedVolatility": 0.17432466308593753,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.020833333333333332,
+          "notAssignedAnnualizedPct": 0.0119750656167979,
+          "effectiveCostBasis": 11.75,
+          "effectiveDiscountPct": 0.189095928226363,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }
