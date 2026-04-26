@@ -50,10 +50,13 @@ export function PortfolioScreen({
 
       {evaluation.summary.totalPositions === 0 ? (
         <p className="screen__empty" role="status">
-          No positions in your portfolio. Edit{" "}
-          <code>public/data/portfolio.json</code> to add holdings.
-          Each entry needs <code>symbol</code>, <code>entryDate</code>,{" "}
-          <code>entryPrice</code>, and <code>sharesOwned</code>.
+          No positions in your portfolio. Holdings are stored in your
+          browser's localStorage under the key{" "}
+          <code>stockrank.portfolio</code> — they never leave this
+          device. To populate it for now, open DevTools → Application →
+          Local Storage and set the value to JSON like{" "}
+          <code>{`{"updatedAt":"2026-04-26","positions":[{"symbol":"AAPL","entryDate":"2025-01-01","entryPrice":150,"sharesOwned":10}]}`}</code>
+          , then refresh.
         </p>
       ) : (
         <>

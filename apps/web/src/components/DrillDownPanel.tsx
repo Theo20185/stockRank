@@ -173,23 +173,31 @@ export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelP
             </tr>
           </thead>
           <tbody>
-            {row.factorDetails.map((f) => (
-              <tr key={f.key}>
-                <td>{factorLabel(f.key)}</td>
-                <td>{categoryLabel(f.category)}</td>
-                <td className="num">{formatRatio(f.rawValue)}</td>
-                <td className="num">{formatPercent(f.percentile, 0)}</td>
-              </tr>
-            ))}
+            {row.factorDetails
+              .filter((f) => f.category !== "momentum")
+              .map((f) => (
+                <tr key={f.key}>
+                  <td>{factorLabel(f.key)}</td>
+                  <td>{categoryLabel(f.category)}</td>
+                  <td className="num">{formatRatio(f.rawValue)}</td>
+                  <td className="num">{formatPercent(f.percentile, 0)}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </section>
 
-      {row.missingFactors.length > 0 && (
-        <p className="drill-down__missing">
-          Missing: {row.missingFactors.map(factorLabel).join(", ")}
-        </p>
-      )}
+      {(() => {
+        const visibleMissing = row.missingFactors.filter(
+          (k) => k !== "momentum12_1",
+        );
+        if (visibleMissing.length === 0) return null;
+        return (
+          <p className="drill-down__missing">
+            Missing: {visibleMissing.map(factorLabel).join(", ")}
+          </p>
+        );
+      })()}
     </aside>
   );
 }

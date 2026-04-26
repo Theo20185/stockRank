@@ -96,13 +96,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
 
   useEffect(() => {
     if (initialPortfolio !== undefined) return;
-    let cancelled = false;
-    loadPortfolio().then((p) => {
-      if (!cancelled) setPortfolio(p);
-    });
-    return () => {
-      cancelled = true;
-    };
+    setPortfolio(loadPortfolio());
   }, [initialPortfolio]);
 
   const ranked = useMemo(() => {

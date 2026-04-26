@@ -44,6 +44,9 @@ export const FACTOR_LABELS: Record<string, string> = {
   dividendGrowth5Y: "5Y Dividend Growth",
   revenueGrowth7Y: "7Y Revenue Growth",
   epsGrowth7Y: "7Y EPS Growth",
+  accruals: "Accruals (Sloan)",
+  netIssuance: "Net Share Issuance",
+  momentum12_1: "12-1 Momentum",
 };
 
 export const CATEGORY_LABELS: Record<string, string> = {
