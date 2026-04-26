@@ -4,7 +4,7 @@ import { TurnaroundList } from "../components/TurnaroundList.js";
 
 export type TurnaroundScreenProps = {
   ranked: RankedSnapshot;
-  onSelectTab: (tab: "composite" | "turnaround") => void;
+  onSelectTab: (tab: "composite" | "turnaround" | "portfolio") => void;
 };
 
 export function TurnaroundScreen({ ranked, onSelectTab }: TurnaroundScreenProps) {
@@ -28,6 +28,13 @@ export function TurnaroundScreen({ ranked, onSelectTab }: TurnaroundScreenProps)
           onClick={() => onSelectTab("turnaround")}
         >
           Turnaround ({ranked.turnaroundWatchlist.length})
+        </button>
+        <button
+          type="button"
+          aria-pressed={false}
+          onClick={() => onSelectTab("portfolio")}
+        >
+          Portfolio
         </button>
       </nav>
 

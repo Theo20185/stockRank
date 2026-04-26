@@ -6,6 +6,13 @@ export type { FactorDef, FactorDirection } from "./factors.js";
 export { fairValueFor, buildFairValueCohort } from "./fair-value/index.js";
 export { bucketRows, classifyRow } from "./buckets.js";
 export type { BucketKey, BucketedRows } from "./buckets.js";
+export {
+  evaluatePortfolio,
+  SELL_SIGNAL_LABELS,
+  type PortfolioEvaluation,
+  type PositionEvaluation,
+  type SellSignal,
+} from "./portfolio/evaluator.js";
 export type {
   FairValue,
   FairValueAnchorKey,

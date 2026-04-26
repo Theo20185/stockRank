@@ -28,3 +28,5 @@ export type {
   FvTrendArtifact,
   FvTrendSample,
 } from "./fv-trend.js";
+export type { Portfolio, Position } from "./portfolio.js";
+export { EMPTY_PORTFOLIO } from "./portfolio.js";

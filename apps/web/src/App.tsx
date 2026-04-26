@@ -1,20 +1,29 @@
 import { useEffect, useMemo, useState } from "react";
-import type { FvTrendArtifact, OptionsSummary, Snapshot } from "@stockrank/core";
+import type {
+  FvTrendArtifact,
+  OptionsSummary,
+  Portfolio,
+  Snapshot,
+} from "@stockrank/core";
+import { EMPTY_PORTFOLIO } from "@stockrank/core";
 import {
   rank,
   fairValueFor,
+  evaluatePortfolio,
   DEFAULT_WEIGHTS,
   type CategoryWeights,
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
 import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
+import { loadPortfolio } from "./snapshot/portfolio-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
 import { FiltersScreen } from "./screens/FiltersScreen.js";
 import { StockDetailScreen } from "./screens/StockDetailScreen.js";
 import { TurnaroundScreen } from "./screens/TurnaroundScreen.js";
+import { PortfolioScreen } from "./screens/PortfolioScreen.js";
 
 export type AppProps = {
   /** Provided in tests; real app fetches via loadSnapshot at mount. */
@@ -23,9 +32,11 @@ export type AppProps = {
   initialOptionsSummary?: OptionsSummary | null;
   /** Provided in tests to short-circuit the FV-trend fetch. */
   initialFvTrend?: FvTrendArtifact | null;
+  /** Provided in tests to short-circuit the portfolio fetch. */
+  initialPortfolio?: Portfolio;
 };
 
-export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: AppProps = {}) {
+export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, initialPortfolio }: AppProps = {}) {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(
     initialSnapshot ?? null,
   );
@@ -34,6 +45,9 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
   );
   const [fvTrend, setFvTrend] = useState<FvTrendArtifact | null>(
     initialFvTrend ?? null,
+  );
+  const [portfolio, setPortfolio] = useState<Portfolio>(
+    initialPortfolio ?? EMPTY_PORTFOLIO,
   );
   const [error, setError] = useState<string | null>(null);
   const [weights, setWeights] = useState<CategoryWeights>(DEFAULT_WEIGHTS);
@@ -79,6 +93,17 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
       cancelled = true;
     };
   }, [initialFvTrend]);
+
+  useEffect(() => {
+    if (initialPortfolio !== undefined) return;
+    let cancelled = false;
+    loadPortfolio().then((p) => {
+      if (!cancelled) setPortfolio(p);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialPortfolio]);
 
   const ranked = useMemo(() => {
     if (!snapshot) return null;
@@ -186,9 +211,30 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
       <main className="app">
         <TurnaroundScreen
           ranked={ranked}
-          onSelectTab={(tab) =>
-            navigate(tab === "composite" ? "/" : "/turnaround")
+          onSelectTab={(tab) => {
+            if (tab === "composite") navigate("/");
+            else if (tab === "turnaround") navigate("/turnaround");
+            else navigate("/portfolio");
+          }}
+        />
+      </main>
+    );
+  }
+
+  if (route.name === "portfolio") {
+    const evaluation = evaluatePortfolio(portfolio, ranked);
+    return (
+      <main className="app">
+        <PortfolioScreen
+          evaluation={evaluation}
+          onSelectStock={(symbol) =>
+            navigate(`/stock/${encodeURIComponent(symbol)}`)
           }
+          onSelectTab={(tab) => {
+            if (tab === "composite") navigate("/");
+            else if (tab === "turnaround") navigate("/turnaround");
+            else navigate("/portfolio");
+          }}
         />
       </main>
     );
@@ -204,9 +250,11 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend }: 
         weights={weights}
         optionsSummary={optionsSummary}
         tab="composite"
-        onSelectTab={(tab) =>
-          navigate(tab === "composite" ? "/" : "/turnaround")
-        }
+        onSelectTab={(tab) => {
+          if (tab === "composite") navigate("/");
+          else if (tab === "turnaround") navigate("/turnaround");
+          else navigate("/portfolio");
+        }}
         onSelectStock={(symbol) =>
           navigate(`/stock/${encodeURIComponent(symbol)}`)
         }

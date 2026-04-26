@@ -16,8 +16,8 @@ export type ResultsScreenProps = {
   industry: string | null;
   weights: CategoryWeights;
   optionsSummary?: OptionsSummary | null;
-  tab: "composite" | "turnaround";
-  onSelectTab: (tab: "composite" | "turnaround") => void;
+  tab: "composite" | "turnaround" | "portfolio";
+  onSelectTab: (tab: "composite" | "turnaround" | "portfolio") => void;
   onSelectStock: (symbol: string) => void;
   onEditFilters: () => void;
 };
@@ -91,6 +91,13 @@ export function ResultsScreen({
           onClick={() => onSelectTab("turnaround")}
         >
           Turnaround ({ranked.turnaroundWatchlist.length})
+        </button>
+        <button
+          type="button"
+          aria-pressed={tab === "portfolio"}
+          onClick={() => onSelectTab("portfolio")}
+        >
+          Portfolio
         </button>
       </nav>
 
