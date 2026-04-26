@@ -71,6 +71,9 @@ import {
   renderLegacyAuditReport,
   evaluateUserPicks,
   renderUserPicksReport,
+  runPerSuperGroupValidation,
+  renderPerSuperGroupReport,
+  type PerSuperGroupPreset,
   type UserPick,
   DEFAULT_WEIGHTS,
   type CandidateWeights,
@@ -109,6 +112,9 @@ type IcArgs = {
    * longer there) in the backtest universe at the dates they were
    * members. Phase 2D — fixes the survivorship bias gap. */
   includeDelisted: boolean;
+  /** When true, run Phase 3 per-super-group preset validation
+   * after the main weight-validation step. */
+  superGroupPresets: boolean;
   /** Comma-separated SYM:DATE pairs (e.g., "NVO:2026-03-06,TGT:2026-04-09").
    * When supplied, after building observations we run the user-picks
    * validation. Each date becomes a forced backtest snapshot date if
@@ -139,6 +145,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     maxSnapshotDate: null,
     userPicks: null,
     includeDelisted: false,
+    superGroupPresets: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -189,6 +196,9 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--include-delisted":
         args.includeDelisted = true;
+        break;
+      case "--super-group-presets":
+        args.superGroupPresets = true;
         break;
       case "--user-picks":
         args.userPicks = argv[++i]!.split(",").map((pair) => {
@@ -732,6 +742,44 @@ async function main(): Promise<void> {
     }
   }
 
+  // ── Optional: per-super-group preset validation (Phase 3 E) ─────────
+  if (args.superGroupPresets) {
+    console.log(`\nRunning per-super-group preset validation...`);
+    const presets = loadPerSuperGroupPresets();
+    console.log(`  ${presets.length} preset candidates: ${presets.map((p) => p.name).join(", ")}`);
+    const psgReport = runPerSuperGroupValidation(
+      observations,
+      presets,
+      {
+        testPeriodStart: args.testPeriodStart,
+        bootstrapResamples: 1000,
+        seed: 1,
+      },
+      DEFAULT_WEIGHTS,
+    );
+    const psgMd = renderPerSuperGroupReport(psgReport);
+    const psgPath = resolve(tmpDir, "per-super-group-validation.md");
+    writeFileSync(psgPath, psgMd, "utf-8");
+    console.log(`  Wrote ${psgPath}`);
+    for (const r of psgReport.results) {
+      const v = r.verdict;
+      const verdictStr = v?.verdict ?? "no verdict";
+      const exStr =
+        v?.excessVsDefault3y !== null && v?.excessVsDefault3y !== undefined
+          ? ` (${(v.excessVsDefault3y * 100).toFixed(2)} pp vs default)`
+          : "";
+      console.log(
+        `    ${r.preset.name} (${r.preset.targetSuperGroup}, N=${r.cohortSize}): ${verdictStr}${exStr}`,
+      );
+    }
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const psgArchivePath = resolve(docsDir, `backtest-per-super-group-${today}.md`);
+      writeFileSync(psgArchivePath, psgMd, "utf-8");
+      console.log(`  Archived to ${psgArchivePath}`);
+    }
+  }
+
   // ── Optional: legacy-rule audit (§3.5: H10/H11/H12) ─────────────────
   if (args.legacyAudit) {
     console.log(`\nRunning legacy-rule audit (H11 + H12)...`);
@@ -759,6 +807,108 @@ async function main(): Promise<void> {
       console.log(`  Archived to ${auditArchivePath}`);
     }
   }
+}
+
+/**
+ * Phase 3 — IC-derived per-super-group preset candidates. Each
+ * boosts the categories whose factors had passing IC cells in the
+ * 2026-04-25 heatmap (`docs/backtest-ic-2026-04-25.md`). All weights
+ * sum to 1.0; redistribution from the lowest-IC categories.
+ */
+function loadPerSuperGroupPresets(): PerSuperGroupPreset[] {
+  return [
+    {
+      // Utilities passing 3y cells: D/EBITDA +0.581 (strongest cell
+      // in the heatmap), EV/EBITDA +0.430. Boost Health (where
+      // D/EBITDA lives) and keep Valuation high.
+      name: "utilities-health-tilt",
+      description:
+        "Utilities preset: boost Health to 30% (D/EBITDA +0.58 IC); Valuation stays at 45% (EV/EBITDA +0.43 IC)",
+      source: "ic-derived",
+      targetSuperGroup: "utilities",
+      weights: {
+        valuation: 0.45,
+        health: 0.30,
+        quality: 0.10,
+        shareholderReturn: 0.10,
+        growth: 0.05,
+        momentum: 0.0,
+      },
+    },
+    {
+      // Semiconductors & Hardware passing 3y cells: EV/EBITDA +0.388,
+      // P/E +0.286, P/FCF +0.224 (3 valuation factors), Accruals
+      // -0.231 (Quality factor). Boost Quality from 10% to 25% (the
+      // accruals signal is doing real work here); keep Valuation high.
+      name: "semis-hardware-quality-tilt",
+      description:
+        "Semis & Hardware: boost Quality to 25% (Sloan accruals -0.23 IC works here); Valuation 50% unchanged",
+      source: "ic-derived",
+      targetSuperGroup: "semis-hardware",
+      weights: {
+        valuation: 0.50,
+        health: 0.10,
+        quality: 0.25,
+        shareholderReturn: 0.05,
+        growth: 0.10,
+        momentum: 0.0,
+      },
+    },
+    {
+      // Consumer Discretionary passing 3y cells: EV/EBITDA +0.293,
+      // P/FCF +0.241 (just valuation factors). Default already has
+      // 50% Valuation; boost slightly to 55% by reducing Health.
+      name: "consumer-discretionary-deep-value",
+      description:
+        "Consumer Discretionary: boost Valuation to 55% (only valuation factors passed); reduce Health",
+      source: "ic-derived",
+      targetSuperGroup: "consumer-discretionary",
+      weights: {
+        valuation: 0.55,
+        health: 0.15,
+        quality: 0.10,
+        shareholderReturn: 0.10,
+        growth: 0.10,
+        momentum: 0.0,
+      },
+    },
+    {
+      // Consumer Staples passing 3y cells: NetIssuance -0.257
+      // (Shareholder Return factor). Boost Shareholder Return from
+      // 10% to 25% (the anti-dilution signal earns its keep).
+      name: "consumer-staples-shareholder-return-tilt",
+      description:
+        "Consumer Staples: boost Shareholder Return to 25% (NetIssuance -0.26 IC); Valuation reduced",
+      source: "ic-derived",
+      targetSuperGroup: "consumer-staples",
+      weights: {
+        valuation: 0.40,
+        health: 0.20,
+        quality: 0.10,
+        shareholderReturn: 0.25,
+        growth: 0.05,
+        momentum: 0.0,
+      },
+    },
+    {
+      // Transportation & Autos passing 3y cells: D/EBITDA -0.442
+      // (negative — high debt is BAD here). Boost Health to capture
+      // the balance-sheet signal.
+      name: "transport-autos-health-tilt",
+      description:
+        "Transportation & Autos: boost Health to 30% (D/EBITDA -0.44 IC, low debt is the signal)",
+      source: "ic-derived",
+      targetSuperGroup: "transport-autos",
+      weights: {
+        valuation: 0.45,
+        health: 0.30,
+        quality: 0.10,
+        shareholderReturn: 0.10,
+        growth: 0.05,
+        momentum: 0.0,
+      },
+    },
+  ];
 }
 
 /**

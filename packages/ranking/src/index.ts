@@ -133,6 +133,13 @@ export type {
   SubFactorWeights,
   WeightValidationReport,
 } from "./backtest/weight-validation/types.js";
+export {
+  runPerSuperGroupValidation,
+  type PerSuperGroupPreset,
+  type PerSuperGroupResult,
+  type PerSuperGroupValidationReport,
+} from "./backtest/weight-validation/per-super-group.js";
+export { renderPerSuperGroupReport } from "./backtest/weight-validation/per-super-group-report.js";
 
 // Legacy-rule audit (backtest.md §3.5: H10/H11/H12)
 export {
