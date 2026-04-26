@@ -10,6 +10,7 @@ import {
   rank,
   fairValueFor,
   evaluatePortfolio,
+  bucketRationaleFor,
   DEFAULT_WEIGHTS,
   type CategoryWeights,
 } from "@stockrank/ranking";
@@ -184,8 +185,15 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
   }
 
   if (route.name === "stock") {
-    const row = ranked.rows.find((r) => r.symbol === route.symbol) ?? null;
+    // The row may live in either bucket — search both rows (eligible)
+    // and ineligibleRows (failed §4 floor) so detail pages render for
+    // every name in the universe.
+    const row =
+      ranked.rows.find((r) => r.symbol === route.symbol) ??
+      ranked.ineligibleRows.find((r) => r.symbol === route.symbol) ??
+      null;
     const trendSamples = fvTrend?.symbols[route.symbol]?.quarterly;
+    const rationale = row ? bucketRationaleFor(row, ranked) : null;
     return (
       <main className="app">
         <StockDetailScreen
@@ -195,6 +203,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
           onSpaxxRateChange={setSpaxxRate}
           onBack={() => navigate("/")}
           fvTrendSamples={trendSamples}
+          rationale={rationale}
         />
       </main>
     );

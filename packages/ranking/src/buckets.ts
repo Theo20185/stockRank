@@ -30,22 +30,32 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
 /**
  * Three-bucket classifier for the Results screen tabs.
  *
- *   - **ranked**   — actionable buy candidates: passed the quality floor,
- *                    fair value present, current price below the
- *                    conservative-tail (p25), FV trend not declining.
- *                    Options liquidity is NOT a gate — names without
- *                    options still show as share-purchase candidates;
- *                    the UI hides the options-strategy panels (CSP,
- *                    buy-write, covered call) for illiquid-options
- *                    rows. fundamentalsDirection is also NOT a gate
- *                    (Phase 2B rejected the filter as regime-unstable).
- *   - **watch**    — interesting but not actionable today: above the
- *                    conservative-tail, declining FV trend, or
- *                    carrying a structural-but-tracked flag like
- *                    negative equity.
- *   - **excluded** — diagnostic bucket: failed the quality floor entirely
- *                    (all 5 category scores null — the ineligible-row
- *                    stub) or no fair value range computable.
+ *   - **ranked** — actionable buy candidates: passed the quality floor,
+ *                  fair value present, current price below the
+ *                  conservative-tail (p25). Options liquidity is NOT
+ *                  a gate — names without options still show as
+ *                  share-purchase candidates; the UI hides the
+ *                  options-strategy panels (CSP, buy-write, covered
+ *                  call) for illiquid-options rows.
+ *                  fundamentalsDirection is also NOT a gate (Phase 2B
+ *                  rejected the filter as regime-unstable).
+ *   - **watch**  — interesting but not actionable today: above the
+ *                  conservative-tail or carrying a structural-but-
+ *                  tracked flag like negative equity.
+ *   - **avoid**  — engine wants you out (or to skip entirely). One of:
+ *                    * composite in the bottom decile of the eligible
+ *                      cohort (Phase 4A long/short tail-avoidance);
+ *                    * failed the §4 quality floor (all 5 category
+ *                      scores null — the ineligible-row stub);
+ *                    * no fair value range computable (insufficient
+ *                      anchors);
+ *                    * model-incompatible industry (banks, capital
+ *                      markets, reinsurance — accounting outside the
+ *                      model's PE/EV-EBITDA/P-FCF domain).
+ *                  All four sub-cases were collapsed into Avoid
+ *                  2026-04-26: the user-facing answer is the same
+ *                  ("don't buy this"), the *why* surfaces on the
+ *                  stock-detail page via the bucket rationale.
  *
  * Note: missing some-but-not-all category scores no longer affects the
  * bucket. Earlier the rule was missing>=2 → excluded, missing===1 →
@@ -59,18 +69,17 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
  * buckets, only inside one.
  */
 
-export type BucketKey = "ranked" | "watch" | "avoid" | "excluded";
+export type BucketKey = "ranked" | "watch" | "avoid";
 
 export type BucketedRows = {
   ranked: RankedRow[];
   watch: RankedRow[];
   /**
-   * Bottom-decile-by-composite eligible names. Mutually exclusive
-   * with `ranked` and `watch` — a row that would otherwise classify
-   * as ranked or watch is reassigned to `avoid` if its composite
-   * lands in the bottom decile of the eligible cohort. `excluded`
-   * still wins (failed-floor names already aren't candidates;
-   * no need to also call them avoid).
+   * Either bottom-decile-by-composite eligible names OR diagnostic
+   * rows the engine couldn't score (failed quality floor, no fair
+   * value, model-incompatible industry). All four sub-cases share
+   * the same user-facing answer; the per-stock rationale module
+   * surfaces the specific reason on the detail page.
    *
    * Phase 4A long/short evidence: in COVID-era PIT data the bottom
    * decile underperformed SPY by ~25 pp at 3y while the top decile
@@ -78,7 +87,6 @@ export type BucketedRows = {
    * tail; this view makes that actionable.
    */
   avoid: RankedRow[];
-  excluded: RankedRow[];
 };
 
 const ALL_CATEGORIES: CategoryKey[] = [
@@ -105,28 +113,28 @@ export function classifyRow(row: RankedRow): BucketKey {
   // built for. This precedes the quality-floor / negative-equity
   // checks because it's a stronger statement: not "this name failed
   // a screen" but "this name is outside our model's domain."
-  if (MODEL_INCOMPATIBLE_INDUSTRIES.has(row.industry)) return "excluded";
+  if (MODEL_INCOMPATIBLE_INDUSTRIES.has(row.industry)) return "avoid";
 
   const missing = missingCategoryCount(row);
 
   // Names that failed the quality floor — surfaced as RankedRow stubs
   // with all 5 category scores null. These come straight here regardless
   // of negative-equity / fair-value status; they didn't even get scored.
-  if (missing === 5) return "excluded";
+  if (missing === 5) return "avoid";
 
   // Negative-equity names (BKNG, MCD, MO, …) get ROIC nulled
   // structurally (the ratio divides by equity). That's not a data gap;
   // it's a strategic-buyback consequence. Treat them as Watch — but if
-  // there's no fair value at all, fall back to Excluded.
+  // there's no fair value at all, fall back to Avoid.
   if (row.negativeEquity) {
-    if (!row.fairValue || !row.fairValue.range) return "excluded";
+    if (!row.fairValue || !row.fairValue.range) return "avoid";
     return "watch";
   }
 
   // Without a fair-value range we can't ask whether the price is below
   // the conservative tail, so we can't classify as either ranked or
-  // watch — fall to Excluded as a diagnostic bucket.
-  if (!row.fairValue || !row.fairValue.range) return "excluded";
+  // watch — fall to Avoid as a diagnostic bucket.
+  if (!row.fairValue || !row.fairValue.range) return "avoid";
 
   // Ranked requires the stock to be trading below the conservative-tail
   // fair value. Above it and we're not getting a value entry —
@@ -188,41 +196,44 @@ export function classifyRow(row: RankedRow): BucketKey {
 const AVOID_PERCENTILE_DEFAULT = 0.10;
 
 /**
- * Partition rows into 4 mutually-exclusive buckets.
+ * Partition rows into 3 mutually-exclusive buckets.
  *
  * Priority order (highest wins):
- *   1. excluded — failed quality floor / no FV / model-incompatible
- *      industry. classifyRow already returns this; not overridden.
- *   2. avoid — composite in the bottom `avoidPercentile` of eligible
- *      rows. Reassigns from `ranked` or `watch` only — `excluded`
- *      always wins (failed-floor names already aren't candidates).
- *   3. watch / ranked — classifyRow's normal output for everything
+ *   1. avoid — classifyRow returned "avoid" (failed quality floor /
+ *      no FV / model-incompatible industry / negative equity without
+ *      FV) OR composite is in the bottom `avoidPercentile` of the
+ *      eligible cohort. Both sub-cases share the bucket; the
+ *      stock-detail rationale module surfaces the specific reason.
+ *   2. watch / ranked — classifyRow's normal output for everything
  *      else.
  *
  * The Avoid bucket was added 2026-04-26 from Phase 4A long/short
  * evidence — in COVID-era PIT data, the bottom decile underperformed
  * SPY by ~25 pp at 3y while the top decile only barely beat it. The
  * engine's strongest signal is in the tail; this view makes that
- * actionable.
+ * actionable. The previously-separate Excluded bucket was rolled in
+ * the same day — both answer "don't buy this," and surfacing them in
+ * separate tabs forced the user to think about the difference rather
+ * than just see all the names to skip in one place.
  */
 export function bucketRows(
   rows: RankedRow[],
   options: { avoidPercentile?: number } = {},
 ): BucketedRows {
   const avoidPercentile = options.avoidPercentile ?? AVOID_PERCENTILE_DEFAULT;
-  const out: BucketedRows = { ranked: [], watch: [], avoid: [], excluded: [] };
+  const out: BucketedRows = { ranked: [], watch: [], avoid: [] };
 
   // First pass — classify each row by classifyRow.
   const initial: Array<{ row: RankedRow; klass: BucketKey }> = rows.map(
     (row) => ({ row, klass: classifyRow(row) }),
   );
 
-  // Determine the bottom-decile cohort over the ELIGIBLE rows
-  // (those with non-zero composite). Excluded names with composite=0
-  // are diagnostic and shouldn't dilute the eligible cohort or get
-  // re-tagged as avoid (they're already filtered out as excluded).
+  // Determine the bottom-decile cohort over rows that classifyRow
+  // would otherwise rank/watch. Diagnostic-bucket rows (already
+  // classified as avoid by classifyRow) and zero-composite stubs
+  // shouldn't dilute the cohort.
   const eligibleByComposite = initial
-    .filter((e) => e.klass !== "excluded" && e.row.composite > 0)
+    .filter((e) => e.klass !== "avoid" && e.row.composite > 0)
     .map((e) => e.row.composite)
     .sort((a, b) => a - b);
   let avoidCutoff = -Infinity;
@@ -234,10 +245,10 @@ export function bucketRows(
     avoidCutoff = eligibleByComposite[idx]!;
   }
 
-  // Second pass — apply Avoid override.
+  // Second pass — apply bottom-decile Avoid override.
   for (const { row, klass } of initial) {
-    if (klass === "excluded") {
-      out.excluded.push(row);
+    if (klass === "avoid") {
+      out.avoid.push(row);
       continue;
     }
     if (row.composite > 0 && row.composite <= avoidCutoff) {

@@ -26,7 +26,6 @@ const BUCKET_LABELS: Record<BucketKey, string> = {
   ranked: "Candidates",
   watch: "Watch",
   avoid: "Avoid",
-  excluded: "Excluded",
 };
 
 const BUCKET_EMPTY_MESSAGES: Record<BucketKey, string> = {
@@ -35,9 +34,7 @@ const BUCKET_EMPTY_MESSAGES: Record<BucketKey, string> = {
   watch:
     "No watchlist names. Stocks land here when they have a fair value range but trade at or above the conservative tail, OR carry a tracked structural flag like negative equity.",
   avoid:
-    "No names in the Avoid bucket — the bottom decile of composite scores is empty for the current filters. Phase 4A long/short evidence found the bottom decile underperformed SPY by ~25 pp at 3y in COVID-era PIT data; this view surfaces those names so you can spot positions you might want to exit (or names to skip even if they look superficially cheap).",
-  excluded:
-    "No excluded names. Stocks land here when they failed the quality floor or have no fair value computable.",
+    "Nothing in Avoid. Stocks land here when they fail the §4 quality floor, have no fair value computable, sit in a model-incompatible industry (banks, capital markets, reinsurance), OR their composite is in the bottom decile of the eligible cohort. Phase 4A long/short evidence: in COVID-era PIT data the bottom decile underperformed SPY by ~25 pp at 3y. Use this tab to spot positions you might want to exit, or to skip names that look superficially cheap.",
 };
 
 export function ResultsScreen({

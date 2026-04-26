@@ -1,5 +1,5 @@
 import type { FvTrendSample } from "@stockrank/core";
-import type { RankedRow } from "@stockrank/ranking";
+import type { BucketRationale, RankedRow } from "@stockrank/ranking";
 import { AppHeader } from "../components/AppHeader.js";
 import { DrillDownPanel } from "../components/DrillDownPanel.js";
 import { OptionsPanel } from "../components/OptionsPanel.js";
@@ -14,6 +14,9 @@ export type StockDetailScreenProps = {
    * fv-trend.json). Optional — when absent the sparkline isn't
    * rendered, no error. */
   fvTrendSamples?: FvTrendSample[];
+  /** Bucket rationale (headline + strengths + weaknesses) for this
+   * row. Computed by the caller against the live ranked snapshot. */
+  rationale?: BucketRationale | null;
 };
 
 export function StockDetailScreen({
@@ -23,6 +26,7 @@ export function StockDetailScreen({
   onSpaxxRateChange,
   onBack,
   fvTrendSamples,
+  rationale,
 }: StockDetailScreenProps) {
   return (
     <div className="screen screen--stock">
@@ -31,7 +35,11 @@ export function StockDetailScreen({
       <AppHeader onBack={onBack} />
       {row ? (
         <>
-          <DrillDownPanel row={row} fvTrendSamples={fvTrendSamples} />
+          <DrillDownPanel
+            row={row}
+            fvTrendSamples={fvTrendSamples}
+            rationale={rationale ?? null}
+          />
           <OptionsPanel
             symbol={row.symbol}
             row={row}

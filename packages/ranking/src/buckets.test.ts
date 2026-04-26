@@ -84,11 +84,6 @@ describe("classifyRow", () => {
   });
 
   it("ranked: missing some-but-not-all category scores no longer demotes", () => {
-    // Earlier rule: missing===1 → watch, missing>=2 → excluded. Reverted
-    // because that wasn't a data-driven decision — the composite score
-    // already handles missing categories by averaging across what's
-    // available. Thin-data rows now flow through the FV / belowP25 /
-    // trend / liquid gates like any other row.
     expect(classifyRow(row({ missingCategories: ["quality"] }))).toBe("ranked");
     expect(classifyRow(row({ missingCategories: ["quality", "growth"] }))).toBe("ranked");
     expect(classifyRow(row({ missingCategories: ["valuation", "health", "growth"] }))).toBe("ranked");
@@ -103,11 +98,6 @@ describe("classifyRow", () => {
   });
 
   it("ranked: declining FV trend does NOT demote (Phase 4C H10 rejected the filter)", () => {
-    // Until 2026-04-26 this test asserted Watch. The fvTrend rule
-    // was removed after Phase 4C H10 audit showed declining-trend
-    // names actually OUTPERFORM stable+improving by +5.30 pp at 3y
-    // in PIT 2018-2023 + delisted, and within-noise in pre-COVID.
-    // See docs/specs/backtest-actions-2026-04-26-phase4.md §3.
     expect(classifyRow(row({ fvTrend: "declining" }))).toBe("ranked");
   });
 
@@ -118,44 +108,24 @@ describe("classifyRow", () => {
   });
 
   // ---- fundamentalsDirection — informational only as of 2026-04-25 ----
-  // The bucket classifier no longer demotes on fundamentalsDirection
-  // (any value). Phase 2B PIT weight-validation evidence
-  // (docs/specs/backtest-actions-2026-04-25-phase2.md §1) showed
-  // the filter is regime-unstable: -5.36 pp at 3y in pre-COVID, the
-  // opposite of what it should do. The fundamentalsDirection field
-  // stays on RankedRow as informational; no bucket consequence.
 
   it("ranked: DECLINING fundamentals does NOT demote (Phase 2B rejected the filter)", () => {
-    expect(
-      classifyRow(row({ fundamentalsDirection: "declining" })),
-    ).toBe("ranked");
+    expect(classifyRow(row({ fundamentalsDirection: "declining" }))).toBe("ranked");
   });
 
   it("ranked: STABLE fundamentals does NOT demote", () => {
-    expect(
-      classifyRow(row({ fundamentalsDirection: "stable" })),
-    ).toBe("ranked");
+    expect(classifyRow(row({ fundamentalsDirection: "stable" }))).toBe("ranked");
   });
 
   it("ranked: INSUFFICIENT fundamentals data does NOT demote", () => {
-    expect(
-      classifyRow(row({ fundamentalsDirection: "insufficient_data" })),
-    ).toBe("ranked");
+    expect(classifyRow(row({ fundamentalsDirection: "insufficient_data" }))).toBe("ranked");
   });
 
   it("ranked: IMPROVING fundamentals does NOT demote", () => {
-    expect(
-      classifyRow(row({ fundamentalsDirection: "improving" })),
-    ).toBe("ranked");
+    expect(classifyRow(row({ fundamentalsDirection: "improving" }))).toBe("ranked");
   });
 
   it("ranked: both fundamentalsDirection and fvTrend declining → ranked (both rules removed)", () => {
-    // Both fundamentalsDirection (Phase 2B, 2026-04-25) and fvTrend
-    // (Phase 4C, 2026-04-26) demote-on-declining rules were removed
-    // after PIT weight-validation evidence. A row with BOTH signals
-    // declining now goes to Ranked, not Watch — the engine's only
-    // remaining demotion conditions are price ≥ p25 (above FV) or
-    // negative-equity / no-FV-range (excluded).
     expect(
       classifyRow(
         row({ fvTrend: "declining", fundamentalsDirection: "declining" }),
@@ -163,7 +133,12 @@ describe("classifyRow", () => {
     ).toBe("ranked");
   });
 
-  it("excluded: missing all 5 categories (ineligible-row stub)", () => {
+  // ---- Avoid bucket diagnostic sub-cases (formerly "Excluded") ----
+  // 2026-04-26: Excluded was rolled into Avoid. classifyRow returns
+  // "avoid" for failed-quality-floor, no-FV, model-incompatible-industry.
+  // The per-stock rationale module surfaces the WHY on the detail page.
+
+  it("avoid: missing all 5 categories (ineligible-row stub)", () => {
     expect(
       classifyRow(
         row({
@@ -171,12 +146,10 @@ describe("classifyRow", () => {
           fairValue: null,
         }),
       ),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("excluded: ineligible-row stub even when fair value is somehow present", () => {
-    // Failed-quality-floor names should still land in Excluded regardless
-    // of whether a fair value happens to be computable.
+  it("avoid: ineligible-row stub even when fair value is somehow present", () => {
     expect(
       classifyRow(
         row({
@@ -184,52 +157,45 @@ describe("classifyRow", () => {
           fairValue: fv(20),
         }),
       ),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("excluded: no fair value at all", () => {
-    expect(classifyRow(row({ fairValue: null }))).toBe("excluded");
+  it("avoid: no fair value at all", () => {
+    expect(classifyRow(row({ fairValue: null }))).toBe("avoid");
   });
 
-  it("excluded: fair value present but range is null", () => {
+  it("avoid: fair value present but range is null", () => {
     const noRange = { ...fv(null), range: null };
-    expect(classifyRow(row({ fairValue: noRange }))).toBe("excluded");
+    expect(classifyRow(row({ fairValue: noRange }))).toBe("avoid");
   });
 
-  // ---- Model-incompatible industries: hard-exclude ----
-  // The engine's PE / EV-EBITDA / P-FCF anchors don't fit banks (no
-  // meaningful EBITDA, deposits ≠ debt), capital markets (carry-comp
-  // accounting), or reinsurers (claims-reserve accounting). Force
-  // these to Excluded regardless of how attractive the FV looks —
-  // it's a value the engine can't reliably compute.
+  // ---- Model-incompatible industries: hard-avoid ----
 
-  it("excluded: Banks - Regional industry (engine can't value bank balance sheets)", () => {
+  it("avoid: Banks - Regional industry (engine can't value bank balance sheets)", () => {
     expect(
       classifyRow(row({ symbol: "FITB", industry: "Banks - Regional", sector: "Financial Services" })),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("excluded: Banks - Diversified industry", () => {
+  it("avoid: Banks - Diversified industry", () => {
     expect(
       classifyRow(row({ symbol: "JPM", industry: "Banks - Diversified", sector: "Financial Services" })),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("excluded: Capital Markets industry", () => {
+  it("avoid: Capital Markets industry", () => {
     expect(
       classifyRow(row({ symbol: "SCHW", industry: "Capital Markets", sector: "Financial Services" })),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("excluded: Insurance - Reinsurance industry", () => {
+  it("avoid: Insurance - Reinsurance industry", () => {
     expect(
       classifyRow(row({ symbol: "EG", industry: "Insurance - Reinsurance", sector: "Financial Services" })),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("model-incompatible: hard-exclude wins over fair-value-attractive setup", () => {
-    // Even with great category scores + below-p25 + improving fundamentals
-    // + liquid options, JPM goes to Excluded because the model doesn't apply.
+  it("model-incompatible: hard-avoid wins over fair-value-attractive setup", () => {
     expect(
       classifyRow(
         row({
@@ -239,19 +205,16 @@ describe("classifyRow", () => {
           fundamentalsDirection: "improving",
         }),
       ),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 
-  it("does NOT exclude other Financial Services industries (Asset Management still allowed)", () => {
-    // Asset Management has partial coverage (50% EV/EBITDA + P/FCF
-    // missing). Soft-flag is handled in the fair-value confidence layer
-    // (B2), not here. Bucket logic still allows it through.
+  it("does NOT avoid other Financial Services industries (Asset Management still allowed)", () => {
     expect(
       classifyRow(row({ industry: "Asset Management", sector: "Financial Services" })),
     ).toBe("ranked");
   });
 
-  it("does NOT exclude other Insurance subindustries (only Reinsurance)", () => {
+  it("does NOT avoid other Insurance subindustries (only Reinsurance)", () => {
     expect(
       classifyRow(row({ industry: "Insurance - Property & Casualty", sector: "Financial Services" })),
     ).toBe("ranked");
@@ -271,7 +234,7 @@ describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
     ).toBe("watch");
   });
 
-  it("watch: negative equity with multiple categories null still gets Watch (not Excluded)", () => {
+  it("watch: negative equity with multiple categories null still gets Watch (not Avoid)", () => {
     expect(
       classifyRow(row({
         negativeEquity: true,
@@ -281,20 +244,18 @@ describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
     ).toBe("watch");
   });
 
-  it("excluded: negative equity but no fair value at all", () => {
+  it("avoid: negative equity but no fair value at all", () => {
     expect(
       classifyRow(row({
         negativeEquity: true,
         fairValue: null,
       })),
-    ).toBe("excluded");
+    ).toBe("avoid");
   });
 });
 
-describe("bucketRows — Avoid bucket (Phase 4A)", () => {
+describe("bucketRows — Avoid bucket (Phase 4A + diagnostic merge)", () => {
   it("reassigns bottom-decile composites to Avoid (would otherwise be Ranked)", () => {
-    // 10 ranked-eligible rows with varied composites. 10% = 1 →
-    // the lowest-composite row gets reassigned to Avoid.
     const rows = [
       row({ symbol: "T1", composite: 95 }),
       row({ symbol: "T2", composite: 90 }),
@@ -314,8 +275,6 @@ describe("bucketRows — Avoid bucket (Phase 4A)", () => {
   });
 
   it("Avoid takes priority over Watch (a watch-classified low-composite row goes to Avoid)", () => {
-    // Build 5 rows: 4 normal ranked + 1 watch (price >= p25) with low composite.
-    // The watch row's composite is bottom decile → Avoid wins.
     const rows = [
       row({ symbol: "R1", composite: 90 }),
       row({ symbol: "R2", composite: 85 }),
@@ -332,11 +291,10 @@ describe("bucketRows — Avoid bucket (Phase 4A)", () => {
     expect(result.watch.map((r) => r.symbol)).not.toContain("WATCH_LOW");
   });
 
-  it("Excluded keeps priority over Avoid (failed-floor names don't get re-tagged)", () => {
-    // Need enough eligible rows that the bottom-decile cutoff doesn't
-    // sweep R1 in by accident. With 11 eligible rows and 10% = 2,
-    // the cutoff is the 2nd-lowest composite among eligible rows; R1
-    // at 90 is well above that.
+  it("diagnostic-avoid (failed floor) and bottom-decile-avoid both land in same Avoid bucket", () => {
+    // 2026-04-26 merge: previously the failed-floor row would have
+    // gone to Excluded; now it lands in Avoid alongside bottom-decile
+    // names. Both share the user-facing "don't buy" answer.
     const rows = [
       ...Array.from({ length: 11 }, (_, i) =>
         row({ symbol: `R${i + 1}`, composite: 50 + i * 5 }),
@@ -349,12 +307,8 @@ describe("bucketRows — Avoid bucket (Phase 4A)", () => {
       }),
     ];
     const result = bucketRows(rows);
-    expect(result.excluded.map((r) => r.symbol)).toEqual(["INELIG"]);
-    // 11 eligible × 10% = 1.1 → ceil = 2 → bottom 2 by composite go
-    // to avoid: R1 (50) and R2 (55).
-    expect(result.avoid.map((r) => r.symbol).sort()).toEqual(["R1", "R2"]);
-    // INELIG (composite 0, excluded) is not in avoid.
-    expect(result.avoid.find((r) => r.symbol === "INELIG")).toBeUndefined();
+    // INELIG (failed floor) + bottom-2 by composite (R1=50, R2=55) all in avoid.
+    expect(result.avoid.map((r) => r.symbol).sort()).toEqual(["INELIG", "R1", "R2"]);
   });
 
   it("respects the avoidPercentile option", () => {
@@ -365,9 +319,7 @@ describe("bucketRows — Avoid bucket (Phase 4A)", () => {
       row({ symbol: "B2", composite: 20 }),
       row({ symbol: "B3", composite: 10 }),
     ];
-    // Default 10% of 5 = 1
     expect(bucketRows(rows).avoid.map((r) => r.symbol)).toEqual(["B3"]);
-    // 60% of 5 = 3
     expect(
       bucketRows(rows, { avoidPercentile: 0.6 })
         .avoid.map((r) => r.symbol)
@@ -382,22 +334,18 @@ describe("bucketRows — Avoid bucket (Phase 4A)", () => {
 
 describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
-    // Use avoidPercentile=0 so the bottom-decile reassignment doesn't
-    // pull any of the small fixture's rows into Avoid (this test is
-    // about the 3-way semantic partition, not the Avoid override).
     const a = row({ symbol: "AAA" });                                            // ranked
     const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
     const c = row({ symbol: "CCC", fvTrend: "declining" });                      // ranked (Phase 4C removed this demote)
     const d = row({ symbol: "DDD", optionsLiquid: false });                      // ranked (illiquid options no longer demotes)
-    const e = row({ symbol: "EEE", fairValue: null });                           // excluded (no FV)
+    const e = row({ symbol: "EEE", fairValue: null });                           // avoid (no FV)
     const result = bucketRows([a, b, c, d, e], { avoidPercentile: 0 });
     expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "CCC", "DDD"]);
     expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB"]);
-    expect(result.avoid).toEqual([]);
-    expect(result.excluded.map((r) => r.symbol)).toEqual(["EEE"]);
+    expect(result.avoid.map((r) => r.symbol)).toEqual(["EEE"]);
   });
 
   it("returns empty buckets when given an empty list", () => {
-    expect(bucketRows([])).toEqual({ ranked: [], watch: [], avoid: [], excluded: [] });
+    expect(bucketRows([])).toEqual({ ranked: [], watch: [], avoid: [] });
   });
 });

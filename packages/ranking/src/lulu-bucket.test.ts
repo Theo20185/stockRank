@@ -122,16 +122,18 @@ describe("LULU bucket placement (end-to-end regression)", () => {
     const buckets = bucketRows(result.rows);
     const inRanked = buckets.ranked.some((r) => r.symbol === "LULU");
     const inWatch = buckets.watch.some((r) => r.symbol === "LULU");
-    const inExcluded = buckets.excluded.some((r) => r.symbol === "LULU");
+    const inAvoid = buckets.avoid.some((r) => r.symbol === "LULU");
     // LULU's bucket placement now depends entirely on price-vs-p25
     // and FV-trend overlays. Whichever it lands in, it must NOT be
     // demoted purely on fundamentalsDirection. We assert that the
     // demotion-via-fundamentalsDirection no longer fires by checking
-    // the row landed in Ranked OR Excluded (whatever the
-    // price-vs-FV math says) — but explicitly NOT in Watch via the
-    // removed rule. The fvTrend defaults to "insufficient_data"
-    // here so it can't demote either.
-    expect(inExcluded || inRanked || inWatch).toBe(true);
+    // the row landed in Ranked OR Avoid (whatever the price-vs-FV
+    // math says) — but explicitly NOT in Watch via the removed rule.
+    // The fvTrend defaults to "insufficient_data" here so it can't
+    // demote either. Avoid here covers both bottom-decile-composite
+    // AND the diagnostic sub-cases (no-FV / failed-floor / model-
+    // incompatible) that were merged into Avoid 2026-04-26.
+    expect(inAvoid || inRanked || inWatch).toBe(true);
     // The key invariant: with default fvTrend (insufficient_data)
     // and no FV-declining flag, LULU is no longer demoted to Watch
     // purely because of declining fundamentals. The test below pins

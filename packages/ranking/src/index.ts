@@ -7,6 +7,12 @@ export { fairValueFor, buildFairValueCohort } from "./fair-value/index.js";
 export { bucketRows, classifyRow } from "./buckets.js";
 export type { BucketKey, BucketedRows } from "./buckets.js";
 export {
+  bucketRationaleFor,
+  BUCKET_REASON_LABELS,
+  type BucketRationale,
+  type BucketReasonCode,
+} from "./rationale/bucket-rationale.js";
+export {
   evaluatePortfolio,
   SELL_SIGNAL_LABELS,
   type PortfolioEvaluation,

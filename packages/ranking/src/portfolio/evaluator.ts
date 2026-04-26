@@ -86,7 +86,10 @@ export function evaluatePortfolio(
     for (const row of buckets[k]) bucketBySymbol.set(row.symbol, k);
   }
   for (const row of snapshot.ineligibleRows) {
-    bucketBySymbol.set(row.symbol, "excluded");
+    // Ineligible rows (failed §4 quality floor) collapse into Avoid
+    // along with bottom-decile and other diagnostic cases — same
+    // user-facing answer.
+    bucketBySymbol.set(row.symbol, "avoid");
   }
   // Universe median composite — used for the
   // composite-below-universe-median sell signal.

@@ -139,12 +139,16 @@ describe("evaluatePortfolio", () => {
 
   it("flags composite-below-universe-median when composite < median (and not in avoid)", () => {
     // 5 rows; median composite = 50. Held ABC at 30 → below median.
+    // Each row needs a fair value (price < p25) so it doesn't fall
+    // into diagnostic-avoid (no-FV) — that path was merged into Avoid
+    // 2026-04-26 and would crowd out the bottom-decile-only signal
+    // we're testing here.
     const rows = [
-      makeRow({ symbol: "T1", composite: 90, price: 100 }),
-      makeRow({ symbol: "T2", composite: 70, price: 100 }),
-      makeRow({ symbol: "T3", composite: 50, price: 100 }),
-      makeRow({ symbol: "ABC", composite: 30, price: 100 }),
-      makeRow({ symbol: "T4", composite: 20, price: 100 }),
+      makeRow({ symbol: "T1", composite: 90, price: 100, fairValue: fv(150) }),
+      makeRow({ symbol: "T2", composite: 70, price: 100, fairValue: fv(150) }),
+      makeRow({ symbol: "T3", composite: 50, price: 100, fairValue: fv(150) }),
+      makeRow({ symbol: "ABC", composite: 30, price: 100, fairValue: fv(150) }),
+      makeRow({ symbol: "T4", composite: 20, price: 100, fairValue: fv(150) }),
     ];
     const portfolio: Portfolio = {
       updatedAt: "2026-04-26T00:00:00Z",

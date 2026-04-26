@@ -28,12 +28,14 @@ function buildProps() {
 }
 
 describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
-  it("renders three sub-tabs labelled Candidates / Watch / Excluded with counts", () => {
+  it("renders three sub-tabs labelled Candidates / Watch / Avoid with counts", () => {
     render(<ResultsScreen {...buildProps()} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
     expect(subtabs.getByRole("button", { name: /^Candidates \(\d+\)$/ })).toBeInTheDocument();
     expect(subtabs.getByRole("button", { name: /^Watch \(\d+\)$/ })).toBeInTheDocument();
-    expect(subtabs.getByRole("button", { name: /^Excluded \(\d+\)$/ })).toBeInTheDocument();
+    expect(subtabs.getByRole("button", { name: /^Avoid \(\d+\)$/ })).toBeInTheDocument();
+    // Excluded was rolled into Avoid 2026-04-26.
+    expect(subtabs.queryByRole("button", { name: /^Excluded/ })).toBeNull();
   });
 
   it("defaults the Candidates sub-tab to pressed", () => {
@@ -52,25 +54,12 @@ describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
     expect(subtabs.getByRole("button", { name: /^Candidates/ })).toHaveAttribute("aria-pressed", "false");
   });
 
-  it("shows an empty-state message when the active bucket has no rows", async () => {
-    const user = userEvent.setup();
-    const props = buildProps();
-    render(<ResultsScreen {...props} />);
-    const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
-    const excludedBtn = subtabs.getByRole("button", { name: /^Excluded \(0\)/ });
-    await user.click(excludedBtn);
-    const status = screen.getByRole("status");
-    expect(status).toHaveTextContent(/failed the quality floor/i);
-  });
-
   it("bucket counts sum to total rows (eligible + ineligible)", () => {
     const props = buildProps();
     render(<ResultsScreen {...props} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
     const total = props.ranked.rows.length + props.ranked.ineligibleRows.length;
-    // Avoid was added 2026-04-26 as a 4th mutually-exclusive bucket
-    // (bottom-decile composite reassigned from ranked/watch).
-    const counts = ["Candidates", "Watch", "Avoid", "Excluded"].map((label) => {
+    const counts = ["Candidates", "Watch", "Avoid"].map((label) => {
       const btn = subtabs.getByRole("button", { name: new RegExp(`^${label} \\((\\d+)\\)$`) });
       const match = btn.textContent!.match(/\((\d+)\)/);
       return parseInt(match![1]!, 10);

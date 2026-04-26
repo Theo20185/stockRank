@@ -1,5 +1,5 @@
 import type { FvTrendSample } from "@stockrank/core";
-import type { CategoryKey, RankedRow } from "@stockrank/ranking";
+import type { BucketRationale, CategoryKey, RankedRow } from "@stockrank/ranking";
 import {
   categoryLabel,
   factorLabel,
@@ -12,6 +12,12 @@ import {
 import { FairValueBar } from "./FairValueBar.js";
 import { FvTrendSparkline } from "./FvTrendSparkline.js";
 
+const BUCKET_DISPLAY_LABEL: Record<BucketRationale["bucket"], string> = {
+  ranked: "Candidate",
+  watch: "Watch",
+  avoid: "Avoid",
+};
+
 export type DrillDownPanelProps = {
   row: RankedRow | null;
   /** Mobile only: show a close button that calls this when tapped. */
@@ -20,6 +26,10 @@ export type DrillDownPanelProps = {
    * from the loaded fv-trend.json artifact. When undefined or empty,
    * the sparkline isn't rendered. */
   fvTrendSamples?: FvTrendSample[];
+  /** Bucket rationale (headline + strengths + weaknesses) for this
+   * row. When provided, rendered as a "Why this bucket?" callout
+   * at the top of the panel. */
+  rationale?: BucketRationale | null;
 };
 
 const CATEGORY_ORDER: CategoryKey[] = [
@@ -30,7 +40,7 @@ const CATEGORY_ORDER: CategoryKey[] = [
   "growth",
 ];
 
-export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelProps) {
+export function DrillDownPanel({ row, onClose, fvTrendSamples, rationale }: DrillDownPanelProps) {
   if (!row) {
     return (
       <aside className="drill-down drill-down--empty" aria-label="Stock detail">
@@ -69,6 +79,52 @@ export function DrillDownPanel({ row, onClose, fvTrendSamples }: DrillDownPanelP
           </span>
         </p>
       </header>
+
+      {rationale && (
+        <section
+          className={`drill-down__rationale drill-down__rationale--${rationale.bucket}`}
+          aria-label="Why this bucket"
+        >
+          <header className="drill-down__rationale-header">
+            <span className={`drill-down__bucket-badge drill-down__bucket-badge--${rationale.bucket}`}>
+              {BUCKET_DISPLAY_LABEL[rationale.bucket]}
+            </span>
+            <p className="drill-down__rationale-headline">{rationale.headline}</p>
+          </header>
+          {(rationale.strengths.length > 0 || rationale.weaknesses.length > 0) && (
+            <div className="drill-down__rationale-grid">
+              <div className="drill-down__rationale-col">
+                <h4>Strengths</h4>
+                {rationale.strengths.length === 0 ? (
+                  <p className="drill-down__rationale-empty">
+                    Nothing stands out — categories scoring near the median.
+                  </p>
+                ) : (
+                  <ul>
+                    {rationale.strengths.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div className="drill-down__rationale-col">
+                <h4>Weaknesses</h4>
+                {rationale.weaknesses.length === 0 ? (
+                  <p className="drill-down__rationale-empty">
+                    No flagged weaknesses — categories scoring near the median or above.
+                  </p>
+                ) : (
+                  <ul>
+                    {rationale.weaknesses.map((w) => (
+                      <li key={w}>{w}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="drill-down__fair-value">
         <h3>Fair value</h3>

@@ -1046,6 +1046,101 @@ main.app--message h1 {
   font-weight: 600;
 }
 
+/* ─── Bucket rationale callout ───────────────────────────────────── */
+.drill-down__rationale {
+  margin: var(--sp-4) 0 var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: 6px;
+  border-left: 3px solid var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.drill-down__rationale--ranked {
+  border-left-color: #2e9d5e;
+  background: rgba(46, 157, 94, 0.08);
+}
+
+.drill-down__rationale--watch {
+  border-left-color: #d4a017;
+  background: rgba(212, 160, 23, 0.08);
+}
+
+.drill-down__rationale--avoid {
+  border-left-color: #c0392b;
+  background: rgba(192, 57, 43, 0.08);
+}
+
+.drill-down__rationale-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+
+.drill-down__bucket-badge {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+}
+
+.drill-down__bucket-badge--ranked { background: #2e9d5e; }
+.drill-down__bucket-badge--watch { background: #d4a017; }
+.drill-down__bucket-badge--avoid { background: #c0392b; }
+
+.drill-down__rationale-headline {
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.drill-down__rationale-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+@media (max-width: 600px) {
+  .drill-down__rationale-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+  }
+}
+
+.drill-down__rationale-col h4 {
+  margin: 0 0 var(--sp-1);
+  font-size: var(--fs-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.drill-down__rationale-col ul {
+  margin: 0;
+  padding-left: var(--sp-3);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+.drill-down__rationale-col li {
+  margin-bottom: 2px;
+}
+
+.drill-down__rationale-empty {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .drill-down__category-scores ul {
   list-style: none;
   padding: 0;

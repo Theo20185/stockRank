@@ -208,7 +208,7 @@ async function runOptionsFetch(
   }
   const buckets = bucketRows(ranked.rows);
   console.log(
-    `buckets: ranked=${buckets.ranked.length} watch=${buckets.watch.length} excluded=${buckets.excluded.length}`,
+    `buckets: ranked=${buckets.ranked.length} watch=${buckets.watch.length} avoid=${buckets.avoid.length}`,
   );
 
   if (buckets.ranked.length === 0) {

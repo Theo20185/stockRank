@@ -128,4 +128,29 @@ describe("<StockDetailScreen />", () => {
     );
     expect(screen.queryByRole("region", { name: /options for/i })).toBeNull();
   });
+
+  it("renders the bucket rationale callout when provided", () => {
+    vi.stubGlobal("fetch", stubFetch404());
+    const rationale = {
+      bucket: "ranked" as const,
+      primaryReason: "actionable-buy" as const,
+      headline: "Buy candidate — trades 25.0% below the conservative fair value (p25).",
+      strengths: ["Quality score 78/100", "Trades 25.0% below conservative fair value (p25)"],
+      weaknesses: ["Growth score 28/100"],
+    };
+    render(
+      <StockDetailScreen
+        row={SAMPLE_ROW}
+        symbol="DECK"
+        onBack={() => {}}
+        rationale={rationale}
+      />,
+    );
+    const rationaleSection = screen.getByRole("region", { name: /why this bucket/i });
+    expect(rationaleSection).toHaveTextContent(/Buy candidate/i);
+    expect(rationaleSection).toHaveTextContent(/Quality score 78/);
+    expect(rationaleSection).toHaveTextContent(/Growth score 28/);
+    expect(rationaleSection).toHaveTextContent(/Candidate/);
+    vi.unstubAllGlobals();
+  });
 });
