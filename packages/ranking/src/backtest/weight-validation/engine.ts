@@ -104,8 +104,9 @@ export function runWeightValidation(
       for (const o of testObservations) horizons.add(o.horizon);
       const perHorizon: HorizonPerformance[] = [];
       for (const horizon of [...horizons].sort()) {
-        // Per-snapshot top-decile excess returns.
+        // Per-snapshot top-decile + bottom-decile excess returns.
         const perSnapshotExcess: number[] = [];
+        const perSnapshotBottomExcess: number[] = [];
         let perSnapshotRealized = 0;
         let snapshotCount = 0;
         for (const [key, snapshotObs] of grouped) {
@@ -128,20 +129,19 @@ export function runWeightValidation(
           valid.sort((a, b) => (b.composite ?? 0) - (a.composite ?? 0));
           const cutoff = Math.max(1, Math.ceil(valid.length * topPercentile));
           const top = valid.slice(0, cutoff);
-          // Top-decile equal-weighted mean excess return (already
-          // baked into observation as fwd - spy).
+          // Bottom decile (lowest composites). Phase 4A — for
+          // long/short factor isolation. Same cutoff size as top.
+          const bottom = valid.slice(-cutoff);
           let sumExcess = 0;
           let sumRealized = 0;
           for (const t of top) {
             sumExcess += t.obs.excessReturn;
-            // realizedReturn = excessReturn + spy. We don't have spy
-            // standalone in the observation, so approximate realized
-            // as the excess + 0 (i.e., report excess only). This is
-            // OK because the consumer cares about excess; the
-            // realized field is informational.
             sumRealized += t.obs.excessReturn;
           }
+          let sumBottomExcess = 0;
+          for (const b of bottom) sumBottomExcess += b.obs.excessReturn;
           perSnapshotExcess.push(sumExcess / top.length);
+          perSnapshotBottomExcess.push(sumBottomExcess / bottom.length);
           perSnapshotRealized += sumRealized / top.length;
           snapshotCount += 1;
         }
@@ -150,6 +150,11 @@ export function runWeightValidation(
             ? null
             : perSnapshotExcess.reduce((a, b) => a + b, 0) /
               perSnapshotExcess.length;
+        const meanBottomExcess =
+          perSnapshotBottomExcess.length === 0
+            ? null
+            : perSnapshotBottomExcess.reduce((a, b) => a + b, 0) /
+              perSnapshotBottomExcess.length;
         const meanRealized =
           snapshotCount === 0 ? null : perSnapshotRealized / snapshotCount;
         const ci95 =
@@ -161,12 +166,24 @@ export function runWeightValidation(
                 mulberry32(seed + idx * 1000 + horizon),
               )
             : null;
+        // Phase 4B — risk-adjusted metrics from the per-snapshot series.
+        const sharpe = sharpeLike(perSnapshotExcess);
+        const sortino = sortinoLike(perSnapshotExcess);
+        const mdd = maxDrawdownOfRunningMean(perSnapshotExcess);
         perHorizon.push({
           horizon,
           meanRealized,
           meanExcess,
           excessCi95: ci95,
           nSnapshots: perSnapshotExcess.length,
+          meanBottomExcess,
+          longShortDelta:
+            meanExcess !== null && meanBottomExcess !== null
+              ? meanExcess - meanBottomExcess
+              : null,
+          sharpeLike: sharpe,
+          sortinoLike: sortino,
+          maxDrawdown: mdd,
         });
       }
       return { candidate, perHorizon };
@@ -256,6 +273,75 @@ function adoptionVerdict(
 
 function ciToString(ci: { lo: number; hi: number }): string {
   return `[${(ci.lo * 100).toFixed(2)}%, ${(ci.hi * 100).toFixed(2)}%]`;
+}
+
+/**
+ * Phase 4B — Sharpe-like ratio: meanExcess / stddev(perSnapshotExcess).
+ * Caveat: not a true Sharpe because the input is already excess return
+ * vs SPY, not vs a risk-free benchmark. Useful for relative comparison
+ * across candidates within the same regime.
+ *
+ * Returns null when there are fewer than 2 observations or stddev is 0.
+ */
+function sharpeLike(perSnapshotExcess: number[]): number | null {
+  if (perSnapshotExcess.length < 2) return null;
+  const mean =
+    perSnapshotExcess.reduce((a, b) => a + b, 0) / perSnapshotExcess.length;
+  let sumSq = 0;
+  for (const v of perSnapshotExcess) sumSq += (v - mean) ** 2;
+  const variance = sumSq / (perSnapshotExcess.length - 1);
+  const stddev = Math.sqrt(variance);
+  if (stddev === 0) return null;
+  return mean / stddev;
+}
+
+/**
+ * Phase 4B — Sortino-like ratio. Same numerator as Sharpe but divides
+ * only by the downside standard deviation (variance of negative
+ * excess values vs zero). Matches the user's "value-tilted defensive"
+ * preference for asymmetric returns.
+ */
+function sortinoLike(perSnapshotExcess: number[]): number | null {
+  if (perSnapshotExcess.length < 2) return null;
+  const mean =
+    perSnapshotExcess.reduce((a, b) => a + b, 0) / perSnapshotExcess.length;
+  let sumSqDown = 0;
+  let nDown = 0;
+  for (const v of perSnapshotExcess) {
+    if (v < 0) {
+      sumSqDown += v * v;
+      nDown += 1;
+    }
+  }
+  if (nDown === 0) return null; // no downside → undefined (infinite)
+  const downsideVar = sumSqDown / nDown;
+  const downsideStddev = Math.sqrt(downsideVar);
+  if (downsideStddev === 0) return null;
+  return mean / downsideStddev;
+}
+
+/**
+ * Phase 4B — maximum drawdown of the running mean of per-snapshot
+ * excess returns. Walks the series, tracking the highest running mean
+ * seen so far, then the worst (most-negative) deviation from that
+ * peak. Captures how far underwater the strategy would have been at
+ * the worst point during the test window.
+ *
+ * Returns null when fewer than 2 observations.
+ */
+function maxDrawdownOfRunningMean(perSnapshotExcess: number[]): number | null {
+  if (perSnapshotExcess.length < 2) return null;
+  let cumSum = 0;
+  let peak = -Infinity;
+  let maxDD = 0;
+  for (let i = 0; i < perSnapshotExcess.length; i += 1) {
+    cumSum += perSnapshotExcess[i]!;
+    const runningMean = cumSum / (i + 1);
+    if (runningMean > peak) peak = runningMean;
+    const dd = runningMean - peak;
+    if (dd < maxDD) maxDD = dd;
+  }
+  return maxDD;
 }
 
 /**

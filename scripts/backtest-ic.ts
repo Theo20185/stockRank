@@ -73,6 +73,8 @@ import {
   renderUserPicksReport,
   runPerSuperGroupValidation,
   renderPerSuperGroupReport,
+  runFvTrendAudit,
+  renderFvTrendAuditReport,
   type PerSuperGroupPreset,
   type UserPick,
   DEFAULT_WEIGHTS,
@@ -115,6 +117,8 @@ type IcArgs = {
   /** When true, run Phase 3 per-super-group preset validation
    * after the main weight-validation step. */
   superGroupPresets: boolean;
+  /** When true, run Phase 4C H10 FV-trend audit. */
+  fvTrendAudit: boolean;
   /** Comma-separated SYM:DATE pairs (e.g., "NVO:2026-03-06,TGT:2026-04-09").
    * When supplied, after building observations we run the user-picks
    * validation. Each date becomes a forced backtest snapshot date if
@@ -146,6 +150,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     userPicks: null,
     includeDelisted: false,
     superGroupPresets: false,
+    fvTrendAudit: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -199,6 +204,9 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--super-group-presets":
         args.superGroupPresets = true;
+        break;
+      case "--fv-trend-audit":
+        args.fvTrendAudit = true;
         break;
       case "--user-picks":
         args.userPicks = argv[++i]!.split(",").map((pair) => {
@@ -777,6 +785,35 @@ async function main(): Promise<void> {
       const psgArchivePath = resolve(docsDir, `backtest-per-super-group-${today}.md`);
       writeFileSync(psgArchivePath, psgMd, "utf-8");
       console.log(`  Archived to ${psgArchivePath}`);
+    }
+  }
+
+  // ── Optional: H10 FV-trend demotion audit (Phase 4C) ────────────────
+  if (args.fvTrendAudit) {
+    console.log(`\nRunning H10 FV-trend demotion audit (Phase 4C)...`);
+    const fvtReport = runFvTrendAudit({
+      snapshotsByDate,
+      forwardReturnsByDate,
+      spyReturnsByDate,
+      horizons: args.horizons,
+      bootstrapResamples: 1000,
+      seed: 1,
+    });
+    console.log(
+      `  H10 verdict: ${fvtReport.verdict.verdict} — ${fvtReport.verdict.evidence}`,
+    );
+    console.log(
+      `  Classification counts: ${Object.entries(fvtReport.classificationCounts).map(([k, v]) => `${k}:${v}`).join(", ")}`,
+    );
+    const fvtMd = renderFvTrendAuditReport(fvtReport);
+    const fvtPath = resolve(tmpDir, "fv-trend-audit.md");
+    writeFileSync(fvtPath, fvtMd, "utf-8");
+    console.log(`  Wrote ${fvtPath}`);
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const fvtArchivePath = resolve(docsDir, `backtest-fv-trend-audit-${today}.md`);
+      writeFileSync(fvtArchivePath, fvtMd, "utf-8");
+      console.log(`  Archived to ${fvtArchivePath}`);
     }
   }
 

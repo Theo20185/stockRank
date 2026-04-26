@@ -46,6 +46,60 @@ export function renderWeightValidationReport(
     }
   }
   lines.push("");
+
+  // Phase 4A — long/short factor isolation table
+  lines.push("## Long/short factor isolation (Phase 4A)");
+  lines.push("");
+  lines.push(
+    "Top decile = the candidate's buy list. Bottom decile = the candidate's avoid list. Long/short = top − bottom — when positive, the candidate's ranking has signal in BOTH tails (top is good AND bottom is bad). When ≈ 0, the edge is one-sided.",
+  );
+  lines.push("");
+  lines.push("| Candidate | Horizon | Top mean | Bottom mean | Long/short Δ |");
+  lines.push("|---|---|---|---|---|");
+  for (const c of report.candidates) {
+    for (const h of c.perHorizon) {
+      const top = h.meanExcess === null ? "—" : `${(h.meanExcess * 100).toFixed(2)}%`;
+      const bot =
+        h.meanBottomExcess === null || h.meanBottomExcess === undefined
+          ? "—"
+          : `${(h.meanBottomExcess * 100).toFixed(2)}%`;
+      const ls =
+        h.longShortDelta === null || h.longShortDelta === undefined
+          ? "—"
+          : `${(h.longShortDelta * 100).toFixed(2)} pp`;
+      lines.push(`| ${c.candidate.name} | ${h.horizon}y | ${top} | ${bot} | ${ls} |`);
+    }
+  }
+  lines.push("");
+
+  // Phase 4B — risk-adjusted comparison
+  lines.push("## Risk-adjusted comparison (Phase 4B)");
+  lines.push("");
+  lines.push(
+    "Sharpe-like = mean / stddev of per-snapshot excess. Sortino-like = mean / downside-stddev (variance of negative excess only — matches value-tilted-defensive preference for asymmetric returns). Max DD = worst drawdown of the running mean of per-snapshot excess across the test window. Higher Sharpe/Sortino = better risk-adjusted; less-negative max DD = smoother ride.",
+  );
+  lines.push("");
+  lines.push("| Candidate | Horizon | Mean excess | Sharpe-like | Sortino-like | Max DD |");
+  lines.push("|---|---|---|---|---|---|");
+  for (const c of report.candidates) {
+    for (const h of c.perHorizon) {
+      const ex = h.meanExcess === null ? "—" : `${(h.meanExcess * 100).toFixed(2)}%`;
+      const sh =
+        h.sharpeLike === null || h.sharpeLike === undefined
+          ? "—"
+          : h.sharpeLike.toFixed(2);
+      const so =
+        h.sortinoLike === null || h.sortinoLike === undefined
+          ? "—"
+          : h.sortinoLike.toFixed(2);
+      const dd =
+        h.maxDrawdown === null || h.maxDrawdown === undefined
+          ? "—"
+          : `${(h.maxDrawdown * 100).toFixed(2)}%`;
+      lines.push(`| ${c.candidate.name} | ${h.horizon}y | ${ex} | ${sh} | ${so} | ${dd} |`);
+    }
+  }
+  lines.push("");
   if (report.verdicts.length > 0) {
     lines.push("## Adoption verdicts (vs default)");
     lines.push("");

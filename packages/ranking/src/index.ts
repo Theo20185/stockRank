@@ -165,3 +165,13 @@ export {
   type UserPicksReport,
 } from "./backtest/user-picks/engine.js";
 export { renderUserPicksReport } from "./backtest/user-picks/report.js";
+
+// FV-trend audit / H10 validation (Phase 4C)
+export {
+  runFvTrendAudit,
+  type FvTrendAuditInput,
+  type FvTrendAuditReport,
+  type FvTrendStratumRow,
+  type FvTrendClass,
+} from "./backtest/fv-trend-audit/engine.js";
+export { renderFvTrendAuditReport } from "./backtest/fv-trend-audit/report.js";

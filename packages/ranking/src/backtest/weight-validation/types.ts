@@ -78,6 +78,40 @@ export type HorizonPerformance = {
   excessCi95: { lo: number; hi: number } | null;
   /** Number of (snapshot) data points contributing to the mean. */
   nSnapshots: number;
+
+  // ── Phase 4 additions: long/short isolation and risk-adjusted ────
+
+  /** Mean excess return of the BOTTOM decile (Phase 4A). When
+   * present, the long/short delta = meanExcess - meanBottomExcess
+   * tells us whether value-deep's edge comes from picking the top
+   * or avoiding the bottom. */
+  meanBottomExcess?: number | null;
+  /** Long-short = top-decile mean − bottom-decile mean. Positive
+   * means the candidate's ranking has signal in BOTH tails (the
+   * top is good AND the bottom is bad). */
+  longShortDelta?: number | null;
+
+  /**
+   * Annualized Sharpe-like ratio: meanExcess / stddev(perSnapshotExcess).
+   * Caveat: not a true Sharpe — the input is already excess return
+   * vs SPY, not a risk-free benchmark. Useful for relative
+   * comparison across candidates in the same regime.
+   */
+  sharpeLike?: number | null;
+  /**
+   * Annualized Sortino-like ratio: meanExcess / stddev(negative
+   * perSnapshotExcess values). Only counts downside variance,
+   * which matches the user's "value-tilted defensive" preference
+   * for asymmetric returns.
+   */
+  sortinoLike?: number | null;
+  /**
+   * Maximum drawdown of the running mean of per-snapshot excess
+   * returns. Captures how much the strategy "underwater" you'd
+   * have been at the worst point during the test window. Lower
+   * (more negative) means worse drawdown.
+   */
+  maxDrawdown?: number | null;
 };
 
 /** Validation result for one candidate. */
