@@ -28,5 +28,21 @@ export type {
   FvTrendArtifact,
   FvTrendSample,
 } from "./fv-trend.js";
-export type { Portfolio, Position } from "./portfolio.js";
-export { EMPTY_PORTFOLIO } from "./portfolio.js";
+export type {
+  BasePosition,
+  CashPosition,
+  OptionPosition,
+  OptionType,
+  Portfolio,
+  Position,
+  PositionKind,
+  StockPosition,
+} from "./portfolio.js";
+export {
+  EMPTY_PORTFOLIO,
+  isCashPosition,
+  isOptionPosition,
+  isStockPosition,
+  migratePortfolio,
+  newPositionId,
+} from "./portfolio.js";

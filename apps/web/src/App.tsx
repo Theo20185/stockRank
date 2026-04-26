@@ -17,7 +17,7 @@ import {
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
 import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
-import { loadPortfolio } from "./snapshot/portfolio-loader.js";
+import { loadPortfolio, savePortfolio } from "./snapshot/portfolio-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
@@ -226,10 +226,16 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
 
   if (route.name === "portfolio") {
     const evaluation = evaluatePortfolio(portfolio, ranked);
+    const handlePortfolioChange = (next: typeof portfolio) => {
+      setPortfolio(next);
+      savePortfolio(next);
+    };
     return (
       <main className="app">
         <PortfolioScreen
+          portfolio={portfolio}
           evaluation={evaluation}
+          onPortfolioChange={handlePortfolioChange}
           onSelectStock={(symbol) =>
             navigate(`/stock/${encodeURIComponent(symbol)}`)
           }

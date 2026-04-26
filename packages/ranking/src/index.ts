@@ -14,10 +14,16 @@ export {
 } from "./rationale/bucket-rationale.js";
 export {
   evaluatePortfolio,
+  MILESTONE_LABELS,
   SELL_SIGNAL_LABELS,
+  type CashEvaluation,
+  type OptionEvaluation,
+  type OptionMilestone,
   type PortfolioEvaluation,
+  type PortfolioSummary,
   type PositionEvaluation,
   type SellSignal,
+  type StockEvaluation,
 } from "./portfolio/evaluator.js";
 export type {
   FairValue,

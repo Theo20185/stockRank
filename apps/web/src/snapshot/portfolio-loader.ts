@@ -1,5 +1,5 @@
 import type { Portfolio } from "@stockrank/core";
-import { EMPTY_PORTFOLIO } from "@stockrank/core";
+import { EMPTY_PORTFOLIO, migratePortfolio } from "@stockrank/core";
 
 /**
  * Portfolio storage. Lives in browser localStorage so holdings stay
@@ -28,9 +28,8 @@ export function loadPortfolio(storage: StorageLike | null = defaultStorage()): P
   try {
     const raw = storage.getItem(PORTFOLIO_STORAGE_KEY);
     if (!raw) return EMPTY_PORTFOLIO;
-    const parsed = JSON.parse(raw) as Portfolio;
-    if (!Array.isArray(parsed.positions)) return EMPTY_PORTFOLIO;
-    return parsed;
+    const parsed = JSON.parse(raw);
+    return migratePortfolio(parsed);
   } catch {
     return EMPTY_PORTFOLIO;
   }

@@ -31,36 +31,89 @@ describe("portfolio-loader (localStorage)", () => {
     expect(loadPortfolio(storage)).toBe(EMPTY_PORTFOLIO);
   });
 
-  it("returns EMPTY_PORTFOLIO when positions field is not an array", () => {
+  it("returns empty portfolio (positions: []) when positions field is not an array", () => {
+    // After v2 migration this returns {updatedAt, positions: []} rather
+    // than the EMPTY_PORTFOLIO sentinel; the migrator preserves whatever
+    // updatedAt was in the input.
     const storage = makeStorage({
       [PORTFOLIO_STORAGE_KEY]: JSON.stringify({ updatedAt: "x", positions: "oops" }),
     });
-    expect(loadPortfolio(storage)).toBe(EMPTY_PORTFOLIO);
+    const result = loadPortfolio(storage);
+    expect(result.positions).toEqual([]);
   });
 
-  it("loads a valid portfolio from storage", () => {
+  it("loads a valid v2 portfolio from storage", () => {
     const portfolio: Portfolio = {
+      updatedAt: "2026-04-26T00:00:00Z",
+      positions: [
+        {
+          kind: "stock",
+          id: "abc",
+          symbol: "AAPL",
+          entryDate: "2025-01-01",
+          shares: 10,
+          costBasis: 1500,
+        },
+      ],
+    };
+    const storage = makeStorage({
+      [PORTFOLIO_STORAGE_KEY]: JSON.stringify(portfolio),
+    });
+    const loaded = loadPortfolio(storage);
+    expect(loaded.positions).toHaveLength(1);
+    expect(loaded.positions[0]).toMatchObject({
+      kind: "stock",
+      symbol: "AAPL",
+      shares: 10,
+      costBasis: 1500,
+    });
+  });
+
+  it("migrates v1 (legacy) portfolio shape on load", () => {
+    const v1Portfolio = {
       updatedAt: "2026-04-26T00:00:00Z",
       positions: [
         { symbol: "AAPL", entryDate: "2025-01-01", entryPrice: 150, sharesOwned: 10 },
       ],
     };
     const storage = makeStorage({
-      [PORTFOLIO_STORAGE_KEY]: JSON.stringify(portfolio),
+      [PORTFOLIO_STORAGE_KEY]: JSON.stringify(v1Portfolio),
     });
-    expect(loadPortfolio(storage)).toEqual(portfolio);
+    const loaded = loadPortfolio(storage);
+    expect(loaded.positions).toHaveLength(1);
+    expect(loaded.positions[0]).toMatchObject({
+      kind: "stock",
+      symbol: "AAPL",
+      shares: 10,
+      costBasis: 1500, // 150 × 10
+    });
   });
 
   it("savePortfolio round-trips through loadPortfolio", () => {
     const portfolio: Portfolio = {
       updatedAt: "2026-04-26T00:00:00Z",
       positions: [
-        { symbol: "MSFT", entryDate: "2024-06-01", entryPrice: 400, sharesOwned: 5 },
+        {
+          kind: "stock",
+          id: "xyz",
+          symbol: "MSFT",
+          entryDate: "2024-06-01",
+          shares: 5,
+          costBasis: 2000,
+        },
       ],
     };
     const storage = makeStorage();
     savePortfolio(portfolio, storage);
-    expect(loadPortfolio(storage)).toEqual(portfolio);
+    const loaded = loadPortfolio(storage);
+    expect(loaded.positions).toHaveLength(1);
+    expect(loaded.positions[0]).toMatchObject({
+      kind: "stock",
+      id: "xyz",
+      symbol: "MSFT",
+      shares: 5,
+      costBasis: 2000,
+    });
   });
 
   it("savePortfolio is a no-op when storage is null", () => {
