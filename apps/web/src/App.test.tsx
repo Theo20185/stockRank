@@ -23,11 +23,13 @@ describe("<App /> — results screen (default route)", () => {
     expect(screen.getByRole("table", { name: /ranked stocks/i })).toBeInTheDocument();
   });
 
-  it("renders both Composite and Turnaround tabs", () => {
+  it("renders Composite and Portfolio tabs", () => {
     render(<App initialSnapshot={makeTestSnapshot()} />);
     const tabs = within(screen.getByRole("navigation", { name: /sections/i }));
     expect(tabs.getByRole("button", { name: /composite/i })).toBeInTheDocument();
-    expect(tabs.getByRole("button", { name: /turnaround/i })).toBeInTheDocument();
+    expect(tabs.getByRole("button", { name: /portfolio/i })).toBeInTheDocument();
+    // Turnaround section was removed 2026-04-26.
+    expect(tabs.queryByRole("button", { name: /turnaround/i })).toBeNull();
   });
 
   it("shows filter chips for industry and weights", () => {
@@ -39,13 +41,13 @@ describe("<App /> — results screen (default route)", () => {
 });
 
 describe("<App /> — navigation", () => {
-  it("switches to the Turnaround screen when clicked", async () => {
+  it("switches to the Portfolio screen when its tab is clicked", async () => {
     const user = userEvent.setup();
     render(<App initialSnapshot={makeTestSnapshot()} />);
     const tabs = within(screen.getByRole("navigation", { name: /sections/i }));
-    await user.click(tabs.getByRole("button", { name: /turnaround/i }));
+    await user.click(tabs.getByRole("button", { name: /portfolio/i }));
     expect(
-      screen.getByRole("heading", { level: 1, name: /turnaround watchlist/i }),
+      screen.getByRole("heading", { level: 1, name: /portfolio/i }),
     ).toBeInTheDocument();
   });
 

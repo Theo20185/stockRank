@@ -57,22 +57,12 @@ export const CATEGORY_LABELS: Record<string, string> = {
   growth: "Growth",
 };
 
-export const TURNAROUND_REASON_LABELS: Record<string, string> = {
-  longTermQuality: "Long-term quality",
-  ttmTrough: "TTM trough",
-  deepDrawdown: "Deep drawdown",
-};
-
 export function factorLabel(key: string): string {
   return FACTOR_LABELS[key] ?? key;
 }
 
 export function categoryLabel(key: string): string {
   return CATEGORY_LABELS[key] ?? key;
-}
-
-export function turnaroundReasonLabel(key: string): string {
-  return TURNAROUND_REASON_LABELS[key] ?? key;
 }
 
 const SELECTION_REASON_LABELS: Record<string, string> = {

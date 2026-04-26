@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 export type Route =
   | { name: "results" }
-  | { name: "turnaround" }
   | { name: "portfolio" }
   | { name: "filters" }
   | { name: "stock"; symbol: string };
@@ -15,7 +14,6 @@ export type Route =
 export function parseRoute(hash: string): Route {
   const path = hash.startsWith("#") ? hash.slice(1) : hash;
   if (path === "" || path === "/" || path === "/results") return { name: "results" };
-  if (path === "/turnaround") return { name: "turnaround" };
   if (path === "/portfolio") return { name: "portfolio" };
   if (path === "/filters") return { name: "filters" };
   const stockMatch = path.match(/^\/stock\/(.+)$/);

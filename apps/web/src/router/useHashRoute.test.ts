@@ -10,9 +10,15 @@ describe("parseRoute", () => {
     expect(parseRoute("#/results")).toEqual({ name: "results" });
   });
 
-  it("returns turnaround for /turnaround", () => {
-    expect(parseRoute("/turnaround")).toEqual({ name: "turnaround" });
-    expect(parseRoute("#/turnaround")).toEqual({ name: "turnaround" });
+  it("returns portfolio for /portfolio", () => {
+    expect(parseRoute("/portfolio")).toEqual({ name: "portfolio" });
+    expect(parseRoute("#/portfolio")).toEqual({ name: "portfolio" });
+  });
+
+  it("/turnaround (removed) falls back to results", () => {
+    // Turnaround section removed 2026-04-26. Hash routed to /turnaround
+    // (e.g. an old bookmark) lands on the home results screen.
+    expect(parseRoute("/turnaround")).toEqual({ name: "results" });
   });
 
   it("returns filters for /filters", () => {

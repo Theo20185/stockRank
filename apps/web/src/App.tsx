@@ -23,7 +23,6 @@ import { useHashRoute } from "./router/useHashRoute.js";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
 import { FiltersScreen } from "./screens/FiltersScreen.js";
 import { StockDetailScreen } from "./screens/StockDetailScreen.js";
-import { TurnaroundScreen } from "./screens/TurnaroundScreen.js";
 import { PortfolioScreen } from "./screens/PortfolioScreen.js";
 
 export type AppProps = {
@@ -209,21 +208,6 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
     );
   }
 
-  if (route.name === "turnaround") {
-    return (
-      <main className="app">
-        <TurnaroundScreen
-          ranked={ranked}
-          onSelectTab={(tab) => {
-            if (tab === "composite") navigate("/");
-            else if (tab === "turnaround") navigate("/turnaround");
-            else navigate("/portfolio");
-          }}
-        />
-      </main>
-    );
-  }
-
   if (route.name === "portfolio") {
     const evaluation = evaluatePortfolio(portfolio, ranked);
     const handlePortfolioChange = (next: typeof portfolio) => {
@@ -241,7 +225,6 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
           }
           onSelectTab={(tab) => {
             if (tab === "composite") navigate("/");
-            else if (tab === "turnaround") navigate("/turnaround");
             else navigate("/portfolio");
           }}
         />
@@ -261,7 +244,6 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
         tab="composite"
         onSelectTab={(tab) => {
           if (tab === "composite") navigate("/");
-          else if (tab === "turnaround") navigate("/turnaround");
           else navigate("/portfolio");
         }}
         onSelectStock={(symbol) =>
