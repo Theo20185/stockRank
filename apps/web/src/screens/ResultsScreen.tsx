@@ -25,14 +25,17 @@ export type ResultsScreenProps = {
 const BUCKET_LABELS: Record<BucketKey, string> = {
   ranked: "Candidates",
   watch: "Watch",
+  avoid: "Avoid",
   excluded: "Excluded",
 };
 
 const BUCKET_EMPTY_MESSAGES: Record<BucketKey, string> = {
   ranked:
-    "No actionable buy candidates with the current filters. Stocks land here when fair value is below the conservative tail, the FV trend isn't declining, and the options chain is liquid.",
+    "No actionable buy candidates with the current filters. Stocks land here when they pass the §4 quality floor, have a fair value range, and trade below the conservative tail (p25).",
   watch:
-    "No watchlist names. Stocks land here when they're above the conservative-tail fair value, the FV trend is declining, or they carry a structural flag (negative equity, illiquid options).",
+    "No watchlist names. Stocks land here when they have a fair value range but trade at or above the conservative tail, OR carry a tracked structural flag like negative equity.",
+  avoid:
+    "No names in the Avoid bucket — the bottom decile of composite scores is empty for the current filters. Phase 4A long/short evidence found the bottom decile underperformed SPY by ~25 pp at 3y in COVID-era PIT data; this view surfaces those names so you can spot positions you might want to exit (or names to skip even if they look superficially cheap).",
   excluded:
     "No excluded names. Stocks land here when they failed the quality floor or have no fair value computable.",
 };

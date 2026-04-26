@@ -59,11 +59,25 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
  * buckets, only inside one.
  */
 
-export type BucketKey = "ranked" | "watch" | "excluded";
+export type BucketKey = "ranked" | "watch" | "avoid" | "excluded";
 
 export type BucketedRows = {
   ranked: RankedRow[];
   watch: RankedRow[];
+  /**
+   * Bottom-decile-by-composite eligible names. Mutually exclusive
+   * with `ranked` and `watch` — a row that would otherwise classify
+   * as ranked or watch is reassigned to `avoid` if its composite
+   * lands in the bottom decile of the eligible cohort. `excluded`
+   * still wins (failed-floor names already aren't candidates;
+   * no need to also call them avoid).
+   *
+   * Phase 4A long/short evidence: in COVID-era PIT data the bottom
+   * decile underperformed SPY by ~25 pp at 3y while the top decile
+   * only barely beat it. The engine's strongest signal is in the
+   * tail; this view makes that actionable.
+   */
+  avoid: RankedRow[];
   excluded: RankedRow[];
 };
 
@@ -166,10 +180,72 @@ export function classifyRow(row: RankedRow): BucketKey {
   return "ranked";
 }
 
-export function bucketRows(rows: RankedRow[]): BucketedRows {
-  const out: BucketedRows = { ranked: [], watch: [], excluded: [] };
-  for (const row of rows) {
-    out[classifyRow(row)].push(row);
+/**
+ * Default cutoff for the Avoid bucket — bottom decile by composite
+ * within the eligible (non-ineligible-stub) cohort. Phase 4A long/
+ * short evidence used 10% as the matching cohort size.
+ */
+const AVOID_PERCENTILE_DEFAULT = 0.10;
+
+/**
+ * Partition rows into 4 mutually-exclusive buckets.
+ *
+ * Priority order (highest wins):
+ *   1. excluded — failed quality floor / no FV / model-incompatible
+ *      industry. classifyRow already returns this; not overridden.
+ *   2. avoid — composite in the bottom `avoidPercentile` of eligible
+ *      rows. Reassigns from `ranked` or `watch` only — `excluded`
+ *      always wins (failed-floor names already aren't candidates).
+ *   3. watch / ranked — classifyRow's normal output for everything
+ *      else.
+ *
+ * The Avoid bucket was added 2026-04-26 from Phase 4A long/short
+ * evidence — in COVID-era PIT data, the bottom decile underperformed
+ * SPY by ~25 pp at 3y while the top decile only barely beat it. The
+ * engine's strongest signal is in the tail; this view makes that
+ * actionable.
+ */
+export function bucketRows(
+  rows: RankedRow[],
+  options: { avoidPercentile?: number } = {},
+): BucketedRows {
+  const avoidPercentile = options.avoidPercentile ?? AVOID_PERCENTILE_DEFAULT;
+  const out: BucketedRows = { ranked: [], watch: [], avoid: [], excluded: [] };
+
+  // First pass — classify each row by classifyRow.
+  const initial: Array<{ row: RankedRow; klass: BucketKey }> = rows.map(
+    (row) => ({ row, klass: classifyRow(row) }),
+  );
+
+  // Determine the bottom-decile cohort over the ELIGIBLE rows
+  // (those with non-zero composite). Excluded names with composite=0
+  // are diagnostic and shouldn't dilute the eligible cohort or get
+  // re-tagged as avoid (they're already filtered out as excluded).
+  const eligibleByComposite = initial
+    .filter((e) => e.klass !== "excluded" && e.row.composite > 0)
+    .map((e) => e.row.composite)
+    .sort((a, b) => a - b);
+  let avoidCutoff = -Infinity;
+  if (eligibleByComposite.length > 0 && avoidPercentile > 0) {
+    const idx = Math.max(
+      0,
+      Math.ceil(eligibleByComposite.length * avoidPercentile) - 1,
+    );
+    avoidCutoff = eligibleByComposite[idx]!;
   }
+
+  // Second pass — apply Avoid override.
+  for (const { row, klass } of initial) {
+    if (klass === "excluded") {
+      out.excluded.push(row);
+      continue;
+    }
+    if (row.composite > 0 && row.composite <= avoidCutoff) {
+      out.avoid.push(row);
+      continue;
+    }
+    out[klass].push(row);
+  }
+
   return out;
 }

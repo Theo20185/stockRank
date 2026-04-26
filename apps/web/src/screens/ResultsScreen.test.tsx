@@ -68,7 +68,9 @@ describe("<ResultsScreen /> — quality bucket sub-tabs", () => {
     render(<ResultsScreen {...props} />);
     const subtabs = within(screen.getByRole("navigation", { name: /quality buckets/i }));
     const total = props.ranked.rows.length + props.ranked.ineligibleRows.length;
-    const counts = ["Candidates", "Watch", "Excluded"].map((label) => {
+    // Avoid was added 2026-04-26 as a 4th mutually-exclusive bucket
+    // (bottom-decile composite reassigned from ranked/watch).
+    const counts = ["Candidates", "Watch", "Avoid", "Excluded"].map((label) => {
       const btn = subtabs.getByRole("button", { name: new RegExp(`^${label} \\((\\d+)\\)$`) });
       const match = btn.textContent!.match(/\((\d+)\)/);
       return parseInt(match![1]!, 10);

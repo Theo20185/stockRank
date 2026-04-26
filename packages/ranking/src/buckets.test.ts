@@ -41,6 +41,11 @@ function row(opts: {
   fundamentalsDirection?: import("./fundamentals.js").FundamentalsDirection;
   industry?: string;
   sector?: string;
+  /** Composite score override. Default 50 — high enough that a 10-row
+   * test fixture's bottom decile (1 row) doesn't accidentally pull
+   * the fixture row into Avoid. Use a low value (e.g., 5) when you
+   * want to test the Avoid bucket. */
+  composite?: number;
 }): RankedRow {
   const baseScores: CategoryScores = {
     valuation: 0.5, health: 0.5, quality: 0.6,
@@ -56,7 +61,7 @@ function row(opts: {
     industry: opts.industry ?? "Test Industry",
     marketCap: 50_000_000_000,
     price: 80,
-    composite: 0.55,
+    composite: opts.composite ?? 50,
     industryRank: 1,
     universeRank: 1,
     pctOffYearHigh: 10,
@@ -286,20 +291,113 @@ describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
   });
 });
 
+describe("bucketRows — Avoid bucket (Phase 4A)", () => {
+  it("reassigns bottom-decile composites to Avoid (would otherwise be Ranked)", () => {
+    // 10 ranked-eligible rows with varied composites. 10% = 1 →
+    // the lowest-composite row gets reassigned to Avoid.
+    const rows = [
+      row({ symbol: "T1", composite: 95 }),
+      row({ symbol: "T2", composite: 90 }),
+      row({ symbol: "T3", composite: 85 }),
+      row({ symbol: "T4", composite: 80 }),
+      row({ symbol: "T5", composite: 75 }),
+      row({ symbol: "T6", composite: 70 }),
+      row({ symbol: "T7", composite: 65 }),
+      row({ symbol: "T8", composite: 60 }),
+      row({ symbol: "T9", composite: 55 }),
+      row({ symbol: "B1", composite: 5 }), // bottom
+    ];
+    const result = bucketRows(rows);
+    expect(result.avoid.map((r) => r.symbol)).toEqual(["B1"]);
+    expect(result.ranked.length).toBe(9);
+    expect(result.ranked.map((r) => r.symbol)).not.toContain("B1");
+  });
+
+  it("Avoid takes priority over Watch (a watch-classified low-composite row goes to Avoid)", () => {
+    // Build 5 rows: 4 normal ranked + 1 watch (price >= p25) with low composite.
+    // The watch row's composite is bottom decile → Avoid wins.
+    const rows = [
+      row({ symbol: "R1", composite: 90 }),
+      row({ symbol: "R2", composite: 85 }),
+      row({ symbol: "R3", composite: 80 }),
+      row({ symbol: "R4", composite: 75 }),
+      row({
+        symbol: "WATCH_LOW",
+        composite: 10,
+        fairValue: fvAtP25(), // forces classifyRow → watch
+      }),
+    ];
+    const result = bucketRows(rows);
+    expect(result.avoid.map((r) => r.symbol)).toEqual(["WATCH_LOW"]);
+    expect(result.watch.map((r) => r.symbol)).not.toContain("WATCH_LOW");
+  });
+
+  it("Excluded keeps priority over Avoid (failed-floor names don't get re-tagged)", () => {
+    // Need enough eligible rows that the bottom-decile cutoff doesn't
+    // sweep R1 in by accident. With 11 eligible rows and 10% = 2,
+    // the cutoff is the 2nd-lowest composite among eligible rows; R1
+    // at 90 is well above that.
+    const rows = [
+      ...Array.from({ length: 11 }, (_, i) =>
+        row({ symbol: `R${i + 1}`, composite: 50 + i * 5 }),
+      ),
+      row({
+        symbol: "INELIG",
+        composite: 0,
+        missingCategories: ["valuation", "health", "quality", "shareholderReturn", "growth"],
+        fairValue: null,
+      }),
+    ];
+    const result = bucketRows(rows);
+    expect(result.excluded.map((r) => r.symbol)).toEqual(["INELIG"]);
+    // 11 eligible × 10% = 1.1 → ceil = 2 → bottom 2 by composite go
+    // to avoid: R1 (50) and R2 (55).
+    expect(result.avoid.map((r) => r.symbol).sort()).toEqual(["R1", "R2"]);
+    // INELIG (composite 0, excluded) is not in avoid.
+    expect(result.avoid.find((r) => r.symbol === "INELIG")).toBeUndefined();
+  });
+
+  it("respects the avoidPercentile option", () => {
+    const rows = [
+      row({ symbol: "T1", composite: 90 }),
+      row({ symbol: "T2", composite: 80 }),
+      row({ symbol: "B1", composite: 30 }),
+      row({ symbol: "B2", composite: 20 }),
+      row({ symbol: "B3", composite: 10 }),
+    ];
+    // Default 10% of 5 = 1
+    expect(bucketRows(rows).avoid.map((r) => r.symbol)).toEqual(["B3"]);
+    // 60% of 5 = 3
+    expect(
+      bucketRows(rows, { avoidPercentile: 0.6 })
+        .avoid.map((r) => r.symbol)
+        .sort(),
+    ).toEqual(["B1", "B2", "B3"]);
+  });
+
+  it("Avoid is empty when there are no eligible rows", () => {
+    expect(bucketRows([]).avoid).toEqual([]);
+  });
+});
+
 describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
+    // Use avoidPercentile=0 so the bottom-decile reassignment doesn't
+    // pull any of the small fixture's rows into Avoid (this test is
+    // about the 3-way semantic partition, not the Avoid override).
     const a = row({ symbol: "AAA" });                                            // ranked
     const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
     const c = row({ symbol: "CCC", fvTrend: "declining" });                      // ranked (Phase 4C removed this demote)
     const d = row({ symbol: "DDD", optionsLiquid: false });                      // ranked (illiquid options no longer demotes)
     const e = row({ symbol: "EEE", fairValue: null });                           // excluded (no FV)
-    const result = bucketRows([a, b, c, d, e]);
+    const result = bucketRows([a, b, c, d, e], { avoidPercentile: 0 });
     expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "CCC", "DDD"]);
     expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB"]);
+    expect(result.avoid).toEqual([]);
     expect(result.excluded.map((r) => r.symbol)).toEqual(["EEE"]);
   });
 
   it("returns empty buckets when given an empty list", () => {
-    expect(bucketRows([])).toEqual({ ranked: [], watch: [], excluded: [] });
+    expect(bucketRows([])).toEqual({ ranked: [], watch: [], avoid: [], excluded: [] });
   });
 });
