@@ -187,6 +187,32 @@ Original Phase 2 spec preserved below.
 - D unblocks the §4 floor decision that's been on HOLD across
   three regimes — high-value but high-effort.
 
+### Phase 3 — E — **COMPLETE-WITH-REJECT 2026-04-26**
+
+All 5 IC-derived per-super-group presets failed the cross-regime
+adoption rule (≥ 2 of N PIT regimes). Each won at most one regime:
+
+| Preset | PIT 2018-23 | PIT 2010-18 |
+|---|---|---|
+| utilities-health-tilt | -1.77 pp | +1.19 pp |
+| semis-hardware-quality-tilt | **+13.24 pp** | +0.00 pp |
+| consumer-discretionary-deep-value | +0.78 pp | **+6.44 pp** |
+| consumer-staples-shareholder-return-tilt | -3.40 pp | +4.17 pp (CI) |
+| transport-autos-health-tilt | -2.46 pp | -5.83 pp |
+
+`SUPER_GROUP_PRESETS` ships empty; per-super-group resolution
+machinery stays in code as reusable infrastructure. See
+`docs/specs/backtest-actions-2026-04-26-phase3.md`.
+
+**With Phase 3 done, the roadmap arc is complete.** Tier-3
+follow-ups (F/G/H/I + v3 historical-filer index) recorded but not
+prioritized. Recommend shipping current state, running with it
+for a quarter, and letting Tier-3 surface based on actual usage.
+
+Original spec preserved below.
+
+---
+
 ### Phase 3 — E (after Phase 2, when D is done)
 
 **E. Per-super-group weight presets — step 2 validation.**

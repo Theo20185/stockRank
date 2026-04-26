@@ -463,16 +463,25 @@ leaves signal on the table.
    margin (target: ≥ 1%/yr excess on the 3y horizon, with bootstrap
    CI not crossing zero).
 
-**Status as of 2026-04-25:** the IC pipeline (Phase B) found
-passing cells across five super-groups — Utilities, Semiconductors
-& Hardware, Consumer Discretionary, Consumer Staples, and
-Transportation & Autos (see `docs/backtest-ic-2026-04-25.md`).
-Step 1 (evidence) is complete for those super-groups. **Step 2
-(validation) was deliberately skipped for v1** — the spec's
-adoption rule requires running each candidate per-super-group
-preset through the weight-validation backtest, and that work is
-deferred to a follow-up PR. Until then, no per-super-group presets
-ship; §8.1 default applies universally.
+**Status as of 2026-04-26 (Phase 3 complete):** step-1 IC evidence
+identified passing cells in five super-groups (Utilities,
+Semiconductors & Hardware, Consumer Discretionary, Consumer
+Staples, Transportation & Autos). **Step-2 validation REJECTED ALL
+FIVE** by the cross-regime adoption rule — each preset won at most
+one regime (e.g., semis-hardware-quality-tilt +13.24 pp in COVID
+era but +0.00 pp in pre-COVID). The §11.5 hard non-goal of "no
+auto-derivation from IC" was the right call: single-regime IC is
+not a sufficient basis for preset adoption.
+
+**Engine state:** the per-super-group resolution machinery is
+built and tested (see `runPerSuperGroupValidation`,
+`super-group-weights.ts` schema), but `SUPER_GROUP_PRESETS` ships
+**empty**. §8.1 default applies universally to every super-group.
+
+If future IC reruns surface candidates that pass 2-of-N regimes,
+they can be added one row at a time to `SUPER_GROUP_PRESETS` with
+`evidenceRef` citations. See
+`docs/specs/backtest-actions-2026-04-26-phase3.md`.
 
 ### Storage and resolution (deferred to v2)
 
