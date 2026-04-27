@@ -229,6 +229,30 @@ describe("buildExpirationView — cash-secured puts (single p25 anchor, ITM)", (
     expect(view.puts[0]?.snapWarning).toBe(true);
   });
 
+  it("filters out strikes with zero IV (deep-ITM no-real-premium strikes)", () => {
+    // p25 = $100, current = $68.50. The deepest-ITM put strikes
+    // ($95, $100) have IV=0 — market prices them as forwards (no
+    // real time-value premium). The next strike down ($85) has IV=
+    // 30%, so that's what we should pick.
+    const fairValue = fv(100, 130, 160, 68.5);
+    const grp = group([], [
+      contract("P", 67.5, 5.8, 263, false),
+      { ...contract("P", 85, 17.2, 263, true), impliedVolatility: 0.30 },
+      { ...contract("P", 95, 25.1, 263, true), impliedVolatility: 0 },
+      { ...contract("P", 100, 29.7, 263, true), impliedVolatility: 0 },
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 68.5,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(85);
+    expect(view.puts[0]?.inTheMoney).toBe(true);
+  });
+
   it("emits an OTM put when the highest ≤ p25 strike happens to be below current spot", () => {
     // current=$100, p25=$120, listed strikes only go up to $90.
     // Snap to highest ≤ p25 (120) → 90. 90 < current (100) so the

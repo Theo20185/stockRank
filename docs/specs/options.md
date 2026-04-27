@@ -116,23 +116,35 @@ defensive.
 
 ### 3.3 Cash-secured-put strike (buy side)
 
-- **Anchor**: `range.p25` (both displayed AND snap target).
-- **Snap**: prefer listed strike `≤ p25` (highest strike at or below
-  the anchor). For Candidates this typically lands on an ITM strike
-  (intrinsic value > 0).
-- **No post-snap "must be OTM" floor** — the strategy explicitly
-  targets ITM puts when the engine flags a Candidate. Intrinsic
-  becomes premium, and the position is closed early if the stock
-  recovers to p25 before expiry.
+- **Anchor**: `range.p25` (displayed).
+- **Pre-filter**: only consider strikes with `impliedVolatility > 0`
+  AND `bid > 0`. Deep-ITM strikes the broker quotes via parity (no
+  active market) typically show IV=0 — these have no real time-
+  value premium beyond intrinsic carry, so we skip them.
+- **Snap**: among the IV-filtered strikes, pick the highest `≤ p25`.
+  For Candidates this typically lands on a slightly-ITM-to-near-ATM
+  strike where the market is still pricing real time-value.
 - **Suppression**: when `current ≥ p25`, the entire put workflow is
   suppressed with reason `above-conservative-tail` (no value entry).
 - **Label**: `deep-value`.
 
-Updated 2026-04-27: the previous OTM-only constraint (`strike ≤
-currentPrice`) was removed after the portfolio backtest showed strike-
-at-p25 with the wheel mechanics produces materially better risk-
-adjusted returns. See `project_engine_alpha_2026_04_26` memory for
-backtest evidence.
+Updated 2026-04-27 (twice):
+
+1. The previous OTM-only constraint (`strike ≤ currentPrice`) was
+   removed after the portfolio backtest showed strike-at-p25 with
+   the wheel mechanics produces materially better risk-adjusted
+   returns. See `project_engine_alpha_2026_04_26` memory.
+
+2. Added the `impliedVolatility > 0` pre-filter after the EIX
+   2026-04-27 case study. EIX with current=$68.50, p25=$100, and
+   263 DTE: the listed $100 put bid was $29.70 vs naive intrinsic
+   $31.50 — bid below intrinsic because the market prices it as a
+   forward (IV ≈ 0). Effective cost basis if assigned would be
+   $70.30, ABOVE current spot — no real discount, just paying
+   interest carry on the strike. The IV>0 filter automatically
+   selects strikes where the market is pricing real time-value
+   premium, typically landing on a slightly-ITM-to-near-ATM strike
+   instead of the deep-ITM "phantom intrinsic" zone.
 
 ### 3.3 Strike snapping
 

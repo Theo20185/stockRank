@@ -110,17 +110,32 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   }
 
   // ---- Single cash-secured put: strike anchored at p25 ----
-  // For Candidates (current < p25) the snapped strike is typically
-  // ABOVE current — i.e., the put is ITM at sale. The premium
-  // received includes the intrinsic value (strike − current), which
-  // becomes part of the cost-basis cushion if assigned. If the stock
-  // recovers to p25 before expiry we close the put early (buy-back)
-  // and capture nearly all the premium as profit. See backtest memory
-  // for the wheel mechanics this matches.
+  //
+  // Strike selection: highest listed put strike that satisfies
+  //   (a) strike ≤ p25
+  //   (b) impliedVolatility > 0 — the market is pricing real time
+  //       value, not just intrinsic carry.
+  //
+  // Rule (b) is the key fix for deep-ITM strikes on dividend payers
+  // (or long-DTE puts on any stock). When IV → 0, the market is
+  // pricing the option as a forward: bid ≈ K·e^(-rT) − S·e^(-qT),
+  // no premium beyond intrinsic carry. Selling such a put gives no
+  // income beyond the discount we'd get by buying the stock outright
+  // at the same forward, with capital tied up at K·100 instead of
+  // S·100. Filtering to IV > 0 picks the deepest economically-
+  // meaningful strike — typically the last strike with real time
+  // premium, which may be slightly ITM or near-ATM depending on the
+  // chain.
+  //
+  // Empirical motivation (EIX 2026-04-27): at p25=$100 with
+  // current=$68.50 and 263 DTE, the bid is $29.70 vs naive intrinsic
+  // $31.50 — bid is BELOW intrinsic, meaning effective cost basis if
+  // assigned ($70.30) is ABOVE current spot ($68.50). No discount.
+  // Listed strikes around $85 still show meaningful IV and offer
+  // real time-value premium. The IV>0 filter would pick those
+  // automatically.
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
-    // Stock is already at or above the conservative tail — there's
-    // no "buy at discount" thesis. Suppress puts.
     return {
       expiration: selected.expiration,
       selectionReason: selected.selectionReason,
@@ -130,13 +145,22 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     };
   }
 
-  // Snap to highest listed put strike ≤ p25. snapStrike() for puts
-  // walks descending from the anchor, so the result is "the listed
-  // strike just below or at p25." For Candidates this is typically
-  // ITM (strike > current) — that's the design: the intrinsic value
-  // is part of the premium and translates to a cost-basis discount
-  // upon assignment.
-  const putSnap = snapStrike(putStrikes, range.p25, "put");
+  // Filter to strikes with positive implied volatility. The chain may
+  // include OI=0 deep-ITM strikes that the broker quotes via parity
+  // (no real market) — those typically show IV=0 or null. We want
+  // strikes the market is actively pricing.
+  const eligiblePutStrikes = putStrikes.filter((strike) => {
+    const c = findContract(group.puts, strike);
+    return (
+      c !== undefined &&
+      c.bid !== null &&
+      c.bid > 0 &&
+      c.impliedVolatility !== null &&
+      c.impliedVolatility > 0
+    );
+  });
+
+  const putSnap = snapStrike(eligiblePutStrikes, range.p25, "put");
   if (putSnap) {
     const contract = findContract(group.puts, putSnap.strike);
     if (contract && contract.bid !== null && contract.bid > 0) {
