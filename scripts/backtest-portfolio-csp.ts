@@ -62,11 +62,37 @@ const RISK_FREE_RATE = 0.04;
  */
 const WHEEL_MODE = true;
 
+/* CSP strike depth from current spot to p25, in [0, 1]:
+ *   0.0  → ATM (strike = current)
+ *   0.5  → midpoint between current and p25
+ *   1.0  → strike = p25 (validated baseline; deepest ITM)
+ * Override via CSP_STRIKE_DEPTH env var. */
+const CSP_STRIKE_DEPTH = Number(process.env.CSP_STRIKE_DEPTH ?? "1.0");
+
+/* Buy-to-close profit threshold, in [0, 1]:
+ *   Close the CSP when current value ≤ original premium × (1 - X).
+ *   E.g., 0.50 = close at 50% max profit captured (Tasty rule).
+ *   1.00 (or anything > 0.95) means "wait until intrinsic gone" — the
+ *   prior baseline behavior (we only closed when spot ≥ strike).
+ * Override via B2C_PROFIT_PCT env var. */
+const B2C_PROFIT_PCT = Number(process.env.B2C_PROFIT_PCT ?? "1.0");
+
+/* Position-close profit threshold above effective basis (default 0.10
+ * = 10%). Override via POSITION_CLOSE_PROFIT env var. */
+const POSITION_CLOSE_PROFIT = Number(process.env.POSITION_CLOSE_PROFIT ?? "0.10");
+
 const CSP_DOWNSIDE_PCT = 5;            // used only when WHEEL_MODE = false
 const CSP_CYCLE_DAYS = WHEEL_MODE ? 365 : 30;
 const CSP_VOL_LOOKBACK_DAYS = Math.max(30, CSP_CYCLE_DAYS);
 const CSP_MIN_VOL = 0.08;
 const CSP_MAX_VOL = 0.80;
+/** Flat dividend yield for put-call parity adjustment on ITM options.
+ * S&P 500 average ~1.5-2%; varies meaningfully by stock (utilities
+ * ~4-5%, growth tech 0%). Flat 2% is a crude approximation — slightly
+ * understates premium on low-payers, slightly overstates on high-
+ * payers. Without per-stock yield data in the wheel sim, this is the
+ * best simple correction. */
+const FLAT_DIVIDEND_YIELD = 0.02;
 
 /* Covered call parameters — written on assigned shares at next flag date.
  * Strike anchors to p25 fair value (engine's conservative target). If
@@ -364,10 +390,21 @@ function freeCash(state: PortfolioState): number {
   return state.cash - state.reservedCash;
 }
 
-/** Estimate the current value of an open put option in $/share given
- * current spot, days remaining, and realized vol. Uses estimateCallPremiumPct
- * for the time-value component (put-call parity at symmetric moneyness)
- * and adds intrinsic. Used to mark-to-market for early-close decisions. */
+/** Estimate the current value of an option in $/share. Uses put-call
+ * parity to correctly price ITM options:
+ *
+ *   Effective intrinsic for put  = max(0, K·e^(-rT) − S·e^(-qT))
+ *   Effective intrinsic for call = max(0, S·e^(-qT) − K·e^(-rT))
+ *
+ * This is the key fix vs naive intrinsic = K - S: deep-ITM puts get
+ * a "carry adjustment" because the strike is paid at expiry (PV is
+ * less than K) and the holder forgoes dividends (q-discount on S).
+ * For 1y deep-ITM puts on dividend payers, this can flip the
+ * "effective discount vs spot" from negative (model said discount)
+ * to zero or positive (real market shows no discount).
+ *
+ * Time value component uses estimateCallPremiumPct at symmetric
+ * moneyness (put-call parity for OTM). */
 function estimatePutValuePerShare(
   strike: number,
   spot: number,
@@ -375,15 +412,41 @@ function estimatePutValuePerShare(
   vol: number,
 ): number {
   if (daysRemaining <= 0) return Math.max(0, strike - spot);
-  const intrinsic = Math.max(0, strike - spot);
+  const T = daysRemaining / 365;
+  const pvK = strike * Math.exp(-RISK_FREE_RATE * T);
+  const pvS = spot * Math.exp(-FLAT_DIVIDEND_YIELD * T);
+  const effectiveIntrinsic = Math.max(0, pvK - pvS);
   const moneynessPct = Math.abs(((strike - spot) / spot) * 100);
   const timeValuePct = estimateCallPremiumPct({
     upsideToStrikePct: moneynessPct,
-    yearsToExpiry: daysRemaining / 365,
+    yearsToExpiry: T,
     annualizedIv: vol,
   });
   const timeValue = (timeValuePct / 100) * spot;
-  return intrinsic + timeValue;
+  return effectiveIntrinsic + timeValue;
+}
+
+/** Same parity-corrected pricing for calls (used for CC writing and
+ * CC buyback during position close). */
+function estimateCallValuePerShare(
+  strike: number,
+  spot: number,
+  daysRemaining: number,
+  vol: number,
+): number {
+  if (daysRemaining <= 0) return Math.max(0, spot - strike);
+  const T = daysRemaining / 365;
+  const pvK = strike * Math.exp(-RISK_FREE_RATE * T);
+  const pvS = spot * Math.exp(-FLAT_DIVIDEND_YIELD * T);
+  const effectiveIntrinsic = Math.max(0, pvS - pvK);
+  const moneynessPct = Math.abs(((strike - spot) / spot) * 100);
+  const timeValuePct = estimateCallPremiumPct({
+    upsideToStrikePct: moneynessPct,
+    yearsToExpiry: T,
+    annualizedIv: vol,
+  });
+  const timeValue = (timeValuePct / 100) * spot;
+  return effectiveIntrinsic + timeValue;
 }
 
 /** Accrue daily-compounded interest on all cash (idle + reserved) over
@@ -451,7 +514,10 @@ async function main(): Promise<void> {
   console.log(`Starting capital: $${STARTING_CAPITAL.toLocaleString()}`);
   console.log(`Risk-free rate: ${(RISK_FREE_RATE * 100).toFixed(1)}%`);
   if (WHEEL_MODE) {
-    console.log(`Strategy: WHEEL — 1y CSPs at strike=p25 (ITM), CCs at cost basis.`);
+    console.log(`Strategy: WHEEL — 1y CSPs, CCs at cost basis.`);
+    console.log(`  CSP_STRIKE_DEPTH=${CSP_STRIKE_DEPTH} (0=ATM, 1=p25)`);
+    console.log(`  B2C_PROFIT_PCT=${B2C_PROFIT_PCT} (≥1 = legacy intrinsic-zero close)`);
+    console.log(`  POSITION_CLOSE_PROFIT=${POSITION_CLOSE_PROFIT} (above effective basis)`);
   } else {
     console.log(`Strategy: 30d 5%-OTM CSPs on top-composite Candidates, CCs at p25.`);
   }
@@ -666,8 +732,7 @@ async function main(): Promise<void> {
           const symBars = bars.get(csp.symbol);
           if (!symBars) continue;
           const spot = priceAtOrBefore(symBars, ev.date);
-          if (spot === null || spot < csp.strike) continue;
-          // Spot ≥ strike → put is OTM → intrinsic gone. Close now.
+          if (spot === null) continue;
           const daysRemaining = daysBetween(ev.date, csp.expiry);
           const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
           const valuePerShare = estimatePutValuePerShare(
@@ -677,6 +742,20 @@ async function main(): Promise<void> {
             vol,
           );
           const closeCost = valuePerShare * 100;
+          // Two trigger modes:
+          //   B2C_PROFIT_PCT < 1: close when current value ≤ premium ×
+          //     (1 − B2C_PROFIT_PCT). E.g., 0.5 → close at 50% max profit
+          //     (Tasty rule). The original premium is csp.premium.
+          //   B2C_PROFIT_PCT ≥ 1: legacy "wait until intrinsic gone"
+          //     (close when spot ≥ strike).
+          let shouldClose = false;
+          if (B2C_PROFIT_PCT >= 1.0) {
+            shouldClose = spot >= csp.strike;
+          } else {
+            const targetCloseCost = csp.premium * (1 - B2C_PROFIT_PCT);
+            shouldClose = closeCost <= targetCloseCost;
+          }
+          if (!shouldClose) continue;
           state.cash -= closeCost;
           state.reservedCash -= csp.capitalReserved;
           state.cspsClosedEarly += 1;
@@ -712,7 +791,7 @@ async function main(): Promise<void> {
       //          so the CSP deploy step won't immediately redeploy
       //          back into the same ticker — capital must rotate to a
       //          different name (avoids round-trip churn).
-      const PROFIT_CLOSE_THRESHOLD = 0.10;
+      const PROFIT_CLOSE_THRESHOLD = POSITION_CLOSE_PROFIT;
       const closedThisCycle = new Set<string>();
       let positionsClosed = 0;
       let profitClosed = 0;
@@ -747,14 +826,12 @@ async function main(): Promise<void> {
           for (const cc of ccsToClose) {
             const daysRemaining = daysBetween(ev.date, cc.expiry);
             const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
-            const intrinsicPerShare = Math.max(0, spot - cc.strike);
-            const moneynessPct = Math.abs(((cc.strike - spot) / spot) * 100);
-            const timeValuePct = estimateCallPremiumPct({
-              upsideToStrikePct: moneynessPct,
-              yearsToExpiry: Math.max(0, daysRemaining / 365),
-              annualizedIv: vol,
-            });
-            const valuePerShare = intrinsicPerShare + (timeValuePct / 100) * spot;
+            const valuePerShare = estimateCallValuePerShare(
+              cc.strike,
+              spot,
+              daysRemaining,
+              vol,
+            );
             const buyback = valuePerShare * cc.shares;
             ccBuybackCost += buyback;
             state.cash -= buyback;
@@ -824,16 +901,17 @@ async function main(): Promise<void> {
           if (p25 === undefined) continue;
           ccStrike = Math.max(p25, minStrike);
         }
-        const moneynessPct = Math.abs(((ccStrike - spot) / spot) * 100);
         const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
-        const timeValuePct = estimateCallPremiumPct({
-          upsideToStrikePct: moneynessPct,
-          yearsToExpiry: CC_EXPIRY_DAYS / 365,
-          annualizedIv: vol,
-        });
-        // For ITM calls, add intrinsic value.
-        const intrinsicPerShare = Math.max(0, spot - ccStrike);
-        const totalPremPerShare = (timeValuePct / 100) * spot + intrinsicPerShare;
+        // Parity-corrected call pricing — for ITM calls (cost-basis
+        // strike < current spot), this reflects the dividend forgone
+        // and interest savings; net premium is slightly less than
+        // naive intrinsic + time value.
+        const totalPremPerShare = estimateCallValuePerShare(
+          ccStrike,
+          spot,
+          CC_EXPIRY_DAYS,
+          vol,
+        );
         const ccPremium = totalPremPerShare * uncovered;
         state.cash += ccPremium;
         state.totalPremiumCollected += ccPremium;
@@ -889,7 +967,9 @@ async function main(): Promise<void> {
         if (WHEEL_MODE) {
           const p25 = cand.fairValue?.range?.p25;
           if (p25 === undefined || p25 <= spot) continue; // need ITM put
-          strike = p25;
+          // Interpolate strike between current spot (depth=0, ATM)
+          // and p25 (depth=1.0, deepest ITM target).
+          strike = spot + CSP_STRIKE_DEPTH * (p25 - spot);
         } else {
           strike = spot * (1 - CSP_DOWNSIDE_PCT / 100);
         }
@@ -897,15 +977,16 @@ async function main(): Promise<void> {
         if (freeCash(state) < capitalNeeded) continue;
 
         const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
-        const moneynessPct = Math.abs(((strike - spot) / spot) * 100);
-        const timeValuePct = estimateCallPremiumPct({
-          upsideToStrikePct: moneynessPct,
-          yearsToExpiry: CSP_CYCLE_DAYS / 365,
-          annualizedIv: vol,
-        });
-        // For ITM puts, add intrinsic.
-        const intrinsicPerShare = Math.max(0, strike - spot);
-        const premium = ((timeValuePct / 100) * spot + intrinsicPerShare) * 100;
+        // Use parity-corrected put pricing (handles ITM puts properly
+        // — naive intrinsic = K-S overstates premium for deep ITM puts
+        // by ignoring the time-value-of-money discount on the strike).
+        const premiumPerShare = estimatePutValuePerShare(
+          strike,
+          spot,
+          CSP_CYCLE_DAYS,
+          vol,
+        );
+        const premium = premiumPerShare * 100;
 
         state.cash += premium;
         state.totalPremiumCollected += premium;
@@ -1014,6 +1095,10 @@ async function main(): Promise<void> {
           riskFreeRate: RISK_FREE_RATE,
           cspDownsidePct: CSP_DOWNSIDE_PCT,
           cspCycleDays: CSP_CYCLE_DAYS,
+          wheelMode: WHEEL_MODE,
+          cspStrikeDepth: CSP_STRIKE_DEPTH,
+          b2cProfitPct: B2C_PROFIT_PCT,
+          positionCloseProfit: POSITION_CLOSE_PROFIT,
         },
         portfolio: {
           finalValue: final.total,

@@ -116,35 +116,46 @@ defensive.
 
 ### 3.3 Cash-secured-put strike (buy side)
 
-- **Anchor**: `range.p25` (displayed).
-- **Pre-filter**: only consider strikes with `impliedVolatility > 0`
-  AND `bid > 0`. Deep-ITM strikes the broker quotes via parity (no
-  active market) typically show IV=0 — these have no real time-
+- **Anchor**: `range.p25` (displayed; defines the upper bound for
+  eligible strikes).
+- **Eligibility filter**: strike ≤ p25 AND `bid > 0` AND
+  `impliedVolatility > 0`. Deep-ITM strikes the broker quotes via
+  parity (no active market) show IV=0 — these have no real time-
   value premium beyond intrinsic carry, so we skip them.
-- **Snap**: among the IV-filtered strikes, pick the highest `≤ p25`.
-  For Candidates this typically lands on a slightly-ITM-to-near-ATM
-  strike where the market is still pricing real time-value.
+- **Selection**: among eligible strikes, pick the strike with
+  **maximum time-value yield** = `(bid - max(0, K - S)) / K`.
+  Time value isolates the actual premium the seller earns (intrinsic
+  is just a discount on the future stock purchase, not income).
+  This metric naturally peaks near ATM-to-slightly-ITM, which is
+  also where the discount-vs-spot if assigned is largest.
 - **Suppression**: when `current ≥ p25`, the entire put workflow is
   suppressed with reason `above-conservative-tail` (no value entry).
 - **Label**: `deep-value`.
 
-Updated 2026-04-27 (twice):
+Updated 2026-04-27 (three times in one day, with cumulative learning):
 
-1. The previous OTM-only constraint (`strike ≤ currentPrice`) was
-   removed after the portfolio backtest showed strike-at-p25 with
-   the wheel mechanics produces materially better risk-adjusted
-   returns. See `project_engine_alpha_2026_04_26` memory.
+1. Removed the previous OTM-only constraint after backtest evidence
+   suggested ITM strikes were better. See `project_engine_alpha_*` memory.
+2. Added the `impliedVolatility > 0` pre-filter after the EIX case
+   study showed that deep-ITM puts on dividend payers can have
+   IV → 0 (priced as forwards, no real premium beyond intrinsic
+   carry).
+3. **Switched from "highest IV>0 strike ≤ p25" to "max time-value
+   yield among IV>0 strikes ≤ p25"** after a corrected-pricing
+   backtest revealed that the prior wheel-at-p25 IRR (19.81%) was
+   inflated by ~6 pp/yr from the naive intrinsic = K-S model. With
+   proper put-call parity pricing (`bid ≈ K·e^(-rT) − S·e^(-qT) +
+   time_value`), the deep-ITM advantage disappears entirely. Time-
+   value yield as the selection criterion correctly picks
+   slightly-OTM-to-near-ATM strikes where real premium peaks. The
+   user's heuristic ("look for the highest strike with non-zero IV
+   and best yield") matches this conclusion exactly.
 
-2. Added the `impliedVolatility > 0` pre-filter after the EIX
-   2026-04-27 case study. EIX with current=$68.50, p25=$100, and
-   263 DTE: the listed $100 put bid was $29.70 vs naive intrinsic
-   $31.50 — bid below intrinsic because the market prices it as a
-   forward (IV ≈ 0). Effective cost basis if assigned would be
-   $70.30, ABOVE current spot — no real discount, just paying
-   interest carry on the strike. The IV>0 filter automatically
-   selects strikes where the market is pricing real time-value
-   premium, typically landing on a slightly-ITM-to-near-ATM strike
-   instead of the deep-ITM "phantom intrinsic" zone.
+For EIX 2026-04-27 (current=$68.50, p25=$100, 263 DTE), the new
+rule picks **$67.50 (slightly OTM, time-value yield 8.59%)** instead
+of $100 (deep-ITM, time-value yield NEGATIVE because bid < naive
+intrinsic). The $67.50 strike also offers the deepest real discount
+($6.80/share = 9.9% below current spot if assigned).
 
 ### 3.3 Strike snapping
 

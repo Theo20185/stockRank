@@ -109,31 +109,28 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     }
   }
 
-  // ---- Single cash-secured put: strike anchored at p25 ----
+  // ---- Single cash-secured put: strike picked by max time-value yield ----
   //
-  // Strike selection: highest listed put strike that satisfies
-  //   (a) strike ≤ p25
-  //   (b) impliedVolatility > 0 — the market is pricing real time
-  //       value, not just intrinsic carry.
+  // Strike selection rule (updated 2026-04-27):
+  //   1. Filter to strikes with bid > 0 AND impliedVolatility > 0.
+  //      (Excludes deep-ITM strikes the market prices as forwards.)
+  //   2. Filter to strikes ≤ p25 (engine's value approval — "I'd
+  //      own at this price or below").
+  //   3. Among those, pick the strike with maximum TIME-VALUE YIELD =
+  //      (bid - max(0, K - S)) / K.
   //
-  // Rule (b) is the key fix for deep-ITM strikes on dividend payers
-  // (or long-DTE puts on any stock). When IV → 0, the market is
-  // pricing the option as a forward: bid ≈ K·e^(-rT) − S·e^(-qT),
-  // no premium beyond intrinsic carry. Selling such a put gives no
-  // income beyond the discount we'd get by buying the stock outright
-  // at the same forward, with capital tied up at K·100 instead of
-  // S·100. Filtering to IV > 0 picks the deepest economically-
-  // meaningful strike — typically the last strike with real time
-  // premium, which may be slightly ITM or near-ATM depending on the
-  // chain.
+  // Why time-value yield (not raw bid/K): for ITM puts the bid
+  // includes intrinsic, which isn't real income — it's just a
+  // discount on the future stock purchase. Time-value yield isolates
+  // the actual premium the seller earns and naturally peaks at
+  // slightly-OTM-to-near-ATM, which is also the strike with the
+  // largest discount-vs-spot if assigned (proven via put-call
+  // parity in the EIX case study).
   //
-  // Empirical motivation (EIX 2026-04-27): at p25=$100 with
-  // current=$68.50 and 263 DTE, the bid is $29.70 vs naive intrinsic
-  // $31.50 — bid is BELOW intrinsic, meaning effective cost basis if
-  // assigned ($70.30) is ABOVE current spot ($68.50). No discount.
-  // Listed strikes around $85 still show meaningful IV and offer
-  // real time-value premium. The IV>0 filter would pick those
-  // automatically.
+  // For the EIX 2026-04-27 example (current=$68.50, p25=$100, 263
+  // DTE): this rule picks $67.50 (slightly OTM) where time-value
+  // yield is ~8.6%, instead of $100 (deep ITM, IV=0) where bid is
+  // below naive intrinsic and time-value yield is negative.
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
     return {
@@ -145,40 +142,48 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     };
   }
 
-  // Filter to strikes with positive implied volatility. The chain may
-  // include OI=0 deep-ITM strikes that the broker quotes via parity
-  // (no real market) — those typically show IV=0 or null. We want
-  // strikes the market is actively pricing.
-  const eligiblePutStrikes = putStrikes.filter((strike) => {
+  let bestStrike: number | null = null;
+  let bestYield = -Infinity;
+  for (const strike of putStrikes) {
+    if (strike > range.p25) continue;
     const c = findContract(group.puts, strike);
-    return (
-      c !== undefined &&
-      c.bid !== null &&
-      c.bid > 0 &&
-      c.impliedVolatility !== null &&
-      c.impliedVolatility > 0
-    );
-  });
-
-  const putSnap = snapStrike(eligiblePutStrikes, range.p25, "put");
-  if (putSnap) {
-    const contract = findContract(group.puts, putSnap.strike);
-    if (contract && contract.bid !== null && contract.bid > 0) {
-      const r = computePutReturns({ contract, currentPrice });
-      puts.push({
-        label: PUT_LABEL,
-        anchor: PUT_ANCHOR,
-        anchorPrice: anchor,
-        contract,
-        snapWarning: putSnap.snapWarning,
-        shortDated: r.shortDated,
-        notAssignedReturnPct: r.notAssignedReturnPct,
-        notAssignedAnnualizedPct: r.notAssignedAnnualizedPct,
-        effectiveCostBasis: r.effectiveCostBasis,
-        effectiveDiscountPct: r.effectiveDiscountPct,
-        inTheMoney: r.inTheMoney,
-      });
+    if (
+      c === undefined ||
+      c.bid === null ||
+      c.bid <= 0 ||
+      c.impliedVolatility === null ||
+      c.impliedVolatility <= 0
+    ) {
+      continue;
     }
+    const intrinsic = Math.max(0, strike - currentPrice);
+    const timeValue = c.bid - intrinsic;
+    const tvYield = timeValue / strike;
+    if (tvYield > bestYield) {
+      bestYield = tvYield;
+      bestStrike = strike;
+    }
+  }
+
+  if (bestStrike !== null) {
+    const contract = findContract(group.puts, bestStrike)!;
+    // Snap warning: chosen strike differs from p25 by >5% (informational).
+    const offByPct = Math.abs(bestStrike - range.p25) / range.p25;
+    const snapWarning = offByPct > 0.05;
+    const r = computePutReturns({ contract, currentPrice });
+    puts.push({
+      label: PUT_LABEL,
+      anchor: PUT_ANCHOR,
+      anchorPrice: anchor,
+      contract,
+      snapWarning,
+      shortDated: r.shortDated,
+      notAssignedReturnPct: r.notAssignedReturnPct,
+      notAssignedAnnualizedPct: r.notAssignedAnnualizedPct,
+      effectiveCostBasis: r.effectiveCostBasis,
+      effectiveDiscountPct: r.effectiveDiscountPct,
+      inTheMoney: r.inTheMoney,
+    });
   }
 
   return {
