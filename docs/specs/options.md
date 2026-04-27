@@ -89,10 +89,16 @@ At that point:
   (median, p75) is greedy — you might never get assigned, and if the
   stock recovers to median, you've capped at higher than necessary.
 - A cash-secured put with strike at p25 says "I'd happily own at my
-  conservative fair value." Strikes above p25 aren't value entries;
-  strikes well below p25 are tempting but the snap rule already
-  prefers the highest OTM strike (≤ current) so we naturally land
-  near current.
+  conservative fair value." Since Candidates have `current < p25` by
+  definition, this strike is typically ITM at sale — the intrinsic
+  value (= p25 − current) becomes part of the premium received and
+  translates to a cost-basis discount upon assignment. If the stock
+  recovers to p25 before expiry, we close the put (buy back at the
+  remaining time value) and capture nearly the full premium as
+  profit. Backtest evidence (`project_engine_alpha_2026_04_26`):
+  strike-at-p25 doubles premium harvest vs the prior 5%-OTM
+  approach when combined with buy-to-close + position-close-at-p25
+  + 10%-profit-close mechanics.
 
 ### 3.2 Covered-call strike (sell side)
 
@@ -110,16 +116,23 @@ defensive.
 
 ### 3.3 Cash-secured-put strike (buy side)
 
-- **Anchor**: `range.p25` (displayed); snap target uses
-  `min(p25, currentPrice)` which equals `currentPrice` whenever
-  `current < p25`.
-- **Snap**: prefer listed strike `≤ currentPrice` (highest OTM put).
-- **Floor**: drop the put if the snapped strike is `> currentPrice`
-  (ITM put → committing to buy above market).
+- **Anchor**: `range.p25` (both displayed AND snap target).
+- **Snap**: prefer listed strike `≤ p25` (highest strike at or below
+  the anchor). For Candidates this typically lands on an ITM strike
+  (intrinsic value > 0).
+- **No post-snap "must be OTM" floor** — the strategy explicitly
+  targets ITM puts when the engine flags a Candidate. Intrinsic
+  becomes premium, and the position is closed early if the stock
+  recovers to p25 before expiry.
 - **Suppression**: when `current ≥ p25`, the entire put workflow is
-  suppressed with reason `above-conservative-tail`. (Same defensive
-  branch as calls.)
+  suppressed with reason `above-conservative-tail` (no value entry).
 - **Label**: `deep-value`.
+
+Updated 2026-04-27: the previous OTM-only constraint (`strike ≤
+currentPrice`) was removed after the portfolio backtest showed strike-
+at-p25 with the wheel mechanics produces materially better risk-
+adjusted returns. See `project_engine_alpha_2026_04_26` memory for
+backtest evidence.
 
 ### 3.3 Strike snapping
 

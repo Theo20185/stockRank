@@ -154,13 +154,16 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
   });
 });
 
-describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => {
-  it("emits exactly one put anchored at p25, snapped to ≤ current", () => {
-    // current=$100, p25=$120 → put strike must be ≤ p25 (120) AND ≤ current (100)
+describe("buildExpirationView — cash-secured puts (single p25 anchor, ITM)", () => {
+  it("snaps put strike to highest listed strike ≤ p25 (typically ITM for Candidates)", () => {
+    // current=$100, p25=$120. Strategy: target the put strike at p25
+    // (= conservative fair value). For Candidates current < p25 by
+    // definition, so this strike is ITM at sale. Listed strikes
+    // [80, 95, 110] — pick highest ≤ 120 → 110 (ITM by $10).
     const fairValue = fv(120, 150, 180, 100);
     const grp = group(
       [],
-      [contract("P", 80, 3), contract("P", 95, 5), contract("P", 110, 9)],
+      [contract("P", 80, 3), contract("P", 95, 5), contract("P", 110, 15, 270, true)],
     );
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
@@ -172,14 +175,16 @@ describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => 
     expect(view.puts).toHaveLength(1);
     expect(view.puts[0]?.label).toBe("deep-value");
     expect(view.puts[0]?.anchor).toBe("p25");
-    // Snap prefers ≤ p25 (120) → 110, but 110 > current (100) → ITM → drop.
-    // Next best ≤ current → 95.
-    expect(view.puts[0]?.contract.strike).toBe(95);
+    expect(view.puts[0]?.contract.strike).toBe(110);
+    expect(view.puts[0]?.inTheMoney).toBe(true);
   });
 
-  it("computes effective cost basis = strike - bid", () => {
+  it("computes effective cost basis = strike - bid for ITM puts (intrinsic + time → discount)", () => {
+    // current=$100, p25=$120, listed strike $115 with bid $20
+    // (intrinsic $15 + ~$5 time). Effective cost = 115 - 20 = 95,
+    // which is 5% below current — the discount we'd get if assigned.
     const fairValue = fv(120, 150, 180, 100);
-    const grp = group([], [contract("P", 95, 5)]);
+    const grp = group([], [contract("P", 115, 20, 270, true)]);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
       group: grp,
@@ -187,11 +192,12 @@ describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => 
       currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    expect(view.puts[0]?.effectiveCostBasis).toBe(90);   // 95 - 5
+    expect(view.puts[0]?.effectiveCostBasis).toBe(95);
+    expect(view.puts[0]?.effectiveDiscountPct).toBeCloseTo(0.05, 5);
   });
 
   it("suppresses puts when current >= p25 (above the conservative tail)", () => {
-    const fairValue = fv(95, 110, 130, 100);   // current $100 above p25 $95
+    const fairValue = fv(95, 110, 130, 100); // current $100 above p25 $95
     const grp = group([], [contract("P", 90, 4)]);
     const view = buildExpirationView({
       selected: { expiration: "2027-01-15", selectionReason: "leap" },
@@ -204,10 +210,11 @@ describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => 
     expect(view.putsSuppressedReason).toBe("above-conservative-tail");
   });
 
-  it("drops a put when the only available strike is above current (post-snap floor)", () => {
-    // Only listed put is $130, current $100, p25 $120 → snap picks 120? Wait
-    // 130 > p25 (120), so snap finds nothing ≤ 120 in [130]; falls back to 130.
-    // 130 > current (100) → drop.
+  it("emits the put with snapWarning when no listed strike is at-or-below p25", () => {
+    // Only listed put is $130, p25 is $120. Highest strike ≤ 120 → none;
+    // snapStrike falls back to nearest strike (130). It's still ITM
+    // for current $100 (intrinsic $30) — emit it, but flag snapWarning
+    // because the strike is 8.3% above the p25 anchor.
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([], [contract("P", 130, 32, 270, true)]);
     const view = buildExpirationView({
@@ -217,7 +224,28 @@ describe("buildExpirationView — cash-secured puts (single p25 anchor)", () => 
       currentPrice: 100,
       annualDividendPerShare: 0,
     });
-    expect(view.puts).toEqual([]);
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(130);
+    expect(view.puts[0]?.snapWarning).toBe(true);
+  });
+
+  it("emits an OTM put when the highest ≤ p25 strike happens to be below current spot", () => {
+    // current=$100, p25=$120, listed strikes only go up to $90.
+    // Snap to highest ≤ p25 (120) → 90. 90 < current (100) so the
+    // put is OTM. We still emit it — strategy is "anchor to p25,"
+    // and the constraint is satisfied even if the only available
+    // listed strike happens to be OTM.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [contract("P", 80, 2), contract("P", 90, 3)]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(90);
   });
 });
 
