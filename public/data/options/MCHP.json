@@ -1,7 +1,7 @@
 {
   "symbol": "MCHP",
-  "fetchedAt": "2026-04-26T03:17:39.173Z",
-  "currentPrice": 89.44,
+  "fetchedAt": "2026-04-27T14:43:50.559Z",
+  "currentPrice": 85.93,
   "expirations": [
     {
       "expiration": "2027-01-15",
@@ -10,31 +10,57 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 119.01613009024348,
+          "anchorPrice": 116.63435130142145,
           "contract": {
             "contractSymbol": "MCHP270115C00120000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 264,
+            "daysToExpiry": 263,
             "strike": 120,
-            "bid": 6,
-            "ask": 7.3,
+            "bid": 5.3,
+            "ask": 6.2,
             "lastPrice": 7.1,
             "volume": 46,
             "openInterest": 263,
-            "impliedVolatility": 0.5115405291748047,
+            "impliedVolatility": 0.5197191583251952,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08176681771472541,
-          "staticAnnualizedPct": 0.11304881994649536,
-          "assignedReturnPct": 0.42344839195443923,
-          "assignedAnnualizedPct": 0.5854494813006451,
-          "effectiveCostBasis": 83.44,
-          "effectiveDiscountPct": 0.06708407871198568
+          "staticReturnPct": 0.07628991273317656,
+          "staticAnnualizedPct": 0.10587763554224124,
+          "assignedReturnPct": 0.47277542419599505,
+          "assignedAnnualizedPct": 0.6561331932758107,
+          "effectiveCostBasis": 80.63000000000001,
+          "effectiveDiscountPct": 0.061678110089607815
         }
       ],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.63435130142145,
+          "contract": {
+            "contractSymbol": "MCHP270115P00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 263,
+            "strike": 85,
+            "bid": 24.5,
+            "ask": 29,
+            "lastPrice": 17.2,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.9650272052001954,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.28823529411764703,
+          "notAssignedAnnualizedPct": 0.40002236636099303,
+          "effectiveCostBasis": 60.5,
+          "effectiveDiscountPct": 0.2959385546374957,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2028-01-21",
@@ -43,54 +69,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 119.01613009024348,
+          "anchorPrice": 116.63435130142145,
           "contract": {
             "contractSymbol": "MCHP280121C00120000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 635,
+            "daysToExpiry": 634,
             "strike": 120,
-            "bid": 12.5,
-            "ask": 15.6,
+            "bid": 12.1,
+            "ask": 14.7,
             "lastPrice": 14,
             "volume": 1,
-            "openInterest": 219,
-            "impliedVolatility": 0.527073821105957,
+            "openInterest": 220,
+            "impliedVolatility": 0.5143481182861327,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.17507493393307522,
-          "staticAnnualizedPct": 0.10063362344184638,
-          "assignedReturnPct": 0.516756508172789,
-          "assignedAnnualizedPct": 0.2970332684772724,
-          "effectiveCostBasis": 76.94,
-          "effectiveDiscountPct": 0.13975849731663686
+          "staticReturnPct": 0.17603617833494417,
+          "staticAnnualizedPct": 0.10134574935686848,
+          "assignedReturnPct": 0.5725216897977626,
+          "assignedAnnualizedPct": 0.329606335609122,
+          "effectiveCostBasis": 73.83000000000001,
+          "effectiveDiscountPct": 0.14081228907250085
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 119.01613009024348,
+          "anchorPrice": 116.63435130142145,
           "contract": {
             "contractSymbol": "MCHP280121P00085000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 635,
+            "daysToExpiry": 634,
             "strike": 85,
-            "bid": 18.9,
-            "ask": 21.5,
+            "bid": 17.5,
+            "ask": 21,
             "lastPrice": 22,
             "volume": 103,
             "openInterest": 86,
-            "impliedVolatility": 0.5256395092773438,
+            "impliedVolatility": 0.48560084716796875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.22235294117647056,
-          "notAssignedAnnualizedPct": 0.12780917091245944,
-          "effectiveCostBasis": 66.1,
-          "effectiveDiscountPct": 0.2609570661896244,
+          "notAssignedReturnPct": 0.20588235294117646,
+          "notAssignedAnnualizedPct": 0.11852848394878455,
+          "effectiveCostBasis": 67.5,
+          "effectiveDiscountPct": 0.2144768998021646,
           "inTheMoney": false
         }
       ]

@@ -1,36 +1,63 @@
 {
   "symbol": "FDS",
-  "fetchedAt": "2026-04-26T03:16:06.438Z",
-  "currentPrice": 224.12,
+  "fetchedAt": "2026-04-27T14:42:11.478Z",
+  "currentPrice": 226.36,
   "expirations": [
     {
       "expiration": "2026-09-18",
       "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 383.9505955530817,
+          "anchorPrice": 401.4746138743448,
           "contract": {
-            "contractSymbol": "FDS260918P00220000",
+            "contractSymbol": "FDS260918C00410000",
             "expiration": "2026-09-18",
-            "daysToExpiry": 145,
-            "strike": 220,
-            "bid": 21.1,
-            "ask": 25.2,
-            "lastPrice": 23.85,
-            "volume": 3,
-            "openInterest": 94,
-            "impliedVolatility": 0.48767602172851565,
+            "daysToExpiry": 144,
+            "strike": 410,
+            "bid": 0.05,
+            "ask": 6,
+            "lastPrice": 0.87,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.6087075262451174,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.09590909090909092,
-          "notAssignedAnnualizedPct": 0.24142633228840127,
-          "effectiveCostBasis": 198.9,
-          "effectiveDiscountPct": 0.1125290023201856,
+          "staticReturnPct": 0.007953489822249441,
+          "staticAnnualizedPct": 0.02015988739667393,
+          "assignedReturnPct": 0.8192275665142443,
+          "assignedAnnualizedPct": 2.076514317900689,
+          "effectiveCostBasis": 226.31,
+          "effectiveDiscountPct": 0.00022088708252341403
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 401.4746138743448,
+          "contract": {
+            "contractSymbol": "FDS260918P00220000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 144,
+            "strike": 220,
+            "bid": 20.3,
+            "ask": 26.1,
+            "lastPrice": 23.85,
+            "volume": 3,
+            "openInterest": 91,
+            "impliedVolatility": 0.5222520919799803,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09227272727272727,
+          "notAssignedAnnualizedPct": 0.23388573232323231,
+          "effectiveCostBasis": 199.7,
+          "effectiveDiscountPct": 0.11777699240148447,
           "inTheMoney": false
         }
       ]
@@ -42,54 +69,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 383.9505955530817,
+          "anchorPrice": 401.4746138743448,
           "contract": {
             "contractSymbol": "FDS261218C00320000",
             "expiration": "2026-12-18",
-            "daysToExpiry": 236,
+            "daysToExpiry": 235,
             "strike": 320,
-            "bid": 5.5,
-            "ask": 11.3,
+            "bid": 5.6,
+            "ask": 11.8,
             "lastPrice": 10.53,
             "volume": 1,
             "openInterest": 1,
-            "impliedVolatility": 0.5047962118530273,
+            "impliedVolatility": 0.5046741427612305,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.037213301484772095,
-          "staticAnnualizedPct": 0.05755447051670261,
-          "assignedReturnPct": 0.46501983369965694,
-          "assignedAnnualizedPct": 0.7192044038151474,
-          "effectiveCostBasis": 218.62,
-          "effectiveDiscountPct": 0.024540424772443333
+          "staticReturnPct": 0.03735853132481415,
+          "staticAnnualizedPct": 0.05802495290875389,
+          "assignedReturnPct": 0.45103585947466385,
+          "assignedAnnualizedPct": 0.7005450583329885,
+          "effectiveCostBasis": 220.76000000000002,
+          "effectiveDiscountPct": 0.02473935324262237
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 383.9505955530817,
+          "anchorPrice": 401.4746138743448,
           "contract": {
-            "contractSymbol": "FDS261218P00195000",
+            "contractSymbol": "FDS261218P00210000",
             "expiration": "2026-12-18",
-            "daysToExpiry": 236,
-            "strike": 195,
-            "bid": 16,
-            "ask": 22.4,
-            "lastPrice": 16.25,
-            "volume": 10,
-            "openInterest": 11,
-            "impliedVolatility": 0.5251512329101562,
+            "daysToExpiry": 235,
+            "strike": 210,
+            "bid": 22,
+            "ask": 29.1,
+            "lastPrice": 20,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.5286912365722658,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.08205128205128205,
-          "notAssignedAnnualizedPct": 0.1269013472403303,
-          "effectiveCostBasis": 179,
-          "effectiveDiscountPct": 0.20132072104229878,
+          "notAssignedReturnPct": 0.10476190476190476,
+          "notAssignedAnnualizedPct": 0.16271529888551164,
+          "effectiveCostBasis": 188,
+          "effectiveDiscountPct": 0.1694645697119633,
           "inTheMoney": false
         }
       ]
