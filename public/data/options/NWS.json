@@ -1,7 +1,7 @@
 {
   "symbol": "NWS",
-  "fetchedAt": "2026-04-27T14:43:25.893Z",
-  "currentPrice": 30.56,
+  "fetchedAt": "2026-04-28T18:17:12.550Z",
+  "currentPrice": 30.315,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 43.43618249345012,
+          "contract": {
+            "contractSymbol": "NWS260717P00040000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 80,
+            "strike": 40,
+            "bid": 11.2,
+            "ask": 14.7,
+            "lastPrice": 9.15,
+            "volume": 12,
+            "openInterest": 0,
+            "impliedVolatility": 1.090092440185547,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.27999999999999997,
+          "notAssignedAnnualizedPct": 1.2774999999999999,
+          "effectiveCostBasis": 28.8,
+          "effectiveDiscountPct": 0.049975259772389924,
+          "inTheMoney": true
+        }
+      ]
     }
   ]
 }

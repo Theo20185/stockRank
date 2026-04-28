@@ -54,13 +54,28 @@ const BACKTEST_START = "2017-12-31";
 const BACKTEST_END = "2026-04-22"; // latest data point in cache
 const RISK_FREE_RATE = 0.04;
 
-/* Wheel mode (CSPs at p25, CCs at cost basis):
- *   true  → Sell ITM puts at strike = p25 fair value, 1y expiry.
- *           Premium = intrinsic + time value (ITM puts).
- *           After assignment, write CCs at max(cost_basis, spot × 1.02).
- *   false → Original income mode: 30d 5%-OTM puts; CCs at p25.
+/* Strategy mode:
+ *   "yield-aware" (default) — Strike selected by max time-value yield
+ *     via grid search across [0.85, 1.0] of spot. Capital cycles when
+ *     a fresh CSP's annualized TV-yield exceeds the remaining yield
+ *     of an open position (with margin). 90-day default cycle.
+ *   "wheel" — Legacy ITM-at-p25 mode (validated as suboptimal once
+ *     the pricing-model bug was corrected). Preserved for comparison.
  */
-const WHEEL_MODE = true;
+const STRATEGY_MODE = (process.env.STRATEGY_MODE ?? "yield-aware") as "yield-aware" | "wheel";
+const WHEEL_MODE = STRATEGY_MODE === "wheel";
+
+/* Yield-arbitrage close threshold (yield-aware mode only). Close an
+ * open CSP when the best available new-CSP TV-yield exceeds the
+ * existing CSP's remaining TV-yield × this multiplier. 1.20 = require
+ * 20% yield improvement to bother rotating capital. */
+const YIELD_CLOSE_MARGIN = Number(process.env.YIELD_CLOSE_MARGIN ?? "1.20");
+
+/* Strike search grid for yield-aware mode. Tries each multiplier of
+ * spot, computes time-value yield using parity-corrected pricing,
+ * picks the strike with peak yield. Slightly-OTM strikes typically
+ * win for short-to-mid-DTE puts. */
+const STRIKE_SEARCH_MULTIPLIERS = [0.80, 0.85, 0.90, 0.93, 0.95, 0.97, 0.99, 1.00];
 
 /* CSP strike depth from current spot to p25, in [0, 1]:
  *   0.0  → ATM (strike = current)
@@ -81,8 +96,10 @@ const B2C_PROFIT_PCT = Number(process.env.B2C_PROFIT_PCT ?? "1.0");
  * = 10%). Override via POSITION_CLOSE_PROFIT env var. */
 const POSITION_CLOSE_PROFIT = Number(process.env.POSITION_CLOSE_PROFIT ?? "0.10");
 
-const CSP_DOWNSIDE_PCT = 5;            // used only when WHEEL_MODE = false
-const CSP_CYCLE_DAYS = WHEEL_MODE ? 365 : 30;
+const CSP_DOWNSIDE_PCT = 5;            // used only when STRATEGY_MODE = "wheel"
+const CSP_CYCLE_DAYS = Number(
+  process.env.CSP_CYCLE_DAYS ?? (STRATEGY_MODE === "wheel" ? 365 : 30),
+);
 const CSP_VOL_LOOKBACK_DAYS = Math.max(30, CSP_CYCLE_DAYS);
 const CSP_MIN_VOL = 0.08;
 const CSP_MAX_VOL = 0.80;
@@ -426,6 +443,34 @@ function estimatePutValuePerShare(
   return effectiveIntrinsic + timeValue;
 }
 
+/** Find the strike that maximizes time-value yield (= TV / strike)
+ * across a small grid of multipliers. Used by yield-aware mode to
+ * pick the put strike a real-market chain would give us when the
+ * "best yield" rule is applied. Caps strikes at p25 (engine's value
+ * approval); skips strikes where the parity-corrected premium
+ * doesn't exceed naive intrinsic (no real time-value). */
+function findBestYieldPutStrike(
+  spot: number,
+  p25: number,
+  vol: number,
+  daysToExpiry: number,
+): { strike: number; premiumPerShare: number; tvYield: number } | null {
+  let best: { strike: number; premiumPerShare: number; tvYield: number } | null = null;
+  for (const mult of STRIKE_SEARCH_MULTIPLIERS) {
+    const strike = spot * mult;
+    if (strike > p25) continue;
+    const premiumPerShare = estimatePutValuePerShare(strike, spot, daysToExpiry, vol);
+    const intrinsic = Math.max(0, strike - spot);
+    const timeValue = premiumPerShare - intrinsic;
+    if (timeValue <= 0) continue;
+    const tvYield = timeValue / strike;
+    if (best === null || tvYield > best.tvYield) {
+      best = { strike, premiumPerShare, tvYield };
+    }
+  }
+  return best;
+}
+
 /** Same parity-corrected pricing for calls (used for CC writing and
  * CC buyback during position close). */
 function estimateCallValuePerShare(
@@ -513,13 +558,17 @@ async function main(): Promise<void> {
   console.log(`Portfolio CSP backtest: ${BACKTEST_START} → ${BACKTEST_END}`);
   console.log(`Starting capital: $${STARTING_CAPITAL.toLocaleString()}`);
   console.log(`Risk-free rate: ${(RISK_FREE_RATE * 100).toFixed(1)}%`);
-  if (WHEEL_MODE) {
-    console.log(`Strategy: WHEEL — 1y CSPs, CCs at cost basis.`);
-    console.log(`  CSP_STRIKE_DEPTH=${CSP_STRIKE_DEPTH} (0=ATM, 1=p25)`);
-    console.log(`  B2C_PROFIT_PCT=${B2C_PROFIT_PCT} (≥1 = legacy intrinsic-zero close)`);
+  if (STRATEGY_MODE === "yield-aware") {
+    console.log(`Strategy: YIELD-AWARE — best-TV-yield strike + Tasty 50% close`);
+    console.log(`  CSP_CYCLE_DAYS=${CSP_CYCLE_DAYS}`);
+    console.log(`  Strike: max time-value yield via grid search (slightly OTM typically)`);
+    console.log(`  Close: when current put value ≤ 50% of original premium`);
     console.log(`  POSITION_CLOSE_PROFIT=${POSITION_CLOSE_PROFIT} (above effective basis)`);
-  } else {
-    console.log(`Strategy: 30d 5%-OTM CSPs on top-composite Candidates, CCs at p25.`);
+  } else if (WHEEL_MODE) {
+    console.log(`Strategy: WHEEL (legacy) — 1y CSPs at p25, CCs at cost basis.`);
+    console.log(`  CSP_STRIKE_DEPTH=${CSP_STRIKE_DEPTH}`);
+    console.log(`  B2C_PROFIT_PCT=${B2C_PROFIT_PCT}`);
+    console.log(`  POSITION_CLOSE_PROFIT=${POSITION_CLOSE_PROFIT}`);
   }
 
   const snapshot = JSON.parse(await readFile(SNAPSHOT_PATH, "utf8")) as Snapshot;
@@ -726,51 +775,60 @@ async function main(): Promise<void> {
       //         names is blocked.
       let earlyClosed = 0;
       const closedCspSymbols = new Set<string>();
-      if (WHEEL_MODE) {
-        const closedCsps = new Set<OpenCsp>();
-        for (const csp of state.openCsps) {
-          const symBars = bars.get(csp.symbol);
-          if (!symBars) continue;
-          const spot = priceAtOrBefore(symBars, ev.date);
-          if (spot === null) continue;
-          const daysRemaining = daysBetween(ev.date, csp.expiry);
-          const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
-          const valuePerShare = estimatePutValuePerShare(
-            csp.strike,
-            spot,
-            daysRemaining,
-            vol,
-          );
-          const closeCost = valuePerShare * 100;
-          // Two trigger modes:
-          //   B2C_PROFIT_PCT < 1: close when current value ≤ premium ×
-          //     (1 − B2C_PROFIT_PCT). E.g., 0.5 → close at 50% max profit
-          //     (Tasty rule). The original premium is csp.premium.
-          //   B2C_PROFIT_PCT ≥ 1: legacy "wait until intrinsic gone"
-          //     (close when spot ≥ strike).
-          let shouldClose = false;
-          if (B2C_PROFIT_PCT >= 1.0) {
-            shouldClose = spot >= csp.strike;
-          } else {
-            const targetCloseCost = csp.premium * (1 - B2C_PROFIT_PCT);
-            shouldClose = closeCost <= targetCloseCost;
-          }
-          if (!shouldClose) continue;
-          state.cash -= closeCost;
-          state.reservedCash -= csp.capitalReserved;
-          state.cspsClosedEarly += 1;
-          state.earlyCloseCostTotal += closeCost;
-          closedCsps.add(csp);
-          closedCspSymbols.add(csp.symbol);
-          earlyClosed += 1;
+      const closedCsps = new Set<OpenCsp>();
+      for (const csp of state.openCsps) {
+        const symBars = bars.get(csp.symbol);
+        if (!symBars) continue;
+        const spot = priceAtOrBefore(symBars, ev.date);
+        if (spot === null) continue;
+        const daysRemaining = daysBetween(ev.date, csp.expiry);
+        if (daysRemaining <= 0) continue;
+        const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
+        const valuePerShare = estimatePutValuePerShare(
+          csp.strike,
+          spot,
+          daysRemaining,
+          vol,
+        );
+        const closeCost = valuePerShare * 100;
+
+        let shouldClose = false;
+        if (STRATEGY_MODE === "yield-aware") {
+          // Tasty's 50% max-profit rule: close when current put value
+          // is ≤ 50% of original premium. This captures the back-
+          // loaded theta decay curve — by mid-cycle ~50% of premium
+          // has decayed, and the remaining time-value yield is no
+          // longer competitive with starting fresh. Empirically the
+          // standard rule for short-dated CSP income strategies.
+          //
+          // We tested a yield-arbitrage rule (close when fresh yield
+          // > remaining yield × 1.20) and it churned catastrophically
+          // because "fresh yield" comes from whichever Candidate has
+          // the highest vol at any moment, which changes constantly.
+          // Tasty's static threshold is more robust.
+          const targetCloseCost = csp.premium * 0.5;
+          shouldClose = closeCost <= targetCloseCost;
+        } else if (B2C_PROFIT_PCT >= 1.0) {
+          shouldClose = spot >= csp.strike;
+        } else {
+          const targetCloseCost = csp.premium * (1 - B2C_PROFIT_PCT);
+          shouldClose = closeCost <= targetCloseCost;
         }
-        if (closedCsps.size > 0) {
-          state.openCsps = state.openCsps.filter((c) => !closedCsps.has(c));
-          for (let i = events.length - 1; i >= 0; i -= 1) {
-            const e = events[i]!;
-            if (e.kind === "csp-expiry" && closedCsps.has(e.csp)) {
-              events.splice(i, 1);
-            }
+        if (!shouldClose) continue;
+        state.cash -= closeCost;
+        state.reservedCash -= csp.capitalReserved;
+        state.cspsClosedEarly += 1;
+        state.earlyCloseCostTotal += closeCost;
+        closedCsps.add(csp);
+        closedCspSymbols.add(csp.symbol);
+        earlyClosed += 1;
+      }
+      if (closedCsps.size > 0) {
+        state.openCsps = state.openCsps.filter((c) => !closedCsps.has(c));
+        for (let i = events.length - 1; i >= 0; i -= 1) {
+          const e = events[i]!;
+          if (e.kind === "csp-expiry" && closedCsps.has(e.csp)) {
+            events.splice(i, 1);
           }
         }
       }
@@ -964,28 +1022,27 @@ async function main(): Promise<void> {
         if (spot === null || spot <= 0) continue;
 
         let strike: number;
-        if (WHEEL_MODE) {
+        let premiumPerShare: number;
+        const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
+
+        if (STRATEGY_MODE === "wheel") {
           const p25 = cand.fairValue?.range?.p25;
-          if (p25 === undefined || p25 <= spot) continue; // need ITM put
-          // Interpolate strike between current spot (depth=0, ATM)
-          // and p25 (depth=1.0, deepest ITM target).
+          if (p25 === undefined || p25 <= spot) continue;
           strike = spot + CSP_STRIKE_DEPTH * (p25 - spot);
+          premiumPerShare = estimatePutValuePerShare(strike, spot, CSP_CYCLE_DAYS, vol);
         } else {
-          strike = spot * (1 - CSP_DOWNSIDE_PCT / 100);
+          // yield-aware: pick best-time-value-yield strike via grid search.
+          // Capped at p25 (engine's value approval).
+          const p25 = cand.fairValue?.range?.p25 ?? spot * 1.30;
+          if (p25 <= spot) continue;
+          const best = findBestYieldPutStrike(spot, p25, vol, CSP_CYCLE_DAYS);
+          if (best === null) continue;
+          strike = best.strike;
+          premiumPerShare = best.premiumPerShare;
         }
+
         const capitalNeeded = strike * 100;
         if (freeCash(state) < capitalNeeded) continue;
-
-        const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
-        // Use parity-corrected put pricing (handles ITM puts properly
-        // — naive intrinsic = K-S overstates premium for deep ITM puts
-        // by ignoring the time-value-of-money discount on the strike).
-        const premiumPerShare = estimatePutValuePerShare(
-          strike,
-          spot,
-          CSP_CYCLE_DAYS,
-          vol,
-        );
         const premium = premiumPerShare * 100;
 
         state.cash += premium;

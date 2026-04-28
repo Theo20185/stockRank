@@ -1,0 +1,71 @@
+{
+  "symbol": "POOL",
+  "fetchedAt": "2026-04-28T18:17:09.075Z",
+  "currentPrice": 217.64,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 292.05650698757756,
+          "contract": {
+            "contractSymbol": "POOL260515P00220000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 17,
+            "strike": 220,
+            "bid": 7.1,
+            "ask": 8.5,
+            "lastPrice": 7.8,
+            "volume": 6,
+            "openInterest": 183,
+            "impliedVolatility": 0.3746400427246094,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.03227272727272727,
+          "notAssignedAnnualizedPct": 0.6929144385026738,
+          "effectiveCostBasis": 212.9,
+          "effectiveDiscountPct": 0.021779084727072143,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 292.05650698757756,
+          "contract": {
+            "contractSymbol": "POOL260717P00220000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 80,
+            "strike": 220,
+            "bid": 13,
+            "ask": 15.2,
+            "lastPrice": 10.1,
+            "volume": 202,
+            "openInterest": 366,
+            "impliedVolatility": 0.34058276611328125,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05909090909090909,
+          "notAssignedAnnualizedPct": 0.2696022727272727,
+          "effectiveCostBasis": 207,
+          "effectiveDiscountPct": 0.048888072045579795,
+          "inTheMoney": true
+        }
+      ]
+    }
+  ]
+}
