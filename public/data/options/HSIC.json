@@ -1,0 +1,99 @@
+{
+  "symbol": "HSIC",
+  "fetchedAt": "2026-05-01T15:21:05.726Z",
+  "currentPrice": 74.26,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 74.50092072355332,
+          "contract": {
+            "contractSymbol": "HSIC260515C00075000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 14,
+            "strike": 75,
+            "bid": 0.9,
+            "ask": 3.7,
+            "lastPrice": 2.47,
+            "volume": 3,
+            "openInterest": 24,
+            "impliedVolatility": 0.673098972167969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.01211957985456504,
+          "staticAnnualizedPct": 0.3159747604940171,
+          "assignedReturnPct": 0.022084567734985117,
+          "assignedAnnualizedPct": 0.5757762302335406,
+          "effectiveCostBasis": 73.36,
+          "effectiveDiscountPct": 0.01211957985456504
+        }
+      ],
+      "puts": []
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 74.50092072355332,
+          "contract": {
+            "contractSymbol": "HSIC260717C00075000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 77,
+            "strike": 75,
+            "bid": 3.7,
+            "ask": 4.8,
+            "lastPrice": 6.5,
+            "volume": 5,
+            "openInterest": 406,
+            "impliedVolatility": 0.3754945263671875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.049824939402100726,
+          "staticAnnualizedPct": 0.2361831543086593,
+          "assignedReturnPct": 0.059789927282520805,
+          "assignedAnnualizedPct": 0.28341978517039085,
+          "effectiveCostBasis": 70.56,
+          "effectiveDiscountPct": 0.049824939402100726
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 74.50092072355332,
+          "contract": {
+            "contractSymbol": "HSIC260717P00070000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 77,
+            "strike": 70,
+            "bid": 0.75,
+            "ask": 3.7,
+            "lastPrice": 2.9,
+            "volume": 5,
+            "openInterest": 26,
+            "impliedVolatility": 0.4198056066894531,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.010714285714285714,
+          "notAssignedAnnualizedPct": 0.05078849721706865,
+          "effectiveCostBasis": 69.25,
+          "effectiveDiscountPct": 0.06746566119041213,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

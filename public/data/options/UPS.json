@@ -1,37 +1,64 @@
 {
   "symbol": "UPS",
-  "fetchedAt": "2026-04-28T18:16:20.057Z",
-  "currentPrice": 105.665,
+  "fetchedAt": "2026-05-01T15:20:25.471Z",
+  "currentPrice": 108.2,
   "expirations": [
     {
       "expiration": "2027-01-15",
       "selectionReason": "leap",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 190.49372392156863,
+          "contract": {
+            "contractSymbol": "UPS270115C00195000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 259,
+            "strike": 195,
+            "bid": 0.01,
+            "ask": 0.47,
+            "lastPrice": 0.16,
+            "volume": 50,
+            "openInterest": 655,
+            "impliedVolatility": 0.36426416992187505,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04291030257698579,
+          "staticAnnualizedPct": 0.06047204803320391,
+          "assignedReturnPct": 0.8451284171795735,
+          "assignedAnnualizedPct": 1.1910110898476616,
+          "effectiveCostBasis": 108.19,
+          "effectiveDiscountPct": 0.00009242144177449168
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 189.41839843137257,
+          "anchorPrice": 190.49372392156863,
           "contract": {
-            "contractSymbol": "UPS270115P00105000",
+            "contractSymbol": "UPS270115P00110000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 262,
-            "strike": 105,
-            "bid": 11.05,
-            "ask": 11.9,
-            "lastPrice": 12.4,
-            "volume": 3,
-            "openInterest": 1596,
-            "impliedVolatility": 0.34418380432128903,
-            "inTheMoney": false
+            "daysToExpiry": 259,
+            "strike": 110,
+            "bid": 10.95,
+            "ask": 12.55,
+            "lastPrice": 11.61,
+            "volume": 4,
+            "openInterest": 1479,
+            "impliedVolatility": 0.31763377685546873,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.10523809523809524,
-          "notAssignedAnnualizedPct": 0.14661032351872047,
-          "effectiveCostBasis": 93.95,
-          "effectiveDiscountPct": 0.11086925661288036,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.09954545454545453,
+          "notAssignedAnnualizedPct": 0.14028606528606527,
+          "effectiveCostBasis": 99.05,
+          "effectiveDiscountPct": 0.08456561922365995,
+          "inTheMoney": true
         }
       ]
     },
@@ -42,55 +69,55 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 189.41839843137257,
+          "anchorPrice": 190.49372392156863,
           "contract": {
             "contractSymbol": "UPS280121C00180000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 633,
+            "daysToExpiry": 630,
             "strike": 180,
-            "bid": 0.81,
-            "ask": 2.09,
-            "lastPrice": 2.15,
-            "volume": 9,
-            "openInterest": 51,
-            "impliedVolatility": 0.29560030578613283,
+            "bid": 1.8,
+            "ask": 2.46,
+            "lastPrice": 2,
+            "volume": 2,
+            "openInterest": 54,
+            "impliedVolatility": 0.2978585839843749,
             "inTheMoney": false
           },
-          "snapWarning": false,
+          "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.11265664112573506,
-          "staticAnnualizedPct": 0.06495999053853602,
-          "assignedReturnPct": 0.8161535417077631,
-          "assignedAnnualizedPct": 0.47060986212216993,
-          "effectiveCostBasis": 104.855,
-          "effectiveDiscountPct": 0.007665736052619126
+          "staticReturnPct": 0.1207874622807333,
+          "staticAnnualizedPct": 0.06998003767058358,
+          "assignedReturnPct": 0.7843734142215836,
+          "assignedAnnualizedPct": 0.45443856538234606,
+          "effectiveCostBasis": 106.4,
+          "effectiveDiscountPct": 0.0166358595194085
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 189.41839843137257,
+          "anchorPrice": 190.49372392156863,
           "contract": {
-            "contractSymbol": "UPS280121P00105000",
+            "contractSymbol": "UPS280121P00110000",
             "expiration": "2028-01-21",
-            "daysToExpiry": 633,
-            "strike": 105,
-            "bid": 17.05,
-            "ask": 17.75,
-            "lastPrice": 16.45,
-            "volume": 1,
-            "openInterest": 352,
-            "impliedVolatility": 0.32923034057617184,
-            "inTheMoney": false
+            "daysToExpiry": 630,
+            "strike": 110,
+            "bid": 16.45,
+            "ask": 19.1,
+            "lastPrice": 20.13,
+            "volume": 24,
+            "openInterest": 324,
+            "impliedVolatility": 0.32034981414794916,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.16238095238095238,
-          "notAssignedAnnualizedPct": 0.09363198675994885,
-          "effectiveCostBasis": 87.95,
-          "effectiveDiscountPct": 0.1676524866322813,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.14954545454545454,
+          "notAssignedAnnualizedPct": 0.08664141414141414,
+          "effectiveCostBasis": 93.55,
+          "effectiveDiscountPct": 0.13539741219963036,
+          "inTheMoney": true
         }
       ]
     }

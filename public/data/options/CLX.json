@@ -1,0 +1,125 @@
+{
+  "symbol": "CLX",
+  "fetchedAt": "2026-05-01T15:21:18.190Z",
+  "currentPrice": 87.57,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 118.39889445744453,
+          "contract": {
+            "contractSymbol": "CLX270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 259,
+            "strike": 120,
+            "bid": 1.2,
+            "ask": 1.6,
+            "lastPrice": 1.5,
+            "volume": 157,
+            "openInterest": 683,
+            "impliedVolatility": 0.31690136230468746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.050174117269784956,
+          "staticAnnualizedPct": 0.07070869808290157,
+          "assignedReturnPct": 0.42050642285388923,
+          "assignedAnnualizedPct": 0.5926055766087629,
+          "effectiveCostBasis": 86.36999999999999,
+          "effectiveDiscountPct": 0.013703323055841042
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 118.39889445744453,
+          "contract": {
+            "contractSymbol": "CLX270115P00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 259,
+            "strike": 85,
+            "bid": 7.9,
+            "ask": 8.2,
+            "lastPrice": 8.03,
+            "volume": 20,
+            "openInterest": 192,
+            "impliedVolatility": 0.32569033691406246,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09294117647058824,
+          "notAssignedAnnualizedPct": 0.13097887803770158,
+          "effectiveCostBasis": 77.1,
+          "effectiveDiscountPct": 0.11956149366221308,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 118.39889445744453,
+          "contract": {
+            "contractSymbol": "CLX280121C00120000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 630,
+            "strike": 120,
+            "bid": 4.5,
+            "ask": 5.4,
+            "lastPrice": 4.7,
+            "volume": 2,
+            "openInterest": 79,
+            "impliedVolatility": 0.3149482568359374,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.1401002041419702,
+          "staticAnnualizedPct": 0.08116916589177639,
+          "assignedReturnPct": 0.5104325097260745,
+          "assignedAnnualizedPct": 0.2957267715079638,
+          "effectiveCostBasis": 83.07,
+          "effectiveDiscountPct": 0.051387461459403906
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 118.39889445744453,
+          "contract": {
+            "contractSymbol": "CLX280121P00085000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 630,
+            "strike": 85,
+            "bid": 12.5,
+            "ask": 13.8,
+            "lastPrice": 13.34,
+            "volume": 5,
+            "openInterest": 68,
+            "impliedVolatility": 0.33542534698486326,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.14705882352941177,
+          "notAssignedAnnualizedPct": 0.08520074696545286,
+          "effectiveCostBasis": 72.5,
+          "effectiveDiscountPct": 0.17209089870960367,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

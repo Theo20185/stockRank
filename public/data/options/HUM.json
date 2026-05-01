@@ -1,0 +1,125 @@
+{
+  "symbol": "HUM",
+  "fetchedAt": "2026-05-01T15:20:27.196Z",
+  "currentPrice": 234.74,
+  "expirations": [
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 241.80923633736768,
+          "contract": {
+            "contractSymbol": "HUM270115C00250000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 259,
+            "strike": 250,
+            "bid": 26.9,
+            "ask": 31.3,
+            "lastPrice": 29.17,
+            "volume": 48,
+            "openInterest": 1036,
+            "impliedVolatility": 0.47437049072265625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.12523734624492736,
+          "staticAnnualizedPct": 0.17649278524864281,
+          "assignedReturnPct": 0.19024544030644217,
+          "assignedAnnualizedPct": 0.26810650853996676,
+          "effectiveCostBasis": 207.84,
+          "effectiveDiscountPct": 0.11459487092101898
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 241.80923633736768,
+          "contract": {
+            "contractSymbol": "HUM270115P00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 259,
+            "strike": 230,
+            "bid": 28.4,
+            "ask": 32.1,
+            "lastPrice": 33,
+            "volume": 2,
+            "openInterest": 2565,
+            "impliedVolatility": 0.4426020095825196,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12347826086956522,
+          "notAssignedAnnualizedPct": 0.17401376531811316,
+          "effectiveCostBasis": 201.6,
+          "effectiveDiscountPct": 0.14117747294879446,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2028-01-21",
+      "selectionReason": "leap",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 241.80923633736768,
+          "contract": {
+            "contractSymbol": "HUM280121C00250000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 630,
+            "strike": 250,
+            "bid": 50,
+            "ask": 58,
+            "lastPrice": 57.6,
+            "volume": 3,
+            "openInterest": 489,
+            "impliedVolatility": 0.5242509733581542,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.23888872095153948,
+          "staticAnnualizedPct": 0.13840378277351098,
+          "assignedReturnPct": 0.3038968150130543,
+          "assignedAnnualizedPct": 0.17606720234883308,
+          "effectiveCostBasis": 184.74,
+          "effectiveDiscountPct": 0.21300161881230298
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 241.80923633736768,
+          "contract": {
+            "contractSymbol": "HUM280121P00230000",
+            "expiration": "2028-01-21",
+            "daysToExpiry": 630,
+            "strike": 230,
+            "bid": 45,
+            "ask": 52.2,
+            "lastPrice": 47.1,
+            "volume": 1,
+            "openInterest": 146,
+            "impliedVolatility": 0.45432064239501957,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1956521739130435,
+          "notAssignedAnnualizedPct": 0.11335403726708076,
+          "effectiveCostBasis": 185,
+          "effectiveDiscountPct": 0.21189401039447903,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

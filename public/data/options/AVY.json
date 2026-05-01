@@ -1,7 +1,7 @@
 {
   "symbol": "AVY",
-  "fetchedAt": "2026-04-28T18:16:41.106Z",
-  "currentPrice": 169.465,
+  "fetchedAt": "2026-05-01T15:20:35.933Z",
+  "currentPrice": 163.125,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 219.01561843414026,
+          "anchorPrice": 195.76755541182015,
           "contract": {
-            "contractSymbol": "AVY260515P00170000",
+            "contractSymbol": "AVY260515P00165000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 17,
-            "strike": 170,
-            "bid": 5,
-            "ask": 5.5,
-            "lastPrice": 4.7,
-            "volume": 1,
-            "openInterest": 10,
-            "impliedVolatility": 0.34778484252929687,
+            "daysToExpiry": 14,
+            "strike": 165,
+            "bid": 2.55,
+            "ask": 4.8,
+            "lastPrice": 3.2,
+            "volume": 2,
+            "openInterest": 28,
+            "impliedVolatility": 0.28565167480468745,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.029411764705882353,
-          "notAssignedAnnualizedPct": 0.6314878892733563,
-          "effectiveCostBasis": 165,
-          "effectiveDiscountPct": 0.026347623403062598,
+          "notAssignedReturnPct": 0.015454545454545453,
+          "notAssignedAnnualizedPct": 0.4029220779220779,
+          "effectiveCostBasis": 162.45,
+          "effectiveDiscountPct": 0.004137931034482828,
           "inTheMoney": true
         }
       ]
@@ -38,58 +38,31 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 219.01561843414026,
-          "contract": {
-            "contractSymbol": "AVY260717C00220000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 80,
-            "strike": 220,
-            "bid": 2.5,
-            "ask": 4.9,
-            "lastPrice": 3.5,
-            "volume": 0,
-            "openInterest": 4,
-            "impliedVolatility": 0.5317429638671876,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.01975502437364324,
-          "staticAnnualizedPct": 0.09013229870474729,
-          "assignedReturnPct": 0.3179581931695598,
-          "assignedAnnualizedPct": 1.4506842563361166,
-          "effectiveCostBasis": 166.965,
-          "effectiveDiscountPct": 0.014752308736317233
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 219.01561843414026,
+          "anchorPrice": 195.76755541182015,
           "contract": {
-            "contractSymbol": "AVY260717P00170000",
+            "contractSymbol": "AVY260717P00165000",
             "expiration": "2026-07-17",
-            "daysToExpiry": 80,
-            "strike": 170,
-            "bid": 7.9,
-            "ask": 9.8,
-            "lastPrice": 9.8,
-            "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.2990792749023437,
+            "daysToExpiry": 77,
+            "strike": 165,
+            "bid": 6.5,
+            "ask": 9.4,
+            "lastPrice": 8.7,
+            "volume": 2,
+            "openInterest": 7,
+            "impliedVolatility": 0.27887684020996095,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.04647058823529412,
-          "notAssignedAnnualizedPct": 0.21202205882352942,
-          "effectiveCostBasis": 162.1,
-          "effectiveDiscountPct": 0.043460301537190625,
+          "notAssignedReturnPct": 0.03939393939393939,
+          "notAssignedAnnualizedPct": 0.1867375049193231,
+          "effectiveCostBasis": 158.5,
+          "effectiveDiscountPct": 0.028352490421455937,
           "inTheMoney": true
         }
       ]
