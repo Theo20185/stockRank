@@ -1,7 +1,7 @@
 {
   "symbol": "GEHC",
-  "fetchedAt": "2026-05-11T16:19:39.482Z",
-  "currentPrice": 62.51,
+  "fetchedAt": "2026-05-11T16:49:27.629Z",
+  "currentPrice": 62.64,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,83 +13,56 @@
           "anchor": "p25",
           "anchorPrice": 75.1498728425353,
           "contract": {
-            "contractSymbol": "GEHC260515P00063000",
+            "contractSymbol": "GEHC260515P00062500",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
-            "strike": 63,
-            "bid": 1.05,
-            "ask": 1.5,
-            "lastPrice": 1.2,
-            "volume": 215,
-            "openInterest": 543,
-            "impliedVolatility": 0.422857333984375,
-            "inTheMoney": true
+            "strike": 62.5,
+            "bid": 0.8,
+            "ask": 1.05,
+            "lastPrice": 0.8,
+            "volume": 27,
+            "openInterest": 489,
+            "impliedVolatility": 0.38281867187499996,
+            "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.016666666666666666,
-          "notAssignedAnnualizedPct": 1.5208333333333333,
-          "effectiveCostBasis": 61.95,
-          "effectiveDiscountPct": 0.00895856662933923,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.0128,
+          "notAssignedAnnualizedPct": 1.1680000000000001,
+          "effectiveCostBasis": 61.7,
+          "effectiveDiscountPct": 0.015006385696040831,
+          "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2026-07-17",
+      "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 75.1498728425353,
-          "contract": {
-            "contractSymbol": "GEHC260717C00077500",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 67,
-            "strike": 77.5,
-            "bid": 0.05,
-            "ask": 0.6,
-            "lastPrice": 0.24,
-            "volume": 3,
-            "openInterest": 19,
-            "impliedVolatility": 0.39771110107421875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0012031262066562502,
-          "staticAnnualizedPct": 0.006554344260142259,
-          "assignedReturnPct": 0.24100475794557805,
-          "assignedAnnualizedPct": 1.3129363679124775,
-          "effectiveCostBasis": 62.46,
-          "effectiveDiscountPct": 0.0007998720204767238
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
           "anchorPrice": 75.1498728425353,
           "contract": {
-            "contractSymbol": "GEHC260717P00062500",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 67,
+            "contractSymbol": "GEHC260618P00062500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 38,
             "strike": 62.5,
-            "bid": 2.95,
-            "ask": 3.4,
-            "lastPrice": 3.39,
-            "volume": 140,
-            "openInterest": 418,
-            "impliedVolatility": 0.3166572241210937,
+            "bid": 2.25,
+            "ask": 2.4,
+            "lastPrice": 2.33,
+            "volume": 44,
+            "openInterest": 320,
+            "impliedVolatility": 0.30274134765625,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.047200000000000006,
-          "notAssignedAnnualizedPct": 0.257134328358209,
-          "effectiveCostBasis": 59.55,
-          "effectiveDiscountPct": 0.04735242361222206,
+          "notAssignedReturnPct": 0.036,
+          "notAssignedAnnualizedPct": 0.3457894736842105,
+          "effectiveCostBasis": 60.25,
+          "effectiveDiscountPct": 0.03815453384418903,
           "inTheMoney": false
         }
       ]
@@ -112,17 +85,17 @@
             "lastPrice": 2.85,
             "volume": 23,
             "openInterest": 327,
-            "impliedVolatility": 0.37476211181640623,
+            "impliedVolatility": 0.37256486816406253,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.043891878165246985,
-          "staticAnnualizedPct": 0.06433950012174759,
-          "assignedReturnPct": 0.2836935099041688,
-          "assignedAnnualizedPct": 0.41585594825309885,
-          "effectiveCostBasis": 59.86,
-          "effectiveDiscountPct": 0.04239321708526636
+          "staticReturnPct": 0.043807495757448515,
+          "staticAnnualizedPct": 0.06421580703401088,
+          "assignedReturnPct": 0.2810361036757116,
+          "assignedAnnualizedPct": 0.41196055358086237,
+          "effectiveCostBasis": 59.99,
+          "effectiveDiscountPct": 0.04230523627075351
         }
       ],
       "puts": [
@@ -136,11 +109,11 @@
             "daysToExpiry": 249,
             "strike": 62.5,
             "bid": 5.7,
-            "ask": 6.8,
+            "ask": 6.9,
             "lastPrice": 7,
             "volume": 24,
             "openInterest": 57,
-            "impliedVolatility": 0.3309393078613281,
+            "impliedVolatility": 0.3386296606445312,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -148,7 +121,7 @@
           "notAssignedReturnPct": 0.0912,
           "notAssignedAnnualizedPct": 0.13368674698795183,
           "effectiveCostBasis": 56.8,
-          "effectiveDiscountPct": 0.09134538473844186,
+          "effectiveDiscountPct": 0.0932311621966795,
           "inTheMoney": false
         }
       ]

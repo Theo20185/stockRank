@@ -1,7 +1,7 @@
 {
   "symbol": "OXY",
-  "fetchedAt": "2026-05-11T16:20:18.131Z",
-  "currentPrice": 55.305,
+  "fetchedAt": "2026-05-11T16:50:02.241Z",
+  "currentPrice": 55.38,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -17,52 +17,79 @@
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 55,
-            "bid": 0.86,
-            "ask": 0.94,
-            "lastPrice": 0.94,
-            "volume": 1175,
+            "bid": 0.82,
+            "ask": 0.91,
+            "lastPrice": 0.87,
+            "volume": 1180,
             "openInterest": 5364,
-            "impliedVolatility": 0.42188078125,
+            "impliedVolatility": 0.422857333984375,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015636363636363636,
-          "notAssignedAnnualizedPct": 1.4268181818181818,
-          "effectiveCostBasis": 54.14,
-          "effectiveDiscountPct": 0.021065003164270846,
+          "notAssignedReturnPct": 0.014909090909090908,
+          "notAssignedAnnualizedPct": 1.3604545454545454,
+          "effectiveCostBasis": 54.18,
+          "effectiveDiscountPct": 0.021668472372697777,
           "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2026-07-17",
+      "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 88.25436639182176,
+          "contract": {
+            "contractSymbol": "OXY260618C00090000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 38,
+            "strike": 90,
+            "bid": 0.03,
+            "ask": 0.13,
+            "lastPrice": 0.04,
+            "volume": 1,
+            "openInterest": 774,
+            "impliedVolatility": 0.6796907031250001,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.002580785902630394,
+          "staticAnnualizedPct": 0.024789127748949834,
+          "assignedReturnPct": 0.6277162138549596,
+          "assignedAnnualizedPct": 6.029379422554217,
+          "effectiveCostBasis": 55.35,
+          "effectiveDiscountPct": 0.0005417118093174431
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
           "anchorPrice": 88.25436639182176,
           "contract": {
-            "contractSymbol": "OXY260717P00055000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 67,
+            "contractSymbol": "OXY260618P00055000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 38,
             "strike": 55,
-            "bid": 3.05,
-            "ask": 3.2,
-            "lastPrice": 3.25,
-            "volume": 29,
-            "openInterest": 1385,
-            "impliedVolatility": 0.3532779516601562,
+            "bid": 2.36,
+            "ask": 2.47,
+            "lastPrice": 2.41,
+            "volume": 97,
+            "openInterest": 4575,
+            "impliedVolatility": 0.36914693359375,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.05545454545454545,
-          "notAssignedAnnualizedPct": 0.30210312075983714,
-          "effectiveCostBasis": 51.95,
-          "effectiveDiscountPct": 0.06066359280354393,
+          "notAssignedReturnPct": 0.042909090909090904,
+          "notAssignedAnnualizedPct": 0.4121531100478468,
+          "effectiveCostBasis": 52.64,
+          "effectiveDiscountPct": 0.04947634525099317,
           "inTheMoney": false
         }
       ]
@@ -85,17 +112,17 @@
             "lastPrice": 0.72,
             "volume": 2,
             "openInterest": 283,
-            "impliedVolatility": 0.424810439453125,
+            "impliedVolatility": 0.42383388671875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.02600990977803042,
-          "staticAnnualizedPct": 0.038126976180647,
-          "assignedReturnPct": 0.6533492100221313,
-          "assignedAnnualizedPct": 0.9577207295505138,
-          "effectiveCostBasis": 54.605,
-          "effectiveDiscountPct": 0.012657083446343005
+          "staticReturnPct": 0.026001243513062922,
+          "staticAnnualizedPct": 0.03811427261955007,
+          "assignedReturnPct": 0.6511366714653921,
+          "assignedAnnualizedPct": 0.9544774501400326,
+          "effectiveCostBasis": 54.68,
+          "effectiveDiscountPct": 0.012639942217407005
         }
       ],
       "puts": [
@@ -113,7 +140,7 @@
             "lastPrice": 6.2,
             "volume": 5,
             "openInterest": 4372,
-            "impliedVolatility": 0.3640200317382813,
+            "impliedVolatility": 0.3658510681152344,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -121,7 +148,7 @@
           "notAssignedReturnPct": 0.10727272727272728,
           "notAssignedAnnualizedPct": 0.15724717050018255,
           "effectiveCostBasis": 49.1,
-          "effectiveDiscountPct": 0.11219600397794048,
+          "effectiveDiscountPct": 0.11339833875045144,
           "inTheMoney": false
         }
       ]

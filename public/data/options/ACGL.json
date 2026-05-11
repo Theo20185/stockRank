@@ -1,7 +1,7 @@
 {
   "symbol": "ACGL",
-  "fetchedAt": "2026-05-11T16:18:24.260Z",
-  "currentPrice": 93.68,
+  "fetchedAt": "2026-05-11T16:48:08.782Z",
+  "currentPrice": 93.885,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,85 +11,58 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 111.77438201735131,
+          "anchorPrice": 111.88788639335132,
           "contract": {
             "contractSymbol": "ACGL260515P00095000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 95,
-            "bid": 1.45,
-            "ask": 1.8,
+            "bid": 1.7,
+            "ask": 1.9,
             "lastPrice": 1.8,
-            "volume": 5,
+            "volume": 6,
             "openInterest": 165,
-            "impliedVolatility": 0.2280350634765625,
+            "impliedVolatility": 0.28711650390624993,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015263157894736841,
-          "notAssignedAnnualizedPct": 1.3927631578947368,
-          "effectiveCostBasis": 93.55,
-          "effectiveDiscountPct": 0.0013877028181042874,
+          "notAssignedReturnPct": 0.017894736842105262,
+          "notAssignedAnnualizedPct": 1.6328947368421052,
+          "effectiveCostBasis": 93.3,
+          "effectiveDiscountPct": 0.006231027320658337,
           "inTheMoney": true
         }
       ]
     },
     {
-      "expiration": "2026-09-18",
+      "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 111.77438201735131,
-          "contract": {
-            "contractSymbol": "ACGL260918C00115000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 130,
-            "strike": 115,
-            "bid": 0.2,
-            "ask": 1.45,
-            "lastPrice": 0.3,
-            "volume": 18,
-            "openInterest": 5,
-            "impliedVolatility": 0.32031929687499994,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.002134927412467976,
-          "staticAnnualizedPct": 0.005994219273467778,
-          "assignedReturnPct": 0.22971818958155413,
-          "assignedAnnualizedPct": 0.6449779938251327,
-          "effectiveCostBasis": 93.48,
-          "effectiveDiscountPct": 0.002134927412467976
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 111.77438201735131,
+          "anchorPrice": 111.88788639335132,
           "contract": {
-            "contractSymbol": "ACGL260918P00095000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 130,
+            "contractSymbol": "ACGL260618P00095000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 38,
             "strike": 95,
-            "bid": 3.4,
-            "ask": 5.8,
-            "lastPrice": 4.79,
-            "volume": 1,
-            "openInterest": 401,
-            "impliedVolatility": 0.22705851074218747,
+            "bid": 3,
+            "ask": 3.5,
+            "lastPrice": 3.4,
+            "volume": 4,
+            "openInterest": 69,
+            "impliedVolatility": 0.23633576171874998,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.035789473684210524,
-          "notAssignedAnnualizedPct": 0.10048582995951416,
-          "effectiveCostBasis": 91.6,
-          "effectiveDiscountPct": 0.022203245089667083,
+          "notAssignedReturnPct": 0.031578947368421054,
+          "notAssignedAnnualizedPct": 0.3033240997229917,
+          "effectiveCostBasis": 92,
+          "effectiveDiscountPct": 0.020077754699898864,
           "inTheMoney": true
         }
       ]
