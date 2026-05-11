@@ -5,17 +5,18 @@ import { selectExpirations, isMonthlyThirdFriday } from "./expiration-selector.j
 // January 15, 2027 is a Friday (day 15). January 21, 2028 is a Friday (day 21).
 // March 20, 2026 = Friday (Q1 monthly). June 19, 2026 = Friday (Q2 monthly).
 
-describe("isMonthlyThirdFriday", () => {
+describe("isMonthlyThirdFriday (day-15-to-21 window — weekday is a tiebreaker, not a filter)", () => {
   it.each([
     ["2026-01-16", true],   // 3rd Friday Jan 2026
     ["2027-01-15", true],   // 3rd Friday Jan 2027
     ["2028-01-21", true],   // 3rd Friday Jan 2028
     ["2026-03-20", true],   // 3rd Friday Mar 2026
     ["2026-06-19", true],   // 3rd Friday Jun 2026
-    ["2026-04-17", true],   // 3rd Friday Apr 2026 (in spec date range)
+    ["2026-04-17", true],   // 3rd Friday Apr 2026
+    ["2026-06-18", true],   // EIX-style Thursday in 3rd week — accepted
+    ["2026-04-15", true],   // Wednesday Apr 15 — day 15 in window, accepted
     ["2026-01-09", false],  // 2nd Friday — day 9 not in [15,21]
     ["2026-01-23", false],  // 4th Friday — day 23 not in [15,21]
-    ["2026-04-15", false],  // Wednesday Apr 15 — not Friday
     ["2026-04-24", false],  // Friday Apr 24 — day 24 not in [15,21]
   ])("recognizes %s as %s", (iso, expected) => {
     expect(isMonthlyThirdFriday(iso)).toBe(expected);
@@ -63,6 +64,44 @@ describe("selectExpirations", () => {
     // with zero candidates. The cascade rolls monthly forward to Jun 19.
     const result = selectExpirations("2026-05-11", [
       "2026-05-15", "2026-05-22", "2026-06-19", "2026-07-17", "2027-01-15",
+    ]);
+    expect(result).toEqual([
+      { expiration: "2026-05-15", selectionReason: "weekly" },
+      { expiration: "2026-06-19", selectionReason: "monthly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
+    ]);
+  });
+
+  it("accepts a Thursday day-18 expiration as monthly when no Friday is listed for that month", () => {
+    // The 2026-05-11 EIX case: Yahoo's chain for EIX returned May 15 (Fri),
+    // June 18 (THURSDAY — Yahoo's OCC symbol literally reads "EIX260618"),
+    // July 17 (Fri). The previous strict-Friday rule skipped Jun 18 and
+    // picked July 17 (67 DTE). The user expected June 18 (38 DTE) because
+    // it's the symbol's actual next month-end contract.
+    const result = selectExpirations("2026-05-11", [
+      "2026-05-15",      // weekly (3rd-Fri Fri)
+      "2026-06-18",      // EIX-style June (day 18, Thursday)
+      "2026-07-17",      // July 3rd-Fri Fri
+      "2027-01-15",      // yearly
+    ]);
+    expect(result).toEqual([
+      { expiration: "2026-05-15", selectionReason: "weekly" },
+      { expiration: "2026-06-18", selectionReason: "monthly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
+    ]);
+  });
+
+  it("prefers the Friday entry when multiple day-15-21 expirations are listed in the same month", () => {
+    // SPY-style chain with weeklies. Several day-15-21 entries in June
+    // (Mon, Wed, Fri). The Friday is the standard "monthly" — pick it
+    // regardless of sort order.
+    const result = selectExpirations("2026-05-11", [
+      "2026-05-15",      // weekly (3rd-Fri Fri)
+      "2026-06-15",      // Mon, day 15
+      "2026-06-17",      // Wed, day 17
+      "2026-06-19",      // Fri, day 19 — the canonical monthly
+      "2026-06-26",      // last Fri of June, day 26 (outside [15,21])
+      "2027-01-15",      // yearly
     ]);
     expect(result).toEqual([
       { expiration: "2026-05-15", selectionReason: "weekly" },

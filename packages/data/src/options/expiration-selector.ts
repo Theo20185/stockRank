@@ -34,19 +34,67 @@ function toUtcDate(iso: string): Date {
 }
 
 /**
- * Monthly third-Friday: day-of-month in [15, 21] AND weekday is Friday.
- * Yahoo expirations land on these for monthlies and quarterlies; weeklies
- * fall outside the day window.
+ * "3rd-week expiration": day-of-month in [15, 21]. The standard monthly
+ * contract is the Friday in this window; for symbols whose chain only
+ * lists the monthly (no weeklies) Yahoo sometimes labels the contract
+ * on an adjacent weekday (e.g. EIX 2026-06-18 Thursday — the OCC symbol
+ * literally reads `EIX260618`). The day window is the stable definition;
+ * weekday is used as a tiebreaker, not a hard filter.
  */
 export function isMonthlyThirdFriday(iso: string): boolean {
   const d = toUtcDate(iso);
   const day = d.getUTCDate();
-  if (day < 15 || day > 21) return false;
-  return d.getUTCDay() === 5;
+  return day >= 15 && day <= 21;
 }
 
-function isJanuaryMonthly(iso: string): boolean {
-  return isMonthlyThirdFriday(iso) && toUtcDate(iso).getUTCMonth() === 0;
+function isFriday(iso: string): boolean {
+  return toUtcDate(iso).getUTCDay() === 5;
+}
+
+function isJanuary(iso: string): boolean {
+  return toUtcDate(iso).getUTCMonth() === 0;
+}
+
+function yearMonth(iso: string): number {
+  const d = toUtcDate(iso);
+  // Single comparable integer: e.g. 2026-06 → 24318.
+  return d.getUTCFullYear() * 12 + d.getUTCMonth();
+}
+
+/**
+ * Pick the next monthly-cycle expiration strictly after `afterIso`.
+ *
+ * Rules:
+ *   1. Candidates have day-of-month in [15, 21] and (optionally) lie in
+ *      January for the yearly slot.
+ *   2. Group candidates by calendar month and take the earliest month.
+ *   3. Within that earliest month, prefer the Friday entry (the standard
+ *      OCC monthly contract). If no Friday is listed for that month,
+ *      fall back to the latest listed day in the window — for symbols
+ *      whose chain only lists one expiration per month, this is whatever
+ *      Yahoo labelled it (May 15 Friday, Jun 18 Thursday for EIX, etc).
+ */
+function pickMonthlyExpiration(
+  futureSorted: string[],
+  afterIso: string,
+  options: { januaryOnly?: boolean } = {},
+): string | undefined {
+  const januaryOnly = options.januaryOnly ?? false;
+  const candidates = futureSorted.filter((iso) => {
+    if (iso <= afterIso) return false;
+    if (!isMonthlyThirdFriday(iso)) return false;
+    if (januaryOnly && !isJanuary(iso)) return false;
+    return true;
+  });
+  if (candidates.length === 0) return undefined;
+
+  const earliestMonth = yearMonth(candidates[0]!);
+  const inEarliest = candidates.filter((iso) => yearMonth(iso) === earliestMonth);
+  const friday = inEarliest.find(isFriday);
+  if (friday !== undefined) return friday;
+  // No Friday listed for this month — pick the latest day in the [15,21]
+  // window so we land as close to the standard 3rd-Friday slot as possible.
+  return inEarliest[inEarliest.length - 1];
 }
 
 export function selectExpirations(
@@ -63,20 +111,13 @@ export function selectExpirations(
 
   const weekly = future[0];
 
-  // Monthly = first 3rd-Friday Friday strictly AFTER weekly. The cascade
-  // ensures the user gets three distinct expirations even when the
-  // soonest expiration is itself a 3rd-Friday (which would otherwise
-  // collapse weekly and monthly to the same date).
-  const monthly = future.find(
-    (iso) => isMonthlyThirdFriday(iso) && iso > weekly,
-  );
+  // Monthly = next month's 3rd-week expiration strictly after weekly.
+  const monthly = pickMonthlyExpiration(future, weekly);
 
-  // Yearly = first Jan 3rd-Friday strictly AFTER monthly (or AFTER weekly
-  // when no monthly is available). Same cascade rule.
+  // Yearly = next January 3rd-week expiration strictly after monthly
+  // (or after weekly when monthly isn't available).
   const yearlyFloor = monthly ?? weekly;
-  const yearly = future.find(
-    (iso) => isJanuaryMonthly(iso) && iso > yearlyFloor,
-  );
+  const yearly = pickMonthlyExpiration(future, yearlyFloor, { januaryOnly: true });
 
   const out: SelectedExpiration[] = [];
   out.push({ expiration: weekly, selectionReason: "weekly" });

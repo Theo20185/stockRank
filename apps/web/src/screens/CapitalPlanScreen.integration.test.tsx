@@ -115,6 +115,44 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     expect(counts.yearly, "no committed file has a yearly slot").toBeGreaterThan(0);
   });
 
+  it("monthly slot lands strictly between weekly and yearly when all three are present", () => {
+    // Whatever the chain offers, the monthly slot must sit BETWEEN
+    // weekly and yearly. Catches obvious selector breakage (monthly
+    // landing past yearly, or monthly == weekly). Doesn't try to
+    // assert "monthly within 30-50 DTE" universally because some
+    // symbols' chains literally don't list every month — that's a
+    // data sparsity issue, not a selector bug.
+    const offenders: string[] = [];
+    for (const { symbol, view } of files) {
+      const weekly = view.expirations.find((e) => e.selectionReason === "weekly");
+      const monthly = view.expirations.find((e) => e.selectionReason === "monthly");
+      const yearly = view.expirations.find((e) => e.selectionReason === "yearly");
+      if (!weekly || !monthly || !yearly) continue;
+      if (weekly.expiration >= monthly.expiration) offenders.push(`${symbol}: weekly>=monthly`);
+      if (monthly.expiration >= yearly.expiration) offenders.push(`${symbol}: monthly>=yearly`);
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it("EIX-class regression: monthly picks the next listed 3rd-week date even when it's not a Friday", () => {
+    // The 2026-05-11 bug: Yahoo returned EIX's June expiration as
+    // "2026-06-18" — OCC symbol literally "EIX260618", which falls on
+    // a UTC Thursday. The strict-Friday rule rejected it and picked
+    // July 17 (67 DTE) instead of June 18 (38 DTE). The user expected
+    // ~30-50 DTE. Sentinel: when EIX is in the committed bundle and
+    // its monthly slot is populated, the slot's DTE must be ≤ 50 days.
+    // If EIX drops out of the Ranked bucket later, the test is a no-op
+    // — but until then it catches the exact production regression.
+    const eix = files.find((f) => f.symbol === "EIX");
+    if (!eix) return;
+    const monthly = eix.view.expirations.find((e) => e.selectionReason === "monthly");
+    if (!monthly) return;
+    const dte = monthly.puts[0]?.contract.daysToExpiry
+      ?? monthly.coveredCalls[0]?.contract.daysToExpiry;
+    expect(dte, `EIX monthly DTE should be ≤ 50 (got ${dte})`).toBeLessThanOrEqual(50);
+    expect(dte, `EIX monthly DTE should be positive`).toBeGreaterThan(0);
+  });
+
   it("renders the Plan table for each expiration mode the data populates", async () => {
     // For each mode, pick the symbols whose JSON has a non-empty puts
     // entry for that mode, feed those into the Plan screen, and assert
