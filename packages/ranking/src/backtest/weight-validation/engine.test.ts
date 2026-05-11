@@ -289,3 +289,127 @@ describe("runWeightValidation", () => {
     expect(horizon3?.meanExcess).toBeCloseTo(0.10, 5);
   });
 });
+
+describe("runWeightValidation — static candidates + frictions overlay", () => {
+  function makeSpyMap(): ReadonlyMap<string, ReadonlyMap<string, number>> {
+    return new Map<string, ReadonlyMap<string, number>>([
+      ["2022-06-30", new Map([["3", 0.30]])],
+      ["2023-06-30", new Map([["3", 0.20]])],
+    ]);
+  }
+
+  function makeObsForBothSnapshots(): IcObservation[] {
+    const obs: IcObservation[] = [];
+    for (const date of ["2022-06-30", "2023-06-30"]) {
+      for (let s = 0; s < 20; s += 1) {
+        obs.push(
+          makeObs(`S${s}`, date, s * 0.01 - 0.05, { roic: s * 5 }, 3),
+        );
+      }
+    }
+    return obs;
+  }
+
+  it("appends static-portfolio candidates to the report alongside weight-vector candidates", async () => {
+    const { vooBuyAndHold, vooBarbell50_50 } = await import("./static-portfolio.js");
+    const report = runWeightValidation(
+      makeObsForBothSnapshots(),
+      [{ name: "default", source: "default", weights: { ...DEFAULT_WEIGHTS } }],
+      {
+        testPeriodStart: "2020-01-01",
+        staticCandidates: [
+          vooBuyAndHold(),
+          vooBarbell50_50({ collateralYield: 0.045, putPremiumYield: 0.06 }),
+        ],
+        spyReturnsByDate: makeSpyMap(),
+      },
+    );
+    // 1 weight-vector + 2 static = 3 rows.
+    expect(report.candidates).toHaveLength(3);
+    expect(report.candidates[1]?.candidate.name).toBe("voo-buy-and-hold");
+    expect(report.candidates[2]?.candidate.name).toContain("voo-barbell-50/50");
+  });
+
+  it("voo-buy-and-hold has meanExcess ≈ 0 vs SPY (it IS SPY)", async () => {
+    const { vooBuyAndHold } = await import("./static-portfolio.js");
+    const report = runWeightValidation(
+      makeObsForBothSnapshots(),
+      [{ name: "default", source: "default", weights: { ...DEFAULT_WEIGHTS } }],
+      {
+        testPeriodStart: "2020-01-01",
+        staticCandidates: [vooBuyAndHold()],
+        spyReturnsByDate: makeSpyMap(),
+      },
+    );
+    const voo3y = report.candidates[1]!.perHorizon.find((p) => p.horizon === 3)!;
+    expect(voo3y.meanExcess).toBeCloseTo(0, 5);
+    // meanRealized = mean SPY 3y = (0.30 + 0.20) / 2 = 0.25
+    expect(voo3y.meanRealized).toBeCloseTo(0.25, 5);
+  });
+
+  it("applies friction overlay columns when frictions config is supplied", async () => {
+    const { vooBuyAndHold, vooBarbell50_50 } = await import("./static-portfolio.js");
+    const report = runWeightValidation(
+      makeObsForBothSnapshots(),
+      [{ name: "default", source: "default", weights: { ...DEFAULT_WEIGHTS } }],
+      {
+        testPeriodStart: "2020-01-01",
+        staticCandidates: [
+          vooBuyAndHold(),
+          vooBarbell50_50({ collateralYield: 0.045, putPremiumYield: 0.06 }),
+        ],
+        spyReturnsByDate: makeSpyMap(),
+        frictions: { roundTripBps: 20, taxRegime: "blended-by-horizon" },
+      },
+    );
+    // VOO buy-and-hold: zero turnover, zero income share.
+    // 25% gain over 3y, no friction drag. blended-by-horizon at 3y +
+    // incomeShare=0 → all gain taxed as LTCG (37.1%).
+    // afterTaxBlended = 0.25 × (1 - 0.371) = 0.15725
+    const voo3y = report.candidates[1]!.perHorizon.find((p) => p.horizon === 3)!;
+    expect(voo3y.afterFriction).toBeCloseTo(0.25, 5);
+    expect(voo3y.afterTaxLtcg).toBeCloseTo(0.25 * (1 - 0.371), 4);
+    expect(voo3y.afterTaxBlended).toBeCloseTo(0.25 * (1 - 0.371), 4);
+
+    // Barbell: 0.5 turnover, 0.5 incomeShare. Cumulative return per
+    // snapshot = 0.5*spy + 0.5*0.349233. Mean spy = 0.25 → barbell
+    // mean = 0.5*0.25 + 0.5*0.349233 = 0.299617.
+    // Friction drag: 2 × 20bps × 0.5 turnover × 3y = 0.0060.
+    // afterFriction = 0.299617 - 0.0060 = 0.293617.
+    // afterTaxBlended: 50% income (STCG 54.1%) + 50% capital (LTCG 37.1%)
+    //   = 0.293617 × 0.5 × (1-0.541) + 0.293617 × 0.5 × (1-0.371)
+    //   = 0.293617 × 0.5 × 0.459 + 0.293617 × 0.5 × 0.629
+    //   = 0.293617 × 0.5 × (0.459 + 0.629)
+    //   = 0.293617 × 0.544 = 0.159727
+    const bar3y = report.candidates[2]!.perHorizon.find((p) => p.horizon === 3)!;
+    expect(bar3y.afterFriction).toBeCloseTo(0.293617, 4);
+    expect(bar3y.afterTaxBlended).toBeCloseTo(0.293617 * (0.459 + 0.629) / 2, 4);
+  });
+
+  it("throws when static candidates supplied without spyReturnsByDate", async () => {
+    const { vooBuyAndHold } = await import("./static-portfolio.js");
+    expect(() =>
+      runWeightValidation(makeObsForBothSnapshots(), [], {
+        testPeriodStart: "2020-01-01",
+        staticCandidates: [vooBuyAndHold()],
+      }),
+    ).toThrow(/spyReturnsByDate is required/i);
+  });
+
+  it("leaves friction columns null when no frictions config supplied", async () => {
+    const { vooBuyAndHold } = await import("./static-portfolio.js");
+    const report = runWeightValidation(
+      makeObsForBothSnapshots(),
+      [{ name: "default", source: "default", weights: { ...DEFAULT_WEIGHTS } }],
+      {
+        testPeriodStart: "2020-01-01",
+        staticCandidates: [vooBuyAndHold()],
+        spyReturnsByDate: makeSpyMap(),
+      },
+    );
+    const voo3y = report.candidates[1]!.perHorizon.find((p) => p.horizon === 3)!;
+    expect(voo3y.afterFriction ?? null).toBeNull();
+    expect(voo3y.afterTaxLtcg ?? null).toBeNull();
+    expect(voo3y.afterTaxBlended ?? null).toBeNull();
+  });
+});

@@ -112,9 +112,36 @@ export type HorizonPerformance = {
    * (more negative) means worse drawdown.
    */
   maxDrawdown?: number | null;
+
+  // ── Frictions overlay (after costs / after taxes) ─────────────────
+  // Each of these is the cumulative-over-horizon return after applying
+  // a specific transformation to `meanRealized`. Populated only when
+  // a Frictions config is supplied to runWeightValidation; null otherwise.
+
+  /** Mean realized return after subtracting turnover-cost drag (no tax). */
+  afterFriction?: number | null;
+  /**
+   * After-friction return with LTCG tax applied to the entire gain
+   * (loose approximation: assumes the user holds long enough to qualify
+   * for LTCG on every dollar).
+   */
+  afterTaxLtcg?: number | null;
+  /**
+   * After-friction return with a blended STCG/LTCG haircut: the
+   * candidate's `incomeShare` portion taxed at STCG (put premium,
+   * collateral interest), the remainder taxed at LTCG when the horizon
+   * exceeds 1 year (else STCG). Most realistic of the three.
+   */
+  afterTaxBlended?: number | null;
 };
 
-/** Validation result for one candidate. */
+/**
+ * Validation result for one candidate. The `candidate` field is the
+ * underlying CandidateWeights for weight-vector candidates; for static
+ * portfolios it's a synthetic CandidateWeights stub whose `name` and
+ * `description` are surfaced in the report — the actual computation
+ * is driven by StaticPortfolioCandidate config supplied separately.
+ */
 export type CandidateResult = {
   candidate: CandidateWeights;
   perHorizon: HorizonPerformance[];

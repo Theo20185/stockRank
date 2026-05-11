@@ -164,6 +164,24 @@ export {
   type PerSuperGroupValidationReport,
 } from "./backtest/weight-validation/per-super-group.js";
 export { renderPerSuperGroupReport } from "./backtest/weight-validation/per-super-group-report.js";
+export {
+  cumulativeYieldOver,
+  computeStaticPortfolioPerHorizon,
+  vooBarbell50_50,
+  vooBuyAndHold,
+  vooCspFull,
+  type StaticPortfolioCandidate,
+  type StaticPortfolioYields,
+} from "./backtest/weight-validation/static-portfolio.js";
+export {
+  CA_FED_LTCG_RATE,
+  CA_FED_STCG_RATE,
+  applyFrictions,
+  type FrictionInput,
+  type FrictionResult,
+  type Frictions,
+  type TaxRegime,
+} from "./backtest/weight-validation/frictions.js";
 
 // Legacy-rule audit (backtest.md §3.5: H10/H11; H12 removed 2026-04-26)
 export {

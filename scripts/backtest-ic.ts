@@ -67,6 +67,9 @@ import {
   falseDiscoveryCheck,
   runWeightValidation,
   renderWeightValidationReport,
+  vooBuyAndHold,
+  vooBarbell50_50,
+  vooCspFull,
   runLegacyAudit,
   renderLegacyAuditReport,
   evaluateUserPicks,
@@ -124,6 +127,16 @@ type IcArgs = {
    * validation. Each date becomes a forced backtest snapshot date if
    * not already in the iteration. */
   userPicks: UserPick[] | null;
+  /** When true, add the VOO buy-and-hold + 50/50 barbell + 100% CSP
+   * static-portfolio candidates to the weight-validation report. */
+  barbell: boolean;
+  /** Round-trip transaction cost in bps applied uniformly across
+   * candidates. When > 0 (and --barbell is on) the report shows the
+   * after-friction columns. */
+  bps: number;
+  /** Tax regime applied when --barbell is on. The report shows all three
+   * regimes regardless — this is the regime used for adoption math. */
+  taxRegime: "tax-free" | "ltcg-only" | "blended-by-horizon";
 };
 
 function parseIcArgs(argv: string[]): IcArgs {
@@ -151,6 +164,9 @@ function parseIcArgs(argv: string[]): IcArgs {
     includeDelisted: false,
     superGroupPresets: false,
     fvTrendAudit: false,
+    barbell: false,
+    bps: 20,
+    taxRegime: "blended-by-horizon",
   };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
@@ -204,6 +220,21 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--super-group-presets":
         args.superGroupPresets = true;
+        break;
+      case "--barbell":
+        args.barbell = true;
+        break;
+      case "--bps":
+        args.bps = Math.max(0, parseFloat(argv[++i]!));
+        break;
+      case "--tax-regime":
+        {
+          const v = argv[++i]!;
+          if (v !== "tax-free" && v !== "ltcg-only" && v !== "blended-by-horizon") {
+            throw new Error(`--tax-regime must be tax-free|ltcg-only|blended-by-horizon (got ${v})`);
+          }
+          args.taxRegime = v;
+        }
         break;
       case "--fv-trend-audit":
         args.fvTrendAudit = true;
@@ -684,10 +715,34 @@ async function main(): Promise<void> {
     );
     const candidates = loadCandidates(args.candidatesPath);
     console.log(`  Candidates: ${candidates.map((c) => c.name).join(", ")}`);
+    const staticCandidates = args.barbell
+      ? [
+          vooBuyAndHold(),
+          // CSP yield sensitivity sweep — 3% / 6% / 9% net put premium
+          // on top of 4.5% collateral. User-confirmed knobs.
+          vooBarbell50_50({ collateralYield: 0.045, putPremiumYield: 0.03 }),
+          vooBarbell50_50({ collateralYield: 0.045, putPremiumYield: 0.06 }),
+          vooBarbell50_50({ collateralYield: 0.045, putPremiumYield: 0.09 }),
+          vooCspFull({ collateralYield: 0.045, putPremiumYield: 0.06 }),
+        ]
+      : [];
+    if (args.barbell) {
+      console.log(
+        `  + Static candidates: voo-buy-and-hold, voo-barbell-50/50 @ 3/6/9% put yields, voo-csp-100 @ 6%`,
+      );
+      console.log(
+        `  + Frictions: ${args.bps} bps round-trip, tax regime "${args.taxRegime}"`,
+      );
+    }
     const wvReport = runWeightValidation(observations, candidates, {
       testPeriodStart: args.testPeriodStart,
       bootstrapResamples: 1000,
       seed: 1,
+      staticCandidates,
+      spyReturnsByDate: args.barbell ? spyReturnsByDate : undefined,
+      frictions: args.barbell
+        ? { roundTripBps: args.bps, taxRegime: args.taxRegime }
+        : undefined,
     });
     const wvFilename = args.archive
       ? `backtest-weight-validation-${today}.md`

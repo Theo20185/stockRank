@@ -109,7 +109,8 @@ export function selectExpirations(
 
   if (future.length === 0) return [];
 
-  const weekly = future[0];
+  // `future` length-check above proves index 0 exists.
+  const weekly = future[0]!;
 
   // Monthly = next month's 3rd-week expiration strictly after weekly.
   const monthly = pickMonthlyExpiration(future, weekly);

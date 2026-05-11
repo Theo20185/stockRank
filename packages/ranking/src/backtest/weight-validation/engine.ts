@@ -20,6 +20,11 @@ import type {
   FactorKey,
 } from "../../types.js";
 import type { IcObservation } from "../ic/types.js";
+import { applyFrictions, type Frictions } from "./frictions.js";
+import {
+  computeStaticPortfolioPerHorizon,
+  type StaticPortfolioCandidate,
+} from "./static-portfolio.js";
 import type {
   AdoptionVerdict,
   CandidateResult,
@@ -46,6 +51,26 @@ export type WeightValidationOptions = {
   seed?: number;
   /** Top decile by default — but allow override for sensitivity tests. */
   topPercentile?: number;
+  /**
+   * Static-portfolio candidates evaluated alongside the weight-vector
+   * candidates. Each gets its own row in the report. Requires
+   * `spyReturnsByDate` so the static-portfolio math can resolve the
+   * per-snapshot SPY return.
+   */
+  staticCandidates?: StaticPortfolioCandidate[];
+  /**
+   * SPY cumulative return per (snapshotDate, horizon-as-string). Required
+   * when staticCandidates is non-empty. Also enables the friction overlay
+   * for weight-vector candidates, which converts their excess-return
+   * series into approximate realized-return for tax math.
+   */
+  spyReturnsByDate?: ReadonlyMap<string, ReadonlyMap<string, number>>;
+  /**
+   * Cost + tax overlay applied uniformly across weight-vector and
+   * static candidates. When omitted, the after-friction columns are
+   * left null.
+   */
+  frictions?: Frictions;
 };
 
 /**
@@ -67,7 +92,16 @@ export function runWeightValidation(
     bootstrapResamples = 1000,
     seed = 1,
     topPercentile = 0.10,
+    staticCandidates = [],
+    spyReturnsByDate,
+    frictions,
   } = options;
+
+  if (staticCandidates.length > 0 && !spyReturnsByDate) {
+    throw new Error(
+      "spyReturnsByDate is required when staticCandidates are supplied",
+    );
+  }
 
   const candidatesWithDefault: CandidateWeights[] = candidates.length
     ? candidates
@@ -170,7 +204,7 @@ export function runWeightValidation(
         const sharpe = sharpeLike(perSnapshotExcess);
         const sortino = sortinoLike(perSnapshotExcess);
         const mdd = maxDrawdownOfRunningMean(perSnapshotExcess);
-        perHorizon.push({
+        const base: HorizonPerformance = {
           horizon,
           meanRealized,
           meanExcess,
@@ -184,11 +218,68 @@ export function runWeightValidation(
           sharpeLike: sharpe,
           sortinoLike: sortino,
           maxDrawdown: mdd,
-        });
+        };
+        // Weight-vector candidates: implied turnover ≈ 1/horizonYears
+        // (the user re-picks the top decile once per holding period).
+        // incomeShare = 0 (top-decile gains are capital appreciation).
+        // The "realized" return is approximated as meanExcess + meanSpy
+        // since the IC pipeline stores excess only.
+        perHorizon.push(
+          frictions === undefined
+            ? base
+            : attachFrictionColumns(base, {
+                annualTurnover: 1 / horizon,
+                incomeShare: 0,
+                meanSpyByHorizon: meanSpyByHorizon(spyReturnsByDate, testPeriodStart),
+                frictions,
+              }),
+        );
       }
       return { candidate, perHorizon };
     },
   );
+
+  // Static-portfolio candidates — share the report grid with the
+  // weight-vector candidates so the comparison is one glance away.
+  for (let i = 0; i < staticCandidates.length; i += 1) {
+    const staticCand = staticCandidates[i]!;
+    const horizons = new Set<number>();
+    for (const o of testObservations) horizons.add(o.horizon);
+    const perHorizon: HorizonPerformance[] = [];
+    for (const horizon of [...horizons].sort()) {
+      const base = computeStaticPortfolioPerHorizon({
+        candidate: staticCand,
+        spyReturnsByDate: spyReturnsByDate!,
+        horizon,
+        testPeriodStart,
+        bootstrapResamples,
+        seed: seed + (candidateResults.length + i) * 1000 + horizon,
+      });
+      perHorizon.push(
+        frictions === undefined
+          ? base
+          : attachFrictionColumns(base, {
+              annualTurnover: staticCand.annualTurnover,
+              incomeShare: staticCand.incomeShare,
+              meanSpyByHorizon: meanSpyByHorizon(spyReturnsByDate, testPeriodStart),
+              frictions,
+              // For static portfolios `meanRealized` is already the true
+              // realized return (not excess), so the SPY-add-back must be
+              // disabled — flag set on the call below.
+              isStaticPortfolio: true,
+            }),
+      );
+    }
+    const synthCandidate: CandidateWeights = {
+      name: staticCand.name,
+      source: staticCand.source ?? "static",
+      weights: { ...DEFAULT_WEIGHTS },
+    };
+    if (staticCand.description !== undefined) {
+      synthCandidate.description = staticCand.description;
+    }
+    candidateResults.push({ candidate: synthCandidate, perHorizon });
+  }
 
   // Adoption verdicts — compare candidates [1..N] against [0] (default).
   const verdicts: AdoptionVerdict[] = [];
@@ -431,4 +522,97 @@ function composeFromPercentiles(
   }
   if (denominator === 0) return null;
   return numerator / denominator;
+}
+
+/**
+ * Cache of per-horizon mean SPY return across the test window.
+ * Memoized via a Map keyed by `spyReturnsByDate` identity + testPeriodStart
+ * so repeat calls (one per candidate per horizon) don't re-scan.
+ */
+const meanSpyCache = new WeakMap<
+  ReadonlyMap<string, ReadonlyMap<string, number>>,
+  Map<string, Map<number, number>>
+>();
+
+function meanSpyByHorizon(
+  spyReturnsByDate: ReadonlyMap<string, ReadonlyMap<string, number>> | undefined,
+  testPeriodStart: string,
+): (horizon: number) => number {
+  if (spyReturnsByDate === undefined) return () => 0;
+  let perStart = meanSpyCache.get(spyReturnsByDate);
+  if (perStart === undefined) {
+    perStart = new Map();
+    meanSpyCache.set(spyReturnsByDate, perStart);
+  }
+  const cached = perStart.get(testPeriodStart);
+  if (cached !== undefined) {
+    return (h) => cached.get(h) ?? 0;
+  }
+  const sums = new Map<number, number>();
+  const counts = new Map<number, number>();
+  for (const [date, byHorizon] of spyReturnsByDate) {
+    if (date < testPeriodStart) continue;
+    for (const [hStr, ret] of byHorizon) {
+      const h = parseInt(hStr, 10);
+      sums.set(h, (sums.get(h) ?? 0) + ret);
+      counts.set(h, (counts.get(h) ?? 0) + 1);
+    }
+  }
+  const means = new Map<number, number>();
+  for (const [h, sum] of sums) {
+    const n = counts.get(h) ?? 0;
+    if (n > 0) means.set(h, sum / n);
+  }
+  perStart.set(testPeriodStart, means);
+  return (h) => means.get(h) ?? 0;
+}
+
+/**
+ * Apply the friction overlay to a horizon's performance numbers and
+ * return a new HorizonPerformance with `afterFriction`, `afterTaxLtcg`,
+ * and `afterTaxBlended` populated.
+ *
+ * For static-portfolio candidates `meanRealized` is already the true
+ * realized return so we pass it to applyFrictions directly. For
+ * weight-vector candidates the engine stores excess (vs SPY); we
+ * approximate the realized total by adding back the mean SPY return
+ * for the same horizon and test window.
+ */
+function attachFrictionColumns(
+  base: HorizonPerformance,
+  ctx: {
+    annualTurnover: number;
+    incomeShare: number;
+    meanSpyByHorizon: (h: number) => number;
+    frictions: Frictions;
+    isStaticPortfolio?: boolean;
+  },
+): HorizonPerformance {
+  if (base.meanRealized === null) {
+    return {
+      ...base,
+      afterFriction: null,
+      afterTaxLtcg: null,
+      afterTaxBlended: null,
+    };
+  }
+  const isStatic = ctx.isStaticPortfolio === true;
+  const cumulativeReturn = isStatic
+    ? base.meanRealized
+    : (base.meanExcess ?? 0) + ctx.meanSpyByHorizon(base.horizon);
+  const common = {
+    cumulativeReturn,
+    horizonYears: base.horizon,
+    annualTurnover: ctx.annualTurnover,
+    incomeShare: ctx.incomeShare,
+  };
+  const noTax = applyFrictions(common, { ...ctx.frictions, taxRegime: "tax-free" });
+  const ltcg = applyFrictions(common, { ...ctx.frictions, taxRegime: "ltcg-only" });
+  const blended = applyFrictions(common, { ...ctx.frictions, taxRegime: "blended-by-horizon" });
+  return {
+    ...base,
+    afterFriction: noTax.afterFriction,
+    afterTaxLtcg: ltcg.afterTax,
+    afterTaxBlended: blended.afterTax,
+  };
 }

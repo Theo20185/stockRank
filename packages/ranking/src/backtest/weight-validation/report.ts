@@ -100,6 +100,47 @@ export function renderWeightValidationReport(
     }
   }
   lines.push("");
+  // After-cost / after-tax section — only emitted when the engine
+  // populated friction columns (frictions config was supplied).
+  const anyFriction = report.candidates.some((c) =>
+    c.perHorizon.some(
+      (h) => h.afterFriction !== null && h.afterFriction !== undefined,
+    ),
+  );
+  if (anyFriction) {
+    lines.push("## After-cost / after-tax (frictions overlay)");
+    lines.push("");
+    lines.push(
+      "Cumulative realized return at the horizon, with the candidate's implied turnover applied as a per-trade-cost drag, then taxed under three regimes. **Tax-free** is `afterFriction` (use for IRA/401k). **LTCG** taxes the whole gain at the combined 37.1% rate (20% Fed + 13.3% CA + 3.8% NIIT). **Blended** splits the candidate's `incomeShare` portion at STCG (54.1% combined) and the remainder at LTCG when held > 1y, else STCG on the whole thing.",
+    );
+    lines.push("");
+    lines.push(
+      "| Candidate | Horizon | Mean realized | After friction | After tax (LTCG) | After tax (blended) |",
+    );
+    lines.push("|---|---|---|---|---|---|");
+    for (const c of report.candidates) {
+      for (const h of c.perHorizon) {
+        const mr = h.meanRealized === null ? "—" : `${(h.meanRealized * 100).toFixed(2)}%`;
+        const af =
+          h.afterFriction === null || h.afterFriction === undefined
+            ? "—"
+            : `${(h.afterFriction * 100).toFixed(2)}%`;
+        const al =
+          h.afterTaxLtcg === null || h.afterTaxLtcg === undefined
+            ? "—"
+            : `${(h.afterTaxLtcg * 100).toFixed(2)}%`;
+        const ab =
+          h.afterTaxBlended === null || h.afterTaxBlended === undefined
+            ? "—"
+            : `${(h.afterTaxBlended * 100).toFixed(2)}%`;
+        lines.push(
+          `| ${c.candidate.name} | ${h.horizon}y | ${mr} | ${af} | ${al} | ${ab} |`,
+        );
+      }
+    }
+    lines.push("");
+  }
+
   if (report.verdicts.length > 0) {
     lines.push("## Adoption verdicts (vs default)");
     lines.push("");
