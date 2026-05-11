@@ -1,18 +1,28 @@
 /**
- * LEAPS-preferred expiration selector per docs/specs/options.md §2.1.
- * Pure function: takes today + a chain's expiration list, returns up to
- * two ISO dates with a label for why each was picked.
+ * Three-expiration selector per docs/specs/options.md §2.1. Pure function:
+ * takes today + a chain's expiration list, returns up to three ISO dates
+ * with a label for each.
+ *
+ * Selection rule (updated 2026-05-11):
+ *   1. Weekly  — soonest future expiration (any type).
+ *   2. Monthly — soonest future third-Friday Friday (the standard
+ *      monthly expiration).
+ *   3. Yearly  — soonest future January third-Friday Friday. If the
+ *      next monthly IS the next January third-Friday, the yearly slot
+ *      advances to the January after that (so monthly and yearly are
+ *      never the same date).
+ *
+ * The result is deduped by expiration date. If two slots resolve to the
+ * same date the latter is dropped. The chain may not provide enough
+ * dates for all three slots — the selector returns whatever it can.
  */
 
-export type SelectionReason = "leap" | "leap-fallback" | "quarterly" | "monthly";
+export type SelectionReason = "weekly" | "monthly" | "yearly";
 
 export type SelectedExpiration = {
-  expiration: string;        // YYYY-MM-DD
+  expiration: string; // YYYY-MM-DD
   selectionReason: SelectionReason;
 };
-
-const FALLBACK_MIN_DAYS = 60;
-const QUARTERLY_MONTHS = new Set([3, 6, 9, 12]);
 
 /** YYYY-MM-DD (UTC) regardless of input form (handles Yahoo's `T00:00:00Z`). */
 function normalizeIsoDate(input: string): string {
@@ -21,11 +31,6 @@ function normalizeIsoDate(input: string): string {
 
 function toUtcDate(iso: string): Date {
   return new Date(`${normalizeIsoDate(iso)}T00:00:00.000Z`);
-}
-
-function daysBetween(fromIso: string, toIso: string): number {
-  const ms = toUtcDate(toIso).getTime() - toUtcDate(fromIso).getTime();
-  return Math.round(ms / 86_400_000);
 }
 
 /**
@@ -40,14 +45,8 @@ export function isMonthlyThirdFriday(iso: string): boolean {
   return d.getUTCDay() === 5;
 }
 
-function isJanuaryLeap(iso: string): boolean {
+function isJanuaryMonthly(iso: string): boolean {
   return isMonthlyThirdFriday(iso) && toUtcDate(iso).getUTCMonth() === 0;
-}
-
-function isQuarterly(iso: string): boolean {
-  if (!isMonthlyThirdFriday(iso)) return false;
-  const month = toUtcDate(iso).getUTCMonth() + 1;
-  return QUARTERLY_MONTHS.has(month);
 }
 
 export function selectExpirations(
@@ -62,60 +61,28 @@ export function selectExpirations(
 
   if (future.length === 0) return [];
 
-  const yr = toUtcDate(todayIso).getUTCFullYear();
-  const targetYears = [yr + 1, yr + 2];
-  const januaryLeaps = future.filter(isJanuaryLeap);
-  const matchingLeaps = targetYears
-    .map((y) => januaryLeaps.find((iso) => toUtcDate(iso).getUTCFullYear() === y))
-    .filter((v): v is string => v !== undefined);
+  const weekly = future[0];
+  const monthly = future.find(isMonthlyThirdFriday);
+  const januaryMonthlies = future.filter(isJanuaryMonthly);
 
-  // Branch 1: both target Januaries present.
-  if (matchingLeaps.length >= 2) {
-    return matchingLeaps
-      .slice(0, 2)
-      .map((expiration) => ({ expiration, selectionReason: "leap" as const }));
+  // If the next monthly IS the next January monthly, advance yearly to
+  // the January after that so the two slots are distinct.
+  let yearly: string | undefined;
+  if (monthly !== undefined && januaryMonthlies[0] === monthly) {
+    yearly = januaryMonthlies[1];
+  } else {
+    yearly = januaryMonthlies[0];
   }
 
-  // Branch 2: exactly one target January LEAPS — pair it with the next
-  // non-Jan monthly that's at least FALLBACK_MIN_DAYS out.
-  if (matchingLeaps.length === 1) {
-    const leap = matchingLeaps[0]!;
-    const fallback = future.find(
-      (iso) =>
-        iso !== leap &&
-        isMonthlyThirdFriday(iso) &&
-        toUtcDate(iso).getUTCMonth() !== 0 &&
-        daysBetween(todayIso, iso) >= FALLBACK_MIN_DAYS,
-    );
-    const out: SelectedExpiration[] = [{ expiration: leap, selectionReason: "leap" }];
-    if (fallback !== undefined) {
-      out.push({ expiration: fallback, selectionReason: "leap-fallback" });
-    }
-    return out;
-  }
-
-  // Branch 3: no LEAPS — two next quarterlies.
-  const quarterlies = future.filter(isQuarterly);
-  if (quarterlies.length >= 2) {
-    return quarterlies
-      .slice(0, 2)
-      .map((expiration) => ({ expiration, selectionReason: "quarterly" as const }));
-  }
-
-  // Branch 4: no quarterlies — two next monthlies (any month).
-  const monthlies = future.filter(isMonthlyThirdFriday);
-  if (monthlies.length >= 2) {
-    return monthlies
-      .slice(0, 2)
-      .map((expiration) => ({ expiration, selectionReason: "monthly" as const }));
-  }
-
-  // Branch 5 (and degenerate cases): return whatever the chain has, label
-  // each by what it actually is. Up to two entries.
-  const labeled = future.slice(0, 2).map((iso): SelectedExpiration => {
-    if (isQuarterly(iso)) return { expiration: iso, selectionReason: "quarterly" };
-    if (isMonthlyThirdFriday(iso)) return { expiration: iso, selectionReason: "monthly" };
-    return { expiration: iso, selectionReason: "monthly" };
-  });
-  return labeled;
+  const out: SelectedExpiration[] = [];
+  const seen = new Set<string>();
+  const push = (expiration: string | undefined, reason: SelectionReason): void => {
+    if (expiration === undefined || seen.has(expiration)) return;
+    out.push({ expiration, selectionReason: reason });
+    seen.add(expiration);
+  };
+  push(weekly, "weekly");
+  push(monthly, "monthly");
+  push(yearly, "yearly");
+  return out;
 }

@@ -43,6 +43,13 @@ export type {
   RankedSnapshot,
 } from "./types.js";
 export { buildExpirationView, buildOptionsView } from "./options/index.js";
+export { buildCapitalPlan } from "./options/capital-plan.js";
+export type {
+  CapitalPlan,
+  CapitalPlanCandidate,
+  CapitalPlanInput,
+  CapitalPlanItem,
+} from "./options/capital-plan.js";
 export type {
   CashSecuredPut,
   CashSecuredPutAnchor,

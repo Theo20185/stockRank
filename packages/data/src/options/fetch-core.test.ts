@@ -159,7 +159,7 @@ describe("bestStaticReturns", () => {
       expirations: callRates.length === 0 && putRates.length === 0 ? [] : [
         {
           expiration: "2027-01-15",
-          selectionReason: "leap",
+          selectionReason: "yearly",
           coveredCalls: callRates.map((r, i) => ({
             label: "conservative" as const,
             anchor: "p25" as const,

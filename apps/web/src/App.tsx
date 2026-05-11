@@ -20,10 +20,20 @@ import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
 import { loadPortfolio, savePortfolio } from "./snapshot/portfolio-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
+import { bucketRows } from "@stockrank/ranking";
 import { ResultsScreen } from "./screens/ResultsScreen.js";
 import { FiltersScreen } from "./screens/FiltersScreen.js";
 import { StockDetailScreen } from "./screens/StockDetailScreen.js";
 import { PortfolioScreen } from "./screens/PortfolioScreen.js";
+import { CapitalPlanScreen } from "./screens/CapitalPlanScreen.js";
+
+type TabName = "composite" | "portfolio" | "plan";
+
+function tabToHash(tab: TabName): string {
+  if (tab === "composite") return "/";
+  if (tab === "plan") return "/plan";
+  return "/portfolio";
+}
 
 export type AppProps = {
   /** Provided in tests; real app fetches via loadSnapshot at mount. */
@@ -219,10 +229,23 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
           onSelectStock={(symbol) =>
             navigate(`/stock/${encodeURIComponent(symbol)}`)
           }
-          onSelectTab={(tab) => {
-            if (tab === "composite") navigate("/");
-            else navigate("/portfolio");
-          }}
+          onSelectTab={(tab) => navigate(tabToHash(tab))}
+        />
+      </main>
+    );
+  }
+
+  if (route.name === "plan") {
+    const allRows = [...ranked.rows, ...ranked.ineligibleRows];
+    const buckets = bucketRows(allRows);
+    return (
+      <main className="app">
+        <CapitalPlanScreen
+          rankedRows={buckets.ranked}
+          onSelectTab={(tab) => navigate(tabToHash(tab))}
+          onSelectStock={(symbol) =>
+            navigate(`/stock/${encodeURIComponent(symbol)}`)
+          }
         />
       </main>
     );
@@ -238,10 +261,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
         weights={weights}
         optionsSummary={optionsSummary}
         tab="composite"
-        onSelectTab={(tab) => {
-          if (tab === "composite") navigate("/");
-          else navigate("/portfolio");
-        }}
+        onSelectTab={(tab) => navigate(tabToHash(tab))}
         onSelectStock={(symbol) =>
           navigate(`/stock/${encodeURIComponent(symbol)}`)
         }

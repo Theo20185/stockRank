@@ -15,15 +15,16 @@ import type {
   CoveredCallLabel,
   ExpirationView,
   OptionsView,
+  SelectionReason,
 } from "./types.js";
 import { snapStrike } from "./strike-snap.js";
 import { computeCallReturns, computePutReturns } from "./returns.js";
 
-export type { CoveredCall, CashSecuredPut, ExpirationView, OptionsView } from "./types.js";
+export type { CoveredCall, CashSecuredPut, ExpirationView, OptionsView, SelectionReason } from "./types.js";
 
 type SelectedExpirationMeta = {
   expiration: string;
-  selectionReason: "leap" | "leap-fallback" | "quarterly" | "monthly";
+  selectionReason: SelectionReason;
 };
 
 // Single-anchor strategy: every strike is anchored to the conservative

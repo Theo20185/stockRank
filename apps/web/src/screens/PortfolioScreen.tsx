@@ -16,7 +16,7 @@ export type PortfolioScreenProps = {
   portfolio: Portfolio;
   evaluation: PortfolioEvaluation;
   onSelectStock: (symbol: string) => void;
-  onSelectTab: (tab: "composite" | "portfolio") => void;
+  onSelectTab: (tab: "composite" | "portfolio" | "plan") => void;
   /** Persist the new portfolio (form add / row delete). */
   onPortfolioChange: (next: Portfolio) => void;
 };
@@ -70,6 +70,9 @@ export function PortfolioScreen({
         </button>
         <button type="button" aria-pressed={true} onClick={() => onSelectTab("portfolio")}>
           Portfolio ({evaluation.summary.totalPositions})
+        </button>
+        <button type="button" aria-pressed={false} onClick={() => onSelectTab("plan")}>
+          Plan
         </button>
       </nav>
 

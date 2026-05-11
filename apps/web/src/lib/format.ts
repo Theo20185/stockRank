@@ -66,10 +66,13 @@ export function categoryLabel(key: string): string {
 }
 
 const SELECTION_REASON_LABELS: Record<string, string> = {
-  leap: "LEAPS",
-  "leap-fallback": "Near-term",
-  quarterly: "Quarterly",
+  weekly: "Weekly",
   monthly: "Monthly",
+  yearly: "Yearly",
+  // Legacy values still present in committed options JSONs until next ingest.
+  leap: "Yearly",
+  "leap-fallback": "Monthly",
+  quarterly: "Monthly",
 };
 
 export function selectionReasonLabel(reason: string): string {

@@ -12,7 +12,7 @@ function fakeView(): OptionsView {
     expirations: [
       {
         expiration: "2027-01-15",
-        selectionReason: "leap",
+        selectionReason: "yearly",
         coveredCalls: [
           {
             label: "conservative",
@@ -165,7 +165,7 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
       expect(screen.getByRole("table", { name: /trade comparison/i })).toBeInTheDocument(),
     );
     expect(screen.getByText(/Jan 15, 2027/)).toBeInTheDocument();
-    expect(screen.getByText(/^LEAPS$/)).toBeInTheDocument();
+    expect(screen.getByText(/^Yearly$/)).toBeInTheDocument();
   });
 
   it("renders the five trade rows: buy outright, buy-write, covered call, cash-secured put, hold cash", async () => {

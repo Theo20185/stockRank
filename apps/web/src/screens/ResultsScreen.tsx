@@ -16,8 +16,8 @@ export type ResultsScreenProps = {
   industry: string | null;
   weights: CategoryWeights;
   optionsSummary?: OptionsSummary | null;
-  tab: "composite" | "portfolio";
-  onSelectTab: (tab: "composite" | "portfolio") => void;
+  tab: "composite" | "portfolio" | "plan";
+  onSelectTab: (tab: "composite" | "portfolio" | "plan") => void;
   onSelectStock: (symbol: string) => void;
   onEditFilters: () => void;
 };
@@ -88,6 +88,13 @@ export function ResultsScreen({
           onClick={() => onSelectTab("portfolio")}
         >
           Portfolio
+        </button>
+        <button
+          type="button"
+          aria-pressed={tab === "plan"}
+          onClick={() => onSelectTab("plan")}
+        >
+          Plan
         </button>
       </nav>
 

@@ -52,9 +52,11 @@ export type CashSecuredPut = {
   inTheMoney: boolean;
 };
 
+export type SelectionReason = "weekly" | "monthly" | "yearly";
+
 export type ExpirationView = {
   expiration: string;        // YYYY-MM-DD
-  selectionReason: "leap" | "leap-fallback" | "quarterly" | "monthly";
+  selectionReason: SelectionReason;
   /** Up to 3 entries; fewer when anchor floors filter strikes out. */
   coveredCalls: CoveredCall[];
   /** Up to 3 entries; fewer when floors filter strikes out. */

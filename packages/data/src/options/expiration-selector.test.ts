@@ -25,57 +25,80 @@ describe("isMonthlyThirdFriday", () => {
 describe("selectExpirations", () => {
   const today = "2026-04-20";
 
-  it("returns next two January LEAPS when both available (branch 1)", () => {
+  it("returns weekly + monthly + yearly when all three are distinct", () => {
     const result = selectExpirations(today, [
-      "2026-04-24", "2026-05-15",
-      "2027-01-15", "2027-06-18",
+      "2026-04-24",       // soonest weekly (Apr 24 Fri)
+      "2026-05-15",       // next monthly (May 3rd Fri)
+      "2026-06-19",
+      "2027-01-15",       // next Jan yearly
       "2028-01-21",
     ]);
-    expect(result.map((e) => e.expiration)).toEqual(["2027-01-15", "2028-01-21"]);
-    expect(result.every((e) => e.selectionReason === "leap")).toBe(true);
-  });
-
-  it("falls back to single LEAPS + next non-Jan monthly >=60d out (branch 2)", () => {
-    const result = selectExpirations(today, [
-      "2026-04-24",       // 4 days out — too close
-      "2026-05-15",       // 25 days out — too close
-      "2026-06-19",       // 60 days out — qualifies
-      "2026-12-18",
-      "2027-01-15",       // single LEAPS
+    expect(result).toEqual([
+      { expiration: "2026-04-24", selectionReason: "weekly" },
+      { expiration: "2026-05-15", selectionReason: "monthly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
     ]);
-    expect(result).toHaveLength(2);
-    expect(result[0]).toEqual({ expiration: "2027-01-15", selectionReason: "leap" });
-    expect(result[1]).toEqual({ expiration: "2026-06-19", selectionReason: "leap-fallback" });
   });
 
-  it("falls back to two quarterlies when no LEAPS (branch 3)", () => {
+  it("dedupes when the soonest expiration is itself a third-Friday monthly", () => {
+    // No earlier weekly listed; 2026-05-15 is the very first future
+    // expiration AND it's a monthly third-Friday. Don't emit it twice.
     const result = selectExpirations(today, [
-      "2026-04-24", "2026-05-15",
-      "2026-06-19",   // quarterly Jun
-      "2026-09-18",   // quarterly Sep
-      "2026-12-18",   // quarterly Dec
+      "2026-05-15",
+      "2026-06-19",
+      "2027-01-15",
     ]);
-    expect(result).toHaveLength(2);
-    expect(result.map((e) => e.expiration)).toEqual(["2026-06-19", "2026-09-18"]);
-    expect(result.every((e) => e.selectionReason === "quarterly")).toBe(true);
+    expect(result).toEqual([
+      { expiration: "2026-05-15", selectionReason: "weekly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
+    ]);
   });
 
-  it("falls back to two next monthlies when no LEAPS or quarterlies (branch 4)", () => {
+  it("advances yearly to the following January when next monthly IS next January monthly", () => {
+    // Today is late Dec → the very next monthly is the Jan third-Friday.
+    const result = selectExpirations("2026-12-26", [
+      "2027-01-02",       // weekly
+      "2027-01-15",       // monthly = next Jan
+      "2027-02-19",
+      "2028-01-21",       // yearly must skip ahead to this
+    ]);
+    expect(result).toEqual([
+      { expiration: "2027-01-02", selectionReason: "weekly" },
+      { expiration: "2027-01-15", selectionReason: "monthly" },
+      { expiration: "2028-01-21", selectionReason: "yearly" },
+    ]);
+  });
+
+  it("collapses weekly+monthly+yearly to a single entry when all three are the same date", () => {
+    // Tortured edge case: today is the Wednesday before the Jan third-Friday
+    // and the chain only has that Jan date. weekly == monthly == yearly.
+    const result = selectExpirations("2027-01-13", ["2027-01-15"]);
+    expect(result).toEqual([
+      { expiration: "2027-01-15", selectionReason: "weekly" },
+    ]);
+  });
+
+  it("omits the yearly slot when the chain has no January monthly", () => {
     const result = selectExpirations(today, [
       "2026-04-24",
-      "2026-05-15",  // monthly May (3rd Fri but not quarterly)
-      "2026-07-17",  // monthly Jul (3rd Fri but not quarterly)
-      "2026-08-21",  // monthly Aug
+      "2026-05-15",
+      "2026-06-19",
     ]);
-    expect(result).toHaveLength(2);
-    expect(result.map((e) => e.expiration)).toEqual(["2026-05-15", "2026-07-17"]);
-    expect(result.every((e) => e.selectionReason === "monthly")).toBe(true);
+    expect(result).toEqual([
+      { expiration: "2026-04-24", selectionReason: "weekly" },
+      { expiration: "2026-05-15", selectionReason: "monthly" },
+    ]);
   });
 
-  it("returns whatever exists when chain has fewer than two (branch 5)", () => {
-    const result = selectExpirations(today, ["2026-05-15"]);
-    expect(result).toHaveLength(1);
-    expect(result[0]).toEqual({ expiration: "2026-05-15", selectionReason: "monthly" });
+  it("omits the monthly slot when the chain has only weeklies", () => {
+    const result = selectExpirations(today, [
+      "2026-04-24",
+      "2026-05-01",
+      "2026-05-08",
+    ]);
+    expect(result).toEqual([
+      { expiration: "2026-04-24", selectionReason: "weekly" },
+    ]);
   });
 
   it("returns empty when input is empty", () => {
@@ -85,22 +108,32 @@ describe("selectExpirations", () => {
   it("ignores expirations in the past", () => {
     const result = selectExpirations(today, [
       "2025-01-17",       // past LEAPS — ignored
-      "2027-01-15", "2028-01-21",
+      "2026-04-24",
+      "2026-05-15",
+      "2027-01-15",
     ]);
-    expect(result.map((e) => e.expiration)).toEqual(["2027-01-15", "2028-01-21"]);
+    expect(result.map((e) => e.expiration)).toEqual([
+      "2026-04-24",
+      "2026-05-15",
+      "2027-01-15",
+    ]);
   });
 
   it("treats today's date itself as in the past (already expired)", () => {
-    const result = selectExpirations(today, [today, "2027-01-15", "2028-01-21"]);
-    expect(result.map((e) => e.expiration)).toEqual(["2027-01-15", "2028-01-21"]);
+    const result = selectExpirations(today, [today, "2026-05-15", "2027-01-15"]);
+    expect(result.map((e) => e.expiration)).toEqual(["2026-05-15", "2027-01-15"]);
   });
 
   it("accepts ISO timestamp inputs (Yahoo's chain format)", () => {
     const result = selectExpirations(today, [
       "2026-04-24T00:00:00.000Z",
+      "2026-05-15T00:00:00.000Z",
       "2027-01-15T00:00:00.000Z",
-      "2028-01-21T00:00:00.000Z",
     ]);
-    expect(result.map((e) => e.expiration)).toEqual(["2027-01-15", "2028-01-21"]);
+    expect(result.map((e) => e.expiration)).toEqual([
+      "2026-04-24",
+      "2026-05-15",
+      "2027-01-15",
+    ]);
   });
 });

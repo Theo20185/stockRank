@@ -57,7 +57,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
       [],
     );
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -73,7 +73,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = fv(115, 150, 180, 100);
     const grp = group([contract("C", 120, 6)], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -89,7 +89,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = fv(150, 160, 180, 145);
     const grp = group([contract("C", 110, 36)], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 145,
@@ -103,7 +103,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = fv(95, 110, 130, 120);
     const grp = group([contract("C", 130, 4)], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 120,
@@ -116,7 +116,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = { ...fv(120, 150, 180, 100), range: null };
     const grp = group([contract("C", 120, 5)], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -129,7 +129,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([contract("C", 120, 5)], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -144,7 +144,7 @@ describe("buildExpirationView — covered calls (single p25 anchor)", () => {
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([dead], []);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -168,7 +168,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
       [contract("P", 80, 3), contract("P", 95, 5), contract("P", 110, 15, 270, true)],
     );
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -185,7 +185,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([], [contract("P", 95, 5)]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -199,7 +199,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     const fairValue = fv(95, 110, 130, 100); // current $100 above p25 $95
     const grp = group([], [contract("P", 90, 4)]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -223,7 +223,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
       { ...contract("P", 100, 29.7, 263, true), impliedVolatility: 0 },
     ]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 68.5,
@@ -240,7 +240,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
       { ...contract("P", 130, 30, 270, true), impliedVolatility: 0 },
     ]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -254,7 +254,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([], [contract("P", 130, 32, 270, true)]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -270,7 +270,7 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     const fairValue = fv(120, 150, 180, 100);
     const grp = group([], [contract("P", 80, 2), contract("P", 90, 3)]);
     const view = buildExpirationView({
-      selected: { expiration: "2027-01-15", selectionReason: "leap" },
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
       group: grp,
       fairValue,
       currentPrice: 100,
@@ -293,7 +293,7 @@ describe("buildOptionsView", () => {
       fairValue,
       expirations: [
         {
-          selected: { expiration: "2027-01-15", selectionReason: "leap" },
+          selected: { expiration: "2027-01-15", selectionReason: "yearly" },
           group: grp,
         },
       ],
@@ -301,7 +301,7 @@ describe("buildOptionsView", () => {
     expect(view.symbol).toBe("TEST");
     expect(view.fetchedAt).toBe("2026-04-21T12:00:00.000Z");
     expect(view.expirations).toHaveLength(1);
-    expect(view.expirations[0]?.selectionReason).toBe("leap");
+    expect(view.expirations[0]?.selectionReason).toBe("yearly");
     expect(view.expirations[0]?.coveredCalls).toHaveLength(1);
     expect(view.expirations[0]?.puts).toHaveLength(1);
     expect(view.expirations[0]?.coveredCalls[0]?.contract.strike).toBe(120);

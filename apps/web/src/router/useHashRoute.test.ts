@@ -15,6 +15,11 @@ describe("parseRoute", () => {
     expect(parseRoute("#/portfolio")).toEqual({ name: "portfolio" });
   });
 
+  it("returns plan for /plan", () => {
+    expect(parseRoute("/plan")).toEqual({ name: "plan" });
+    expect(parseRoute("#/plan")).toEqual({ name: "plan" });
+  });
+
   it("/turnaround (removed) falls back to results", () => {
     // Turnaround section removed 2026-04-26. Hash routed to /turnaround
     // (e.g. an old bookmark) lands on the home results screen.

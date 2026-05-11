@@ -1617,6 +1617,127 @@ main.app--message h1 {
   border: 1px solid var(--border);
 }
 
+/* ─── Capital plan screen ─────────────────────────────────────────── */
+
+.plan__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  align-items: flex-end;
+}
+
+.plan__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.plan__field input {
+  min-height: var(--touch);
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: var(--fs-base);
+  min-width: 140px;
+}
+
+.plan__field--inline span {
+  display: block;
+  margin-bottom: var(--sp-1);
+}
+
+.plan__modes {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.plan__modes button {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 var(--sp-3);
+  min-height: var(--touch);
+  font-size: var(--fs-small);
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.plan__modes button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.plan__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.plan__stat-label {
+  font-size: var(--fs-tiny);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.plan__stat-value {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.plan__stat-sub {
+  font-size: var(--fs-tiny);
+  color: var(--text-faint);
+}
+
+.plan__status {
+  padding: var(--sp-4) 0;
+  color: var(--text-muted);
+}
+
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--sp-3);
+}
+
+.plan-table th,
+.plan-table td {
+  text-align: right;
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-small);
+}
+
+.plan-table th:nth-child(1),
+.plan-table th:nth-child(2),
+.plan-table td:nth-child(1),
+.plan-table td:nth-child(2) {
+  text-align: left;
+}
+
+.plan-table__row--zero {
+  color: var(--text-faint);
+}
+
+.plan-table__symbol {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+
 /* ─── Focus-visible: keyboard navigation hint ──────────────────────── */
 
 button:focus-visible,

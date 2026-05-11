@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export type Route =
   | { name: "results" }
   | { name: "portfolio" }
+  | { name: "plan" }
   | { name: "filters" }
   | { name: "stock"; symbol: string };
 
@@ -15,6 +16,7 @@ export function parseRoute(hash: string): Route {
   const path = hash.startsWith("#") ? hash.slice(1) : hash;
   if (path === "" || path === "/" || path === "/results") return { name: "results" };
   if (path === "/portfolio") return { name: "portfolio" };
+  if (path === "/plan") return { name: "plan" };
   if (path === "/filters") return { name: "filters" };
   const stockMatch = path.match(/^\/stock\/(.+)$/);
   if (stockMatch) return { name: "stock", symbol: decodeURIComponent(stockMatch[1]!) };
