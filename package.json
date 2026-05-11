@@ -10,6 +10,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install chromium",
     "typecheck": "tsc -b",
     "build": "npm run build --workspaces --if-present",
     "ingest": "npm run ingest --workspace=@stockrank/data",
@@ -22,6 +24,7 @@
     "refresh-cik": "tsx packages/data/src/edgar/refresh-cik-cli.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/node": "^22.10.0",
     "playwright": "^1.59.1",
     "typescript": "^5.7.2",

@@ -40,9 +40,11 @@ describe("selectExpirations", () => {
     ]);
   });
 
-  it("dedupes when the soonest expiration is itself a third-Friday monthly", () => {
+  it("cascades monthly to the next third-Friday when weekly equals the next monthly", () => {
     // No earlier weekly listed; 2026-05-15 is the very first future
-    // expiration AND it's a monthly third-Friday. Don't emit it twice.
+    // expiration AND it's a monthly third-Friday. The monthly slot rolls
+    // forward to the next third-Friday Friday (Jun 19) so the user
+    // always gets three distinct expirations when the chain has them.
     const result = selectExpirations(today, [
       "2026-05-15",
       "2026-06-19",
@@ -50,7 +52,35 @@ describe("selectExpirations", () => {
     ]);
     expect(result).toEqual([
       { expiration: "2026-05-15", selectionReason: "weekly" },
+      { expiration: "2026-06-19", selectionReason: "monthly" },
       { expiration: "2027-01-15", selectionReason: "yearly" },
+    ]);
+  });
+
+  it("reproduces the 2026-05-11 production bug (Monday before May 3rd-Fri)", () => {
+    // Today 2026-05-11 (Monday). Next 3rd-Fri = 2026-05-15. Without the
+    // cascade, monthly was deduped and the Plan screen defaulted to a mode
+    // with zero candidates. The cascade rolls monthly forward to Jun 19.
+    const result = selectExpirations("2026-05-11", [
+      "2026-05-15", "2026-05-22", "2026-06-19", "2026-07-17", "2027-01-15",
+    ]);
+    expect(result).toEqual([
+      { expiration: "2026-05-15", selectionReason: "weekly" },
+      { expiration: "2026-06-19", selectionReason: "monthly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
+    ]);
+  });
+
+  it("cascades through both monthly and yearly when weekly is a January 3rd-Friday", () => {
+    // Today is two days before the Jan 3rd-Friday. weekly takes that
+    // Jan date. monthly cascades to Feb. yearly cascades to next year.
+    const result = selectExpirations("2027-01-13", [
+      "2027-01-15", "2027-02-19", "2027-03-19", "2028-01-21",
+    ]);
+    expect(result).toEqual([
+      { expiration: "2027-01-15", selectionReason: "weekly" },
+      { expiration: "2027-02-19", selectionReason: "monthly" },
+      { expiration: "2028-01-21", selectionReason: "yearly" },
     ]);
   });
 
