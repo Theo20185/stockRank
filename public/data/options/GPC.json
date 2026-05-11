@@ -1,11 +1,43 @@
 {
   "symbol": "GPC",
-  "fetchedAt": "2026-05-01T15:21:27.126Z",
-  "currentPrice": 104.68,
+  "fetchedAt": "2026-05-11T15:56:50.478Z",
+  "currentPrice": 101.7,
   "expirations": [
     {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.06320356978267,
+          "contract": {
+            "contractSymbol": "GPC260515P00100000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 100,
+            "bid": 0.4,
+            "ask": 1.2,
+            "lastPrice": 0.53,
+            "volume": 4,
+            "openInterest": 559,
+            "impliedVolatility": 0.4101621484375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.004,
+          "notAssignedAnnualizedPct": 0.365,
+          "effectiveCostBasis": 99.6,
+          "effectiveDiscountPct": 0.020648967551622502,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
       "expiration": "2027-01-15",
-      "selectionReason": "leap",
+      "selectionReason": "yearly",
       "coveredCalls": [
         {
           "label": "conservative",
@@ -14,24 +46,24 @@
           "contract": {
             "contractSymbol": "GPC270115C00145000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 259,
+            "daysToExpiry": 249,
             "strike": 145,
-            "bid": 0.6,
-            "ask": 2.3,
+            "bid": 0.65,
+            "ask": 1.8,
             "lastPrice": 2.9,
             "volume": 1,
             "openInterest": 15,
-            "impliedVolatility": 0.3424748370361328,
+            "impliedVolatility": 0.34656415161132803,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.03389858857522731,
-          "staticAnnualizedPct": 0.04777214220060992,
-          "assignedReturnPct": 0.4190724517773671,
-          "assignedAnnualizedPct": 0.5905847293387606,
-          "effectiveCostBasis": 104.08000000000001,
-          "effectiveDiscountPct": 0.005731753916698509
+          "staticReturnPct": 0.03407335333254643,
+          "staticAnnualizedPct": 0.049946883399114246,
+          "assignedReturnPct": 0.4598353985636182,
+          "assignedAnnualizedPct": 0.6740559055249825,
+          "effectiveCostBasis": 101.05,
+          "effectiveDiscountPct": 0.006391347099311701
         }
       ],
       "puts": [
@@ -40,84 +72,25 @@
           "anchor": "p25",
           "anchorPrice": 141.06320356978267,
           "contract": {
-            "contractSymbol": "GPC270115P00105000",
+            "contractSymbol": "GPC270115P00100000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 105,
-            "bid": 9,
-            "ask": 11.9,
-            "lastPrice": 10.8,
-            "volume": 2,
-            "openInterest": 20,
-            "impliedVolatility": 0.33374689697265625,
-            "inTheMoney": true
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08571428571428572,
-          "notAssignedAnnualizedPct": 0.12079426365140651,
-          "effectiveCostBasis": 96,
-          "effectiveDiscountPct": 0.0829193733282385,
-          "inTheMoney": true
-        }
-      ]
-    },
-    {
-      "expiration": "2026-08-21",
-      "selectionReason": "leap-fallback",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC260821C00145000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 112,
-            "strike": 145,
-            "bid": 0.2,
-            "ask": 0.85,
-            "lastPrice": 0.85,
-            "volume": 5,
-            "openInterest": 46,
-            "impliedVolatility": 0.3979552392578125,
+            "daysToExpiry": 249,
+            "strike": 100,
+            "bid": 9.1,
+            "ask": 10.9,
+            "lastPrice": 9.02,
+            "volume": 1,
+            "openInterest": 56,
+            "impliedVolatility": 0.3536441589355468,
             "inTheMoney": false
           },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.014090837464209256,
-          "staticAnnualizedPct": 0.04592103280746767,
-          "assignedReturnPct": 0.399264700666349,
-          "assignedAnnualizedPct": 1.301175140564441,
-          "effectiveCostBasis": 104.48,
-          "effectiveDiscountPct": 0.0019105846388995033
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC260821P00105000",
-            "expiration": "2026-08-21",
-            "daysToExpiry": 112,
-            "strike": 105,
-            "bid": 5.5,
-            "ask": 7.3,
-            "lastPrice": 6.62,
-            "volume": 5,
-            "openInterest": 4403,
-            "impliedVolatility": 0.3071968695068359,
-            "inTheMoney": true
-          },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.05238095238095238,
-          "notAssignedAnnualizedPct": 0.17070578231292519,
-          "effectiveCostBasis": 99.5,
-          "effectiveDiscountPct": 0.0494841421474972,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.091,
+          "notAssignedAnnualizedPct": 0.13339357429718876,
+          "effectiveCostBasis": 90.9,
+          "effectiveDiscountPct": 0.1061946902654867,
+          "inTheMoney": false
         }
       ]
     }

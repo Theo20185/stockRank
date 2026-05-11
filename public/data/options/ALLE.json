@@ -1,72 +1,39 @@
 {
   "symbol": "ALLE",
-  "fetchedAt": "2026-05-01T15:20:46.405Z",
-  "currentPrice": 136.515,
+  "fetchedAt": "2026-05-11T15:56:20.618Z",
+  "currentPrice": 132.8,
   "expirations": [
     {
-      "expiration": "2026-09-18",
-      "selectionReason": "quarterly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 155.3440695864577,
-          "contract": {
-            "contractSymbol": "ALLE260918C00160000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 140,
-            "strike": 160,
-            "bid": 0.45,
-            "ask": 3.9,
-            "lastPrice": 5,
-            "volume": 1,
-            "openInterest": 455,
-            "impliedVolatility": 0.333563793334961,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.009206868230145817,
-          "staticAnnualizedPct": 0.024003620742880167,
-          "assignedReturnPct": 0.18123924562457147,
-          "assignedAnnualizedPct": 0.47251660466406137,
-          "effectiveCostBasis": 136.065,
-          "effectiveDiscountPct": 0.003296341061421822
-        }
-      ],
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
           "anchorPrice": 155.3440695864577,
           "contract": {
-            "contractSymbol": "ALLE260918P00135000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 140,
-            "strike": 135,
-            "bid": 6.3,
-            "ask": 9.2,
-            "lastPrice": 7,
+            "contractSymbol": "ALLE260515P00130000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 130,
+            "bid": 0.1,
+            "ask": 1.1,
+            "lastPrice": 1.6,
             "volume": 1,
-            "openInterest": 2,
-            "impliedVolatility": 0.2957834094238281,
+            "openInterest": 32,
+            "impliedVolatility": 0.3627993408203125,
             "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04666666666666667,
-          "notAssignedAnnualizedPct": 0.12166666666666667,
-          "effectiveCostBasis": 128.7,
-          "effectiveDiscountPct": 0.05724645643335896,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0007692307692307692,
+          "notAssignedAnnualizedPct": 0.07019230769230769,
+          "effectiveCostBasis": 129.9,
+          "effectiveDiscountPct": 0.021837349397590404,
           "inTheMoney": false
         }
       ]
-    },
-    {
-      "expiration": "2026-12-18",
-      "selectionReason": "quarterly",
-      "coveredCalls": [],
-      "puts": []
     }
   ]
 }

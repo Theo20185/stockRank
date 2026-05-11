@@ -1,0 +1,66 @@
+{
+  "symbol": "CDW",
+  "fetchedAt": "2026-05-11T15:57:02.557Z",
+  "currentPrice": 103.98,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.5261211896995,
+          "contract": {
+            "contractSymbol": "CDW260515C00110000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 110,
+            "bid": 0.15,
+            "ask": 0.45,
+            "lastPrice": 0.2,
+            "volume": 30,
+            "openInterest": 729,
+            "impliedVolatility": 0.463872548828125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0017043846682844696,
+          "staticAnnualizedPct": 0.15552510098095784,
+          "assignedReturnPct": 0.05960013385081953,
+          "assignedAnnualizedPct": 5.438512213887282,
+          "effectiveCostBasis": 103.83,
+          "effectiveDiscountPct": 0.0014425851125216386
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 105.5261211896995,
+          "contract": {
+            "contractSymbol": "CDW260515P00105000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 105,
+            "bid": 2.15,
+            "ask": 3.1,
+            "lastPrice": 2.47,
+            "volume": 10,
+            "openInterest": 981,
+            "impliedVolatility": 0.524418818359375,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.020476190476190474,
+          "notAssignedAnnualizedPct": 1.8684523809523808,
+          "effectiveCostBasis": 102.85,
+          "effectiveDiscountPct": 0.010867474514329772,
+          "inTheMoney": true
+        }
+      ]
+    }
+  ]
+}

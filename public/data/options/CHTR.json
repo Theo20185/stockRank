@@ -1,123 +1,96 @@
 {
   "symbol": "CHTR",
-  "fetchedAt": "2026-05-01T15:20:22.004Z",
-  "currentPrice": 173.27,
+  "fetchedAt": "2026-05-11T15:55:39.929Z",
+  "currentPrice": 148.55,
   "expirations": [
     {
-      "expiration": "2027-01-15",
-      "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 245.97912920399997,
-          "contract": {
-            "contractSymbol": "CHTR270115C00250000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 250,
-            "bid": 9,
-            "ask": 9.7,
-            "lastPrice": 9.2,
-            "volume": 12,
-            "openInterest": 775,
-            "impliedVolatility": 0.5028736236572267,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05194205575113984,
-          "staticAnnualizedPct": 0.07320019439832448,
-          "assignedReturnPct": 0.4947769377272464,
-          "assignedAnnualizedPct": 0.6972725184187063,
-          "effectiveCostBasis": 164.27,
-          "effectiveDiscountPct": 0.05194205575113984
-        }
-      ],
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 245.97912920399997,
+          "anchorPrice": 287.63635774,
           "contract": {
-            "contractSymbol": "CHTR270115P00175000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 175,
-            "bid": 27.8,
-            "ask": 31.3,
-            "lastPrice": 33.9,
-            "volume": 3,
-            "openInterest": 569,
-            "impliedVolatility": 0.523320196533203,
-            "inTheMoney": true
+            "contractSymbol": "CHTR260515P00148000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 148,
+            "bid": 2.5,
+            "ask": 3,
+            "lastPrice": 2.5,
+            "volume": 2,
+            "openInterest": 55,
+            "impliedVolatility": 0.4721732470703125,
+            "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.15885714285714286,
-          "notAssignedAnnualizedPct": 0.22387203530060676,
-          "effectiveCostBasis": 147.2,
-          "effectiveDiscountPct": 0.15045882149246853,
-          "inTheMoney": true
+          "shortDated": true,
+          "notAssignedReturnPct": 0.016891891891891893,
+          "notAssignedAnnualizedPct": 1.5413851351351353,
+          "effectiveCostBasis": 145.5,
+          "effectiveDiscountPct": 0.020531807472231645,
+          "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
       "coveredCalls": [
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 245.97912920399997,
+          "anchorPrice": 287.63635774,
           "contract": {
-            "contractSymbol": "CHTR280121C00250000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 250,
-            "bid": 23.1,
-            "ask": 28.9,
-            "lastPrice": 26.6,
+            "contractSymbol": "CHTR270115C00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 290,
+            "bid": 2.35,
+            "ask": 3.7,
+            "lastPrice": 3.9,
             "volume": 1,
-            "openInterest": 712,
-            "impliedVolatility": 0.5221910574340819,
+            "openInterest": 183,
+            "impliedVolatility": 0.5549360913085939,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.13331794309459225,
-          "staticAnnualizedPct": 0.07723976068178758,
-          "assignedReturnPct": 0.5761528250706988,
-          "assignedAnnualizedPct": 0.33380282722350013,
-          "effectiveCostBasis": 150.17000000000002,
-          "effectiveDiscountPct": 0.13331794309459225
+          "staticReturnPct": 0.015819589363850556,
+          "staticAnnualizedPct": 0.023189357902833146,
+          "assignedReturnPct": 0.9680242342645572,
+          "assignedAnnualizedPct": 1.4189913474159173,
+          "effectiveCostBasis": 146.20000000000002,
+          "effectiveDiscountPct": 0.015819589363850556
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 245.97912920399997,
+          "anchorPrice": 287.63635774,
           "contract": {
-            "contractSymbol": "CHTR280121P00170000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 170,
-            "bid": 36.9,
-            "ask": 42,
-            "lastPrice": 40.96,
-            "volume": 18,
-            "openInterest": 55,
-            "impliedVolatility": 0.4931691308593751,
-            "inTheMoney": false
+            "contractSymbol": "CHTR270115P00150000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 150,
+            "bid": 24.3,
+            "ask": 26.7,
+            "lastPrice": 24.3,
+            "volume": 13,
+            "openInterest": 127,
+            "impliedVolatility": 0.5063525927734375,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.21705882352941175,
-          "notAssignedAnnualizedPct": 0.12575630252100842,
-          "effectiveCostBasis": 133.1,
-          "effectiveDiscountPct": 0.2318347088359209,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.162,
+          "notAssignedAnnualizedPct": 0.2374698795180723,
+          "effectiveCostBasis": 125.7,
+          "effectiveDiscountPct": 0.15382026253786607,
+          "inTheMoney": true
         }
       ]
     }

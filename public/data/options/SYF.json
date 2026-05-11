@@ -1,69 +1,69 @@
 {
   "symbol": "SYF",
-  "fetchedAt": "2026-05-01T15:19:57.242Z",
-  "currentPrice": 76.29,
+  "fetchedAt": "2026-05-11T15:55:20.738Z",
+  "currentPrice": 70.74,
   "expirations": [
     {
-      "expiration": "2027-01-15",
-      "selectionReason": "leap",
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 139.9127634944976,
+          "anchorPrice": 138.18558237970566,
           "contract": {
-            "contractSymbol": "SYF270115P00075000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 75,
-            "bid": 6.7,
-            "ask": 8.8,
-            "lastPrice": 7.2,
+            "contractSymbol": "SYF260515P00070000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 70,
+            "bid": 0.75,
+            "ask": 0.9,
+            "lastPrice": 0.5,
             "volume": 1,
-            "openInterest": 58,
-            "impliedVolatility": 0.3719545227050781,
+            "openInterest": 100,
+            "impliedVolatility": 0.375982802734375,
             "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08933333333333333,
-          "notAssignedAnnualizedPct": 0.1258944658944659,
-          "effectiveCostBasis": 68.3,
-          "effectiveDiscountPct": 0.10473194389828298,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.010714285714285714,
+          "notAssignedAnnualizedPct": 0.9776785714285714,
+          "effectiveCostBasis": 69.25,
+          "effectiveDiscountPct": 0.02106304778060496,
           "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 139.9127634944976,
+          "anchorPrice": 138.18558237970566,
           "contract": {
-            "contractSymbol": "SYF280121P00077500",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 77.5,
-            "bid": 17.5,
-            "ask": 22.5,
-            "lastPrice": 14.1,
+            "contractSymbol": "SYF270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 70,
+            "bid": 5.6,
+            "ask": 7.1,
+            "lastPrice": 6.05,
             "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.5549971258544923,
-            "inTheMoney": true
+            "openInterest": 22,
+            "impliedVolatility": 0.32233343688964833,
+            "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.22580645161290322,
-          "notAssignedAnnualizedPct": 0.13082437275985664,
-          "effectiveCostBasis": 60,
-          "effectiveDiscountPct": 0.21352732992528517,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.08,
+          "notAssignedAnnualizedPct": 0.11726907630522089,
+          "effectiveCostBasis": 64.4,
+          "effectiveDiscountPct": 0.08962397512015818,
+          "inTheMoney": false
         }
       ]
     }

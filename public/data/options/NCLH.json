@@ -1,123 +1,96 @@
 {
   "symbol": "NCLH",
-  "fetchedAt": "2026-05-01T15:20:58.594Z",
-  "currentPrice": 18.74,
+  "fetchedAt": "2026-05-11T15:56:15.304Z",
+  "currentPrice": 16.4791,
   "expirations": [
     {
-      "expiration": "2027-01-15",
-      "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 25.68914145559111,
-          "contract": {
-            "contractSymbol": "NCLH270115C00027000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 27,
-            "bid": 1.3,
-            "ask": 1.37,
-            "lastPrice": 1.38,
-            "volume": 15,
-            "openInterest": 4685,
-            "impliedVolatility": 0.5629926513671876,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.06937033084311633,
-          "staticAnnualizedPct": 0.09776127705690141,
-          "assignedReturnPct": 0.5101387406616864,
-          "assignedAnnualizedPct": 0.7189213912799828,
-          "effectiveCostBasis": 17.439999999999998,
-          "effectiveDiscountPct": 0.06937033084311633
-        }
-      ],
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 25.68914145559111,
+          "anchorPrice": 21.01610326,
           "contract": {
-            "contractSymbol": "NCLH270115P00017000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 17,
-            "bid": 2.5,
-            "ask": 2.58,
-            "lastPrice": 2.59,
-            "volume": 3,
-            "openInterest": 5730,
-            "impliedVolatility": 0.56055126953125,
-            "inTheMoney": false
+            "contractSymbol": "NCLH260515P00016500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 16.5,
+            "bid": 0.45,
+            "ask": 0.51,
+            "lastPrice": 0.46,
+            "volume": 643,
+            "openInterest": 1602,
+            "impliedVolatility": 0.6093789062500001,
+            "inTheMoney": true
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.14705882352941177,
-          "notAssignedAnnualizedPct": 0.20724506018623667,
-          "effectiveCostBasis": 14.5,
-          "effectiveDiscountPct": 0.22625400213447167,
-          "inTheMoney": false
+          "shortDated": true,
+          "notAssignedReturnPct": 0.027272727272727275,
+          "notAssignedAnnualizedPct": 2.4886363636363638,
+          "effectiveCostBasis": 16.05,
+          "effectiveDiscountPct": 0.026039043394360025,
+          "inTheMoney": true
         }
       ]
     },
     {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
       "coveredCalls": [
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 25.68914145559111,
+          "anchorPrice": 21.01610326,
           "contract": {
-            "contractSymbol": "NCLH280121C00027000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 27,
-            "bid": 2.81,
-            "ask": 3.35,
-            "lastPrice": 3.12,
-            "volume": 14,
-            "openInterest": 9570,
-            "impliedVolatility": 0.549076774902344,
+            "contractSymbol": "NCLH270115C00022000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 22,
+            "bid": 1.41,
+            "ask": 1.48,
+            "lastPrice": 1.47,
+            "volume": 7,
+            "openInterest": 1767,
+            "impliedVolatility": 0.5664105859375,
             "inTheMoney": false
           },
-          "snapWarning": true,
+          "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.14994663820704376,
-          "staticAnnualizedPct": 0.08687384594535076,
-          "assignedReturnPct": 0.5907150480256138,
-          "assignedAnnualizedPct": 0.34223967068150646,
-          "effectiveCostBasis": 15.929999999999998,
-          "effectiveDiscountPct": 0.14994663820704376
+          "staticReturnPct": 0.0855629251597478,
+          "staticAnnualizedPct": 0.1254235649932046,
+          "assignedReturnPct": 0.42058728935439443,
+          "assignedAnnualizedPct": 0.6165235366038312,
+          "effectiveCostBasis": 15.069099999999999,
+          "effectiveDiscountPct": 0.0855629251597478
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 25.68914145559111,
+          "anchorPrice": 21.01610326,
           "contract": {
-            "contractSymbol": "NCLH280121P00018000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 18,
-            "bid": 4.25,
-            "ask": 4.65,
-            "lastPrice": 4.8,
+            "contractSymbol": "NCLH270115P00017000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 17,
+            "bid": 3.05,
+            "ask": 3.2,
+            "lastPrice": 2.71,
             "volume": 3,
-            "openInterest": 1842,
-            "impliedVolatility": 0.508793974609375,
-            "inTheMoney": false
+            "openInterest": 5915,
+            "impliedVolatility": 0.5210008837890624,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.2361111111111111,
-          "notAssignedAnnualizedPct": 0.13679453262786598,
-          "effectiveCostBasis": 13.75,
-          "effectiveDiscountPct": 0.26627534685165416,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.17941176470588235,
+          "notAssignedAnnualizedPct": 0.26299314906685567,
+          "effectiveCostBasis": 13.95,
+          "effectiveDiscountPct": 0.15347318724930364,
+          "inTheMoney": true
         }
       ]
     }

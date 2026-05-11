@@ -1,69 +1,69 @@
 {
   "symbol": "AES",
-  "fetchedAt": "2026-05-01T15:20:34.219Z",
-  "currentPrice": 14.285,
+  "fetchedAt": "2026-05-11T15:55:54.085Z",
+  "currentPrice": 14.38,
   "expirations": [
     {
-      "expiration": "2027-01-15",
-      "selectionReason": "leap",
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 25.58657481929373,
+          "anchorPrice": 24.308423366281357,
+          "contract": {
+            "contractSymbol": "AES260515P00018000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 18,
+            "bid": 3.55,
+            "ask": 3.9,
+            "lastPrice": 3.8,
+            "volume": 1,
+            "openInterest": 199,
+            "impliedVolatility": 1.40625296875,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.19722222222222222,
+          "notAssignedAnnualizedPct": 17.99652777777778,
+          "effectiveCostBasis": 14.45,
+          "effectiveDiscountPct": -0.0048678720445061545,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 24.308423366281357,
           "contract": {
             "contractSymbol": "AES270115P00022000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 259,
+            "daysToExpiry": 249,
             "strike": 22,
             "bid": 9.5,
             "ask": 14.5,
             "lastPrice": 9.07,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 1.3149448315429684,
+            "impliedVolatility": 1.3496126269531248,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
           "notAssignedReturnPct": 0.4318181818181818,
-          "notAssignedAnnualizedPct": 0.6085468585468586,
+          "notAssignedAnnualizedPct": 0.6329864914202263,
           "effectiveCostBasis": 12.5,
-          "effectiveDiscountPct": 0.12495624781239063,
+          "effectiveDiscountPct": 0.1307371349095967,
           "inTheMoney": true
-        }
-      ]
-    },
-    {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
-      "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 25.58657481929373,
-          "contract": {
-            "contractSymbol": "AES280121P00010000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 10,
-            "bid": 0.01,
-            "ask": 0.21,
-            "lastPrice": 0.11,
-            "volume": 7,
-            "openInterest": 661,
-            "impliedVolatility": 0.2299881689453125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.001,
-          "notAssignedAnnualizedPct": 0.0005793650793650794,
-          "effectiveCostBasis": 9.99,
-          "effectiveDiscountPct": 0.30066503325166255,
-          "inTheMoney": false
         }
       ]
     }

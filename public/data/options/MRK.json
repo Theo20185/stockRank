@@ -1,0 +1,98 @@
+{
+  "symbol": "MRK",
+  "fetchedAt": "2026-05-11T15:56:59.151Z",
+  "currentPrice": 112.345,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 134.5159088507056,
+          "contract": {
+            "contractSymbol": "MRK260515P00112000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 112,
+            "bid": 0.79,
+            "ask": 0.84,
+            "lastPrice": 0.82,
+            "volume": 276,
+            "openInterest": 1424,
+            "impliedVolatility": 0.1914143359375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.007053571428571429,
+          "notAssignedAnnualizedPct": 0.6436383928571429,
+          "effectiveCostBasis": 111.21,
+          "effectiveDiscountPct": 0.010102808313676668,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 134.5159088507056,
+          "contract": {
+            "contractSymbol": "MRK270115C00135000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 135,
+            "bid": 3.15,
+            "ask": 4.1,
+            "lastPrice": 3.6,
+            "volume": 4,
+            "openInterest": 3334,
+            "impliedVolatility": 0.3011544494628906,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.048826959823488926,
+          "staticAnnualizedPct": 0.07157365596615847,
+          "assignedReturnPct": 0.25048257422555403,
+          "assignedAnnualizedPct": 0.3671732513748081,
+          "effectiveCostBasis": 109.195,
+          "effectiveDiscountPct": 0.02803863100271485
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 134.5159088507056,
+          "contract": {
+            "contractSymbol": "MRK270115P00110000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 110,
+            "bid": 8.95,
+            "ask": 9.25,
+            "lastPrice": 9.95,
+            "volume": 18,
+            "openInterest": 3393,
+            "impliedVolatility": 0.28357650024414055,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08136363636363636,
+          "notAssignedAnnualizedPct": 0.11926798101496897,
+          "effectiveCostBasis": 101.05,
+          "effectiveDiscountPct": 0.10053851973830613,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

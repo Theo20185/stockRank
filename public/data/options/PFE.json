@@ -1,0 +1,98 @@
+{
+  "symbol": "PFE",
+  "fetchedAt": "2026-05-11T15:56:04.757Z",
+  "currentPrice": 25.805,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 41.14069452970203,
+          "contract": {
+            "contractSymbol": "PFE260515P00025500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 25.5,
+            "bid": 0.08,
+            "ask": 0.09,
+            "lastPrice": 0.08,
+            "volume": 504,
+            "openInterest": 6513,
+            "impliedVolatility": 0.17383638671875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.003137254901960784,
+          "notAssignedAnnualizedPct": 0.28627450980392155,
+          "effectiveCostBasis": 25.42,
+          "effectiveDiscountPct": 0.014919589226893936,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 41.14069452970203,
+          "contract": {
+            "contractSymbol": "PFE270115C00042000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 42,
+            "bid": 0.1,
+            "ask": 0.12,
+            "lastPrice": 0.11,
+            "volume": 60,
+            "openInterest": 16609,
+            "impliedVolatility": 0.3242255078124999,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04958206729607993,
+          "staticAnnualizedPct": 0.07268054041393243,
+          "assignedReturnPct": 0.6771736193208813,
+          "assignedAnnualizedPct": 0.9926440604502879,
+          "effectiveCostBasis": 25.705,
+          "effectiveDiscountPct": 0.003875217981011432
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 41.14069452970203,
+          "contract": {
+            "contractSymbol": "PFE270115P00026000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 26,
+            "bid": 2.13,
+            "ask": 2.21,
+            "lastPrice": 2.15,
+            "volume": 14,
+            "openInterest": 472,
+            "impliedVolatility": 0.24732197998046873,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08192307692307692,
+          "notAssignedAnnualizedPct": 0.12008804448563484,
+          "effectiveCostBasis": 23.87,
+          "effectiveDiscountPct": 0.07498546793257116,
+          "inTheMoney": true
+        }
+      ]
+    }
+  ]
+}

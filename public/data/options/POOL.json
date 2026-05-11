@@ -1,69 +1,37 @@
 {
   "symbol": "POOL",
-  "fetchedAt": "2026-05-01T15:21:03.971Z",
-  "currentPrice": 208.66,
+  "fetchedAt": "2026-05-11T15:56:24.030Z",
+  "currentPrice": 185.55,
   "expirations": [
     {
       "expiration": "2026-05-15",
-      "selectionReason": "monthly",
+      "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 291.73826226357755,
+          "anchorPrice": 293.26054266757757,
           "contract": {
-            "contractSymbol": "POOL260515P00210000",
+            "contractSymbol": "POOL260515P00185000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 14,
-            "strike": 210,
-            "bid": 5.1,
-            "ask": 7.2,
-            "lastPrice": 5.1,
-            "volume": 5,
-            "openInterest": 323,
-            "impliedVolatility": 0.3845276391601562,
-            "inTheMoney": true
+            "daysToExpiry": 4,
+            "strike": 185,
+            "bid": 3,
+            "ask": 4.9,
+            "lastPrice": 3.91,
+            "volume": 13,
+            "openInterest": 88,
+            "impliedVolatility": 0.5979044116210939,
+            "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.024285714285714285,
-          "notAssignedAnnualizedPct": 0.6331632653061224,
-          "effectiveCostBasis": 204.9,
-          "effectiveDiscountPct": 0.018019745039777584,
-          "inTheMoney": true
-        }
-      ]
-    },
-    {
-      "expiration": "2026-07-17",
-      "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 291.73826226357755,
-          "contract": {
-            "contractSymbol": "POOL260717P00210000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 77,
-            "strike": 210,
-            "bid": 10.8,
-            "ask": 14.7,
-            "lastPrice": 10.1,
-            "volume": 1,
-            "openInterest": 94,
-            "impliedVolatility": 0.36365382446289063,
-            "inTheMoney": true
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.051428571428571435,
-          "notAssignedAnnualizedPct": 0.24378478664192954,
-          "effectiveCostBasis": 199.2,
-          "effectiveDiscountPct": 0.045336911722419285,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.016216216216216217,
+          "notAssignedAnnualizedPct": 1.4797297297297298,
+          "effectiveCostBasis": 182,
+          "effectiveDiscountPct": 0.01913230935057942,
+          "inTheMoney": false
         }
       ]
     }

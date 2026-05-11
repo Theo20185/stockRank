@@ -1,123 +1,96 @@
 {
   "symbol": "CI",
-  "fetchedAt": "2026-05-01T15:20:20.270Z",
-  "currentPrice": 284.24,
+  "fetchedAt": "2026-05-11T15:55:36.362Z",
+  "currentPrice": 288.5901,
   "expirations": [
     {
-      "expiration": "2027-01-15",
-      "selectionReason": "leap",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 361.5312146521295,
-          "contract": {
-            "contractSymbol": "CI270115C00370000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 370,
-            "bid": 5.1,
-            "ask": 8,
-            "lastPrice": 8.3,
-            "volume": 1,
-            "openInterest": 440,
-            "impliedVolatility": 0.32602602691650384,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03308740620763357,
-          "staticAnnualizedPct": 0.04662897013817086,
-          "assignedReturnPct": 0.33480426520003437,
-          "assignedAnnualizedPct": 0.4718284046255311,
-          "effectiveCostBasis": 279.14,
-          "effectiveDiscountPct": 0.017942583732057413
-        }
-      ],
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 361.5312146521295,
+          "anchorPrice": 372.30578560940955,
           "contract": {
-            "contractSymbol": "CI270115P00280000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 259,
-            "strike": 280,
-            "bid": 23.9,
-            "ask": 27.4,
-            "lastPrice": 23.7,
-            "volume": 4,
-            "openInterest": 272,
-            "impliedVolatility": 0.311255666809082,
-            "inTheMoney": false
+            "contractSymbol": "CI260515P00290000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 290,
+            "bid": 4.2,
+            "ask": 4.8,
+            "lastPrice": 4.2,
+            "volume": 363,
+            "openInterest": 37,
+            "impliedVolatility": 0.3002999658203125,
+            "inTheMoney": true
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08535714285714285,
-          "notAssignedAnnualizedPct": 0.12029095421952565,
-          "effectiveCostBasis": 256.1,
-          "effectiveDiscountPct": 0.09900084435688146,
-          "inTheMoney": false
+          "shortDated": true,
+          "notAssignedReturnPct": 0.014482758620689656,
+          "notAssignedAnnualizedPct": 1.321551724137931,
+          "effectiveCostBasis": 285.8,
+          "effectiveDiscountPct": 0.009668037815573006,
+          "inTheMoney": true
         }
       ]
     },
     {
-      "expiration": "2028-01-21",
-      "selectionReason": "leap",
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
       "coveredCalls": [
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 361.5312146521295,
+          "anchorPrice": 372.30578560940955,
           "contract": {
-            "contractSymbol": "CI280121C00370000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 370,
-            "bid": 19,
-            "ask": 23.5,
-            "lastPrice": 25.5,
+            "contractSymbol": "CI270115C00380000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 380,
+            "bid": 4.4,
+            "ask": 6.6,
+            "lastPrice": 6,
             "volume": 1,
-            "openInterest": 3,
-            "impliedVolatility": 0.3324956887817383,
+            "openInterest": 55,
+            "impliedVolatility": 0.3176948114013671,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10368367715911933,
-          "staticAnnualizedPct": 0.06007070184615644,
-          "assignedReturnPct": 0.4054005361515201,
-          "assignedAnnualizedPct": 0.2348749138020712,
-          "effectiveCostBasis": 265.24,
-          "effectiveDiscountPct": 0.06684491978609626
+          "staticReturnPct": 0.030105238133815552,
+          "staticAnnualizedPct": 0.04413016834876577,
+          "assignedReturnPct": 0.34685172389337554,
+          "assignedAnnualizedPct": 0.5084372659481208,
+          "effectiveCostBasis": 284.19010000000003,
+          "effectiveDiscountPct": 0.015246538256163327
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 361.5312146521295,
+          "anchorPrice": 372.30578560940955,
           "contract": {
-            "contractSymbol": "CI280121P00280000",
-            "expiration": "2028-01-21",
-            "daysToExpiry": 630,
-            "strike": 280,
-            "bid": 39.6,
-            "ask": 42.9,
-            "lastPrice": 39.8,
-            "volume": 3,
-            "openInterest": 139,
-            "impliedVolatility": 0.3062508340454102,
-            "inTheMoney": false
+            "contractSymbol": "CI270115P00290000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 249,
+            "strike": 290,
+            "bid": 26.2,
+            "ask": 28.6,
+            "lastPrice": 31.2,
+            "volume": 2,
+            "openInterest": 33,
+            "impliedVolatility": 0.2928232339477538,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.14142857142857143,
-          "notAssignedAnnualizedPct": 0.08193877551020409,
-          "effectiveCostBasis": 240.4,
-          "effectiveDiscountPct": 0.15423585702223475,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.09034482758620689,
+          "notAssignedAnnualizedPct": 0.1324331809998615,
+          "effectiveCostBasis": 263.8,
+          "effectiveDiscountPct": 0.08590072909638964,
+          "inTheMoney": true
         }
       ]
     }

@@ -1,0 +1,66 @@
+{
+  "symbol": "AMP",
+  "fetchedAt": "2026-05-11T15:56:06.570Z",
+  "currentPrice": 463.28,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 471.95223148442483,
+          "contract": {
+            "contractSymbol": "AMP260515C00480000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 480,
+            "bid": 0.55,
+            "ask": 3,
+            "lastPrice": 0.85,
+            "volume": 3,
+            "openInterest": 456,
+            "impliedVolatility": 0.40845318115234375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0013471403902607496,
+          "staticAnnualizedPct": 0.12292656061129341,
+          "assignedReturnPct": 0.037437625625971395,
+          "assignedAnnualizedPct": 3.4161833383698896,
+          "effectiveCostBasis": 462.72999999999996,
+          "effectiveDiscountPct": 0.0011871870143325852
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 471.95223148442483,
+          "contract": {
+            "contractSymbol": "AMP260515P00460000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 4,
+            "strike": 460,
+            "bid": 3,
+            "ask": 6.4,
+            "lastPrice": 8.89,
+            "volume": 4,
+            "openInterest": 29,
+            "impliedVolatility": 0.36804831176757813,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.006521739130434782,
+          "notAssignedAnnualizedPct": 0.5951086956521738,
+          "effectiveCostBasis": 457,
+          "effectiveDiscountPct": 0.013555517181833822,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}
