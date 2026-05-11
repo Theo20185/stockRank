@@ -57,6 +57,19 @@ export type CapitalPlan = {
   remaining: number;
   /** Sum of totalPremium across items. */
   totalPremium: number;
+  /**
+   * Collateral-weighted annualized return across allocated items
+   * (decimal, e.g. 0.18 = 18%). The headline yield on the capital
+   * the plan actually deploys; the "if I follow this plan, this is
+   * what I earn per year per dollar tied up in collateral" number.
+   *
+   * Formula: Σ(item.totalCollateral × item.annualizedReturn) / allocated.
+   * Each leg's annualized return already accounts for its own DTE, so
+   * collateral-weighting them produces the correct cross-DTE blend.
+   *
+   * Null when allocated == 0 (no contracts to weight).
+   */
+  annualizedReturnOnAllocated: number | null;
   items: CapitalPlanItem[];
 };
 
@@ -78,7 +91,14 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
 
   // topN <= 0 explicitly excludes every candidate — return an empty plan.
   if (input.topN !== undefined && input.topN <= 0) {
-    return { capital, allocated: 0, remaining: capital, totalPremium: 0, items: [] };
+    return {
+      capital,
+      allocated: 0,
+      remaining: capital,
+      totalPremium: 0,
+      annualizedReturnOnAllocated: null,
+      items: [],
+    };
   }
 
   const cap = input.topN !== undefined
@@ -92,6 +112,7 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
       allocated: 0,
       remaining: capital,
       totalPremium: 0,
+      annualizedReturnOnAllocated: null,
       items: considered.map((c) => zeroItem(c)),
     };
   }
@@ -127,7 +148,20 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
 
   const allocated = capital - remaining;
   const totalPremium = sumOf(items, (i) => i.totalPremium);
-  return { capital, allocated, remaining, totalPremium, items };
+  const weightedAnnualized = sumOf(
+    items,
+    (i) => i.totalCollateral * i.annualizedReturn,
+  );
+  const annualizedReturnOnAllocated =
+    allocated > 0 ? weightedAnnualized / allocated : null;
+  return {
+    capital,
+    allocated,
+    remaining,
+    totalPremium,
+    annualizedReturnOnAllocated,
+    items,
+  };
 }
 
 function zeroItem(c: CapitalPlanCandidate): CapitalPlanItem {

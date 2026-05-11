@@ -67,6 +67,24 @@ test.describe("Capital Plan screen — e2e", () => {
     expect(total).toBeGreaterThan(0);
   });
 
+  test("summary shows total invested capital and annualized return on collateral", async ({ page }) => {
+    await page.goto("/#/plan");
+    await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });
+    await page.getByLabel(/capital available/i).fill("50000");
+
+    const summary = page.getByRole("region", { name: /plan summary/i });
+    await expect(summary).toBeVisible();
+
+    // Total invested capital appears as a positive dollar amount and is
+    // ≤ the input capital. Headline annualized return is a percentage.
+    await expect(summary.getByText(/total invested capital/i)).toBeVisible();
+    await expect(summary.getByText(/annualized return on collateral/i)).toBeVisible();
+    const annualized = summary
+      .locator(".plan__stat", { hasText: /annualized return on collateral/i })
+      .locator(".plan__stat-value");
+    await expect(annualized).toHaveText(/^\d+(\.\d+)?%$/);
+  });
+
   test("switching expiration mode re-renders the table", async ({ page }) => {
     await page.goto("/#/plan");
     await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });

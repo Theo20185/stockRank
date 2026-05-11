@@ -239,11 +239,14 @@ function PlanSummary({
   mode: SelectionReason;
 }) {
   const usedCount = plan.items.filter((i) => i.contracts > 0).length;
+  const annualized = plan.annualizedReturnOnAllocated;
+  const annualDollars =
+    annualized !== null ? plan.allocated * annualized : null;
   return (
     <section className="plan__summary" aria-label="Plan summary">
       <Stat label="Capital" value={formatDollars(plan.capital)} />
       <Stat
-        label="Allocated"
+        label="Total invested capital"
         value={formatDollars(plan.allocated)}
         sub={
           plan.capital > 0
@@ -253,6 +256,15 @@ function PlanSummary({
       />
       <Stat label="Remaining cash" value={formatDollars(plan.remaining)} />
       <Stat label="Total premium" value={formatDollars(plan.totalPremium)} />
+      <Stat
+        label="Annualized return on collateral"
+        value={annualized !== null ? formatPercent(annualized * 100) : "—"}
+        sub={
+          annualDollars !== null
+            ? `≈ ${formatDollars(annualDollars)}/yr if rolled`
+            : undefined
+        }
+      />
       <Stat
         label="Names allocated"
         value={`${usedCount} / ${candidatesAvailable}`}

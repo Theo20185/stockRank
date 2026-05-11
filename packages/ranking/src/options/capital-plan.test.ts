@@ -154,6 +154,53 @@ describe("buildCapitalPlan — edge cases", () => {
   });
 });
 
+describe("buildCapitalPlan — annualized return on allocated collateral", () => {
+  it("returns the collateral-weighted annualized return across allocated items", () => {
+    // Two items, equal collateral after allocation, different annualized
+    // returns. Capital $20k, both strikes $50 → $5k collateral each →
+    // equal budget $10k each → 2 contracts each → $10k collateral each.
+    // Item A annualized 20%, Item B annualized 10% → weighted avg 15%.
+    const plan = buildCapitalPlan({
+      capital: 20000,
+      candidates: [
+        cand("AAA", 50, 1.5, 70, 30, 0.20),
+        cand("BBB", 50, 1.5, 70, 30, 0.10),
+      ],
+    });
+    expect(plan.allocated).toBe(20000);
+    expect(plan.annualizedReturnOnAllocated).toBeCloseTo(0.15, 5);
+  });
+
+  it("weights by collateral so an expensive name with low return drags the average down", () => {
+    // capital $30k, AAA $25 strike (cheap) → $2.5k/contract, BBB $100
+    // strike (expensive) → $10k/contract. Equal budget $15k each.
+    //   AAA: floor(15000/2500) = 6 → $15k
+    //   BBB: floor(15000/10000) = 1 → $10k
+    // remaining $5k. Pass 2: AAA $2.5k fits → 7 ($17.5k); $2.5k left;
+    // AAA $2.5k fits → 8 ($20k); $0 left.
+    // Final: AAA 8 contracts ($20k @ 30%), BBB 1 contract ($10k @ 10%).
+    // Weighted avg = (20k × 0.30 + 10k × 0.10) / 30k = 7000 / 30000 = 0.2333.
+    const plan = buildCapitalPlan({
+      capital: 30000,
+      candidates: [
+        cand("AAA", 25, 1.5, 80, 30, 0.30),
+        cand("BBB", 100, 1.5, 75, 30, 0.10),
+      ],
+    });
+    expect(plan.allocated).toBe(30000);
+    expect(plan.annualizedReturnOnAllocated).toBeCloseTo(0.2333, 4);
+  });
+
+  it("returns null when nothing is allocated", () => {
+    const plan = buildCapitalPlan({
+      capital: 100,  // below cheapest contract
+      candidates: [cand("AAA", 50)],
+    });
+    expect(plan.allocated).toBe(0);
+    expect(plan.annualizedReturnOnAllocated).toBeNull();
+  });
+});
+
 describe("buildCapitalPlan — premium + totals", () => {
   it("computes totalPremium per item and across the plan", () => {
     const plan = buildCapitalPlan({

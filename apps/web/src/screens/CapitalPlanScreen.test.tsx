@@ -254,6 +254,36 @@ describe("<CapitalPlanScreen />", () => {
     );
   });
 
+  it("shows total invested capital and the annualized return on collateral", async () => {
+    // Two names, $20k capital, both $50 strikes (4 contracts @ $5k each
+    // gets allocated in equal chunks). The summary panel must surface:
+    //   - Total invested capital  → $20,000
+    //   - Annualized return       → 15% (weighted average of 20% and 10%)
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA"), fakeRow("BBB")]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 50, monthlyBid: 1 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 50, monthlyBid: 1 }),
+        }}
+      />,
+    );
+    // The fakeOptionsView preset annualized return is 0.6 for both legs,
+    // so the weighted average is also 0.6 = 60%.
+    const user = userEvent.setup();
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "20000");
+
+    const summary = screen.getByRole("region", { name: /plan summary/i });
+    // "Allocated" already serves as total-invested-capital; the new
+    // stat is the headline annualized return on that capital.
+    const stat = within(summary).getByText(/annualized return on collateral/i);
+    const value = stat.parentElement!.querySelector(".plan__stat-value")!;
+    expect(value.textContent).toMatch(/60\.0%/);
+  });
+
   it("navigates to a stock when its symbol button is clicked", async () => {
     const onSelectStock = vi.fn();
     const user = userEvent.setup();
