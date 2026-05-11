@@ -284,6 +284,48 @@ describe("<CapitalPlanScreen />", () => {
     expect(value.textContent).toMatch(/60\.0%/);
   });
 
+  it("hides unallocated (zero-contract) rows when the toggle is on", async () => {
+    // Capital $5k with three names: AAA $20 strike ($2k/contract — fits),
+    // BBB $100 strike ($10k/contract — doesn't fit, zero contracts),
+    // CCC $30 strike ($3k/contract — fits).
+    // Equal budget $1666 → AAA 0, BBB 0, CCC 0. Then top-up fills AAA
+    // (1@$2k → $3k left), CCC (1@$3k → $0 left). Final: AAA=1, BBB=0, CCC=1.
+    const user = userEvent.setup();
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA"), fakeRow("BBB"), fakeRow("CCC")]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 20 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 100 }),
+          CCC: fakeOptionsView("CCC", { monthlyStrike: 30 }),
+        }}
+      />,
+    );
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "5000");
+
+    // Default state: all three rows visible (one with 0 contracts).
+    let table = await screen.findByRole("table", { name: /capital allocation plan/i });
+    expect(within(table).getByText("AAA")).toBeInTheDocument();
+    expect(within(table).getByText("BBB")).toBeInTheDocument();
+    expect(within(table).getByText("CCC")).toBeInTheDocument();
+
+    // Toggle hide-unallocated on — BBB (the zero-contract row) disappears.
+    const toggle = screen.getByLabelText(/hide unallocated/i);
+    await user.click(toggle);
+    table = screen.getByRole("table", { name: /capital allocation plan/i });
+    expect(within(table).getByText("AAA")).toBeInTheDocument();
+    expect(within(table).queryByText("BBB")).toBeNull();
+    expect(within(table).getByText("CCC")).toBeInTheDocument();
+
+    // Toggle back off — BBB reappears.
+    await user.click(toggle);
+    table = screen.getByRole("table", { name: /capital allocation plan/i });
+    expect(within(table).getByText("BBB")).toBeInTheDocument();
+  });
+
   it("navigates to a stock when its symbol button is clicked", async () => {
     const onSelectStock = vi.fn();
     const user = userEvent.setup();

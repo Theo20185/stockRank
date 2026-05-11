@@ -57,6 +57,7 @@ export function CapitalPlanScreen({
   const [capitalInput, setCapitalInput] = useState<string>("10000");
   const [topNInput, setTopNInput] = useState<string>("");
   const [mode, setMode] = useState<SelectionReason>("monthly");
+  const [hideUnallocated, setHideUnallocated] = useState<boolean>(false);
   const [options, setOptions] = useState<Record<string, OptionsView>>(
     initialOptions ?? {},
   );
@@ -177,6 +178,14 @@ export function CapitalPlanScreen({
             ))}
           </nav>
         </div>
+        <label className="plan__field plan__field--checkbox">
+          <input
+            type="checkbox"
+            checked={hideUnallocated}
+            onChange={(e) => setHideUnallocated(e.target.checked)}
+          />
+          <span>Hide unallocated</span>
+        </label>
       </section>
 
       {status === "loading" && (
@@ -190,7 +199,11 @@ export function CapitalPlanScreen({
       )}
 
       {status === "ready" && plan.items.length > 0 && (
-        <PlanTable plan={plan} onSelectStock={onSelectStock} />
+        <PlanTable
+          plan={plan}
+          hideUnallocated={hideUnallocated}
+          onSelectStock={onSelectStock}
+        />
       )}
 
       {status === "ready" && candidates.length === 0 && (
@@ -276,11 +289,16 @@ function PlanSummary({
 
 function PlanTable({
   plan,
+  hideUnallocated,
   onSelectStock,
 }: {
   plan: CapitalPlan;
+  hideUnallocated: boolean;
   onSelectStock: (symbol: string) => void;
 }) {
+  const visible = hideUnallocated
+    ? plan.items.filter((i) => i.contracts > 0)
+    : plan.items;
   return (
     <table className="plan-table" aria-label="Capital allocation plan">
       <thead>
@@ -297,7 +315,7 @@ function PlanTable({
         </tr>
       </thead>
       <tbody>
-        {plan.items.map((item, idx) => (
+        {visible.map((item, idx) => (
           <tr
             key={item.symbol}
             className={item.contracts === 0 ? "plan-table__row--zero" : undefined}

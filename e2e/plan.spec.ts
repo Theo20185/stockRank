@@ -85,6 +85,30 @@ test.describe("Capital Plan screen — e2e", () => {
     await expect(annualized).toHaveText(/^\d+(\.\d+)?%$/);
   });
 
+  test("hide-unallocated toggle removes zero-contract rows from the table", async ({ page }) => {
+    await page.goto("/#/plan");
+    await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });
+
+    // Set a deliberately small capital so multiple candidates allocate
+    // 0 contracts (a single expensive strike eats the budget).
+    await page.getByLabel(/capital available/i).fill("5000");
+
+    const table = page.getByRole("table", { name: /capital allocation plan/i });
+    await expect(table).toBeVisible();
+    const allRows = await table.locator("tbody tr").count();
+
+    const zeroRowsBefore = await table
+      .locator("tbody tr td:nth-child(6)")
+      .evaluateAll((cells) => cells.filter((c) => c.textContent?.trim() === "0").length);
+    // Only assert the toggle when we actually have something to hide.
+    test.skip(zeroRowsBefore === 0, "No zero-contract rows at this capital");
+
+    await page.getByLabel(/hide unallocated/i).check();
+    const filteredRows = await table.locator("tbody tr").count();
+    expect(filteredRows).toBeLessThan(allRows);
+    expect(filteredRows).toBe(allRows - zeroRowsBefore);
+  });
+
   test("switching expiration mode re-renders the table", async ({ page }) => {
     await page.goto("/#/plan");
     await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });
