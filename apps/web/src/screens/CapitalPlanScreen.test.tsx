@@ -326,6 +326,38 @@ describe("<CapitalPlanScreen />", () => {
     expect(within(table).getByText("BBB")).toBeInTheDocument();
   });
 
+  it("preserves original ordinal numbers when zero-contract rows are hidden", async () => {
+    // Same fixture as the hide test: AAA=#1, BBB=#2 (hidden), CCC=#3.
+    // When BBB drops out, CCC must still display "3", not get renumbered
+    // to "2". The ordinal anchors a stable visual reference to the
+    // composite ranking; renumbering would imply CCC moved up.
+    const user = userEvent.setup();
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA"), fakeRow("BBB"), fakeRow("CCC")]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 20 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 100 }),
+          CCC: fakeOptionsView("CCC", { monthlyStrike: 30 }),
+        }}
+      />,
+    );
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "5000");
+
+    await user.click(screen.getByLabelText(/hide unallocated/i));
+    const table = screen.getByRole("table", { name: /capital allocation plan/i });
+    const rows = within(table).getAllByRole("row").slice(1);
+    expect(rows).toHaveLength(2);
+    // Ordinal is the first cell; ticker is the second.
+    const ordinals = rows.map((r) => within(r).getAllByRole("cell")[0]!.textContent);
+    const tickers = rows.map((r) => within(r).getAllByRole("cell")[1]!.textContent);
+    expect(ordinals).toEqual(["1", "3"]);
+    expect(tickers).toEqual(["AAA", "CCC"]);
+  });
+
   it("navigates to a stock when its symbol button is clicked", async () => {
     const onSelectStock = vi.fn();
     const user = userEvent.setup();

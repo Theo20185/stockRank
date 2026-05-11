@@ -296,9 +296,14 @@ function PlanTable({
   hideUnallocated: boolean;
   onSelectStock: (symbol: string) => void;
 }) {
+  // Tag each item with its position in the unfiltered plan so the
+  // ordinal column reflects composite rank, not visible-row index.
+  // Hiding zero-contract rows then leaves gaps in the numbering
+  // (e.g. 1, 3, 7) rather than renumbering survivors.
+  const ordered = plan.items.map((item, idx) => ({ item, ordinal: idx + 1 }));
   const visible = hideUnallocated
-    ? plan.items.filter((i) => i.contracts > 0)
-    : plan.items;
+    ? ordered.filter(({ item }) => item.contracts > 0)
+    : ordered;
   return (
     <table className="plan-table" aria-label="Capital allocation plan">
       <thead>
@@ -315,12 +320,12 @@ function PlanTable({
         </tr>
       </thead>
       <tbody>
-        {visible.map((item, idx) => (
+        {visible.map(({ item, ordinal }) => (
           <tr
             key={item.symbol}
             className={item.contracts === 0 ? "plan-table__row--zero" : undefined}
           >
-            <td>{idx + 1}</td>
+            <td>{ordinal}</td>
             <td>
               <button
                 type="button"
