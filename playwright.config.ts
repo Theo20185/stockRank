@@ -18,12 +18,17 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "line" : "list",
   use: {
-    baseURL: "http://127.0.0.1:4173/stockRank/",
+    baseURL: "http://localhost:4173/stockRank/",
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "npm run preview --workspace=@stockrank/web -- --port 4173 --strictPort",
-    url: "http://127.0.0.1:4173/stockRank/",
+    // --host 127.0.0.1 forces IPv4 binding. By default Vite preview binds
+    // to "localhost" which on some Windows configs resolves only to ::1
+    // (IPv6); Playwright then can't reach it via http://127.0.0.1 and
+    // times out waiting for the server. Pinning the host avoids the
+    // dual-stack mismatch.
+    command: "npm run preview --workspace=@stockrank/web -- --port 4173 --strictPort --host 127.0.0.1",
+    url: "http://localhost:4173/stockRank/",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
