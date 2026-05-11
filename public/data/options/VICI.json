@@ -1,6 +1,6 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-05-11T15:55:13.811Z",
+  "fetchedAt": "2026-05-11T16:18:15.287Z",
   "currentPrice": 28.695,
   "expirations": [
     {
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.75772044432824,
+          "anchorPrice": 32.75912260480791,
           "contract": {
             "contractSymbol": "VICI260515P00027500",
             "expiration": "2026-05-15",
@@ -20,7 +20,7 @@
             "bid": 0.05,
             "ask": 0.1,
             "lastPrice": 0.08,
-            "volume": 19,
+            "volume": 24,
             "openInterest": 1949,
             "impliedVolatility": 0.3632876171875,
             "inTheMoney": false
@@ -36,13 +36,45 @@
       ]
     },
     {
+      "expiration": "2026-09-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 32.75912260480791,
+          "contract": {
+            "contractSymbol": "VICI260918P00027500",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 27.5,
+            "bid": 0.8,
+            "ask": 1.05,
+            "lastPrice": 0.9,
+            "volume": 3,
+            "openInterest": 1034,
+            "impliedVolatility": 0.2348709326171875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.02909090909090909,
+          "notAssignedAnnualizedPct": 0.08167832167832167,
+          "effectiveCostBasis": 26.7,
+          "effectiveDiscountPct": 0.0695243073706221,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
       "coveredCalls": [
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 32.75772044432824,
+          "anchorPrice": 32.75912260480791,
           "contract": {
             "contractSymbol": "VICI270115C00035000",
             "expiration": "2027-01-15",
@@ -70,7 +102,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.75772044432824,
+          "anchorPrice": 32.75912260480791,
           "contract": {
             "contractSymbol": "VICI270115P00027500",
             "expiration": "2027-01-15",

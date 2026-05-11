@@ -1,7 +1,7 @@
 {
   "symbol": "ZTS",
-  "fetchedAt": "2026-05-11T15:56:17.089Z",
-  "currentPrice": 77.73,
+  "fetchedAt": "2026-05-11T16:19:17.854Z",
+  "currentPrice": 76.99,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,58 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.48959902302028,
+          "anchorPrice": 117.1962147474972,
           "contract": {
             "contractSymbol": "ZTS260515P00075000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 75,
-            "bid": 0.4,
-            "ask": 0.7,
-            "lastPrice": 0.5,
-            "volume": 591,
+            "bid": 0.45,
+            "ask": 0.75,
+            "lastPrice": 0.69,
+            "volume": 598,
             "openInterest": 521,
-            "impliedVolatility": 0.48633326171875,
+            "impliedVolatility": 0.43555251953125,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.005333333333333334,
-          "notAssignedAnnualizedPct": 0.48666666666666675,
-          "effectiveCostBasis": 74.6,
-          "effectiveDiscountPct": 0.04026759294995509,
+          "notAssignedReturnPct": 0.006,
+          "notAssignedAnnualizedPct": 0.5475,
+          "effectiveCostBasis": 74.55,
+          "effectiveDiscountPct": 0.031692427587998416,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 117.1962147474972,
+          "contract": {
+            "contractSymbol": "ZTS260717P00075000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 75,
+            "bid": 3.4,
+            "ask": 3.9,
+            "lastPrice": 3.6,
+            "volume": 161,
+            "openInterest": 381,
+            "impliedVolatility": 0.3695131408691406,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04533333333333333,
+          "notAssignedAnnualizedPct": 0.2469651741293532,
+          "effectiveCostBasis": 71.6,
+          "effectiveDiscountPct": 0.07000909208988182,
           "inTheMoney": false
         }
       ]
@@ -42,46 +74,46 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 117.48959902302028,
+          "anchorPrice": 117.1962147474972,
           "contract": {
             "contractSymbol": "ZTS270115C00120000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 120,
-            "bid": 1.9,
+            "bid": 1.15,
             "ask": 2.25,
             "lastPrice": 1.75,
             "volume": 23,
             "openInterest": 49,
-            "impliedVolatility": 0.45691461059570315,
+            "impliedVolatility": 0.4647270324707031,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.041913313277960766,
-          "staticAnnualizedPct": 0.06143919416247261,
-          "assignedReturnPct": 0.5857187937874165,
-          "assignedAnnualizedPct": 0.858583774025731,
-          "effectiveCostBasis": 75.83,
-          "effectiveDiscountPct": 0.02444358677473305
+          "staticReturnPct": 0.03240338275563274,
+          "staticAnnualizedPct": 0.047498934561469676,
+          "assignedReturnPct": 0.5910473624932611,
+          "assignedAnnualizedPct": 0.8663947281527723,
+          "effectiveCostBasis": 75.83999999999999,
+          "effectiveDiscountPct": 0.014937004805818938
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.48959902302028,
+          "anchorPrice": 117.1962147474972,
           "contract": {
             "contractSymbol": "ZTS270115P00075000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 75,
             "bid": 8.1,
-            "ask": 9,
-            "lastPrice": 8.5,
-            "volume": 8,
+            "ask": 10.5,
+            "lastPrice": 9,
+            "volume": 9,
             "openInterest": 307,
-            "impliedVolatility": 0.41095559753417965,
+            "impliedVolatility": 0.459966337890625,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -89,7 +121,7 @@
           "notAssignedReturnPct": 0.108,
           "notAssignedAnnualizedPct": 0.15831325301204818,
           "effectiveCostBasis": 66.9,
-          "effectiveDiscountPct": 0.13932844461597835,
+          "effectiveDiscountPct": 0.1310559812962721,
           "inTheMoney": false
         }
       ]

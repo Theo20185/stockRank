@@ -1,7 +1,7 @@
 {
   "symbol": "POOL",
-  "fetchedAt": "2026-05-11T15:56:24.030Z",
-  "currentPrice": 185.55,
+  "fetchedAt": "2026-05-11T16:19:28.543Z",
+  "currentPrice": 186.11,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 293.26054266757757,
+          "anchorPrice": 293.5855792955776,
           "contract": {
             "contractSymbol": "POOL260515P00185000",
             "expiration": "2026-05-15",
@@ -22,7 +22,7 @@
             "lastPrice": 3.91,
             "volume": 13,
             "openInterest": 88,
-            "impliedVolatility": 0.5979044116210939,
+            "impliedVolatility": 0.51758294921875,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -30,7 +30,39 @@
           "notAssignedReturnPct": 0.016216216216216217,
           "notAssignedAnnualizedPct": 1.4797297297297298,
           "effectiveCostBasis": 182,
-          "effectiveDiscountPct": 0.01913230935057942,
+          "effectiveDiscountPct": 0.022083713932620565,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 293.5855792955776,
+          "contract": {
+            "contractSymbol": "POOL260717P00185000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 185,
+            "bid": 11.3,
+            "ask": 12.4,
+            "lastPrice": 11.85,
+            "volume": 21,
+            "openInterest": 15,
+            "impliedVolatility": 0.4057676611328125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06108108108108108,
+          "notAssignedAnnualizedPct": 0.3327551432029044,
+          "effectiveCostBasis": 173.7,
+          "effectiveDiscountPct": 0.0666809951104187,
           "inTheMoney": false
         }
       ]

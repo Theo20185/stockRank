@@ -1,7 +1,7 @@
 {
   "symbol": "SNA",
-  "fetchedAt": "2026-05-11T15:55:19.074Z",
-  "currentPrice": 370.105,
+  "fetchedAt": "2026-05-11T16:18:20.735Z",
+  "currentPrice": 369.9801,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -17,21 +17,80 @@
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 370,
-            "bid": 1.6,
-            "ask": 4.1,
+            "bid": 2.45,
+            "ask": 4.7,
             "lastPrice": 1.15,
             "volume": 84,
             "openInterest": 89,
-            "impliedVolatility": 0.24036404174804685,
-            "inTheMoney": false
+            "impliedVolatility": 0.27149166015625,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.004324324324324324,
-          "notAssignedAnnualizedPct": 0.3945945945945946,
-          "effectiveCostBasis": 368.4,
-          "effectiveDiscountPct": 0.004606800772753788,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.0066216216216216225,
+          "notAssignedAnnualizedPct": 0.604222972972973,
+          "effectiveCostBasis": 367.55,
+          "effectiveDiscountPct": 0.006568191100007762,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 414.34365498274343,
+          "contract": {
+            "contractSymbol": "SNA260918C00420000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 420,
+            "bid": 2.6,
+            "ask": 5.4,
+            "lastPrice": 5.7,
+            "volume": 2,
+            "openInterest": 64,
+            "impliedVolatility": 0.23242955078125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01632253876835871,
+          "staticAnnualizedPct": 0.04582866654193023,
+          "assignedReturnPct": 0.15151872904994415,
+          "assignedAnnualizedPct": 0.42541797002484316,
+          "effectiveCostBasis": 367.38009999999997,
+          "effectiveDiscountPct": 0.007027404987457434
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 414.34365498274343,
+          "contract": {
+            "contractSymbol": "SNA260918P00370000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 370,
+            "bid": 19.8,
+            "ask": 21.3,
+            "lastPrice": 19.7,
+            "volume": 2,
+            "openInterest": 13,
+            "impliedVolatility": 0.2410506803894043,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.053513513513513515,
+          "notAssignedAnnualizedPct": 0.15024948024948023,
+          "effectiveCostBasis": 350.2,
+          "effectiveDiscountPct": 0.0534626051509257,
+          "inTheMoney": true
         }
       ]
     }

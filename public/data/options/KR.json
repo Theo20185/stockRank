@@ -1,7 +1,7 @@
 {
   "symbol": "KR",
-  "fetchedAt": "2026-05-11T15:56:36.449Z",
-  "currentPrice": 64.62,
+  "fetchedAt": "2026-05-11T16:19:41.367Z",
+  "currentPrice": 64.635,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -10,13 +10,13 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 67.62600885312978,
+          "anchorPrice": 67.55886078312977,
           "contract": {
             "contractSymbol": "KR260515C00068000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 68,
-            "bid": 0.05,
+            "bid": 0.04,
             "ask": 0.1,
             "lastPrice": 0.1,
             "volume": 13,
@@ -26,38 +26,97 @@
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0010071424402487716,
-          "staticAnnualizedPct": 0.09190174767270042,
-          "assignedReturnPct": 0.053312930122080944,
-          "assignedAnnualizedPct": 4.864804873639886,
-          "effectiveCostBasis": 64.57000000000001,
-          "effectiveDiscountPct": 0.0007737542556484061
+          "staticReturnPct": 0.0008523024765436258,
+          "staticAnnualizedPct": 0.07777260098460585,
+          "assignedReturnPct": 0.05291387902175898,
+          "assignedAnnualizedPct": 4.828391460735507,
+          "effectiveCostBasis": 64.595,
+          "effectiveDiscountPct": 0.0006188597509089502
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 67.62600885312978,
+          "anchorPrice": 67.55886078312977,
           "contract": {
             "contractSymbol": "KR260515P00065000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 65,
-            "bid": 1.01,
-            "ask": 1.1,
-            "lastPrice": 0.9,
-            "volume": 21,
+            "bid": 1.06,
+            "ask": 1.34,
+            "lastPrice": 1.16,
+            "volume": 47,
             "openInterest": 1945,
-            "impliedVolatility": 0.2963937548828125,
+            "impliedVolatility": 0.3794007373046875,
             "inTheMoney": true
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01553846153846154,
-          "notAssignedAnnualizedPct": 1.4178846153846154,
-          "effectiveCostBasis": 63.99,
-          "effectiveDiscountPct": 0.009749303621169955,
+          "notAssignedReturnPct": 0.016307692307692308,
+          "notAssignedAnnualizedPct": 1.488076923076923,
+          "effectiveCostBasis": 63.94,
+          "effectiveDiscountPct": 0.010752688172043124,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 67.55886078312977,
+          "contract": {
+            "contractSymbol": "KR260717C00070000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 70,
+            "bid": 1.36,
+            "ask": 1.58,
+            "lastPrice": 1.5,
+            "volume": 98,
+            "openInterest": 1275,
+            "impliedVolatility": 0.3154365332031249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.024951397185285124,
+          "staticAnnualizedPct": 0.13592925332282194,
+          "assignedReturnPct": 0.10795596127594799,
+          "assignedAnnualizedPct": 0.5881182965032987,
+          "effectiveCostBasis": 63.275000000000006,
+          "effectiveDiscountPct": 0.021041231530904307
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.55886078312977,
+          "contract": {
+            "contractSymbol": "KR260717P00065000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 65,
+            "bid": 3.4,
+            "ask": 3.55,
+            "lastPrice": 3.25,
+            "volume": 14,
+            "openInterest": 570,
+            "impliedVolatility": 0.301764794921875,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.052307692307692305,
+          "notAssignedAnnualizedPct": 0.28495981630309986,
+          "effectiveCostBasis": 61.6,
+          "effectiveDiscountPct": 0.046955983600216654,
           "inTheMoney": true
         }
       ]
@@ -69,7 +128,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 67.62600885312978,
+          "anchorPrice": 67.55886078312977,
           "contract": {
             "contractSymbol": "KR270115C00070000",
             "expiration": "2027-01-15",
@@ -80,24 +139,24 @@
             "lastPrice": 4.62,
             "volume": 2,
             "openInterest": 772,
-            "impliedVolatility": 0.3237372314453124,
+            "impliedVolatility": 0.32343205871582026,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08029752622148727,
-          "staticAnnualizedPct": 0.11770520911985081,
-          "assignedReturnPct": 0.1635534841292557,
-          "assignedAnnualizedPct": 0.23974707512923024,
-          "effectiveCostBasis": 60.370000000000005,
-          "effectiveDiscountPct": 0.06576911173011452
+          "staticReturnPct": 0.08028565820483452,
+          "staticAnnualizedPct": 0.11768781222797028,
+          "assignedReturnPct": 0.1632902222954974,
+          "assignedAnnualizedPct": 0.23936116922833955,
+          "effectiveCostBasis": 60.385000000000005,
+          "effectiveDiscountPct": 0.06575384853407595
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 67.62600885312978,
+          "anchorPrice": 67.55886078312977,
           "contract": {
             "contractSymbol": "KR270115P00065000",
             "expiration": "2027-01-15",
@@ -108,7 +167,7 @@
             "lastPrice": 5.05,
             "volume": 57,
             "openInterest": 444,
-            "impliedVolatility": 0.33100034240722653,
+            "impliedVolatility": 0.33130551513671874,
             "inTheMoney": true
           },
           "snapWarning": false,
@@ -116,7 +175,7 @@
           "notAssignedReturnPct": 0.09,
           "notAssignedAnnualizedPct": 0.13192771084337349,
           "effectiveCostBasis": 59.15,
-          "effectiveDiscountPct": 0.08464871556793571,
+          "effectiveDiscountPct": 0.0848611433433899,
           "inTheMoney": true
         }
       ]

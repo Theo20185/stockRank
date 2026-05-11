@@ -1,7 +1,7 @@
 {
   "symbol": "TGT",
-  "fetchedAt": "2026-05-11T15:56:01.211Z",
-  "currentPrice": 117.995,
+  "fetchedAt": "2026-05-11T16:19:06.956Z",
+  "currentPrice": 118.87,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,24 +13,83 @@
           "anchor": "p25",
           "anchorPrice": 148.67942157620408,
           "contract": {
-            "contractSymbol": "TGT260515P00118000",
+            "contractSymbol": "TGT260515P00119000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
-            "strike": 118,
-            "bid": 1.83,
-            "ask": 2.01,
-            "lastPrice": 1.94,
-            "volume": 503,
-            "openInterest": 245,
-            "impliedVolatility": 0.36426416992187505,
+            "strike": 119,
+            "bid": 2.95,
+            "ask": 3.7,
+            "lastPrice": 2.89,
+            "volume": 124,
+            "openInterest": 222,
+            "impliedVolatility": 0.586918193359375,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015508474576271187,
-          "notAssignedAnnualizedPct": 1.4151483050847458,
-          "effectiveCostBasis": 116.17,
-          "effectiveDiscountPct": 0.015466757065977395,
+          "notAssignedReturnPct": 0.024789915966386557,
+          "notAssignedAnnualizedPct": 2.2620798319327733,
+          "effectiveCostBasis": 116.05,
+          "effectiveDiscountPct": 0.02372339530579631,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 148.67942157620408,
+          "contract": {
+            "contractSymbol": "TGT260717C00150000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 150,
+            "bid": 0.41,
+            "ask": 1.09,
+            "lastPrice": 1.23,
+            "volume": 82,
+            "openInterest": 1884,
+            "impliedVolatility": 0.415044912109375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.010140345606055192,
+          "staticAnnualizedPct": 0.05524218128671859,
+          "assignedReturnPct": 0.2720230746377704,
+          "assignedAnnualizedPct": 1.4819167498923314,
+          "effectiveCostBasis": 118.46000000000001,
+          "effectiveDiscountPct": 0.0034491461260200214
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 148.67942157620408,
+          "contract": {
+            "contractSymbol": "TGT260717P00120000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 120,
+            "bid": 8.7,
+            "ask": 8.9,
+            "lastPrice": 8.2,
+            "volume": 36,
+            "openInterest": 1370,
+            "impliedVolatility": 0.405279384765625,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0725,
+          "notAssignedAnnualizedPct": 0.39496268656716416,
+          "effectiveCostBasis": 111.3,
+          "effectiveDiscountPct": 0.0636830150584673,
           "inTheMoney": true
         }
       ]
@@ -48,22 +107,22 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 150,
-            "bid": 4.35,
+            "bid": 4.2,
             "ask": 4.85,
             "lastPrice": 4.6,
-            "volume": 27,
+            "volume": 37,
             "openInterest": 2672,
-            "impliedVolatility": 0.36511865356445317,
+            "impliedVolatility": 0.3579165771484375,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.06172670732762649,
-          "staticAnnualizedPct": 0.09048292439591835,
-          "assignedReturnPct": 0.3329670141202872,
-          "assignedAnnualizedPct": 0.48808417732491893,
-          "effectiveCostBasis": 113.64500000000001,
-          "effectiveDiscountPct": 0.03686596889698716
+          "staticReturnPct": 0.06020001000286948,
+          "staticAnnualizedPct": 0.08824499458251953,
+          "assignedReturnPct": 0.32208273903458473,
+          "assignedAnnualizedPct": 0.4721293162555158,
+          "effectiveCostBasis": 114.67,
+          "effectiveDiscountPct": 0.03533271641288803
         }
       ],
       "puts": [
@@ -72,25 +131,25 @@
           "anchor": "p25",
           "anchorPrice": 148.67942157620408,
           "contract": {
-            "contractSymbol": "TGT270115P00115000",
+            "contractSymbol": "TGT270115P00120000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
-            "strike": 115,
-            "bid": 12.2,
-            "ask": 12.7,
-            "lastPrice": 12.55,
-            "volume": 24,
-            "openInterest": 1429,
-            "impliedVolatility": 0.36939107177734376,
-            "inTheMoney": false
+            "strike": 120,
+            "bid": 14.6,
+            "ask": 15.55,
+            "lastPrice": 14.94,
+            "volume": 16,
+            "openInterest": 1978,
+            "impliedVolatility": 0.3815369464111328,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.10608695652173912,
-          "notAssignedAnnualizedPct": 0.15550899249170594,
-          "effectiveCostBasis": 102.8,
-          "effectiveDiscountPct": 0.12877664307809658,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.12166666666666666,
+          "notAssignedAnnualizedPct": 0.1783467202141901,
+          "effectiveCostBasis": 105.4,
+          "effectiveDiscountPct": 0.11331706906704803,
+          "inTheMoney": true
         }
       ]
     }

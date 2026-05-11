@@ -1,7 +1,7 @@
 {
   "symbol": "AMP",
-  "fetchedAt": "2026-05-11T15:56:06.570Z",
-  "currentPrice": 463.28,
+  "fetchedAt": "2026-05-11T16:19:10.616Z",
+  "currentPrice": 463.695,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -10,46 +10,46 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 471.95223148442483,
+          "anchorPrice": 472.03823390242485,
           "contract": {
             "contractSymbol": "AMP260515C00480000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 480,
             "bid": 0.55,
-            "ask": 3,
+            "ask": 2.85,
             "lastPrice": 0.85,
             "volume": 3,
             "openInterest": 456,
-            "impliedVolatility": 0.40845318115234375,
+            "impliedVolatility": 0.3936828210449219,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0013471403902607496,
-          "staticAnnualizedPct": 0.12292656061129341,
-          "assignedReturnPct": 0.037437625625971395,
-          "assignedAnnualizedPct": 3.4161833383698896,
-          "effectiveCostBasis": 462.72999999999996,
-          "effectiveDiscountPct": 0.0011871870143325852
+          "staticReturnPct": 0.0013458501816927078,
+          "staticAnnualizedPct": 0.12280882907945959,
+          "assignedReturnPct": 0.036509050129934564,
+          "assignedAnnualizedPct": 3.331450824356529,
+          "effectiveCostBasis": 463.145,
+          "effectiveDiscountPct": 0.0011861244999406939
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 471.95223148442483,
+          "anchorPrice": 472.03823390242485,
           "contract": {
             "contractSymbol": "AMP260515P00460000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 460,
             "bid": 3,
-            "ask": 6.4,
+            "ask": 6.3,
             "lastPrice": 8.89,
             "volume": 4,
             "openInterest": 29,
-            "impliedVolatility": 0.36804831176757813,
+            "impliedVolatility": 0.3715883154296875,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -57,7 +57,66 @@
           "notAssignedReturnPct": 0.006521739130434782,
           "notAssignedAnnualizedPct": 0.5951086956521738,
           "effectiveCostBasis": 457,
-          "effectiveDiscountPct": 0.013555517181833822,
+          "effectiveDiscountPct": 0.014438370049278067,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 472.03823390242485,
+          "contract": {
+            "contractSymbol": "AMP260918C00480000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 480,
+            "bid": 25.6,
+            "ask": 27.8,
+            "lastPrice": 27.5,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.3139411868286133,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06039978865418002,
+          "staticAnnualizedPct": 0.16958402199058234,
+          "assignedReturnPct": 0.09556298860242188,
+          "assignedAnnualizedPct": 0.26831146799910754,
+          "effectiveCostBasis": 438.09499999999997,
+          "effectiveDiscountPct": 0.05520870399723957
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 472.03823390242485,
+          "contract": {
+            "contractSymbol": "AMP260918P00460000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 460,
+            "bid": 27.8,
+            "ask": 30.8,
+            "lastPrice": 29.7,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.2959359957885742,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.060434782608695656,
+          "notAssignedAnnualizedPct": 0.16968227424749163,
+          "effectiveCostBasis": 432.2,
+          "effectiveDiscountPct": 0.06792180204660392,
           "inTheMoney": false
         }
       ]

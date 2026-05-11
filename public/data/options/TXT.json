@@ -1,7 +1,7 @@
 {
   "symbol": "TXT",
-  "fetchedAt": "2026-05-11T15:55:31.202Z",
-  "currentPrice": 91.57,
+  "fetchedAt": "2026-05-11T16:18:35.374Z",
+  "currentPrice": 91.6075,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,85 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 97.66143786544134,
+          "anchorPrice": 97.66144182577644,
           "contract": {
             "contractSymbol": "TXT260515P00092500",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 92.5,
-            "bid": 1.45,
-            "ask": 2.6,
+            "bid": 1.55,
+            "ask": 2.3,
             "lastPrice": 3.01,
             "volume": 2,
             "openInterest": 19,
-            "impliedVolatility": 0.4892629199218751,
+            "impliedVolatility": 0.4233456103515625,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015675675675675675,
-          "notAssignedAnnualizedPct": 1.4304054054054054,
-          "effectiveCostBasis": 91.05,
-          "effectiveDiscountPct": 0.005678715736594912,
+          "notAssignedReturnPct": 0.016756756756756756,
+          "notAssignedAnnualizedPct": 1.529054054054054,
+          "effectiveCostBasis": 90.95,
+          "effectiveDiscountPct": 0.0071773599323199395,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 97.66144182577644,
+          "contract": {
+            "contractSymbol": "TXT260821C00100000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 100,
+            "bid": 2.35,
+            "ask": 3.6,
+            "lastPrice": 3.3,
+            "volume": 5,
+            "openInterest": 240,
+            "impliedVolatility": 0.3460148406982422,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.025904380245641106,
+          "staticAnnualizedPct": 0.09269704695744121,
+          "assignedReturnPct": 0.11751805816502542,
+          "assignedAnnualizedPct": 0.42053030617876747,
+          "effectiveCostBasis": 89.25750000000001,
+          "effectiveDiscountPct": 0.025652921431105532
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 97.66144182577644,
+          "contract": {
+            "contractSymbol": "TXT260821P00092500",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 92.5,
+            "bid": 5,
+            "ask": 6.4,
+            "lastPrice": 6,
+            "volume": 1,
+            "openInterest": 8,
+            "impliedVolatility": 0.3050606604003906,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05405405405405406,
+          "notAssignedAnnualizedPct": 0.19342872284048757,
+          "effectiveCostBasis": 87.5,
+          "effectiveDiscountPct": 0.04483803182053873,
           "inTheMoney": true
         }
       ]

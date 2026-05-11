@@ -1,7 +1,7 @@
 {
   "symbol": "ALLE",
-  "fetchedAt": "2026-05-11T15:56:20.618Z",
-  "currentPrice": 132.8,
+  "fetchedAt": "2026-05-11T16:19:25.029Z",
+  "currentPrice": 132.84,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -22,7 +22,7 @@
             "lastPrice": 1.6,
             "volume": 1,
             "openInterest": 32,
-            "impliedVolatility": 0.3627993408203125,
+            "impliedVolatility": 0.36499658447265626,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -30,7 +30,66 @@
           "notAssignedReturnPct": 0.0007692307692307692,
           "notAssignedAnnualizedPct": 0.07019230769230769,
           "effectiveCostBasis": 129.9,
-          "effectiveDiscountPct": 0.021837349397590404,
+          "effectiveDiscountPct": 0.022131887985546505,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 155.3440695864577,
+          "contract": {
+            "contractSymbol": "ALLE260918C00160000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 160,
+            "bid": 0.45,
+            "ask": 3.3,
+            "lastPrice": 5,
+            "volume": 1,
+            "openInterest": 455,
+            "impliedVolatility": 0.3570620935058594,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.009007306291754833,
+          "staticAnnualizedPct": 0.02528974458838857,
+          "assignedReturnPct": 0.21346379530108936,
+          "assignedAnnualizedPct": 0.599340656037674,
+          "effectiveCostBasis": 132.39000000000001,
+          "effectiveDiscountPct": 0.003387533875338753
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 155.3440695864577,
+          "contract": {
+            "contractSymbol": "ALLE260918P00130000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 130,
+            "bid": 5.1,
+            "ask": 8.2,
+            "lastPrice": 4.83,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.30463341857910153,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03923076923076923,
+          "notAssignedAnnualizedPct": 0.11014792899408282,
+          "effectiveCostBasis": 124.9,
+          "effectiveDiscountPct": 0.059771153267088206,
           "inTheMoney": false
         }
       ]

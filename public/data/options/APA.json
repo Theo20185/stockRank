@@ -1,7 +1,7 @@
 {
   "symbol": "APA",
-  "fetchedAt": "2026-05-11T15:55:45.314Z",
-  "currentPrice": 36.69,
+  "fetchedAt": "2026-05-11T16:18:48.178Z",
+  "currentPrice": 36.86,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -21,17 +21,17 @@
             "lastPrice": 0.15,
             "volume": 88,
             "openInterest": 213,
-            "impliedVolatility": 0.5566450585937501,
+            "impliedVolatility": 0.53320779296875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0035785491812751783,
-          "staticAnnualizedPct": 0.32654261279136004,
-          "assignedReturnPct": 0.08016617523742134,
-          "assignedAnnualizedPct": 7.315163490414697,
-          "effectiveCostBasis": 36.57,
-          "effectiveDiscountPct": 0.003270645952575634
+          "staticReturnPct": 0.0035630472838938895,
+          "staticAnnualizedPct": 0.3251280646553174,
+          "assignedReturnPct": 0.0751854021401066,
+          "assignedAnnualizedPct": 6.860667945284728,
+          "effectiveCostBasis": 36.74,
+          "effectiveDiscountPct": 0.0032555615843733042
         }
       ],
       "puts": [
@@ -40,25 +40,84 @@
           "anchor": "p25",
           "anchorPrice": 39.21979501250273,
           "contract": {
-            "contractSymbol": "APA260515P00036500",
+            "contractSymbol": "APA260515P00037000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
-            "strike": 36.5,
-            "bid": 0.81,
-            "ask": 0.88,
-            "lastPrice": 0.95,
-            "volume": 2,
-            "openInterest": 80,
-            "impliedVolatility": 0.5488326367187502,
-            "inTheMoney": false
+            "strike": 37,
+            "bid": 0.99,
+            "ask": 1.13,
+            "lastPrice": 1.13,
+            "volume": 5,
+            "openInterest": 356,
+            "impliedVolatility": 0.5732464550781251,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.02219178082191781,
-          "notAssignedAnnualizedPct": 2.025,
-          "effectiveCostBasis": 35.69,
-          "effectiveDiscountPct": 0.027255382938130283,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.026756756756756758,
+          "notAssignedAnnualizedPct": 2.441554054054054,
+          "effectiveCostBasis": 36.01,
+          "effectiveDiscountPct": 0.023060227889310943,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.21979501250273,
+          "contract": {
+            "contractSymbol": "APA260717C00040000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 40,
+            "bid": 1.85,
+            "ask": 1.9,
+            "lastPrice": 1.81,
+            "volume": 18,
+            "openInterest": 2008,
+            "impliedVolatility": 0.4892629199218751,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.055340293226058254,
+          "staticAnnualizedPct": 0.3014807019031532,
+          "assignedReturnPct": 0.14052748801715972,
+          "assignedAnnualizedPct": 0.7655601959143776,
+          "effectiveCostBasis": 35.01,
+          "effectiveDiscountPct": 0.050189907759088444
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.21979501250273,
+          "contract": {
+            "contractSymbol": "APA260717P00037500",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 37.5,
+            "bid": 3.3,
+            "ask": 3.4,
+            "lastPrice": 3.42,
+            "volume": 13,
+            "openInterest": 2907,
+            "impliedVolatility": 0.4804739453125,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.088,
+          "notAssignedAnnualizedPct": 0.4794029850746268,
+          "effectiveCostBasis": 34.2,
+          "effectiveDiscountPct": 0.07216494845360816,
+          "inTheMoney": true
         }
       ]
     },
@@ -80,17 +139,17 @@
             "lastPrice": 4.65,
             "volume": 1,
             "openInterest": 3202,
-            "impliedVolatility": 0.5192919165039063,
+            "impliedVolatility": 0.5122119091796875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.13909066091431993,
-          "staticAnnualizedPct": 0.20388791660131236,
-          "assignedReturnPct": 0.22930597843953124,
-          "assignedAnnualizedPct": 0.33613125353585904,
-          "effectiveCostBasis": 32.29,
-          "effectiveDiscountPct": 0.11992368492777325
+          "staticReturnPct": 0.1385115762221776,
+          "staticAnnualizedPct": 0.20303905751443704,
+          "assignedReturnPct": 0.2236987710132791,
+          "assignedAnnualizedPct": 0.32791185309175447,
+          "effectiveCostBasis": 32.46,
+          "effectiveDiscountPct": 0.11937059142702117
         }
       ],
       "puts": [
@@ -108,7 +167,7 @@
             "lastPrice": 6.35,
             "volume": 3,
             "openInterest": 85,
-            "impliedVolatility": 0.5090381127929688,
+            "impliedVolatility": 0.5151415673828125,
             "inTheMoney": true
           },
           "snapWarning": false,
@@ -116,7 +175,7 @@
           "notAssignedReturnPct": 0.16,
           "notAssignedAnnualizedPct": 0.23453815261044178,
           "effectiveCostBasis": 31.5,
-          "effectiveDiscountPct": 0.1414554374488961,
+          "effectiveDiscountPct": 0.1454150841020076,
           "inTheMoney": true
         }
       ]

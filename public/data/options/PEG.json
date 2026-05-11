@@ -1,7 +1,7 @@
 {
   "symbol": "PEG",
-  "fetchedAt": "2026-05-11T15:56:22.298Z",
-  "currentPrice": 77.61,
+  "fetchedAt": "2026-05-11T16:19:26.747Z",
+  "currentPrice": 77.53,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,85 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 82.58002303145412,
+          "anchorPrice": 82.62137213145411,
           "contract": {
             "contractSymbol": "PEG260515P00077500",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 77.5,
-            "bid": 0.8,
-            "ask": 1.05,
+            "bid": 0.6,
+            "ask": 0.9,
             "lastPrice": 1.05,
             "volume": 13,
             "openInterest": 269,
-            "impliedVolatility": 0.304694453125,
+            "impliedVolatility": 0.252937158203125,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01032258064516129,
-          "notAssignedAnnualizedPct": 0.9419354838709677,
-          "effectiveCostBasis": 76.7,
-          "effectiveDiscountPct": 0.011725293132328264,
+          "notAssignedReturnPct": 0.007741935483870968,
+          "notAssignedAnnualizedPct": 0.7064516129032258,
+          "effectiveCostBasis": 76.9,
+          "effectiveDiscountPct": 0.00812588675351471,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 82.62137213145411,
+          "contract": {
+            "contractSymbol": "PEG260821C00085000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 85,
+            "bid": 0.95,
+            "ask": 1.25,
+            "lastPrice": 1.37,
+            "volume": 2,
+            "openInterest": 58,
+            "impliedVolatility": 0.22657023437499998,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02196156425528607,
+          "staticAnnualizedPct": 0.07858795052136681,
+          "assignedReturnPct": 0.11831136433267546,
+          "assignedAnnualizedPct": 0.423369097857123,
+          "effectiveCostBasis": 76.58,
+          "effectiveDiscountPct": 0.012253321294982586
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 82.62137213145411,
+          "contract": {
+            "contractSymbol": "PEG260821P00077500",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 77.5,
+            "bid": 3.3,
+            "ask": 3.8,
+            "lastPrice": 3.79,
+            "volume": 5,
+            "openInterest": 33,
+            "impliedVolatility": 0.23242955078125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04258064516129032,
+          "notAssignedAnnualizedPct": 0.1523719165085389,
+          "effectiveCostBasis": 74.2,
+          "effectiveDiscountPct": 0.04295111569714947,
           "inTheMoney": false
         }
       ]
@@ -42,7 +101,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 82.58002303145412,
+          "anchorPrice": 82.62137213145411,
           "contract": {
             "contractSymbol": "PEG270115C00085000",
             "expiration": "2027-01-15",
@@ -53,24 +112,24 @@
             "lastPrice": 3.3,
             "volume": 22,
             "openInterest": 47,
-            "impliedVolatility": 0.27295648925781246,
+            "impliedVolatility": 0.27417718017578124,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.054595904813847955,
-          "staticAnnualizedPct": 0.0800301415945964,
-          "assignedReturnPct": 0.14981559299836025,
-          "assignedAnnualizedPct": 0.2196092025879578,
-          "effectiveCostBasis": 75.21,
-          "effectiveDiscountPct": 0.030923850019327407
+          "staticReturnPct": 0.05465529334645537,
+          "staticAnnualizedPct": 0.08011719707412134,
+          "assignedReturnPct": 0.15100509342384474,
+          "assignedAnnualizedPct": 0.22135284778997322,
+          "effectiveCostBasis": 75.13,
+          "effectiveDiscountPct": 0.030955759061008642
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 82.58002303145412,
+          "anchorPrice": 82.62137213145411,
           "contract": {
             "contractSymbol": "PEG270115P00077500",
             "expiration": "2027-01-15",
@@ -81,7 +140,7 @@
             "lastPrice": 6.1,
             "volume": 52,
             "openInterest": 55,
-            "impliedVolatility": 0.26050544189453123,
+            "impliedVolatility": 0.2590406127929688,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -89,7 +148,7 @@
           "notAssignedReturnPct": 0.06580645161290322,
           "notAssignedAnnualizedPct": 0.09646327244461717,
           "effectiveCostBasis": 72.4,
-          "effectiveDiscountPct": 0.0671305244169565,
+          "effectiveDiscountPct": 0.06616793499290591,
           "inTheMoney": false
         }
       ]

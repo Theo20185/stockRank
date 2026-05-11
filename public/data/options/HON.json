@@ -1,7 +1,7 @@
 {
   "symbol": "HON",
-  "fetchedAt": "2026-05-11T15:57:06.061Z",
-  "currentPrice": 219.32,
+  "fetchedAt": "2026-05-11T16:20:12.668Z",
+  "currentPrice": 219.98,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -21,17 +21,17 @@
             "lastPrice": 0.4,
             "volume": 31,
             "openInterest": 65,
-            "impliedVolatility": 0.31592480957031244,
+            "impliedVolatility": 0.2985909985351562,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0016123927257101027,
-          "staticAnnualizedPct": 0.14713083622104686,
-          "assignedReturnPct": 0.03890949285337747,
-          "assignedAnnualizedPct": 3.550491222870694,
-          "effectiveCostBasis": 219.01999999999998,
-          "effectiveDiscountPct": 0.0013678643078606602
+          "staticReturnPct": 0.0016079605991578313,
+          "staticAnnualizedPct": 0.1467264046731521,
+          "assignedReturnPct": 0.03579288650151264,
+          "assignedAnnualizedPct": 3.266100893263028,
+          "effectiveCostBasis": 219.67999999999998,
+          "effectiveDiscountPct": 0.001363760341849259
         }
       ],
       "puts": [
@@ -44,20 +44,79 @@
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 220,
-            "bid": 3.4,
-            "ask": 4.7,
+            "bid": 3.5,
+            "ask": 4.1,
             "lastPrice": 3.75,
             "volume": 116,
             "openInterest": 509,
-            "impliedVolatility": 0.4243221630859375,
+            "impliedVolatility": 0.39819937744140627,
             "inTheMoney": true
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015454545454545453,
-          "notAssignedAnnualizedPct": 1.4102272727272727,
-          "effectiveCostBasis": 216.6,
-          "effectiveDiscountPct": 0.012401969724603315,
+          "notAssignedReturnPct": 0.015909090909090907,
+          "notAssignedAnnualizedPct": 1.4517045454545454,
+          "effectiveCostBasis": 216.5,
+          "effectiveDiscountPct": 0.015819619965451358,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 227.2663505943579,
+          "contract": {
+            "contractSymbol": "HON260717C00230000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 230,
+            "bid": 6.1,
+            "ask": 6.5,
+            "lastPrice": 6.4,
+            "volume": 1199,
+            "openInterest": 2326,
+            "impliedVolatility": 0.278327529296875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.031820147927520186,
+          "staticAnnualizedPct": 0.17334856706783386,
+          "assignedReturnPct": 0.0773697433452855,
+          "assignedAnnualizedPct": 0.42149188538849564,
+          "effectiveCostBasis": 213.88,
+          "effectiveDiscountPct": 0.0277297936176016
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 227.2663505943579,
+          "contract": {
+            "contractSymbol": "HON260717P00220000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 220,
+            "bid": 10.5,
+            "ask": 10.8,
+            "lastPrice": 10.6,
+            "volume": 39,
+            "openInterest": 646,
+            "impliedVolatility": 0.28507184661865226,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04772727272727273,
+          "notAssignedAnnualizedPct": 0.2600067842605156,
+          "effectiveCostBasis": 209.5,
+          "effectiveDiscountPct": 0.04764069460860074,
           "inTheMoney": true
         }
       ]
@@ -75,22 +134,22 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 230,
-            "bid": 15.8,
-            "ask": 16.4,
+            "bid": 16,
+            "ask": 16.8,
             "lastPrice": 15.5,
             "volume": 4,
             "openInterest": 668,
-            "impliedVolatility": 0.28803202209472645,
+            "impliedVolatility": 0.2892527130126953,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.08726274755845591,
-          "staticAnnualizedPct": 0.1279152725254474,
-          "assignedReturnPct": 0.13595871691829545,
-          "assignedAnnualizedPct": 0.19929691435814392,
-          "effectiveCostBasis": 203.51999999999998,
-          "effectiveDiscountPct": 0.07204085354732812
+          "staticReturnPct": 0.08793535091608577,
+          "staticAnnualizedPct": 0.12890121720631048,
+          "assignedReturnPct": 0.13348494633385108,
+          "assignedAnnualizedPct": 0.1956707044652837,
+          "effectiveCostBasis": 203.98,
+          "effectiveDiscountPct": 0.07273388489862716
         }
       ],
       "puts": [
@@ -108,7 +167,7 @@
             "lastPrice": 20.6,
             "volume": 1,
             "openInterest": 119,
-            "impliedVolatility": 0.2786937365722656,
+            "impliedVolatility": 0.28285934432983395,
             "inTheMoney": true
           },
           "snapWarning": false,
@@ -116,7 +175,7 @@
           "notAssignedReturnPct": 0.08636363636363636,
           "notAssignedAnnualizedPct": 0.12659729828404528,
           "effectiveCostBasis": 201,
-          "effectiveDiscountPct": 0.08353091373335762,
+          "effectiveDiscountPct": 0.08628057096099641,
           "inTheMoney": true
         }
       ]

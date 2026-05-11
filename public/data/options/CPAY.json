@@ -1,7 +1,7 @@
 {
   "symbol": "CPAY",
-  "fetchedAt": "2026-05-11T15:56:41.672Z",
-  "currentPrice": 335.16,
+  "fetchedAt": "2026-05-11T16:19:46.722Z",
+  "currentPrice": 334.99,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -18,11 +18,11 @@
             "daysToExpiry": 4,
             "strike": 330,
             "bid": 2.8,
-            "ask": 5.8,
+            "ask": 5.2,
             "lastPrice": 3,
             "volume": 14,
             "openInterest": 16,
-            "impliedVolatility": 0.5230760583496092,
+            "impliedVolatility": 0.47864290893554684,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -30,7 +30,39 @@
           "notAssignedReturnPct": 0.008484848484848484,
           "notAssignedAnnualizedPct": 0.7742424242424242,
           "effectiveCostBasis": 327.2,
-          "effectiveDiscountPct": 0.023749850817520096,
+          "effectiveDiscountPct": 0.023254425505239023,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 473.8329022384592,
+          "contract": {
+            "contractSymbol": "CPAY260821P00330000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 330,
+            "bid": 18.9,
+            "ask": 27,
+            "lastPrice": 30.5,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.41855439849853515,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05727272727272727,
+          "notAssignedAnnualizedPct": 0.2049465240641711,
+          "effectiveCostBasis": 311.1,
+          "effectiveDiscountPct": 0.07131556165855693,
           "inTheMoney": false
         }
       ]
@@ -54,7 +86,7 @@
             "lastPrice": 42.34,
             "volume": 1,
             "openInterest": 0,
-            "impliedVolatility": 0.47401954208374025,
+            "impliedVolatility": 0.47330238616943365,
             "inTheMoney": true
           },
           "snapWarning": true,
@@ -62,7 +94,7 @@
           "notAssignedReturnPct": 0.1457142857142857,
           "notAssignedAnnualizedPct": 0.2135972461273666,
           "effectiveCostBasis": 299,
-          "effectiveDiscountPct": 0.10788876954290495,
+          "effectiveDiscountPct": 0.10743604286695127,
           "inTheMoney": true
         }
       ]

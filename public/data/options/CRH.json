@@ -1,7 +1,7 @@
 {
   "symbol": "CRH",
-  "fetchedAt": "2026-05-11T15:56:32.885Z",
-  "currentPrice": 113.0425,
+  "fetchedAt": "2026-05-11T16:19:37.568Z",
+  "currentPrice": 113.02,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -10,55 +10,114 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 115.7511504,
+          "anchorPrice": 115.73433556,
           "contract": {
             "contractSymbol": "CRH260515C00116000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 116,
-            "bid": 0.3,
-            "ask": 1.25,
+            "bid": 0.1,
+            "ask": 1.3,
             "lastPrice": 1.22,
             "volume": 1,
             "openInterest": 8,
-            "impliedVolatility": 0.45825737060546884,
+            "impliedVolatility": 0.47022014160156256,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.002804069193275289,
-          "staticAnnualizedPct": 0.25587131388637013,
-          "assignedReturnPct": 0.028966795601484553,
-          "assignedAnnualizedPct": 2.6432200986354655,
-          "effectiveCostBasis": 112.7425,
-          "effectiveDiscountPct": 0.002653869120021231
+          "staticReturnPct": 0.0010349627051097759,
+          "staticAnnualizedPct": 0.09444034684126705,
+          "assignedReturnPct": 0.027401977392775712,
+          "assignedAnnualizedPct": 2.5004304370907837,
+          "effectiveCostBasis": 112.92,
+          "effectiveDiscountPct": 0.0008847991505928155
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 115.7511504,
+          "anchorPrice": 115.73433556,
           "contract": {
             "contractSymbol": "CRH260515P00113000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 113,
-            "bid": 1.35,
-            "ask": 2.55,
+            "bid": 1.4,
+            "ask": 2.5,
             "lastPrice": 1.72,
             "volume": 11,
             "openInterest": 37,
-            "impliedVolatility": 0.48730981445312505,
+            "impliedVolatility": 0.47559118164062497,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.011946902654867258,
-          "notAssignedAnnualizedPct": 1.0901548672566372,
-          "effectiveCostBasis": 111.65,
-          "effectiveDiscountPct": 0.012318375832098532,
+          "notAssignedReturnPct": 0.012389380530973451,
+          "notAssignedAnnualizedPct": 1.1305309734513274,
+          "effectiveCostBasis": 111.6,
+          "effectiveDiscountPct": 0.012564147938417994,
           "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-09-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 115.73433556,
+          "contract": {
+            "contractSymbol": "CRH260918C00120000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 120,
+            "bid": 6.7,
+            "ask": 7,
+            "lastPrice": 6.75,
+            "volume": 45,
+            "openInterest": 166,
+            "impliedVolatility": 0.36377589355468753,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06416185861151985,
+          "staticAnnualizedPct": 0.18014675687080572,
+          "assignedReturnPct": 0.12592083932289838,
+          "assignedAnnualizedPct": 0.3535469719450608,
+          "effectiveCostBasis": 106.32,
+          "effectiveDiscountPct": 0.059281543089718634
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 115.73433556,
+          "contract": {
+            "contractSymbol": "CRH260918P00115000",
+            "expiration": "2026-09-18",
+            "daysToExpiry": 130,
+            "strike": 115,
+            "bid": 9.6,
+            "ask": 10,
+            "lastPrice": 9.9,
+            "volume": 1,
+            "openInterest": 84,
+            "impliedVolatility": 0.3300237896728515,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08347826086956521,
+          "notAssignedAnnualizedPct": 0.23438127090301,
+          "effectiveCostBasis": 105.4,
+          "effectiveDiscountPct": 0.06742169527517246,
+          "inTheMoney": true
         }
       ]
     },
@@ -69,7 +128,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 115.7511504,
+          "anchorPrice": 115.73433556,
           "contract": {
             "contractSymbol": "CRH270115C00120000",
             "expiration": "2027-01-15",
@@ -80,24 +139,24 @@
             "lastPrice": 10.7,
             "volume": 2,
             "openInterest": 219,
-            "impliedVolatility": 0.40833111206054684,
+            "impliedVolatility": 0.408636284790039,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10046612768079408,
-          "staticAnnualizedPct": 0.1472696249136138,
-          "assignedReturnPct": 0.16201377568928643,
-          "assignedAnnualizedPct": 0.23749007279754838,
-          "effectiveCostBasis": 102.7425,
-          "effectiveDiscountPct": 0.09111617312072894
+          "staticReturnPct": 0.10048199377974078,
+          "staticAnnualizedPct": 0.1472928824482144,
+          "assignedReturnPct": 0.16224097449111932,
+          "assignedAnnualizedPct": 0.23782311521790583,
+          "effectiveCostBasis": 102.72,
+          "effectiveDiscountPct": 0.09113431251106
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 115.7511504,
+          "anchorPrice": 115.73433556,
           "contract": {
             "contractSymbol": "CRH270115P00110000",
             "expiration": "2027-01-15",
@@ -108,7 +167,7 @@
             "lastPrice": 10,
             "volume": 1,
             "openInterest": 233,
-            "impliedVolatility": 0.3700319345092773,
+            "impliedVolatility": 0.36975727905273437,
             "inTheMoney": false
           },
           "snapWarning": false,
@@ -116,7 +175,7 @@
           "notAssignedReturnPct": 0.0890909090909091,
           "notAssignedAnnualizedPct": 0.13059510770354144,
           "effectiveCostBasis": 100.2,
-          "effectiveDiscountPct": 0.11360771391290887,
+          "effectiveDiscountPct": 0.11343125110599889,
           "inTheMoney": false
         }
       ]

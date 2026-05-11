@@ -1,7 +1,7 @@
 {
   "symbol": "AXP",
-  "fetchedAt": "2026-05-11T15:56:52.316Z",
-  "currentPrice": 312.16,
+  "fetchedAt": "2026-05-11T16:19:58.146Z",
+  "currentPrice": 312.605,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -10,55 +10,114 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 313.41523659856813,
+          "anchorPrice": 313.29237075902347,
           "contract": {
             "contractSymbol": "AXP260515C00315000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 315,
-            "bid": 3.55,
-            "ask": 3.95,
-            "lastPrice": 3.81,
-            "volume": 24,
+            "bid": 3.15,
+            "ask": 3.7,
+            "lastPrice": 3.4,
+            "volume": 28,
             "openInterest": 240,
-            "impliedVolatility": 0.358404853515625,
+            "impliedVolatility": 0.32776551147460936,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.011504035864993715,
-          "staticAnnualizedPct": 1.0497432726806766,
-          "assignedReturnPct": 0.020601934378576412,
-          "assignedAnnualizedPct": 1.8799265120450976,
-          "effectiveCostBasis": 308.61,
-          "effectiveDiscountPct": 0.01137237314197847
+          "staticReturnPct": 0.010207904456431405,
+          "staticAnnualizedPct": 0.9314712816493658,
+          "assignedReturnPct": 0.01786933021737567,
+          "assignedAnnualizedPct": 1.6305763823355297,
+          "effectiveCostBasis": 309.45500000000004,
+          "effectiveDiscountPct": 0.010076614257609442
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 313.41523659856813,
+          "anchorPrice": 313.29237075902347,
           "contract": {
             "contractSymbol": "AXP260515P00312500",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 312.5,
-            "bid": 3.7,
-            "ask": 4.05,
-            "lastPrice": 3.7,
-            "volume": 66,
+            "bid": 4.2,
+            "ask": 4.7,
+            "lastPrice": 4.3,
+            "volume": 91,
             "openInterest": 219,
-            "impliedVolatility": 0.26587648193359376,
-            "inTheMoney": true
+            "impliedVolatility": 0.32569033691406246,
+            "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01184,
-          "notAssignedAnnualizedPct": 1.0804,
-          "effectiveCostBasis": 308.8,
-          "effectiveDiscountPct": 0.01076371091747826,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.01344,
+          "notAssignedAnnualizedPct": 1.2264000000000002,
+          "effectiveCostBasis": 308.3,
+          "effectiveDiscountPct": 0.013771372818732927,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 313.29237075902347,
+          "contract": {
+            "contractSymbol": "AXP260717C00320000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 320,
+            "bid": 12.05,
+            "ask": 12.6,
+            "lastPrice": 13.1,
+            "volume": 5,
+            "openInterest": 540,
+            "impliedVolatility": 0.29444064941406245,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.040746159022075436,
+          "staticAnnualizedPct": 0.22197534392623186,
+          "assignedReturnPct": 0.06440221058874897,
+          "assignedAnnualizedPct": 0.350847863655125,
+          "effectiveCostBasis": 300.555,
+          "effectiveDiscountPct": 0.03854704819180755
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 313.29237075902347,
+          "contract": {
+            "contractSymbol": "AXP260717P00310000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 310,
+            "bid": 13.35,
+            "ask": 13.75,
+            "lastPrice": 13.35,
+            "volume": 9,
+            "openInterest": 656,
+            "impliedVolatility": 0.2803721865844726,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.043064516129032254,
+          "notAssignedAnnualizedPct": 0.2346051998074145,
+          "effectiveCostBasis": 296.65,
+          "effectiveDiscountPct": 0.051038850946082244,
+          "inTheMoney": false
         }
       ]
     },
@@ -69,54 +128,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 313.41523659856813,
+          "anchorPrice": 313.29237075902347,
           "contract": {
             "contractSymbol": "AXP270115C00320000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 320,
-            "bid": 30.65,
-            "ask": 33.05,
+            "bid": 29.7,
+            "ask": 32.4,
             "lastPrice": 32.1,
             "volume": 27,
             "openInterest": 2303,
-            "impliedVolatility": 0.35417821121215814,
+            "impliedVolatility": 0.34560285751342773,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.10638283177576655,
-          "staticAnnualizedPct": 0.15594270521347306,
-          "assignedReturnPct": 0.1314981572498823,
-          "assignedAnnualizedPct": 0.1927583429566548,
-          "effectiveCostBasis": 281.51000000000005,
-          "effectiveDiscountPct": 0.09818682726806764
+          "staticReturnPct": 0.10318089216269909,
+          "staticAnnualizedPct": 0.1512490989533541,
+          "assignedReturnPct": 0.12683694372937263,
+          "assignedAnnualizedPct": 0.18592564040651008,
+          "effectiveCostBasis": 282.90500000000003,
+          "effectiveDiscountPct": 0.09500807728603189
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 313.41523659856813,
+          "anchorPrice": 313.29237075902347,
           "contract": {
             "contractSymbol": "AXP270115P00310000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 310,
-            "bid": 24.85,
+            "bid": 25.2,
             "ask": 27.55,
             "lastPrice": 25.47,
             "volume": 5,
             "openInterest": 761,
-            "impliedVolatility": 0.27936511657714835,
+            "impliedVolatility": 0.2812877047729492,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "notAssignedReturnPct": 0.08016129032258065,
-          "notAssignedAnnualizedPct": 0.11750550589454593,
-          "effectiveCostBasis": 285.15,
-          "effectiveDiscountPct": 0.08652614044079973,
+          "notAssignedReturnPct": 0.08129032258064516,
+          "notAssignedAnnualizedPct": 0.11916051301982121,
+          "effectiveCostBasis": 284.8,
+          "effectiveDiscountPct": 0.08894611410566051,
           "inTheMoney": false
         }
       ]

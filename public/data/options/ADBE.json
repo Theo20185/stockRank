@@ -1,7 +1,7 @@
 {
   "symbol": "ADBE",
-  "fetchedAt": "2026-05-11T15:55:11.999Z",
-  "currentPrice": 246.64,
+  "fetchedAt": "2026-05-11T16:18:13.389Z",
+  "currentPrice": 246.98,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,27 +11,86 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 337.30961693554224,
+          "anchorPrice": 338.5249659239592,
           "contract": {
             "contractSymbol": "ADBE260515P00247500",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 247.5,
-            "bid": 4.65,
-            "ask": 5.1,
-            "lastPrice": 4.58,
-            "volume": 192,
+            "bid": 4.6,
+            "ask": 5.4,
+            "lastPrice": 5.1,
+            "volume": 204,
             "openInterest": 707,
-            "impliedVolatility": 0.40650007568359375,
+            "impliedVolatility": 0.4449518395996094,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01878787878787879,
-          "notAssignedAnnualizedPct": 1.7143939393939396,
-          "effectiveCostBasis": 242.85,
-          "effectiveDiscountPct": 0.01536652611093088,
+          "notAssignedReturnPct": 0.018585858585858584,
+          "notAssignedAnnualizedPct": 1.695959595959596,
+          "effectiveCostBasis": 242.9,
+          "effectiveDiscountPct": 0.016519556239371545,
           "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 338.5249659239592,
+          "contract": {
+            "contractSymbol": "ADBE260717C00340000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 340,
+            "bid": 1.33,
+            "ask": 2.24,
+            "lastPrice": 1.9,
+            "volume": 4,
+            "openInterest": 463,
+            "impliedVolatility": 0.5194139855957032,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.005385051421167707,
+          "staticAnnualizedPct": 0.02933647416009273,
+          "assignedReturnPct": 0.3820147380354685,
+          "assignedAnnualizedPct": 2.0811250654171043,
+          "effectiveCostBasis": 245.64999999999998,
+          "effectiveDiscountPct": 0.005385051421167707
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 338.5249659239592,
+          "contract": {
+            "contractSymbol": "ADBE260717P00245000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 245,
+            "bid": 16.75,
+            "ask": 18.05,
+            "lastPrice": 17.25,
+            "volume": 3,
+            "openInterest": 323,
+            "impliedVolatility": 0.44989563781738284,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06836734693877551,
+          "notAssignedAnnualizedPct": 0.37244897959183676,
+          "effectiveCostBasis": 228.25,
+          "effectiveDiscountPct": 0.075836100089076,
+          "inTheMoney": false
         }
       ]
     },
@@ -42,54 +101,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 337.30961693554224,
+          "anchorPrice": 338.5249659239592,
           "contract": {
             "contractSymbol": "ADBE270115C00340000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 340,
             "bid": 11.6,
-            "ask": 12.2,
+            "ask": 12.15,
             "lastPrice": 13.59,
             "volume": 6,
             "openInterest": 546,
-            "impliedVolatility": 0.4606377178955079,
+            "impliedVolatility": 0.4587761642456055,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.047032111579630234,
-          "staticAnnualizedPct": 0.06894265352034151,
-          "assignedReturnPct": 0.42555951994810254,
-          "assignedAnnualizedPct": 0.6238121477150901,
-          "effectiveCostBasis": 235.04,
-          "effectiveDiscountPct": 0.047032111579630234
+          "staticReturnPct": 0.04696736577860556,
+          "staticAnnualizedPct": 0.06884774501683144,
+          "assignedReturnPct": 0.42359705239290635,
+          "assignedAnnualizedPct": 0.6209354382466298,
+          "effectiveCostBasis": 235.38,
+          "effectiveDiscountPct": 0.04696736577860556
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 337.30961693554224,
+          "anchorPrice": 338.5249659239592,
           "contract": {
             "contractSymbol": "ADBE270115P00250000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 250,
-            "bid": 33.2,
+            "bid": 33.35,
             "ask": 34.8,
             "lastPrice": 31.82,
             "volume": 10,
             "openInterest": 996,
-            "impliedVolatility": 0.40598128204345707,
+            "impliedVolatility": 0.4075376629638672,
             "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.1328,
-          "notAssignedAnnualizedPct": 0.19466666666666668,
-          "effectiveCostBasis": 216.8,
-          "effectiveDiscountPct": 0.12098605254622112,
+          "notAssignedReturnPct": 0.13340000000000002,
+          "notAssignedAnnualizedPct": 0.19554618473895585,
+          "effectiveCostBasis": 216.65,
+          "effectiveDiscountPct": 0.12280346586768154,
           "inTheMoney": true
         }
       ]

@@ -1,7 +1,7 @@
 {
   "symbol": "ADP",
-  "fetchedAt": "2026-05-11T15:56:48.728Z",
-  "currentPrice": 211.82,
+  "fetchedAt": "2026-05-11T16:19:54.418Z",
+  "currentPrice": 211.085,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 280.7271334931463,
+          "anchorPrice": 280.65736921514633,
           "contract": {
             "contractSymbol": "ADP260515P00280000",
             "expiration": "2026-05-15",
@@ -22,7 +22,7 @@
             "lastPrice": 72,
             "volume": 5,
             "openInterest": 0,
-            "impliedVolatility": 3.1318381079101565,
+            "impliedVolatility": 3.0676292840576167,
             "inTheMoney": true
           },
           "snapWarning": false,
@@ -30,8 +30,40 @@
           "notAssignedReturnPct": 0.2767857142857143,
           "notAssignedAnnualizedPct": 25.25669642857143,
           "effectiveCostBasis": 202.5,
-          "effectiveDiscountPct": 0.043999622320838414,
+          "effectiveDiscountPct": 0.04067081981192414,
           "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 280.65736921514633,
+          "contract": {
+            "contractSymbol": "ADP260821P00210000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 210,
+            "bid": 11.9,
+            "ask": 12.7,
+            "lastPrice": 12.1,
+            "volume": 2,
+            "openInterest": 108,
+            "impliedVolatility": 0.2970041003417968,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05666666666666667,
+          "notAssignedAnnualizedPct": 0.2027777777777778,
+          "effectiveCostBasis": 198.1,
+          "effectiveDiscountPct": 0.06151550323329471,
+          "inTheMoney": false
         }
       ]
     },
@@ -42,7 +74,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 280.7271334931463,
+          "anchorPrice": 280.65736921514633,
           "contract": {
             "contractSymbol": "ADP270115C00290000",
             "expiration": "2027-01-15",
@@ -53,43 +85,43 @@
             "lastPrice": 1.96,
             "volume": 15,
             "openInterest": 126,
-            "impliedVolatility": 0.3026803131103516,
+            "impliedVolatility": 0.3053047985839844,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.02930419988281598,
-          "staticAnnualizedPct": 0.0429559556515174,
-          "assignedReturnPct": 0.3983911605097635,
-          "assignedAnnualizedPct": 0.5839870425143119,
-          "effectiveCostBasis": 210.22,
-          "effectiveDiscountPct": 0.007553583231045228
+          "staticReturnPct": 0.029363968225486002,
+          "staticAnnualizedPct": 0.04304356788073249,
+          "assignedReturnPct": 0.4032181028158168,
+          "assignedAnnualizedPct": 0.5910626808344303,
+          "effectiveCostBasis": 209.485,
+          "effectiveDiscountPct": 0.007579884880498378
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 280.7271334931463,
+          "anchorPrice": 280.65736921514633,
           "contract": {
             "contractSymbol": "ADP270115P00210000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 210,
-            "bid": 19.4,
+            "bid": 19.5,
             "ask": 20.7,
             "lastPrice": 26.39,
             "volume": 2,
             "openInterest": 232,
-            "impliedVolatility": 0.3111335977172851,
+            "impliedVolatility": 0.3064644549560547,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.09238095238095237,
-          "notAssignedAnnualizedPct": 0.135417861923886,
-          "effectiveCostBasis": 190.6,
-          "effectiveDiscountPct": 0.10017939760173732,
+          "notAssignedReturnPct": 0.09285714285714286,
+          "notAssignedAnnualizedPct": 0.13611589213998854,
+          "effectiveCostBasis": 190.5,
+          "effectiveDiscountPct": 0.09751995641566197,
           "inTheMoney": false
         }
       ]

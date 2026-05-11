@@ -1,7 +1,7 @@
 {
   "symbol": "ED",
-  "fetchedAt": "2026-05-11T15:55:38.169Z",
-  "currentPrice": 106.225,
+  "fetchedAt": "2026-05-11T16:18:40.775Z",
+  "currentPrice": 106.2203,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,58 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 123.60606660593811,
+          "anchorPrice": 123.66485260593811,
           "contract": {
             "contractSymbol": "ED260515P00105000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 105,
-            "bid": 0.35,
-            "ask": 0.7,
+            "bid": 0.5,
+            "ask": 0.8,
             "lastPrice": 1.15,
             "volume": 27,
             "openInterest": 411,
-            "impliedVolatility": 0.24658956542968752,
+            "impliedVolatility": 0.26807372558593745,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.003333333333333333,
-          "notAssignedAnnualizedPct": 0.30416666666666664,
-          "effectiveCostBasis": 104.65,
-          "effectiveDiscountPct": 0.014827018121910932,
+          "notAssignedReturnPct": 0.004761904761904762,
+          "notAssignedAnnualizedPct": 0.4345238095238096,
+          "effectiveCostBasis": 104.5,
+          "effectiveDiscountPct": 0.016195585966147664,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.66485260593811,
+          "contract": {
+            "contractSymbol": "ED260821P00105000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 105,
+            "bid": 3.7,
+            "ask": 4,
+            "lastPrice": 4.3,
+            "volume": 3,
+            "openInterest": 93,
+            "impliedVolatility": 0.2049640051269531,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03523809523809524,
+          "notAssignedAnnualizedPct": 0.12609710550887024,
+          "effectiveCostBasis": 101.3,
+          "effectiveDiscountPct": 0.04632165414708862,
           "inTheMoney": false
         }
       ]
@@ -42,35 +74,35 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 123.60606660593811,
+          "anchorPrice": 123.66485260593811,
           "contract": {
             "contractSymbol": "ED270115C00125000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 125,
-            "bid": 1.15,
+            "bid": 1.2,
             "ask": 2.45,
             "lastPrice": 1.13,
             "volume": 8,
             "openInterest": 309,
-            "impliedVolatility": 0.23242955078125,
+            "impliedVolatility": 0.23249058532714845,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.033151598293877364,
-          "staticAnnualizedPct": 0.048595716374559186,
-          "assignedReturnPct": 0.20989906828681695,
-          "assignedAnnualizedPct": 0.30768337319151884,
-          "effectiveCostBasis": 105.07499999999999,
-          "effectiveDiscountPct": 0.010826076723935043
+          "staticReturnPct": 0.03361118419448213,
+          "staticAnnualizedPct": 0.04926940655014449,
+          "assignedReturnPct": 0.21041072251248732,
+          "assignedAnnualizedPct": 0.3084333884219192,
+          "effectiveCostBasis": 105.02029999999999,
+          "effectiveDiscountPct": 0.011297275567852849
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 123.60606660593811,
+          "anchorPrice": 123.66485260593811,
           "contract": {
             "contractSymbol": "ED270115P00105000",
             "expiration": "2027-01-15",
@@ -81,7 +113,7 @@
             "lastPrice": 5.5,
             "volume": 108,
             "openInterest": 111,
-            "impliedVolatility": 0.22113815979003904,
+            "impliedVolatility": 0.2210771252441406,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -89,7 +121,7 @@
           "notAssignedReturnPct": 0.04285714285714286,
           "notAssignedAnnualizedPct": 0.06282271944922548,
           "effectiveCostBasis": 100.5,
-          "effectiveDiscountPct": 0.05389503412567658,
+          "effectiveDiscountPct": 0.05385317119232383,
           "inTheMoney": false
         }
       ]

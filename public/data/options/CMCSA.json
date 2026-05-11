@@ -1,7 +1,7 @@
 {
   "symbol": "CMCSA",
-  "fetchedAt": "2026-05-11T15:55:59.436Z",
-  "currentPrice": 25.085,
+  "fetchedAt": "2026-05-11T16:19:05.007Z",
+  "currentPrice": 24.965,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,27 +11,86 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 39.3649862026733,
+          "anchorPrice": 39.3031613926733,
           "contract": {
             "contractSymbol": "CMCSA260515P00025000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 25,
-            "bid": 0.19,
-            "ask": 0.23,
-            "lastPrice": 0.21,
-            "volume": 204,
+            "bid": 0.23,
+            "ask": 0.27,
+            "lastPrice": 0.26,
+            "volume": 254,
             "openInterest": 1397,
-            "impliedVolatility": 0.2304764453125,
-            "inTheMoney": false
+            "impliedVolatility": 0.21680470703125,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.0076,
-          "notAssignedAnnualizedPct": 0.6935,
-          "effectiveCostBasis": 24.81,
-          "effectiveDiscountPct": 0.010962726729121073,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.0092,
+          "notAssignedAnnualizedPct": 0.8395,
+          "effectiveCostBasis": 24.77,
+          "effectiveDiscountPct": 0.0078109353094332175,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.3031613926733,
+          "contract": {
+            "contractSymbol": "CMCSA260717C00040000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 40,
+            "bid": 0.01,
+            "ask": 0.11,
+            "lastPrice": 0.03,
+            "volume": 6,
+            "openInterest": 501,
+            "impliedVolatility": 0.5429733203125001,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.009949589148646461,
+          "staticAnnualizedPct": 0.05420298566053669,
+          "assignedReturnPct": 0.6121927295452017,
+          "assignedAnnualizedPct": 3.335079795283561,
+          "effectiveCostBasis": 24.955,
+          "effectiveDiscountPct": 0.0004005607850991388
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.3031613926733,
+          "contract": {
+            "contractSymbol": "CMCSA260717P00025000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 25,
+            "bid": 1.25,
+            "ask": 1.29,
+            "lastPrice": 1.23,
+            "volume": 34,
+            "openInterest": 4213,
+            "impliedVolatility": 0.295905478515625,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05,
+          "notAssignedAnnualizedPct": 0.27238805970149255,
+          "effectiveCostBasis": 23.75,
+          "effectiveDiscountPct": 0.048668135389545356,
+          "inTheMoney": true
         }
       ]
     },
@@ -42,55 +101,55 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 39.3649862026733,
+          "anchorPrice": 39.3031613926733,
           "contract": {
             "contractSymbol": "CMCSA270115C00040000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 40,
-            "bid": 0.01,
+            "bid": 0.02,
             "ask": 0.24,
-            "lastPrice": 0.15,
-            "volume": 4,
+            "lastPrice": 0.13,
+            "volume": 5,
             "openInterest": 6705,
-            "impliedVolatility": 0.36133451171875,
+            "impliedVolatility": 0.36426416992187505,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.035865685826017873,
-          "staticAnnualizedPct": 0.05257419809837961,
-          "assignedReturnPct": 0.6304441191527071,
-          "assignedAnnualizedPct": 0.9241449939387073,
-          "effectiveCostBasis": 25.075,
-          "effectiveDiscountPct": 0.00039864460833167234
+          "staticReturnPct": 0.03628930160785922,
+          "staticAnnualizedPct": 0.05319516099144022,
+          "assignedReturnPct": 0.6385324420044144,
+          "assignedAnnualizedPct": 0.9360013708096837,
+          "effectiveCostBasis": 24.945,
+          "effectiveDiscountPct": 0.0008011215701982776
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 39.3649862026733,
+          "anchorPrice": 39.3031613926733,
           "contract": {
             "contractSymbol": "CMCSA270115P00025000",
             "expiration": "2027-01-15",
             "daysToExpiry": 249,
             "strike": 25,
-            "bid": 2.62,
-            "ask": 2.7,
+            "bid": 2.68,
+            "ask": 2.77,
             "lastPrice": 2.67,
             "volume": 7,
             "openInterest": 2802,
-            "impliedVolatility": 0.3327703442382813,
-            "inTheMoney": false
+            "impliedVolatility": 0.334967587890625,
+            "inTheMoney": true
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.1048,
-          "notAssignedAnnualizedPct": 0.15362248995983938,
-          "effectiveCostBasis": 22.38,
-          "effectiveDiscountPct": 0.10783336655371743,
-          "inTheMoney": false
+          "notAssignedReturnPct": 0.1072,
+          "notAssignedAnnualizedPct": 0.157140562248996,
+          "effectiveCostBasis": 22.32,
+          "effectiveDiscountPct": 0.1059483276587222,
+          "inTheMoney": true
         }
       ]
     }

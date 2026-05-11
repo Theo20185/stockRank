@@ -1,7 +1,7 @@
 {
   "symbol": "CDW",
-  "fetchedAt": "2026-05-11T15:57:02.557Z",
-  "currentPrice": 103.98,
+  "fetchedAt": "2026-05-11T16:20:08.928Z",
+  "currentPrice": 103.725,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -10,54 +10,113 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 105.5261211896995,
+          "anchorPrice": 105.47714637230122,
           "contract": {
             "contractSymbol": "CDW260515C00110000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 110,
-            "bid": 0.15,
-            "ask": 0.45,
-            "lastPrice": 0.2,
-            "volume": 30,
+            "bid": 0.2,
+            "ask": 0.4,
+            "lastPrice": 0.23,
+            "volume": 31,
             "openInterest": 729,
-            "impliedVolatility": 0.463872548828125,
+            "impliedVolatility": 0.4594780615234375,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.0017043846682844696,
-          "staticAnnualizedPct": 0.15552510098095784,
-          "assignedReturnPct": 0.05960013385081953,
-          "assignedAnnualizedPct": 5.438512213887282,
-          "effectiveCostBasis": 103.83,
-          "effectiveDiscountPct": 0.0014425851125216386
+          "staticReturnPct": 0.002190263638374654,
+          "staticAnnualizedPct": 0.19986155700168717,
+          "assignedReturnPct": 0.06268676882034627,
+          "assignedAnnualizedPct": 5.7201676548565965,
+          "effectiveCostBasis": 103.52499999999999,
+          "effectiveDiscountPct": 0.0019281754639672213
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 105.5261211896995,
+          "anchorPrice": 105.47714637230122,
           "contract": {
             "contractSymbol": "CDW260515P00105000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 105,
-            "bid": 2.15,
+            "bid": 2.05,
             "ask": 3.1,
             "lastPrice": 2.47,
             "volume": 10,
             "openInterest": 981,
-            "impliedVolatility": 0.524418818359375,
+            "impliedVolatility": 0.4946339599609375,
             "inTheMoney": true
           },
           "snapWarning": false,
           "shortDated": true,
-          "notAssignedReturnPct": 0.020476190476190474,
-          "notAssignedAnnualizedPct": 1.8684523809523808,
-          "effectiveCostBasis": 102.85,
-          "effectiveDiscountPct": 0.010867474514329772,
+          "notAssignedReturnPct": 0.019523809523809523,
+          "notAssignedAnnualizedPct": 1.781547619047619,
+          "effectiveCostBasis": 102.95,
+          "effectiveDiscountPct": 0.0074716799228729,
+          "inTheMoney": true
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.47714637230122,
+          "contract": {
+            "contractSymbol": "CDW260717C00110000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 110,
+            "bid": 4,
+            "ask": 4.9,
+            "lastPrice": 4.8,
+            "volume": 7,
+            "openInterest": 38,
+            "impliedVolatility": 0.41528905029296875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04295348620066892,
+          "staticAnnualizedPct": 0.23400033527230082,
+          "assignedReturnPct": 0.10344999138264055,
+          "assignedAnnualizedPct": 0.5635708485770716,
+          "effectiveCostBasis": 99.725,
+          "effectiveDiscountPct": 0.038563509279344425
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 105.47714637230122,
+          "contract": {
+            "contractSymbol": "CDW260717P00105000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 105,
+            "bid": 7.2,
+            "ask": 9.2,
+            "lastPrice": 6.7,
+            "volume": 13,
+            "openInterest": 24,
+            "impliedVolatility": 0.476567734375,
+            "inTheMoney": true
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06857142857142857,
+          "notAssignedAnnualizedPct": 0.37356076759061835,
+          "effectiveCostBasis": 97.8,
+          "effectiveDiscountPct": 0.057122198120028896,
           "inTheMoney": true
         }
       ]

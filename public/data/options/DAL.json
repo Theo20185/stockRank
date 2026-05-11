@@ -1,7 +1,7 @@
 {
   "symbol": "DAL",
-  "fetchedAt": "2026-05-11T15:55:55.901Z",
-  "currentPrice": 71.96,
+  "fetchedAt": "2026-05-11T16:18:59.400Z",
+  "currentPrice": 72.1,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,85 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.81229297933021,
+          "anchorPrice": 80.8942757263302,
           "contract": {
             "contractSymbol": "DAL260515P00072000",
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 72,
-            "bid": 1.47,
-            "ask": 1.64,
-            "lastPrice": 1.63,
-            "volume": 260,
+            "bid": 1.45,
+            "ask": 1.61,
+            "lastPrice": 1.51,
+            "volume": 286,
             "openInterest": 878,
-            "impliedVolatility": 0.4819387744140625,
-            "inTheMoney": true
+            "impliedVolatility": 0.4931691308593751,
+            "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.020416666666666666,
-          "notAssignedAnnualizedPct": 1.8630208333333333,
-          "effectiveCostBasis": 70.53,
-          "effectiveDiscountPct": 0.01987215119510829,
+          "notAssignedReturnPct": 0.020138888888888887,
+          "notAssignedAnnualizedPct": 1.837673611111111,
+          "effectiveCostBasis": 70.55,
+          "effectiveDiscountPct": 0.021497919556171946,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.8942757263302,
+          "contract": {
+            "contractSymbol": "DAL260717C00085000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 85,
+            "bid": 1.38,
+            "ask": 1.54,
+            "lastPrice": 1.73,
+            "volume": 6,
+            "openInterest": 4871,
+            "impliedVolatility": 0.43530838134765626,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.021012411801314763,
+          "staticAnnualizedPct": 0.11447060160417744,
+          "assignedReturnPct": 0.1999305810107462,
+          "assignedAnnualizedPct": 1.0891740607301845,
+          "effectiveCostBasis": 70.72,
+          "effectiveDiscountPct": 0.01914008321775312
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.8942757263302,
+          "contract": {
+            "contractSymbol": "DAL260717P00072500",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 67,
+            "strike": 72.5,
+            "bid": 5.55,
+            "ask": 5.75,
+            "lastPrice": 5.78,
+            "volume": 12,
+            "openInterest": 932,
+            "impliedVolatility": 0.446294599609375,
+            "inTheMoney": true
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07655172413793103,
+          "notAssignedAnnualizedPct": 0.4170355120946989,
+          "effectiveCostBasis": 66.95,
+          "effectiveDiscountPct": 0.07142857142857131,
           "inTheMoney": true
         }
       ]
@@ -42,7 +101,7 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 80.81229297933021,
+          "anchorPrice": 80.8942757263302,
           "contract": {
             "contractSymbol": "DAL270115C00082500",
             "expiration": "2027-01-15",
@@ -53,24 +112,24 @@
             "lastPrice": 7.65,
             "volume": 1,
             "openInterest": 1200,
-            "impliedVolatility": 0.4993946545410156,
+            "impliedVolatility": 0.49670913452148446,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.09521149383055504,
-          "staticAnnualizedPct": 0.13956704918936783,
-          "assignedReturnPct": 0.24168175508680861,
-          "assignedAnnualizedPct": 0.3542724522356833,
-          "effectiveCostBasis": 65.61,
-          "effectiveDiscountPct": 0.08824346859366315
+          "staticReturnPct": 0.09503047753489637,
+          "staticAnnualizedPct": 0.13930170401701678,
+          "assignedReturnPct": 0.23927458294405043,
+          "assignedAnnualizedPct": 0.3507438665645719,
+          "effectiveCostBasis": 65.75,
+          "effectiveDiscountPct": 0.08807212205270458
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.81229297933021,
+          "anchorPrice": 80.8942757263302,
           "contract": {
             "contractSymbol": "DAL270115P00070000",
             "expiration": "2027-01-15",
@@ -81,7 +140,7 @@
             "lastPrice": 8.35,
             "volume": 1,
             "openInterest": 1263,
-            "impliedVolatility": 0.4312801013183594,
+            "impliedVolatility": 0.4336604486083985,
             "inTheMoney": false
           },
           "snapWarning": true,
@@ -89,7 +148,7 @@
           "notAssignedReturnPct": 0.12000000000000001,
           "notAssignedAnnualizedPct": 0.17590361445783134,
           "effectiveCostBasis": 61.6,
-          "effectiveDiscountPct": 0.14396887159533064,
+          "effectiveDiscountPct": 0.14563106796116496,
           "inTheMoney": false
         }
       ]

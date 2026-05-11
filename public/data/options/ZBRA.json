@@ -1,7 +1,7 @@
 {
   "symbol": "ZBRA",
-  "fetchedAt": "2026-05-11T15:56:27.461Z",
-  "currentPrice": 221.185,
+  "fetchedAt": "2026-05-11T16:19:32.105Z",
+  "currentPrice": 221.68,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -17,20 +17,52 @@
             "expiration": "2026-05-15",
             "daysToExpiry": 4,
             "strike": 220,
-            "bid": 10.3,
+            "bid": 10.5,
             "ask": 12.6,
             "lastPrice": 9.7,
             "volume": 18,
             "openInterest": 38,
-            "impliedVolatility": 1.1691936071777342,
+            "impliedVolatility": 1.2008096600341795,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.04681818181818182,
-          "notAssignedAnnualizedPct": 4.272159090909091,
-          "effectiveCostBasis": 209.7,
-          "effectiveDiscountPct": 0.051924859280692695,
+          "notAssignedReturnPct": 0.04772727272727273,
+          "notAssignedAnnualizedPct": 4.355113636363637,
+          "effectiveCostBasis": 209.5,
+          "effectiveDiscountPct": 0.05494406351497657,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-08-21",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 325.1789594253034,
+          "contract": {
+            "contractSymbol": "ZBRA260821P00220000",
+            "expiration": "2026-08-21",
+            "daysToExpiry": 102,
+            "strike": 220,
+            "bid": 22.4,
+            "ask": 25.2,
+            "lastPrice": 23.18,
+            "volume": 2,
+            "openInterest": 25,
+            "impliedVolatility": 0.5280808911132813,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.10181818181818181,
+          "notAssignedAnnualizedPct": 0.36434937611408197,
+          "effectiveCostBasis": 197.6,
+          "effectiveDiscountPct": 0.10862504511006862,
           "inTheMoney": false
         }
       ]
