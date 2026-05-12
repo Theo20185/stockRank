@@ -105,11 +105,17 @@ export type OptionEvaluation = {
    * Annualized yield on premium, computed for short options where the
    * "capital tied up" is unambiguous:
    *   - Covered call (paired short call): premium / pairedStock.costBasis
-   *     × 365 / DTE
+   *     × 365 / contractLifeDays
    *   - Cash-secured put (unpaired short put): premium / (strike × 100
-   *     × |contracts|) × 365 / DTE
-   * Null for long options (no collateral concept) and for shorts past
-   * expiration.
+   *     × |contracts|) × 365 / contractLifeDays
+   *
+   * `contractLifeDays` = expiration − entryDate. Anchored to entry so
+   * the headline annualized number is stable across snapshots — using
+   * remaining DTE instead inflates the number every day as expiration
+   * approaches, which misrepresents the trade's actual yield.
+   *
+   * Null for long options (no collateral concept) and for trades that
+   * already expired by entry (contractLifeDays ≤ 0).
    */
   annualizedPremiumYield: number | null;
   /** True when the option references a paired stock position by id. */
@@ -327,10 +333,13 @@ function buildMilestones(
 function annualizedPremiumYield(
   opt: OptionPosition,
   pairedStock: StockPosition | null,
-  daysToExpiration: number,
 ): number | null {
   if (opt.contracts >= 0) return null; // longs have no collateral concept
-  if (daysToExpiration <= 0) return null; // expired
+  // Anchor to entry-to-expiration, NOT snapshot-to-expiration. The
+  // contract life is fixed once the trade opens; using remaining DTE
+  // would inflate the annualized number as expiration approaches.
+  const contractLifeDays = daysBetween(opt.entryDate, opt.expiration);
+  if (contractLifeDays <= 0) return null; // entered after expiration — bogus
   let collateral: number;
   if (opt.optionType === "call") {
     if (!pairedStock) return null; // naked call — no defined collateral here
@@ -340,7 +349,7 @@ function annualizedPremiumYield(
     collateral = opt.strike * 100 * Math.abs(opt.contracts);
   }
   if (collateral <= 0) return null;
-  return (opt.premium / collateral) * (365 / daysToExpiration) * 100;
+  return (opt.premium / collateral) * (365 / contractLifeDays) * 100;
 }
 
 function evaluateOption(
@@ -364,7 +373,7 @@ function evaluateOption(
   const pairedStock = position.pairedStockId
     ? stockById.get(position.pairedStockId) ?? null
     : null;
-  const yieldPct = annualizedPremiumYield(position, pairedStock, daysToExpiration);
+  const yieldPct = annualizedPremiumYield(position, pairedStock);
   const milestones = buildMilestones(position, underlyingPrice, pairedStock);
 
   return {

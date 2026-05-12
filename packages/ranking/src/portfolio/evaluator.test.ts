@@ -225,8 +225,9 @@ describe("evaluatePortfolio — option positions", () => {
     expect(optEval.cashAtEntry).toBe(600); // received premium
     expect(optEval.paired).toBe(true);
     expect(optEval.pairedStock?.id).toBe(stk.id);
-    // Yield: 600 / 18000 × 365 / 54 × 100 ≈ 22.53%
-    expect(optEval.annualizedPremiumYield).toBeCloseTo(22.53, 1);
+    // entryDate 2026-01-15 → expiration 2026-06-19 = 155 contract days.
+    // Yield: 600 / 18000 × 365 / 155 × 100 ≈ 7.85%
+    expect(optEval.annualizedPremiumYield).toBeCloseTo(7.85, 1);
   });
 
   it("cash-secured short put annualizes premium yield against strike × 100 × |contracts|", () => {
@@ -247,8 +248,46 @@ describe("evaluatePortfolio — option positions", () => {
     const e = result.positions[0]!;
     if (e.kind !== "option") throw new Error("expected option");
     // Collateral: 180 × 100 × 2 = 36000
-    // Yield: 400 / 36000 × 365 / 54 × 100 ≈ 7.51%
-    expect(e.annualizedPremiumYield).toBeCloseTo(7.51, 1);
+    // entryDate 2026-01-15 → expiration 2026-06-19 = 155 contract days.
+    // Yield: 400 / 36000 × 365 / 155 × 100 ≈ 2.617%
+    expect(e.annualizedPremiumYield).toBeCloseTo(2.617, 2);
+  });
+
+  it("annualized yield is anchored to entryDate, not snapshot date — stable as expiry approaches", () => {
+    // The user-reported bug: annualized yield inflated as the snapshot
+    // date crept toward expiration. The denominator was (expiration -
+    // snapshotDate) which shrinks every day. Real annualized must be
+    // anchored to the trade date: (expiration - entryDate) = the total
+    // contract life. That denominator is constant once the position is
+    // opened, so the headline annualized number doesn't drift.
+    //
+    // Setup: entryDate 2026-01-15, expiration 2026-06-19 (155 days
+    // total). 400 premium on 36000 collateral → 400/36000 = 1.111%
+    // over 155 days → annualized 400/36000 × 365/155 × 100 = 2.617%.
+    const opt = option({
+      symbol: "AAPL",
+      optionType: "put",
+      contracts: -2,
+      strike: 180,
+      expiration: "2026-06-19",
+      premium: 400,
+      entryDate: "2026-01-15",
+    });
+    const portfolio: Portfolio = { updatedAt: "2026-04-26T00:00:00Z", positions: [opt] };
+
+    // Same evaluator, three snapshot dates spanning the position life.
+    // The annualized yield must be identical at all three — it's a
+    // function of the trade contract, not the observation date.
+    const snapEarly = snapshot([makeRow({ symbol: "AAPL", composite: 70, price: 195 })], "2026-02-01");
+    const snapMid = snapshot([makeRow({ symbol: "AAPL", composite: 70, price: 195 })], "2026-04-26");
+    const snapLate = snapshot([makeRow({ symbol: "AAPL", composite: 70, price: 195 })], "2026-06-10");
+
+    const expected = (400 / 36000) * (365 / 155) * 100; // ≈ 2.617%
+    for (const snap of [snapEarly, snapMid, snapLate]) {
+      const e = evaluatePortfolio(portfolio, snap).positions[0]!;
+      if (e.kind !== "option") throw new Error("expected option");
+      expect(e.annualizedPremiumYield).toBeCloseTo(expected, 3);
+    }
   });
 
   it("expired option flagged with isExpired=true and null yield", () => {
