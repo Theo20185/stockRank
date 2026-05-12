@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { OptionsView, RankedRow, SelectionReason } from "@stockrank/ranking";
 import {
   buildCapitalPlan,
@@ -11,6 +11,11 @@ import {
   loadOptionsView,
   type OptionsLoadResult,
 } from "../snapshot/options-loader.js";
+import {
+  loadPlanPrefs,
+  savePlanPrefs,
+  type PlanPrefs,
+} from "../snapshot/plan-prefs-loader.js";
 
 export type PlanTab = "composite" | "portfolio" | "plan";
 
@@ -54,10 +59,42 @@ export function CapitalPlanScreen({
   loader = loadOptionsView,
   initialOptions,
 }: CapitalPlanScreenProps) {
-  const [capitalInput, setCapitalInput] = useState<string>("10000");
-  const [topNInput, setTopNInput] = useState<string>("");
-  const [mode, setMode] = useState<SelectionReason>("monthly");
-  const [hideUnallocated, setHideUnallocated] = useState<boolean>(false);
+  // Hydrate from localStorage on first render — defaults are inlined
+  // by the loader when no prefs exist yet. Subsequent mutations
+  // auto-save via the useEffect below.
+  const initialPrefs = useRef<PlanPrefs>(loadPlanPrefs()).current;
+  const [capitalInput, setCapitalInput] = useState<string>(initialPrefs.capital);
+  const [topNInput, setTopNInput] = useState<string>(initialPrefs.topN);
+  const [mode, setMode] = useState<SelectionReason>(initialPrefs.mode);
+  const [hideUnallocated, setHideUnallocated] = useState<boolean>(
+    initialPrefs.hideUnallocated,
+  );
+  const [excludedSymbols, setExcludedSymbols] = useState<ReadonlySet<string>>(
+    () => new Set(initialPrefs.excludedSymbols),
+  );
+
+  // Auto-save on any pref change. Mirrors the portfolio-loader pattern
+  // — device-local, fail-silent on storage errors. savedAt updates so
+  // the user can see when the in-memory state last persisted.
+  useEffect(() => {
+    savePlanPrefs({
+      capital: capitalInput,
+      topN: topNInput,
+      mode,
+      hideUnallocated,
+      excludedSymbols: [...excludedSymbols],
+      savedAt: new Date().toISOString(),
+    });
+  }, [capitalInput, topNInput, mode, hideUnallocated, excludedSymbols]);
+
+  const toggleExclude = (symbol: string): void => {
+    setExcludedSymbols((prev) => {
+      const next = new Set(prev);
+      if (next.has(symbol)) next.delete(symbol);
+      else next.add(symbol);
+      return next;
+    });
+  };
   const [options, setOptions] = useState<Record<string, OptionsView>>(
     initialOptions ?? {},
   );
@@ -111,13 +148,16 @@ export function CapitalPlanScreen({
   );
 
   const plan = useMemo<CapitalPlan>(
-    () =>
-      buildCapitalPlan({
+    () => {
+      const input: Parameters<typeof buildCapitalPlan>[0] = {
         capital: safeCapital,
         candidates,
-        topN: safeTopN,
-      }),
-    [safeCapital, candidates, safeTopN],
+        excludedSymbols,
+      };
+      if (safeTopN !== undefined) input.topN = safeTopN;
+      return buildCapitalPlan(input);
+    },
+    [safeCapital, candidates, safeTopN, excludedSymbols],
   );
 
   return (
@@ -202,6 +242,8 @@ export function CapitalPlanScreen({
         <PlanTable
           plan={plan}
           hideUnallocated={hideUnallocated}
+          excludedSymbols={excludedSymbols}
+          onToggleExclude={toggleExclude}
           onSelectStock={onSelectStock}
         />
       )}
@@ -290,10 +332,14 @@ function PlanSummary({
 function PlanTable({
   plan,
   hideUnallocated,
+  excludedSymbols,
+  onToggleExclude,
   onSelectStock,
 }: {
   plan: CapitalPlan;
   hideUnallocated: boolean;
+  excludedSymbols: ReadonlySet<string>;
+  onToggleExclude: (symbol: string) => void;
   onSelectStock: (symbol: string) => void;
 }) {
   // Tag each item with its position in the unfiltered plan so the
@@ -301,8 +347,14 @@ function PlanTable({
   // Hiding zero-contract rows then leaves gaps in the numbering
   // (e.g. 1, 3, 7) rather than renumbering survivors.
   const ordered = plan.items.map((item, idx) => ({ item, ordinal: idx + 1 }));
+  // Excluded rows stay visible even under hide-unallocated so the user
+  // can re-include them. Hide-unallocated only drops names that got 0
+  // contracts because of budget constraints, not user-driven skips.
   const visible = hideUnallocated
-    ? ordered.filter(({ item }) => item.contracts > 0)
+    ? ordered.filter(
+        ({ item }) =>
+          item.contracts > 0 || excludedSymbols.has(item.symbol),
+      )
     : ordered;
   return (
     <table className="plan-table" aria-label="Capital allocation plan">
@@ -317,33 +369,54 @@ function PlanTable({
           <th scope="col">Collateral</th>
           <th scope="col">Premium</th>
           <th scope="col">Annualized</th>
+          <th scope="col" aria-label="Include / Exclude"></th>
         </tr>
       </thead>
       <tbody>
-        {visible.map(({ item, ordinal }) => (
-          <tr
-            key={item.symbol}
-            className={item.contracts === 0 ? "plan-table__row--zero" : undefined}
-          >
-            <td>{ordinal}</td>
-            <td>
-              <button
-                type="button"
-                className="plan-table__symbol"
-                onClick={() => onSelectStock(item.symbol)}
-              >
-                {item.symbol}
-              </button>
-            </td>
-            <td>{formatPrice(item.strike)}</td>
-            <td>{item.daysToExpiry}d</td>
-            <td>{formatDollars(item.premiumPerShare * 100)}</td>
-            <td>{item.contracts}</td>
-            <td>{formatDollars(item.totalCollateral)}</td>
-            <td>{formatDollars(item.totalPremium)}</td>
-            <td>{formatPercent(item.annualizedReturn * 100)}</td>
-          </tr>
-        ))}
+        {visible.map(({ item, ordinal }) => {
+          const isExcluded = excludedSymbols.has(item.symbol);
+          const rowClass = [
+            item.contracts === 0 ? "plan-table__row--zero" : null,
+            isExcluded ? "plan-table__row--excluded" : null,
+          ]
+            .filter(Boolean)
+            .join(" ") || undefined;
+          return (
+            <tr key={item.symbol} className={rowClass}>
+              <td>{ordinal}</td>
+              <td>
+                <button
+                  type="button"
+                  className="plan-table__symbol"
+                  onClick={() => onSelectStock(item.symbol)}
+                >
+                  {item.symbol}
+                </button>
+              </td>
+              <td>{formatPrice(item.strike)}</td>
+              <td>{item.daysToExpiry}d</td>
+              <td>{formatDollars(item.premiumPerShare * 100)}</td>
+              <td>{item.contracts}</td>
+              <td>{formatDollars(item.totalCollateral)}</td>
+              <td>{formatDollars(item.totalPremium)}</td>
+              <td>{formatPercent(item.annualizedReturn * 100)}</td>
+              <td>
+                <button
+                  type="button"
+                  className="plan-table__exclude"
+                  aria-label={
+                    isExcluded
+                      ? `Include ${item.symbol}`
+                      : `Exclude ${item.symbol}`
+                  }
+                  onClick={() => onToggleExclude(item.symbol)}
+                >
+                  {isExcluded ? "Include" : "Exclude"}
+                </button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

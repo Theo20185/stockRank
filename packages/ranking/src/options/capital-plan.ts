@@ -80,14 +80,24 @@ export type CapitalPlanInput = {
    * Optional cap on candidates considered. When provided, only the
    * first `topN` candidates (after caller-supplied sort) participate
    * in allocation. When undefined or > candidates.length, all are used.
+   * topN is applied AFTER `excludedSymbols` — i.e., it caps the
+   * survivors, not the raw input.
    */
   topN?: number;
+  /**
+   * Symbols the user wants skipped entirely. Each excluded symbol
+   * still appears in `items` with `contracts: 0` so the UI can render
+   * it (faded) and offer to un-exclude. They consume no budget and do
+   * not count toward `topN`.
+   */
+  excludedSymbols?: ReadonlySet<string>;
 };
 
 const SHARES_PER_CONTRACT = 100;
 
 export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
   const capital = Number.isFinite(input.capital) && input.capital > 0 ? input.capital : 0;
+  const excluded = input.excludedSymbols ?? new Set<string>();
 
   // topN <= 0 explicitly excludes every candidate — return an empty plan.
   if (input.topN !== undefined && input.topN <= 0) {
@@ -101,10 +111,22 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
     };
   }
 
+  // Survivors = caller-supplied order minus the excluded set. topN
+  // applies to this filtered list so excluded names don't take slots.
+  const survivors = input.candidates.filter((c) => !excluded.has(c.symbol));
   const cap = input.topN !== undefined
-    ? Math.min(input.topN, input.candidates.length)
-    : input.candidates.length;
-  const considered = input.candidates.slice(0, cap);
+    ? Math.min(input.topN, survivors.length)
+    : survivors.length;
+  const considered = survivors.slice(0, cap);
+  const consideredSymbols = new Set(considered.map((c) => c.symbol));
+
+  // Items emitted by the engine = considered survivors + every excluded
+  // candidate (so the UI can render the "Include" toggle). Names that
+  // are over-topN and NOT excluded are dropped — they wouldn't be
+  // actionable and they'd just clutter the table.
+  const visibleCandidates = input.candidates.filter(
+    (c) => consideredSymbols.has(c.symbol) || excluded.has(c.symbol),
+  );
 
   if (capital === 0 || considered.length === 0) {
     return {
@@ -113,12 +135,13 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
       remaining: capital,
       totalPremium: 0,
       annualizedReturnOnAllocated: null,
-      items: considered.map((c) => zeroItem(c)),
+      items: visibleCandidates.map((c) => zeroItem(c)),
     };
   }
 
   const budgetPerName = capital / considered.length;
-  const items: CapitalPlanItem[] = considered.map((c) => {
+  const items: CapitalPlanItem[] = visibleCandidates.map((c) => {
+    if (!consideredSymbols.has(c.symbol)) return zeroItem(c);
     const collateralPerContract = c.strike * SHARES_PER_CONTRACT;
     const contracts = collateralPerContract > 0
       ? Math.floor(budgetPerName / collateralPerContract)
@@ -131,11 +154,12 @@ export function buildCapitalPlan(input: CapitalPlanInput): CapitalPlan {
   // Pass 2: top up in rank order. Walk repeatedly until no candidate's
   // per-contract collateral fits in remaining. Higher-ranked names get
   // the extra contracts first, which matches the "concentrated in
-  // best-in-class" thesis.
+  // best-in-class" thesis. Excluded / over-topN items stay at zero.
   let progress = true;
   while (progress) {
     progress = false;
     for (const item of items) {
+      if (!consideredSymbols.has(item.symbol)) continue;
       if (item.collateralPerContract > 0 && item.collateralPerContract <= remaining) {
         item.contracts += 1;
         item.totalCollateral = item.contracts * item.collateralPerContract;

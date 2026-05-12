@@ -1,8 +1,21 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { OptionsView, RankedRow } from "@stockrank/ranking";
 import { CapitalPlanScreen } from "./CapitalPlanScreen.js";
+import { PLAN_PREFS_STORAGE_KEY } from "../snapshot/plan-prefs-loader.js";
+
+beforeEach(() => {
+  // Reset persisted plan prefs so localStorage from a prior test
+  // doesn't leak into the defaults of the next render.
+  try {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(PLAN_PREFS_STORAGE_KEY);
+    }
+  } catch {
+    // ignore — jsdom localStorage failures shouldn't fail the suite
+  }
+});
 
 function fakeRow(symbol: string, composite = 70): RankedRow {
   return {
@@ -356,6 +369,116 @@ describe("<CapitalPlanScreen />", () => {
     const tickers = rows.map((r) => within(r).getAllByRole("cell")[1]!.textContent);
     expect(ordinals).toEqual(["1", "3"]);
     expect(tickers).toEqual(["AAA", "CCC"]);
+  });
+
+  it("exposes a per-row Exclude button that zeroes that name's contracts and reallocates", async () => {
+    // Capital $30k, 3 names: AAA $50, BBB $100, CCC $25.
+    // Default budget $10k each → AAA=2, BBB=1, CCC=4 contracts.
+    // Excluding BBB redistributes the $10k that would have funded it
+    // back into AAA + CCC.
+    const user = userEvent.setup();
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA", 80), fakeRow("BBB", 75), fakeRow("CCC", 70)]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 50, monthlyBid: 1 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 100, monthlyBid: 2 }),
+          CCC: fakeOptionsView("CCC", { monthlyStrike: 25, monthlyBid: 0.5 }),
+        }}
+      />,
+    );
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "30000");
+
+    let table = await screen.findByRole("table", { name: /capital allocation plan/i });
+    // Pre-exclusion: AAA=2, BBB=1, CCC=4.
+    const rowFor = (sym: string) =>
+      within(table)
+        .getAllByRole("row")
+        .find((r) => within(r).queryByText(sym) !== null)!;
+    expect(within(rowFor("BBB")).getAllByRole("cell")[5]!.textContent).toBe("1");
+
+    // Click the Exclude button on the BBB row.
+    await user.click(within(rowFor("BBB")).getByRole("button", { name: /exclude/i }));
+    table = screen.getByRole("table", { name: /capital allocation plan/i });
+
+    // After exclusion: BBB is 0; AAA + CCC absorb the freed capital.
+    const bbbContracts = within(rowFor("BBB")).getAllByRole("cell")[5]!.textContent;
+    const aaaContracts = within(rowFor("AAA")).getAllByRole("cell")[5]!.textContent;
+    const cccContracts = within(rowFor("CCC")).getAllByRole("cell")[5]!.textContent;
+    expect(bbbContracts).toBe("0");
+    // AAA budget rises from $10k → $15k → 3 contracts (was 2).
+    expect(aaaContracts).toBe("3");
+    // CCC budget rises from $10k → $15k → 6 contracts (was 4).
+    expect(cccContracts).toBe("6");
+
+    // The BBB row's button now reads "Include" so the user can revert.
+    expect(within(rowFor("BBB")).getByRole("button", { name: /include/i })).toBeInTheDocument();
+  });
+
+  it("persists capital / top N / mode / hide-toggle / exclusions across mounts via localStorage", async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA"), fakeRow("BBB")]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 50 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 40 }),
+        }}
+      />,
+    );
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "12500");
+    const topN = screen.getByLabelText(/maximum number of candidates/i);
+    await user.clear(topN);
+    await user.type(topN, "5");
+    await user.click(screen.getByLabelText(/hide unallocated/i));
+
+    await screen.findByRole("table", { name: /capital allocation plan/i });
+    const findRow = (sym: string) =>
+      within(screen.getByRole("table", { name: /capital allocation plan/i }))
+        .getAllByRole("row")
+        .find((r) => within(r).queryByText(sym) !== null);
+    await waitFor(() => {
+      const row = findRow("BBB");
+      expect(row).toBeDefined();
+    });
+    const bbbRow = findRow("BBB")!;
+    await user.click(within(bbbRow).getByRole("button", { name: /^exclude bbb$/i }));
+    unmount();
+
+    // Re-mount the screen with no initialOptions — it should pull the
+    // prefs we just saved (capital, topN, mode, hideUnallocated,
+    // excludedSymbols) and re-apply them.
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA"), fakeRow("BBB")]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 50 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 40 }),
+        }}
+      />,
+    );
+    expect(
+      (screen.getByLabelText(/capital available/i) as HTMLInputElement).value,
+    ).toBe("12500");
+    expect(
+      (screen.getByLabelText(/maximum number of candidates/i) as HTMLInputElement).value,
+    ).toBe("5");
+    expect(
+      (screen.getByLabelText(/hide unallocated/i) as HTMLInputElement).checked,
+    ).toBe(true);
+    // BBB stays excluded — its Include button must be present.
+    const tablePost = screen.getByRole("table", { name: /capital allocation plan/i });
+    const bbbPost = within(tablePost)
+      .getAllByRole("row")
+      .find((r) => within(r).queryByText("BBB") !== null)!;
+    expect(within(bbbPost).getByRole("button", { name: /include/i })).toBeInTheDocument();
   });
 
   it("navigates to a stock when its symbol button is clicked", async () => {

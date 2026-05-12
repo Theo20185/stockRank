@@ -1747,6 +1747,17 @@ main.app--message h1 {
   color: var(--text-faint);
 }
 
+.plan-table__row--excluded {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-faint);
+  background: var(--surface-alt);
+}
+
+.plan-table__row--excluded .plan-table__symbol {
+  color: var(--text-muted);
+}
+
 .plan-table__symbol {
   background: transparent;
   border: none;
@@ -1755,6 +1766,25 @@ main.app--message h1 {
   color: var(--accent);
   cursor: pointer;
   font-weight: 600;
+}
+
+.plan-table__exclude {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2px var(--sp-2);
+  font-size: var(--fs-tiny);
+  cursor: pointer;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.plan-table__row--excluded .plan-table__exclude {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* ─── Focus-visible: keyboard navigation hint ──────────────────────── */

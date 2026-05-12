@@ -109,6 +109,59 @@ test.describe("Capital Plan screen — e2e", () => {
     expect(filteredRows).toBe(allRows - zeroRowsBefore);
   });
 
+  test("exclude button per row removes that name from allocation and persists across reload", async ({ page }) => {
+    await page.goto("/#/plan");
+    await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });
+    await page.getByLabel(/capital available/i).fill("50000");
+    await expect(
+      page.getByRole("table", { name: /capital allocation plan/i }),
+    ).toBeVisible();
+
+    // Grab the first allocated row's symbol so the test works against
+    // whatever data is committed today.
+    const firstAllocatedSymbol = await page.evaluate(() => {
+      const tbl = document.querySelector("table.plan-table");
+      if (!tbl) return null;
+      for (const row of Array.from(tbl.querySelectorAll("tbody tr"))) {
+        const cells = row.querySelectorAll("td");
+        const contracts = parseInt(cells[5]?.textContent?.trim() ?? "0", 10);
+        if (contracts > 0) {
+          return cells[1]?.textContent?.trim() ?? null;
+        }
+      }
+      return null;
+    });
+    test.skip(!firstAllocatedSymbol, "No allocated rows at this capital");
+
+    // Click the Exclude button on the first allocated row.
+    const excludeBtn = page.getByRole("button", {
+      name: new RegExp(`^exclude ${firstAllocatedSymbol}$`, "i"),
+    });
+    await excludeBtn.click();
+
+    // That row's button now reads "Include"; the row's contracts cell is 0.
+    await expect(
+      page.getByRole("button", {
+        name: new RegExp(`^include ${firstAllocatedSymbol}$`, "i"),
+      }),
+    ).toBeVisible();
+
+    // Reload → exclusion persists via localStorage.
+    await page.reload();
+    await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });
+    await expect(
+      page.getByRole("button", {
+        name: new RegExp(`^include ${firstAllocatedSymbol}$`, "i"),
+      }),
+    ).toBeVisible();
+
+    // Clean up so the next e2e run starts from defaults.
+    await page.getByRole("button", {
+      name: new RegExp(`^include ${firstAllocatedSymbol}$`, "i"),
+    }).click();
+    await page.evaluate(() => window.localStorage.removeItem("stockrank.plan-prefs"));
+  });
+
   test("switching expiration mode re-renders the table", async ({ page }) => {
     await page.goto("/#/plan");
     await expect(page.getByText(/loading options data/i)).toBeHidden({ timeout: 30_000 });

@@ -78,8 +78,12 @@ describe("buildCapitalPlan — basic allocation", () => {
     expect(plan.remaining).toBe(0);
   });
 
-  it("respects topN and ignores candidates beyond the cap", () => {
-    // 4 candidates but topN=2: only AAA and BBB get any allocation.
+  it("respects topN and drops candidates beyond the cap from items", () => {
+    // 4 candidates but topN=2: only AAA and BBB participate in the
+    // budget. CCC and DDD don't appear in items at all — they're not
+    // actionable and would just clutter the rendered table. (Excluded
+    // names DO stay in items so the UI can offer to un-exclude them;
+    // that's a separate concern from topN cutoff.)
     const plan = buildCapitalPlan({
       capital: 20000,
       candidates: [cand("AAA", 50), cand("BBB", 100), cand("CCC", 25), cand("DDD", 75)],
@@ -87,7 +91,6 @@ describe("buildCapitalPlan — basic allocation", () => {
     });
     expect(plan.items).toHaveLength(2);
     expect(plan.items.map((i) => i.symbol)).toEqual(["AAA", "BBB"]);
-    // Equal budget $10k. AAA → 2 ($10k). BBB → 1 ($10k). remaining $0.
     expect(plan.items.map((i) => i.contracts)).toEqual([2, 1]);
     expect(plan.remaining).toBe(0);
   });
@@ -151,6 +154,74 @@ describe("buildCapitalPlan — edge cases", () => {
       topN: 10,
     });
     expect(plan.items).toHaveLength(2);
+  });
+});
+
+describe("buildCapitalPlan — excludedSymbols", () => {
+  it("skips excluded names entirely so they don't consume budget", () => {
+    // Without exclusion: capital $30k / 3 names → $10k budget each.
+    //   AAA $50 strike → 2 contracts; BBB $100 → 1; CCC $25 → 4.
+    // Exclude BBB: budget recomputes against the 2 remaining names.
+    //   $15k each. AAA → 3 ($15k). CCC → 6 ($15k). remaining $0.
+    const plan = buildCapitalPlan({
+      capital: 30000,
+      candidates: [cand("AAA", 50), cand("BBB", 100), cand("CCC", 25)],
+      excludedSymbols: new Set(["BBB"]),
+    });
+    // Excluded names still appear in items so the UI can render them,
+    // but contracts must be 0 and they don't consume any allocation.
+    expect(plan.items).toHaveLength(3);
+    expect(plan.items.find((i) => i.symbol === "AAA")?.contracts).toBe(3);
+    expect(plan.items.find((i) => i.symbol === "BBB")?.contracts).toBe(0);
+    expect(plan.items.find((i) => i.symbol === "BBB")?.totalCollateral).toBe(0);
+    expect(plan.items.find((i) => i.symbol === "CCC")?.contracts).toBe(6);
+    expect(plan.allocated).toBe(30000);
+  });
+
+  it("returns the original plan when excludedSymbols is empty or omitted", () => {
+    const without = buildCapitalPlan({
+      capital: 30000,
+      candidates: [cand("AAA", 50), cand("BBB", 100), cand("CCC", 25)],
+    });
+    const withEmpty = buildCapitalPlan({
+      capital: 30000,
+      candidates: [cand("AAA", 50), cand("BBB", 100), cand("CCC", 25)],
+      excludedSymbols: new Set(),
+    });
+    expect(without.allocated).toBe(withEmpty.allocated);
+    expect(without.items.map((i) => i.contracts)).toEqual(
+      withEmpty.items.map((i) => i.contracts),
+    );
+  });
+
+  it("respects topN over the SURVIVING candidates after exclusion", () => {
+    // 4 candidates ranked AAA, BBB, CCC, DDD. Exclude BBB. topN=2.
+    // The 2 considered are AAA + CCC (BBB skipped, DDD over the topN
+    // cap of the post-exclusion list).
+    //
+    // Items returned: AAA (allocated), BBB (excluded, 0 contracts),
+    // CCC (allocated). DDD is dropped — neither considered nor excluded.
+    const plan = buildCapitalPlan({
+      capital: 20000,
+      candidates: [cand("AAA", 50), cand("BBB", 100), cand("CCC", 25), cand("DDD", 40)],
+      excludedSymbols: new Set(["BBB"]),
+      topN: 2,
+    });
+    const allocated = plan.items.filter((i) => i.contracts > 0).map((i) => i.symbol);
+    expect(allocated.sort()).toEqual(["AAA", "CCC"]);
+    expect(plan.items.find((i) => i.symbol === "BBB")?.contracts).toBe(0);
+    expect(plan.items.find((i) => i.symbol === "DDD")).toBeUndefined();
+  });
+
+  it("when every survivor is excluded, no allocation happens", () => {
+    const plan = buildCapitalPlan({
+      capital: 30000,
+      candidates: [cand("AAA", 50), cand("BBB", 100)],
+      excludedSymbols: new Set(["AAA", "BBB"]),
+    });
+    expect(plan.allocated).toBe(0);
+    expect(plan.remaining).toBe(30000);
+    expect(plan.items.every((i) => i.contracts === 0)).toBe(true);
   });
 });
 
