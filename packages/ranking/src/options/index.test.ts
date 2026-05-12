@@ -364,6 +364,79 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     }
   });
 
+  it("rejects strikes more than 25% out-of-the-money (data-quality cap)", () => {
+    // SYF 2026-05-13: even with closest-to-current, the chain only had
+    // $32.50 and $35 passing the bid>0/IV>0 filter at the monthly
+    // expiration (intermediate strikes had penny bids or stale IV).
+    // The MAX-strike rule then picked $35 — still 50% OTM at S=$70.
+    // The user expectation is "close to current" — 25% is the cap.
+    // Anything deeper → no put emitted for that expiration.
+    //
+    // current=$100. Listed [50, 60, 95]:
+    //   $50 — 50% OTM, rejected by cap.
+    //   $60 — 40% OTM, rejected by cap.
+    //   $95 — 5% OTM, accepted. Pick.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [
+      contract("P", 50, 1.0),
+      contract("P", 60, 1.5),
+      contract("P", 95, 3.0),
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2026-06-19", selectionReason: "monthly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(95);
+  });
+
+  it("emits no put when every listed OTM strike is more than 25% OTM", () => {
+    // F 2026-05-13: monthly chain only had K=$4 with bid=$0.01 passing
+    // the OTM + bid>0 filters at current=$11.82. Better to emit no put
+    // than a garbage one — the user can switch to weekly/yearly modes
+    // or accept that the symbol has no actionable put this expiration.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [
+      contract("P", 70, 1.5),  // 30% OTM — rejected
+      contract("P", 50, 1.2),  // 50% OTM — rejected
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2026-06-19", selectionReason: "monthly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
+  });
+
+  it("rejects strikes with penny bids (premium < $10 per contract)", () => {
+    // F 2026-05-13: monthly chain $4 strike had bid=$0.01 ($1 per
+    // contract). Stale / no-real-market quote. Filter floor: bid × 100
+    // ≥ $10 — equivalent to at least one penny per share of premium.
+    //
+    // current=$100. Listed [90, 95]:
+    //   $90 bid 0.05 → $5/contract — REJECTED
+    //   $95 bid 0.20 → $20/contract — accepted. Pick.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [
+      contract("P", 90, 0.05),
+      contract("P", 95, 0.20),
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2026-06-19", selectionReason: "monthly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(95);
+  });
+
   it("picks the OTM strike CLOSEST to current price, not the one with highest yield (SYF regression)", () => {
     // 2026-05-13 live-data audit: SYF current $70.28, monthly chain
     // returned $32.50 strike with bid $1.15 and IV=188.6% (clearly

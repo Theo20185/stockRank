@@ -117,25 +117,31 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
 
   // ---- Single cash-secured put: highest OTM strike (closest to current) ----
   //
-  // Strike selection rule (revised 2026-05-13 — closest-to-current):
+  // Strike selection rule (revised 2026-05-13 — closest-to-current,
+  // bounded):
   //   1. Filter to strikes STRICTLY BELOW current price — OTM only.
-  //   2. Require bid > 0 AND impliedVolatility > 0 (tradeable contract).
-  //   3. Among those, pick the MAX strike — the OTM strike closest to
-  //      current price ("least OTM" / near-ATM).
+  //   2. Cap maximum OTM distance: strike ≥ currentPrice × 0.75.
+  //      Deeper strikes (> 25% OTM) require an implausible crash
+  //      before assignment AND tend to surface stale-IV / penny-bid
+  //      data that doesn't reflect real market liquidity.
+  //   3. Require bid > 0 AND impliedVolatility > 0 (tradeable contract).
+  //   4. Require bid × 100 ≥ $10 of premium per contract. Cuts out
+  //      pathological penny quotes (F 2026-05-13: $4 strike bid $0.01
+  //      passed the IV>0 filter but the $1 premium per contract is
+  //      noise, not income).
+  //   5. Among survivors, pick the MAX strike — the OTM strike closest
+  //      to current price ("least OTM" / near-ATM).
   //
-  // History: the prior "max bid/K yield" rule blew up on SYF 2026-05-13
-  // — Yahoo returned a $32.50 strike with $1.15 bid and IV=188.6%
-  // (clearly stale data) for a stock at $70.28. The deep-OTM yield
-  // beat the near-ATM yield because the denominator (K) was tiny,
-  // and the engine picked a strike requiring a 54% crash before
-  // assignment — useless for a "would-own-here" anchor.
-  //
-  // Closest-to-current is the cleaner rule: it gives the strike
-  // where premium-per-day-of-time-value is highest in practice
-  // (near-ATM puts price the most time value), it matches the
-  // user's "if I'm assigned I'd own at this price" mental model,
-  // and it's immune to the deep-OTM stale-bid trap that motivated
-  // this change.
+  // When NO strike survives, the put is suppressed for that expiration.
+  // The user sees an empty puts list for that mode and can switch to
+  // weekly/yearly — better than a garbage strike pretending to be
+  // actionable. History motivating each filter:
+  //   - 2026-04-27 (EIX): deep-ITM strikes with IV=0 priced as forwards.
+  //   - 2026-05-13 (SYF): deep-OTM strike with stale IV=188.6%.
+  //   - 2026-05-13 (F):   penny bid on $4 strike at $11.82 current.
+  const MIN_OTM_STRIKE_FRACTION = 0.75;
+  const MIN_PREMIUM_PER_CONTRACT_DOLLARS = 10;
+
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
     return {
@@ -147,10 +153,13 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     };
   }
 
+  const minStrike = currentPrice * MIN_OTM_STRIKE_FRACTION;
   let bestStrike: number | null = null;
   for (const strike of putStrikes) {
     // OTM-only: strike strictly less than current.
     if (strike >= currentPrice) continue;
+    // Max-OTM cap: strike no more than 25% below current.
+    if (strike < minStrike) continue;
     const c = findContract(group.puts, strike);
     if (
       c === undefined ||
@@ -161,6 +170,8 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     ) {
       continue;
     }
+    // Premium floor: at least $10 per contract.
+    if (c.bid * 100 < MIN_PREMIUM_PER_CONTRACT_DOLLARS) continue;
     if (bestStrike === null || strike > bestStrike) {
       bestStrike = strike;
     }
