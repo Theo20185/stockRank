@@ -364,6 +364,37 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     }
   });
 
+  it("picks the OTM strike CLOSEST to current price, not the one with highest yield (SYF regression)", () => {
+    // 2026-05-13 live-data audit: SYF current $70.28, monthly chain
+    // returned $32.50 strike with bid $1.15 and IV=188.6% (clearly
+    // stale/anomalous), which beat near-ATM strikes on the bid/K
+    // yield metric. The fix: among OTM strikes with bid > 0, pick the
+    // MAX strike (closest to current) instead of max yield, so the
+    // user gets a sensible "would own at this price" anchor.
+    //
+    // current=$100. Listed:
+    //   $30 bid 1.50 → yield 5.00% (deeper OTM, stale-IV style)
+    //   $50 bid 1.20 → yield 2.40%
+    //   $90 bid 2.50 → yield 2.78%
+    //   $95 bid 3.00 → yield 3.16%   ← winner under new rule (closest to current)
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [
+      contract("P", 30, 1.5),
+      contract("P", 50, 1.2),
+      contract("P", 90, 2.5),
+      contract("P", 95, 3.0),
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2026-06-19", selectionReason: "monthly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(95);
+  });
+
   it("picks the OTM strike when only sub-current strikes are listed", () => {
     // current=$100, p25=$120, listed strikes only [80, 90].
     // $80 bid 2, TV 2, yield 2.5%

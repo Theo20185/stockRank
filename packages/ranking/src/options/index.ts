@@ -115,24 +115,27 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     }
   }
 
-  // ---- Single cash-secured put: strike picked by max time-value yield ----
+  // ---- Single cash-secured put: highest OTM strike (closest to current) ----
   //
-  // Strike selection rule (revised 2026-05-13 — OTM-only):
-  //   1. Filter to strikes with bid > 0 AND impliedVolatility > 0.
-  //      (Excludes deep-ITM strikes the market prices as forwards.)
-  //   2. Filter to strikes STRICTLY BELOW current price — OTM only.
-  //      Live-data audit caught 92 ITM puts in committed JSONs under
-  //      the old "≤ p25" rule. ATM/ITM puts have intrinsic value that
-  //      isn't real premium; the workflow rejects them outright.
-  //   3. Among those, pick the strike with maximum TIME-VALUE YIELD =
-  //      bid / K. (With OTM-only the intrinsic term is always 0, so
-  //      time-value yield collapses to raw premium yield.)
+  // Strike selection rule (revised 2026-05-13 — closest-to-current):
+  //   1. Filter to strikes STRICTLY BELOW current price — OTM only.
+  //   2. Require bid > 0 AND impliedVolatility > 0 (tradeable contract).
+  //   3. Among those, pick the MAX strike — the OTM strike closest to
+  //      current price ("least OTM" / near-ATM).
   //
-  // The p25 upper bound used to mean "I'd happily own at this price or
-  // below". Under OTM-only the engine's value-approval still applies
-  // — for any Ranked stock current < p25 by definition, so any OTM
-  // put strike (< current) is also < p25 implicitly. The p25 ceiling
-  // is therefore redundant under the new rule and removed.
+  // History: the prior "max bid/K yield" rule blew up on SYF 2026-05-13
+  // — Yahoo returned a $32.50 strike with $1.15 bid and IV=188.6%
+  // (clearly stale data) for a stock at $70.28. The deep-OTM yield
+  // beat the near-ATM yield because the denominator (K) was tiny,
+  // and the engine picked a strike requiring a 54% crash before
+  // assignment — useless for a "would-own-here" anchor.
+  //
+  // Closest-to-current is the cleaner rule: it gives the strike
+  // where premium-per-day-of-time-value is highest in practice
+  // (near-ATM puts price the most time value), it matches the
+  // user's "if I'm assigned I'd own at this price" mental model,
+  // and it's immune to the deep-OTM stale-bid trap that motivated
+  // this change.
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
     return {
@@ -145,7 +148,6 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   }
 
   let bestStrike: number | null = null;
-  let bestYield = -Infinity;
   for (const strike of putStrikes) {
     // OTM-only: strike strictly less than current.
     if (strike >= currentPrice) continue;
@@ -159,10 +161,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     ) {
       continue;
     }
-    // Time-value yield collapses to bid/K for strictly OTM puts.
-    const tvYield = c.bid / strike;
-    if (tvYield > bestYield) {
-      bestYield = tvYield;
+    if (bestStrike === null || strike > bestStrike) {
       bestStrike = strike;
     }
   }

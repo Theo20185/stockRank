@@ -165,6 +165,33 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     expect(itmCalls, `ITM calls: ${itmCalls.slice(0, 10).join("; ")}`).toEqual([]);
   });
 
+  it("put strikes land within a reasonable distance of current price (SYF-class regression)", () => {
+    // 2026-05-13 SYF audit: monthly chain picked $32.50 strike when
+    // current was $70.28 — a 54% OTM strike with a stale-IV bid that
+    // beat near-ATM strikes on the old max-bid/K-yield rule. After
+    // the closest-to-current rewrite, no committed put should land
+    // more than ~25% below current price for a name with normal
+    // listings. (If a symbol's chain genuinely only lists deep-OTM
+    // strikes Yahoo's data is broken; the test would still flag it
+    // for review.)
+    const MAX_OTM_PCT = 0.25;
+    const offenders: string[] = [];
+    for (const { symbol, view } of files) {
+      const cp = view.currentPrice;
+      for (const exp of view.expirations) {
+        for (const p of exp.puts) {
+          const otmPct = (cp - p.contract.strike) / cp;
+          if (otmPct > MAX_OTM_PCT) {
+            offenders.push(
+              `${symbol} ${exp.selectionReason} K=$${p.contract.strike} S=$${cp.toFixed(2)} (${(otmPct * 100).toFixed(1)}% OTM)`,
+            );
+          }
+        }
+      }
+    }
+    expect(offenders, `puts more than 25% OTM: ${offenders.slice(0, 10).join("; ")}`).toEqual([]);
+  });
+
   it("EIX-class regression: monthly picks the next listed 3rd-week date even when it's not a Friday", () => {
     // The 2026-05-11 bug: Yahoo returned EIX's June expiration as
     // "2026-06-18" — OCC symbol literally "EIX260618", which falls on
