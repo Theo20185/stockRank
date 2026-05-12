@@ -1,98 +1,19 @@
 {
   "symbol": "MAA",
-  "fetchedAt": "2026-05-12T00:15:33.639Z",
-  "currentPrice": 129.72,
+  "fetchedAt": "2026-05-12T13:44:52.309Z",
+  "currentPrice": 129.39,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 133.65461001199998,
-          "contract": {
-            "contractSymbol": "MAA260515P00120000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 120,
-            "bid": 0.05,
-            "ask": 0.25,
-            "lastPrice": 0.15,
-            "volume": 6,
-            "openInterest": 237,
-            "impliedVolatility": 0.5293015820312501,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.0004166666666666667,
-          "notAssignedAnnualizedPct": 0.05069444444444445,
-          "effectiveCostBasis": 119.95,
-          "effectiveDiscountPct": 0.0753160653715695,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 133.65461001199998,
-          "contract": {
-            "contractSymbol": "MAA260618C00135000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 135,
-            "bid": 1.1,
-            "ask": 2.15,
-            "lastPrice": 1.7,
-            "volume": 1,
-            "openInterest": 72,
-            "impliedVolatility": 0.25135026000976557,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.013274597172413501,
-          "staticAnnualizedPct": 0.13095210724137643,
-          "assignedReturnPct": 0.053977649901368184,
-          "assignedAnnualizedPct": 0.5324822219999834,
-          "effectiveCostBasis": 128.62,
-          "effectiveDiscountPct": 0.008479802651865558
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 133.65461001199998,
-          "contract": {
-            "contractSymbol": "MAA260618P00125000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 125,
-            "bid": 1.4,
-            "ask": 1.9,
-            "lastPrice": 1.8,
-            "volume": 6,
-            "openInterest": 243,
-            "impliedVolatility": 0.23206334350585936,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0112,
-          "notAssignedAnnualizedPct": 0.11048648648648648,
-          "effectiveCostBasis": 123.6,
-          "effectiveDiscountPct": 0.04717853839037931,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

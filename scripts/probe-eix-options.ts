@@ -49,6 +49,21 @@ async function main(): Promise<void> {
     const ymd = m[1]!;
     console.log(`  → embedded expiry: 20${ymd.slice(0, 2)}-${ymd.slice(2, 4)}-${ymd.slice(4, 6)}`);
   }
+  const spot = (raw.quote?.regularMarketPrice ?? 0) as number;
+  const lowBound = spot * 0.5;
+  const highBound = spot * 1.0;
+  console.log(`\nPuts in [${lowBound.toFixed(2)}, ${highBound.toFixed(2)}]:`);
+  for (const p of (block?.puts ?? []) as Array<{
+    strike?: number; bid?: number | null; ask?: number | null;
+    impliedVolatility?: number | null; openInterest?: number | null;
+  }>) {
+    if ((p.strike ?? 0) >= lowBound && (p.strike ?? 0) <= highBound) {
+      const pct = (((spot - (p.strike ?? 0)) / spot) * 100).toFixed(1);
+      console.log(
+        `  K=$${p.strike} bid=$${p.bid} ask=$${p.ask} IV=${(p.impliedVolatility ?? 0).toFixed(3)} OI=${p.openInterest}  (${pct}% OTM)`,
+      );
+    }
+  }
 }
 
 main().catch((err) => {

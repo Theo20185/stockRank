@@ -1,184 +1,25 @@
 {
   "symbol": "HON",
-  "fetchedAt": "2026-05-12T00:15:38.972Z",
-  "currentPrice": 219.11,
+  "fetchedAt": "2026-05-12T13:44:59.530Z",
+  "currentPrice": 216.535,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON260515C00227500",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 227.5,
-            "bid": 0.25,
-            "ask": 0.65,
-            "lastPrice": 0.45,
-            "volume": 65,
-            "openInterest": 65,
-            "impliedVolatility": 0.3501041552734374,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.001324267087964199,
-          "staticAnnualizedPct": 0.16111916236897755,
-          "assignedReturnPct": 0.03961553631346731,
-          "assignedAnnualizedPct": 4.819890251471856,
-          "effectiveCostBasis": 218.86,
-          "effectiveDiscountPct": 0.001140979416731322
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON260515P00217500",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 217.5,
-            "bid": 2.45,
-            "ask": 2.85,
-            "lastPrice": 2.53,
-            "volume": 9,
-            "openInterest": 21,
-            "impliedVolatility": 0.39465937377929694,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.011264367816091955,
-          "notAssignedAnnualizedPct": 1.370498084291188,
-          "effectiveCostBasis": 215.05,
-          "effectiveDiscountPct": 0.01852950572771668,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON260618C00230000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 230,
-            "bid": 3.6,
-            "ask": 3.9,
-            "lastPrice": 3.74,
-            "volume": 137,
-            "openInterest": 5816,
-            "impliedVolatility": 0.284614087524414,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.018690651546136517,
-          "staticAnnualizedPct": 0.1843807517389143,
-          "assignedReturnPct": 0.06839171493895284,
-          "assignedAnnualizedPct": 0.6746750257491294,
-          "effectiveCostBasis": 215.51000000000002,
-          "effectiveDiscountPct": 0.01643010360093104
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON260618P00210000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 210,
-            "bid": 4.4,
-            "ask": 4.6,
-            "lastPrice": 4.4,
-            "volume": 64,
-            "openInterest": 885,
-            "impliedVolatility": 0.30359583129882806,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.020952380952380955,
-          "notAssignedAnnualizedPct": 0.2066924066924067,
-          "effectiveCostBasis": 205.6,
-          "effectiveDiscountPct": 0.06165852768016073,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON270115C00230000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 230,
-            "bid": 16.2,
-            "ask": 16.8,
-            "lastPrice": 17,
-            "volume": 25,
-            "openInterest": 668,
-            "impliedVolatility": 0.29550875396728515,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.08908724702610747,
-          "staticAnnualizedPct": 0.13111631114729527,
-          "assignedReturnPct": 0.1387883104189238,
-          "assignedAnnualizedPct": 0.20426505364075478,
-          "effectiveCostBasis": 202.91000000000003,
-          "effectiveDiscountPct": 0.07393546620418967
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 227.2770469618128,
-          "contract": {
-            "contractSymbol": "HON270115P00210000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 210,
-            "bid": 14.7,
-            "ask": 15.9,
-            "lastPrice": 16,
-            "volume": 10,
-            "openInterest": 244,
-            "impliedVolatility": 0.2854990884399413,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.06999999999999999,
-          "notAssignedAnnualizedPct": 0.10302419354838709,
-          "effectiveCostBasis": 195.3,
-          "effectiveDiscountPct": 0.10866687964949112,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

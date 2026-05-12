@@ -1,130 +1,25 @@
 {
   "symbol": "ADP",
-  "fetchedAt": "2026-05-12T00:15:19.096Z",
-  "currentPrice": 211.67,
+  "fetchedAt": "2026-05-12T13:44:41.418Z",
+  "currentPrice": 212.32,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 279.93183565714634,
-          "contract": {
-            "contractSymbol": "ADP260515P00210000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 210,
-            "bid": 1.85,
-            "ask": 2.3,
-            "lastPrice": 2.31,
-            "volume": 18,
-            "openInterest": 163,
-            "impliedVolatility": 0.3479069116210937,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.00880952380952381,
-          "notAssignedAnnualizedPct": 1.071825396825397,
-          "effectiveCostBasis": 208.15,
-          "effectiveDiscountPct": 0.01662965937544282,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 279.93183565714634,
-          "contract": {
-            "contractSymbol": "ADP260618P00210000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 210,
-            "bid": 7,
-            "ask": 8.3,
-            "lastPrice": 7.9,
-            "volume": 14,
-            "openInterest": 270,
-            "impliedVolatility": 0.33588310607910155,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.03333333333333333,
-          "notAssignedAnnualizedPct": 0.3288288288288288,
-          "effectiveCostBasis": 203,
-          "effectiveDiscountPct": 0.040959984882127785,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 279.93183565714634,
-          "contract": {
-            "contractSymbol": "ADP270115C00280000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 280,
-            "bid": 2.35,
-            "ask": 3.5,
-            "lastPrice": 1.92,
-            "volume": 1,
-            "openInterest": 138,
-            "impliedVolatility": 0.2905649557495117,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.032776707915073276,
-          "staticAnnualizedPct": 0.048239912858878006,
-          "assignedReturnPct": 0.35559052187075907,
-          "assignedAnnualizedPct": 0.5233489535597865,
-          "effectiveCostBasis": 209.32,
-          "effectiveDiscountPct": 0.011102187367128077
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 279.93183565714634,
-          "contract": {
-            "contractSymbol": "ADP270115P00210000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 210,
-            "bid": 19.2,
-            "ask": 21,
-            "lastPrice": 26.39,
-            "volume": 2,
-            "openInterest": 232,
-            "impliedVolatility": 0.315161877746582,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09142857142857143,
-          "notAssignedAnnualizedPct": 0.13456221198156681,
-          "effectiveCostBasis": 190.8,
-          "effectiveDiscountPct": 0.0985968724901969,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

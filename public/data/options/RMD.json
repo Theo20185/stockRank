@@ -1,43 +1,23 @@
 {
   "symbol": "RMD",
-  "fetchedAt": "2026-05-12T00:14:41.011Z",
-  "currentPrice": 198.76,
+  "fetchedAt": "2026-05-12T13:44:04.094Z",
+  "currentPrice": 200.54,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 235.7400826320076,
-          "contract": {
-            "contractSymbol": "RMD260515P00195000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 195,
-            "bid": 1.15,
-            "ask": 1.7,
-            "lastPrice": 1.3,
-            "volume": 205,
-            "openInterest": 660,
-            "impliedVolatility": 0.3940490283203125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.005897435897435897,
-          "notAssignedAnnualizedPct": 0.7175213675213674,
-          "effectiveCostBasis": 193.85,
-          "effectiveDiscountPct": 0.024703159589454602,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": []
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
       "coveredCalls": [],
       "puts": [
         {
@@ -45,83 +25,24 @@
           "anchor": "p25",
           "anchorPrice": 235.7400826320076,
           "contract": {
-            "contractSymbol": "RMD260618P00195000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 195,
-            "bid": 5,
-            "ask": 6,
-            "lastPrice": 4.54,
-            "volume": 3,
-            "openInterest": 40,
-            "impliedVolatility": 0.30536583312988286,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.02564102564102564,
-          "notAssignedAnnualizedPct": 0.25294525294525294,
-          "effectiveCostBasis": 190,
-          "effectiveDiscountPct": 0.044073254175890475,
-          "inTheMoney": false
-        }
-      ]
-    },
-    {
-      "expiration": "2027-01-15",
-      "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 235.7400826320076,
-          "contract": {
-            "contractSymbol": "RMD270115C00240000",
+            "contractSymbol": "RMD270115P00165000",
             "expiration": "2027-01-15",
             "daysToExpiry": 248,
-            "strike": 240,
-            "bid": 7.9,
-            "ask": 10.5,
-            "lastPrice": 21.75,
-            "volume": 2,
-            "openInterest": 19,
-            "impliedVolatility": 0.36340968627929693,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0476280716883031,
-          "staticAnnualizedPct": 0.07009776679931706,
-          "assignedReturnPct": 0.25511448746612564,
-          "assignedAnnualizedPct": 0.37547091905296714,
-          "effectiveCostBasis": 190.85999999999999,
-          "effectiveDiscountPct": 0.03974642785268666
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 235.7400826320076,
-          "contract": {
-            "contractSymbol": "RMD270115P00195000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 195,
-            "bid": 16.4,
-            "ask": 18.8,
-            "lastPrice": 16.88,
+            "strike": 165,
+            "bid": 2.3,
+            "ask": 5,
+            "lastPrice": 5.41,
             "volume": 1,
-            "openInterest": 82,
-            "impliedVolatility": 0.3189765368652343,
+            "openInterest": 1,
+            "impliedVolatility": 0.2880930566406249,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.0841025641025641,
-          "notAssignedAnnualizedPct": 0.1237799834574028,
-          "effectiveCostBasis": 178.6,
-          "effectiveDiscountPct": 0.10142885892533708,
+          "notAssignedReturnPct": 0.013939393939393939,
+          "notAssignedAnnualizedPct": 0.02051564027370479,
+          "effectiveCostBasis": 162.7,
+          "effectiveDiscountPct": 0.18869053555400422,
           "inTheMoney": false
         }
       ]

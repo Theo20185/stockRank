@@ -1,125 +1,19 @@
 {
   "symbol": "CDW",
-  "fetchedAt": "2026-05-12T00:15:35.390Z",
-  "currentPrice": 102.54,
+  "fetchedAt": "2026-05-12T13:44:54.043Z",
+  "currentPrice": 101.53,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 105.37983248518958,
-          "contract": {
-            "contractSymbol": "CDW260515C00110000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 110,
-            "bid": 0.15,
-            "ask": 0.25,
-            "lastPrice": 0.19,
-            "volume": 43,
-            "openInterest": 729,
-            "impliedVolatility": 0.5097705273437501,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.0016601040422581496,
-          "staticAnnualizedPct": 0.2019793251414082,
-          "assignedReturnPct": 0.07441220078499262,
-          "assignedAnnualizedPct": 9.05348442884077,
-          "effectiveCostBasis": 102.39,
-          "effectiveDiscountPct": 0.0014628437682855469
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 105.37983248518958,
-          "contract": {
-            "contractSymbol": "CDW260515P00100000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 100,
-            "bid": 0.65,
-            "ask": 1.2,
-            "lastPrice": 1,
-            "volume": 26,
-            "openInterest": 1152,
-            "impliedVolatility": 0.5307664111328125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.006500000000000001,
-          "notAssignedAnnualizedPct": 0.7908333333333334,
-          "effectiveCostBasis": 99.35,
-          "effectiveDiscountPct": 0.031109810805539415,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 105.37983248518958,
-          "contract": {
-            "contractSymbol": "CDW260618C00110000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 110,
-            "bid": 2.1,
-            "ask": 2.7,
-            "lastPrice": 2.6,
-            "volume": 72,
-            "openInterest": 646,
-            "impliedVolatility": 0.4146787048339844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.022912689468326426,
-          "staticAnnualizedPct": 0.2260305852956526,
-          "assignedReturnPct": 0.09566478621106089,
-          "assignedAnnualizedPct": 0.9437201882983034,
-          "effectiveCostBasis": 100.44000000000001,
-          "effectiveDiscountPct": 0.02047981275599766
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 105.37983248518958,
-          "contract": {
-            "contractSymbol": "CDW260618P00100000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 100,
-            "bid": 3.7,
-            "ask": 4.5,
-            "lastPrice": 3.9,
-            "volume": 8,
-            "openInterest": 317,
-            "impliedVolatility": 0.4361628649902344,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.037000000000000005,
-          "notAssignedAnnualizedPct": 0.36500000000000005,
-          "effectiveCostBasis": 96.3,
-          "effectiveDiscountPct": 0.060854300760678846,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

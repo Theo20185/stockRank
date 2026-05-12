@@ -1,130 +1,25 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-05-12T00:13:41.342Z",
-  "currentPrice": 28.92,
+  "fetchedAt": "2026-05-12T13:43:00.717Z",
+  "currentPrice": 28.74,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 32.74106873490448,
-          "contract": {
-            "contractSymbol": "VICI260515P00027500",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 27.5,
-            "bid": 0.05,
-            "ask": 0.1,
-            "lastPrice": 0.06,
-            "volume": 29,
-            "openInterest": 1949,
-            "impliedVolatility": 0.45313046875,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.0018181818181818182,
-          "notAssignedAnnualizedPct": 0.22121212121212122,
-          "effectiveCostBasis": 27.45,
-          "effectiveDiscountPct": 0.05082987551867228,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 32.74106873490448,
-          "contract": {
-            "contractSymbol": "VICI260618P00027500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 27.5,
-            "bid": 0.3,
-            "ask": 0.45,
-            "lastPrice": 0.35,
-            "volume": 203,
-            "openInterest": 4612,
-            "impliedVolatility": 0.27686270019531245,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.010909090909090908,
-          "notAssignedAnnualizedPct": 0.10761670761670761,
-          "effectiveCostBasis": 27.2,
-          "effectiveDiscountPct": 0.05947441217150769,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 32.74106873490448,
-          "contract": {
-            "contractSymbol": "VICI270115C00035000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 35,
-            "bid": 0.15,
-            "ask": 0.35,
-            "lastPrice": 0.25,
-            "volume": 1,
-            "openInterest": 3848,
-            "impliedVolatility": 0.20508607421874997,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.04717685897800261,
-          "staticAnnualizedPct": 0.06943368357649578,
-          "assignedReturnPct": 0.25741199037495965,
-          "assignedAnnualizedPct": 0.3788523245437914,
-          "effectiveCostBasis": 28.770000000000003,
-          "effectiveDiscountPct": 0.005186721991701245
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 32.74106873490448,
-          "contract": {
-            "contractSymbol": "VICI270115P00027500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 27.5,
-            "bid": 1.3,
-            "ask": 1.8,
-            "lastPrice": 1.65,
-            "volume": 181,
-            "openInterest": 1394,
-            "impliedVolatility": 0.26367923828125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04727272727272727,
-          "notAssignedAnnualizedPct": 0.06957478005865102,
-          "effectiveCostBasis": 26.2,
-          "effectiveDiscountPct": 0.09405255878284932,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

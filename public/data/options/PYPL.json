@@ -1,130 +1,25 @@
 {
   "symbol": "PYPL",
-  "fetchedAt": "2026-05-12T00:13:57.485Z",
-  "currentPrice": 45.07,
+  "fetchedAt": "2026-05-12T13:43:20.923Z",
+  "currentPrice": 44.58,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96466962123968,
-          "contract": {
-            "contractSymbol": "PYPL260515P00045000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 45,
-            "bid": 0.62,
-            "ask": 0.64,
-            "lastPrice": 0.64,
-            "volume": 1667,
-            "openInterest": 11746,
-            "impliedVolatility": 0.358404853515625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.013777777777777778,
-          "notAssignedAnnualizedPct": 1.6762962962962964,
-          "effectiveCostBasis": 44.38,
-          "effectiveDiscountPct": 0.015309518526736138,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96466962123968,
-          "contract": {
-            "contractSymbol": "PYPL260618P00045000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 45,
-            "bid": 1.81,
-            "ask": 1.9,
-            "lastPrice": 1.83,
-            "volume": 712,
-            "openInterest": 9556,
-            "impliedVolatility": 0.33399103515625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04022222222222222,
-          "notAssignedAnnualizedPct": 0.3967867867867868,
-          "effectiveCostBasis": 43.19,
-          "effectiveDiscountPct": 0.04171289105835373,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 116.96466962123968,
-          "contract": {
-            "contractSymbol": "PYPL270115C00120000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 120,
-            "bid": 0.07,
-            "ask": 0.15,
-            "lastPrice": 0.15,
-            "volume": 1,
-            "openInterest": 5524,
-            "impliedVolatility": 0.5136767382812499,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.00991040017438201,
-          "staticAnnualizedPct": 0.014585871224392878,
-          "assignedReturnPct": 1.672435361345893,
-          "assignedAnnualizedPct": 2.461447205206657,
-          "effectiveCostBasis": 45,
-          "effectiveDiscountPct": 0.0015531395606833815
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96466962123968,
-          "contract": {
-            "contractSymbol": "PYPL270115P00045000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 45,
-            "bid": 4.9,
-            "ask": 5.6,
-            "lastPrice": 5.15,
-            "volume": 6,
-            "openInterest": 10911,
-            "impliedVolatility": 0.3813538427734374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1088888888888889,
-          "notAssignedAnnualizedPct": 0.16025985663082437,
-          "effectiveCostBasis": 40.1,
-          "effectiveDiscountPct": 0.11027290880852006,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

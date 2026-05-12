@@ -1,130 +1,25 @@
 {
   "symbol": "CI",
-  "fetchedAt": "2026-05-12T00:14:04.710Z",
-  "currentPrice": 289.07,
+  "fetchedAt": "2026-05-12T13:43:24.700Z",
+  "currentPrice": 286.5,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 373.30982879480734,
-          "contract": {
-            "contractSymbol": "CI260515P00287500",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 287.5,
-            "bid": 3,
-            "ask": 3.6,
-            "lastPrice": 3,
-            "volume": 71,
-            "openInterest": 98,
-            "impliedVolatility": 0.36048002807617185,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.010434782608695653,
-          "notAssignedAnnualizedPct": 1.2695652173913046,
-          "effectiveCostBasis": 284.5,
-          "effectiveDiscountPct": 0.01580931954197943,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 373.30982879480734,
-          "contract": {
-            "contractSymbol": "CI260618P00280000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 280,
-            "bid": 6.7,
-            "ask": 7.3,
-            "lastPrice": 7.85,
-            "volume": 12,
-            "openInterest": 258,
-            "impliedVolatility": 0.3075630767822265,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.023928571428571428,
-          "notAssignedAnnualizedPct": 0.23605212355212354,
-          "effectiveCostBasis": 273.3,
-          "effectiveDiscountPct": 0.05455426021378899,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 373.30982879480734,
-          "contract": {
-            "contractSymbol": "CI270115C00380000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 380,
-            "bid": 4.4,
-            "ask": 6.6,
-            "lastPrice": 6,
-            "volume": 1,
-            "openInterest": 55,
-            "impliedVolatility": 0.3169623968505859,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.029965336281537722,
-          "staticAnnualizedPct": 0.0441022086401664,
-          "assignedReturnPct": 0.3445258233607919,
-          "assignedAnnualizedPct": 0.5070642158334235,
-          "effectiveCostBasis": 284.67,
-          "effectiveDiscountPct": 0.015221226692496629
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 373.30982879480734,
-          "contract": {
-            "contractSymbol": "CI270115P00280000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 280,
-            "bid": 22.1,
-            "ask": 24.3,
-            "lastPrice": 23.7,
-            "volume": 4,
-            "openInterest": 272,
-            "impliedVolatility": 0.30606773040771484,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07892857142857143,
-          "notAssignedAnnualizedPct": 0.11616503456221199,
-          "effectiveCostBasis": 257.9,
-          "effectiveDiscountPct": 0.1078285536375273,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

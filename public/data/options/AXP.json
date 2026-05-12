@@ -1,184 +1,25 @@
 {
   "symbol": "AXP",
-  "fetchedAt": "2026-05-12T00:15:24.703Z",
-  "currentPrice": 312.32,
+  "fetchedAt": "2026-05-12T13:44:43.310Z",
+  "currentPrice": 312.03,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP260515C00315000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 315,
-            "bid": 2.95,
-            "ask": 3.25,
-            "lastPrice": 3.1,
-            "volume": 140,
-            "openInterest": 240,
-            "impliedVolatility": 0.3407048352050781,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.009544070710756794,
-          "staticAnnualizedPct": 1.1611952698087433,
-          "assignedReturnPct": 0.018125013333707637,
-          "assignedAnnualizedPct": 2.205209955601096,
-          "effectiveCostBasis": 309.37,
-          "effectiveDiscountPct": 0.009445440573770492
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP260515P00310000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 310,
-            "bid": 2.93,
-            "ask": 3.25,
-            "lastPrice": 3.1,
-            "volume": 147,
-            "openInterest": 1000,
-            "impliedVolatility": 0.33179379150390625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.009451612903225807,
-          "notAssignedAnnualizedPct": 1.1499462365591397,
-          "effectiveCostBasis": 307.07,
-          "effectiveDiscountPct": 0.01680968237704918,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP260618C00320000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 320,
-            "bid": 8.25,
-            "ask": 8.7,
-            "lastPrice": 8.24,
-            "volume": 167,
-            "openInterest": 600,
-            "impliedVolatility": 0.2987741021728515,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.027631653520098807,
-          "staticAnnualizedPct": 0.27258252796854227,
-          "assignedReturnPct": 0.05222181745452506,
-          "assignedAnnualizedPct": 0.515161172186531,
-          "effectiveCostBasis": 304.07,
-          "effectiveDiscountPct": 0.026415215163934427
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP260618P00310000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 310,
-            "bid": 9.55,
-            "ask": 9.85,
-            "lastPrice": 9.5,
-            "volume": 28,
-            "openInterest": 706,
-            "impliedVolatility": 0.2740551110839844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.030806451612903227,
-          "notAssignedAnnualizedPct": 0.30390148212728857,
-          "effectiveCostBasis": 300.45,
-          "effectiveDiscountPct": 0.03800589139344264,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP270115C00320000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 320,
-            "bid": 29.55,
-            "ask": 31.6,
-            "lastPrice": 30.4,
-            "volume": 8,
-            "openInterest": 2303,
-            "impliedVolatility": 0.3399571620178223,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1027679226083539,
-          "staticAnnualizedPct": 0.15125117641955313,
-          "assignedReturnPct": 0.12735808654278016,
-          "assignedAnnualizedPct": 0.18744234511336597,
-          "effectiveCostBasis": 282.77,
-          "effectiveDiscountPct": 0.09461449795081968
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 312.54130044432605,
-          "contract": {
-            "contractSymbol": "AXP270115P00310000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 310,
-            "bid": 26.05,
-            "ask": 27.55,
-            "lastPrice": 26.88,
-            "volume": 51,
-            "openInterest": 761,
-            "impliedVolatility": 0.2806163247680663,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08403225806451613,
-          "notAssignedAnnualizedPct": 0.12367650884495317,
-          "effectiveCostBasis": 283.95,
-          "effectiveDiscountPct": 0.0908363217213115,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

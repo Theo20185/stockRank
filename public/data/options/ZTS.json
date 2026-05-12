@@ -1,130 +1,25 @@
 {
   "symbol": "ZTS",
-  "fetchedAt": "2026-05-12T00:14:42.815Z",
-  "currentPrice": 76.67,
+  "fetchedAt": "2026-05-12T13:44:02.274Z",
+  "currentPrice": 76.695,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96987324002465,
-          "contract": {
-            "contractSymbol": "ZTS260515P00075000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 75,
-            "bid": 0.9,
-            "ask": 1.15,
-            "lastPrice": 1,
-            "volume": 1624,
-            "openInterest": 521,
-            "impliedVolatility": 0.5473678076171876,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.012,
-          "notAssignedAnnualizedPct": 1.4600000000000002,
-          "effectiveCostBasis": 74.1,
-          "effectiveDiscountPct": 0.03352028172688153,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96987324002465,
-          "contract": {
-            "contractSymbol": "ZTS260618P00075000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 75,
-            "bid": 3,
-            "ask": 3.4,
-            "lastPrice": 3.19,
-            "volume": 459,
-            "openInterest": 1146,
-            "impliedVolatility": 0.428716650390625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04,
-          "notAssignedAnnualizedPct": 0.3945945945945946,
-          "effectiveCostBasis": 72,
-          "effectiveDiscountPct": 0.06091039520020871,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 116.96987324002465,
-          "contract": {
-            "contractSymbol": "ZTS270115C00120000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 120,
-            "bid": 1.5,
-            "ask": 2.1,
-            "lastPrice": 1.75,
-            "volume": 23,
-            "openInterest": 49,
-            "impliedVolatility": 0.4594780615234375,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03695833936940205,
-          "staticAnnualizedPct": 0.054394330120289304,
-          "assignedReturnPct": 0.6021076807023875,
-          "assignedAnnualizedPct": 0.8861665461950461,
-          "effectiveCostBasis": 75.17,
-          "effectiveDiscountPct": 0.01956436676666232
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.96987324002465,
-          "contract": {
-            "contractSymbol": "ZTS270115P00075000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 75,
-            "bid": 8.8,
-            "ask": 10.2,
-            "lastPrice": 9.63,
-            "volume": 13,
-            "openInterest": 307,
-            "impliedVolatility": 0.44336494140625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.11733333333333335,
-          "notAssignedAnnualizedPct": 0.17268817204301076,
-          "effectiveCostBasis": 66.2,
-          "effectiveDiscountPct": 0.13655928003130297,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

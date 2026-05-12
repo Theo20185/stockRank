@@ -1,130 +1,25 @@
 {
   "symbol": "GDDY",
-  "fetchedAt": "2026-05-12T00:14:28.292Z",
-  "currentPrice": 88.08,
+  "fetchedAt": "2026-05-12T13:43:49.134Z",
+  "currentPrice": 86.98,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.93068602840259,
-          "contract": {
-            "contractSymbol": "GDDY260515P00088000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 88,
-            "bid": 1.35,
-            "ask": 2.15,
-            "lastPrice": 1.12,
-            "volume": 1,
-            "openInterest": 7,
-            "impliedVolatility": 0.59570716796875,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.015340909090909093,
-          "notAssignedAnnualizedPct": 1.866477272727273,
-          "effectiveCostBasis": 86.65,
-          "effectiveDiscountPct": 0.01623524069028148,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.93068602840259,
-          "contract": {
-            "contractSymbol": "GDDY260618P00087500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 87.5,
-            "bid": 4.3,
-            "ask": 5.3,
-            "lastPrice": 4.61,
-            "volume": 1,
-            "openInterest": 12,
-            "impliedVolatility": 0.49487809814453126,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04914285714285714,
-          "notAssignedAnnualizedPct": 0.48478764478764474,
-          "effectiveCostBasis": 83.2,
-          "effectiveDiscountPct": 0.055404178019981785,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 116.93068602840259,
-          "contract": {
-            "contractSymbol": "GDDY270115C00120000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 120,
-            "bid": 4.5,
-            "ask": 6.8,
-            "lastPrice": 5.6,
-            "volume": 6,
-            "openInterest": 25,
-            "impliedVolatility": 0.5054370745849608,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05108991825613079,
-          "staticAnnualizedPct": 0.07519282323986991,
-          "assignedReturnPct": 0.41348773841961856,
-          "assignedAnnualizedPct": 0.6085605827546805,
-          "effectiveCostBasis": 83.58,
-          "effectiveDiscountPct": 0.05108991825613079
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 116.93068602840259,
-          "contract": {
-            "contractSymbol": "GDDY270115P00087500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 87.5,
-            "bid": 11.4,
-            "ask": 13.8,
-            "lastPrice": 13.81,
-            "volume": 20,
-            "openInterest": 47,
-            "impliedVolatility": 0.4904836108398438,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.13028571428571428,
-          "notAssignedAnnualizedPct": 0.1917511520737327,
-          "effectiveCostBasis": 76.1,
-          "effectiveDiscountPct": 0.13601271571298823,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

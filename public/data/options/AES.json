@@ -1,130 +1,25 @@
 {
   "symbol": "AES",
-  "fetchedAt": "2026-05-12T00:14:22.903Z",
-  "currentPrice": 14.35,
+  "fetchedAt": "2026-05-12T13:43:43.609Z",
+  "currentPrice": 14.3401,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 24.360977759281354,
-          "contract": {
-            "contractSymbol": "AES260515P00014000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 14,
-            "bid": 0.02,
-            "ask": 0.03,
-            "lastPrice": 0.03,
-            "volume": 82,
-            "openInterest": 8095,
-            "impliedVolatility": 0.23828886718749998,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.0014285714285714286,
-          "notAssignedAnnualizedPct": 0.1738095238095238,
-          "effectiveCostBasis": 13.98,
-          "effectiveDiscountPct": 0.025783972125435487,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 24.360977759281354,
-          "contract": {
-            "contractSymbol": "AES260618C00015000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 15,
-            "bid": 0.06,
-            "ask": 0.09,
-            "lastPrice": 0.07,
-            "volume": 3530,
-            "openInterest": 2001,
-            "impliedVolatility": 0.16602396484375004,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.00915844463885256,
-          "staticAnnualizedPct": 0.0903468187346266,
-          "assignedReturnPct": 0.05445461188623934,
-          "assignedAnnualizedPct": 0.5371873875264151,
-          "effectiveCostBasis": 14.29,
-          "effectiveDiscountPct": 0.004181184668989547
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 24.360977759281354,
-          "contract": {
-            "contractSymbol": "AES260618P00014000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 14,
-            "bid": 0.03,
-            "ask": 0.2,
-            "lastPrice": 0.06,
-            "volume": 2,
-            "openInterest": 13,
-            "impliedVolatility": 0.19043778320312502,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.002142857142857143,
-          "notAssignedAnnualizedPct": 0.02113899613899614,
-          "effectiveCostBasis": 13.97,
-          "effectiveDiscountPct": 0.02648083623693373,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 24.360977759281354,
-          "contract": {
-            "contractSymbol": "AES270115P00013000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 13,
-            "bid": 0.2,
-            "ask": 0.26,
-            "lastPrice": 0.26,
-            "volume": 12,
-            "openInterest": 12768,
-            "impliedVolatility": 0.16651224121093755,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.015384615384615385,
-          "notAssignedAnnualizedPct": 0.022642679900744415,
-          "effectiveCostBasis": 12.8,
-          "effectiveDiscountPct": 0.1080139372822299,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     }
   ]
 }

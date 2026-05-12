@@ -1,98 +1,19 @@
 {
   "symbol": "ZBRA",
-  "fetchedAt": "2026-05-12T00:14:55.306Z",
-  "currentPrice": 216.96,
+  "fetchedAt": "2026-05-12T13:44:20.756Z",
+  "currentPrice": 247.005,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 325.1789594253034,
-          "contract": {
-            "contractSymbol": "ZBRA260515P00210000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 210,
-            "bid": 9.6,
-            "ask": 11,
-            "lastPrice": 10.67,
-            "volume": 158,
-            "openInterest": 63,
-            "impliedVolatility": 1.5153832824707032,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.045714285714285714,
-          "notAssignedAnnualizedPct": 5.561904761904762,
-          "effectiveCostBasis": 200.4,
-          "effectiveDiscountPct": 0.07632743362831859,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 325.1789594253034,
-          "contract": {
-            "contractSymbol": "ZBRA260618C00300000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 300,
-            "bid": 1,
-            "ask": 1.5,
-            "lastPrice": 1.45,
-            "volume": 81,
-            "openInterest": 1,
-            "impliedVolatility": 0.6335485864257813,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.004609144542772861,
-          "staticAnnualizedPct": 0.045468588057083634,
-          "assignedReturnPct": 0.3873525073746312,
-          "assignedAnnualizedPct": 3.821180140317308,
-          "effectiveCostBasis": 215.96,
-          "effectiveDiscountPct": 0.004609144542772861
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 325.1789594253034,
-          "contract": {
-            "contractSymbol": "ZBRA260618P00210000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 210,
-            "bid": 13.4,
-            "ask": 15.8,
-            "lastPrice": 13.06,
-            "volume": 1,
-            "openInterest": 20,
-            "impliedVolatility": 0.6513706738281251,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.06380952380952382,
-          "notAssignedAnnualizedPct": 0.6294723294723296,
-          "effectiveCostBasis": 196.6,
-          "effectiveDiscountPct": 0.09384218289085551,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

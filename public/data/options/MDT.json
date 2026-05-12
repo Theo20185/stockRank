@@ -1,184 +1,25 @@
 {
   "symbol": "MDT",
-  "fetchedAt": "2026-05-12T00:14:58.897Z",
-  "currentPrice": 74.54,
+  "fetchedAt": "2026-05-12T13:44:18.911Z",
+  "currentPrice": 74.66,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT260515C00076000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 76,
-            "bid": 0.34,
-            "ask": 0.55,
-            "lastPrice": 0.48,
-            "volume": 111,
-            "openInterest": 132,
-            "impliedVolatility": 0.36035795898437495,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.004867884706565566,
-          "staticAnnualizedPct": 0.5922593059654772,
-          "assignedReturnPct": 0.024454683740641144,
-          "assignedAnnualizedPct": 2.9753198551113393,
-          "effectiveCostBasis": 74.2,
-          "effectiveDiscountPct": 0.004561309364099812
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT260515P00074000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 74,
-            "bid": 0.44,
-            "ask": 0.69,
-            "lastPrice": 0.63,
-            "volume": 382,
-            "openInterest": 64,
-            "impliedVolatility": 0.301764794921875,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.005945945945945946,
-          "notAssignedAnnualizedPct": 0.7234234234234235,
-          "effectiveCostBasis": 73.56,
-          "effectiveDiscountPct": 0.013147303461228922,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT260618C00077500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 77.5,
-            "bid": 1.8,
-            "ask": 2.11,
-            "lastPrice": 1.96,
-            "volume": 33,
-            "openInterest": 746,
-            "impliedVolatility": 0.3461979443359374,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.027929204288586435,
-          "staticAnnualizedPct": 0.27551782609010944,
-          "assignedReturnPct": 0.06763942698780824,
-          "assignedAnnualizedPct": 0.6672538067716218,
-          "effectiveCostBasis": 72.74000000000001,
-          "effectiveDiscountPct": 0.024148108398175473
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT260618P00072500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 72.5,
-            "bid": 1.79,
-            "ask": 2.12,
-            "lastPrice": 1.96,
-            "volume": 85,
-            "openInterest": 347,
-            "impliedVolatility": 0.3205634350585937,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.024689655172413793,
-          "notAssignedAnnualizedPct": 0.2435601118359739,
-          "effectiveCostBasis": 70.71,
-          "effectiveDiscountPct": 0.05138180842500687,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT270115C00077500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 77.5,
-            "bid": 5.55,
-            "ask": 6.45,
-            "lastPrice": 5.95,
-            "volume": 11,
-            "openInterest": 21,
-            "impliedVolatility": 0.3138496350097656,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.09980022920487666,
-          "staticAnnualizedPct": 0.14688340185395152,
-          "assignedReturnPct": 0.13951045190409844,
-          "assignedAnnualizedPct": 0.20532788284272552,
-          "effectiveCostBasis": 68.99000000000001,
-          "effectiveDiscountPct": 0.07445666756104104
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 75.70255006,
-          "contract": {
-            "contractSymbol": "MDT270115P00072500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 72.5,
-            "bid": 5.45,
-            "ask": 6.45,
-            "lastPrice": 5.85,
-            "volume": 3,
-            "openInterest": 193,
-            "impliedVolatility": 0.30750204223632804,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07517241379310345,
-          "notAssignedAnnualizedPct": 0.11063681868743047,
-          "effectiveCostBasis": 67.05,
-          "effectiveDiscountPct": 0.10048296216796362,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

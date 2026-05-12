@@ -1,130 +1,25 @@
 {
   "symbol": "LVS",
-  "fetchedAt": "2026-05-12T00:15:15.303Z",
-  "currentPrice": 52.07,
+  "fetchedAt": "2026-05-12T13:44:35.798Z",
+  "currentPrice": 52.46,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 65.30944091861214,
-          "contract": {
-            "contractSymbol": "LVS260515P00052000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 52,
-            "bid": 0.75,
-            "ask": 0.87,
-            "lastPrice": 0.8,
-            "volume": 4,
-            "openInterest": 882,
-            "impliedVolatility": 0.41602146484374997,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.014423076923076924,
-          "notAssignedAnnualizedPct": 1.7548076923076925,
-          "effectiveCostBasis": 51.25,
-          "effectiveDiscountPct": 0.015748031496063,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 65.30944091861214,
-          "contract": {
-            "contractSymbol": "LVS260618P00050000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 50,
-            "bid": 1.32,
-            "ask": 1.41,
-            "lastPrice": 1.34,
-            "volume": 26,
-            "openInterest": 2436,
-            "impliedVolatility": 0.3501041552734374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0264,
-          "notAssignedAnnualizedPct": 0.2604324324324324,
-          "effectiveCostBasis": 48.68,
-          "effectiveDiscountPct": 0.06510466679469945,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 65.30944091861214,
-          "contract": {
-            "contractSymbol": "LVS270115C00067500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 67.5,
-            "bid": 1.84,
-            "ask": 2.05,
-            "lastPrice": 2.4,
-            "volume": 11,
-            "openInterest": 42,
-            "impliedVolatility": 0.37500625,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04940170381809525,
-          "staticAnnualizedPct": 0.07270815279679341,
-          "assignedReturnPct": 0.34573356477450007,
-          "assignedAnnualizedPct": 0.5088417384785988,
-          "effectiveCostBasis": 50.23,
-          "effectiveDiscountPct": 0.035337046283848664
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 65.30944091861214,
-          "contract": {
-            "contractSymbol": "LVS270115P00050000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 50,
-            "bid": 4.85,
-            "ask": 5.35,
-            "lastPrice": 4.8,
-            "volume": 2,
-            "openInterest": 1628,
-            "impliedVolatility": 0.3781800463867187,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09699999999999999,
-          "notAssignedAnnualizedPct": 0.14276209677419352,
-          "effectiveCostBasis": 45.15,
-          "effectiveDiscountPct": 0.1328980218936048,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

@@ -1,130 +1,25 @@
 {
   "symbol": "GPC",
-  "fetchedAt": "2026-05-12T00:15:22.909Z",
-  "currentPrice": 101.42,
+  "fetchedAt": "2026-05-12T13:44:39.591Z",
+  "currentPrice": 100.63,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC260515P00100000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 100,
-            "bid": 0.4,
-            "ask": 1.2,
-            "lastPrice": 1,
-            "volume": 10,
-            "openInterest": 559,
-            "impliedVolatility": 0.4335994140625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.004,
-          "notAssignedAnnualizedPct": 0.4866666666666667,
-          "effectiveCostBasis": 99.6,
-          "effectiveDiscountPct": 0.017945178465785912,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC260618P00100000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 100,
-            "bid": 3,
-            "ask": 4,
-            "lastPrice": 2.88,
-            "volume": 1,
-            "openInterest": 73,
-            "impliedVolatility": 0.36096830444335937,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.03,
-          "notAssignedAnnualizedPct": 0.2959459459459459,
-          "effectiveCostBasis": 97,
-          "effectiveDiscountPct": 0.04358114770262277,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC270115C00145000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 145,
-            "bid": 0.45,
-            "ask": 1.8,
-            "lastPrice": 2.9,
-            "volume": 1,
-            "openInterest": 15,
-            "impliedVolatility": 0.3493717407226562,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.03202274674135981,
-          "staticAnnualizedPct": 0.047130252260469074,
-          "assignedReturnPct": 0.46172103110341856,
-          "assignedAnnualizedPct": 0.6795490981965635,
-          "effectiveCostBasis": 100.97,
-          "effectiveDiscountPct": 0.004436994675606389
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 141.06320356978267,
-          "contract": {
-            "contractSymbol": "GPC270115P00100000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 100,
-            "bid": 9.3,
-            "ask": 10.9,
-            "lastPrice": 9.02,
-            "volume": 1,
-            "openInterest": 56,
-            "impliedVolatility": 0.3507755352783203,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.09300000000000001,
-          "notAssignedAnnualizedPct": 0.13687500000000002,
-          "effectiveCostBasis": 90.7,
-          "effectiveDiscountPct": 0.1056990731611122,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

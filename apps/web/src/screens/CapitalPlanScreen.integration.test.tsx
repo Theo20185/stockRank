@@ -15,7 +15,7 @@
  * integration test loads the on-disk JSONs verbatim and pins what's
  * actually available, so the same regression class fails loudly.
  */
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,6 +27,22 @@ import type {
   RankedRow,
   SelectionReason,
 } from "@stockrank/ranking";
+import { PLAN_PREFS_STORAGE_KEY } from "../snapshot/plan-prefs-loader.js";
+
+beforeEach(() => {
+  // Plan prefs auto-save to localStorage as the screen state changes.
+  // Without this reset, a prior test's mode/exclusions leak into the
+  // initial state of the next render — e.g. switching to "yearly" in
+  // one test then mounting a monthly-fixture screen in the next ends
+  // up rendering the empty-state because mode persisted.
+  try {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(PLAN_PREFS_STORAGE_KEY);
+    }
+  } catch {
+    // ignore
+  }
+});
 import { CapitalPlanScreen } from "./CapitalPlanScreen.js";
 
 const here = dirname(fileURLToPath(import.meta.url));

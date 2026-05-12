@@ -1,130 +1,25 @@
 {
   "symbol": "DG",
-  "fetchedAt": "2026-05-12T00:14:33.791Z",
-  "currentPrice": 104.63,
+  "fetchedAt": "2026-05-12T13:43:52.949Z",
+  "currentPrice": 103.35,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 164.96492661552765,
-          "contract": {
-            "contractSymbol": "DG260515P00104000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 104,
-            "bid": 1.67,
-            "ask": 1.84,
-            "lastPrice": 2.11,
-            "volume": 201,
-            "openInterest": 1,
-            "impliedVolatility": 0.49121602539062503,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.016057692307692308,
-          "notAssignedAnnualizedPct": 1.9536858974358975,
-          "effectiveCostBasis": 102.33,
-          "effectiveDiscountPct": 0.02198222307177671,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 164.96492661552765,
-          "contract": {
-            "contractSymbol": "DG260618P00100000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 100,
-            "bid": 4.15,
-            "ask": 5.1,
-            "lastPrice": 4.47,
-            "volume": 494,
-            "openInterest": 1751,
-            "impliedVolatility": 0.5084277673339843,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.0415,
-          "notAssignedAnnualizedPct": 0.4093918918918919,
-          "effectiveCostBasis": 95.85,
-          "effectiveDiscountPct": 0.08391474720443469,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 164.96492661552765,
-          "contract": {
-            "contractSymbol": "DG270115C00165000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 165,
-            "bid": 1.38,
-            "ask": 3.65,
-            "lastPrice": 3.6,
-            "volume": 2,
-            "openInterest": 37,
-            "impliedVolatility": 0.4999439654541016,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.02732193658279207,
-          "staticAnnualizedPct": 0.040211721180318974,
-          "assignedReturnPct": 0.6043075047754711,
-          "assignedAnnualizedPct": 0.889404190496157,
-          "effectiveCostBasis": 103.25,
-          "effectiveDiscountPct": 0.013189333843066042
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 164.96492661552765,
-          "contract": {
-            "contractSymbol": "DG270115P00100000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 100,
-            "bid": 10.8,
-            "ask": 12.65,
-            "lastPrice": 11,
-            "volume": 43,
-            "openInterest": 799,
-            "impliedVolatility": 0.44312080322265623,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.10800000000000001,
-          "notAssignedAnnualizedPct": 0.15895161290322582,
-          "effectiveCostBasis": 89.2,
-          "effectiveDiscountPct": 0.1474720443467456,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }
