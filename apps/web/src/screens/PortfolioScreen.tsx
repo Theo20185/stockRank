@@ -305,7 +305,15 @@ function OptionCard({
   onSelectStock: (symbol: string) => void;
   onDelete: () => void;
 }) {
-  const { position: o, daysToExpiration, isExpired, paired, pairedStock } = evaluation;
+  const {
+    position: o,
+    daysToExpiration,
+    isExpired,
+    paired,
+    pairedStock,
+    isInTheMoney,
+    isNearExpiration,
+  } = evaluation;
   const direction = o.contracts > 0 ? "Long" : "Short";
   const cls = `portfolio__option-card portfolio__option-card--${o.contracts > 0 ? "long" : "short"}${isExpired ? " portfolio__option-card--expired" : ""}`;
   return (
@@ -328,6 +336,32 @@ function OptionCard({
               </span>
             )}
           </span>
+          <div className="portfolio__option-flags">
+            {isInTheMoney === true && (
+              <span
+                className="portfolio__chip portfolio__chip--itm"
+                role="status"
+                aria-label="In the money"
+                title={
+                  o.contracts < 0
+                    ? "Underlying has crossed the strike — assignment risk if held to expiry."
+                    : "Underlying has crossed the strike — the contract has intrinsic value."
+                }
+              >
+                ITM
+              </span>
+            )}
+            {isNearExpiration && (
+              <span
+                className="portfolio__chip portfolio__chip--near-exp"
+                role="status"
+                aria-label="Expiring soon"
+                title={`Expires in ${daysToExpiration} day${daysToExpiration === 1 ? "" : "s"}.`}
+              >
+                Expires {daysToExpiration}d
+              </span>
+            )}
+          </div>
         </div>
         <DeleteButton onDelete={onDelete} />
       </header>

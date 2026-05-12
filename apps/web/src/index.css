@@ -1435,6 +1435,36 @@ main.app--message h1 {
   font-weight: 600;
 }
 
+.portfolio__option-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  margin-top: var(--sp-1);
+}
+
+.portfolio__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius);
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.portfolio__chip--itm {
+  background: #fde8e8;
+  color: #b42318;
+  border: 1px solid #f4b8b3;
+}
+
+.portfolio__chip--near-exp {
+  background: #fff4cc;
+  color: #8a5a00;
+  border: 1px solid #f1c95a;
+}
+
 .portfolio__option-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));

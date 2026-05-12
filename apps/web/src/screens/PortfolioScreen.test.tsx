@@ -112,6 +112,89 @@ describe("<PortfolioScreen />", () => {
     expect(section).toHaveTextContent(/P&L scenarios at expiry/i);
   });
 
+  it("renders an ITM badge when a short put's strike is above the underlying price", () => {
+    // Short put strike $100 with underlying at $95 → put is ITM
+    // (assignment risk). The card should call this out with a badge.
+    const snap: RankedSnapshot = {
+      ...EMPTY_SNAPSHOT,
+      universeSize: 1,
+      rows: [
+        {
+          symbol: "TEST", name: "Test Corp", sector: "X", industry: "X",
+          marketCap: 1e10, price: 95,
+          composite: 70, industryRank: 1, universeRank: 1,
+          pctOffYearHigh: 5, pctAboveYearLow: 5,
+          categoryScores: { valuation: 50, health: 50, quality: 50, shareholderReturn: 50, growth: 50, momentum: 50 },
+          factorDetails: [], missingFactors: [],
+          fairValue: null,
+          negativeEquity: false, optionsLiquid: true,
+          annualDividend: 0, fvTrend: "insufficient_data",
+        } as RankedSnapshot["rows"][number],
+      ],
+    };
+    const portfolio: Portfolio = {
+      updatedAt: "2026-04-26T00:00:00Z",
+      positions: [{
+        kind: "option", id: "o1", entryDate: "2026-01-15",
+        symbol: "TEST", optionType: "put", contracts: -1,
+        strike: 100, expiration: "2026-06-19", premium: 300,
+      }],
+    };
+    render(
+      <PortfolioScreen
+        portfolio={portfolio}
+        evaluation={evaluatePortfolio(portfolio, snap)}
+        onSelectStock={vi.fn()}
+        onSelectTab={vi.fn()}
+        onPortfolioChange={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole("status", { name: /in the money/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders a near-expiration badge for an option expiring within 21 days", () => {
+    // Snapshot date 2026-04-26; expiration 2026-05-10 → 14 days out.
+    const snap: RankedSnapshot = {
+      ...EMPTY_SNAPSHOT,
+      universeSize: 1,
+      rows: [
+        {
+          symbol: "TEST", name: "Test Corp", sector: "X", industry: "X",
+          marketCap: 1e10, price: 200,
+          composite: 70, industryRank: 1, universeRank: 1,
+          pctOffYearHigh: 5, pctAboveYearLow: 5,
+          categoryScores: { valuation: 50, health: 50, quality: 50, shareholderReturn: 50, growth: 50, momentum: 50 },
+          factorDetails: [], missingFactors: [],
+          fairValue: null,
+          negativeEquity: false, optionsLiquid: true,
+          annualDividend: 0, fvTrend: "insufficient_data",
+        } as RankedSnapshot["rows"][number],
+      ],
+    };
+    const portfolio: Portfolio = {
+      updatedAt: "2026-04-26T00:00:00Z",
+      positions: [{
+        kind: "option", id: "o1", entryDate: "2026-01-15",
+        symbol: "TEST", optionType: "put", contracts: -1,
+        strike: 180, expiration: "2026-05-10", premium: 300,
+      }],
+    };
+    render(
+      <PortfolioScreen
+        portfolio={portfolio}
+        evaluation={evaluatePortfolio(portfolio, snap)}
+        onSelectStock={vi.fn()}
+        onSelectTab={vi.fn()}
+        onPortfolioChange={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByRole("status", { name: /expiring soon/i }),
+    ).toBeInTheDocument();
+  });
+
   it("renders a cash section when a cash position exists", () => {
     const props = buildProps({
       updatedAt: "2026-04-26T00:00:00Z",

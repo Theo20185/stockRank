@@ -121,9 +121,28 @@ export type OptionEvaluation = {
   /** True when the option references a paired stock position by id. */
   paired: boolean;
   pairedStock: StockPosition | null;
+  /**
+   * In-the-money status at the snapshot underlying price.
+   *   - call ITM when underlying > strike
+   *   - put  ITM when underlying < strike
+   * Same definition for long and short — only the user's emotional
+   * reaction differs (short ITM = assignment / call-away risk).
+   * Null when no underlying price is available.
+   */
+  isInTheMoney: boolean | null;
+  /**
+   * True when the option expires within 21 days (3 weeks) AND hasn't
+   * already expired. Useful as a "this needs attention soon" cue —
+   * gamma steepens, premium decay accelerates, decisions need to
+   * happen. Threshold matches the standard 21-DTE convention.
+   */
+  isNearExpiration: boolean;
   /** Milestone scenarios for end-of-expiry decision-making. */
   milestones: OptionMilestone[];
 };
+
+/** DTE threshold below which an option is flagged as "nearing expiration". */
+export const NEAR_EXPIRATION_DAYS = 21;
 
 export type CashEvaluation = {
   kind: "cash";
@@ -375,6 +394,12 @@ function evaluateOption(
     : null;
   const yieldPct = annualizedPremiumYield(position, pairedStock);
   const milestones = buildMilestones(position, underlyingPrice, pairedStock);
+  const isInTheMoney = intrinsicPS === null ? null : intrinsicPS > 0;
+  // Near-expiration is only meaningful when the option is still alive.
+  // Expired contracts get isNearExpiration=false — they belong to
+  // a separate "expired" state surfaced by isExpired.
+  const isNearExpiration =
+    !isExpired && daysToExpiration <= NEAR_EXPIRATION_DAYS;
 
   return {
     kind: "option",
@@ -388,6 +413,8 @@ function evaluateOption(
     annualizedPremiumYield: yieldPct,
     paired: pairedStock !== null,
     pairedStock,
+    isInTheMoney,
+    isNearExpiration,
     milestones,
   };
 }

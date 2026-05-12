@@ -253,6 +253,90 @@ describe("evaluatePortfolio — option positions", () => {
     expect(e.annualizedPremiumYield).toBeCloseTo(2.617, 2);
   });
 
+  it("isInTheMoney true when intrinsic > 0 for either direction (short put assignment risk, short call call-away risk, long ITM)", () => {
+    const cases: Array<{
+      label: string;
+      pos: OptionPosition;
+      price: number;
+      expectItm: boolean;
+    }> = [
+      {
+        label: "short put underlying below strike → assignment risk",
+        pos: option({ symbol: "X", optionType: "put", contracts: -1, strike: 100, expiration, premium: 300 }),
+        price: 95,
+        expectItm: true,
+      },
+      {
+        label: "short put underlying above strike → safe",
+        pos: option({ symbol: "X", optionType: "put", contracts: -1, strike: 100, expiration, premium: 300 }),
+        price: 105,
+        expectItm: false,
+      },
+      {
+        label: "short call underlying above strike → call-away risk",
+        pos: option({ symbol: "X", optionType: "call", contracts: -1, strike: 100, expiration, premium: 300 }),
+        price: 105,
+        expectItm: true,
+      },
+      {
+        label: "long call ITM",
+        pos: option({ symbol: "X", optionType: "call", contracts: 1, strike: 100, expiration, premium: 300 }),
+        price: 110,
+        expectItm: true,
+      },
+      {
+        label: "ATM (strike == underlying) — NOT in-the-money",
+        pos: option({ symbol: "X", optionType: "put", contracts: -1, strike: 100, expiration, premium: 300 }),
+        price: 100,
+        expectItm: false,
+      },
+    ];
+    for (const c of cases) {
+      const portfolio: Portfolio = { updatedAt: "2026-04-26T00:00:00Z", positions: [c.pos] };
+      const snap = snapshot([makeRow({ symbol: "X", composite: 70, price: c.price })], snapshotDate);
+      const e = evaluatePortfolio(portfolio, snap).positions[0]!;
+      if (e.kind !== "option") throw new Error("expected option");
+      expect(e.isInTheMoney, c.label).toBe(c.expectItm);
+    }
+  });
+
+  it("isInTheMoney is null when underlying price isn't available in the snapshot", () => {
+    const opt = option({ symbol: "ZZZ", optionType: "put", contracts: -1, strike: 100, expiration, premium: 300 });
+    const portfolio: Portfolio = { updatedAt: "2026-04-26T00:00:00Z", positions: [opt] };
+    // Snapshot has no ZZZ row → underlyingPrice resolves null.
+    const snap = snapshot([makeRow({ symbol: "AAPL", composite: 70, price: 195 })], snapshotDate);
+    const e = evaluatePortfolio(portfolio, snap).positions[0]!;
+    if (e.kind !== "option") throw new Error("expected option");
+    expect(e.underlyingPrice).toBeNull();
+    expect(e.isInTheMoney).toBeNull();
+  });
+
+  it("isNearExpiration true at ≤ 21 days, false beyond, ignores expired", () => {
+    // Three positions: 5d, 20d, 22d, 60d, and one expired (-5d).
+    const cases: Array<{ exp: string; expectNear: boolean; expectExpired: boolean }> = [
+      { exp: "2026-05-01", expectNear: true, expectExpired: false },   // 5 days
+      { exp: "2026-05-16", expectNear: true, expectExpired: false },   // 20 days
+      { exp: "2026-05-18", expectNear: false, expectExpired: false },  // 22 days
+      { exp: "2026-06-25", expectNear: false, expectExpired: false },  // 60 days
+      { exp: "2026-04-21", expectNear: false, expectExpired: true },   // -5 days
+    ];
+    for (const c of cases) {
+      const opt = option({
+        symbol: "AAPL", optionType: "put", contracts: -1, strike: 200,
+        expiration: c.exp, premium: 300,
+      });
+      const portfolio: Portfolio = { updatedAt: "2026-04-26T00:00:00Z", positions: [opt] };
+      const snap = snapshot(
+        [makeRow({ symbol: "AAPL", composite: 70, price: 220 })],
+        "2026-04-26",
+      );
+      const e = evaluatePortfolio(portfolio, snap).positions[0]!;
+      if (e.kind !== "option") throw new Error("expected option");
+      expect(e.isExpired, `exp=${c.exp}`).toBe(c.expectExpired);
+      expect(e.isNearExpiration, `exp=${c.exp}`).toBe(c.expectNear);
+    }
+  });
+
   it("annualized yield is anchored to entryDate, not snapshot date — stable as expiry approaches", () => {
     // The user-reported bug: annualized yield inflated as the snapshot
     // date crept toward expiration. The denominator was (expiration -
