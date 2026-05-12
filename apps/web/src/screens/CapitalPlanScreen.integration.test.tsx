@@ -134,6 +134,37 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     expect(offenders).toEqual([]);
   });
 
+  it("every selected put + covered call in the committed bundle is strictly out-of-the-money", () => {
+    // 2026-05-13 live-data audit caught 92 ITM puts under the old
+    // "strikes ≤ p25" rule. The fix tightens the put filter to
+    // strike < currentPrice and the call floor from >= to > current.
+    // Sentinel: no committed options JSON may carry an ITM strike
+    // through to the rendered put / covered-call rows.
+    const itmPuts: string[] = [];
+    const itmCalls: string[] = [];
+    for (const { symbol, view } of files) {
+      const cp = view.currentPrice;
+      for (const exp of view.expirations) {
+        for (const p of exp.puts) {
+          if (p.contract.strike >= cp) {
+            itmPuts.push(
+              `${symbol} ${exp.selectionReason} K=${p.contract.strike} S=${cp.toFixed(2)}`,
+            );
+          }
+        }
+        for (const c of exp.coveredCalls) {
+          if (c.contract.strike <= cp) {
+            itmCalls.push(
+              `${symbol} ${exp.selectionReason} K=${c.contract.strike} S=${cp.toFixed(2)}`,
+            );
+          }
+        }
+      }
+    }
+    expect(itmPuts, `ITM puts: ${itmPuts.slice(0, 10).join("; ")}`).toEqual([]);
+    expect(itmCalls, `ITM calls: ${itmCalls.slice(0, 10).join("; ")}`).toEqual([]);
+  });
+
   it("EIX-class regression: monthly picks the next listed 3rd-week date even when it's not a Friday", () => {
     // The 2026-05-11 bug: Yahoo returned EIX's June expiration as
     // "2026-06-18" — OCC symbol literally "EIX260618", which falls on

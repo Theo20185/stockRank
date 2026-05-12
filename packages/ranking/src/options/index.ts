@@ -85,10 +85,15 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   const anchor = range.p25;
 
   // ---- Single covered call: anchored at p25, snapped to ≥ p25 with bid > 0 ----
+  //
+  // OTM-only rule (user directive 2026-05-13): strike must be STRICTLY
+  // greater than current price. Skipping ATM/ITM keeps the workflow
+  // honest — covered calls are "if I'd accept being called away at this
+  // price for premium", which only makes sense above current.
   const coveredCalls: CoveredCall[] = [];
-  if (anchor >= currentPrice) {
+  if (anchor > currentPrice) {
     const snap = snapStrike(callStrikes, anchor, "call");
-    if (snap && snap.strike >= currentPrice) {
+    if (snap && snap.strike > currentPrice) {
       const contract = findContract(group.calls, snap.strike);
       if (contract && contract.bid !== null && contract.bid > 0) {
         const r = computeCallReturns({ contract, currentPrice, annualDividendPerShare });
@@ -112,26 +117,22 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
 
   // ---- Single cash-secured put: strike picked by max time-value yield ----
   //
-  // Strike selection rule (updated 2026-04-27):
+  // Strike selection rule (revised 2026-05-13 — OTM-only):
   //   1. Filter to strikes with bid > 0 AND impliedVolatility > 0.
   //      (Excludes deep-ITM strikes the market prices as forwards.)
-  //   2. Filter to strikes ≤ p25 (engine's value approval — "I'd
-  //      own at this price or below").
+  //   2. Filter to strikes STRICTLY BELOW current price — OTM only.
+  //      Live-data audit caught 92 ITM puts in committed JSONs under
+  //      the old "≤ p25" rule. ATM/ITM puts have intrinsic value that
+  //      isn't real premium; the workflow rejects them outright.
   //   3. Among those, pick the strike with maximum TIME-VALUE YIELD =
-  //      (bid - max(0, K - S)) / K.
+  //      bid / K. (With OTM-only the intrinsic term is always 0, so
+  //      time-value yield collapses to raw premium yield.)
   //
-  // Why time-value yield (not raw bid/K): for ITM puts the bid
-  // includes intrinsic, which isn't real income — it's just a
-  // discount on the future stock purchase. Time-value yield isolates
-  // the actual premium the seller earns and naturally peaks at
-  // slightly-OTM-to-near-ATM, which is also the strike with the
-  // largest discount-vs-spot if assigned (proven via put-call
-  // parity in the EIX case study).
-  //
-  // For the EIX 2026-04-27 example (current=$68.50, p25=$100, 263
-  // DTE): this rule picks $67.50 (slightly OTM) where time-value
-  // yield is ~8.6%, instead of $100 (deep ITM, IV=0) where bid is
-  // below naive intrinsic and time-value yield is negative.
+  // The p25 upper bound used to mean "I'd happily own at this price or
+  // below". Under OTM-only the engine's value-approval still applies
+  // — for any Ranked stock current < p25 by definition, so any OTM
+  // put strike (< current) is also < p25 implicitly. The p25 ceiling
+  // is therefore redundant under the new rule and removed.
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
     return {
@@ -146,7 +147,8 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   let bestStrike: number | null = null;
   let bestYield = -Infinity;
   for (const strike of putStrikes) {
-    if (strike > range.p25) continue;
+    // OTM-only: strike strictly less than current.
+    if (strike >= currentPrice) continue;
     const c = findContract(group.puts, strike);
     if (
       c === undefined ||
@@ -157,9 +159,8 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     ) {
       continue;
     }
-    const intrinsic = Math.max(0, strike - currentPrice);
-    const timeValue = c.bid - intrinsic;
-    const tvYield = timeValue / strike;
+    // Time-value yield collapses to bid/K for strictly OTM puts.
+    const tvYield = c.bid / strike;
     if (tvYield > bestYield) {
       bestYield = tvYield;
       bestStrike = strike;

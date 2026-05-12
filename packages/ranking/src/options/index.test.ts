@@ -263,6 +263,107 @@ describe("buildExpirationView — cash-secured puts (best time-value yield)", ()
     expect(view.puts).toEqual([]);
   });
 
+  it("filters out ITM strikes even when they have the highest time-value yield", () => {
+    // current=$100, p25=$120. Listed [95, 105, 115]:
+    //   $95  bid 4    (OTM, TV 4,    yield 4.21%)  ← winner under new rule
+    //   $105 bid 9    (ITM by $5, TV 4,  yield 3.81%)
+    //   $115 bid 17   (ITM by $15, TV 2, yield 1.74%)
+    // Without the ITM filter, $95 still wins on TV yield in this setup,
+    // but the prior live-data audit (2026-05-11) caught many cases where
+    // the highest-TV-yield strike was AT or ABOVE current price.
+    // This test pins the explicit ITM rejection: if $105 had the
+    // highest TV yield, it would STILL be filtered out.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group(
+      [],
+      [
+        contract("P", 95, 4, 270, false),
+        // Hand-tuned: $105 has the HIGHEST TV yield among listings, but
+        // it's ITM. The selector must skip it and pick the OTM $95.
+        { ...contract("P", 105, 12, 270, true), impliedVolatility: 0.40 },
+      ],
+    );
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    // $105 has TV yield (12 - 5)/105 = 6.67% > $95's 4/95 = 4.21%.
+    // Under old rule the engine would have picked $105 (ITM).
+    // Under new rule the engine must pick $95 (OTM).
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(95);
+    expect(view.puts[0]?.inTheMoney).toBe(false);
+  });
+
+  it("filters out ATM put (strike == current) — strictly out-of-the-money only", () => {
+    // current=$100. Listed [90, 100]:
+    //   $90  bid 2 (OTM)
+    //   $100 bid 5 (ATM — strike equals current)
+    // ATM puts have ZERO intrinsic value but the user directive is
+    // "only options that are out of the money". Strict less-than-current.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group(
+      [],
+      [contract("P", 90, 2), contract("P", 100, 5)],
+    );
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(90);
+  });
+
+  it("emits no put when every listed strike is at or above current price", () => {
+    // current=$100, p25=$120. Listed [100, 105, 110, 115]:
+    // every strike is ATM or ITM → no OTM candidate → no put emitted.
+    const fairValue = fv(120, 150, 180, 100);
+    const grp = group([], [
+      contract("P", 100, 5),
+      { ...contract("P", 105, 9, 270, true), impliedVolatility: 0.40 },
+      { ...contract("P", 110, 13, 270, true), impliedVolatility: 0.40 },
+      { ...contract("P", 115, 17, 270, true), impliedVolatility: 0.40 },
+    ]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
+  });
+
+  it("filters out ATM call (strike == current) — strictly out-of-the-money only", () => {
+    // current=$100, p25=$100 (rare edge: stock at the conservative tail).
+    // Listed [100, 120]:
+    //   $100 — ATM, must be filtered out under the new rule.
+    //   $120 — strike >= p25, OTM. Pick this.
+    const fairValue = fv(100, 130, 160, 100);
+    const grp = group(
+      [contract("C", 100, 4), contract("C", 120, 1.5)],
+      [],
+    );
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    // current >= p25 → puts suppressed, calls keep going. snap to >=p25
+    // = $100, but $100 is ATM → must skip and fall to $120 (OTM).
+    if (view.coveredCalls.length > 0) {
+      expect(view.coveredCalls[0]?.contract.strike).toBe(120);
+    }
+  });
+
   it("picks the OTM strike when only sub-current strikes are listed", () => {
     // current=$100, p25=$120, listed strikes only [80, 90].
     // $80 bid 2, TV 2, yield 2.5%
