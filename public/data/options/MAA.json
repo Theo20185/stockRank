@@ -1,7 +1,7 @@
 {
   "symbol": "MAA",
-  "fetchedAt": "2026-05-12T13:44:52.309Z",
-  "currentPrice": 129.39,
+  "fetchedAt": "2026-05-12T14:15:26.873Z",
+  "currentPrice": 129.34,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,8 +12,61 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 132.624067261,
+          "contract": {
+            "contractSymbol": "MAA260618C00135000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 135,
+            "bid": 0.45,
+            "ask": 3.1,
+            "lastPrice": 1.7,
+            "volume": 1,
+            "openInterest": 73,
+            "impliedVolatility": 0.32166205688476557,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.008266263970802875,
+          "staticAnnualizedPct": 0.0815455770092716,
+          "assignedReturnPct": 0.052026894866117515,
+          "assignedAnnualizedPct": 0.5132382871927809,
+          "effectiveCostBasis": 128.89000000000001,
+          "effectiveDiscountPct": 0.003479202102984382
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 132.624067261,
+          "contract": {
+            "contractSymbol": "MAA260618P00125000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 125,
+            "bid": 1.4,
+            "ask": 1.9,
+            "lastPrice": 1.8,
+            "volume": 6,
+            "openInterest": 245,
+            "impliedVolatility": 0.22425092163085933,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0112,
+          "notAssignedAnnualizedPct": 0.11048648648648648,
+          "effectiveCostBasis": 123.6,
+          "effectiveDiscountPct": 0.04437915571362308,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

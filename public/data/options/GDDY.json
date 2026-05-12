@@ -1,25 +1,130 @@
 {
   "symbol": "GDDY",
-  "fetchedAt": "2026-05-12T13:43:49.134Z",
-  "currentPrice": 86.98,
+  "fetchedAt": "2026-05-12T14:14:22.595Z",
+  "currentPrice": 87.5,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.93068602840259,
+          "contract": {
+            "contractSymbol": "GDDY260515P00087000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 87,
+            "bid": 0.5,
+            "ask": 3.2,
+            "lastPrice": 1.28,
+            "volume": 17,
+            "openInterest": 22,
+            "impliedVolatility": 0.5737347314453125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.005747126436781609,
+          "notAssignedAnnualizedPct": 0.6992337164750958,
+          "effectiveCostBasis": 86.5,
+          "effectiveDiscountPct": 0.011428571428571429,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.93068602840259,
+          "contract": {
+            "contractSymbol": "GDDY260618P00085000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 85,
+            "bid": 2.7,
+            "ask": 4.2,
+            "lastPrice": 3.75,
+            "volume": 2,
+            "openInterest": 177,
+            "impliedVolatility": 0.4831594653320313,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.031764705882352945,
+          "notAssignedAnnualizedPct": 0.3133545310015899,
+          "effectiveCostBasis": 82.3,
+          "effectiveDiscountPct": 0.05942857142857146,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 116.93068602840259,
+          "contract": {
+            "contractSymbol": "GDDY270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 120,
+            "bid": 3.6,
+            "ask": 6.9,
+            "lastPrice": 5.6,
+            "volume": 6,
+            "openInterest": 25,
+            "impliedVolatility": 0.5612226495361328,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04114285714285714,
+          "staticAnnualizedPct": 0.06055299539170506,
+          "assignedReturnPct": 0.4125714285714286,
+          "assignedAnnualizedPct": 0.6072119815668202,
+          "effectiveCostBasis": 83.9,
+          "effectiveDiscountPct": 0.04114285714285714
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.93068602840259,
+          "contract": {
+            "contractSymbol": "GDDY270115P00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 85,
+            "bid": 9.5,
+            "ask": 12.4,
+            "lastPrice": 10.6,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.4823049816894531,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11176470588235295,
+          "notAssignedAnnualizedPct": 0.16449240986717267,
+          "effectiveCostBasis": 75.5,
+          "effectiveDiscountPct": 0.13714285714285715,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

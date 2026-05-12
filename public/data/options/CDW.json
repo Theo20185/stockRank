@@ -1,19 +1,125 @@
 {
   "symbol": "CDW",
-  "fetchedAt": "2026-05-12T13:44:54.043Z",
-  "currentPrice": 101.53,
+  "fetchedAt": "2026-05-12T14:15:28.575Z",
+  "currentPrice": 101.85,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.6758885725731,
+          "contract": {
+            "contractSymbol": "CDW260515C00110000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 110,
+            "bid": 0.1,
+            "ask": 0.15,
+            "lastPrice": 0.15,
+            "volume": 17,
+            "openInterest": 708,
+            "impliedVolatility": 0.48438015625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0011850501962218142,
+          "staticAnnualizedPct": 0.1441811072069874,
+          "assignedReturnPct": 0.08120468691688952,
+          "assignedAnnualizedPct": 9.879903574888225,
+          "effectiveCostBasis": 101.75,
+          "effectiveDiscountPct": 0.0009818360333824253
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 105.6758885725731,
+          "contract": {
+            "contractSymbol": "CDW260515P00100000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 100,
+            "bid": 0.4,
+            "ask": 1.6,
+            "lastPrice": 0.74,
+            "volume": 17,
+            "openInterest": 1175,
+            "impliedVolatility": 0.5727581787109376,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.004,
+          "notAssignedAnnualizedPct": 0.4866666666666667,
+          "effectiveCostBasis": 99.6,
+          "effectiveDiscountPct": 0.022091310751104567,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 105.6758885725731,
+          "contract": {
+            "contractSymbol": "CDW260618C00110000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 110,
+            "bid": 1.1,
+            "ask": 4.2,
+            "lastPrice": 2.6,
+            "volume": 72,
+            "openInterest": 716,
+            "impliedVolatility": 0.5576216113281252,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.013306504375559143,
+          "staticAnnualizedPct": 0.13126686748862398,
+          "assignedReturnPct": 0.09332614109622685,
+          "assignedAnnualizedPct": 0.9206497702735892,
+          "effectiveCostBasis": 100.75,
+          "effectiveDiscountPct": 0.010800196367206678
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 105.6758885725731,
+          "contract": {
+            "contractSymbol": "CDW260618P00100000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 100,
+            "bid": 2.55,
+            "ask": 4.9,
+            "lastPrice": 3.9,
+            "volume": 8,
+            "openInterest": 324,
+            "impliedVolatility": 0.4451959777832031,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0255,
+          "notAssignedAnnualizedPct": 0.25155405405405407,
+          "effectiveCostBasis": 97.45,
+          "effectiveDiscountPct": 0.04320078546882662,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

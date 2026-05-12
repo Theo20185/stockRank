@@ -1,25 +1,184 @@
 {
   "symbol": "NEM",
-  "fetchedAt": "2026-05-12T13:43:04.361Z",
-  "currentPrice": 119.355,
+  "fetchedAt": "2026-05-12T14:13:38.243Z",
+  "currentPrice": 119.5572,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM260515C00125000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 125,
+            "bid": 0.48,
+            "ask": 1.3,
+            "lastPrice": 0.7,
+            "volume": 2,
+            "openInterest": 4018,
+            "impliedVolatility": 0.5507857421875001,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.004085442130777639,
+          "staticAnnualizedPct": 0.4970621259112794,
+          "assignedReturnPct": 0.04961009476566709,
+          "assignedAnnualizedPct": 6.035894863156163,
+          "effectiveCostBasis": 119.07719999999999,
+          "effectiveDiscountPct": 0.004014814666117975
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM260515P00119000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 119,
+            "bid": 1.86,
+            "ask": 3.5,
+            "lastPrice": 2.14,
+            "volume": 18,
+            "openInterest": 48,
+            "impliedVolatility": 0.5922892333984376,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.015630252100840337,
+          "notAssignedAnnualizedPct": 1.9016806722689077,
+          "effectiveCostBasis": 117.14,
+          "effectiveDiscountPct": 0.020217937522792388,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM260618C00125000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 125,
+            "bid": 4.2,
+            "ask": 5.25,
+            "lastPrice": 5.42,
+            "volume": 88,
+            "openInterest": 3671,
+            "impliedVolatility": 0.4875539526367188,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.036000700392668124,
+          "staticAnnualizedPct": 0.35514204441415853,
+          "assignedReturnPct": 0.08152535302755759,
+          "assignedAnnualizedPct": 0.8042365906772573,
+          "effectiveCostBasis": 115.35719999999999,
+          "effectiveDiscountPct": 0.03512962832853229
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM260618P00115000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 115,
+            "bid": 4.7,
+            "ask": 5.9,
+            "lastPrice": 5.3,
+            "volume": 5,
+            "openInterest": 851,
+            "impliedVolatility": 0.5288133056640626,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0408695652173913,
+          "notAssignedAnnualizedPct": 0.40317273795534664,
+          "effectiveCostBasis": 110.3,
+          "effectiveDiscountPct": 0.07742904651497357,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 125,
+            "bid": 14.95,
+            "ask": 17.1,
+            "lastPrice": 16.32,
+            "volume": 1,
+            "openInterest": 1283,
+            "impliedVolatility": 0.4923756817626954,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.13088328553366488,
+          "staticAnnualizedPct": 0.19263064201527288,
+          "assignedReturnPct": 0.17640793816855435,
+          "assignedAnnualizedPct": 0.2596326509335578,
+          "effectiveCostBasis": 104.60719999999999,
+          "effectiveDiscountPct": 0.12504474845513278
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 124.79442467188557,
+          "contract": {
+            "contractSymbol": "NEM270115P00115000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 115,
+            "bid": 14.15,
+            "ask": 15.85,
+            "lastPrice": 14.55,
+            "volume": 1,
+            "openInterest": 3560,
+            "impliedVolatility": 0.46985393432617195,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12304347826086957,
+          "notAssignedAnnualizedPct": 0.1810922159887798,
+          "effectiveCostBasis": 100.85,
+          "effectiveDiscountPct": 0.15647071025417122,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,25 +1,130 @@
 {
   "symbol": "DECK",
-  "fetchedAt": "2026-05-12T13:43:15.313Z",
-  "currentPrice": 94.735,
+  "fetchedAt": "2026-05-12T14:13:50.864Z",
+  "currentPrice": 95.41,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.92216411892647,
+          "contract": {
+            "contractSymbol": "DECK260515P00095000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 95,
+            "bid": 0.35,
+            "ask": 2,
+            "lastPrice": 1.7,
+            "volume": 1,
+            "openInterest": 371,
+            "impliedVolatility": 0.5532271240234375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0036842105263157894,
+          "notAssignedAnnualizedPct": 0.4482456140350877,
+          "effectiveCostBasis": 94.65,
+          "effectiveDiscountPct": 0.00796562205219569,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.92216411892647,
+          "contract": {
+            "contractSymbol": "DECK260618P00095000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 95,
+            "bid": 5,
+            "ask": 7.9,
+            "lastPrice": 5.96,
+            "volume": 25,
+            "openInterest": 1313,
+            "impliedVolatility": 0.5435836657714845,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05263157894736842,
+          "notAssignedAnnualizedPct": 0.519203413940256,
+          "effectiveCostBasis": 90,
+          "effectiveDiscountPct": 0.056702651713656814,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 137.92216411892647,
+          "contract": {
+            "contractSymbol": "DECK270115C00140000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 140,
+            "bid": 3.7,
+            "ask": 5.3,
+            "lastPrice": 4.58,
+            "volume": 7,
+            "openInterest": 173,
+            "impliedVolatility": 0.5004322418212892,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.038780002096216334,
+          "staticAnnualizedPct": 0.057075406310963556,
+          "assignedReturnPct": 0.5061314327638613,
+          "assignedAnnualizedPct": 0.7449111812855216,
+          "effectiveCostBasis": 91.71,
+          "effectiveDiscountPct": 0.038780002096216334
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.92216411892647,
+          "contract": {
+            "contractSymbol": "DECK270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 95,
+            "bid": 12.5,
+            "ask": 14.9,
+            "lastPrice": 13.22,
+            "volume": 6,
+            "openInterest": 381,
+            "impliedVolatility": 0.48480739807128903,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13157894736842105,
+          "notAssignedAnnualizedPct": 0.19365449915110355,
+          "effectiveCostBasis": 82.5,
+          "effectiveDiscountPct": 0.13531076407085207,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

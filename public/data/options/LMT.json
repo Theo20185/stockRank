@@ -1,25 +1,130 @@
 {
   "symbol": "LMT",
-  "fetchedAt": "2026-05-12T13:44:37.698Z",
-  "currentPrice": 513.87,
+  "fetchedAt": "2026-05-12T14:15:08.509Z",
+  "currentPrice": 519.47,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 721.2012410710754,
+          "contract": {
+            "contractSymbol": "LMT260515P00517500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 517.5,
+            "bid": 5.8,
+            "ask": 11.4,
+            "lastPrice": 9.5,
+            "volume": 7,
+            "openInterest": 5,
+            "impliedVolatility": 0.5709271423339843,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.011207729468599034,
+          "notAssignedAnnualizedPct": 1.3636070853462159,
+          "effectiveCostBasis": 511.7,
+          "effectiveDiscountPct": 0.014957552890446105,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 721.2012410710754,
+          "contract": {
+            "contractSymbol": "LMT260618P00515000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 515,
+            "bid": 16.2,
+            "ask": 22,
+            "lastPrice": 20.9,
+            "volume": 12,
+            "openInterest": 112,
+            "impliedVolatility": 0.3632570999145508,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.031456310679611646,
+          "notAssignedAnnualizedPct": 0.31031225400157436,
+          "effectiveCostBasis": 498.8,
+          "effectiveDiscountPct": 0.03979055575875414,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 721.2012410710754,
+          "contract": {
+            "contractSymbol": "LMT270115C00740000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 740,
+            "bid": 5.5,
+            "ask": 7.8,
+            "lastPrice": 6.11,
+            "volume": 18,
+            "openInterest": 80,
+            "impliedVolatility": 0.33139706695556637,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02850004277434002,
+          "staticAnnualizedPct": 0.04194562747029881,
+          "assignedReturnPct": 0.4530288894834858,
+          "assignedAnnualizedPct": 0.6667562284736787,
+          "effectiveCostBasis": 513.97,
+          "effectiveDiscountPct": 0.010587714401216624
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 721.2012410710754,
+          "contract": {
+            "contractSymbol": "LMT270115P00510000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 510,
+            "bid": 42.8,
+            "ask": 48.7,
+            "lastPrice": 46.96,
+            "volume": 2,
+            "openInterest": 96,
+            "impliedVolatility": 0.3152686882019042,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08392156862745097,
+          "notAssignedAnnualizedPct": 0.12351359898798227,
+          "effectiveCostBasis": 467.2,
+          "effectiveDiscountPct": 0.10062178759119879,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

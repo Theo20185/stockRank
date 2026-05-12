@@ -1,19 +1,71 @@
 {
   "symbol": "POOL",
-  "fetchedAt": "2026-05-12T13:44:15.302Z",
-  "currentPrice": 182.35,
+  "fetchedAt": "2026-05-12T14:14:48.187Z",
+  "currentPrice": 181.58,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 293.09945954757757,
+          "contract": {
+            "contractSymbol": "POOL260515P00180000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 180,
+            "bid": 1.35,
+            "ask": 3.4,
+            "lastPrice": 1.93,
+            "volume": 2,
+            "openInterest": 105,
+            "impliedVolatility": 0.5485884985351563,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.007500000000000001,
+          "notAssignedAnnualizedPct": 0.9125000000000001,
+          "effectiveCostBasis": 178.65,
+          "effectiveDiscountPct": 0.016136138341227044,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 293.09945954757757,
+          "contract": {
+            "contractSymbol": "POOL260618P00180000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 180,
+            "bid": 6,
+            "ask": 9,
+            "lastPrice": 6.64,
+            "volume": 13,
+            "openInterest": 40,
+            "impliedVolatility": 0.42017181396484377,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03333333333333333,
+          "notAssignedAnnualizedPct": 0.3288288288288288,
+          "effectiveCostBasis": 174,
+          "effectiveDiscountPct": 0.04174468553805492,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

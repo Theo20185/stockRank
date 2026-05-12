@@ -1,25 +1,130 @@
 {
   "symbol": "UPS",
-  "fetchedAt": "2026-05-12T13:43:41.708Z",
-  "currentPrice": 98.82,
+  "fetchedAt": "2026-05-12T14:14:15.221Z",
+  "currentPrice": 97.7301,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 135.70744884,
+          "contract": {
+            "contractSymbol": "UPS260515P00097000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 97,
+            "bid": 0.32,
+            "ask": 0.53,
+            "lastPrice": 0.53,
+            "volume": 23,
+            "openInterest": 2805,
+            "impliedVolatility": 0.20801573242187496,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0032989690721649486,
+          "notAssignedAnnualizedPct": 0.4013745704467354,
+          "effectiveCostBasis": 96.68,
+          "effectiveDiscountPct": 0.010744898449914471,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 135.70744884,
+          "contract": {
+            "contractSymbol": "UPS260618P00095000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 95,
+            "bid": 2.07,
+            "ask": 2.4,
+            "lastPrice": 2.2,
+            "volume": 2,
+            "openInterest": 5679,
+            "impliedVolatility": 0.29053443847656246,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.021789473684210525,
+          "notAssignedAnnualizedPct": 0.214950213371266,
+          "effectiveCostBasis": 92.93,
+          "effectiveDiscountPct": 0.049115881391710296,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 135.70744884,
+          "contract": {
+            "contractSymbol": "UPS270115C00140000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 140,
+            "bid": 0.6,
+            "ask": 1.01,
+            "lastPrice": 0.92,
+            "volume": 69,
+            "openInterest": 1537,
+            "impliedVolatility": 0.3048165222167969,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05067323875947811,
+          "staticAnnualizedPct": 0.07457956510971576,
+          "assignedReturnPct": 0.48318993525318893,
+          "assignedAnnualizedPct": 0.7111464772879594,
+          "effectiveCostBasis": 97.1301,
+          "effectiveDiscountPct": 0.006139357270687332
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 135.70744884,
+          "contract": {
+            "contractSymbol": "UPS270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 95,
+            "bid": 8.2,
+            "ask": 8.85,
+            "lastPrice": 8.37,
+            "volume": 1,
+            "openInterest": 2919,
+            "impliedVolatility": 0.32092964233398436,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0863157894736842,
+          "notAssignedAnnualizedPct": 0.12703735144312392,
+          "effectiveCostBasis": 86.8,
+          "effectiveDiscountPct": 0.11183964817389931,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

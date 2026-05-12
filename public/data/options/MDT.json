@@ -1,25 +1,157 @@
 {
   "symbol": "MDT",
-  "fetchedAt": "2026-05-12T13:44:18.911Z",
-  "currentPrice": 74.66,
+  "fetchedAt": "2026-05-12T14:14:51.830Z",
+  "currentPrice": 75.35,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.90232832,
+          "contract": {
+            "contractSymbol": "MDT260515P00075000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 75,
+            "bid": 0.65,
+            "ask": 1.09,
+            "lastPrice": 1.04,
+            "volume": 183,
+            "openInterest": 316,
+            "impliedVolatility": 0.40039662109375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.008666666666666666,
+          "notAssignedAnnualizedPct": 1.0544444444444445,
+          "effectiveCostBasis": 74.35,
+          "effectiveDiscountPct": 0.013271400132714002,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.90232832,
+          "contract": {
+            "contractSymbol": "MDT260618C00082500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 82.5,
+            "bid": 0.32,
+            "ask": 0.65,
+            "lastPrice": 0.65,
+            "volume": 69,
+            "openInterest": 1255,
+            "impliedVolatility": 0.2898020239257812,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.008103401587114017,
+          "staticAnnualizedPct": 0.07993896160261124,
+          "assignedReturnPct": 0.10299391253601921,
+          "assignedAnnualizedPct": 1.0160210290715408,
+          "effectiveCostBasis": 75.03,
+          "effectiveDiscountPct": 0.004246848042468481
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.90232832,
+          "contract": {
+            "contractSymbol": "MDT260618P00075000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 75,
+            "bid": 2.8,
+            "ask": 3.4,
+            "lastPrice": 2.94,
+            "volume": 2,
+            "openInterest": 1516,
+            "impliedVolatility": 0.36939107177734376,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03733333333333333,
+          "notAssignedAnnualizedPct": 0.36828828828828825,
+          "effectiveCostBasis": 72.2,
+          "effectiveDiscountPct": 0.04180491041804899,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 80.90232832,
+          "contract": {
+            "contractSymbol": "MDT270115C00082500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 82.5,
+            "bid": 3.75,
+            "ask": 4.65,
+            "lastPrice": 3.95,
+            "volume": 20,
+            "openInterest": 394,
+            "impliedVolatility": 0.29706513488769526,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07561708236449083,
+          "staticAnnualizedPct": 0.11129127041548045,
+          "assignedReturnPct": 0.17050759331339602,
+          "assignedAnnualizedPct": 0.2509486756426998,
+          "effectiveCostBasis": 71.6,
+          "effectiveDiscountPct": 0.04976775049767751
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 80.90232832,
+          "contract": {
+            "contractSymbol": "MDT270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 75,
+            "bid": 6.9,
+            "ask": 7.45,
+            "lastPrice": 6.9,
+            "volume": 1,
+            "openInterest": 948,
+            "impliedVolatility": 0.3087227331542969,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.092,
+          "notAssignedAnnualizedPct": 0.13540322580645162,
+          "effectiveCostBasis": 68.1,
+          "effectiveDiscountPct": 0.09621765096217652,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

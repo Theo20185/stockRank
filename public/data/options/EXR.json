@@ -1,7 +1,7 @@
 {
   "symbol": "EXR",
-  "fetchedAt": "2026-05-12T13:44:45.209Z",
-  "currentPrice": 143.2375,
+  "fetchedAt": "2026-05-12T14:15:19.732Z",
+  "currentPrice": 143.48,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,8 +12,61 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 145.1264251387214,
+          "contract": {
+            "contractSymbol": "EXR260618C00150000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 150,
+            "bid": 1,
+            "ask": 3,
+            "lastPrice": 2.1,
+            "volume": 8,
+            "openInterest": 563,
+            "impliedVolatility": 0.30054410400390624,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.011494681784679073,
+          "staticAnnualizedPct": 0.11339348247048275,
+          "assignedReturnPct": 0.05693655521651633,
+          "assignedAnnualizedPct": 0.5616714230818504,
+          "effectiveCostBasis": 142.48,
+          "effectiveDiscountPct": 0.006969612489545582
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 145.1264251387214,
+          "contract": {
+            "contractSymbol": "EXR260618P00140000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 140,
+            "bid": 1.8,
+            "ask": 3.8,
+            "lastPrice": 3.31,
+            "volume": 2,
+            "openInterest": 47,
+            "impliedVolatility": 0.29395237304687494,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.012857142857142857,
+          "notAssignedAnnualizedPct": 0.12683397683397682,
+          "effectiveCostBasis": 138.2,
+          "effectiveDiscountPct": 0.03679955394480068,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

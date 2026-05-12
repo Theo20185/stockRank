@@ -1,25 +1,130 @@
 {
   "symbol": "OXY",
-  "fetchedAt": "2026-05-12T13:45:03.128Z",
-  "currentPrice": 55.24,
+  "fetchedAt": "2026-05-12T14:15:37.567Z",
+  "currentPrice": 55.51,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 88.25436639182176,
+          "contract": {
+            "contractSymbol": "OXY260515P00055000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 55,
+            "bid": 0.67,
+            "ask": 0.82,
+            "lastPrice": 0.75,
+            "volume": 12,
+            "openInterest": 4603,
+            "impliedVolatility": 0.45703667968750006,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.012181818181818183,
+          "notAssignedAnnualizedPct": 1.4821212121212122,
+          "effectiveCostBasis": 54.33,
+          "effectiveDiscountPct": 0.021257431093496662,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 88.25436639182176,
+          "contract": {
+            "contractSymbol": "OXY260618P00055000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 55,
+            "bid": 2.15,
+            "ask": 2.59,
+            "lastPrice": 2.35,
+            "volume": 2,
+            "openInterest": 4610,
+            "impliedVolatility": 0.39942006835937505,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.039090909090909086,
+          "notAssignedAnnualizedPct": 0.3856265356265356,
+          "effectiveCostBasis": 52.85,
+          "effectiveDiscountPct": 0.04791929382093311,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 88.25436639182176,
+          "contract": {
+            "contractSymbol": "OXY270115C00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 90,
+            "bid": 0.7,
+            "ask": 0.96,
+            "lastPrice": 0.82,
+            "volume": 34,
+            "openInterest": 317,
+            "impliedVolatility": 0.42639733764648446,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.025398776278740348,
+          "staticAnnualizedPct": 0.03738126347475898,
+          "assignedReturnPct": 0.6467282664606896,
+          "assignedAnnualizedPct": 0.9518379728151277,
+          "effectiveCostBasis": 54.809999999999995,
+          "effectiveDiscountPct": 0.012610340479192938
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 88.25436639182176,
+          "contract": {
+            "contractSymbol": "OXY270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 55,
+            "bid": 5.4,
+            "ask": 6.3,
+            "lastPrice": 6.2,
+            "volume": 5,
+            "openInterest": 4374,
+            "impliedVolatility": 0.36133451171875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09818181818181819,
+          "notAssignedAnnualizedPct": 0.14450146627565982,
+          "effectiveCostBasis": 49.6,
+          "effectiveDiscountPct": 0.10646730318861461,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

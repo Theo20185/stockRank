@@ -1,7 +1,7 @@
 {
   "symbol": "SNA",
-  "fetchedAt": "2026-05-12T13:43:08.050Z",
-  "currentPrice": 369.86,
+  "fetchedAt": "2026-05-12T14:13:41.927Z",
+  "currentPrice": 369.065,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 411.7396960204793,
+          "contract": {
+            "contractSymbol": "SNA260618P00360000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 360,
+            "bid": 4.6,
+            "ask": 8.2,
+            "lastPrice": 7.23,
+            "volume": 1,
+            "openInterest": 14,
+            "impliedVolatility": 0.2601392346191406,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.012777777777777777,
+          "notAssignedAnnualizedPct": 0.12605105105105105,
+          "effectiveCostBasis": 355.4,
+          "effectiveDiscountPct": 0.03702599813041069,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

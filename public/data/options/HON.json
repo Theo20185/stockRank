@@ -1,25 +1,184 @@
 {
   "symbol": "HON",
-  "fetchedAt": "2026-05-12T13:44:59.530Z",
-  "currentPrice": 216.535,
+  "fetchedAt": "2026-05-12T14:15:33.990Z",
+  "currentPrice": 217.41,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON260515C00227500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 227.5,
+            "bid": 0.1,
+            "ask": 0.75,
+            "lastPrice": 0.45,
+            "volume": 65,
+            "openInterest": 87,
+            "impliedVolatility": 0.41699801757812494,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0006380458864099331,
+          "staticAnnualizedPct": 0.0776289161798752,
+          "assignedReturnPct": 0.04704805462565837,
+          "assignedAnnualizedPct": 5.724179979455102,
+          "effectiveCostBasis": 217.31,
+          "effectiveDiscountPct": 0.00045996044340186745
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON260515P00215000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 215,
+            "bid": 1.6,
+            "ask": 2.85,
+            "lastPrice": 1,
+            "volume": 1,
+            "openInterest": 232,
+            "impliedVolatility": 0.43628493408203123,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0074418604651162795,
+          "notAssignedAnnualizedPct": 0.9054263565891474,
+          "effectiveCostBasis": 213.4,
+          "effectiveDiscountPct": 0.018444413780414844,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON260618C00230000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 230,
+            "bid": 2.95,
+            "ask": 3.7,
+            "lastPrice": 3.74,
+            "volume": 137,
+            "openInterest": 5809,
+            "impliedVolatility": 0.2974923767089843,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0157652202107879,
+          "staticAnnualizedPct": 0.155521766944259,
+          "assignedReturnPct": 0.07367424003508302,
+          "assignedAnnualizedPct": 0.7267864219677109,
+          "effectiveCostBasis": 214.46,
+          "effectiveDiscountPct": 0.013568833080355091
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON260618P00210000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 210,
+            "bid": 3.9,
+            "ask": 4.9,
+            "lastPrice": 4.4,
+            "volume": 64,
+            "openInterest": 880,
+            "impliedVolatility": 0.2935251312255859,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.018571428571428572,
+          "notAssignedAnnualizedPct": 0.1832046332046332,
+          "effectiveCostBasis": 206.1,
+          "effectiveDiscountPct": 0.05202152614875122,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON270115C00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 230,
+            "bid": 15,
+            "ask": 17.2,
+            "lastPrice": 17,
+            "volume": 25,
+            "openInterest": 684,
+            "impliedVolatility": 0.3121711849975586,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.08371579646561354,
+          "staticAnnualizedPct": 0.12321074883043928,
+          "assignedReturnPct": 0.14162481628990867,
+          "assignedAnnualizedPct": 0.2084397497815188,
+          "effectiveCostBasis": 202.41,
+          "effectiveDiscountPct": 0.06899406651028012
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 227.2770469618128,
+          "contract": {
+            "contractSymbol": "HON270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 210,
+            "bid": 14.1,
+            "ask": 15.9,
+            "lastPrice": 16,
+            "volume": 10,
+            "openInterest": 244,
+            "impliedVolatility": 0.2759471820068359,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06714285714285714,
+          "notAssignedAnnualizedPct": 0.09881912442396312,
+          "effectiveCostBasis": 195.9,
+          "effectiveDiscountPct": 0.09893749137574165,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

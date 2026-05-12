@@ -1,25 +1,184 @@
 {
   "symbol": "KR",
-  "fetchedAt": "2026-05-12T13:44:28.225Z",
-  "currentPrice": 64.41,
+  "fetchedAt": "2026-05-12T14:14:59.127Z",
+  "currentPrice": 64.23,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR260515C00068000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 68,
+            "bid": 0.02,
+            "ask": 0.19,
+            "lastPrice": 0.07,
+            "volume": 33,
+            "openInterest": 321,
+            "impliedVolatility": 0.46484910156250003,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0004886111768707918,
+          "staticAnnualizedPct": 0.05944769318594634,
+          "assignedReturnPct": 0.05918392489320266,
+          "assignedAnnualizedPct": 7.200710862006323,
+          "effectiveCostBasis": 64.21000000000001,
+          "effectiveDiscountPct": 0.00031138097462245055
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR260515P00064000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 64,
+            "bid": 0.34,
+            "ask": 0.8,
+            "lastPrice": 0.7,
+            "volume": 471,
+            "openInterest": 482,
+            "impliedVolatility": 0.3398503515625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0053125,
+          "notAssignedAnnualizedPct": 0.6463541666666668,
+          "effectiveCostBasis": 63.66,
+          "effectiveDiscountPct": 0.008874357776739956,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR260618C00070000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 70,
+            "bid": 0.62,
+            "ask": 1.13,
+            "lastPrice": 0.75,
+            "volume": 306,
+            "openInterest": 3232,
+            "impliedVolatility": 0.37402969726562496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.011838649374358844,
+          "staticAnnualizedPct": 0.11678667626056698,
+          "assignedReturnPct": 0.10167206055293578,
+          "assignedAnnualizedPct": 1.0029811378870692,
+          "effectiveCostBasis": 63.61000000000001,
+          "effectiveDiscountPct": 0.009652810213295967
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR260618P00062500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 62.5,
+            "bid": 0.92,
+            "ask": 1.95,
+            "lastPrice": 1.57,
+            "volume": 3,
+            "openInterest": 1615,
+            "impliedVolatility": 0.3347234497070312,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.01472,
+          "notAssignedAnnualizedPct": 0.1452108108108108,
+          "effectiveCostBasis": 61.58,
+          "effectiveDiscountPct": 0.04125797913747479,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR270115C00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 70,
+            "bid": 3.35,
+            "ask": 6,
+            "lastPrice": 4.62,
+            "volume": 2,
+            "openInterest": 773,
+            "impliedVolatility": 0.3897155755615235,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.06680734330179001,
+          "staticAnnualizedPct": 0.09832532381110223,
+          "assignedReturnPct": 0.15664075448036693,
+          "assignedAnnualizedPct": 0.23053982010215293,
+          "effectiveCostBasis": 60.88,
+          "effectiveDiscountPct": 0.05215631324926047
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 67.54381659984733,
+          "contract": {
+            "contractSymbol": "KR270115P00062500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 62.5,
+            "bid": 3.25,
+            "ask": 5.55,
+            "lastPrice": 4.45,
+            "volume": 2,
+            "openInterest": 2142,
+            "impliedVolatility": 0.3064034204101562,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.052,
+          "notAssignedAnnualizedPct": 0.07653225806451612,
+          "effectiveCostBasis": 59.25,
+          "effectiveDiscountPct": 0.07753386268099025,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

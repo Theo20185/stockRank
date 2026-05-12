@@ -1,25 +1,157 @@
 {
   "symbol": "NCLH",
-  "fetchedAt": "2026-05-12T13:44:13.458Z",
-  "currentPrice": 16.24,
+  "fetchedAt": "2026-05-12T14:14:46.288Z",
+  "currentPrice": 16.305,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 20.91698702,
+          "contract": {
+            "contractSymbol": "NCLH260515P00016000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 16,
+            "bid": 0.24,
+            "ask": 0.3,
+            "lastPrice": 0.26,
+            "volume": 100,
+            "openInterest": 11080,
+            "impliedVolatility": 0.5996133789062501,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.015,
+          "notAssignedAnnualizedPct": 1.825,
+          "effectiveCostBasis": 15.76,
+          "effectiveDiscountPct": 0.03342532965348052,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 20.91698702,
+          "contract": {
+            "contractSymbol": "NCLH260618C00021000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 21,
+            "bid": 0.08,
+            "ask": 0.18,
+            "lastPrice": 0.19,
+            "volume": 6,
+            "openInterest": 12275,
+            "impliedVolatility": 0.56836369140625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.004906470407850353,
+          "staticAnnualizedPct": 0.04840166753690213,
+          "assignedReturnPct": 0.29285495246856796,
+          "assignedAnnualizedPct": 2.888974531108846,
+          "effectiveCostBasis": 16.225,
+          "effectiveDiscountPct": 0.004906470407850353
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 20.91698702,
+          "contract": {
+            "contractSymbol": "NCLH260618P00016000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 16,
+            "bid": 0.94,
+            "ask": 1,
+            "lastPrice": 0.97,
+            "volume": 10,
+            "openInterest": 8809,
+            "impliedVolatility": 0.5371140039062501,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05875,
+          "notAssignedAnnualizedPct": 0.5795608108108108,
+          "effectiveCostBasis": 15.06,
+          "effectiveDiscountPct": 0.07635694572217107,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 20.91698702,
+          "contract": {
+            "contractSymbol": "NCLH270115C00022000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 22,
+            "bid": 1.36,
+            "ask": 1.62,
+            "lastPrice": 1.47,
+            "volume": 9,
+            "openInterest": 1771,
+            "impliedVolatility": 0.5888712988281251,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.08340999693345601,
+          "staticAnnualizedPct": 0.12276068097061064,
+          "assignedReturnPct": 0.432689359092303,
+          "assignedAnnualizedPct": 0.6368210325350426,
+          "effectiveCostBasis": 14.945,
+          "effectiveDiscountPct": 0.08340999693345601
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 20.91698702,
+          "contract": {
+            "contractSymbol": "NCLH270115P00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 15,
+            "bid": 2.01,
+            "ask": 2.21,
+            "lastPrice": 2.2,
+            "volume": 10,
+            "openInterest": 14603,
+            "impliedVolatility": 0.5307664111328125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.13399999999999998,
+          "notAssignedAnnualizedPct": 0.19721774193548383,
+          "effectiveCostBasis": 12.99,
+          "effectiveDiscountPct": 0.20331186752529895,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

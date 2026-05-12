@@ -1,25 +1,184 @@
 {
   "symbol": "AXP",
-  "fetchedAt": "2026-05-12T13:44:43.310Z",
-  "currentPrice": 312.03,
+  "fetchedAt": "2026-05-12T14:15:17.857Z",
+  "currentPrice": 312.55,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP260515C00315000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 315,
+            "bid": 1.79,
+            "ask": 3.6,
+            "lastPrice": 3.1,
+            "volume": 1,
+            "openInterest": 302,
+            "impliedVolatility": 0.3606020971679687,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0058273560433082265,
+          "staticAnnualizedPct": 0.7089949852691676,
+          "assignedReturnPct": 0.013666101843980084,
+          "assignedAnnualizedPct": 1.6627090576842436,
+          "effectiveCostBasis": 310.76,
+          "effectiveDiscountPct": 0.005727083666613342
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP260515P00312500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 3,
+            "strike": 312.5,
+            "bid": 3.1,
+            "ask": 4.8,
+            "lastPrice": 3.75,
+            "volume": 7,
+            "openInterest": 280,
+            "impliedVolatility": 0.36963520996093746,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.00992,
+          "notAssignedAnnualizedPct": 1.2069333333333334,
+          "effectiveCostBasis": 309.4,
+          "effectiveDiscountPct": 0.010078387458006828,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP260618C00320000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 320,
+            "bid": 7.65,
+            "ask": 9.15,
+            "lastPrice": 8.24,
+            "volume": 167,
+            "openInterest": 694,
+            "impliedVolatility": 0.30774618041992186,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.025712776472491327,
+          "staticAnnualizedPct": 0.25365306520160363,
+          "assignedReturnPct": 0.04954896268269766,
+          "assignedAnnualizedPct": 0.48879382105904445,
+          "effectiveCostBasis": 304.90000000000003,
+          "effectiveDiscountPct": 0.024476083826587745
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP260618P00310000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 37,
+            "strike": 310,
+            "bid": 9,
+            "ask": 10.25,
+            "lastPrice": 9.5,
+            "volume": 28,
+            "openInterest": 712,
+            "impliedVolatility": 0.2866587448120117,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.02903225806451613,
+          "notAssignedAnnualizedPct": 0.2863993025283348,
+          "effectiveCostBasis": 301,
+          "effectiveDiscountPct": 0.03695408734602467,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP270115C00320000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 320,
+            "bid": 29.2,
+            "ask": 31.8,
+            "lastPrice": 30.4,
+            "volume": 8,
+            "openInterest": 2308,
+            "impliedVolatility": 0.34073535247802733,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10171423513179183,
+          "staticAnnualizedPct": 0.14970038638348393,
+          "assignedReturnPct": 0.12555042134199815,
+          "assignedAnnualizedPct": 0.18478187012027952,
+          "effectiveCostBasis": 283.35,
+          "effectiveDiscountPct": 0.09342505199168133
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 314.31699208227883,
+          "contract": {
+            "contractSymbol": "AXP270115P00310000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 248,
+            "strike": 310,
+            "bid": 26.1,
+            "ask": 28.25,
+            "lastPrice": 26.88,
+            "volume": 51,
+            "openInterest": 761,
+            "impliedVolatility": 0.28848978118896473,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08419354838709678,
+          "notAssignedAnnualizedPct": 0.12391389177939646,
+          "effectiveCostBasis": 283.9,
+          "effectiveDiscountPct": 0.09166533354663264,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }
