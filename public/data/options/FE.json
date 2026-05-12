@@ -1,96 +1,43 @@
 {
   "symbol": "FE",
-  "fetchedAt": "2026-05-11T16:49:45.998Z",
-  "currentPrice": 44.51,
+  "fetchedAt": "2026-05-12T00:15:28.300Z",
+  "currentPrice": 44.6,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 45.87454781,
-          "contract": {
-            "contractSymbol": "FE260515P00045000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 4,
-            "strike": 45,
-            "bid": 0.65,
-            "ask": 0.95,
-            "lastPrice": 0.8,
-            "volume": 2,
-            "openInterest": 155,
-            "impliedVolatility": 0.3242255078124999,
-            "inTheMoney": true
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.014444444444444446,
-          "notAssignedAnnualizedPct": 1.3180555555555558,
-          "effectiveCostBasis": 44.35,
-          "effectiveDiscountPct": 0.0035946978207143697,
-          "inTheMoney": true
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 45.87454781,
-          "contract": {
-            "contractSymbol": "FE260618C00047000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 38,
-            "strike": 47,
-            "bid": 0.25,
-            "ask": 0.55,
-            "lastPrice": 0.34,
-            "volume": 4,
-            "openInterest": 305,
-            "impliedVolatility": 0.24683370361328127,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.00999030047118856,
-          "staticAnnualizedPct": 0.09595946505220589,
-          "assignedReturnPct": 0.06593278530605717,
-          "assignedAnnualizedPct": 0.6333017535976544,
-          "effectiveCostBasis": 44.26,
-          "effectiveDiscountPct": 0.0056167153448663226
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 45.87454781,
+          "anchorPrice": 46.033581971000004,
           "contract": {
-            "contractSymbol": "FE260618P00045000",
+            "contractSymbol": "FE260618P00042000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 38,
-            "strike": 45,
-            "bid": 1.2,
-            "ask": 1.5,
-            "lastPrice": 1.37,
-            "volume": 5,
-            "openInterest": 1165,
-            "impliedVolatility": 0.2124102197265625,
-            "inTheMoney": true
+            "daysToExpiry": 37,
+            "strike": 42,
+            "bid": 0.15,
+            "ask": 0.5,
+            "lastPrice": 0.4,
+            "volume": 89,
+            "openInterest": 193,
+            "impliedVolatility": 0.25879647460937505,
+            "inTheMoney": false
           },
-          "snapWarning": false,
+          "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.026666666666666665,
-          "notAssignedAnnualizedPct": 0.25614035087719295,
-          "effectiveCostBasis": 43.8,
-          "effectiveDiscountPct": 0.015951471579420375,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.0035714285714285713,
+          "notAssignedAnnualizedPct": 0.03523166023166023,
+          "effectiveCostBasis": 41.85,
+          "effectiveDiscountPct": 0.061659192825112105,
+          "inTheMoney": false
         }
       ]
     },
@@ -101,55 +48,55 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 45.87454781,
+          "anchorPrice": 46.033581971000004,
           "contract": {
             "contractSymbol": "FE270115C00047000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 249,
+            "daysToExpiry": 248,
             "strike": 47,
-            "bid": 2.1,
-            "ask": 2.35,
+            "bid": 1.85,
+            "ask": 2.65,
             "lastPrice": 2.5,
             "volume": 1,
             "openInterest": 2166,
-            "impliedVolatility": 0.22888954711914064,
+            "impliedVolatility": 0.2474440490722656,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.0758389009088307,
-          "staticAnnualizedPct": 0.11116947321977191,
-          "assignedReturnPct": 0.13178138574369933,
-          "assignedAnnualizedPct": 0.1931735172548203,
-          "effectiveCostBasis": 42.41,
-          "effectiveDiscountPct": 0.04718040889687711
+          "staticReturnPct": 0.07001680692917256,
+          "staticAnnualizedPct": 0.10304892955301606,
+          "assignedReturnPct": 0.12382846612199762,
+          "assignedAnnualizedPct": 0.1822475408650368,
+          "effectiveCostBasis": 42.75,
+          "effectiveDiscountPct": 0.04147982062780269
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 45.87454781,
+          "anchorPrice": 46.033581971000004,
           "contract": {
-            "contractSymbol": "FE270115P00045000",
+            "contractSymbol": "FE270115P00040000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 249,
-            "strike": 45,
-            "bid": 3.3,
-            "ask": 3.6,
-            "lastPrice": 3.1,
+            "daysToExpiry": 248,
+            "strike": 40,
+            "bid": 1.15,
+            "ask": 2,
+            "lastPrice": 1.55,
             "volume": 1,
-            "openInterest": 3041,
-            "impliedVolatility": 0.22705851074218747,
-            "inTheMoney": true
+            "openInterest": 0,
+            "impliedVolatility": 0.2788158056640625,
+            "inTheMoney": false
           },
-          "snapWarning": false,
+          "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.07333333333333333,
-          "notAssignedAnnualizedPct": 0.10749665327978582,
-          "effectiveCostBasis": 41.7,
-          "effectiveDiscountPct": 0.06313188047629735,
-          "inTheMoney": true
+          "notAssignedReturnPct": 0.028749999999999998,
+          "notAssignedAnnualizedPct": 0.04231350806451612,
+          "effectiveCostBasis": 38.85,
+          "effectiveDiscountPct": 0.12892376681614348,
+          "inTheMoney": false
         }
       ]
     }
