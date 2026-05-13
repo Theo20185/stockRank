@@ -1,25 +1,157 @@
 {
   "symbol": "CTSH",
-  "fetchedAt": "2026-05-13T13:59:26.655Z",
-  "currentPrice": 46.39,
+  "fetchedAt": "2026-05-13T15:28:13.634Z",
+  "currentPrice": 45.66,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 57.13471573200001,
+          "contract": {
+            "contractSymbol": "CTSH260515P00045000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 45,
+            "bid": 0.25,
+            "ask": 0.4,
+            "lastPrice": 0.31,
+            "volume": 27,
+            "openInterest": 106,
+            "impliedVolatility": 0.414068359375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.005555555555555556,
+          "notAssignedAnnualizedPct": 1.0138888888888888,
+          "effectiveCostBasis": 44.75,
+          "effectiveDiscountPct": 0.01992991677617163,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.13471573200001,
+          "contract": {
+            "contractSymbol": "CTSH260618C00057500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 57.5,
+            "bid": 0.05,
+            "ask": 0.2,
+            "lastPrice": 0.2,
+            "volume": 2,
+            "openInterest": 83,
+            "impliedVolatility": 0.467778759765625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.003828900209409633,
+          "staticAnnualizedPct": 0.038820793789847666,
+          "assignedReturnPct": 0.2631368283741053,
+          "assignedAnnualizedPct": 2.667915065459679,
+          "effectiveCostBasis": 45.61,
+          "effectiveDiscountPct": 0.0010950503723171268
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 57.13471573200001,
+          "contract": {
+            "contractSymbol": "CTSH260618P00045000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 45,
+            "bid": 1.95,
+            "ask": 2.1,
+            "lastPrice": 2,
+            "volume": 84,
+            "openInterest": 96,
+            "impliedVolatility": 0.41992767578125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.043333333333333335,
+          "notAssignedAnnualizedPct": 0.4393518518518519,
+          "effectiveCostBasis": 43.05,
+          "effectiveDiscountPct": 0.057161629434954,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 57.13471573200001,
+          "contract": {
+            "contractSymbol": "CTSH270115C00057500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 57.5,
+            "bid": 9.4,
+            "ask": 10.9,
+            "lastPrice": 11.97,
+            "volume": 25,
+            "openInterest": 25,
+            "impliedVolatility": 0.9311530322265625,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.22462671748900453,
+          "staticAnnualizedPct": 0.3319382667347638,
+          "assignedReturnPct": 0.4839346456537002,
+          "assignedAnnualizedPct": 0.715126095804051,
+          "effectiveCostBasis": 36.26,
+          "effectiveDiscountPct": 0.2058694699956198
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 57.13471573200001,
+          "contract": {
+            "contractSymbol": "CTSH270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 45,
+            "bid": 4.3,
+            "ask": 5.9,
+            "lastPrice": 3.4,
+            "volume": 5,
+            "openInterest": 12,
+            "impliedVolatility": 0.4198056066894531,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09555555555555555,
+          "notAssignedAnnualizedPct": 0.1412055780476833,
+          "effectiveCostBasis": 40.7,
+          "effectiveDiscountPct": 0.10862899693385883,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

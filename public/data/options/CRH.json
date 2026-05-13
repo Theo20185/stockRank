@@ -1,7 +1,7 @@
 {
   "symbol": "CRH",
-  "fetchedAt": "2026-05-13T14:00:47.037Z",
-  "currentPrice": 110.785,
+  "fetchedAt": "2026-05-13T15:29:34.811Z",
+  "currentPrice": 109.71,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 121.71980874499998,
+          "anchorPrice": 120.78342768,
           "contract": {
-            "contractSymbol": "CRH260515P00107000",
+            "contractSymbol": "CRH260515P00109000",
             "expiration": "2026-05-15",
             "daysToExpiry": 2,
-            "strike": 107,
+            "strike": 109,
             "bid": 0.15,
-            "ask": 3,
-            "lastPrice": 0.32,
-            "volume": 1,
-            "openInterest": 1,
-            "impliedVolatility": 0.789064609375,
+            "ask": 2.2,
+            "lastPrice": 0.56,
+            "volume": 3,
+            "openInterest": 9,
+            "impliedVolatility": 0.6420934228515626,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.0014018691588785046,
-          "notAssignedAnnualizedPct": 0.25584112149532706,
-          "effectiveCostBasis": 106.85,
-          "effectiveDiscountPct": 0.0355192489958027,
+          "notAssignedReturnPct": 0.0013761467889908255,
+          "notAssignedAnnualizedPct": 0.25114678899082565,
+          "effectiveCostBasis": 108.85,
+          "effectiveDiscountPct": 0.007838847871661649,
           "inTheMoney": false
         }
       ]
@@ -38,31 +38,58 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.78342768,
+          "contract": {
+            "contractSymbol": "CRH260618C00125000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 125,
+            "bid": 0.45,
+            "ask": 1.5,
+            "lastPrice": 1.3,
+            "volume": 1,
+            "openInterest": 902,
+            "impliedVolatility": 0.43445389770507814,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.005480593745353817,
+          "staticAnnualizedPct": 0.055567131029281756,
+          "assignedReturnPct": 0.14484801695198954,
+          "assignedAnnualizedPct": 1.4685979496521162,
+          "effectiveCostBasis": 109.25999999999999,
+          "effectiveDiscountPct": 0.004101722723543888
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 121.71980874499998,
+          "anchorPrice": 120.78342768,
           "contract": {
-            "contractSymbol": "CRH260618P00110000",
+            "contractSymbol": "CRH260618P00105000",
             "expiration": "2026-06-18",
             "daysToExpiry": 36,
-            "strike": 110,
-            "bid": 3.6,
-            "ask": 6,
-            "lastPrice": 4.23,
-            "volume": 1,
-            "openInterest": 186,
-            "impliedVolatility": 0.4558159887695313,
+            "strike": 105,
+            "bid": 2.85,
+            "ask": 2.9,
+            "lastPrice": 2.46,
+            "volume": 2,
+            "openInterest": 1085,
+            "impliedVolatility": 0.35962554443359374,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.03272727272727273,
-          "notAssignedAnnualizedPct": 0.33181818181818185,
-          "effectiveCostBasis": 106.4,
-          "effectiveDiscountPct": 0.0395811707361104,
+          "notAssignedReturnPct": 0.027142857142857142,
+          "notAssignedAnnualizedPct": 0.2751984126984127,
+          "effectiveCostBasis": 102.15,
+          "effectiveDiscountPct": 0.06890894175553722,
           "inTheMoney": false
         }
       ]
@@ -70,31 +97,58 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 120.78342768,
+          "contract": {
+            "contractSymbol": "CRH270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 125,
+            "bid": 7,
+            "ask": 8.6,
+            "lastPrice": 8.7,
+            "volume": 2,
+            "openInterest": 461,
+            "impliedVolatility": 0.39148557739257805,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.07326516298810083,
+          "staticAnnualizedPct": 0.10826633397027047,
+          "assignedReturnPct": 0.21263258619473657,
+          "assignedAnnualizedPct": 0.31421414559141236,
+          "effectiveCostBasis": 102.71,
+          "effectiveDiscountPct": 0.0638045756995716
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 121.71980874499998,
+          "anchorPrice": 120.78342768,
           "contract": {
-            "contractSymbol": "CRH270115P00100000",
+            "contractSymbol": "CRH270115P00105000",
             "expiration": "2027-01-15",
             "daysToExpiry": 247,
-            "strike": 100,
-            "bid": 6.8,
-            "ask": 8.3,
-            "lastPrice": 7.25,
-            "volume": 1,
-            "openInterest": 332,
-            "impliedVolatility": 0.3765931481933594,
+            "strike": 105,
+            "bid": 8.2,
+            "ask": 10.5,
+            "lastPrice": 6.9,
+            "volume": 16,
+            "openInterest": 289,
+            "impliedVolatility": 0.3617007189941406,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.068,
-          "notAssignedAnnualizedPct": 0.10048582995951418,
-          "effectiveCostBasis": 93.2,
-          "effectiveDiscountPct": 0.15873087511847267,
+          "notAssignedReturnPct": 0.07809523809523809,
+          "notAssignedAnnualizedPct": 0.11540389435126278,
+          "effectiveCostBasis": 96.8,
+          "effectiveDiscountPct": 0.1176738674687813,
           "inTheMoney": false
         }
       ]

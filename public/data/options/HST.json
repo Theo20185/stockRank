@@ -1,7 +1,7 @@
 {
   "symbol": "HST",
-  "fetchedAt": "2026-05-13T13:59:49.081Z",
-  "currentPrice": 21.79,
+  "fetchedAt": "2026-05-13T15:28:35.955Z",
+  "currentPrice": 21.615,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,14 +12,120 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 22.731292312469197,
+          "contract": {
+            "contractSymbol": "HST260618C00023000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 23,
+            "bid": 0.25,
+            "ask": 0.45,
+            "lastPrice": 0.25,
+            "volume": 2,
+            "openInterest": 3532,
+            "impliedVolatility": 0.3505924316406249,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.015197310340675394,
+          "staticAnnualizedPct": 0.15408384095407,
+          "assignedReturnPct": 0.07927318357685405,
+          "assignedAnnualizedPct": 0.8037420001542147,
+          "effectiveCostBasis": 21.365,
+          "effectiveDiscountPct": 0.011566042100393246
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 22.731292312469197,
+          "contract": {
+            "contractSymbol": "HST260618P00021000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 21,
+            "bid": 0.4,
+            "ask": 0.5,
+            "lastPrice": 0.5,
+            "volume": 1,
+            "openInterest": 13,
+            "impliedVolatility": 0.2841868457031249,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.01904761904761905,
+          "notAssignedAnnualizedPct": 0.19312169312169314,
+          "effectiveCostBasis": 20.6,
+          "effectiveDiscountPct": 0.046958130927596445,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 22.731292312469197,
+          "contract": {
+            "contractSymbol": "HST270115C00024850",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 24.85,
+            "bid": 0.7,
+            "ask": 1.2,
+            "lastPrice": 0.75,
+            "volume": 1,
+            "openInterest": 10,
+            "impliedVolatility": 0.32739930419921875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.057299452751925835,
+          "staticAnnualizedPct": 0.08467328038240053,
+          "assignedReturnPct": 0.20696403753101458,
+          "assignedAnnualizedPct": 0.30583754533935353,
+          "effectiveCostBasis": 20.915,
+          "effectiveDiscountPct": 0.03238491788110109
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 22.731292312469197,
+          "contract": {
+            "contractSymbol": "HST270115P00019850",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 19.85,
+            "bid": 1.15,
+            "ask": 1.6,
+            "lastPrice": 1.35,
+            "volume": 10,
+            "openInterest": 96,
+            "impliedVolatility": 0.3505924316406249,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.057934508816120896,
+          "notAssignedAnnualizedPct": 0.08561172355418675,
+          "effectiveCostBasis": 18.700000000000003,
+          "effectiveDiscountPct": 0.13486005089058506,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

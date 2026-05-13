@@ -1,25 +1,103 @@
 {
   "symbol": "EIX",
-  "fetchedAt": "2026-05-13T13:59:03.000Z",
-  "currentPrice": 70.4,
+  "fetchedAt": "2026-05-13T15:27:49.662Z",
+  "currentPrice": 70.32,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 101.57307587499155,
+          "contract": {
+            "contractSymbol": "EIX260515P00070000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 70,
+            "bid": 0.4,
+            "ask": 0.95,
+            "lastPrice": 0.45,
+            "volume": 2,
+            "openInterest": 387,
+            "impliedVolatility": 0.43457596679687505,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.005714285714285714,
+          "notAssignedAnnualizedPct": 1.042857142857143,
+          "effectiveCostBasis": 69.6,
+          "effectiveDiscountPct": 0.010238907849829336,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 101.57307587499155,
+          "contract": {
+            "contractSymbol": "EIX260618P00070000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 70,
+            "bid": 2.15,
+            "ask": 2.45,
+            "lastPrice": 2.28,
+            "volume": 4,
+            "openInterest": 166,
+            "impliedVolatility": 0.29273168212890616,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03071428571428571,
+          "notAssignedAnnualizedPct": 0.31140873015873016,
+          "effectiveCostBasis": 67.85,
+          "effectiveDiscountPct": 0.035125142207053456,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 101.57307587499155,
+          "contract": {
+            "contractSymbol": "EIX270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 70,
+            "bid": 6.4,
+            "ask": 7.6,
+            "lastPrice": 7.25,
+            "volume": 4,
+            "openInterest": 119,
+            "impliedVolatility": 0.3375310388183594,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.09142857142857143,
+          "notAssignedAnnualizedPct": 0.135106998264893,
+          "effectiveCostBasis": 63.6,
+          "effectiveDiscountPct": 0.09556313993174051,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

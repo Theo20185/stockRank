@@ -1,7 +1,7 @@
 {
   "symbol": "GIS",
-  "fetchedAt": "2026-05-13T13:59:30.306Z",
-  "currentPrice": 33.955,
+  "fetchedAt": "2026-05-13T15:28:15.503Z",
+  "currentPrice": 33.755,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,13 +13,92 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 49.992804929269234,
+          "contract": {
+            "contractSymbol": "GIS260618P00032500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 32.5,
+            "bid": 0.7,
+            "ask": 0.75,
+            "lastPrice": 0.72,
+            "volume": 89,
+            "openInterest": 3143,
+            "impliedVolatility": 0.304694453125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.021538461538461538,
+          "notAssignedAnnualizedPct": 0.21837606837606838,
+          "effectiveCostBasis": 31.8,
+          "effectiveDiscountPct": 0.05791734557843287,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 49.992804929269234,
+          "contract": {
+            "contractSymbol": "GIS270115C00050000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 50,
+            "bid": 0.4,
+            "ask": 0.5,
+            "lastPrice": 0.46,
+            "volume": 8,
+            "openInterest": 2917,
+            "impliedVolatility": 0.3557193334960937,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.060234167739736166,
+          "staticAnnualizedPct": 0.08901000495952915,
+          "assignedReturnPct": 0.5414962029937724,
+          "assignedAnnualizedPct": 0.8001866967316881,
+          "effectiveCostBasis": 33.355000000000004,
+          "effectiveDiscountPct": 0.01185009628203229
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 49.992804929269234,
+          "contract": {
+            "contractSymbol": "GIS270115P00032500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 32.5,
+            "bid": 2.8,
+            "ask": 3,
+            "lastPrice": 2.92,
+            "volume": 1,
+            "openInterest": 1196,
+            "impliedVolatility": 0.3309393078613281,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08615384615384615,
+          "notAssignedAnnualizedPct": 0.12731236374961072,
+          "effectiveCostBasis": 29.7,
+          "effectiveDiscountPct": 0.12013035105910244,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

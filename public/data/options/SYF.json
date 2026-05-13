@@ -1,7 +1,7 @@
 {
   "symbol": "SYF",
-  "fetchedAt": "2026-05-13T13:59:19.543Z",
-  "currentPrice": 69.91,
+  "fetchedAt": "2026-05-13T15:28:08.064Z",
+  "currentPrice": 69.94,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,13 +13,65 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.32353016570568,
+          "contract": {
+            "contractSymbol": "SYF260618P00067500",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 67.5,
+            "bid": 1.55,
+            "ask": 1.85,
+            "lastPrice": 1.88,
+            "volume": 4,
+            "openInterest": 259,
+            "impliedVolatility": 0.33350275878906255,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.022962962962962963,
+          "notAssignedAnnualizedPct": 0.23281893004115228,
+          "effectiveCostBasis": 65.95,
+          "effectiveDiscountPct": 0.05704889905633393,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 137.32353016570568,
+          "contract": {
+            "contractSymbol": "SYF270115P00067500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 67.5,
+            "bid": 5,
+            "ask": 7,
+            "lastPrice": 5.8,
+            "volume": 1,
+            "openInterest": 176,
+            "impliedVolatility": 0.3626772717285156,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07407407407407407,
+          "notAssignedAnnualizedPct": 0.10946168840905683,
+          "effectiveCostBasis": 62.5,
+          "effectiveDiscountPct": 0.10637689448098367,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

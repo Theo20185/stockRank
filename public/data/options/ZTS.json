@@ -1,25 +1,130 @@
 {
   "symbol": "ZTS",
-  "fetchedAt": "2026-05-13T14:00:15.365Z",
-  "currentPrice": 76.635,
+  "fetchedAt": "2026-05-13T15:29:03.877Z",
+  "currentPrice": 75.64,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.07768613739746,
+          "contract": {
+            "contractSymbol": "ZTS260515P00075000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 75,
+            "bid": 0.8,
+            "ask": 1.05,
+            "lastPrice": 0.75,
+            "volume": 42,
+            "openInterest": 1497,
+            "impliedVolatility": 0.49414568359375005,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.010666666666666668,
+          "notAssignedAnnualizedPct": 1.946666666666667,
+          "effectiveCostBasis": 74.2,
+          "effectiveDiscountPct": 0.019037546271813824,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.07768613739746,
+          "contract": {
+            "contractSymbol": "ZTS260618P00075000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 75,
+            "bid": 3.5,
+            "ask": 3.7,
+            "lastPrice": 3.52,
+            "volume": 98,
+            "openInterest": 2044,
+            "impliedVolatility": 0.41968353759765625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04666666666666667,
+          "notAssignedAnnualizedPct": 0.4731481481481482,
+          "effectiveCostBasis": 71.5,
+          "effectiveDiscountPct": 0.05473294553146484,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 116.07768613739746,
+          "contract": {
+            "contractSymbol": "ZTS270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 120,
+            "bid": 1.4,
+            "ask": 1.95,
+            "lastPrice": 1.55,
+            "volume": 3,
+            "openInterest": 64,
+            "impliedVolatility": 0.4611870288085938,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03719092427721797,
+          "staticAnnualizedPct": 0.05495824842584842,
+          "assignedReturnPct": 0.6236531135950393,
+          "assignedAnnualizedPct": 0.9215926577416573,
+          "effectiveCostBasis": 74.24,
+          "effectiveDiscountPct": 0.018508725542041245
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.07768613739746,
+          "contract": {
+            "contractSymbol": "ZTS270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 75,
+            "bid": 8.9,
+            "ask": 11,
+            "lastPrice": 10,
+            "volume": 2,
+            "openInterest": 330,
+            "impliedVolatility": 0.45978323425292966,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.11866666666666667,
+          "notAssignedAnnualizedPct": 0.17535762483130907,
+          "effectiveCostBasis": 66.1,
+          "effectiveDiscountPct": 0.12612374405076687,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

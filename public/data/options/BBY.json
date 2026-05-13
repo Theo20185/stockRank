@@ -1,25 +1,157 @@
 {
   "symbol": "BBY",
-  "fetchedAt": "2026-05-13T13:59:45.288Z",
-  "currentPrice": 55.7,
+  "fetchedAt": "2026-05-13T15:28:32.270Z",
+  "currentPrice": 55.527,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 62.740752217411696,
+          "contract": {
+            "contractSymbol": "BBY260515P00055000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 55,
+            "bid": 0.4,
+            "ask": 0.55,
+            "lastPrice": 0.5,
+            "volume": 189,
+            "openInterest": 936,
+            "impliedVolatility": 0.39258419921875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.007272727272727273,
+          "notAssignedAnnualizedPct": 1.3272727272727274,
+          "effectiveCostBasis": 54.6,
+          "effectiveDiscountPct": 0.016694581014641517,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 62.740752217411696,
+          "contract": {
+            "contractSymbol": "BBY260618C00065000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 65,
+            "bid": 0.6,
+            "ask": 0.7,
+            "lastPrice": 0.7,
+            "volume": 5,
+            "openInterest": 665,
+            "impliedVolatility": 0.47559118164062497,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01742399380678929,
+          "staticAnnualizedPct": 0.17665993720772474,
+          "assignedReturnPct": 0.18802568307507314,
+          "assignedAnnualizedPct": 1.9063715089556028,
+          "effectiveCostBasis": 54.927,
+          "effectiveDiscountPct": 0.010805554054784158
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 62.740752217411696,
+          "contract": {
+            "contractSymbol": "BBY260618P00055000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 55,
+            "bid": 3.1,
+            "ask": 3.3,
+            "lastPrice": 3.2,
+            "volume": 10,
+            "openInterest": 675,
+            "impliedVolatility": 0.5073291455078125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.056363636363636366,
+          "notAssignedAnnualizedPct": 0.5714646464646465,
+          "effectiveCostBasis": 51.9,
+          "effectiveDiscountPct": 0.06531957426117029,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 62.740752217411696,
+          "contract": {
+            "contractSymbol": "BBY270115C00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 65,
+            "bid": 3.5,
+            "ask": 4.2,
+            "lastPrice": 4.21,
+            "volume": 10,
+            "openInterest": 272,
+            "impliedVolatility": 0.4097959411621094,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.10844224917360948,
+          "staticAnnualizedPct": 0.16024866780715571,
+          "assignedReturnPct": 0.27904393844189335,
+          "assignedAnnualizedPct": 0.41235237866919466,
+          "effectiveCostBasis": 52.027,
+          "effectiveDiscountPct": 0.06303239865290759
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 62.740752217411696,
+          "contract": {
+            "contractSymbol": "BBY270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 55,
+            "bid": 7,
+            "ask": 7.7,
+            "lastPrice": 6.59,
+            "volume": 1,
+            "openInterest": 142,
+            "impliedVolatility": 0.4405573522949219,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.12727272727272726,
+          "notAssignedAnnualizedPct": 0.1880750828119249,
+          "effectiveCostBasis": 48,
+          "effectiveDiscountPct": 0.13555567561726728,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "symbol": "AVY",
-  "fetchedAt": "2026-05-13T14:00:19.091Z",
-  "currentPrice": 160.62,
+  "fetchedAt": "2026-05-13T15:29:05.701Z",
+  "currentPrice": 159.047,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 219.30874068947477,
+          "contract": {
+            "contractSymbol": "AVY260618P00155000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 155,
+            "bid": 2.8,
+            "ask": 4,
+            "lastPrice": 3.3,
+            "volume": 4,
+            "openInterest": 7,
+            "impliedVolatility": 0.2909616802978515,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.018064516129032256,
+          "notAssignedAnnualizedPct": 0.18315412186379929,
+          "effectiveCostBasis": 152.2,
+          "effectiveDiscountPct": 0.043050167560532475,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

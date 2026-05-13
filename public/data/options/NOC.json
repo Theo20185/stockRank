@@ -1,7 +1,7 @@
 {
   "symbol": "NOC",
-  "fetchedAt": "2026-05-13T14:00:35.825Z",
-  "currentPrice": 547.95,
+  "fetchedAt": "2026-05-13T15:29:23.837Z",
+  "currentPrice": 551.25,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 697.463569402079,
+          "anchorPrice": 703.252929562079,
           "contract": {
-            "contractSymbol": "NOC260515P00540000",
+            "contractSymbol": "NOC260515P00550000",
             "expiration": "2026-05-15",
             "daysToExpiry": 2,
-            "strike": 540,
-            "bid": 0.4,
-            "ask": 6.1,
-            "lastPrice": 1.35,
-            "volume": 23,
-            "openInterest": 166,
-            "impliedVolatility": 0.48560084716796875,
+            "strike": 550,
+            "bid": 5.4,
+            "ask": 10,
+            "lastPrice": 9.8,
+            "volume": 2,
+            "openInterest": 195,
+            "impliedVolatility": 0.5329636547851562,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.0007407407407407408,
-          "notAssignedAnnualizedPct": 0.13518518518518519,
-          "effectiveCostBasis": 539.6,
-          "effectiveDiscountPct": 0.015238616662104246,
+          "notAssignedReturnPct": 0.00981818181818182,
+          "notAssignedAnnualizedPct": 1.791818181818182,
+          "effectiveCostBasis": 544.6,
+          "effectiveDiscountPct": 0.012063492063492023,
           "inTheMoney": false
         }
       ]
@@ -38,31 +38,58 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 703.252929562079,
+          "contract": {
+            "contractSymbol": "NOC260618C00705000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 705,
+            "bid": 0.05,
+            "ask": 0.6,
+            "lastPrice": 2.8,
+            "volume": 2,
+            "openInterest": 11,
+            "impliedVolatility": 0.3815979809570312,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.001727814717485168,
+          "staticAnnualizedPct": 0.017518121441169064,
+          "assignedReturnPct": 0.2806393793433355,
+          "assignedAnnualizedPct": 2.845371485008818,
+          "effectiveCostBasis": 551.2,
+          "effectiveDiscountPct": 0.00009070294784580499
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 697.463569402079,
+          "anchorPrice": 703.252929562079,
           "contract": {
-            "contractSymbol": "NOC260618P00535000",
+            "contractSymbol": "NOC260618P00550000",
             "expiration": "2026-06-18",
             "daysToExpiry": 36,
-            "strike": 535,
-            "bid": 8.4,
-            "ask": 14.3,
-            "lastPrice": 10.6,
-            "volume": 3,
-            "openInterest": 34,
-            "impliedVolatility": 0.2926096130371093,
+            "strike": 550,
+            "bid": 19.3,
+            "ask": 22.6,
+            "lastPrice": 21.5,
+            "volume": 2,
+            "openInterest": 176,
+            "impliedVolatility": 0.33219051605224614,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.015700934579439253,
-          "notAssignedAnnualizedPct": 0.159190031152648,
-          "effectiveCostBasis": 526.6,
-          "effectiveDiscountPct": 0.03896340907017067,
+          "notAssignedReturnPct": 0.03509090909090909,
+          "notAssignedAnnualizedPct": 0.35578282828282826,
+          "effectiveCostBasis": 530.7,
+          "effectiveDiscountPct": 0.03727891156462577,
           "inTheMoney": false
         }
       ]
@@ -70,8 +97,61 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 703.252929562079,
+          "contract": {
+            "contractSymbol": "NOC270115C00720000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 720,
+            "bid": 10.2,
+            "ask": 14.6,
+            "lastPrice": 13.39,
+            "volume": 5,
+            "openInterest": 59,
+            "impliedVolatility": 0.32921508193969723,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.029735807113347622,
+          "staticAnnualizedPct": 0.04394157731324649,
+          "assignedReturnPct": 0.33585825609293946,
+          "assignedAnnualizedPct": 0.49630875900373644,
+          "effectiveCostBasis": 541.05,
+          "effectiveDiscountPct": 0.018503401360544215
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 703.252929562079,
+          "contract": {
+            "contractSymbol": "NOC270115P00550000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 550,
+            "bid": 49,
+            "ask": 54.8,
+            "lastPrice": 51.95,
+            "volume": 1,
+            "openInterest": 78,
+            "impliedVolatility": 0.3070137658691406,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0890909090909091,
+          "notAssignedAnnualizedPct": 0.13165255796834746,
+          "effectiveCostBasis": 501,
+          "effectiveDiscountPct": 0.09115646258503401,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

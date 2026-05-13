@@ -1,7 +1,7 @@
 {
   "symbol": "ADP",
-  "fetchedAt": "2026-05-13T14:00:58.466Z",
-  "currentPrice": 208.675,
+  "fetchedAt": "2026-05-13T15:29:44.223Z",
+  "currentPrice": 208.255,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 275.37578494914635,
+          "anchorPrice": 275.89874561314633,
           "contract": {
             "contractSymbol": "ADP260515P00207500",
             "expiration": "2026-05-15",
             "daysToExpiry": 2,
             "strike": 207.5,
-            "bid": 0.45,
-            "ask": 1.9,
+            "bid": 1.7,
+            "ask": 2.25,
             "lastPrice": 0.65,
             "volume": 2,
             "openInterest": 31,
-            "impliedVolatility": 0.32471378417968744,
+            "impliedVolatility": 0.34717449707031245,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.002168674698795181,
-          "notAssignedAnnualizedPct": 0.3957831325301205,
-          "effectiveCostBasis": 207.05,
-          "effectiveDiscountPct": 0.007787228944530968,
+          "notAssignedReturnPct": 0.00819277108433735,
+          "notAssignedAnnualizedPct": 1.4951807228915663,
+          "effectiveCostBasis": 205.8,
+          "effectiveDiscountPct": 0.01178843245060135,
           "inTheMoney": false
         }
       ]
@@ -43,26 +43,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 275.37578494914635,
+          "anchorPrice": 275.89874561314633,
           "contract": {
             "contractSymbol": "ADP260618P00200000",
             "expiration": "2026-06-18",
             "daysToExpiry": 36,
             "strike": 200,
-            "bid": 2.35,
-            "ask": 3,
-            "lastPrice": 3.03,
-            "volume": 29,
+            "bid": 4.5,
+            "ask": 4.8,
+            "lastPrice": 3.37,
+            "volume": 5,
             "openInterest": 984,
-            "impliedVolatility": 0.24781025634765624,
+            "impliedVolatility": 0.31958688232421867,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.01175,
-          "notAssignedAnnualizedPct": 0.11913194444444444,
-          "effectiveCostBasis": 197.65,
-          "effectiveDiscountPct": 0.05283335330058706,
+          "notAssignedReturnPct": 0.0225,
+          "notAssignedAnnualizedPct": 0.228125,
+          "effectiveCostBasis": 195.5,
+          "effectiveDiscountPct": 0.06124702888285993,
           "inTheMoney": false
         }
       ]
@@ -70,31 +70,58 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 275.89874561314633,
+          "contract": {
+            "contractSymbol": "ADP270115C00280000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 280,
+            "bid": 2,
+            "ask": 3.8,
+            "lastPrice": 1.92,
+            "volume": 1,
+            "openInterest": 138,
+            "impliedVolatility": 0.3112861840820312,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.031181445718384635,
+          "staticAnnualizedPct": 0.04607784488749147,
+          "assignedReturnPct": 0.3756869797991991,
+          "assignedAnnualizedPct": 0.555164970148614,
+          "effectiveCostBasis": 206.255,
+          "effectiveDiscountPct": 0.009603610957720103
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 275.37578494914635,
+          "anchorPrice": 275.89874561314633,
           "contract": {
             "contractSymbol": "ADP270115P00200000",
             "expiration": "2027-01-15",
             "daysToExpiry": 247,
             "strike": 200,
-            "bid": 14.2,
-            "ask": 16.6,
+            "bid": 14.5,
+            "ask": 16.7,
             "lastPrice": 13.9,
             "volume": 1,
             "openInterest": 466,
-            "impliedVolatility": 0.3082649740600586,
+            "impliedVolatility": 0.3073189385986328,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.071,
-          "notAssignedAnnualizedPct": 0.10491902834008096,
-          "effectiveCostBasis": 185.8,
-          "effectiveDiscountPct": 0.10962022283455133,
+          "notAssignedReturnPct": 0.0725,
+          "notAssignedAnnualizedPct": 0.10713562753036437,
+          "effectiveCostBasis": 185.5,
+          "effectiveDiscountPct": 0.10926508367146046,
           "inTheMoney": false
         }
       ]

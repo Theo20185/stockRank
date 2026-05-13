@@ -1,25 +1,130 @@
 {
   "symbol": "ED",
-  "fetchedAt": "2026-05-13T13:59:41.517Z",
-  "currentPrice": 105.795,
+  "fetchedAt": "2026-05-13T15:28:28.523Z",
+  "currentPrice": 105.565,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.24621914593811,
+          "contract": {
+            "contractSymbol": "ED260515P00105000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 105,
+            "bid": 0.3,
+            "ask": 1.05,
+            "lastPrice": 0.7,
+            "volume": 10,
+            "openInterest": 415,
+            "impliedVolatility": 0.344733115234375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.002857142857142857,
+          "notAssignedAnnualizedPct": 0.5214285714285715,
+          "effectiveCostBasis": 104.7,
+          "effectiveDiscountPct": 0.008194003694406241,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.24621914593811,
+          "contract": {
+            "contractSymbol": "ED260618P00105000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 105,
+            "bid": 2.15,
+            "ask": 2.3,
+            "lastPrice": 2.05,
+            "volume": 15,
+            "openInterest": 84,
+            "impliedVolatility": 0.192390888671875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.020476190476190474,
+          "notAssignedAnnualizedPct": 0.2076058201058201,
+          "effectiveCostBasis": 102.85,
+          "effectiveDiscountPct": 0.02571875148013076,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 123.24621914593811,
+          "contract": {
+            "contractSymbol": "ED270115C00125000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 125,
+            "bid": 1.2,
+            "ask": 1.7,
+            "lastPrice": 1.13,
+            "volume": 8,
+            "openInterest": 309,
+            "impliedVolatility": 0.2087481469726562,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03331576208646364,
+          "staticAnnualizedPct": 0.04923179417635316,
+          "assignedReturnPct": 0.21742034220297957,
+          "assignedAnnualizedPct": 0.3212891696521763,
+          "effectiveCostBasis": 104.365,
+          "effectiveDiscountPct": 0.011367403969118553
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 123.24621914593811,
+          "contract": {
+            "contractSymbol": "ED270115P00105000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 105,
+            "bid": 4.6,
+            "ask": 7.1,
+            "lastPrice": 5.5,
+            "volume": 108,
+            "openInterest": 111,
+            "impliedVolatility": 0.2135088415527344,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.043809523809523805,
+          "notAssignedAnnualizedPct": 0.06473877000192789,
+          "effectiveCostBasis": 100.4,
+          "effectiveDiscountPct": 0.04892720125041436,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

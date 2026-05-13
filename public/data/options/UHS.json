@@ -1,7 +1,7 @@
 {
   "symbol": "UHS",
-  "fetchedAt": "2026-05-13T13:59:17.841Z",
-  "currentPrice": 170.78,
+  "fetchedAt": "2026-05-13T15:28:04.620Z",
+  "currentPrice": 169.825,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 251.9402762868665,
+          "contract": {
+            "contractSymbol": "UHS260618P00165000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 165,
+            "bid": 3.9,
+            "ask": 5.2,
+            "lastPrice": 4.4,
+            "volume": 1,
+            "openInterest": 24,
+            "impliedVolatility": 0.3464420825195312,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.023636363636363636,
+          "notAssignedAnnualizedPct": 0.23964646464646466,
+          "effectiveCostBasis": 161.1,
+          "effectiveDiscountPct": 0.05137641689974971,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

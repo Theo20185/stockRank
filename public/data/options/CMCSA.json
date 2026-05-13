@@ -1,7 +1,7 @@
 {
   "symbol": "CMCSA",
-  "fetchedAt": "2026-05-13T14:00:02.059Z",
-  "currentPrice": 24.785,
+  "fetchedAt": "2026-05-13T15:28:50.959Z",
+  "currentPrice": 24.68,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,14 +12,120 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.4933211476733,
+          "contract": {
+            "contractSymbol": "CMCSA260618C00040000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 40,
+            "bid": 0.01,
+            "ask": 0.03,
+            "lastPrice": 0.03,
+            "volume": 6,
+            "openInterest": 280,
+            "impliedVolatility": 0.64062859375,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.005627288766095336,
+          "staticAnnualizedPct": 0.05705445554513327,
+          "assignedReturnPct": 0.6263728317158522,
+          "assignedAnnualizedPct": 6.3507245437857245,
+          "effectiveCostBasis": 24.669999999999998,
+          "effectiveDiscountPct": 0.00040518638573743926
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.4933211476733,
+          "contract": {
+            "contractSymbol": "CMCSA260618P00024000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 24,
+            "bid": 0.56,
+            "ask": 0.58,
+            "lastPrice": 0.55,
+            "volume": 21,
+            "openInterest": 8295,
+            "impliedVolatility": 0.2841868457031249,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.023333333333333334,
+          "notAssignedAnnualizedPct": 0.2365740740740741,
+          "effectiveCostBasis": 23.44,
+          "effectiveDiscountPct": 0.0502431118314424,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 39.4933211476733,
+          "contract": {
+            "contractSymbol": "CMCSA270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 40,
+            "bid": 0.13,
+            "ask": 0.18,
+            "lastPrice": 0.16,
+            "volume": 17,
+            "openInterest": 6699,
+            "impliedVolatility": 0.35156898437499995,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.04109684767982005,
+          "staticAnnualizedPct": 0.060730159526859596,
+          "assignedReturnPct": 0.661842390629577,
+          "assignedAnnualizedPct": 0.9780262047765004,
+          "effectiveCostBasis": 24.55,
+          "effectiveDiscountPct": 0.0052674230145867106
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 39.4933211476733,
+          "contract": {
+            "contractSymbol": "CMCSA270115P00022500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 22.5,
+            "bid": 1.75,
+            "ask": 1.84,
+            "lastPrice": 1.89,
+            "volume": 50,
+            "openInterest": 2346,
+            "impliedVolatility": 0.36206692626953124,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.07777777777777778,
+          "notAssignedAnnualizedPct": 0.11493477282950967,
+          "effectiveCostBasis": 20.75,
+          "effectiveDiscountPct": 0.1592382495948136,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

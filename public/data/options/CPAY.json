@@ -1,7 +1,7 @@
 {
   "symbol": "CPAY",
-  "fetchedAt": "2026-05-13T14:00:39.520Z",
-  "currentPrice": 327.42,
+  "fetchedAt": "2026-05-13T15:29:27.479Z",
+  "currentPrice": 327.95,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -17,26 +17,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 494.45014225365804,
+          "anchorPrice": 466.2543326671231,
           "contract": {
-            "contractSymbol": "CPAY260618P00300000",
+            "contractSymbol": "CPAY260618P00320000",
             "expiration": "2026-06-18",
             "daysToExpiry": 36,
-            "strike": 300,
-            "bid": 0.1,
-            "ask": 10,
-            "lastPrice": 5.1,
-            "volume": 2,
+            "strike": 320,
+            "bid": 8,
+            "ask": 12.2,
+            "lastPrice": 6.9,
+            "volume": 1,
             "openInterest": 2,
-            "impliedVolatility": 0.5258226129150392,
+            "impliedVolatility": 0.38568729553222647,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.0003333333333333334,
-          "notAssignedAnnualizedPct": 0.00337962962962963,
-          "effectiveCostBasis": 299.9,
-          "effectiveDiscountPct": 0.08405106590922985,
+          "notAssignedReturnPct": 0.025,
+          "notAssignedAnnualizedPct": 0.25347222222222227,
+          "effectiveCostBasis": 312,
+          "effectiveDiscountPct": 0.04863546272297603,
           "inTheMoney": false
         }
       ]
@@ -44,58 +44,31 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 494.45014225365804,
-          "contract": {
-            "contractSymbol": "CPAY270115C00500000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 247,
-            "strike": 500,
-            "bid": 5,
-            "ask": 15,
-            "lastPrice": 9.2,
-            "volume": 0,
-            "openInterest": 0,
-            "impliedVolatility": 0.5252122674560546,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.015270905870136216,
-          "staticAnnualizedPct": 0.02256631839109198,
-          "assignedReturnPct": 0.5423614928837578,
-          "assignedAnnualizedPct": 0.8014653639780227,
-          "effectiveCostBasis": 322.42,
-          "effectiveDiscountPct": 0.015270905870136216
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 494.45014225365804,
+          "anchorPrice": 466.2543326671231,
           "contract": {
             "contractSymbol": "CPAY270115P00320000",
             "expiration": "2027-01-15",
             "daysToExpiry": 247,
             "strike": 320,
-            "bid": 25,
-            "ask": 35,
+            "bid": 28.4,
+            "ask": 36.2,
             "lastPrice": 31.4,
             "volume": 1,
             "openInterest": 4,
-            "impliedVolatility": 0.3640658076477051,
+            "impliedVolatility": 0.37756970092773434,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.078125,
-          "notAssignedAnnualizedPct": 0.11544787449392713,
-          "effectiveCostBasis": 295,
-          "effectiveDiscountPct": 0.09901655366196327,
+          "notAssignedReturnPct": 0.08875,
+          "notAssignedAnnualizedPct": 0.13114878542510122,
+          "effectiveCostBasis": 291.6,
+          "effectiveDiscountPct": 0.11084006708339676,
           "inTheMoney": false
         }
       ]

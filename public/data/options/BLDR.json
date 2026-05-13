@@ -1,25 +1,157 @@
 {
   "symbol": "BLDR",
-  "fetchedAt": "2026-05-13T13:59:28.473Z",
-  "currentPrice": 71.535,
+  "fetchedAt": "2026-05-13T15:28:17.347Z",
+  "currentPrice": 71.52,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 85.41196649095181,
+          "contract": {
+            "contractSymbol": "BLDR260515P00070000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 70,
+            "bid": 1.1,
+            "ask": 1.4,
+            "lastPrice": 1.05,
+            "volume": 5,
+            "openInterest": 1390,
+            "impliedVolatility": 0.7480493945312501,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.015714285714285715,
+          "notAssignedAnnualizedPct": 2.867857142857143,
+          "effectiveCostBasis": 68.9,
+          "effectiveDiscountPct": 0.03663310961968667,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 85.41196649095181,
+          "contract": {
+            "contractSymbol": "BLDR260618C00090000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 90,
+            "bid": 0.6,
+            "ask": 1,
+            "lastPrice": 1.1,
+            "volume": 25,
+            "openInterest": 233,
+            "impliedVolatility": 0.5893595751953126,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.008389261744966443,
+          "staticAnnualizedPct": 0.08505779269202088,
+          "assignedReturnPct": 0.266778523489933,
+          "assignedAnnualizedPct": 2.704837807606265,
+          "effectiveCostBasis": 70.92,
+          "effectiveDiscountPct": 0.008389261744966443
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 85.41196649095181,
+          "contract": {
+            "contractSymbol": "BLDR260618P00070000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 70,
+            "bid": 4.5,
+            "ask": 4.8,
+            "lastPrice": 4.45,
+            "volume": 110,
+            "openInterest": 342,
+            "impliedVolatility": 0.5991251025390626,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06428571428571428,
+          "notAssignedAnnualizedPct": 0.6517857142857143,
+          "effectiveCostBasis": 65.5,
+          "effectiveDiscountPct": 0.08417225950782993,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 85.41196649095181,
+          "contract": {
+            "contractSymbol": "BLDR270115C00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 90,
+            "bid": 7.4,
+            "ask": 8.6,
+            "lastPrice": 8,
+            "volume": 3,
+            "openInterest": 894,
+            "impliedVolatility": 0.5927775097656252,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.1034675615212528,
+          "staticAnnualizedPct": 0.15289740872573795,
+          "assignedReturnPct": 0.3618568232662193,
+          "assignedAnnualizedPct": 0.5347276943002837,
+          "effectiveCostBasis": 64.11999999999999,
+          "effectiveDiscountPct": 0.1034675615212528
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 85.41196649095181,
+          "contract": {
+            "contractSymbol": "BLDR270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 70,
+            "bid": 11,
+            "ask": 12.4,
+            "lastPrice": 10.99,
+            "volume": 4,
+            "openInterest": 485,
+            "impliedVolatility": 0.5394333166503908,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15714285714285714,
+          "notAssignedAnnualizedPct": 0.23221515326778486,
+          "effectiveCostBasis": 59,
+          "effectiveDiscountPct": 0.17505592841163306,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

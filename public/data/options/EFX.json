@@ -1,0 +1,125 @@
+{
+  "symbol": "EFX",
+  "fetchedAt": "2026-05-13T15:29:22.005Z",
+  "currentPrice": 161.24,
+  "expirations": [
+    {
+      "expiration": "2026-05-15",
+      "selectionReason": "weekly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 163.3659238235,
+          "contract": {
+            "contractSymbol": "EFX260515C00165000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 165,
+            "bid": 1,
+            "ask": 3.3,
+            "lastPrice": 7.6,
+            "volume": 10,
+            "openInterest": 11,
+            "impliedVolatility": 0.632816171875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.006275653380851229,
+          "staticAnnualizedPct": 1.1453067420053493,
+          "assignedReturnPct": 0.029594928994842735,
+          "assignedAnnualizedPct": 5.401074541558799,
+          "effectiveCostBasis": 160.24,
+          "effectiveDiscountPct": 0.006201935003721161
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 163.3659238235,
+          "contract": {
+            "contractSymbol": "EFX260515P00160000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 160,
+            "bid": 0.4,
+            "ask": 2.3,
+            "lastPrice": 0.75,
+            "volume": 665,
+            "openInterest": 663,
+            "impliedVolatility": 0.4953663745117188,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0025,
+          "notAssignedAnnualizedPct": 0.45625,
+          "effectiveCostBasis": 159.6,
+          "effectiveDiscountPct": 0.010171173406102796,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-06-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 163.3659238235,
+          "contract": {
+            "contractSymbol": "EFX260618C00165000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 165,
+            "bid": 6,
+            "ask": 7.6,
+            "lastPrice": 9.8,
+            "volume": 3,
+            "openInterest": 4,
+            "impliedVolatility": 0.45215391601562505,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.038538540810668175,
+          "staticAnnualizedPct": 0.39073798321927455,
+          "assignedReturnPct": 0.061857816424659685,
+          "assignedAnnualizedPct": 0.6271695276389108,
+          "effectiveCostBasis": 155.24,
+          "effectiveDiscountPct": 0.037211610022326966
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 163.3659238235,
+          "contract": {
+            "contractSymbol": "EFX260618P00160000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 160,
+            "bid": 5.4,
+            "ask": 7.7,
+            "lastPrice": 6,
+            "volume": 80,
+            "openInterest": 29,
+            "impliedVolatility": 0.4074155938720704,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03375,
+          "notAssignedAnnualizedPct": 0.34218750000000003,
+          "effectiveCostBasis": 154.6,
+          "effectiveDiscountPct": 0.0411808484247086,
+          "inTheMoney": false
+        }
+      ]
+    }
+  ]
+}

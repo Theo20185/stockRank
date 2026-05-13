@@ -1,19 +1,125 @@
 {
   "symbol": "AMP",
-  "fetchedAt": "2026-05-13T14:00:13.595Z",
-  "currentPrice": 468.075,
+  "fetchedAt": "2026-05-13T15:29:02.088Z",
+  "currentPrice": 468.81,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 473.13975838542484,
+          "contract": {
+            "contractSymbol": "AMP260515C00480000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 480,
+            "bid": 0.1,
+            "ask": 3.3,
+            "lastPrice": 1.4,
+            "volume": 3,
+            "openInterest": 456,
+            "impliedVolatility": 0.44434149414062496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.0002927733405384019,
+          "staticAnnualizedPct": 0.05343113464825835,
+          "assignedReturnPct": 0.02416171811560719,
+          "assignedAnnualizedPct": 4.409513556098312,
+          "effectiveCostBasis": 468.71,
+          "effectiveDiscountPct": 0.00021330603016147268
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 473.13975838542484,
+          "contract": {
+            "contractSymbol": "AMP260515P00460000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 460,
+            "bid": 1.5,
+            "ask": 2.55,
+            "lastPrice": 1.5,
+            "volume": 1,
+            "openInterest": 29,
+            "impliedVolatility": 0.3540103662109374,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.003260869565217391,
+          "notAssignedAnnualizedPct": 0.5951086956521738,
+          "effectiveCostBasis": 458.5,
+          "effectiveDiscountPct": 0.021991851709647837,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 473.13975838542484,
+          "contract": {
+            "contractSymbol": "AMP260618C00480000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 480,
+            "bid": 9,
+            "ask": 15.1,
+            "lastPrice": 8.5,
+            "volume": 1,
+            "openInterest": 38,
+            "impliedVolatility": 0.33542534698486326,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.02062795430131727,
+          "staticAnnualizedPct": 0.20914453666613345,
+          "assignedReturnPct": 0.04449689907638606,
+          "assignedAnnualizedPct": 0.45114911563558086,
+          "effectiveCostBasis": 459.81,
+          "effectiveDiscountPct": 0.01919754271453254
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 473.13975838542484,
+          "contract": {
+            "contractSymbol": "AMP260618P00460000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 460,
+            "bid": 9.9,
+            "ask": 12.6,
+            "lastPrice": 18.96,
+            "volume": 1,
+            "openInterest": 8,
+            "impliedVolatility": 0.2821421884155273,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.021521739130434783,
+          "notAssignedAnnualizedPct": 0.21820652173913044,
+          "effectiveCostBasis": 450.1,
+          "effectiveDiscountPct": 0.03990955824321149,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

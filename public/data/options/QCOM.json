@@ -1,25 +1,184 @@
 {
   "symbol": "QCOM",
-  "fetchedAt": "2026-05-13T13:59:34.086Z",
-  "currentPrice": 208.4963,
+  "fetchedAt": "2026-05-13T15:28:24.821Z",
+  "currentPrice": 213.78,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM260515C00300000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 300,
+            "bid": 0.01,
+            "ask": 0.02,
+            "lastPrice": 0.02,
+            "volume": 1821,
+            "openInterest": 7903,
+            "impliedVolatility": 1.2812535937499998,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "staticReturnPct": 0.0001431070477010677,
+          "staticAnnualizedPct": 0.026117036205444852,
+          "assignedReturnPct": 0.40345492293319085,
+          "assignedAnnualizedPct": 73.63052343530732,
+          "effectiveCostBasis": 213.77,
+          "effectiveDiscountPct": 0.000046777060529516325
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM260515P00212500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 212.5,
+            "bid": 6,
+            "ask": 6.95,
+            "lastPrice": 6.56,
+            "volume": 63,
+            "openInterest": 711,
+            "impliedVolatility": 0.920899228515625,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.02823529411764706,
+          "notAssignedAnnualizedPct": 5.152941176470589,
+          "effectiveCostBasis": 206.5,
+          "effectiveDiscountPct": 0.03405370006548789,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM260618C00300000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 300,
+            "bid": 3.35,
+            "ask": 3.75,
+            "lastPrice": 3.5,
+            "volume": 1257,
+            "openInterest": 11742,
+            "impliedVolatility": 0.8581557153320312,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.017404255046475893,
+          "staticAnnualizedPct": 0.1764598081101028,
+          "assignedReturnPct": 0.42071607093196567,
+          "assignedAnnualizedPct": 4.265593496949097,
+          "effectiveCostBasis": 210.43,
+          "effectiveDiscountPct": 0.01567031527738797
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM260618P00210000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 210,
+            "bid": 17.2,
+            "ask": 17.6,
+            "lastPrice": 17.69,
+            "volume": 357,
+            "openInterest": 3345,
+            "impliedVolatility": 0.7161283270263672,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0819047619047619,
+          "notAssignedAnnualizedPct": 0.8304232804232804,
+          "effectiveCostBasis": 192.8,
+          "effectiveDiscountPct": 0.0981382729909252,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM270115C00300000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 300,
+            "bid": 17.15,
+            "ask": 17.9,
+            "lastPrice": 17.38,
+            "volume": 77,
+            "openInterest": 6513,
+            "impliedVolatility": 0.5918619915771486,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.09211941222380707,
+          "staticAnnualizedPct": 0.1361278763631157,
+          "assignedReturnPct": 0.4954312281092968,
+          "assignedAnnualizedPct": 0.7321149727121188,
+          "effectiveCostBasis": 196.63,
+          "effectiveDiscountPct": 0.08022265880812049
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 342.937941787145,
+          "contract": {
+            "contractSymbol": "QCOM270115P00210000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 210,
+            "bid": 33.25,
+            "ask": 34.2,
+            "lastPrice": 35.08,
+            "volume": 4,
+            "openInterest": 1503,
+            "impliedVolatility": 0.5146227737426757,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.15833333333333333,
+          "notAssignedAnnualizedPct": 0.23397435897435898,
+          "effectiveCostBasis": 176.75,
+          "effectiveDiscountPct": 0.17321545514079895,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

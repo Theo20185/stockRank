@@ -1,25 +1,130 @@
 {
   "symbol": "KMB",
-  "fetchedAt": "2026-05-13T14:00:52.827Z",
-  "currentPrice": 97.79,
+  "fetchedAt": "2026-05-13T15:29:40.549Z",
+  "currentPrice": 97.12,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 118.7473051880636,
+          "contract": {
+            "contractSymbol": "KMB260515P00097000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 97,
+            "bid": 0.45,
+            "ask": 1,
+            "lastPrice": 0.6,
+            "volume": 1,
+            "openInterest": 412,
+            "impliedVolatility": 0.301764794921875,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.004639175257731959,
+          "notAssignedAnnualizedPct": 0.8466494845360825,
+          "effectiveCostBasis": 96.55,
+          "effectiveDiscountPct": 0.0058690280065898616,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 118.7473051880636,
+          "contract": {
+            "contractSymbol": "KMB260618P00095000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 95,
+            "bid": 2.65,
+            "ask": 2.7,
+            "lastPrice": 2.6,
+            "volume": 56,
+            "openInterest": 2184,
+            "impliedVolatility": 0.3002999658203125,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.027894736842105264,
+          "notAssignedAnnualizedPct": 0.2828216374269006,
+          "effectiveCostBasis": 92.35,
+          "effectiveDiscountPct": 0.04911449752883042,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 118.7473051880636,
+          "contract": {
+            "contractSymbol": "KMB270115C00120000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 120,
+            "bid": 1.6,
+            "ask": 2.3,
+            "lastPrice": 1.8,
+            "volume": 2,
+            "openInterest": 5223,
+            "impliedVolatility": 0.27484856018066406,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.05205121047553542,
+          "staticAnnualizedPct": 0.07691778066222846,
+          "assignedReturnPct": 0.28763605396812186,
+          "assignedAnnualizedPct": 0.42504922954803437,
+          "effectiveCostBasis": 95.52000000000001,
+          "effectiveDiscountPct": 0.016474464579901153
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 118.7473051880636,
+          "contract": {
+            "contractSymbol": "KMB270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 95,
+            "bid": 6.6,
+            "ask": 8.9,
+            "lastPrice": 8.5,
+            "volume": 4,
+            "openInterest": 410,
+            "impliedVolatility": 0.31519239501953117,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.06947368421052631,
+          "notAssignedAnnualizedPct": 0.10266354144470488,
+          "effectiveCostBasis": 88.4,
+          "effectiveDiscountPct": 0.08978583196046126,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

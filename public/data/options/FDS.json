@@ -1,19 +1,71 @@
 {
   "symbol": "FDS",
-  "fetchedAt": "2026-05-13T13:59:08.661Z",
-  "currentPrice": 207.84,
+  "fetchedAt": "2026-05-13T15:27:55.431Z",
+  "currentPrice": 199.74,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 395.9503110204184,
+          "contract": {
+            "contractSymbol": "FDS260515P00195000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 195,
+            "bid": 1.55,
+            "ask": 3.7,
+            "lastPrice": 2.15,
+            "volume": 2,
+            "openInterest": 166,
+            "impliedVolatility": 0.6462437719726561,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.007948717948717949,
+          "notAssignedAnnualizedPct": 1.4506410256410256,
+          "effectiveCostBasis": 193.45,
+          "effectiveDiscountPct": 0.03149093821968569,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 395.9503110204184,
+          "contract": {
+            "contractSymbol": "FDS260618P00195000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 195,
+            "bid": 7.7,
+            "ask": 11.2,
+            "lastPrice": 6.24,
+            "volume": 5,
+            "openInterest": 30,
+            "impliedVolatility": 0.5367477966308594,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.03948717948717949,
+          "notAssignedAnnualizedPct": 0.40035612535612536,
+          "effectiveCostBasis": 187.3,
+          "effectiveDiscountPct": 0.06228096525483127,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

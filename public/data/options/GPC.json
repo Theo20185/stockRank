@@ -1,25 +1,130 @@
 {
   "symbol": "GPC",
-  "fetchedAt": "2026-05-13T14:00:54.698Z",
-  "currentPrice": 100.69,
+  "fetchedAt": "2026-05-13T15:29:42.403Z",
+  "currentPrice": 99.105,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.06320356978267,
+          "contract": {
+            "contractSymbol": "GPC260515P00095000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 95,
+            "bid": 0.1,
+            "ask": 0.3,
+            "lastPrice": 0.1,
+            "volume": 3,
+            "openInterest": 110,
+            "impliedVolatility": 0.446294599609375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0010526315789473684,
+          "notAssignedAnnualizedPct": 0.19210526315789472,
+          "effectiveCostBasis": 94.9,
+          "effectiveDiscountPct": 0.04242974622874727,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.06320356978267,
+          "contract": {
+            "contractSymbol": "GPC260618P00095000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 95,
+            "bid": 2.4,
+            "ask": 2.8,
+            "lastPrice": 1.95,
+            "volume": 1,
+            "openInterest": 161,
+            "impliedVolatility": 0.37036762451171873,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.02526315789473684,
+          "notAssignedAnnualizedPct": 0.256140350877193,
+          "effectiveCostBasis": 92.6,
+          "effectiveDiscountPct": 0.0656374552242572,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 141.06320356978267,
+          "contract": {
+            "contractSymbol": "GPC270115C00145000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 145,
+            "bid": 0.4,
+            "ask": 1.65,
+            "lastPrice": 2.9,
+            "volume": 1,
+            "openInterest": 15,
+            "impliedVolatility": 0.3588931298828125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.03257465372619188,
+          "staticAnnualizedPct": 0.04813663404882606,
+          "assignedReturnPct": 0.4956693512692018,
+          "assignedAnnualizedPct": 0.7324668551144076,
+          "effectiveCostBasis": 98.705,
+          "effectiveDiscountPct": 0.004036123303566924
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 141.06320356978267,
+          "contract": {
+            "contractSymbol": "GPC270115P00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 95,
+            "bid": 7.8,
+            "ask": 9.6,
+            "lastPrice": 6.5,
+            "volume": 1,
+            "openInterest": 26,
+            "impliedVolatility": 0.36298244445800787,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08210526315789474,
+          "notAssignedAnnualizedPct": 0.12132963988919668,
+          "effectiveCostBasis": 87.2,
+          "effectiveDiscountPct": 0.12012511982241059,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

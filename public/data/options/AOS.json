@@ -1,7 +1,7 @@
 {
   "symbol": "AOS",
-  "fetchedAt": "2026-05-13T13:59:10.409Z",
-  "currentPrice": 57.93,
+  "fetchedAt": "2026-05-13T15:27:58.975Z",
+  "currentPrice": 57.435,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 95.97978575221316,
+          "contract": {
+            "contractSymbol": "AOS260618P00055000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 55,
+            "bid": 0.7,
+            "ask": 1.2,
+            "lastPrice": 0.67,
+            "volume": 7,
+            "openInterest": 55,
+            "impliedVolatility": 0.30933307861328124,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.012727272727272726,
+          "notAssignedAnnualizedPct": 0.12904040404040404,
+          "effectiveCostBasis": 54.3,
+          "effectiveDiscountPct": 0.054583442151998,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

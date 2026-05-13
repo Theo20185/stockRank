@@ -1,25 +1,157 @@
 {
   "symbol": "DG",
-  "fetchedAt": "2026-05-13T14:00:09.801Z",
-  "currentPrice": 102.615,
+  "fetchedAt": "2026-05-13T15:28:47.111Z",
+  "currentPrice": 101.225,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 165.61151534240264,
+          "contract": {
+            "contractSymbol": "DG260515P00100000",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 100,
+            "bid": 0.88,
+            "ask": 1.25,
+            "lastPrice": 1.1,
+            "volume": 28,
+            "openInterest": 356,
+            "impliedVolatility": 0.4936574072265626,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.0088,
+          "notAssignedAnnualizedPct": 1.606,
+          "effectiveCostBasis": 99.12,
+          "effectiveDiscountPct": 0.020795258088416792,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 165.61151534240264,
+          "contract": {
+            "contractSymbol": "DG260618C00170000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 170,
+            "bid": 0.02,
+            "ask": 0.16,
+            "lastPrice": 0.02,
+            "volume": 1,
+            "openInterest": 1148,
+            "impliedVolatility": 0.6914093359375001,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0024578832588462566,
+          "staticAnnualizedPct": 0.024920205263302325,
+          "assignedReturnPct": 0.6818849022758875,
+          "assignedAnnualizedPct": 6.913555259186082,
+          "effectiveCostBasis": 101.205,
+          "effectiveDiscountPct": 0.0001975796492961225
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 165.61151534240264,
+          "contract": {
+            "contractSymbol": "DG260618P00100000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 100,
+            "bid": 5.55,
+            "ask": 5.9,
+            "lastPrice": 5.78,
+            "volume": 20,
+            "openInterest": 1739,
+            "impliedVolatility": 0.508793974609375,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0555,
+          "notAssignedAnnualizedPct": 0.5627083333333334,
+          "effectiveCostBasis": 94.45,
+          "effectiveDiscountPct": 0.06693010619906141,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 165.61151534240264,
+          "contract": {
+            "contractSymbol": "DG270115C00170000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 170,
+            "bid": 1.2,
+            "ask": 2.07,
+            "lastPrice": 1.5,
+            "volume": 1,
+            "openInterest": 195,
+            "impliedVolatility": 0.46802289794921875,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.027362973167736327,
+          "staticAnnualizedPct": 0.04043516277823384,
+          "assignedReturnPct": 0.7067899921847778,
+          "assignedAnnualizedPct": 1.044446749584793,
+          "effectiveCostBasis": 100.02499999999999,
+          "effectiveDiscountPct": 0.01185477895776735
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 165.61151534240264,
+          "contract": {
+            "contractSymbol": "DG270115P00100000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 100,
+            "bid": 13.05,
+            "ask": 13.85,
+            "lastPrice": 12.69,
+            "volume": 110,
+            "openInterest": 872,
+            "impliedVolatility": 0.4393976959228516,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1305,
+          "notAssignedAnnualizedPct": 0.19284412955465588,
+          "effectiveCostBasis": 86.95,
+          "effectiveDiscountPct": 0.14102247468510737,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

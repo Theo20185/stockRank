@@ -1,25 +1,157 @@
 {
   "symbol": "ADBE",
-  "fetchedAt": "2026-05-13T13:59:13.962Z",
-  "currentPrice": 235.85,
+  "fetchedAt": "2026-05-13T15:28:00.752Z",
+  "currentPrice": 234.49,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 337.206829002798,
+          "contract": {
+            "contractSymbol": "ADBE260515P00232500",
+            "expiration": "2026-05-15",
+            "daysToExpiry": 2,
+            "strike": 232.5,
+            "bid": 2,
+            "ask": 2.61,
+            "lastPrice": 2.25,
+            "volume": 121,
+            "openInterest": 312,
+            "impliedVolatility": 0.4182187084960937,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.008602150537634409,
+          "notAssignedAnnualizedPct": 1.5698924731182795,
+          "effectiveCostBasis": 230.5,
+          "effectiveDiscountPct": 0.01701565098724896,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 337.206829002798,
+          "contract": {
+            "contractSymbol": "ADBE260618C00340000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 340,
+            "bid": 0.26,
+            "ask": 0.48,
+            "lastPrice": 0.39,
+            "volume": 6,
+            "openInterest": 1098,
+            "impliedVolatility": 0.5668988623046876,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.0011087892873896542,
+          "staticAnnualizedPct": 0.011241891386033993,
+          "assignedReturnPct": 0.4510640112584758,
+          "assignedAnnualizedPct": 4.5732878919262125,
+          "effectiveCostBasis": 234.23000000000002,
+          "effectiveDiscountPct": 0.0011087892873896542
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 337.206829002798,
+          "contract": {
+            "contractSymbol": "ADBE260618P00230000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 230,
+            "bid": 12.05,
+            "ask": 12.3,
+            "lastPrice": 12.12,
+            "volume": 157,
+            "openInterest": 3592,
+            "impliedVolatility": 0.49042257629394537,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.05239130434782609,
+          "notAssignedAnnualizedPct": 0.53118961352657,
+          "effectiveCostBasis": 217.95,
+          "effectiveDiscountPct": 0.07053605697471116,
+          "inTheMoney": false
+        }
+      ]
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
-      "puts": []
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 337.206829002798,
+          "contract": {
+            "contractSymbol": "ADBE270115C00340000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 340,
+            "bid": 8.8,
+            "ask": 9.5,
+            "lastPrice": 9.1,
+            "volume": 2,
+            "openInterest": 546,
+            "impliedVolatility": 0.4657341024780274,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.037528252803957524,
+          "staticAnnualizedPct": 0.055456729852002014,
+          "assignedReturnPct": 0.48748347477504367,
+          "assignedAnnualizedPct": 0.720370316975267,
+          "effectiveCostBasis": 225.69,
+          "effectiveDiscountPct": 0.037528252803957524
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 337.206829002798,
+          "contract": {
+            "contractSymbol": "ADBE270115P00230000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 247,
+            "strike": 230,
+            "bid": 25.9,
+            "ask": 29.05,
+            "lastPrice": 27.62,
+            "volume": 2,
+            "openInterest": 1286,
+            "impliedVolatility": 0.4113980979919434,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.1126086956521739,
+          "notAssignedAnnualizedPct": 0.16640556240098575,
+          "effectiveCostBasis": 204.1,
+          "effectiveDiscountPct": 0.12960040939912157,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }

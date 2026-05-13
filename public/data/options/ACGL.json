@@ -1,7 +1,7 @@
 {
   "symbol": "ACGL",
-  "fetchedAt": "2026-05-13T13:59:23.136Z",
-  "currentPrice": 94.635,
+  "fetchedAt": "2026-05-13T15:28:09.957Z",
+  "currentPrice": 93.2099,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,7 +13,33 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 110.31355563335131,
+          "contract": {
+            "contractSymbol": "ACGL260618P00090000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 36,
+            "strike": 90,
+            "bid": 0.9,
+            "ask": 1.25,
+            "lastPrice": 1.14,
+            "volume": 2,
+            "openInterest": 138,
+            "impliedVolatility": 0.21826953613281247,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.01,
+          "notAssignedAnnualizedPct": 0.10138888888888889,
+          "effectiveCostBasis": 89.1,
+          "effectiveDiscountPct": 0.044092955791176794,
+          "inTheMoney": false
+        }
+      ]
     }
   ]
 }
