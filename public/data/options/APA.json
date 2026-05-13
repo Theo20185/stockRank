@@ -1,184 +1,25 @@
 {
   "symbol": "APA",
-  "fetchedAt": "2026-05-12T14:14:07.670Z",
-  "currentPrice": 36.41,
+  "fetchedAt": "2026-05-13T13:59:56.529Z",
+  "currentPrice": 36.47,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA260515C00039500",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 39.5,
-            "bid": 0.04,
-            "ask": 0.18,
-            "lastPrice": 0.14,
-            "volume": 1,
-            "openInterest": 220,
-            "impliedVolatility": 0.6015664843750002,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.0013219767262493748,
-          "staticAnnualizedPct": 0.16084050169367395,
-          "assignedReturnPct": 0.08618877156283283,
-          "assignedAnnualizedPct": 10.486300540144661,
-          "effectiveCostBasis": 36.37,
-          "effectiveDiscountPct": 0.0010985992859104644
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA260515P00036000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 36,
-            "bid": 0.38,
-            "ask": 0.64,
-            "lastPrice": 0.44,
-            "volume": 2,
-            "openInterest": 506,
-            "impliedVolatility": 0.5488326367187502,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.010555555555555556,
-          "notAssignedAnnualizedPct": 1.2842592592592594,
-          "effectiveCostBasis": 35.62,
-          "effectiveDiscountPct": 0.021697335896731645,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA260618C00040000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 40,
-            "bid": 1.11,
-            "ask": 1.35,
-            "lastPrice": 1.25,
-            "volume": 208,
-            "openInterest": 3425,
-            "impliedVolatility": 0.5390671093750001,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.033241118614861946,
-          "staticAnnualizedPct": 0.32791914309255704,
-          "assignedReturnPct": 0.13184040452532622,
-          "assignedAnnualizedPct": 1.3005877743714613,
-          "effectiveCostBasis": 35.3,
-          "effectiveDiscountPct": 0.030486130184015386
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA260618P00035000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 35,
-            "bid": 1.3,
-            "ask": 1.58,
-            "lastPrice": 1.5,
-            "volume": 107,
-            "openInterest": 1895,
-            "impliedVolatility": 0.48242705078125003,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.037142857142857144,
-          "notAssignedAnnualizedPct": 0.3664092664092664,
-          "effectiveCostBasis": 33.7,
-          "effectiveDiscountPct": 0.07443010162043379,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA270115C00040000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 40,
-            "bid": 4.6,
-            "ask": 5.3,
-            "lastPrice": 4.95,
-            "volume": 3,
-            "openInterest": 3202,
-            "impliedVolatility": 0.5279588220214844,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.1448047862810533,
-          "staticAnnualizedPct": 0.21311994755074376,
-          "assignedReturnPct": 0.2434040721915176,
-          "assignedAnnualizedPct": 0.3582358320560642,
-          "effectiveCostBasis": 31.809999999999995,
-          "effectiveDiscountPct": 0.1263389178797034
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 39.21979501250273,
-          "contract": {
-            "contractSymbol": "APA270115P00035000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 35,
-            "bid": 4.5,
-            "ask": 5.05,
-            "lastPrice": 5.09,
-            "volume": 6,
-            "openInterest": 972,
-            "impliedVolatility": 0.49023947265625006,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.12857142857142856,
-          "notAssignedAnnualizedPct": 0.18922811059907832,
-          "effectiveCostBasis": 30.5,
-          "effectiveDiscountPct": 0.162318044493271,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

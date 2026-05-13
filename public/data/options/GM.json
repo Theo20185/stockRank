@@ -1,7 +1,7 @@
 {
   "symbol": "GM",
-  "fetchedAt": "2026-05-12T14:14:42.696Z",
-  "currentPrice": 75.32,
+  "fetchedAt": "2026-05-13T14:00:24.772Z",
+  "currentPrice": 76.24,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 112.10611219602455,
+          "anchorPrice": 112.14280602852455,
           "contract": {
-            "contractSymbol": "GM260515P00075000",
+            "contractSymbol": "GM260515P00076000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 75,
-            "bid": 0.96,
-            "ask": 1.15,
-            "lastPrice": 0.95,
-            "volume": 35,
-            "openInterest": 1306,
-            "impliedVolatility": 0.4155331884765625,
+            "daysToExpiry": 2,
+            "strike": 76,
+            "bid": 0.66,
+            "ask": 1.24,
+            "lastPrice": 0.82,
+            "volume": 33,
+            "openInterest": 365,
+            "impliedVolatility": 0.4931691308593751,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.012799999999999999,
-          "notAssignedAnnualizedPct": 1.5573333333333332,
-          "effectiveCostBasis": 74.04,
-          "effectiveDiscountPct": 0.016994158258098607,
+          "notAssignedReturnPct": 0.008684210526315789,
+          "notAssignedAnnualizedPct": 1.5848684210526316,
+          "effectiveCostBasis": 75.34,
+          "effectiveDiscountPct": 0.011804826862539239,
           "inTheMoney": false
         }
       ]
@@ -39,89 +39,36 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 112.10611219602455,
-          "contract": {
-            "contractSymbol": "GM260618P00075000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 75,
-            "bid": 2.92,
-            "ask": 3.1,
-            "lastPrice": 3.11,
-            "volume": 127,
-            "openInterest": 2936,
-            "impliedVolatility": 0.336920693359375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.038933333333333334,
-          "notAssignedAnnualizedPct": 0.38407207207207206,
-          "effectiveCostBasis": 72.08,
-          "effectiveDiscountPct": 0.043016463090812466,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 112.10611219602455,
-          "contract": {
-            "contractSymbol": "GM270115C00115000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 115,
-            "bid": 0.55,
-            "ask": 1.12,
-            "lastPrice": 1.61,
-            "volume": 1,
-            "openInterest": 97,
-            "impliedVolatility": 0.3742738354492187,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.013828380777372163,
-          "staticAnnualizedPct": 0.02035225396669693,
-          "assignedReturnPct": 0.5406472867784344,
-          "assignedAnnualizedPct": 0.7957107244924538,
-          "effectiveCostBasis": 74.77,
-          "effectiveDiscountPct": 0.00730217737652682
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 112.10611219602455,
+          "anchorPrice": 112.14280602852455,
           "contract": {
-            "contractSymbol": "GM270115P00075000",
+            "contractSymbol": "GM270115P00072500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 75,
-            "bid": 7.35,
-            "ask": 8.3,
-            "lastPrice": 7.15,
-            "volume": 18,
-            "openInterest": 1242,
-            "impliedVolatility": 0.34278000976562495,
+            "daysToExpiry": 247,
+            "strike": 72.5,
+            "bid": 6,
+            "ask": 6.75,
+            "lastPrice": 5.88,
+            "volume": 10,
+            "openInterest": 940,
+            "impliedVolatility": 0.3485172570800781,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.09799999999999999,
-          "notAssignedAnnualizedPct": 0.1442338709677419,
-          "effectiveCostBasis": 67.65,
-          "effectiveDiscountPct": 0.10183218268720112,
+          "notAssignedReturnPct": 0.08275862068965517,
+          "notAssignedAnnualizedPct": 0.12229512773977384,
+          "effectiveCostBasis": 66.5,
+          "effectiveDiscountPct": 0.1277544596012591,
           "inTheMoney": false
         }
       ]

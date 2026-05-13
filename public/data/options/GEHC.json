@@ -1,7 +1,7 @@
 {
   "symbol": "GEHC",
-  "fetchedAt": "2026-05-12T14:15:00.987Z",
-  "currentPrice": 62.2199,
+  "fetchedAt": "2026-05-13T14:00:41.493Z",
+  "currentPrice": 61.61,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 74.28852540803747,
+          "anchorPrice": 74.56155106305931,
           "contract": {
-            "contractSymbol": "GEHC260515P00061000",
+            "contractSymbol": "GEHC260515P00060000",
             "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 61,
-            "bid": 0.35,
-            "ask": 0.85,
-            "lastPrice": 0.6,
-            "volume": 85,
-            "openInterest": 118,
-            "impliedVolatility": 0.534184345703125,
+            "daysToExpiry": 2,
+            "strike": 60,
+            "bid": 0.1,
+            "ask": 0.7,
+            "lastPrice": 0.25,
+            "volume": 9,
+            "openInterest": 475,
+            "impliedVolatility": 0.6162147753906251,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.005737704918032787,
-          "notAssignedAnnualizedPct": 0.6980874316939891,
-          "effectiveCostBasis": 60.65,
-          "effectiveDiscountPct": 0.025231477389066906,
+          "notAssignedReturnPct": 0.0016666666666666668,
+          "notAssignedAnnualizedPct": 0.3041666666666667,
+          "effectiveCostBasis": 59.9,
+          "effectiveDiscountPct": 0.02775523453984744,
           "inTheMoney": false
         }
       ]
@@ -38,58 +38,31 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 74.28852540803747,
-          "contract": {
-            "contractSymbol": "GEHC260618C00075000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 75,
-            "bid": 0.05,
-            "ask": 0.15,
-            "lastPrice": 0.25,
-            "volume": 1,
-            "openInterest": 843,
-            "impliedVolatility": 0.34668622070312494,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.0010366400636434713,
-          "staticAnnualizedPct": 0.010226314141347757,
-          "assignedReturnPct": 0.2064387702502879,
-          "assignedAnnualizedPct": 2.0364905713879753,
-          "effectiveCostBasis": 62.169900000000005,
-          "effectiveDiscountPct": 0.0008036014201244296
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 74.28852540803747,
+          "anchorPrice": 74.56155106305931,
           "contract": {
-            "contractSymbol": "GEHC260618P00060000",
+            "contractSymbol": "GEHC260618P00052500",
             "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 60,
-            "bid": 1.35,
-            "ask": 1.9,
-            "lastPrice": 1.8,
-            "volume": 251,
-            "openInterest": 2098,
-            "impliedVolatility": 0.3657289990234375,
+            "daysToExpiry": 36,
+            "strike": 52.5,
+            "bid": 0.15,
+            "ask": 0.5,
+            "lastPrice": 0.28,
+            "volume": 12,
+            "openInterest": 105,
+            "impliedVolatility": 0.43945873046875,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.022500000000000003,
-          "notAssignedAnnualizedPct": 0.2219594594594595,
-          "effectiveCostBasis": 58.65,
-          "effectiveDiscountPct": 0.05737553419404409,
+          "notAssignedReturnPct": 0.002857142857142857,
+          "notAssignedAnnualizedPct": 0.02896825396825397,
+          "effectiveCostBasis": 52.35,
+          "effectiveDiscountPct": 0.15030027592923223,
           "inTheMoney": false
         }
       ]
@@ -97,61 +70,8 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 74.28852540803747,
-          "contract": {
-            "contractSymbol": "GEHC270115C00075000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 75,
-            "bid": 2.6,
-            "ask": 3.7,
-            "lastPrice": 3.38,
-            "volume": 163,
-            "openInterest": 544,
-            "impliedVolatility": 0.3841614318847656,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.04334926259221959,
-          "staticAnnualizedPct": 0.06380032599258124,
-          "assignedReturnPct": 0.24875139277886402,
-          "assignedAnnualizedPct": 0.36610588050115067,
-          "effectiveCostBasis": 59.6199,
-          "effectiveDiscountPct": 0.04178727384647034
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 74.28852540803747,
-          "contract": {
-            "contractSymbol": "GEHC270115P00060000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 60,
-            "bid": 4.8,
-            "ask": 5.8,
-            "lastPrice": 5.2,
-            "volume": 10,
-            "openInterest": 294,
-            "impliedVolatility": 0.3415593188476562,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.08,
-          "notAssignedAnnualizedPct": 0.11774193548387096,
-          "effectiveCostBasis": 55.2,
-          "effectiveDiscountPct": 0.11282403218262967,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

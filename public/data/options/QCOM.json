@@ -1,184 +1,25 @@
 {
   "symbol": "QCOM",
-  "fetchedAt": "2026-05-12T14:14:03.984Z",
-  "currentPrice": 220.35,
+  "fetchedAt": "2026-05-13T13:59:34.086Z",
+  "currentPrice": 208.4963,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM260515C00300000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 300,
-            "bid": 0.32,
-            "ask": 0.36,
-            "lastPrice": 0.32,
-            "volume": 1307,
-            "openInterest": 7782,
-            "impliedVolatility": 1.4765651171875,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "staticReturnPct": 0.0015795976513081616,
-          "staticAnnualizedPct": 0.19218438090915965,
-          "assignedReturnPct": 0.3630499856703688,
-          "assignedAnnualizedPct": 44.17108158989487,
-          "effectiveCostBasis": 220.03,
-          "effectiveDiscountPct": 0.0014522350805536647
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM260515P00220000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 220,
-            "bid": 5.55,
-            "ask": 6.5,
-            "lastPrice": 6.01,
-            "volume": 271,
-            "openInterest": 2865,
-            "impliedVolatility": 0.6743196630859377,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.025227272727272727,
-          "notAssignedAnnualizedPct": 3.069318181818182,
-          "effectiveCostBasis": 214.45,
-          "effectiveDiscountPct": 0.026775584297708217,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM260618C00300000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 300,
-            "bid": 4.95,
-            "ask": 5.4,
-            "lastPrice": 4.9,
-            "volume": 619,
-            "openInterest": 6851,
-            "impliedVolatility": 0.883668155517578,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.024035066441619967,
-          "staticAnnualizedPct": 0.2371026824646294,
-          "assignedReturnPct": 0.3855054544606806,
-          "assignedAnnualizedPct": 3.80295921292293,
-          "effectiveCostBasis": 215.4,
-          "effectiveDiscountPct": 0.0224642614023145
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM260618P00220000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 220,
-            "bid": 17,
-            "ask": 17.65,
-            "lastPrice": 17.25,
-            "volume": 65,
-            "openInterest": 799,
-            "impliedVolatility": 0.6185340881347658,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.07727272727272727,
-          "notAssignedAnnualizedPct": 0.7622850122850122,
-          "effectiveCostBasis": 203,
-          "effectiveDiscountPct": 0.07873837077376898,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM270115C00300000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 300,
-            "bid": 22,
-            "ask": 23,
-            "lastPrice": 22.01,
-            "volume": 32,
-            "openInterest": 6271,
-            "impliedVolatility": 0.6311987564086915,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.1103698009704362,
-          "staticAnnualizedPct": 0.16243942481535972,
-          "assignedReturnPct": 0.47184018898949687,
-          "assignedAnnualizedPct": 0.6944422136337353,
-          "effectiveCostBasis": 198.35,
-          "effectiveDiscountPct": 0.09984116178806444
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 342.25755717176037,
-          "contract": {
-            "contractSymbol": "QCOM270115P00220000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 220,
-            "bid": 34.6,
-            "ask": 37.35,
-            "lastPrice": 36.5,
-            "volume": 6,
-            "openInterest": 546,
-            "impliedVolatility": 0.5019733641052246,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1572727272727273,
-          "notAssignedAnnualizedPct": 0.2314699413489736,
-          "effectiveCostBasis": 185.4,
-          "effectiveDiscountPct": 0.1586113002042205,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

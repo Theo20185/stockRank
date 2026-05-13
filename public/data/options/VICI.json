@@ -1,7 +1,7 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-05-12T14:13:34.722Z",
-  "currentPrice": 28.625,
+  "fetchedAt": "2026-05-13T13:59:12.104Z",
+  "currentPrice": 28.44,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -13,92 +13,13 @@
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 32.71065835086282,
-          "contract": {
-            "contractSymbol": "VICI260618P00027500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 27.5,
-            "bid": 0.3,
-            "ask": 0.4,
-            "lastPrice": 0.37,
-            "volume": 7,
-            "openInterest": 4766,
-            "impliedVolatility": 0.23438265625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.010909090909090908,
-          "notAssignedAnnualizedPct": 0.10761670761670761,
-          "effectiveCostBasis": 27.2,
-          "effectiveDiscountPct": 0.049781659388646315,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 32.71065835086282,
-          "contract": {
-            "contractSymbol": "VICI270115C00035000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 35,
-            "bid": 0.15,
-            "ask": 0.35,
-            "lastPrice": 0.25,
-            "volume": 1,
-            "openInterest": 3848,
-            "impliedVolatility": 0.21289849609375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.04708711046240354,
-          "staticAnnualizedPct": 0.06930159402732779,
-          "assignedReturnPct": 0.26979453404318954,
-          "assignedAnnualizedPct": 0.39707663276517813,
-          "effectiveCostBasis": 28.475,
-          "effectiveDiscountPct": 0.005240174672489083
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 32.71065835086282,
-          "contract": {
-            "contractSymbol": "VICI270115P00027500",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 27.5,
-            "bid": 1.15,
-            "ask": 2.1,
-            "lastPrice": 1.65,
-            "volume": 181,
-            "openInterest": 1280,
-            "impliedVolatility": 0.2846751220703124,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.04181818181818182,
-          "notAssignedAnnualizedPct": 0.06154692082111436,
-          "effectiveCostBasis": 26.35,
-          "effectiveDiscountPct": 0.07947598253275104,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

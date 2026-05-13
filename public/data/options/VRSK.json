@@ -1,95 +1,42 @@
 {
   "symbol": "VRSK",
-  "fetchedAt": "2026-05-12T14:15:23.290Z",
-  "currentPrice": 167.215,
+  "fetchedAt": "2026-05-13T14:01:02.029Z",
+  "currentPrice": 162.23,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 183.00663993851694,
-          "contract": {
-            "contractSymbol": "VRSK260515P00165000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 165,
-            "bid": 0.65,
-            "ask": 2.6,
-            "lastPrice": 1.7,
-            "volume": 6,
-            "openInterest": 284,
-            "impliedVolatility": 0.5190477783203125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.00393939393939394,
-          "notAssignedAnnualizedPct": 0.4792929292929293,
-          "effectiveCostBasis": 164.35,
-          "effectiveDiscountPct": 0.01713363035612839,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 183.00663993851694,
-          "contract": {
-            "contractSymbol": "VRSK260618C00185000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 185,
-            "bid": 1.6,
-            "ask": 3.5,
-            "lastPrice": 1.55,
-            "volume": 2,
-            "openInterest": 33,
-            "impliedVolatility": 0.44043528320312497,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.010768075781364244,
-          "staticAnnualizedPct": 0.1062256124377824,
-          "assignedReturnPct": 0.11712815113345584,
-          "assignedAnnualizedPct": 1.1554533828030102,
-          "effectiveCostBasis": 165.615,
-          "effectiveDiscountPct": 0.009568519570612685
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 183.00663993851694,
+          "anchorPrice": 181.9702355549458,
           "contract": {
-            "contractSymbol": "VRSK260618P00165000",
+            "contractSymbol": "VRSK260618P00160000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 165,
-            "bid": 5.2,
-            "ask": 7.7,
-            "lastPrice": 4.9,
-            "volume": 1,
-            "openInterest": 71,
-            "impliedVolatility": 0.4101621484375,
+            "daysToExpiry": 36,
+            "strike": 160,
+            "bid": 3.7,
+            "ask": 6.1,
+            "lastPrice": 4.5,
+            "volume": 12,
+            "openInterest": 63,
+            "impliedVolatility": 0.3501041552734374,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.03151515151515152,
-          "notAssignedAnnualizedPct": 0.3108927108927109,
-          "effectiveCostBasis": 159.8,
-          "effectiveDiscountPct": 0.04434410788505811,
+          "notAssignedReturnPct": 0.023125,
+          "notAssignedAnnualizedPct": 0.23446180555555557,
+          "effectiveCostBasis": 156.3,
+          "effectiveDiscountPct": 0.036553041977439304,
           "inTheMoney": false
         }
       ]

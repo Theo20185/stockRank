@@ -1,130 +1,25 @@
 {
   "symbol": "CHTR",
-  "fetchedAt": "2026-05-12T14:14:02.044Z",
-  "currentPrice": 148.32,
+  "fetchedAt": "2026-05-13T13:59:43.373Z",
+  "currentPrice": 142.77,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 289.36875535999997,
-          "contract": {
-            "contractSymbol": "CHTR260515P00148000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 148,
-            "bid": 2.05,
-            "ask": 4.1,
-            "lastPrice": 4.48,
-            "volume": 4,
-            "openInterest": 59,
-            "impliedVolatility": 0.5224657128906249,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.01385135135135135,
-          "notAssignedAnnualizedPct": 1.6852477477477477,
-          "effectiveCostBasis": 145.95,
-          "effectiveDiscountPct": 0.01597896440129453,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 289.36875535999997,
-          "contract": {
-            "contractSymbol": "CHTR260618P00145000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 145,
-            "bid": 6.3,
-            "ask": 8.9,
-            "lastPrice": 8.73,
-            "volume": 28,
-            "openInterest": 176,
-            "impliedVolatility": 0.555790574951172,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.043448275862068966,
-          "notAssignedAnnualizedPct": 0.42861136999068034,
-          "effectiveCostBasis": 138.7,
-          "effectiveDiscountPct": 0.0648597626752967,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 289.36875535999997,
-          "contract": {
-            "contractSymbol": "CHTR270115C00290000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 290,
-            "bid": 2.55,
-            "ask": 7.1,
-            "lastPrice": 3.2,
-            "volume": 2,
-            "openInterest": 184,
-            "impliedVolatility": 0.6267127172851563,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.017192556634304208,
-          "staticAnnualizedPct": 0.025303561175488046,
-          "assignedReturnPct": 0.9724244875943907,
-          "assignedAnnualizedPct": 1.4311892660159378,
-          "effectiveCostBasis": 145.76999999999998,
-          "effectiveDiscountPct": 0.017192556634304208
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 289.36875535999997,
-          "contract": {
-            "contractSymbol": "CHTR270115P00145000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 145,
-            "bid": 22.3,
-            "ask": 24.5,
-            "lastPrice": 19.76,
-            "volume": 1,
-            "openInterest": 9,
-            "impliedVolatility": 0.5219774365234374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.15379310344827588,
-          "notAssignedAnnualizedPct": 0.22634872080088989,
-          "effectiveCostBasis": 122.7,
-          "effectiveDiscountPct": 0.17273462783171514,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

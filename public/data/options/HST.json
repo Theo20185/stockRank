@@ -1,7 +1,7 @@
 {
   "symbol": "HST",
-  "fetchedAt": "2026-05-12T14:14:09.532Z",
-  "currentPrice": 21.68,
+  "fetchedAt": "2026-05-13T13:59:49.081Z",
+  "currentPrice": 21.79,
   "expirations": [
     {
       "expiration": "2026-05-15",
@@ -12,120 +12,14 @@
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 22.7204399524692,
-          "contract": {
-            "contractSymbol": "HST260618C00023000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 23,
-            "bid": 0.15,
-            "ask": 0.5,
-            "lastPrice": 0.4,
-            "volume": 1,
-            "openInterest": 3532,
-            "impliedVolatility": 0.35742830078125,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.010643383144619118,
-          "staticAnnualizedPct": 0.10499553642664805,
-          "assignedReturnPct": 0.0715289920007077,
-          "assignedAnnualizedPct": 0.7056238400069813,
-          "effectiveCostBasis": 21.53,
-          "effectiveDiscountPct": 0.006918819188191882
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 22.7204399524692,
-          "contract": {
-            "contractSymbol": "HST260618P00021000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 21,
-            "bid": 0.25,
-            "ask": 0.6,
-            "lastPrice": 0.4,
-            "volume": 2,
-            "openInterest": 12,
-            "impliedVolatility": 0.3276434423828125,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.011904761904761904,
-          "notAssignedAnnualizedPct": 0.11743886743886743,
-          "effectiveCostBasis": 20.75,
-          "effectiveDiscountPct": 0.042896678966789656,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 22.7204399524692,
-          "contract": {
-            "contractSymbol": "HST270115C00024850",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 24.85,
-            "bid": 0.6,
-            "ask": 1.25,
-            "lastPrice": 0.75,
-            "volume": 1,
-            "openInterest": 10,
-            "impliedVolatility": 0.33081723876953123,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.05263992164990144,
-          "staticAnnualizedPct": 0.07747407823473397,
-          "assignedReturnPct": 0.19885763382702326,
-          "assignedAnnualizedPct": 0.2926735336567076,
-          "effectiveCostBasis": 21.08,
-          "effectiveDiscountPct": 0.027675276752767528
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 22.7204399524692,
-          "contract": {
-            "contractSymbol": "HST270115P00019850",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 19.85,
-            "bid": 1,
-            "ask": 1.6,
-            "lastPrice": 1.35,
-            "volume": 10,
-            "openInterest": 96,
-            "impliedVolatility": 0.3530338134765625,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.05037783375314861,
-          "notAssignedAnnualizedPct": 0.07414479564475501,
-          "effectiveCostBasis": 18.85,
-          "effectiveDiscountPct": 0.13053505535055343,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

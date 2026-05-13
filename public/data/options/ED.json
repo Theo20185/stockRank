@@ -1,130 +1,25 @@
 {
   "symbol": "ED",
-  "fetchedAt": "2026-05-12T14:14:00.229Z",
-  "currentPrice": 106.81,
+  "fetchedAt": "2026-05-13T13:59:41.517Z",
+  "currentPrice": 105.795,
   "expirations": [
     {
       "expiration": "2026-05-15",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 123.4701326259381,
-          "contract": {
-            "contractSymbol": "ED260515P00105000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 3,
-            "strike": 105,
-            "bid": 0.45,
-            "ask": 1.05,
-            "lastPrice": 0.6,
-            "volume": 6,
-            "openInterest": 415,
-            "impliedVolatility": 0.4101621484375,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.004285714285714286,
-          "notAssignedAnnualizedPct": 0.5214285714285715,
-          "effectiveCostBasis": 104.55,
-          "effectiveDiscountPct": 0.021159067503042833,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
       "coveredCalls": [],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 123.4701326259381,
-          "contract": {
-            "contractSymbol": "ED260618P00105000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 37,
-            "strike": 105,
-            "bid": 1.15,
-            "ask": 2.4,
-            "lastPrice": 2.1,
-            "volume": 26,
-            "openInterest": 54,
-            "impliedVolatility": 0.23657989990234374,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.010952380952380951,
-          "notAssignedAnnualizedPct": 0.10804375804375803,
-          "effectiveCostBasis": 103.85,
-          "effectiveDiscountPct": 0.027712760977436645,
-          "inTheMoney": false
-        }
-      ]
+      "puts": []
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 123.4701326259381,
-          "contract": {
-            "contractSymbol": "ED270115C00125000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 125,
-            "bid": 0.5,
-            "ask": 3.4,
-            "lastPrice": 1.13,
-            "volume": 8,
-            "openInterest": 309,
-            "impliedVolatility": 0.2618482019042969,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.026921133391388886,
-          "staticAnnualizedPct": 0.03962182938651993,
-          "assignedReturnPct": 0.19722353953313587,
-          "assignedAnnualizedPct": 0.29026851584513946,
-          "effectiveCostBasis": 106.31,
-          "effectiveDiscountPct": 0.004681209624566988
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 123.4701326259381,
-          "contract": {
-            "contractSymbol": "ED270115P00105000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 248,
-            "strike": 105,
-            "bid": 4.6,
-            "ask": 6.9,
-            "lastPrice": 5.5,
-            "volume": 108,
-            "openInterest": 111,
-            "impliedVolatility": 0.22315229980468748,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.043809523809523805,
-          "notAssignedAnnualizedPct": 0.06447772657450075,
-          "effectiveCostBasis": 100.4,
-          "effectiveDiscountPct": 0.060013107386948754,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }
