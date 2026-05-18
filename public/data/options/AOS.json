@@ -1,42 +1,127 @@
 {
   "symbol": "AOS",
-  "fetchedAt": "2026-05-13T15:27:58.975Z",
-  "currentPrice": 57.435,
+  "fetchedAt": "2026-05-18T17:39:32.847Z",
+  "currentPrice": 56.58,
   "expirations": [
     {
-      "expiration": "2026-05-15",
+      "expiration": "2026-06-18",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 93.97702721130722,
+          "contract": {
+            "contractSymbol": "AOS260618P00055000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 31,
+            "strike": 55,
+            "bid": 0.95,
+            "ask": 1.25,
+            "lastPrice": 1.03,
+            "volume": 12,
+            "openInterest": 128,
+            "impliedVolatility": 0.2941965112304687,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.017272727272727273,
+          "notAssignedAnnualizedPct": 0.2033724340175953,
+          "effectiveCostBasis": 54.05,
+          "effectiveDiscountPct": 0.044715447154471566,
+          "inTheMoney": false
+        }
+      ]
     },
     {
-      "expiration": "2026-06-18",
+      "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 95.97978575221316,
+          "anchorPrice": 93.97702721130722,
           "contract": {
-            "contractSymbol": "AOS260618P00055000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 36,
+            "contractSymbol": "AOS260717P00055000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
             "strike": 55,
-            "bid": 0.7,
-            "ask": 1.2,
-            "lastPrice": 0.67,
-            "volume": 7,
-            "openInterest": 55,
-            "impliedVolatility": 0.30933307861328124,
+            "bid": 1.55,
+            "ask": 1.9,
+            "lastPrice": 1.8,
+            "volume": 2684,
+            "openInterest": 32,
+            "impliedVolatility": 0.2876047802734374,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.012727272727272726,
-          "notAssignedAnnualizedPct": 0.12904040404040404,
-          "effectiveCostBasis": 54.3,
-          "effectiveDiscountPct": 0.054583442151998,
+          "notAssignedReturnPct": 0.028181818181818183,
+          "notAssignedAnnualizedPct": 0.17143939393939395,
+          "effectiveCostBasis": 53.45,
+          "effectiveDiscountPct": 0.05531990102509713,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 93.97702721130722,
+          "contract": {
+            "contractSymbol": "AOS270115C00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 65,
+            "bid": 2,
+            "ask": 2.95,
+            "lastPrice": 2.74,
+            "volume": 9,
+            "openInterest": 9,
+            "impliedVolatility": 0.3188544677734374,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.052215515236033835,
+          "staticAnnualizedPct": 0.07875480603781963,
+          "assignedReturnPct": 0.20103135122048066,
+          "assignedAnnualizedPct": 0.30320844295651006,
+          "effectiveCostBasis": 54.58,
+          "effectiveDiscountPct": 0.03534817956875221
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 93.97702721130722,
+          "contract": {
+            "contractSymbol": "AOS270115P00050000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 50,
+            "bid": 2.1,
+            "ask": 2.75,
+            "lastPrice": 2.4,
+            "volume": 3,
+            "openInterest": 1,
+            "impliedVolatility": 0.3136054968261719,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.042,
+          "notAssignedAnnualizedPct": 0.06334710743801653,
+          "effectiveCostBasis": 47.9,
+          "effectiveDiscountPct": 0.1534110993283846,
           "inTheMoney": false
         }
       ]

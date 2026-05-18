@@ -1,45 +1,45 @@
 {
   "symbol": "ACGL",
-  "fetchedAt": "2026-05-13T15:28:09.957Z",
-  "currentPrice": 93.2099,
+  "fetchedAt": "2026-05-18T17:39:43.389Z",
+  "currentPrice": 95.87,
   "expirations": [
     {
-      "expiration": "2026-05-15",
-      "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
       "expiration": "2026-06-18",
-      "selectionReason": "monthly",
+      "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 110.31355563335131,
+          "anchorPrice": 112.80729833735131,
           "contract": {
-            "contractSymbol": "ACGL260618P00090000",
+            "contractSymbol": "ACGL260618P00095000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 36,
-            "strike": 90,
-            "bid": 0.9,
-            "ask": 1.25,
-            "lastPrice": 1.14,
-            "volume": 2,
-            "openInterest": 138,
-            "impliedVolatility": 0.21826953613281247,
+            "daysToExpiry": 31,
+            "strike": 95,
+            "bid": 1.8,
+            "ask": 2.25,
+            "lastPrice": 2.1,
+            "volume": 8,
+            "openInterest": 292,
+            "impliedVolatility": 0.23633576171874998,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.01,
-          "notAssignedAnnualizedPct": 0.10138888888888889,
-          "effectiveCostBasis": 89.1,
-          "effectiveDiscountPct": 0.044092955791176794,
+          "notAssignedReturnPct": 0.018947368421052633,
+          "notAssignedAnnualizedPct": 0.2230899830220713,
+          "effectiveCostBasis": 93.2,
+          "effectiveDiscountPct": 0.027850213831229806,
           "inTheMoney": false
         }
       ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": []
     }
   ]
 }

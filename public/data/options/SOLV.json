@@ -1,68 +1,127 @@
 {
   "symbol": "SOLV",
-  "fetchedAt": "2026-05-13T15:30:06.378Z",
-  "currentPrice": 74.77,
+  "fetchedAt": "2026-05-18T17:41:36.022Z",
+  "currentPrice": 75.59,
   "expirations": [
     {
-      "expiration": "2026-05-15",
+      "expiration": "2026-06-18",
       "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.73215356611924,
+          "anchorPrice": 116.24824703622079,
           "contract": {
-            "contractSymbol": "SOLV260515P00070000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 2,
-            "strike": 70,
-            "bid": 0.1,
-            "ask": 0.25,
-            "lastPrice": 0.38,
-            "volume": 1,
-            "openInterest": 29,
-            "impliedVolatility": 0.5664105859375,
+            "contractSymbol": "SOLV260618P00075000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 31,
+            "strike": 75,
+            "bid": 1.25,
+            "ask": 2.3,
+            "lastPrice": 2.8,
+            "volume": 0,
+            "openInterest": 12,
+            "impliedVolatility": 0.29077857666015616,
             "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.0014285714285714286,
-          "notAssignedAnnualizedPct": 0.26071428571428573,
-          "effectiveCostBasis": 69.9,
-          "effectiveDiscountPct": 0.0651330747626052,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.016666666666666666,
+          "notAssignedAnnualizedPct": 0.19623655913978494,
+          "effectiveCostBasis": 73.75,
+          "effectiveDiscountPct": 0.02434184415928037,
           "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2026-06-18",
+      "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 117.73215356611924,
+          "anchorPrice": 116.24824703622079,
           "contract": {
-            "contractSymbol": "SOLV260618P00070000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 36,
-            "strike": 70,
-            "bid": 0.5,
-            "ask": 1.15,
-            "lastPrice": 1.46,
-            "volume": 8,
-            "openInterest": 9,
-            "impliedVolatility": 0.3200751586914062,
+            "contractSymbol": "SOLV260717P00075000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 75,
+            "bid": 2.75,
+            "ask": 4.2,
+            "lastPrice": 3.6,
+            "volume": 1,
+            "openInterest": 71,
+            "impliedVolatility": 0.36597313720703123,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.007142857142857143,
-          "notAssignedAnnualizedPct": 0.07242063492063493,
-          "effectiveCostBasis": 69.5,
-          "effectiveDiscountPct": 0.07048281396281926,
+          "notAssignedReturnPct": 0.03666666666666667,
+          "notAssignedAnnualizedPct": 0.22305555555555553,
+          "effectiveCostBasis": 72.25,
+          "effectiveDiscountPct": 0.04418573885434585,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 116.24824703622079,
+          "contract": {
+            "contractSymbol": "SOLV270115C00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 90,
+            "bid": 2.3,
+            "ask": 3.7,
+            "lastPrice": 2.9,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.34168138793945313,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.030427305199100408,
+          "staticAnnualizedPct": 0.045892423130874584,
+          "assignedReturnPct": 0.22106098690302944,
+          "assignedAnnualizedPct": 0.33341843065952786,
+          "effectiveCostBasis": 73.29,
+          "effectiveDiscountPct": 0.030427305199100408
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 116.24824703622079,
+          "contract": {
+            "contractSymbol": "SOLV270115P00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 65,
+            "bid": 2.05,
+            "ask": 4.3,
+            "lastPrice": 3.5,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.3770203900146484,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.031538461538461536,
+          "notAssignedAnnualizedPct": 0.04756834075015893,
+          "effectiveCostBasis": 62.95,
+          "effectiveDiscountPct": 0.1672178859637518,
           "inTheMoney": false
         }
       ]

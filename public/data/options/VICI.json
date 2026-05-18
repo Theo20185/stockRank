@@ -1,42 +1,95 @@
 {
   "symbol": "VICI",
-  "fetchedAt": "2026-05-13T15:27:57.206Z",
-  "currentPrice": 28.195,
+  "fetchedAt": "2026-05-18T17:39:34.606Z",
+  "currentPrice": 28.3799,
   "expirations": [
     {
-      "expiration": "2026-05-15",
-      "selectionReason": "weekly",
-      "coveredCalls": [],
-      "puts": []
-    },
-    {
       "expiration": "2026-06-18",
-      "selectionReason": "monthly",
+      "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.67656654289934,
+          "anchorPrice": 32.575080712385194,
           "contract": {
             "contractSymbol": "VICI260618P00027500",
             "expiration": "2026-06-18",
-            "daysToExpiry": 36,
+            "daysToExpiry": 31,
             "strike": 27.5,
-            "bid": 0.5,
-            "ask": 0.6,
-            "lastPrice": 0.54,
-            "volume": 87,
-            "openInterest": 4988,
-            "impliedVolatility": 0.25586681640625003,
+            "bid": 0.4,
+            "ask": 0.45,
+            "lastPrice": 0.41,
+            "volume": 483,
+            "openInterest": 6057,
+            "impliedVolatility": 0.247077841796875,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.01818181818181818,
-          "notAssignedAnnualizedPct": 0.18434343434343434,
-          "effectiveCostBasis": 27,
-          "effectiveDiscountPct": 0.042383401312289425,
+          "notAssignedReturnPct": 0.014545454545454545,
+          "notAssignedAnnualizedPct": 0.17126099706744868,
+          "effectiveCostBasis": 27.1,
+          "effectiveDiscountPct": 0.04509881993946412,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2026-07-17",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 32.575080712385194,
+          "contract": {
+            "contractSymbol": "VICI260717C00030000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 30,
+            "bid": 0.25,
+            "ask": 0.3,
+            "lastPrice": 0.27,
+            "volume": 142,
+            "openInterest": 34,
+            "impliedVolatility": 0.18555501953124998,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "staticReturnPct": 0.019311347453269432,
+          "staticAnnualizedPct": 0.1174773636740557,
+          "assignedReturnPct": 0.07639752464205447,
+          "assignedAnnualizedPct": 0.46475160823916467,
+          "effectiveCostBasis": 28.1299,
+          "effectiveDiscountPct": 0.008809051476573208
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 32.575080712385194,
+          "contract": {
+            "contractSymbol": "VICI260717P00027500",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 27.5,
+            "bid": 0.6,
+            "ask": 0.65,
+            "lastPrice": 0.63,
+            "volume": 90,
+            "openInterest": 35,
+            "impliedVolatility": 0.22657023437499998,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.021818181818181816,
+          "notAssignedAnnualizedPct": 0.13272727272727272,
+          "effectiveCostBasis": 26.9,
+          "effectiveDiscountPct": 0.052146061120722786,
           "inTheMoney": false
         }
       ]
@@ -48,54 +101,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 32.67656654289934,
+          "anchorPrice": 32.575080712385194,
           "contract": {
             "contractSymbol": "VICI270115C00035000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 247,
+            "daysToExpiry": 242,
             "strike": 35,
-            "bid": 0.1,
+            "bid": 0.2,
             "ask": 0.3,
             "lastPrice": 0.25,
             "volume": 1,
             "openInterest": 3848,
-            "impliedVolatility": 0.2153398779296875,
+            "impliedVolatility": 0.2124102197265625,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "staticReturnPct": 0.045773577458356314,
-          "staticAnnualizedPct": 0.06764111648704475,
-          "assignedReturnPct": 0.28712842760909224,
-          "assignedAnnualizedPct": 0.42429909343044,
-          "effectiveCostBasis": 28.095,
-          "effectiveDiscountPct": 0.0035467281432878172
+          "staticReturnPct": 0.0494065016206,
+          "staticAnnualizedPct": 0.07451807062611157,
+          "assignedReturnPct": 0.2826737083408492,
+          "assignedAnnualizedPct": 0.4263467088611982,
+          "effectiveCostBasis": 28.1799,
+          "effectiveDiscountPct": 0.007047241181258567
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.67656654289934,
+          "anchorPrice": 32.575080712385194,
           "contract": {
             "contractSymbol": "VICI270115P00027500",
             "expiration": "2027-01-15",
-            "daysToExpiry": 247,
+            "daysToExpiry": 242,
             "strike": 27.5,
-            "bid": 1.4,
-            "ask": 2.15,
+            "bid": 1.55,
+            "ask": 1.9,
             "lastPrice": 1.65,
-            "volume": 181,
+            "volume": 1,
             "openInterest": 1280,
-            "impliedVolatility": 0.27173579833984374,
+            "impliedVolatility": 0.25489026367187506,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.050909090909090904,
-          "notAssignedAnnualizedPct": 0.07523003312476996,
-          "effectiveCostBasis": 26.1,
-          "effectiveDiscountPct": 0.07430395460187972,
+          "notAssignedReturnPct": 0.056363636363636366,
+          "notAssignedAnnualizedPct": 0.08501126972201352,
+          "effectiveCostBasis": 25.95,
+          "effectiveDiscountPct": 0.08562045673170096,
           "inTheMoney": false
         }
       ]

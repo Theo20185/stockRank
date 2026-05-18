@@ -1,42 +1,127 @@
 {
   "symbol": "UHS",
-  "fetchedAt": "2026-05-13T15:28:04.620Z",
-  "currentPrice": 169.825,
+  "fetchedAt": "2026-05-18T17:39:38.136Z",
+  "currentPrice": 170.27,
   "expirations": [
     {
-      "expiration": "2026-05-15",
+      "expiration": "2026-06-18",
       "selectionReason": "weekly",
       "coveredCalls": [],
-      "puts": []
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 250.95749786719182,
+          "contract": {
+            "contractSymbol": "UHS260618P00170000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 31,
+            "strike": 170,
+            "bid": 5.7,
+            "ask": 6.2,
+            "lastPrice": 5.8,
+            "volume": 18,
+            "openInterest": 33,
+            "impliedVolatility": 0.315314464111328,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.033529411764705884,
+          "notAssignedAnnualizedPct": 0.3947817836812144,
+          "effectiveCostBasis": 164.3,
+          "effectiveDiscountPct": 0.035061960415810174,
+          "inTheMoney": false
+        }
+      ]
     },
     {
-      "expiration": "2026-06-18",
+      "expiration": "2026-07-17",
       "selectionReason": "monthly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 251.9402762868665,
+          "anchorPrice": 250.95749786719182,
           "contract": {
-            "contractSymbol": "UHS260618P00165000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 36,
-            "strike": 165,
-            "bid": 3.9,
-            "ask": 5.2,
-            "lastPrice": 4.4,
-            "volume": 1,
-            "openInterest": 24,
-            "impliedVolatility": 0.3464420825195312,
+            "contractSymbol": "UHS260717P00170000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 170,
+            "bid": 7.4,
+            "ask": 9.1,
+            "lastPrice": 8.6,
+            "volume": 16,
+            "openInterest": 21,
+            "impliedVolatility": 0.33313655151367194,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.023636363636363636,
-          "notAssignedAnnualizedPct": 0.23964646464646466,
-          "effectiveCostBasis": 161.1,
-          "effectiveDiscountPct": 0.05137641689974971,
+          "notAssignedReturnPct": 0.043529411764705886,
+          "notAssignedAnnualizedPct": 0.2648039215686275,
+          "effectiveCostBasis": 162.6,
+          "effectiveDiscountPct": 0.04504610324778302,
+          "inTheMoney": false
+        }
+      ]
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 250.95749786719182,
+          "contract": {
+            "contractSymbol": "UHS270115C00250000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 250,
+            "bid": 1.65,
+            "ask": 4,
+            "lastPrice": 2.93,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.40216662292480465,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.012806793215610018,
+          "staticAnnualizedPct": 0.01931603108965974,
+          "assignedReturnPct": 0.4810630920351319,
+          "assignedAnnualizedPct": 0.7255703660860461,
+          "effectiveCostBasis": 168.62,
+          "effectiveDiscountPct": 0.009690491572208844
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 250.95749786719182,
+          "contract": {
+            "contractSymbol": "UHS270115P00165000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 242,
+            "strike": 165,
+            "bid": 14.2,
+            "ask": 16.7,
+            "lastPrice": 15.37,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.35358312438964834,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.08606060606060606,
+          "notAssignedAnnualizedPct": 0.1298021537690959,
+          "effectiveCostBasis": 150.8,
+          "effectiveDiscountPct": 0.11434780055206435,
           "inTheMoney": false
         }
       ]

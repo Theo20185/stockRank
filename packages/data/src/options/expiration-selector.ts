@@ -5,12 +5,13 @@
  *
  * Selection rule (updated 2026-05-11, cascade revision):
  *   1. Weekly  — soonest future expiration (any type).
- *   2. Monthly — soonest future third-Friday Friday that is strictly
- *      later than the weekly slot. When the next 3rd-Friday is the same
- *      date as weekly, the monthly slot cascades to the third-Friday
+ *   2. Monthly — soonest future third-week expiration (day-of-month in
+ *      [15, 21], weekday is a tiebreaker not a filter) that is strictly
+ *      later than the weekly slot. When the next 3rd-week date is the
+ *      same as weekly, the monthly slot cascades to the third-week
  *      after that (so the user always gets three distinct expirations
  *      when the chain has them).
- *   3. Yearly  — soonest future January third-Friday Friday that is
+ *   3. Yearly  — soonest future January third-week expiration that is
  *      strictly later than the monthly slot. Same cascade rule applies.
  *
  * The chain may not provide enough dates for all three slots — the

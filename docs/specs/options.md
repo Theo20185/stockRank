@@ -22,56 +22,75 @@ beyond IV. No spreads or multi-leg strategies. No live mid-price
 modeling. The goal is "if I sell this contract today at the bid and
 hold to expiry, what are the two outcomes worth?" — nothing more.
 
-## 2. Expiration selection (LEAPS-preferred)
+## 2. Expiration selection (weekly / monthly / yearly cascade)
 
-Per user preference, prefer long-dated monthly January contracts when
-available, fall back gracefully when not.
+Surface up to three expirations per stock — one short-dated, one
+monthly-cycle, one January-yearly — so the UI's Plan screen can offer
+the user a choice of horizons (`weekly` tab, `monthly` tab, `yearly`
+tab). The cascade guarantees three *distinct* dates whenever the chain
+has them, even when the soonest listed expiration itself happens to
+fall in a 3rd-week (day 15-21) window.
 
 ### 2.1 Selection ladder
 
-Given today's date `D`, pick **up to two** expirations per stock from
-the chain in this order of preference:
+Given today's date `D` and the chain's future expirations sorted
+ascending, fill these three slots:
 
-1. **Next two January LEAPS**: monthly third-Friday expirations in
-   January of `year(D)+1` and `year(D)+2`. If both exist, return both.
-2. **Single available January LEAPS**: if only one of the next two
-   Januaries is listed, return that one plus the next eligible
-   non-January monthly that's at least 60 days out.
-3. **No January LEAPS at all**: return the next two quarterly
-   expirations (Mar/Jun/Sep/Dec third-Friday).
-4. **No quarterlies in chain**: return the next two monthly
-   expirations (any month).
-5. **Chain has fewer than two expirations total**: return whatever it
-   has.
+1. **Weekly** — the soonest future expiration (any weekday, any
+   day-of-month).
+2. **Monthly** — the soonest future 3rd-week expiration (day-of-month
+   in `[15, 21]`, with weekday as a tiebreaker per §2.3) that is
+   **strictly later** than the weekly slot. When the next 3rd-week
+   date equals the weekly slot, the monthly slot cascades to the
+   next 3rd-week after that — so a chain with no real weeklies
+   (only monthly-cycle dates listed) still yields two distinct
+   slots.
+3. **Yearly** — the soonest future *January* 3rd-week expiration
+   strictly later than the monthly slot. Same cascade rule applies
+   when the next monthly slot IS the next January date.
+
+Each slot is independent: if a chain has no qualifying date for a
+slot, that slot is omitted (the result is `0`, `1`, `2`, or `3`
+entries — never empty placeholders).
 
 The selector returns a structured result so the UI can label each
-contract honestly: `selectionReason: "leap" | "leap-fallback" |
-"quarterly" | "monthly"`.
+contract honestly: `selectionReason: "weekly" | "monthly" | "yearly"`.
 
-### 2.2 Why this order
+### 2.2 Why this shape
 
-- **LEAPS** match the holding-period horizon of a value investor —
-  paid premium scales with time, and the thesis ("market re-rates to
-  fair value") often takes quarters or years to play out.
-- **Quarterly** is the standard fallback because liquidity tends to
-  cluster at quarter-end expirations even on names without LEAPS.
-- **Monthly** is last-resort because weekly/short-dated premium is
-  driven by event risk we don't model.
+- **Weekly slot** matches the wheel-strategy short-dated cadence —
+  the user can roll a cash-secured put weekly while waiting for
+  assignment, capturing premium more times per year than a single
+  monthly contract would.
+- **Monthly slot** is the standard 30-50 DTE options-trading
+  horizon and is where the bulk of OCC liquidity lives. For
+  thinly-traded names whose chain only lists monthly-cycle dates
+  (no real weeklies), the cascade pushes monthly to ~60 DTE and
+  that's accepted.
+- **Yearly slot** is the LEAPS horizon — matches the holding-period
+  view of a value investor (the re-rate-to-fair-value thesis often
+  takes quarters or years).
 
 ### 2.3 Date detection
 
-A monthly third-Friday expiration is determined by:
-`date.day >= 15 && date.day <= 21 && date.weekday === Friday`.
-Yahoo returns expirations as ISO timestamps; convert in the user's
-local timezone for the day check. Quarterly months are March, June,
-September, December.
+A monthly third-week expiration is determined by the day-of-month
+window alone: `date.day >= 15 && date.day <= 21`. Weekday is used as
+a tiebreaker when multiple listed expirations fall inside the window
+for the same month (the Friday entry is the canonical OCC monthly),
+but it is **not** a hard filter. Yahoo occasionally lists a symbol's
+monthly on an adjacent weekday — e.g. EIX's `EIX260618` Thursday
+contract — and the selector must accept those when no Friday is
+listed for that month. Yahoo returns expirations as ISO timestamps;
+convert in UTC for the day check.
 
 ## 3. Strike selection
 
 Strikes are anchored to the `FairValue` output from `fair-value.md`.
-Three covered-call strikes (sell side) and three cash-secured-put
-strikes (buy side), then snap to the nearest **listed** strike on the
-selected expiration's chain.
+Each Ranked stock × expiration produces at most **one covered call**
+and at most **one cash-secured put** — both anchored to the
+conservative tail (`p25`) of the fair-value range per §3.1, with
+per-side snap rules in §3.2 (calls) and §3.3 (puts). Snap warning
+behavior is shared in §3.4.
 
 ### 3.1 Single-anchor strategy
 
@@ -157,18 +176,15 @@ of $100 (deep-ITM, time-value yield NEGATIVE because bid < naive
 intrinsic). The $67.50 strike also offers the deepest real discount
 ($6.80/share = 9.9% below current spot if assigned).
 
-### 3.3 Strike snapping
+### 3.4 Snap warning
 
-Each anchor price `A` is snapped to the nearest listed strike `S` on
-the chain, with two tie-breakers:
-1. Prefer `S ≤ A` for puts (lower strike = lower assignment cost,
-   slightly more conservative).
-2. Prefer `S ≥ A` for calls (higher strike = more upside, slightly
-   more conservative).
-
-If the snapped strike differs from the anchor by more than 5%, mark
-the contract `snapWarning: true` so the UI can show "no strike near
-your target."
+Both call and put outputs carry a boolean `snapWarning`. It is set
+when the chosen strike differs from the `p25` anchor by more than 5%
+(`|K − p25| / p25 > 0.05`) — the UI then surfaces a "no strike near
+your target" chip so the user knows the trade is a compromise rather
+than a clean hit on the anchor. Per-side snap rules (call: §3.2,
+put: §3.3) decide *which* strike is picked; this section only
+defines when the warning fires.
 
 ## 4. Return calculations
 
@@ -240,8 +256,8 @@ same either way: net per-share after the premium is collected.
 
 The `× (365 / T)` extrapolation breaks down for very short-dated
 contracts (a 7-DTE 1% return annualizes to 52% but isn't repeatable
-weekly). For LEAPS-dominated output this is rarely an issue, but mark
-any contract with `T < 30` as `shortDated: true` so the UI can
+weekly). For monthly and yearly slots this is rarely an issue, but
+mark any contract with `T < 30` as `shortDated: true` so the UI can
 de-emphasize the annualized number.
 
 ## 5. Output structure
@@ -295,28 +311,32 @@ type CashSecuredPut = {
 
 type OptionsView = {
   symbol: string;
-  fetchedAt: string;
+  fetchedAt: string;              // ISO timestamp of the chain fetch
+  currentPrice: number;           // spot used for all return math
   expirations: Array<{
     expiration: string;
-    selectionReason: "leap" | "leap-fallback" | "quarterly" | "monthly";
-    coveredCalls: CoveredCall[];   // up to 3, fewer if anchor floors filter
-    puts: CashSecuredPut[];        // up to 3, fewer if floors filter
-    suppressedReason?: "below-fair-value";  // only when puts suppressed entirely
+    selectionReason: "weekly" | "monthly" | "yearly";
+    coveredCalls: CoveredCall[];  // at most 1; empty when no listed strike clears §3.2
+    puts: CashSecuredPut[];       // at most 1; empty when no listed strike clears §3.3
+    putsSuppressedReason?: "above-conservative-tail";  // set only when current ≥ p25
   }>;
 };
 ```
 
 ## 6. Fetch policy
 
-- **On-demand only.** Options chains are heavier than quotes — do not
-  fetch nightly across the universe. Fetch when the user opens a
-  stock-detail screen and the options tab is active. Cache per
-  `(symbol, fetchedAt within 30 min)` so repeat opens don't hammer
-  Yahoo.
-- **Throttle**: 1 chain per 1.5s when the user is browsing (vs ingest
-  throttle for quote/fundamentals). Yahoo hasn't documented a chain
-  rate limit, so be conservative.
-- **Provider abstraction**: hide behind `OptionsProvider` interface
+- **Batched during `npm run refresh`, Ranked-bucket only.** Options
+  chains are heavier than quotes, so they're not fetched universe-wide
+  — only for stocks gated into the Ranked bucket (the only ones whose
+  output the Plan screen actually uses). The roll-up writes one
+  `public/data/options/<SYMBOL>.json` per Ranked name and one
+  `options-summary.json` index. Stale files (symbols that dropped out
+  of Ranked) are pruned in the same step.
+- **Throttle**: 1500 ms between chains by default
+  (`packages/data/src/options/fetch-cli.ts`). Yahoo hasn't documented
+  a chain rate limit, so the default is conservative; override with
+  `--throttle <ms>` for ad-hoc runs.
+- **Provider abstraction**: hidden behind `OptionsProvider` interface
   with a `yahoo` implementation. Same lesson as the FMP/Yahoo split —
   Yahoo deprecated `quoteSummary` modules in late 2024, and chains
   could be next.
@@ -370,9 +390,10 @@ options.md.
   return math to the cent.
 - **Mapping tests:** Yahoo `options()` shape → `ContractQuote`
   contract; reject malformed contracts gracefully.
-- **Live smoke test (manual, not CI):** `npm run options DECK` → eyeball
-  the LEAPS selection and the three call/put strikes against the user's
-  fair-value mid for sanity.
+- **Live smoke test (manual, not CI):** `npm run options:fetch -- DECK`
+  → eyeball the three slot selections (weekly / monthly / yearly) and
+  the single call + single put per slot against the user's fair-value
+  mid for sanity.
 - **Regression test:** the user's NVO Jan-2027 $40 covered call is a
   known fixture — given the chain on a known date, our model should
   flag it as the "conservative" strike and produce return numbers
@@ -380,24 +401,24 @@ options.md.
 
 ## 10. Open questions
 
-1. **Put-strike anchor confirmation.** Spec uses fair-value tails
-   mirrored (§3.2). Alternatives considered: (a) fixed % below current
-   (e.g., 5/10/20%), (b) historical-volatility-based, (c) blended
-   "max(fair-value anchor, current × 0.85)" floor. Going with mirror
-   for now — symmetric with calls, keeps the mental model clean. Open
-   to override per stock if the user wants to specify a custom buy
-   target (e.g., "I'd buy NVO at $35 regardless of model").
-2. **Multiple expirations in the UI.** Two LEAPS rows per stock will
-   double the table height. Consider showing only the nearer LEAPS by
-   default with the further one behind a toggle.
-3. **Implied volatility surface.** Yahoo gives per-contract IV. We
-   don't currently use it for anything — could surface it as a
-   "premium richness" indicator (high IV = paid more for the same
-   strike) but that's a v2 feature.
-4. **Dividend forecasting for expectedDividends.** `quote.dividendRate
+1. **Implied volatility surface.** Yahoo gives per-contract IV. The
+   current §3.3 put rule uses it only as a tradability filter
+   (`IV > 0` rejects deep-ITM parity-priced contracts). Could surface
+   it as a "premium richness" indicator (high IV = paid more for the
+   same strike) but that's a v2 feature.
+2. **Dividend forecasting for expectedDividends.** `quote.dividendRate
    × (T / 365)` assumes the current rate continues. For dividend
    growers (KO, JNJ) this is conservative; for dividend cutters it
    overstates. Acceptable approximation for v1.
-5. **Roll suggestions.** When a covered call is approaching expiry
+3. **Roll suggestions.** When a covered call is approaching expiry
    ITM, the natural next question is "roll up and out?" — explicitly
    out of scope for v1; needs the holdings module first.
+
+### Resolved (kept for traceability)
+
+- **Put-strike anchor** (resolved 2026-04-27 → §3.1/§3.3). Both
+  call and put now anchor to `p25` (not mirrored tails); puts pick
+  the OTM strike closest to current under bid/IV/premium floors.
+- **Multiple expirations in the UI** (resolved 2026-05-11). The
+  Plan screen exposes three independent tabs — weekly / monthly /
+  yearly — so no single screen renders all expirations at once.

@@ -1,68 +1,95 @@
 {
   "symbol": "FDS",
-  "fetchedAt": "2026-05-13T15:27:55.431Z",
-  "currentPrice": 199.74,
+  "fetchedAt": "2026-05-18T17:39:36.429Z",
+  "currentPrice": 224.56,
   "expirations": [
     {
-      "expiration": "2026-05-15",
+      "expiration": "2026-06-18",
       "selectionReason": "weekly",
       "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 395.9503110204184,
+          "anchorPrice": 403.21296603888493,
           "contract": {
-            "contractSymbol": "FDS260515P00195000",
-            "expiration": "2026-05-15",
-            "daysToExpiry": 2,
-            "strike": 195,
-            "bid": 1.55,
-            "ask": 3.7,
-            "lastPrice": 2.15,
-            "volume": 2,
-            "openInterest": 166,
-            "impliedVolatility": 0.6462437719726561,
+            "contractSymbol": "FDS260618P00220000",
+            "expiration": "2026-06-18",
+            "daysToExpiry": 31,
+            "strike": 220,
+            "bid": 9.8,
+            "ask": 11.4,
+            "lastPrice": 9.7,
+            "volume": 1,
+            "openInterest": 42,
+            "impliedVolatility": 0.5169115692138673,
             "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.007948717948717949,
-          "notAssignedAnnualizedPct": 1.4506410256410256,
-          "effectiveCostBasis": 193.45,
-          "effectiveDiscountPct": 0.03149093821968569,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.04454545454545455,
+          "notAssignedAnnualizedPct": 0.5244868035190616,
+          "effectiveCostBasis": 210.2,
+          "effectiveDiscountPct": 0.06394727467046675,
           "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2026-06-18",
+      "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
-      "puts": [
+      "coveredCalls": [
         {
-          "label": "deep-value",
+          "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 395.9503110204184,
+          "anchorPrice": 403.21296603888493,
           "contract": {
-            "contractSymbol": "FDS260618P00195000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 36,
-            "strike": 195,
-            "bid": 7.7,
-            "ask": 11.2,
-            "lastPrice": 6.24,
-            "volume": 5,
-            "openInterest": 30,
-            "impliedVolatility": 0.5367477966308594,
+            "contractSymbol": "FDS260717C00270000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 270,
+            "bid": 3.2,
+            "ask": 5.3,
+            "lastPrice": 2.9,
+            "volume": 2,
+            "openInterest": 2,
+            "impliedVolatility": 0.5102588037109376,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.03948717948717949,
-          "notAssignedAnnualizedPct": 0.40035612535612536,
-          "effectiveCostBasis": 187.3,
-          "effectiveDiscountPct": 0.06228096525483127,
+          "staticReturnPct": 0.017836204010521644,
+          "staticAnnualizedPct": 0.10850357439734,
+          "assignedReturnPct": 0.22018746870592598,
+          "assignedAnnualizedPct": 1.3394737679610496,
+          "effectiveCostBasis": 221.36,
+          "effectiveDiscountPct": 0.014250089063056645
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 403.21296603888493,
+          "contract": {
+            "contractSymbol": "FDS260717P00200000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 60,
+            "strike": 200,
+            "bid": 7.9,
+            "ask": 10,
+            "lastPrice": 8.79,
+            "volume": 9,
+            "openInterest": 1,
+            "impliedVolatility": 0.5425460784912111,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.0395,
+          "notAssignedAnnualizedPct": 0.24029166666666665,
+          "effectiveCostBasis": 192.1,
+          "effectiveDiscountPct": 0.14454934093338087,
           "inTheMoney": false
         }
       ]
