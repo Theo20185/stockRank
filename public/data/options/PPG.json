@@ -1,7 +1,7 @@
 {
   "symbol": "PPG",
-  "fetchedAt": "2026-05-19T16:10:44.338Z",
-  "currentPrice": 101.485,
+  "fetchedAt": "2026-05-21T14:42:03.866Z",
+  "currentPrice": 103.7,
   "expirations": [
     {
       "expiration": "2026-05-22",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 166.11923529349002,
+          "anchorPrice": 167.68833845581847,
           "contract": {
-            "contractSymbol": "PPG260522P00101000",
+            "contractSymbol": "PPG260522P00103000",
             "expiration": "2026-05-22",
-            "daysToExpiry": 3,
-            "strike": 101,
-            "bid": 0.85,
-            "ask": 1.35,
-            "lastPrice": 2.05,
-            "volume": 11,
-            "openInterest": 11,
-            "impliedVolatility": 0.37402969726562496,
+            "daysToExpiry": 1,
+            "strike": 103,
+            "bid": 0.2,
+            "ask": 2.85,
+            "lastPrice": 1.65,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.6074258007812501,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.008415841584158416,
-          "notAssignedAnnualizedPct": 1.023927392739274,
-          "effectiveCostBasis": 100.15,
-          "effectiveDiscountPct": 0.01315465339705369,
+          "notAssignedReturnPct": 0.0019417475728155341,
+          "notAssignedAnnualizedPct": 0.7087378640776699,
+          "effectiveCostBasis": 102.8,
+          "effectiveDiscountPct": 0.008678881388621077,
           "inTheMoney": false
         }
       ]
@@ -43,26 +43,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 166.11923529349002,
+          "anchorPrice": 167.68833845581847,
           "contract": {
             "contractSymbol": "PPG260618P00100000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 30,
+            "daysToExpiry": 28,
             "strike": 100,
-            "bid": 2.5,
-            "ask": 3.3,
-            "lastPrice": 2.85,
-            "volume": 1,
+            "bid": 1.7,
+            "ask": 3.4,
+            "lastPrice": 3.06,
+            "volume": 2,
             "openInterest": 158,
-            "impliedVolatility": 0.3415593188476562,
+            "impliedVolatility": 0.43994700683593746,
             "inTheMoney": false
           },
           "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.025,
-          "notAssignedAnnualizedPct": 0.3041666666666667,
-          "effectiveCostBasis": 97.5,
-          "effectiveDiscountPct": 0.03926688673202936,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.017,
+          "notAssignedAnnualizedPct": 0.2216071428571429,
+          "effectiveCostBasis": 98.3,
+          "effectiveDiscountPct": 0.052073288331726184,
           "inTheMoney": false
         }
       ]
@@ -70,31 +70,58 @@
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 167.68833845581847,
+          "contract": {
+            "contractSymbol": "PPG270115C00170000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 239,
+            "strike": 170,
+            "bid": 0.05,
+            "ask": 0.8,
+            "lastPrice": 1.08,
+            "volume": 1,
+            "openInterest": 33,
+            "impliedVolatility": 0.36817038085937503,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.018306310986644824,
+          "staticAnnualizedPct": 0.02795733686244921,
+          "assignedReturnPct": 0.6576505732817267,
+          "assignedAnnualizedPct": 1.0043617541750218,
+          "effectiveCostBasis": 103.65,
+          "effectiveDiscountPct": 0.00048216007714561236
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 166.11923529349002,
+          "anchorPrice": 167.68833845581847,
           "contract": {
             "contractSymbol": "PPG270115P00100000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 241,
+            "daysToExpiry": 239,
             "strike": 100,
-            "bid": 8.2,
-            "ask": 10.8,
+            "bid": 7.6,
+            "ask": 10.2,
             "lastPrice": 8.47,
             "volume": 1,
             "openInterest": 33,
-            "impliedVolatility": 0.35358312438964834,
+            "impliedVolatility": 0.3644472735595704,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.08199999999999999,
-          "notAssignedAnnualizedPct": 0.12419087136929459,
-          "effectiveCostBasis": 91.8,
-          "effectiveDiscountPct": 0.09543282258461844,
+          "notAssignedReturnPct": 0.076,
+          "notAssignedAnnualizedPct": 0.11606694560669455,
+          "effectiveCostBasis": 92.4,
+          "effectiveDiscountPct": 0.10896817743490836,
           "inTheMoney": false
         }
       ]
