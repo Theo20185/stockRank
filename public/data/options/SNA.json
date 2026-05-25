@@ -1,7 +1,7 @@
 {
   "symbol": "SNA",
-  "fetchedAt": "2026-05-21T14:54:28.818Z",
-  "currentPrice": 360.78,
+  "fetchedAt": "2026-05-25T14:37:37.440Z",
+  "currentPrice": 366.65,
   "expirations": [
     {
       "expiration": "2026-06-18",
@@ -11,85 +11,58 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 412.6462595110453,
+          "anchorPrice": 414.83551389783776,
           "contract": {
             "contractSymbol": "SNA260618P00360000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 28,
+            "daysToExpiry": 24,
             "strike": 360,
-            "bid": 6.9,
-            "ask": 10,
-            "lastPrice": 7.6,
+            "bid": 4.4,
+            "ask": 6.7,
+            "lastPrice": 8.5,
             "volume": 1,
-            "openInterest": 15,
-            "impliedVolatility": 0.2563550927734375,
+            "openInterest": 16,
+            "impliedVolatility": 0.2548292291259766,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.01916666666666667,
-          "notAssignedAnnualizedPct": 0.2498511904761905,
-          "effectiveCostBasis": 353.1,
-          "effectiveDiscountPct": 0.021287211042740593,
+          "notAssignedReturnPct": 0.012222222222222223,
+          "notAssignedAnnualizedPct": 0.18587962962962964,
+          "effectiveCostBasis": 355.6,
+          "effectiveDiscountPct": 0.0301377335333423,
           "inTheMoney": false
         }
       ]
     },
     {
-      "expiration": "2026-09-18",
+      "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 412.6462595110453,
-          "contract": {
-            "contractSymbol": "SNA260918C00420000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 120,
-            "strike": 420,
-            "bid": 1.25,
-            "ask": 4.7,
-            "lastPrice": 5.7,
-            "volume": 2,
-            "openInterest": 64,
-            "impliedVolatility": 0.2598340618896484,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.012307080169526148,
-          "staticAnnualizedPct": 0.03743403551564203,
-          "assignedReturnPct": 0.17645143406940983,
-          "assignedAnnualizedPct": 0.5367064452944549,
-          "effectiveCostBasis": 359.53,
-          "effectiveDiscountPct": 0.003464715338987749
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 412.6462595110453,
+          "anchorPrice": 414.83551389783776,
           "contract": {
-            "contractSymbol": "SNA260918P00360000",
-            "expiration": "2026-09-18",
-            "daysToExpiry": 120,
+            "contractSymbol": "SNA260717P00360000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 53,
             "strike": 360,
-            "bid": 16.9,
-            "ask": 20.5,
-            "lastPrice": 20.68,
-            "volume": 1,
-            "openInterest": 4,
-            "impliedVolatility": 0.25263198547363286,
+            "bid": 7.6,
+            "ask": 10.5,
+            "lastPrice": 11.69,
+            "volume": 0,
+            "openInterest": 21,
+            "impliedVolatility": 0.2434768035888672,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.04694444444444444,
-          "notAssignedAnnualizedPct": 0.14278935185185185,
-          "effectiveCostBasis": 343.1,
-          "effectiveDiscountPct": 0.049004933754642585,
+          "notAssignedReturnPct": 0.021111111111111112,
+          "notAssignedAnnualizedPct": 0.14538784067085953,
+          "effectiveCostBasis": 352.4,
+          "effectiveDiscountPct": 0.0388654029728624,
           "inTheMoney": false
         }
       ]

@@ -1,7 +1,7 @@
 {
   "symbol": "LH",
-  "fetchedAt": "2026-05-21T14:55:21.204Z",
-  "currentPrice": 254.18,
+  "fetchedAt": "2026-05-25T14:38:32.085Z",
+  "currentPrice": 259.93,
   "expirations": [
     {
       "expiration": "2026-06-18",
@@ -10,54 +10,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 265.5026423020913,
+          "anchorPrice": 267.8188089631176,
           "contract": {
             "contractSymbol": "LH260618C00270000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 28,
+            "daysToExpiry": 24,
             "strike": 270,
-            "bid": 1.25,
-            "ask": 3.8,
-            "lastPrice": 1.8,
+            "bid": 2.7,
+            "ask": 3.5,
+            "lastPrice": 2.9,
             "volume": 2,
             "openInterest": 171,
-            "impliedVolatility": 0.33045103149414057,
+            "impliedVolatility": 0.270515107421875,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": true,
-          "staticReturnPct": 0.005777088095266325,
-          "staticAnnualizedPct": 0.07530846981329317,
-          "assignedReturnPct": 0.06801644603058772,
-          "assignedAnnualizedPct": 0.8866429571844471,
-          "effectiveCostBasis": 252.93,
-          "effectiveDiscountPct": 0.004917774805256118
+          "staticReturnPct": 0.011117275009235891,
+          "staticAnnualizedPct": 0.16907522409879586,
+          "assignedReturnPct": 0.049858474562961864,
+          "assignedAnnualizedPct": 0.758264300645045,
+          "effectiveCostBasis": 257.23,
+          "effectiveDiscountPct": 0.010387411995537261
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 265.5026423020913,
+          "anchorPrice": 267.8188089631176,
           "contract": {
             "contractSymbol": "LH260618P00250000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 28,
+            "daysToExpiry": 24,
             "strike": 250,
-            "bid": 4.5,
-            "ask": 6.8,
-            "lastPrice": 6,
-            "volume": 2,
-            "openInterest": 217,
-            "impliedVolatility": 0.30811238769531246,
+            "bid": 2.9,
+            "ask": 4.2,
+            "lastPrice": 3.93,
+            "volume": 1,
+            "openInterest": 218,
+            "impliedVolatility": 0.30927204406738285,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.018,
-          "notAssignedAnnualizedPct": 0.23464285714285713,
-          "effectiveCostBasis": 245.5,
-          "effectiveDiscountPct": 0.034149028247698505,
+          "notAssignedReturnPct": 0.0116,
+          "notAssignedAnnualizedPct": 0.17641666666666667,
+          "effectiveCostBasis": 247.1,
+          "effectiveDiscountPct": 0.049359442926941915,
           "inTheMoney": false
         }
       ]
@@ -65,31 +65,58 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 267.8188089631176,
+          "contract": {
+            "contractSymbol": "LH260717C00280000",
+            "expiration": "2026-07-17",
+            "daysToExpiry": 53,
+            "strike": 280,
+            "bid": 2.9,
+            "ask": 3.5,
+            "lastPrice": 2.8,
+            "volume": 0,
+            "openInterest": 8,
+            "impliedVolatility": 0.25757578369140627,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.01276863074305042,
+          "staticAnnualizedPct": 0.08793490983421515,
+          "assignedReturnPct": 0.08998172657654403,
+          "assignedAnnualizedPct": 0.619685475479973,
+          "effectiveCostBasis": 257.03000000000003,
+          "effectiveDiscountPct": 0.011156849921132613
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 265.5026423020913,
+          "anchorPrice": 267.8188089631176,
           "contract": {
             "contractSymbol": "LH260717P00250000",
             "expiration": "2026-07-17",
-            "daysToExpiry": 57,
+            "daysToExpiry": 53,
             "strike": 250,
-            "bid": 7.2,
-            "ask": 9.9,
+            "bid": 5,
+            "ask": 7.2,
             "lastPrice": 8.4,
             "volume": 22,
             "openInterest": 23,
-            "impliedVolatility": 0.2963937548828125,
+            "impliedVolatility": 0.2938913385009765,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.0288,
-          "notAssignedAnnualizedPct": 0.18442105263157893,
-          "effectiveCostBasis": 242.8,
-          "effectiveDiscountPct": 0.044771421827051676,
+          "notAssignedReturnPct": 0.02,
+          "notAssignedAnnualizedPct": 0.13773584905660377,
+          "effectiveCostBasis": 245,
+          "effectiveDiscountPct": 0.0574385411456931,
           "inTheMoney": false
         }
       ]
@@ -101,54 +128,54 @@
         {
           "label": "conservative",
           "anchor": "p25",
-          "anchorPrice": 265.5026423020913,
+          "anchorPrice": 267.8188089631176,
           "contract": {
             "contractSymbol": "LH270115C00270000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 239,
+            "daysToExpiry": 235,
             "strike": 270,
-            "bid": 15.2,
-            "ask": 18.4,
+            "bid": 18.4,
+            "ask": 21.6,
             "lastPrice": 18.2,
             "volume": 1,
             "openInterest": 8,
-            "impliedVolatility": 0.30191738128662116,
+            "impliedVolatility": 0.3105232522583008,
             "inTheMoney": false
           },
           "snapWarning": false,
           "shortDated": false,
-          "staticReturnPct": 0.06713499435735866,
-          "staticAnnualizedPct": 0.10252833866291175,
-          "assignedReturnPct": 0.12937435229268007,
-          "assignedAnnualizedPct": 0.19758007776915576,
-          "effectiveCostBasis": 238.98000000000002,
-          "effectiveDiscountPct": 0.05980014163191439
+          "staticReturnPct": 0.07793486449723817,
+          "staticAnnualizedPct": 0.1210477682616678,
+          "assignedReturnPct": 0.11667606405096416,
+          "assignedAnnualizedPct": 0.18122026969617835,
+          "effectiveCostBasis": 241.53,
+          "effectiveDiscountPct": 0.07078828915477244
         }
       ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 265.5026423020913,
+          "anchorPrice": 267.8188089631176,
           "contract": {
             "contractSymbol": "LH270115P00250000",
             "expiration": "2027-01-15",
-            "daysToExpiry": 239,
+            "daysToExpiry": 235,
             "strike": 250,
-            "bid": 17.5,
-            "ask": 20.4,
+            "bid": 15.4,
+            "ask": 17.8,
             "lastPrice": 17.3,
             "volume": 10,
             "openInterest": 108,
-            "impliedVolatility": 0.2757030438232422,
+            "impliedVolatility": 0.2747570083618164,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.07,
-          "notAssignedAnnualizedPct": 0.10690376569037657,
-          "effectiveCostBasis": 232.5,
-          "effectiveDiscountPct": 0.08529388622236213,
+          "notAssignedReturnPct": 0.0616,
+          "notAssignedAnnualizedPct": 0.09567659574468085,
+          "effectiveCostBasis": 234.6,
+          "effectiveDiscountPct": 0.09744931327665145,
           "inTheMoney": false
         }
       ]
