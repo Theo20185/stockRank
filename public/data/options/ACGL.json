@@ -1,7 +1,7 @@
 {
   "symbol": "ACGL",
-  "fetchedAt": "2026-05-25T14:37:39.150Z",
-  "currentPrice": 96.3,
+  "fetchedAt": "2026-05-26T15:27:55.269Z",
+  "currentPrice": 95.8707,
   "expirations": [
     {
       "expiration": "2026-06-18",
@@ -11,26 +11,26 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 113.0010407373513,
+          "anchorPrice": 112.83788878535131,
           "contract": {
             "contractSymbol": "ACGL260618P00095000",
             "expiration": "2026-06-18",
-            "daysToExpiry": 24,
+            "daysToExpiry": 23,
             "strike": 95,
-            "bid": 1.45,
-            "ask": 2.1,
-            "lastPrice": 1.85,
-            "volume": 2,
-            "openInterest": 307,
-            "impliedVolatility": 0.270515107421875,
+            "bid": 1.65,
+            "ask": 2,
+            "lastPrice": 1.9,
+            "volume": 1,
+            "openInterest": 308,
+            "impliedVolatility": 0.24695577270507812,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.015263157894736841,
-          "notAssignedAnnualizedPct": 0.23212719298245613,
-          "effectiveCostBasis": 93.55,
-          "effectiveDiscountPct": 0.028556593977154727,
+          "notAssignedReturnPct": 0.017368421052631578,
+          "notAssignedAnnualizedPct": 0.27562929061784897,
+          "effectiveCostBasis": 93.35,
+          "effectiveDiscountPct": 0.02629270465324656,
           "inTheMoney": false
         }
       ]
@@ -38,58 +38,31 @@
     {
       "expiration": "2026-07-17",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 113.0010407373513,
-          "contract": {
-            "contractSymbol": "ACGL260717C00105000",
-            "expiration": "2026-07-17",
-            "daysToExpiry": 53,
-            "strike": 105,
-            "bid": 0.35,
-            "ask": 1.35,
-            "lastPrice": 0.78,
-            "volume": 0,
-            "openInterest": 5,
-            "impliedVolatility": 0.2849192602539062,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "staticReturnPct": 0.003634475597092419,
-          "staticAnnualizedPct": 0.025029879112051564,
-          "assignedReturnPct": 0.09397715472481831,
-          "assignedAnnualizedPct": 0.6472011598973336,
-          "effectiveCostBasis": 95.95,
-          "effectiveDiscountPct": 0.003634475597092419
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 113.0010407373513,
+          "anchorPrice": 112.83788878535131,
           "contract": {
             "contractSymbol": "ACGL260717P00095000",
             "expiration": "2026-07-17",
-            "daysToExpiry": 53,
+            "daysToExpiry": 52,
             "strike": 95,
-            "bid": 2.1,
-            "ask": 3,
+            "bid": 2.2,
+            "ask": 3.3,
             "lastPrice": 2.52,
             "volume": 0,
             "openInterest": 0,
-            "impliedVolatility": 0.24634542724609376,
+            "impliedVolatility": 0.2564771618652344,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.02210526315789474,
-          "notAssignedAnnualizedPct": 0.1522343594836147,
-          "effectiveCostBasis": 92.9,
-          "effectiveDiscountPct": 0.035306334371754844,
+          "notAssignedReturnPct": 0.023157894736842106,
+          "notAssignedAnnualizedPct": 0.1625506072874494,
+          "effectiveCostBasis": 92.8,
+          "effectiveDiscountPct": 0.03202959819840684,
           "inTheMoney": false
         }
       ]

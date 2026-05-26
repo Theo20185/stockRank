@@ -21,8 +21,18 @@ import {
   writeMonthlyBars,
 } from "../edgar/index.js";
 import { checkPriceConsistency } from "./price-consistency.js";
+import { retryYahoo } from "./retry.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
+
+function logRetry(symbol: string, op: string): (attempt: number, err: unknown) => void {
+  return (attempt, err) => {
+    const msg = err instanceof Error ? err.message : String(err);
+    // Trim HTML error bodies which can be multi-line and noisy in the log.
+    const short = msg.length > 140 ? `${msg.slice(0, 140)}…` : msg;
+    console.error(`  retry ${symbol} ${op} attempt ${attempt} failed: ${short}`);
+  };
+}
 
 /** Cache FX rates for the lifetime of an ingest run — avoids re-fetching the
  * same DKK→USD rate for every Danish issuer. Keyed `${from}${to}=X`. */
@@ -33,11 +43,17 @@ async function getFxRate(from: string, to: string): Promise<number> {
   const key = `${from}${to}=X`;
   const cached = fxCache.get(key);
   if (cached !== undefined) return cached;
-  const fx = await yahooFinance.quote(key);
-  const rate = (fx as { regularMarketPrice?: number }).regularMarketPrice;
-  if (typeof rate !== "number" || rate <= 0) {
-    throw new Error(`getFxRate: no rate for ${key}`);
-  }
+  const rate = await retryYahoo(
+    async () => {
+      const fx = await yahooFinance.quote(key);
+      const r = (fx as { regularMarketPrice?: number }).regularMarketPrice;
+      if (typeof r !== "number" || r <= 0) {
+        throw new Error(`getFxRate: no rate for ${key}`);
+      }
+      return r;
+    },
+    { onRetry: logRetry(key, "fx-quote") },
+  );
   fxCache.set(key, rate);
   return rate;
 }
@@ -129,26 +145,32 @@ export class YahooProvider implements MarketDataProvider {
   ): Promise<CompanySnapshot | null> {
     const yahooSymbol = toYahooSymbol(symbol);
 
+    // Retry the quoteSummary call AND its essential-fields validation
+    // together — Yahoo sometimes returns HTTP 200 with stub/empty
+    // bodies during degradation. Throwing on missing fields inside the
+    // retry wrapper makes that case retryable too.
     let summary: YahooQuoteSummary;
     try {
-      summary = (await yahooFinance.quoteSummary(yahooSymbol, {
-        modules: [...QUOTE_SUMMARY_MODULES],
-      })) as unknown as YahooQuoteSummary;
+      summary = await retryYahoo(
+        async () => {
+          const s = (await yahooFinance.quoteSummary(yahooSymbol, {
+            modules: [...QUOTE_SUMMARY_MODULES],
+          })) as unknown as YahooQuoteSummary;
+          if (!s.assetProfile || !s.price || s.price.regularMarketPrice === undefined) {
+            throw new Error("essential profile/price fields missing");
+          }
+          return s;
+        },
+        { onRetry: logRetry(symbol, "quoteSummary") },
+      );
     } catch (err) {
       reportError(makeError(symbol, "quoteSummary", err));
       return null;
     }
 
-    const profile = summary.assetProfile;
-    const price = summary.price;
-    if (!profile || !price || price.regularMarketPrice === undefined) {
-      reportError({
-        symbol,
-        endpoint: "quoteSummary",
-        message: "essential profile/price fields missing",
-      });
-      return null;
-    }
+    // Validated inside the retry wrapper above — non-null by construction.
+    const profile = summary.assetProfile!;
+    const price = summary.price!;
 
     // Fundamentals come from SEC EDGAR (XBRL companyfacts). Yahoo's
     // fundamentalsTimeSeries caps at ~6 quarters of history, which
@@ -194,11 +216,15 @@ export class YahooProvider implements MarketDataProvider {
 
     let priceBars: Array<{ close: number; volume: number }> = [];
     try {
-      const chart = await yahooFinance.chart(yahooSymbol, {
-        period1: options.priceFrom,
-        period2: options.priceTo,
-        interval: "1d",
-      });
+      const chart = await retryYahoo(
+        () =>
+          yahooFinance.chart(yahooSymbol, {
+            period1: options.priceFrom,
+            period2: options.priceTo,
+            interval: "1d",
+          }),
+        { onRetry: logRetry(symbol, "chart") },
+      );
       priceBars = (chart.quotes ?? [])
         .filter(
           (q): q is typeof q & { close: number; volume: number } =>
@@ -222,11 +248,15 @@ export class YahooProvider implements MarketDataProvider {
     type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
     let historicalBars: HistoricalBar[] = [];
     try {
-      const longChart = await yahooFinance.chart(yahooSymbol, {
-        period1: priceFromMinusYears(options.priceTo, 6),
-        period2: options.priceTo,
-        interval: "1mo",
-      });
+      const longChart = await retryYahoo(
+        () =>
+          yahooFinance.chart(yahooSymbol, {
+            period1: priceFromMinusYears(options.priceTo, 6),
+            period2: options.priceTo,
+            interval: "1mo",
+          }),
+        { onRetry: logRetry(symbol, "chart-historical") },
+      );
       historicalBars = (longChart.quotes ?? [])
         .filter(
           (q): q is typeof q & { close: number; date: Date } =>

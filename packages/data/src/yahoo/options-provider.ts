@@ -5,8 +5,17 @@ import type {
   ExpirationList,
   OptionsProvider,
 } from "../options/types.js";
+import { retryYahoo } from "./retry.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
+
+function logRetry(symbol: string, op: string): (attempt: number, err: unknown) => void {
+  return (attempt, err) => {
+    const msg = err instanceof Error ? err.message : String(err);
+    const short = msg.length > 140 ? `${msg.slice(0, 140)}…` : msg;
+    console.error(`  retry ${symbol} ${op} attempt ${attempt} failed: ${short}`);
+  };
+}
 
 type YahooContract = {
   contractSymbol?: string;
@@ -73,7 +82,9 @@ export class YahooOptionsProvider implements OptionsProvider {
   }
 
   async listExpirations(symbol: string): Promise<ExpirationList> {
-    const raw = (await yahooFinance.options(symbol)) as YahooOptionsResponse;
+    const raw = (await retryYahoo(() => yahooFinance.options(symbol), {
+      onRetry: logRetry(symbol, "options-list"),
+    })) as YahooOptionsResponse;
     const dates = (raw.expirationDates ?? []).map(toIsoDate);
     const unique = Array.from(new Set(dates)).sort();
     return {
@@ -89,9 +100,13 @@ export class YahooOptionsProvider implements OptionsProvider {
     expirationDate: string,
   ): Promise<ExpirationGroup> {
     const dateIso = expirationDate.slice(0, 10);
-    const raw = (await yahooFinance.options(symbol, {
-      date: new Date(`${dateIso}T00:00:00.000Z`),
-    })) as YahooOptionsResponse;
+    const raw = (await retryYahoo(
+      () =>
+        yahooFinance.options(symbol, {
+          date: new Date(`${dateIso}T00:00:00.000Z`),
+        }),
+      { onRetry: logRetry(symbol, `options-${dateIso}`) },
+    )) as YahooOptionsResponse;
 
     const groups = raw.options ?? [];
     const block =

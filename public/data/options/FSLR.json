@@ -1,184 +1,28 @@
 {
   "symbol": "FSLR",
-  "fetchedAt": "2026-05-25T14:38:08.305Z",
-  "currentPrice": 257.85,
+  "fetchedAt": "2026-05-26T15:28:22.949Z",
+  "currentPrice": 272.67,
   "expirations": [
     {
       "expiration": "2026-05-29",
       "selectionReason": "weekly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR260529C00272500",
-            "expiration": "2026-05-29",
-            "daysToExpiry": 4,
-            "strike": 272.5,
-            "bid": 2.61,
-            "ask": 4.15,
-            "lastPrice": 2.64,
-            "volume": 3,
-            "openInterest": 0,
-            "impliedVolatility": 0.7143583251953125,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.010122164048865618,
-          "staticAnnualizedPct": 0.9236474694589876,
-          "assignedReturnPct": 0.0669381423308124,
-          "assignedAnnualizedPct": 6.108105487686632,
-          "effectiveCostBasis": 255.24,
-          "effectiveDiscountPct": 0.010122164048865618
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR260529P00257500",
-            "expiration": "2026-05-29",
-            "daysToExpiry": 4,
-            "strike": 257.5,
-            "bid": 6.9,
-            "ask": 9,
-            "lastPrice": 8.6,
-            "volume": 1,
-            "openInterest": 0,
-            "impliedVolatility": 0.6754182849121095,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.026796116504854372,
-          "notAssignedAnnualizedPct": 2.4451456310679616,
-          "effectiveCostBasis": 250.6,
-          "effectiveDiscountPct": 0.028117122357960163,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "above-conservative-tail"
     },
     {
       "expiration": "2026-06-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR260618C00275000",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 24,
-            "strike": 275,
-            "bid": 10.2,
-            "ask": 11.8,
-            "lastPrice": 10.85,
-            "volume": 41,
-            "openInterest": 16,
-            "impliedVolatility": 0.659305164794922,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.03955788248981966,
-          "staticAnnualizedPct": 0.6016094628660074,
-          "assignedReturnPct": 0.10606942020554576,
-          "assignedAnnualizedPct": 1.6131390989593417,
-          "effectiveCostBasis": 247.65000000000003,
-          "effectiveDiscountPct": 0.03955788248981966
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR260618P00257500",
-            "expiration": "2026-06-18",
-            "daysToExpiry": 24,
-            "strike": 257.5,
-            "bid": 15.4,
-            "ask": 17.1,
-            "lastPrice": 17.1,
-            "volume": 11,
-            "openInterest": 0,
-            "impliedVolatility": 0.6112099426269533,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "notAssignedReturnPct": 0.05980582524271845,
-          "notAssignedAnnualizedPct": 0.9095469255663431,
-          "effectiveCostBasis": 242.1,
-          "effectiveDiscountPct": 0.06108202443280988,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "above-conservative-tail"
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR270115C00280000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 235,
-            "strike": 280,
-            "bid": 42.25,
-            "ask": 44,
-            "lastPrice": 39.48,
-            "volume": 10,
-            "openInterest": 3261,
-            "impliedVolatility": 0.6266822000122071,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.16385495443087064,
-          "staticAnnualizedPct": 0.2544981207117778,
-          "assignedReturnPct": 0.24975761101415542,
-          "assignedAnnualizedPct": 0.3879213958304967,
-          "effectiveCostBasis": 215.60000000000002,
-          "effectiveDiscountPct": 0.16385495443087064
-        }
-      ],
-      "puts": [
-        {
-          "label": "deep-value",
-          "anchor": "p25",
-          "anchorPrice": 270.37940413001337,
-          "contract": {
-            "contractSymbol": "FSLR270115P00250000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 235,
-            "strike": 250,
-            "bid": 41.15,
-            "ask": 42.6,
-            "lastPrice": 41.15,
-            "volume": 2,
-            "openInterest": 1047,
-            "impliedVolatility": 0.5659528268432618,
-            "inTheMoney": false
-          },
-          "snapWarning": true,
-          "shortDated": false,
-          "notAssignedReturnPct": 0.1646,
-          "notAssignedAnnualizedPct": 0.25565531914893613,
-          "effectiveCostBasis": 208.85,
-          "effectiveDiscountPct": 0.19003296490207494,
-          "inTheMoney": false
-        }
-      ]
+      "coveredCalls": [],
+      "puts": [],
+      "putsSuppressedReason": "above-conservative-tail"
     }
   ]
 }
