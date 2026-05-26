@@ -84,6 +84,8 @@ export function makeCompany(
       yearLow: 80,
       volume: 0,
       averageVolume: 1_000_000,
+      bid: null,
+      ask: null,
     },
     ttm: overrides.ttm ?? makeTtm(),
     annual:

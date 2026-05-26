@@ -423,6 +423,8 @@ export function synthesizeSnapshotAt(
       yearLow,
       volume: 0,
       averageVolume: 0,
+      bid: null,
+      ask: null,
     },
     ttm,
     annual,

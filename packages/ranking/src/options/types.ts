@@ -52,15 +52,34 @@ export type CashSecuredPut = {
   inTheMoney: boolean;
 };
 
-export type SelectionReason = "weekly" | "monthly" | "yearly";
+/**
+ * 2026-05-26: the "weekly" slot was removed — only monthly + yearly
+ * are emitted now. Legacy committed options JSONs may still contain
+ * `selectionReason: "weekly"` from the prior selector; the UI label
+ * helper in apps/web/src/lib/format.ts relabels those as Monthly
+ * until the next refresh overwrites them.
+ */
+export type SelectionReason = "monthly" | "yearly";
 
 export type ExpirationView = {
   expiration: string;        // YYYY-MM-DD
   selectionReason: SelectionReason;
-  /** Up to 3 entries; fewer when anchor floors filter strikes out. */
+  /** At most 1 entry — the single engine-picked covered call. Empty
+   *  when no listed strike clears the §3.2 filters. */
   coveredCalls: CoveredCall[];
-  /** Up to 3 entries; fewer when floors filter strikes out. */
+  /** At most 1 entry — the single engine-picked cash-secured put.
+   *  Empty when no listed strike clears the §3.3 filters. */
   puts: CashSecuredPut[];
+  /**
+   * Full strike chain at this expiration (un-filtered). Powers the
+   * portfolio screen's bid/ask lookup for held contracts whose strike
+   * doesn't match the engine's picked one. Mirror of the provider's
+   * raw response — call/put arrays of ContractQuote.
+   */
+  chain: {
+    calls: ContractQuote[];
+    puts: ContractQuote[];
+  };
   /**
    * Set when puts are suppressed entirely. "above-conservative-tail"
    * fires when the stock is at or above its fair-value p25 — the

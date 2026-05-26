@@ -184,10 +184,11 @@ export function DrillDownPanel({ row, onClose, fvTrendSamples, rationale }: Dril
           <p className="drill-down__neg-equity">
             <strong>FV declining</strong> — the projected fair value
             has been trending down over the past ~2 years (linear-
-            regression slope below −5%/yr). Per the back-test miss
-            analysis, ~96% of names that miss the projected p25 tail
-            also see their FV decline together. Demoted to Watch until
-            the trend reverses.
+            regression slope below −5%/yr). Informational only — the
+            FV-trend demotion rule was retired 2026-04-26 after the
+            back-test showed the declining cohort actually outperformed
+            during the COVID regime. Treat as a signal that consensus
+            is cutting estimates, not a reason to skip the trade.
           </p>
         )}
       </section>

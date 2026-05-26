@@ -535,3 +535,126 @@ describe("evaluatePortfolio — summary aggregation", () => {
     expect(result.summary.stocksInSnapshot).toBe(2);
   });
 });
+
+/**
+ * 2026-05-26: portfolio shows unrealized P&L using actual bid/ask
+ * from refresh time (no live fetch — refresh writes snapshot.quote.bid
+ * and per-symbol option JSON chain bids/asks). The evaluator computes
+ * a market-bid-based P&L on top of the existing close-price-based one.
+ */
+describe("evaluatePortfolio — bid-based G/L (refresh-time live quotes)", () => {
+  it("computes bidPnl on a stock using snapshot bid (not close price)", () => {
+    const row = makeRow({ symbol: "AAPL", composite: 70, price: 160 });
+    row.bid = 159.5;
+    row.ask = 160.1;
+    const snap = snapshot([row]);
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [
+        stock({ symbol: "AAPL", shares: 100, costBasis: 15000 }), // $150/share
+      ],
+    };
+    const result = evaluatePortfolio(portfolio, snap);
+    const eval0 = result.positions[0]!;
+    expect(eval0.kind).toBe("stock");
+    if (eval0.kind !== "stock") return;
+    expect(eval0.currentBid).toBe(159.5);
+    // (159.5 - 150) × 100 = +950
+    expect(eval0.bidPnlDollars).toBeCloseTo(950, 2);
+    // bidPnlPct = 950 / 15000 × 100 = 6.333%
+    expect(eval0.bidPnlPct).toBeCloseTo(6.333, 2);
+  });
+
+  it("falls back to null bidPnl when snapshot bid is missing", () => {
+    const row = makeRow({ symbol: "ILQD", composite: 50, price: 100 });
+    // bid/ask not set on row → null
+    const snap = snapshot([row]);
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [stock({ symbol: "ILQD", shares: 100, costBasis: 9000 })],
+    };
+    const result = evaluatePortfolio(portfolio, snap);
+    const eval0 = result.positions[0]!;
+    if (eval0.kind !== "stock") return;
+    expect(eval0.currentBid).toBeNull();
+    expect(eval0.bidPnlDollars).toBeNull();
+    expect(eval0.bidPnlPct).toBeNull();
+  });
+
+  it("computes markToMarketPnl on a SHORT put using the chain ask (cost to close)", () => {
+    // Short 1 put: sold at $3.00 premium ($300). Current ask = $1.60.
+    // Cost to close = $1.60 × 100 = $160. P&L = $300 − $160 = +$140.
+    const row = makeRow({ symbol: "AAPL", composite: 70, price: 160 });
+    const snap = snapshot([row]);
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [
+        option({
+          symbol: "AAPL",
+          optionType: "put",
+          contracts: -1, // SHORT
+          strike: 150,
+          expiration: "2026-06-19",
+          premium: 300,
+        }),
+      ],
+    };
+    const lookup = () => ({ bid: 1.5, ask: 1.6 });
+    const result = evaluatePortfolio(portfolio, snap, { optionQuoteLookup: lookup });
+    const opt = result.positions[0]!;
+    if (opt.kind !== "option") return;
+    expect(opt.currentBid).toBe(1.5);
+    expect(opt.currentAsk).toBe(1.6);
+    expect(opt.markToMarketPnlDollars).toBeCloseTo(140, 2);
+  });
+
+  it("computes markToMarketPnl on a LONG put using the chain bid (sell-back proceeds)", () => {
+    // Long 1 put: paid $3.00 premium ($300). Current bid = $1.50.
+    // Sell-back proceeds = $1.50 × 100 = $150. P&L = $150 − $300 = −$150.
+    const row = makeRow({ symbol: "AAPL", composite: 70, price: 160 });
+    const snap = snapshot([row]);
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [
+        option({
+          symbol: "AAPL",
+          optionType: "put",
+          contracts: 1, // LONG
+          strike: 150,
+          expiration: "2026-06-19",
+          premium: 300,
+        }),
+      ],
+    };
+    const lookup = () => ({ bid: 1.5, ask: 1.6 });
+    const result = evaluatePortfolio(portfolio, snap, { optionQuoteLookup: lookup });
+    const opt = result.positions[0]!;
+    if (opt.kind !== "option") return;
+    expect(opt.markToMarketPnlDollars).toBeCloseTo(-150, 2);
+  });
+
+  it("yields null markToMarketPnl when no chain quote is available for the contract", () => {
+    const row = makeRow({ symbol: "AAPL", composite: 70, price: 160 });
+    const snap = snapshot([row]);
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [
+        option({
+          symbol: "AAPL",
+          optionType: "put",
+          contracts: -1,
+          strike: 150,
+          expiration: "2026-06-19",
+          premium: 300,
+        }),
+      ],
+    };
+    // No lookup → contract has no quote
+    const result = evaluatePortfolio(portfolio, snap);
+    const opt = result.positions[0]!;
+    if (opt.kind !== "option") return;
+    expect(opt.currentBid).toBeNull();
+    expect(opt.currentAsk).toBeNull();
+    expect(opt.markToMarketPnlDollars).toBeNull();
+  });
+});

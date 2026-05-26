@@ -77,6 +77,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
       selectionReason: selected.selectionReason,
       coveredCalls: [],
       puts: [],
+      chain: { calls: group.calls, puts: group.puts },
     };
   }
 
@@ -149,6 +150,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
       selectionReason: selected.selectionReason,
       coveredCalls,
       puts: [],
+      chain: { calls: group.calls, puts: group.puts },
       putsSuppressedReason: "above-conservative-tail",
     };
   }
@@ -203,6 +205,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     selectionReason: selected.selectionReason,
     coveredCalls,
     puts,
+    chain: { calls: group.calls, puts: group.puts },
   };
 }
 

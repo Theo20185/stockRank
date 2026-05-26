@@ -51,9 +51,15 @@ const CATEGORY_LABELS: Record<CategoryKey, string> = {
   momentum: "Momentum",
 };
 
-/** Category-score thresholds. Scores are normalized 0-1 in RankedRow. */
-const STRENGTH_THRESHOLD = 0.65;
-const WEAKNESS_THRESHOLD = 0.35;
+/**
+ * Category-score thresholds. `RankedRow.categoryScores` values are
+ * percentile means on a **0-100** scale (see `computeCategoryScores`
+ * which averages `percentRank` outputs, and `percentRank` itself which
+ * returns 0-100 per `percentile.ts`). A row clears the strength bar at
+ * the 65th percentile and is flagged as weak at or below the 35th.
+ */
+const STRENGTH_THRESHOLD = 65;
+const WEAKNESS_THRESHOLD = 35;
 
 const AVOID_PERCENTILE_DEFAULT = 0.10;
 
@@ -95,7 +101,7 @@ function formatPct(value: number, digits = 1): string {
 }
 
 function formatScore(value: number): string {
-  return Math.round(value * 100).toString();
+  return Math.round(value).toString();
 }
 
 /**

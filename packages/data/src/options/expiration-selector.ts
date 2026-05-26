@@ -1,24 +1,28 @@
 /**
- * Three-expiration selector per docs/specs/options.md §2.1. Pure function:
- * takes today + a chain's expiration list, returns up to three ISO dates
- * with a label for each.
+ * Expiration selector per docs/specs/options.md §2.
  *
- * Selection rule (updated 2026-05-11, cascade revision):
- *   1. Weekly  — soonest future expiration (any type).
- *   2. Monthly — soonest future third-week expiration (day-of-month in
- *      [15, 21], weekday is a tiebreaker not a filter) that is strictly
- *      later than the weekly slot. When the next 3rd-week date is the
- *      same as weekly, the monthly slot cascades to the third-week
- *      after that (so the user always gets three distinct expirations
- *      when the chain has them).
- *   3. Yearly  — soonest future January third-week expiration that is
- *      strictly later than the monthly slot. Same cascade rule applies.
+ * Selection rule (updated 2026-05-26, weekly removed):
+ *   1. **Monthlies** — every future third-week expiration (day-of-month
+ *      in [15, 21], weekday is a tiebreaker per §2.3) between today and
+ *      the yearly slot. Each emits `selectionReason: "monthly"`.
+ *   2. **Yearly** — the soonest future January third-week expiration
+ *      strictly after the latest monthly. When the soonest 3rd-week
+ *      IS the next January, the yearly slot cascades forward to the
+ *      following January so the slots stay distinct. Emits
+ *      `selectionReason: "yearly"`.
  *
- * The chain may not provide enough dates for all three slots — the
- * selector returns whatever it can.
+ * The Plan-screen UI shows just two tabs (monthly + yearly); the
+ * portfolio screen uses the widened monthly set to look up bid/ask
+ * for any held contract between today and the yearly horizon.
+ *
+ * The legacy "weekly" slot was removed because the user only writes
+ * monthly+ horizons. If a chain has no 3rd-week monthlies before
+ * yearly (e.g., illiquid name with only the yearly listed), the
+ * selector returns just the yearly entry. If the chain has no Jan
+ * 3rd-week at all, yearly is omitted.
  */
 
-export type SelectionReason = "weekly" | "monthly" | "yearly";
+export type SelectionReason = "monthly" | "yearly";
 
 export type SelectedExpiration = {
   expiration: string; // YYYY-MM-DD
@@ -63,39 +67,30 @@ function yearMonth(iso: string): number {
 }
 
 /**
- * Pick the next monthly-cycle expiration strictly after `afterIso`.
- *
- * Rules:
- *   1. Candidates have day-of-month in [15, 21] and (optionally) lie in
- *      January for the yearly slot.
- *   2. Group candidates by calendar month and take the earliest month.
- *   3. Within that earliest month, prefer the Friday entry (the standard
- *      OCC monthly contract). If no Friday is listed for that month,
- *      fall back to the latest listed day in the window — for symbols
- *      whose chain only lists one expiration per month, this is whatever
- *      Yahoo labelled it (May 15 Friday, Jun 18 Thursday for EIX, etc).
+ * Pick one 3rd-week expiration per calendar month from the candidates.
+ * Within a month, prefer Friday; fall back to the latest day in [15,21].
+ * Returns sorted ascending. Input must be future-only and pre-filtered
+ * to 3rd-week dates.
  */
-function pickMonthlyExpiration(
-  futureSorted: string[],
-  afterIso: string,
-  options: { januaryOnly?: boolean } = {},
-): string | undefined {
-  const januaryOnly = options.januaryOnly ?? false;
-  const candidates = futureSorted.filter((iso) => {
-    if (iso <= afterIso) return false;
-    if (!isMonthlyThirdFriday(iso)) return false;
-    if (januaryOnly && !isJanuary(iso)) return false;
-    return true;
-  });
-  if (candidates.length === 0) return undefined;
-
-  const earliestMonth = yearMonth(candidates[0]!);
-  const inEarliest = candidates.filter((iso) => yearMonth(iso) === earliestMonth);
-  const friday = inEarliest.find(isFriday);
-  if (friday !== undefined) return friday;
-  // No Friday listed for this month — pick the latest day in the [15,21]
-  // window so we land as close to the standard 3rd-Friday slot as possible.
-  return inEarliest[inEarliest.length - 1];
+function pickOnePerMonth(thirdWeekDates: string[]): string[] {
+  const byMonth = new Map<number, string[]>();
+  for (const iso of thirdWeekDates) {
+    const ym = yearMonth(iso);
+    const arr = byMonth.get(ym) ?? [];
+    arr.push(iso);
+    byMonth.set(ym, arr);
+  }
+  const out: string[] = [];
+  for (const [, group] of [...byMonth.entries()].sort((a, b) => a[0] - b[0])) {
+    const friday = group.find(isFriday);
+    if (friday !== undefined) {
+      out.push(friday);
+    } else {
+      // Latest day in the window — closest to the standard Friday slot.
+      out.push(group.sort()[group.length - 1]!);
+    }
+  }
+  return out;
 }
 
 export function selectExpirations(
@@ -107,26 +102,50 @@ export function selectExpirations(
   const future = Array.from(new Set(rawExpirations.map(normalizeIsoDate)))
     .filter((iso) => iso > todayIso)
     .sort();
-
   if (future.length === 0) return [];
 
-  // `future` length-check above proves index 0 exists.
-  const weekly = future[0]!;
+  // Step 1: keep only 3rd-week expirations, one per month (Friday
+  // preferred, else latest day in [15,21]).
+  const thirdWeekFuture = future.filter(isMonthlyThirdFriday);
+  if (thirdWeekFuture.length === 0) return [];
+  const monthlies = pickOnePerMonth(thirdWeekFuture);
 
-  // Monthly = next month's 3rd-week expiration strictly after weekly.
-  const monthly = pickMonthlyExpiration(future, weekly);
-
-  // Yearly = next January 3rd-week expiration strictly after monthly
-  // (or after weekly when monthly isn't available).
-  const yearlyFloor = monthly ?? weekly;
-  const yearly = pickMonthlyExpiration(future, yearlyFloor, { januaryOnly: true });
-
-  const out: SelectedExpiration[] = [];
-  out.push({ expiration: weekly, selectionReason: "weekly" });
-  if (monthly !== undefined) {
-    out.push({ expiration: monthly, selectionReason: "monthly" });
+  // Step 2: pick the yearly Jan slot.
+  //   - Default: yearly = soonest Jan 3rd-week in the chain.
+  //   - Cascade: if the soonest Jan is within ~60 days of today AND a
+  //     later Jan exists, cascade forward so "yearly" actually
+  //     represents a ~1-year horizon (not a near-term contract that
+  //     just happens to be in January). This is the "depending on the
+  //     cascade" branch the user described.
+  const CASCADE_PROXIMITY_DAYS = 60;
+  const januaryCandidates = monthlies.filter(isJanuary);
+  let yearly: string | null = null;
+  let yearlyIndex = -1;
+  if (januaryCandidates.length > 0) {
+    const soonestJan = januaryCandidates[0]!;
+    const daysToSoonestJan = Math.round(
+      (toUtcDate(soonestJan).getTime() - toUtcDate(todayIso).getTime()) /
+        86_400_000,
+    );
+    const laterJan = januaryCandidates[1];
+    if (daysToSoonestJan < CASCADE_PROXIMITY_DAYS && laterJan !== undefined) {
+      yearly = laterJan;
+    } else {
+      yearly = soonestJan;
+    }
+    yearlyIndex = monthlies.indexOf(yearly);
   }
-  if (yearly !== undefined) {
+
+  // Step 3: assemble output. Entries before the yearly index are
+  // monthlies; the yearly entry (if any) is the last item. Entries
+  // *after* the yearly date are dropped — the spec says "up to the
+  // yearly slot."
+  const out: SelectedExpiration[] = [];
+  const lastMonthlyIndex = yearly === null ? monthlies.length - 1 : yearlyIndex - 1;
+  for (let i = 0; i <= lastMonthlyIndex; i += 1) {
+    out.push({ expiration: monthlies[i]!, selectionReason: "monthly" });
+  }
+  if (yearly !== null) {
     out.push({ expiration: yearly, selectionReason: "yearly" });
   }
   return out;

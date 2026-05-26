@@ -50,6 +50,15 @@ export type RankedRow = {
   industry: string;
   marketCap: number;
   price: number;
+  /**
+   * Best bid / ask at refresh time. Mirrored from
+   * `CompanySnapshot.quote.bid`/`ask`. Both nullable — Yahoo's
+   * summaryDetail omits them for illiquid names. Used by the portfolio
+   * screen to compute per-holding unrealized P&L without making a
+   * live fetch of its own.
+   */
+  bid: number | null;
+  ask: number | null;
 
   composite: number;
   industryRank: number;

@@ -129,6 +129,28 @@ describe("<StockDetailScreen />", () => {
     expect(screen.queryByRole("region", { name: /options for/i })).toBeNull();
   });
 
+  // Regression: the FV-trend demotion rule was REMOVED 2026-04-26 (see
+  // project_backtest_phase4.md — declining FV cohort actually
+  // outperformed in COVID). The "Demoted to Watch" copy was left
+  // behind on DrillDownPanel, so ranked rows with declining FV still
+  // claimed they'd been demoted — confusing because the row is in
+  // the Candidates list, not Watch.
+  it("does NOT claim 'Demoted to Watch' when a ranked row has declining FV", () => {
+    vi.stubGlobal("fetch", stubFetch404());
+    const decliningRow: RankedRow = {
+      ...SAMPLE_ROW,
+      fvTrend: "declining",
+    };
+    render(
+      <StockDetailScreen row={decliningRow} symbol="DECK" onBack={() => {}} />,
+    );
+    const aside = screen.getByRole("complementary", { name: /detail for DECK/i });
+    // The FV-declining notice may still appear (informational), but
+    // it must NOT use the misleading "demoted" wording.
+    expect(aside).not.toHaveTextContent(/demoted to watch/i);
+    vi.unstubAllGlobals();
+  });
+
   it("renders the bucket rationale callout when provided", () => {
     vi.stubGlobal("fetch", stubFetch404());
     const rationale = {

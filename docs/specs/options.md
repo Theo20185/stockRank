@@ -22,52 +22,52 @@ beyond IV. No spreads or multi-leg strategies. No live mid-price
 modeling. The goal is "if I sell this contract today at the bid and
 hold to expiry, what are the two outcomes worth?" — nothing more.
 
-## 2. Expiration selection (weekly / monthly / yearly cascade)
+## 2. Expiration selection (monthlies + yearly)
 
-Surface up to three expirations per stock — one short-dated, one
-monthly-cycle, one January-yearly — so the UI's Plan screen can offer
-the user a choice of horizons (`weekly` tab, `monthly` tab, `yearly`
-tab). The cascade guarantees three *distinct* dates whenever the chain
-has them, even when the soonest listed expiration itself happens to
-fall in a 3rd-week (day 15-21) window.
+Surface every monthly 3rd-week expiration between today and the
+yearly (January) slot, plus the yearly itself. The UI's Plan screen
+shows two tabs — Monthly + Yearly — while the broader set of monthly
+chains is kept on disk so the portfolio screen can look up bid/ask
+for any held contract by its expiration date.
+
+The weekly slot was removed 2026-05-26: the user only writes monthly+
+horizons, so a "weekly" tab encouraged a workflow they don't actually
+follow.
 
 ### 2.1 Selection ladder
 
 Given today's date `D` and the chain's future expirations sorted
-ascending, fill these three slots:
+ascending:
 
-1. **Weekly** — the soonest future expiration (any weekday, any
-   day-of-month).
-2. **Monthly** — the soonest future 3rd-week expiration (day-of-month
-   in `[15, 21]`, with weekday as a tiebreaker per §2.3) that is
-   **strictly later** than the weekly slot. When the next 3rd-week
-   date equals the weekly slot, the monthly slot cascades to the
-   next 3rd-week after that — so a chain with no real weeklies
-   (only monthly-cycle dates listed) still yields two distinct
-   slots.
-3. **Yearly** — the soonest future *January* 3rd-week expiration
-   strictly later than the monthly slot. Same cascade rule applies
-   when the next monthly slot IS the next January date.
+1. **Monthlies** — for each future 3rd-week expiration (day-of-month
+   in `[15, 21]`, weekday as a tiebreaker per §2.3), emit one entry
+   per calendar month up to (exclusive of) the yearly slot. Prefer
+   the Friday entry when multiple day-15-21 dates exist in the same
+   month; fall back to the latest such day otherwise. All emit
+   `selectionReason: "monthly"`.
+2. **Yearly** — the soonest future *January* 3rd-week expiration.
+   When the soonest Jan candidate is within 60 days of today AND a
+   later Jan exists in the chain, the yearly slot cascades forward
+   to that later Jan so "yearly" actually represents a ~1-year
+   horizon (not a near-term contract that just happens to be in
+   January). Emits `selectionReason: "yearly"`.
 
-Each slot is independent: if a chain has no qualifying date for a
-slot, that slot is omitted (the result is `0`, `1`, `2`, or `3`
-entries — never empty placeholders).
+If the chain has no Jan 3rd-week at all, the yearly slot is omitted
+and the result is just the monthlies. If the chain lists only the
+yearly with no intermediate monthlies (rare illiquid case), the
+result is a single yearly entry.
 
 The selector returns a structured result so the UI can label each
-contract honestly: `selectionReason: "weekly" | "monthly" | "yearly"`.
+contract honestly: `selectionReason: "monthly" | "yearly"`.
 
 ### 2.2 Why this shape
 
-- **Weekly slot** matches the wheel-strategy short-dated cadence —
-  the user can roll a cash-secured put weekly while waiting for
-  assignment, capturing premium more times per year than a single
-  monthly contract would.
-- **Monthly slot** is the standard 30-50 DTE options-trading
-  horizon and is where the bulk of OCC liquidity lives. For
-  thinly-traded names whose chain only lists monthly-cycle dates
-  (no real weeklies), the cascade pushes monthly to ~60 DTE and
-  that's accepted.
-- **Yearly slot** is the LEAPS horizon — matches the holding-period
+- **Monthlies** are the user's only writing horizon (monthly+
+  contracts only). The widened set — every 3rd-week from today
+  through yearly — keeps the portfolio screen useful for held
+  options on any month between now and the LEAPS slot, since the
+  per-symbol options JSON now contains the full chain context.
+- **Yearly** is the LEAPS horizon — matches the holding-period
   view of a value investor (the re-rate-to-fair-value thesis often
   takes quarters or years).
 
@@ -315,7 +315,7 @@ type OptionsView = {
   currentPrice: number;           // spot used for all return math
   expirations: Array<{
     expiration: string;
-    selectionReason: "weekly" | "monthly" | "yearly";
+    selectionReason: "monthly" | "yearly";
     coveredCalls: CoveredCall[];  // at most 1; empty when no listed strike clears §3.2
     puts: CashSecuredPut[];       // at most 1; empty when no listed strike clears §3.3
     putsSuppressedReason?: "above-conservative-tail";  // set only when current ≥ p25
@@ -391,9 +391,9 @@ options.md.
 - **Mapping tests:** Yahoo `options()` shape → `ContractQuote`
   contract; reject malformed contracts gracefully.
 - **Live smoke test (manual, not CI):** `npm run options:fetch -- DECK`
-  → eyeball the three slot selections (weekly / monthly / yearly) and
-  the single call + single put per slot against the user's fair-value
-  mid for sanity.
+  → eyeball the monthly slot selections (one per month from today
+  through the yearly) plus the yearly entry, and the single call +
+  single put per slot, against the user's fair-value mid for sanity.
 - **Regression test:** the user's NVO Jan-2027 $40 covered call is a
   known fixture — given the chain on a known date, our model should
   flag it as the "conservative" strike and produce return numbers
@@ -419,6 +419,9 @@ options.md.
 - **Put-strike anchor** (resolved 2026-04-27 → §3.1/§3.3). Both
   call and put now anchor to `p25` (not mirrored tails); puts pick
   the OTM strike closest to current under bid/IV/premium floors.
-- **Multiple expirations in the UI** (resolved 2026-05-11). The
-  Plan screen exposes three independent tabs — weekly / monthly /
-  yearly — so no single screen renders all expirations at once.
+- **Multiple expirations in the UI** (resolved 2026-05-11, refined
+  2026-05-26). The Plan screen exposes two tabs — Monthly + Yearly
+  — and the per-symbol options JSON additionally contains every
+  monthly 3rd-week between today and yearly for the portfolio's
+  bid/ask lookup. The weekly tab was removed because the user only
+  writes monthly+ horizons.

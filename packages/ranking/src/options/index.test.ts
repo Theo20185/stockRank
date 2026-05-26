@@ -513,3 +513,58 @@ describe("buildOptionsView", () => {
     expect(view.expirations[0]?.puts[0]?.contract.strike).toBe(95);
   });
 });
+
+describe("buildExpirationView — chain inclusion (portfolio bid/ask lookup)", () => {
+  it("attaches the FULL provider chain (every strike) for portfolio lookup", () => {
+    // The portfolio screen needs to look up bid/ask for arbitrary user-
+    // held contracts whose strike may not match the engine's pick. The
+    // view's `chain` field must mirror the provider's raw response.
+    const fairValue = fv(120, 150, 180, 100);
+    const calls = [contract("C", 100, 12), contract("C", 120, 5), contract("C", 150, 1)];
+    const puts = [contract("P", 80, 1), contract("P", 90, 3), contract("P", 95, 5)];
+    const grp = group(calls, puts);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    // Engine emits at most one of each — but the chain has ALL strikes.
+    expect(view.chain.calls.map((c) => c.strike)).toEqual([100, 120, 150]);
+    expect(view.chain.puts.map((p) => p.strike)).toEqual([80, 90, 95]);
+  });
+
+  it("attaches the chain even when puts are suppressed (current ≥ p25)", () => {
+    // Stock above p25 → put workflow suppressed. The chain is still
+    // exposed so the portfolio can find any held put on this expiration.
+    const fairValue = fv(95, 110, 130, 120); // current $120 ≥ p25 $95
+    const calls = [contract("C", 130, 4)];
+    const puts = [contract("P", 110, 1.5), contract("P", 115, 2.5)];
+    const grp = group(calls, puts);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 120,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
+    expect(view.putsSuppressedReason).toBe("above-conservative-tail");
+    expect(view.chain.puts.map((p) => p.strike)).toEqual([110, 115]);
+  });
+
+  it("attaches the chain when fair-value range is null", () => {
+    const fairValue = { ...fv(120, 150, 180, 100), range: null };
+    const grp = group([contract("C", 120, 5)], [contract("P", 95, 4)]);
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: grp,
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.chain.calls).toHaveLength(1);
+    expect(view.chain.puts).toHaveLength(1);
+  });
+});

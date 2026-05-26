@@ -32,23 +32,30 @@ export type CapitalPlanScreenProps = {
 type LoadStatus = "loading" | "ready";
 
 const EXPIRATION_MODES: Array<{ key: SelectionReason; label: string }> = [
-  { key: "weekly", label: "Weekly" },
   { key: "monthly", label: "Monthly" },
   { key: "yearly", label: "Yearly" },
 ];
 
-// Legacy-data tolerance: existing committed options JSONs still use the
-// old LEAPS-era selectionReason values. Until the next ingest re-fetch
-// rewrites them with weekly/monthly/yearly, accept these as best-effort
-// equivalents so the Plan screen isn't useless on yesterday's snapshot.
+// Legacy-data tolerance: existing committed options JSONs still use
+// older selectionReason values (weekly from the 3-slot cascade, and
+// LEAP-era leap/quarterly/leap-fallback from before that). Until the
+// next refresh rewrites them under the new 2-slot rule, relabel them
+// so the Plan screen isn't useless on a stale snapshot.
+//   weekly        → monthly (the 3-slot soonest contract was usually
+//                            a 3rd-week monthly anyway; this is what
+//                            the new selector would have labeled it)
+//   leap-fallback → monthly
+//   quarterly     → monthly
+//   leap          → yearly
 const LEGACY_REASON_MAP: Record<string, SelectionReason> = {
+  weekly: "monthly",
   leap: "yearly",
   "leap-fallback": "monthly",
   quarterly: "monthly",
 };
 
 function effectiveReason(raw: string): SelectionReason | null {
-  if (raw === "weekly" || raw === "monthly" || raw === "yearly") return raw;
+  if (raw === "monthly" || raw === "yearly") return raw;
   return LEGACY_REASON_MAP[raw] ?? null;
 }
 

@@ -13,9 +13,12 @@ import {
   bucketRationaleFor,
   DEFAULT_WEIGHTS,
   type CategoryWeights,
+  type OptionQuoteLookup,
+  type OptionsView,
 } from "@stockrank/ranking";
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
+import { loadOptionsView } from "./snapshot/options-loader.js";
 import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
 import { loadPortfolio, savePortfolio } from "./snapshot/portfolio-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
@@ -108,6 +111,64 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
     if (initialPortfolio !== undefined) return;
     setPortfolio(loadPortfolio());
   }, [initialPortfolio]);
+
+  // Load per-symbol options JSONs for every option-holding symbol so
+  // the portfolio screen can show live bid/ask + mark-to-market P&L.
+  // Reuses the same on-demand loader the stock-detail panel uses (with
+  // its 30-minute in-memory cache) so repeated mounts don't re-fetch.
+  const [optionQuotesBySymbol, setOptionQuotesBySymbol] = useState<
+    Map<string, OptionsView>
+  >(new Map());
+  useEffect(() => {
+    const symbols = new Set<string>();
+    for (const p of portfolio.positions) {
+      if (p.kind === "option") symbols.add(p.symbol);
+    }
+    if (symbols.size === 0) {
+      setOptionQuotesBySymbol(new Map());
+      return;
+    }
+    let cancelled = false;
+    Promise.all(
+      [...symbols].map(async (sym) => {
+        try {
+          const result = await loadOptionsView(sym);
+          return result.status === "loaded"
+            ? ([sym, result.view] as const)
+            : null;
+        } catch {
+          return null;
+        }
+      }),
+    ).then((entries) => {
+      if (cancelled) return;
+      const next = new Map<string, OptionsView>();
+      for (const e of entries) {
+        if (e) next.set(e[0], e[1]);
+      }
+      setOptionQuotesBySymbol(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [portfolio]);
+
+  // Compose the contract-level bid/ask lookup the evaluator consumes.
+  const optionQuoteLookup: OptionQuoteLookup = useMemo(
+    () => (position) => {
+      const view = optionQuotesBySymbol.get(position.symbol);
+      if (!view) return null;
+      const exp = view.expirations.find(
+        (e) => e.expiration === position.expiration,
+      );
+      if (!exp?.chain) return null;
+      const pool =
+        position.optionType === "call" ? exp.chain.calls : exp.chain.puts;
+      const match = pool.find((c) => c.strike === position.strike);
+      return match ? { bid: match.bid, ask: match.ask } : null;
+    },
+    [optionQuotesBySymbol],
+  );
 
   const ranked = useMemo(() => {
     if (!snapshot) return null;
@@ -215,7 +276,7 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
   }
 
   if (route.name === "portfolio") {
-    const evaluation = evaluatePortfolio(portfolio, ranked);
+    const evaluation = evaluatePortfolio(portfolio, ranked, { optionQuoteLookup });
     const handlePortfolioChange = (next: typeof portfolio) => {
       setPortfolio(next);
       savePortfolio(next);

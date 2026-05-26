@@ -51,9 +51,11 @@ function defaultStorage(): StorageLike | null {
 function migrate(raw: unknown): PlanPrefs {
   if (!raw || typeof raw !== "object") return DEFAULT_PLAN_PREFS;
   const obj = raw as Record<string, unknown>;
-  const mode = obj.mode;
+  // Legacy stored prefs with mode="weekly" (pre-2026-05-26) get migrated
+  // to "monthly" — the weekly slot was removed.
+  const mode = obj.mode === "weekly" ? "monthly" : obj.mode;
   const validMode: SelectionReason =
-    mode === "weekly" || mode === "monthly" || mode === "yearly"
+    mode === "monthly" || mode === "yearly"
       ? mode
       : DEFAULT_PLAN_PREFS.mode;
   const excludedSymbols = Array.isArray(obj.excludedSymbols)

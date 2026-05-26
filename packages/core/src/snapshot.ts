@@ -86,6 +86,15 @@ export type QuoteSnapshot = {
   yearLow: number;
   volume: number;
   averageVolume: number;
+  /**
+   * Best bid / ask at the time the snapshot was fetched (2026-05-26).
+   * Both are nullable — Yahoo's summaryDetail omits them for illiquid
+   * names, and not every provider implementation supplies them. Used
+   * by the portfolio screen to compute per-holding unrealized P&L
+   * without making its own live fetch.
+   */
+  bid: number | null;
+  ask: number | null;
 };
 
 export type TtmMetrics = {

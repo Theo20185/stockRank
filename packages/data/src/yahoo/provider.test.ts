@@ -199,6 +199,44 @@ describe("YahooProvider", () => {
     expect(errors).toHaveLength(0);
   });
 
+  it("maps Yahoo's bid/ask into QuoteSnapshot for the portfolio live G/L lookup", async () => {
+    // The portfolio screen computes (bid − costBasis) per share; needs
+    // bid/ask in the snapshot since it never makes a live fetch itself.
+    const summary = stubSummary() as Record<string, Record<string, unknown>>;
+    summary.summaryDetail!.bid = 65.45;
+    summary.summaryDetail!.ask = 65.55;
+    quoteSummaryMock.mockResolvedValue(summary);
+    getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const snap = await provider.fetchCompany(
+      "INTC",
+      { priceFrom: "2024-08-22", priceTo: "2025-08-22" },
+      () => {},
+    );
+    expect(snap!.quote.bid).toBe(65.45);
+    expect(snap!.quote.ask).toBe(65.55);
+  });
+
+  it("returns null bid/ask when Yahoo's summaryDetail omits them (illiquid name)", async () => {
+    // Some thinly-traded names return summaryDetail without bid/ask
+    // — the snapshot keeps the price field but reports both market
+    // quotes as null so the portfolio UI knows to suppress the G/L.
+    quoteSummaryMock.mockResolvedValue(stubSummary()); // no bid/ask in stub
+    getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const snap = await provider.fetchCompany(
+      "INTC",
+      { priceFrom: "2024-08-22", priceTo: "2025-08-22" },
+      () => {},
+    );
+    expect(snap!.quote.bid).toBeNull();
+    expect(snap!.quote.ask).toBeNull();
+  });
+
   it("preserves EDGAR's newest-first annual ordering", async () => {
     quoteSummaryMock.mockResolvedValue(stubSummary());
     getEdgarFundamentalsMock.mockResolvedValue(stubEdgarPeriods());

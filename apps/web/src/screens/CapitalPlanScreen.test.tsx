@@ -47,8 +47,6 @@ function fakeRow(symbol: string, composite = 70): RankedRow {
 function fakeOptionsView(
   symbol: string,
   options: {
-    weeklyStrike?: number;
-    weeklyBid?: number;
     monthlyStrike?: number;
     monthlyBid?: number;
     yearlyStrike?: number;
@@ -56,11 +54,6 @@ function fakeOptionsView(
   } = {},
 ): OptionsView {
   const expirations: OptionsView["expirations"] = [];
-  if (options.weeklyStrike !== undefined) {
-    expirations.push(
-      makeExpiration("2026-05-15", "weekly", options.weeklyStrike, options.weeklyBid ?? 1),
-    );
-  }
   if (options.monthlyStrike !== undefined) {
     expirations.push(
       makeExpiration("2026-06-19", "monthly", options.monthlyStrike, options.monthlyBid ?? 2),
@@ -73,7 +66,7 @@ function fakeOptionsView(
   }
   return {
     symbol,
-    fetchedAt: "2026-05-11T00:00:00.000Z",
+    fetchedAt: "2026-05-26T00:00:00.000Z",
     currentPrice: 95,
     expirations,
   };
@@ -81,10 +74,23 @@ function fakeOptionsView(
 
 function makeExpiration(
   expiration: string,
-  selectionReason: "weekly" | "monthly" | "yearly",
+  selectionReason: "monthly" | "yearly",
   strike: number,
   bid: number,
 ): OptionsView["expirations"][number] {
+  const putContract = {
+    contractSymbol: `${expiration}P${strike}`,
+    expiration,
+    daysToExpiry: 30,
+    strike,
+    bid,
+    ask: bid + 0.1,
+    lastPrice: bid,
+    volume: 10,
+    openInterest: 100,
+    impliedVolatility: 0.3,
+    inTheMoney: false,
+  };
   return {
     expiration,
     selectionReason,
@@ -94,19 +100,7 @@ function makeExpiration(
         label: "deep-value",
         anchor: "p25",
         anchorPrice: strike,
-        contract: {
-          contractSymbol: `${expiration}P${strike}`,
-          expiration,
-          daysToExpiry: 30,
-          strike,
-          bid,
-          ask: bid + 0.1,
-          lastPrice: bid,
-          volume: 10,
-          openInterest: 100,
-          impliedVolatility: 0.3,
-          inTheMoney: false,
-        },
+        contract: putContract,
         snapWarning: false,
         shortDated: false,
         notAssignedReturnPct: 0.05,
@@ -116,6 +110,7 @@ function makeExpiration(
         inTheMoney: false,
       },
     ],
+    chain: { calls: [], puts: [putContract] },
   };
 }
 
@@ -139,7 +134,8 @@ describe("<CapitalPlanScreen />", () => {
     expect(screen.getByLabelText(/capital available/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/maximum number of candidates/i)).toBeInTheDocument();
     const modes = within(screen.getByRole("navigation", { name: /expiration mode/i }));
-    expect(modes.getByRole("button", { name: /weekly/i })).toBeInTheDocument();
+    // Weekly slot removed 2026-05-26 — user only writes monthly+ horizons.
+    expect(modes.queryByRole("button", { name: /^weekly$/i })).toBeNull();
     expect(modes.getByRole("button", { name: /monthly/i })).toBeInTheDocument();
     expect(modes.getByRole("button", { name: /yearly/i })).toBeInTheDocument();
   });
@@ -200,7 +196,7 @@ describe("<CapitalPlanScreen />", () => {
         {...baseProps}
         rankedRows={[fakeRow("AAA"), fakeRow("BBB")]}
         initialOptions={{
-          AAA: fakeOptionsView("AAA", { weeklyStrike: 50, yearlyStrike: 60 }),
+          AAA: fakeOptionsView("AAA", { yearlyStrike: 60 }),
           BBB: fakeOptionsView("BBB", { monthlyStrike: 40 }),
         }}
       />,
@@ -210,10 +206,10 @@ describe("<CapitalPlanScreen />", () => {
     expect(within(table1).queryByText("AAA")).toBeNull();
     expect(within(table1).getByText("BBB")).toBeInTheDocument();
 
-    // Switch to weekly → only AAA.
+    // Switch to yearly → only AAA.
     await user.click(
       within(screen.getByRole("navigation", { name: /expiration mode/i }))
-        .getByRole("button", { name: /weekly/i }),
+        .getByRole("button", { name: /yearly/i }),
     );
     const table2 = screen.getByRole("table", { name: /capital allocation plan/i });
     expect(within(table2).getByText("AAA")).toBeInTheDocument();

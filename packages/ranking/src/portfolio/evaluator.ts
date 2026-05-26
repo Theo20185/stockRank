@@ -51,12 +51,24 @@ export type StockEvaluation = {
   row: RankedRow | null;
   currentBucket: BucketKey | null;
   currentPrice: number | null;
+  /** Best bid at refresh time from snapshot.quote.bid (null when missing). */
+  currentBid: number | null;
+  /** Best ask at refresh time from snapshot.quote.ask (null when missing). */
+  currentAsk: number | null;
   /** sharesOwned × currentPrice (null when not in snapshot). */
   marketValue: number | null;
   /** marketValue − costBasis (null when not in snapshot). */
   unrealizedPnlDollars: number | null;
   /** unrealizedPnl / costBasis × 100 (null when costBasis is 0). */
   unrealizedPnlPct: number | null;
+  /**
+   * Same as unrealizedPnlDollars but uses snapshot bid instead of
+   * close — the price the user could actually sell at. Null when bid
+   * is missing.
+   */
+  bidPnlDollars: number | null;
+  /** bidPnl as a fraction of costBasis × 100 (null when costBasis is 0). */
+  bidPnlPct: number | null;
   sellSignals: SellSignal[];
 };
 
@@ -82,6 +94,23 @@ export type OptionMilestone = {
 export type OptionEvaluation = {
   kind: "option";
   position: OptionPosition;
+  /**
+   * Current bid on this exact contract (from the per-symbol options
+   * JSON chain) at refresh time. Null when no quote is available.
+   */
+  currentBid: number | null;
+  /**
+   * Current ask on this exact contract. Null when no quote is available.
+   */
+  currentAsk: number | null;
+  /**
+   * Mark-to-market unrealized P&L in signed dollars using the chain
+   * quote:
+   *   - LONG  contracts: (bid × 100 × contracts) − premium
+   *   - SHORT contracts: premium − (ask × 100 × |contracts|)
+   * Null when no chain quote is available.
+   */
+  markToMarketPnlDollars: number | null;
   /** Underlying price from the snapshot (null when not in snapshot). */
   underlyingPrice: number | null;
   /** Days from snapshot date to expiration. Negative when expired. */
@@ -212,6 +241,8 @@ function evaluateStock(
   const row = rowsBySymbol.get(position.symbol) ?? null;
   const currentBucket = bucketBySymbol.get(position.symbol) ?? null;
   const currentPrice = row?.price ?? null;
+  const currentBid = row?.bid ?? null;
+  const currentAsk = row?.ask ?? null;
   const marketValue =
     currentPrice !== null ? currentPrice * position.shares : null;
   const unrealizedPnlDollars =
@@ -219,6 +250,12 @@ function evaluateStock(
   const unrealizedPnlPct =
     unrealizedPnlDollars !== null && position.costBasis > 0
       ? (unrealizedPnlDollars / position.costBasis) * 100
+      : null;
+  const bidPnlDollars =
+    currentBid !== null ? currentBid * position.shares - position.costBasis : null;
+  const bidPnlPct =
+    bidPnlDollars !== null && position.costBasis > 0
+      ? (bidPnlDollars / position.costBasis) * 100
       : null;
 
   const signals: SellSignal[] = [];
@@ -247,9 +284,13 @@ function evaluateStock(
     row,
     currentBucket,
     currentPrice,
+    currentBid,
+    currentAsk,
     marketValue,
     unrealizedPnlDollars,
     unrealizedPnlPct,
+    bidPnlDollars,
+    bidPnlPct,
     sellSignals: signals,
   };
 }
@@ -376,6 +417,7 @@ function evaluateOption(
   snapshot: RankedSnapshot,
   rowsBySymbol: Map<string, RankedRow>,
   stockById: Map<string, StockPosition>,
+  optionQuoteLookup: OptionQuoteLookup | undefined,
 ): OptionEvaluation {
   const underlyingPrice = rowsBySymbol.get(position.symbol)?.price ?? null;
   const daysToExpiration = daysBetween(snapshot.snapshotDate, position.expiration);
@@ -401,9 +443,29 @@ function evaluateOption(
   const isNearExpiration =
     !isExpired && daysToExpiration <= NEAR_EXPIRATION_DAYS;
 
+  // Refresh-time chain quote for this exact contract (when supplied).
+  const quote = optionQuoteLookup?.(position) ?? null;
+  const currentBid = quote?.bid ?? null;
+  const currentAsk = quote?.ask ?? null;
+  // Mark-to-market dollars:
+  //   LONG  contracts > 0: (bid × 100 × contracts) − premium
+  //   SHORT contracts < 0: premium − (ask × 100 × |contracts|)
+  // premium is the absolute dollar amount at entry (per the core type).
+  let markToMarketPnlDollars: number | null = null;
+  if (position.contracts > 0 && currentBid !== null) {
+    markToMarketPnlDollars =
+      currentBid * 100 * position.contracts - position.premium;
+  } else if (position.contracts < 0 && currentAsk !== null) {
+    markToMarketPnlDollars =
+      position.premium - currentAsk * 100 * Math.abs(position.contracts);
+  }
+
   return {
     kind: "option",
     position,
+    currentBid,
+    currentAsk,
+    markToMarketPnlDollars,
     underlyingPrice,
     daysToExpiration,
     isExpired,
@@ -439,9 +501,29 @@ function evaluateCash(
 
 /* ─── Top-level orchestration ──────────────────────────────────── */
 
+/**
+ * Lookup function returning the current bid/ask for a single user-held
+ * option contract. The caller composes this from the per-symbol options
+ * JSON (each ExpirationView has a `chain.calls[]` and `chain.puts[]`
+ * mirror of the provider's response).
+ *
+ * Return null (or a record with null fields) when no quote is
+ * available — the contract evaluation still proceeds with intrinsic-
+ * only math; just the markToMarketPnl falls through to null.
+ */
+export type OptionQuoteLookup = (
+  position: OptionPosition,
+) => { bid: number | null; ask: number | null } | null;
+
+export type EvaluatePortfolioOptions = {
+  /** Per-contract live bid/ask lookup. Wire to the loaded options JSONs. */
+  optionQuoteLookup?: OptionQuoteLookup;
+};
+
 export function evaluatePortfolio(
   portfolio: Portfolio,
   snapshot: RankedSnapshot,
+  options: EvaluatePortfolioOptions = {},
 ): PortfolioEvaluation {
   const allRows: RankedRow[] = [...snapshot.rows, ...snapshot.ineligibleRows];
   const rowsBySymbol = new Map(allRows.map((r) => [r.symbol, r]));
@@ -475,7 +557,7 @@ export function evaluatePortfolio(
       return evaluateStock(p, snapshot, bucketBySymbol, rowsBySymbol, universeMedian);
     }
     if (isOptionPosition(p)) {
-      return evaluateOption(p, snapshot, rowsBySymbol, stockById);
+      return evaluateOption(p, snapshot, rowsBySymbol, stockById, options.optionQuoteLookup);
     }
     if (isCashPosition(p)) {
       return evaluateCash(p, snapshot);

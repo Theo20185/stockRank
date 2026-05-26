@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import type { CategoryKey, CategoryScores, RankedRow, RankedSnapshot } from "../types.js";
 import type { FairValue } from "../fair-value/types.js";
 import { bucketRationaleFor } from "./bucket-rationale.js";
+import { rank } from "../ranking.js";
+import { makeCompany, makeTtm } from "../test-helpers.js";
 
 function fv(opts: {
   current?: number;
@@ -47,9 +49,11 @@ function row(opts: {
   /** Categories to null out. */
   missingCategories?: CategoryKey[];
 } = {}): RankedRow {
+  // Production-scale defaults: categoryScores are percentile means on a
+  // 0-100 scale (see percentile.ts + computeCategoryScores). 50 = neutral.
   const baseScores: CategoryScores = {
-    valuation: 0.5, health: 0.5, quality: 0.5,
-    shareholderReturn: 0.5, growth: 0.5, momentum: 0,
+    valuation: 50, health: 50, quality: 50,
+    shareholderReturn: 50, growth: 50, momentum: 0,
     ...opts.categoryScores,
   };
   for (const cat of opts.missingCategories ?? []) {
@@ -196,14 +200,14 @@ describe("bucketRationaleFor — primary reason", () => {
 });
 
 describe("bucketRationaleFor — strengths and weaknesses", () => {
-  it("surfaces top-scoring categories as strengths (≥ 0.65)", () => {
+  it("surfaces top-scoring categories as strengths (≥ 65)", () => {
     const r = row({
       categoryScores: {
-        valuation: 0.85, // strength
-        quality: 0.72,   // strength
-        health: 0.40,    // not strong, not weak
-        shareholderReturn: 0.40,
-        growth: 0.40,
+        valuation: 85, // strength
+        quality: 72,   // strength
+        health: 40,    // not strong, not weak
+        shareholderReturn: 40,
+        growth: 40,
       },
     });
     const result = bucketRationaleFor(r, snapshot([r]));
@@ -212,14 +216,14 @@ describe("bucketRationaleFor — strengths and weaknesses", () => {
     expect(result.strengths.some((s) => s.includes("Financial health"))).toBe(false);
   });
 
-  it("surfaces bottom-scoring categories as weaknesses (≤ 0.35)", () => {
+  it("surfaces bottom-scoring categories as weaknesses (≤ 35)", () => {
     const r = row({
       categoryScores: {
-        valuation: 0.50,
-        quality: 0.50,
-        health: 0.20, // weakness
-        shareholderReturn: 0.10, // weakness
-        growth: 0.50,
+        valuation: 50,
+        quality: 50,
+        health: 20, // weakness
+        shareholderReturn: 10, // weakness
+        growth: 50,
       },
     });
     const result = bucketRationaleFor(r, snapshot([r]));
@@ -230,8 +234,8 @@ describe("bucketRationaleFor — strengths and weaknesses", () => {
   it("caps strengths and weaknesses at 3 entries each", () => {
     const r = row({
       categoryScores: {
-        valuation: 0.90, quality: 0.88, health: 0.85,
-        shareholderReturn: 0.80, growth: 0.75,
+        valuation: 90, quality: 88, health: 85,
+        shareholderReturn: 80, growth: 75,
       },
     });
     const result = bucketRationaleFor(r, snapshot([r]));
@@ -242,7 +246,7 @@ describe("bucketRationaleFor — strengths and weaknesses", () => {
     const r = row({
       composite: 70,
       fairValue: fv({ current: 80, p25: 100, upsideToP25Pct: 25 }),
-      categoryScores: { valuation: 0.50 }, // no category strengths
+      categoryScores: { valuation: 50 }, // no category strengths
     });
     const result = bucketRationaleFor(r, snapshot([r]));
     expect(
@@ -256,7 +260,7 @@ describe("bucketRationaleFor — strengths and weaknesses", () => {
     const r = row({
       composite: 60,
       negativeEquity: true,
-      categoryScores: { valuation: 0.20 }, // bottom-quartile valuation
+      categoryScores: { valuation: 20 }, // bottom-quartile valuation
     });
     const result = bucketRationaleFor(r, snapshot([r]));
     // Headline is "negative-equity"; the weakness list still surfaces it
@@ -279,5 +283,154 @@ describe("bucketRationaleFor — strengths and weaknesses", () => {
     expect(
       result.weaknesses.some((w) => w.startsWith("Missing data for")),
     ).toBe(true);
+  });
+});
+
+/**
+ * Scale-correctness regression tests (added 2026-05-26). Production
+ * `categoryScores` come from `percentRank` which returns 0-100, not
+ * 0-1. The earlier tests in this file used a 0-1 mock convention
+ * inherited from the original (incorrect) spec comment — they passed
+ * even though production data was 100× larger, because both the
+ * thresholds and the formatter assumed the wrong scale.
+ *
+ * These tests pin the correct user-visible behavior: a row whose
+ * valuation percentile is 78 must render "Valuation score 78/100",
+ * NOT "7800/100".
+ */
+describe("bucketRationaleFor — score scale (0-100, not 0-1)", () => {
+  it("renders a 78th-percentile category as '78/100' (not '7800/100')", () => {
+    const r = row({
+      categoryScores: {
+        valuation: 78, // 78th percentile on the production 0-100 scale
+        health: 50,
+        quality: 50,
+        shareholderReturn: 50,
+        growth: 50,
+      },
+    });
+    const result = bucketRationaleFor(r, snapshot([r, ...fillerRows()]));
+    const valuationStrength = result.strengths.find((s) =>
+      s.includes("Valuation"),
+    );
+    expect(valuationStrength).toBeDefined();
+    expect(valuationStrength).toContain("78/100");
+    expect(valuationStrength).not.toMatch(/\d{4,}\/100/);
+  });
+
+  it("treats a 70th-percentile score as a strength (above threshold)", () => {
+    const r = row({
+      categoryScores: {
+        valuation: 70, // strength on 0-100 scale (threshold = 65)
+        quality: 50,
+        health: 50,
+        shareholderReturn: 50,
+        growth: 50,
+      },
+    });
+    const result = bucketRationaleFor(r, snapshot([r, ...fillerRows()]));
+    expect(result.strengths.some((s) => s.includes("Valuation"))).toBe(true);
+  });
+
+  it("treats a 60th-percentile score as NOT a strength (below threshold)", () => {
+    const r = row({
+      categoryScores: {
+        valuation: 60, // below 65 threshold on 0-100 scale
+        quality: 50,
+        health: 50,
+        shareholderReturn: 50,
+        growth: 50,
+      },
+    });
+    const result = bucketRationaleFor(r, snapshot([r, ...fillerRows()]));
+    expect(result.strengths.some((s) => s.includes("Valuation"))).toBe(false);
+  });
+
+  it("treats a 25th-percentile score as a weakness (below threshold)", () => {
+    const r = row({
+      categoryScores: {
+        valuation: 50,
+        quality: 50,
+        health: 25, // weakness on 0-100 scale (threshold = 35)
+        shareholderReturn: 50,
+        growth: 50,
+      },
+    });
+    const result = bucketRationaleFor(r, snapshot([r, ...fillerRows()]));
+    expect(result.weaknesses.some((s) => s.includes("Financial health"))).toBe(
+      true,
+    );
+  });
+
+  it("treats a 40th-percentile score as NOT a weakness (above threshold)", () => {
+    const r = row({
+      categoryScores: {
+        valuation: 50,
+        quality: 50,
+        health: 40, // above 35 threshold on 0-100 scale
+        shareholderReturn: 50,
+        growth: 50,
+      },
+    });
+    const result = bucketRationaleFor(r, snapshot([r, ...fillerRows()]));
+    expect(result.weaknesses.some((s) => s.includes("Financial health"))).toBe(
+      false,
+    );
+  });
+});
+
+/**
+ * End-to-end pipeline integration: production `rank()` → real
+ * `categoryScores` from percentRank → bucketRationaleFor → output text.
+ *
+ * Why this layer matters: every unit test above was written against a
+ * mocked 0-1 score convention that didn't match production. The mocks
+ * passed; the user-visible "Valuation score 7800/100" still shipped.
+ * This integration test would have caught the drift — it runs the
+ * actual scoring pipeline, never invents the score scale.
+ */
+describe("bucketRationaleFor — end-to-end pipeline", () => {
+  it("never renders a strength/weakness with 4+ digits before /100", () => {
+    // 20-company universe of identical-shape companies — produces a real
+    // percentile distribution from `rank()`.
+    const companies = Array.from({ length: 20 }, (_, i) =>
+      makeCompany({
+        symbol: `S${i.toString().padStart(2, "0")}`,
+        industry: "Industrial Conglomerates",
+        sector: "Industrials",
+        ttm: makeTtm({
+          evToEbitda: 5 + i * 0.5,
+          peRatio: 10 + i * 0.5,
+          priceToFcf: 12 + i * 0.5,
+          roic: 0.10 + i * 0.005,
+        }),
+      }),
+    );
+    const ranked = rank({ companies, snapshotDate: "2026-05-26" });
+    const snap: RankedSnapshot = {
+      snapshotDate: "2026-05-26",
+      weights: ranked.weights,
+      universeSize: ranked.universeSize,
+      excludedCount: ranked.excludedCount,
+      rows: ranked.rows,
+      ineligibleRows: ranked.ineligibleRows,
+    };
+    // At least one row must produce a strength or weakness so the
+    // assertion has something to chew on.
+    let sawAnyBullet = false;
+    for (const r of ranked.rows) {
+      const result = bucketRationaleFor(r, snap);
+      for (const bullet of [...result.strengths, ...result.weaknesses]) {
+        sawAnyBullet = true;
+        // Bullets that mention category scores have the form
+        // "<Category> score <N>/100". A value with 4+ digits before
+        // /100 is the symptom of the percentile-doubly-scaled bug.
+        expect(
+          bullet,
+          `score-formatted bullet contained an over-scaled value: ${bullet}`,
+        ).not.toMatch(/\b\d{4,}\/100\b/);
+      }
+    }
+    expect(sawAnyBullet).toBe(true);
   });
 });

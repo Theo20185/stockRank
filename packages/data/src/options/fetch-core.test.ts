@@ -86,7 +86,12 @@ describe("fetchSymbolOptions", () => {
     expect(result.status).toBe("ok");
     if (result.status === "ok") {
       expect(result.view.symbol).toBe("TEST");
-      expect(result.view.expirations).toHaveLength(2);
+      // Fixture chain has Jan 15 2027 + Jan 21 2028 — the soonest Jan
+      // is 270 days out (well past the 60-day cascade threshold), so
+      // yearly = Jan 15 2027 and Jan 21 2028 is past it (dropped).
+      // Only one expiration is selected for this fixture.
+      expect(result.view.expirations).toHaveLength(1);
+      expect(result.view.expirations[0]!.selectionReason).toBe("yearly");
       expect(result.callCount).toBeGreaterThan(0);
       expect(result.putCount).toBeGreaterThan(0);
     }

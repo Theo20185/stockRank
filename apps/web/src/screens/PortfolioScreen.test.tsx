@@ -89,6 +89,48 @@ describe("<PortfolioScreen />", () => {
     expect(screen.getByRole("button", { name: "AAPL" })).toBeInTheDocument();
   });
 
+  it("renders bid-based unrealized P&L on the stock row when snapshot has bid/ask", () => {
+    // 100 shares of AAPL at $150 cost basis. Snapshot shows price=$160,
+    // bid=$159.50 → bid-P&L = (159.50 - 150) × 100 = $950.
+    const snap: RankedSnapshot = {
+      ...EMPTY_SNAPSHOT,
+      universeSize: 1,
+      rows: [
+        {
+          symbol: "AAPL", name: "Apple", sector: "Tech", industry: "Consumer Electronics",
+          marketCap: 3e12, price: 160, bid: 159.5, ask: 160.1,
+          composite: 80, industryRank: 1, universeRank: 1,
+          pctOffYearHigh: 5, pctAboveYearLow: 50,
+          categoryScores: { valuation: 60, health: 60, quality: 60, shareholderReturn: 60, growth: 60, momentum: 60 },
+          factorDetails: [], missingFactors: [],
+          fairValue: null,
+          negativeEquity: false, optionsLiquid: true,
+          annualDividend: 0, fvTrend: "insufficient_data",
+        } as RankedSnapshot["rows"][number],
+      ],
+    };
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-26T00:00:00Z",
+      positions: [{
+        kind: "stock", id: "s1", entryDate: "2025-01-01",
+        symbol: "AAPL", shares: 100, costBasis: 15000,
+      }],
+    };
+    render(
+      <PortfolioScreen
+        portfolio={portfolio}
+        evaluation={evaluatePortfolio(portfolio, snap)}
+        onSelectStock={vi.fn()}
+        onSelectTab={vi.fn()}
+        onPortfolioChange={vi.fn()}
+      />,
+    );
+    const stocksSection = screen.getByRole("region", { name: /stock positions/i });
+    // Bid value $159.50 and bid-P&L $950 (or "$950.00") must appear.
+    expect(stocksSection).toHaveTextContent(/\$159\.50/);
+    expect(stocksSection).toHaveTextContent(/\$950/);
+  });
+
   it("renders an option section + milestone scenarios when an option exists", () => {
     const props = buildProps({
       updatedAt: "2026-04-26T00:00:00Z",

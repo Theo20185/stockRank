@@ -132,7 +132,7 @@ function buildSnap(
   return {
     symbol, name, sector: "Technology", industry, exchange: "NYSE",
     marketCap, currency: "USD", quoteCurrency: "USD",
-    quote: { price, yearHigh: price, yearLow: price, volume: 0, averageVolume: 0 },
+    quote: { price, yearHigh: price, yearLow: price, volume: 0, averageVolume: 0, bid: null, ask: null },
     ttm: {
       peRatio, evToEbitda, priceToFcf, priceToBook,
       dividendYield: null, currentRatio: null, netDebtToEbitda: null,

@@ -88,12 +88,16 @@ function fakeRow(symbol: string, composite = 70): RankedRow {
 }
 
 function countByReason(files: LoadedFile[]): Record<SelectionReason, number> {
-  const counts: Record<SelectionReason, number> = { weekly: 0, monthly: 0, yearly: 0 };
+  const counts: Record<SelectionReason, number> = { monthly: 0, yearly: 0 };
   for (const f of files) {
     for (const exp of f.view.expirations) {
-      if (exp.selectionReason === "weekly") counts.weekly += 1;
-      else if (exp.selectionReason === "monthly") counts.monthly += 1;
-      else if (exp.selectionReason === "yearly") counts.yearly += 1;
+      // Legacy committed JSONs from the prior 3-slot cascade may still
+      // contain `selectionReason: "weekly"` — treat as monthly for
+      // counting purposes (the new selector would have labeled them
+      // monthly).
+      const raw = exp.selectionReason as string;
+      if (raw === "monthly" || raw === "weekly") counts.monthly += 1;
+      else if (raw === "yearly") counts.yearly += 1;
     }
   }
   return counts;
@@ -106,46 +110,50 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     expect(files.length).toBeGreaterThan(0);
   });
 
-  it("every committed file declares at least one weekly expiration", () => {
-    // The weekly slot is the soonest expiration — always populated when
-    // the chain has any future date. Regression sentinel: if the
-    // ingest ever drops weekly entirely, this catches it.
+  it("every committed file declares at least one monthly OR yearly expiration", () => {
+    // Regression sentinel: if the ingest ever produces empty
+    // expiration lists, this catches it. (Pre-2026-05-26 this test
+    // asserted at least one "weekly" — that slot was removed.)
     for (const { symbol, view } of files) {
-      const hasWeekly = view.expirations.some(
-        (e) => e.selectionReason === "weekly",
+      const hasMonthly = view.expirations.some(
+        (e) =>
+          e.selectionReason === "monthly" ||
+          // Tolerate legacy "weekly" entries from committed JSONs
+          // written before the 2-slot refresh re-ran.
+          (e.selectionReason as string) === "weekly",
       );
-      expect(hasWeekly, `${symbol} has no weekly expiration`).toBe(true);
+      const hasYearly = view.expirations.some(
+        (e) => e.selectionReason === "yearly",
+      );
+      expect(
+        hasMonthly || hasYearly,
+        `${symbol} has no monthly or yearly expiration`,
+      ).toBe(true);
     }
   });
 
   it("the bundle contains at least one expiration per mode the UI exposes", () => {
-    // Production-bug sentinel. Before the cascade fix, this assertion
-    // failed for "monthly" — every committed file had only weekly +
-    // yearly because the dedupe-drop rule killed monthly when the
-    // soonest expiration was itself a 3rd-Friday. After the cascade
-    // fix + re-ingest, all three modes are populated and the Plan
-    // screen renders a usable table on any default selection.
+    // Sentinel: each of the two UI tabs (Monthly, Yearly) must have
+    // at least one symbol with data to render. Catches the case where
+    // every chain is too sparse to populate one mode.
     const counts = countByReason(files);
-    expect(counts.weekly, "no committed file has a weekly slot").toBeGreaterThan(0);
     expect(counts.monthly, "no committed file has a monthly slot").toBeGreaterThan(0);
     expect(counts.yearly, "no committed file has a yearly slot").toBeGreaterThan(0);
   });
 
-  it("monthly slot lands strictly between weekly and yearly when all three are present", () => {
-    // Whatever the chain offers, the monthly slot must sit BETWEEN
-    // weekly and yearly. Catches obvious selector breakage (monthly
-    // landing past yearly, or monthly == weekly). Doesn't try to
-    // assert "monthly within 30-50 DTE" universally because some
-    // symbols' chains literally don't list every month — that's a
-    // data sparsity issue, not a selector bug.
+  it("monthly entries precede yearly within each symbol's expirations", () => {
+    // Whatever the chain offers, monthly dates must come before the
+    // yearly slot. Catches selector breakage where a monthly lands
+    // past yearly.
     const offenders: string[] = [];
     for (const { symbol, view } of files) {
-      const weekly = view.expirations.find((e) => e.selectionReason === "weekly");
-      const monthly = view.expirations.find((e) => e.selectionReason === "monthly");
       const yearly = view.expirations.find((e) => e.selectionReason === "yearly");
-      if (!weekly || !monthly || !yearly) continue;
-      if (weekly.expiration >= monthly.expiration) offenders.push(`${symbol}: weekly>=monthly`);
-      if (monthly.expiration >= yearly.expiration) offenders.push(`${symbol}: monthly>=yearly`);
+      if (!yearly) continue;
+      for (const exp of view.expirations) {
+        if (exp.selectionReason === "monthly" && exp.expiration >= yearly.expiration) {
+          offenders.push(`${symbol}: monthly ${exp.expiration} >= yearly ${yearly.expiration}`);
+        }
+      }
     }
     expect(offenders).toEqual([]);
   });
@@ -246,7 +254,7 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     const onSelectStock = vi.fn();
     const user = userEvent.setup();
 
-    const modes: SelectionReason[] = ["weekly", "monthly", "yearly"];
+    const modes: SelectionReason[] = ["monthly", "yearly"];
     for (const mode of modes) {
       const fixture: Record<string, OptionsView> = {};
       const rankedRows: RankedRow[] = [];

@@ -37,6 +37,8 @@ export function makeTestSnapshot(): Snapshot {
       yearLow: 80,
       volume: 0,
       averageVolume: 1_000_000,
+      bid: null,
+      ask: null,
     },
     // ttm fields kept self-consistent with annual values so deriveTtm
     // returns the same numbers regardless of which derivation path

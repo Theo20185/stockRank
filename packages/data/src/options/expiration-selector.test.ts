@@ -23,150 +23,112 @@ describe("isMonthlyThirdFriday (day-15-to-21 window — weekday is a tiebreaker,
   });
 });
 
-describe("selectExpirations", () => {
-  const today = "2026-04-20";
+// 2026-05-26 redesign: selector returns ALL monthly 3rd-week expirations
+// from today through the yearly (Jan) slot. No more "weekly" slot — the
+// user no longer wants to write weekly options. UI tabs are monthly +
+// yearly only; the portfolio reads bid/ask for any held contract by
+// looking up its expiration in the widened set.
+describe("selectExpirations — monthlies + yearly only (no weekly)", () => {
+  const today = "2026-05-26";
 
-  it("returns weekly + monthly + yearly when all three are distinct", () => {
+  it("returns every monthly 3rd-week between today and the yearly slot, plus yearly", () => {
     const result = selectExpirations(today, [
-      "2026-04-24",       // soonest weekly (Apr 24 Fri)
-      "2026-05-15",       // next monthly (May 3rd Fri)
-      "2026-06-19",
-      "2027-01-15",       // next Jan yearly
-      "2028-01-21",
+      "2026-06-19", "2026-07-17", "2026-08-21", "2026-09-18",
+      "2026-10-16", "2026-11-20", "2026-12-18", "2027-01-15",
+      "2027-02-19", // beyond yearly — should NOT appear
     ]);
     expect(result).toEqual([
-      { expiration: "2026-04-24", selectionReason: "weekly" },
-      { expiration: "2026-05-15", selectionReason: "monthly" },
+      { expiration: "2026-06-19", selectionReason: "monthly" },
+      { expiration: "2026-07-17", selectionReason: "monthly" },
+      { expiration: "2026-08-21", selectionReason: "monthly" },
+      { expiration: "2026-09-18", selectionReason: "monthly" },
+      { expiration: "2026-10-16", selectionReason: "monthly" },
+      { expiration: "2026-11-20", selectionReason: "monthly" },
+      { expiration: "2026-12-18", selectionReason: "monthly" },
       { expiration: "2027-01-15", selectionReason: "yearly" },
     ]);
   });
 
-  it("cascades monthly to the next third-Friday when weekly equals the next monthly", () => {
-    // No earlier weekly listed; 2026-05-15 is the very first future
-    // expiration AND it's a monthly third-Friday. The monthly slot rolls
-    // forward to the next third-Friday Friday (Jun 19) so the user
-    // always gets three distinct expirations when the chain has them.
+  it("never emits a 'weekly' selectionReason (the slot was removed)", () => {
     const result = selectExpirations(today, [
-      "2026-05-15",
-      "2026-06-19",
+      "2026-05-29",       // a true weekly — must NOT be selected at all
+      "2026-06-05",
+      "2026-06-19",       // first 3rd-week monthly
+      "2026-07-17",
       "2027-01-15",
     ]);
-    expect(result).toEqual([
-      { expiration: "2026-05-15", selectionReason: "weekly" },
-      { expiration: "2026-06-19", selectionReason: "monthly" },
-      { expiration: "2027-01-15", selectionReason: "yearly" },
+    for (const r of result) {
+      expect(r.selectionReason).not.toBe("weekly");
+    }
+    // True weeklies are skipped entirely; only 3rd-week dates appear.
+    expect(result.map((r) => r.expiration)).toEqual([
+      "2026-06-19", "2026-07-17", "2027-01-15",
     ]);
   });
 
-  it("reproduces the 2026-05-11 production bug (Monday before May 3rd-Fri)", () => {
-    // Today 2026-05-11 (Monday). Next 3rd-Fri = 2026-05-15. Without the
-    // cascade, monthly was deduped and the Plan screen defaulted to a mode
-    // with zero candidates. The cascade rolls monthly forward to Jun 19.
-    const result = selectExpirations("2026-05-11", [
-      "2026-05-15", "2026-05-22", "2026-06-19", "2026-07-17", "2027-01-15",
+  it("EIX-class regression: soonest Thursday 3rd-week IS the monthly slot (not weekly)", () => {
+    // EIX's June expiration is 2026-06-18 (Thursday, day 18). With the
+    // old cascade, this was wrongly placed in 'weekly' and the monthly
+    // slot pushed forward to 2026-07-17 (60 DTE). New behavior: it's
+    // the monthly directly.
+    const result = selectExpirations("2026-05-26", [
+      "2026-06-18", "2026-07-17", "2027-01-15",
     ]);
-    expect(result).toEqual([
-      { expiration: "2026-05-15", selectionReason: "weekly" },
-      { expiration: "2026-06-19", selectionReason: "monthly" },
-      { expiration: "2027-01-15", selectionReason: "yearly" },
-    ]);
+    expect(result[0]).toEqual({
+      expiration: "2026-06-18",
+      selectionReason: "monthly",
+    });
+    expect(result.find((r) => r.selectionReason === "yearly")).toEqual({
+      expiration: "2027-01-15",
+      selectionReason: "yearly",
+    });
   });
 
-  it("accepts a Thursday day-18 expiration as monthly when no Friday is listed for that month", () => {
-    // The 2026-05-11 EIX case: Yahoo's chain for EIX returned May 15 (Fri),
-    // June 18 (THURSDAY — Yahoo's OCC symbol literally reads "EIX260618"),
-    // July 17 (Fri). The previous strict-Friday rule skipped Jun 18 and
-    // picked July 17 (67 DTE). The user expected June 18 (38 DTE) because
-    // it's the symbol's actual next month-end contract.
-    const result = selectExpirations("2026-05-11", [
-      "2026-05-15",      // weekly (3rd-Fri Fri)
-      "2026-06-18",      // EIX-style June (day 18, Thursday)
-      "2026-07-17",      // July 3rd-Fri Fri
-      "2027-01-15",      // yearly
-    ]);
-    expect(result).toEqual([
-      { expiration: "2026-05-15", selectionReason: "weekly" },
-      { expiration: "2026-06-18", selectionReason: "monthly" },
-      { expiration: "2027-01-15", selectionReason: "yearly" },
-    ]);
-  });
-
-  it("prefers the Friday entry when multiple day-15-21 expirations are listed in the same month", () => {
-    // SPY-style chain with weeklies. Several day-15-21 entries in June
-    // (Mon, Wed, Fri). The Friday is the standard "monthly" — pick it
-    // regardless of sort order.
-    const result = selectExpirations("2026-05-11", [
-      "2026-05-15",      // weekly (3rd-Fri Fri)
-      "2026-06-15",      // Mon, day 15
-      "2026-06-17",      // Wed, day 17
-      "2026-06-19",      // Fri, day 19 — the canonical monthly
-      "2026-06-26",      // last Fri of June, day 26 (outside [15,21])
-      "2027-01-15",      // yearly
-    ]);
-    expect(result).toEqual([
-      { expiration: "2026-05-15", selectionReason: "weekly" },
-      { expiration: "2026-06-19", selectionReason: "monthly" },
-      { expiration: "2027-01-15", selectionReason: "yearly" },
-    ]);
-  });
-
-  it("cascades through both monthly and yearly when weekly is a January 3rd-Friday", () => {
-    // Today is two days before the Jan 3rd-Friday. weekly takes that
-    // Jan date. monthly cascades to Feb. yearly cascades to next year.
+  it("cascades yearly to the FOLLOWING January when the soonest 3rd-week IS the next January", () => {
+    // Today is two days before Jan 3rd-Fri 2027. The monthly slot
+    // takes Jan 15 2027 (it IS the next 3rd-week). Yearly cascades
+    // forward to Jan 21 2028.
     const result = selectExpirations("2027-01-13", [
       "2027-01-15", "2027-02-19", "2027-03-19", "2028-01-21",
     ]);
     expect(result).toEqual([
-      { expiration: "2027-01-15", selectionReason: "weekly" },
-      { expiration: "2027-02-19", selectionReason: "monthly" },
-      { expiration: "2028-01-21", selectionReason: "yearly" },
-    ]);
-  });
-
-  it("advances yearly to the following January when next monthly IS next January monthly", () => {
-    // Today is late Dec → the very next monthly is the Jan third-Friday.
-    const result = selectExpirations("2026-12-26", [
-      "2027-01-02",       // weekly
-      "2027-01-15",       // monthly = next Jan
-      "2027-02-19",
-      "2028-01-21",       // yearly must skip ahead to this
-    ]);
-    expect(result).toEqual([
-      { expiration: "2027-01-02", selectionReason: "weekly" },
       { expiration: "2027-01-15", selectionReason: "monthly" },
+      { expiration: "2027-02-19", selectionReason: "monthly" },
+      { expiration: "2027-03-19", selectionReason: "monthly" },
       { expiration: "2028-01-21", selectionReason: "yearly" },
     ]);
   });
 
-  it("collapses weekly+monthly+yearly to a single entry when all three are the same date", () => {
-    // Tortured edge case: today is the Wednesday before the Jan third-Friday
-    // and the chain only has that Jan date. weekly == monthly == yearly.
-    const result = selectExpirations("2027-01-13", ["2027-01-15"]);
+  it("omits the yearly slot when the chain has no January 3rd-week", () => {
+    const result = selectExpirations(today, [
+      "2026-06-19", "2026-07-17", "2026-08-21",
+    ]);
     expect(result).toEqual([
-      { expiration: "2027-01-15", selectionReason: "weekly" },
+      { expiration: "2026-06-19", selectionReason: "monthly" },
+      { expiration: "2026-07-17", selectionReason: "monthly" },
+      { expiration: "2026-08-21", selectionReason: "monthly" },
     ]);
   });
 
-  it("omits the yearly slot when the chain has no January monthly", () => {
-    const result = selectExpirations(today, [
-      "2026-04-24",
-      "2026-05-15",
-      "2026-06-19",
-    ]);
+  it("returns just the yearly entry when no intermediate monthlies are listed", () => {
+    const result = selectExpirations(today, ["2027-01-15"]);
     expect(result).toEqual([
-      { expiration: "2026-04-24", selectionReason: "weekly" },
-      { expiration: "2026-05-15", selectionReason: "monthly" },
+      { expiration: "2027-01-15", selectionReason: "yearly" },
     ]);
   });
 
-  it("omits the monthly slot when the chain has only weeklies", () => {
+  it("prefers the Friday entry when multiple day-15-21 dates exist in the same month", () => {
+    // SPY-style chain — several day-15-21 entries in June (Mon/Wed/Fri).
+    // The Friday is the canonical OCC monthly — pick it.
     const result = selectExpirations(today, [
-      "2026-04-24",
-      "2026-05-01",
-      "2026-05-08",
+      "2026-06-15",       // Mon, day 15
+      "2026-06-17",       // Wed, day 17
+      "2026-06-19",       // Fri, day 19 — canonical
+      "2026-06-26",       // last Fri of June, day 26 (outside [15,21])
+      "2027-01-15",
     ]);
-    expect(result).toEqual([
-      { expiration: "2026-04-24", selectionReason: "weekly" },
+    expect(result.map((r) => r.expiration)).toEqual([
+      "2026-06-19", "2027-01-15",
     ]);
   });
 
@@ -174,35 +136,29 @@ describe("selectExpirations", () => {
     expect(selectExpirations(today, [])).toEqual([]);
   });
 
-  it("ignores expirations in the past", () => {
+  it("ignores past dates", () => {
     const result = selectExpirations(today, [
       "2025-01-17",       // past LEAPS — ignored
-      "2026-04-24",
-      "2026-05-15",
+      "2026-06-19",
       "2027-01-15",
     ]);
-    expect(result.map((e) => e.expiration)).toEqual([
-      "2026-04-24",
-      "2026-05-15",
-      "2027-01-15",
+    expect(result.map((r) => r.expiration)).toEqual([
+      "2026-06-19", "2027-01-15",
     ]);
   });
 
   it("treats today's date itself as in the past (already expired)", () => {
-    const result = selectExpirations(today, [today, "2026-05-15", "2027-01-15"]);
-    expect(result.map((e) => e.expiration)).toEqual(["2026-05-15", "2027-01-15"]);
+    const result = selectExpirations(today, [today, "2026-06-19", "2027-01-15"]);
+    expect(result.map((r) => r.expiration)).toEqual(["2026-06-19", "2027-01-15"]);
   });
 
   it("accepts ISO timestamp inputs (Yahoo's chain format)", () => {
     const result = selectExpirations(today, [
-      "2026-04-24T00:00:00.000Z",
-      "2026-05-15T00:00:00.000Z",
+      "2026-06-19T00:00:00.000Z",
       "2027-01-15T00:00:00.000Z",
     ]);
-    expect(result.map((e) => e.expiration)).toEqual([
-      "2026-04-24",
-      "2026-05-15",
-      "2027-01-15",
+    expect(result.map((r) => r.expiration)).toEqual([
+      "2026-06-19", "2027-01-15",
     ]);
   });
 });

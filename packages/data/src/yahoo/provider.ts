@@ -82,6 +82,8 @@ type YahooQuoteSummary = {
     dividendYield?: number;
     priceToSalesTrailing12Months?: number;
     currency?: string;
+    bid?: number | null;
+    ask?: number | null;
   };
   defaultKeyStatistics?: {
     enterpriseValue?: number | null;
@@ -380,6 +382,8 @@ export class YahooProvider implements MarketDataProvider {
         yearLow,
         volume: 0,
         averageVolume,
+        bid: n(summaryDetail?.bid ?? null),
+        ask: n(summaryDetail?.ask ?? null),
       },
       ttm,
       annual,

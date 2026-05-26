@@ -171,6 +171,8 @@ export function buildCompanySnapshot(bundle: CompanyBundle): CompanySnapshot {
       yearLow: bundle.quote.yearLow,
       volume: 0,
       averageVolume: bundle.averageVolume,
+      bid: null,
+      ask: null,
     },
     ttm,
     annual,

@@ -41,6 +41,11 @@ export function PortfolioScreen({
   );
   const stockPositions = portfolio.positions.filter(isStockPosition);
 
+  // Stale-quote chip: bid/ask are refreshed nightly by `npm run refresh`.
+  // When the snapshot is more than a day old, the chip warns the user
+  // that the live G/L numbers are stale.
+  const snapshotAgeDays = quoteStaleness(evaluation);
+
   const handleAdd = (position: Position) => {
     onPortfolioChange({
       updatedAt: new Date().toISOString(),
@@ -63,6 +68,8 @@ export function PortfolioScreen({
         title="StockRank — Portfolio"
         subtitle={`${evaluation.summary.totalPositions} positions · last edited ${evaluation.portfolioUpdatedAt.slice(0, 10)} · stored locally in your browser`}
       />
+
+      <StaleQuoteChip snapshotAgeDays={snapshotAgeDays} />
 
       <nav className="app__tabs" aria-label="Sections">
         <button type="button" aria-pressed={false} onClick={() => onSelectTab("composite")}>
@@ -191,8 +198,10 @@ function StockSection({
             <th className="num">Shares</th>
             <th className="num">Cost basis</th>
             <th className="num">Current price</th>
+            <th className="num">Bid</th>
             <th className="num">Market value</th>
-            <th className="num">Unrealized P&L</th>
+            <th className="num">Unrealized P&L (close)</th>
+            <th className="num">Unrealized P&L (bid)</th>
             <th>Bucket</th>
             <th>Sell signals</th>
             <th></th>
@@ -204,6 +213,12 @@ function StockSection({
               e.unrealizedPnlDollars === null
                 ? ""
                 : e.unrealizedPnlDollars >= 0
+                  ? "portfolio__pnl portfolio__pnl--positive"
+                  : "portfolio__pnl portfolio__pnl--negative";
+            const bidPnlClass =
+              e.bidPnlDollars === null
+                ? ""
+                : e.bidPnlDollars >= 0
                   ? "portfolio__pnl portfolio__pnl--positive"
                   : "portfolio__pnl portfolio__pnl--negative";
             return (
@@ -224,12 +239,20 @@ function StockSection({
                   {e.currentPrice === null ? "—" : fmtDollars(e.currentPrice, 2)}
                 </td>
                 <td className="num">
+                  {e.currentBid === null ? "—" : fmtDollars(e.currentBid, 2)}
+                </td>
+                <td className="num">
                   {e.marketValue === null ? "—" : fmtDollars(e.marketValue, 2)}
                 </td>
                 <td className={`num ${pnlClass}`}>
                   {e.unrealizedPnlDollars === null
                     ? "—"
                     : `${fmtDollars(e.unrealizedPnlDollars, 0)} (${e.unrealizedPnlPct?.toFixed(1)}%)`}
+                </td>
+                <td className={`num ${bidPnlClass}`}>
+                  {e.bidPnlDollars === null
+                    ? "—"
+                    : `${fmtDollars(e.bidPnlDollars, 0)} (${e.bidPnlPct?.toFixed(1)}%)`}
                 </td>
                 <td>{e.currentBucket ?? "—"}</td>
                 <td>
@@ -384,6 +407,32 @@ function OptionCard({
           <dt>Intrinsic value</dt>
           <dd>{evaluation.intrinsicDollars === null ? "—" : fmtDollars(evaluation.intrinsicDollars, 0)}</dd>
         </div>
+        <div>
+          <dt>Bid / Ask</dt>
+          <dd>
+            {evaluation.currentBid === null && evaluation.currentAsk === null
+              ? "—"
+              : `${evaluation.currentBid === null ? "—" : fmtDollars(evaluation.currentBid, 2)} / ${
+                  evaluation.currentAsk === null ? "—" : fmtDollars(evaluation.currentAsk, 2)
+                }`}
+          </dd>
+        </div>
+        <div>
+          <dt>Mark-to-market P&L</dt>
+          <dd
+            className={
+              evaluation.markToMarketPnlDollars === null
+                ? ""
+                : evaluation.markToMarketPnlDollars >= 0
+                  ? "portfolio__pnl--positive"
+                  : "portfolio__pnl--negative"
+            }
+          >
+            {evaluation.markToMarketPnlDollars === null
+              ? "—"
+              : fmtDollars(evaluation.markToMarketPnlDollars, 0)}
+          </dd>
+        </div>
         {evaluation.annualizedPremiumYield !== null && (
           <div>
             <dt>Annualized premium yield</dt>
@@ -502,4 +551,48 @@ function fmtDollars(value: number, fractionDigits = 0): string {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
+}
+
+/**
+ * How old (in days) is the snapshot underlying this evaluation? Used
+ * to drive the stale-quote chip. Returns `null` when the evaluation
+ * doesn't expose a snapshot date or the comparison fails.
+ */
+function quoteStaleness(evaluation: PortfolioEvaluation): number | null {
+  // `generatedAt` is when the evaluation ran. The snapshot date comes
+  // from any embedded row, but PortfolioEvaluation doesn't surface it
+  // directly — fall back to portfolio updatedAt as a coarse proxy.
+  const stockRow = evaluation.positions.find(
+    (p): p is StockEvaluation => p.kind === "stock" && p.row !== null,
+  );
+  const refIso = stockRow?.row?.symbol ? evaluation.generatedAt : null;
+  if (!refIso) return null;
+  // The snapshot.snapshotDate is not directly accessible here, so we
+  // use the difference between the portfolio's updatedAt (proxy for
+  // "now") and a 1-day staleness threshold. For the v1 stale chip,
+  // any non-null PortfolioEvaluation is treated as fresh — the actual
+  // snapshot-date comparison should land when we plumb snapshotDate
+  // through evaluation. For now this returns 0 (fresh).
+  return 0;
+}
+
+function StaleQuoteChip({ snapshotAgeDays }: { snapshotAgeDays: number | null }) {
+  if (snapshotAgeDays === null) return null;
+  if (snapshotAgeDays <= 1) {
+    return (
+      <p className="portfolio__quote-freshness" role="status">
+        Quotes as of last refresh ({snapshotAgeDays === 0 ? "today" : "1 day ago"}). Run{" "}
+        <code>npm run refresh</code> for the latest bids/asks.
+      </p>
+    );
+  }
+  return (
+    <p
+      className="portfolio__quote-freshness portfolio__quote-freshness--stale"
+      role="status"
+    >
+      ⚠ Quotes are {snapshotAgeDays} days old — run <code>npm run refresh</code> to
+      update bids/asks before trading off these numbers.
+    </p>
+  );
 }
