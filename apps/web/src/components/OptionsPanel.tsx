@@ -230,6 +230,50 @@ type ExpirationSectionProps = {
   symbol: string;
 };
 
+/**
+ * Forward projection of FV anchors + price at the expiration date.
+ * Inline-styled compact summary above the trade comparison table.
+ * Confidence chip color-codes R²: high (≥0.5) / medium (≥0.25) /
+ * weak (<0.25). A second chip surfaces when the ±50% soft cap clipped
+ * the raw regression — informational, not a blocker.
+ */
+function ProjectionRow({ projection }: { projection: NonNullable<ExpirationView["projection"]> }) {
+  const fmt = (v: number) => `$${v.toFixed(2)}`;
+  const slope = (v: number) => `${v >= 0 ? "+" : ""}${v.toFixed(1)}%/yr`;
+  return (
+    <p className="options-exp__projection" role="status" aria-label="Projected at expiry">
+      <strong>At expiry ({projection.daysAhead}d):</strong>{" "}
+      Price {fmt(projection.price)} (
+      <span
+        className={`options-exp__chip options-exp__chip--${projection.priceConfidence}`}
+        title={`Price R² = ${projection.priceRSquared.toFixed(2)}`}
+      >
+        {projection.priceConfidence}
+      </span>
+      , {slope(projection.priceSlopePctPerYear)}
+      {projection.priceCapped && (
+        <span className="options-exp__chip options-exp__chip--capped" title="Projection capped at ±50% of last observed value">
+          capped
+        </span>
+      )}
+      ) · FV {fmt(projection.fvP25)}–{fmt(projection.fvP75)} (
+      <span
+        className={`options-exp__chip options-exp__chip--${projection.fvConfidence}`}
+        title={`FV R² = ${projection.fvRSquared.toFixed(2)}`}
+      >
+        {projection.fvConfidence}
+      </span>
+      , {slope(projection.fvSlopePctPerYear)}
+      {projection.fvCapped && (
+        <span className="options-exp__chip options-exp__chip--capped" title="Projection capped at ±50% of last observed value">
+          capped
+        </span>
+      )}
+      )
+    </p>
+  );
+}
+
 function ExpirationSection({
   expiration,
   currentPrice,
@@ -247,6 +291,10 @@ function ExpirationSection({
           {selectionReasonLabel(expiration.selectionReason)}
         </span>
       </h4>
+
+      {expiration.projection && (
+        <ProjectionRow projection={expiration.projection} />
+      )}
 
       {expiration.putsSuppressedReason === "above-conservative-tail" && (
         <p className="options-panel__suppressed">

@@ -248,6 +248,87 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
     );
   });
 
+  it("renders projected FV / price + confidence chip when projection is supplied", async () => {
+    const view = fakeView();
+    view.expirations[0]!.projection = {
+      daysAhead: 270,
+      fvP25: 105,
+      fvMedian: 120,
+      fvP75: 135,
+      price: 102,
+      fvSlopePctPerYear: 8.5,
+      priceSlopePctPerYear: 4.2,
+      fvRSquared: 0.62,
+      priceRSquared: 0.31,
+      fvConfidence: "high",
+      priceConfidence: "medium",
+      fvCapped: false,
+      priceCapped: false,
+    };
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view })}
+      />,
+    );
+    await screen.findByRole("table", { name: /trade comparison/i });
+    const projectionLine = screen.getByRole("status", {
+      name: /projected at expiry/i,
+    });
+    expect(projectionLine).toHaveTextContent(/At expiry \(270d\)/);
+    expect(projectionLine).toHaveTextContent(/\$102\.00/); // projected price
+    expect(projectionLine).toHaveTextContent(/\$105\.00.*\$135\.00/); // FV range
+    expect(projectionLine).toHaveTextContent(/\+4\.2%\/yr/);
+    expect(projectionLine).toHaveTextContent(/\+8\.5%\/yr/);
+    // Confidence chips
+    expect(projectionLine).toHaveTextContent(/medium/);
+    expect(projectionLine).toHaveTextContent(/high/);
+    // No "capped" chip when both are not capped
+    expect(projectionLine).not.toHaveTextContent(/capped/);
+  });
+
+  it("renders a 'capped' chip when the ±50% bound clipped the projection", async () => {
+    const view = fakeView();
+    view.expirations[0]!.projection = {
+      daysAhead: 270,
+      fvP25: 105, fvMedian: 120, fvP75: 135,
+      price: 200,
+      fvSlopePctPerYear: 80, priceSlopePctPerYear: 120,
+      fvRSquared: 0.9, priceRSquared: 0.95,
+      fvConfidence: "high", priceConfidence: "high",
+      fvCapped: false, priceCapped: true,
+    };
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view })}
+      />,
+    );
+    await screen.findByRole("table", { name: /trade comparison/i });
+    const projectionLine = screen.getByRole("status", {
+      name: /projected at expiry/i,
+    });
+    expect(projectionLine).toHaveTextContent(/capped/);
+  });
+
+  it("omits the projection row when projection is null (insufficient samples)", async () => {
+    const view = fakeView();
+    view.expirations[0]!.projection = null;
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view })}
+      />,
+    );
+    await screen.findByRole("table", { name: /trade comparison/i });
+    expect(
+      screen.queryByRole("status", { name: /projected at expiry/i }),
+    ).toBeNull();
+  });
+
   it("re-fetches when the symbol changes", async () => {
     const loader = vi.fn(async (sym: string): Promise<OptionsLoadResult> => ({
       status: "loaded",

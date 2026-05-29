@@ -61,6 +61,44 @@ export type CashSecuredPut = {
  */
 export type SelectionReason = "monthly" | "yearly";
 
+/**
+ * Forward projection of FV anchors + price at the expiration date,
+ * computed at refresh time from the trailing 2 years of quarterly FV
+ * samples (see `FvTrendSample`). Used (a) to re-anchor strike picks
+ * to expectations-at-expiry instead of today, and (b) to surface
+ * "projected FV at expiry" / "projected price at expiry" on the UI.
+ *
+ * Null when the symbol has fewer than 4 valid quarterly samples for
+ * one or more of the required fields.
+ */
+export type ExpirationProjection = {
+  /** Days from today to the expiration. */
+  daysAhead: number;
+  /** Projected FV anchors at expiration. Capped at ±50% of today's
+   *  observed value per `projection.ts`. */
+  fvP25: number;
+  fvMedian: number;
+  fvP75: number;
+  /** Projected underlying spot at expiration. */
+  price: number;
+  /** Slope of fvMedian, in % per year of the last observed value. */
+  fvSlopePctPerYear: number;
+  /** Slope of price, same units. */
+  priceSlopePctPerYear: number;
+  /** R² of the regression that produced fvMedian (proxy for the FV
+   *  confidence — fvP25 / fvP75 share the cohort, so a single R²
+   *  represents the FV side). */
+  fvRSquared: number;
+  /** R² of the regression that produced the price projection. */
+  priceRSquared: number;
+  /** Bucketed (high|medium|weak) version of fvRSquared. */
+  fvConfidence: "high" | "medium" | "weak";
+  priceConfidence: "high" | "medium" | "weak";
+  /** True when the FV projection was clipped to ±50% of last value. */
+  fvCapped: boolean;
+  priceCapped: boolean;
+};
+
 export type ExpirationView = {
   expiration: string;        // YYYY-MM-DD
   selectionReason: SelectionReason;
@@ -80,6 +118,11 @@ export type ExpirationView = {
     calls: ContractQuote[];
     puts: ContractQuote[];
   };
+  /**
+   * Forward-projection of FV / price at the expiration date. Null
+   * when projection couldn't be computed (insufficient samples).
+   */
+  projection: ExpirationProjection | null;
   /**
    * Set when puts are suppressed entirely. "above-conservative-tail"
    * fires when the stock is at or above its fair-value p25 — the

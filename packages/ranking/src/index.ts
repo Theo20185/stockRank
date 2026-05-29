@@ -59,9 +59,19 @@ export type {
   CoveredCall,
   CoveredCallAnchor,
   CoveredCallLabel,
+  ExpirationProjection,
   ExpirationView,
   OptionsView,
 } from "./options/types.js";
+export {
+  projectFromQuarterlySamples,
+} from "./projections/projection.js";
+export type {
+  ProjectionConfidence,
+  ProjectionField,
+  ProjectionInput,
+  ProjectionResult,
+} from "./projections/projection.js";
 export { computeCallReturns, computePutReturns } from "./options/returns.js";
 export { estimateCallPremiumPct } from "./options/premium-estimate.js";
 export { snapStrike } from "./options/strike-snap.js";

@@ -131,6 +131,62 @@ describe("<PortfolioScreen />", () => {
     expect(stocksSection).toHaveTextContent(/\$950/);
   });
 
+  it("renders 'projected price/FV at expiry' on the option card when projection is available", () => {
+    const portfolio: Portfolio = {
+      updatedAt: "2026-05-29T00:00:00Z",
+      positions: [
+        {
+          kind: "option",
+          id: "p1",
+          symbol: "AAPL",
+          optionType: "put",
+          contracts: -1,
+          strike: 150,
+          expiration: "2026-06-19",
+          entryDate: "2026-04-01",
+          premium: 300,
+        },
+      ],
+    };
+    // Quote lookup returns a projection along with bid/ask.
+    const evaluation = evaluatePortfolio(portfolio, EMPTY_SNAPSHOT, {
+      optionQuoteLookup: () => ({
+        bid: 1.5,
+        ask: 1.6,
+        projection: {
+          daysAhead: 21,
+          fvP25: 145,
+          fvMedian: 160,
+          fvP75: 175,
+          price: 155,
+          fvSlopePctPerYear: 6.2,
+          priceSlopePctPerYear: 3.1,
+          fvRSquared: 0.71,
+          priceRSquared: 0.42,
+          fvConfidence: "high",
+          priceConfidence: "medium",
+          fvCapped: false,
+          priceCapped: false,
+        },
+      }),
+    });
+    render(
+      <PortfolioScreen
+        portfolio={portfolio}
+        evaluation={evaluation}
+        onSelectStock={vi.fn()}
+        onSelectTab={vi.fn()}
+        onPortfolioChange={vi.fn()}
+      />,
+    );
+    const section = screen.getByRole("region", { name: /option positions/i });
+    expect(section).toHaveTextContent(/Projected price at expiry/i);
+    expect(section).toHaveTextContent(/\$155\.00/);
+    expect(section).toHaveTextContent(/\$145\.00.*\$175\.00/);
+    expect(section).toHaveTextContent(/medium/);
+    expect(section).toHaveTextContent(/high/);
+  });
+
   it("renders an option section + milestone scenarios when an option exists", () => {
     const props = buildProps({
       updatedAt: "2026-04-26T00:00:00Z",

@@ -65,6 +65,14 @@ export type BuildExpirationViewInput = {
   fairValue: FairValue;
   currentPrice: number;
   annualDividendPerShare: number;
+  /**
+   * Optional forward projection of FV / price at the expiration date.
+   * When supplied, gets attached to the resulting ExpirationView (the
+   * UI surfaces it as "projected FV / price at expiry"). Strike-anchor
+   * re-anchoring is a separate concern — see the call/put strike
+   * sections below.
+   */
+  projection?: import("./types.js").ExpirationProjection | null;
 };
 
 export function buildExpirationView(input: BuildExpirationViewInput): ExpirationView {
@@ -78,12 +86,20 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
       coveredCalls: [],
       puts: [],
       chain: { calls: group.calls, puts: group.puts },
+      projection: input.projection ?? null,
     };
   }
 
   const callStrikes = group.calls.map((c) => c.strike);
   const putStrikes = group.puts.map((p) => p.strike);
-  const anchor = range.p25;
+  // Call strike anchor: use the PROJECTED p25 at expiry when supplied
+  // (so an improving FV picks a higher call strike that captures the
+  // upward drift), else fall back to today's p25. The value-thesis
+  // gate ("would I accept being called away here?") still uses
+  // today's p25 — projection only adjusts the actual strike target.
+  const projectedFvP25 = input.projection?.fvP25;
+  const callAnchor =
+    projectedFvP25 !== undefined && projectedFvP25 > 0 ? projectedFvP25 : range.p25;
 
   // ---- Single covered call: anchored at p25, snapped to ≥ p25 with bid > 0 ----
   //
@@ -92,8 +108,8 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   // honest — covered calls are "if I'd accept being called away at this
   // price for premium", which only makes sense above current.
   const coveredCalls: CoveredCall[] = [];
-  if (anchor > currentPrice) {
-    const snap = snapStrike(callStrikes, anchor, "call");
+  if (range.p25 > currentPrice) {
+    const snap = snapStrike(callStrikes, callAnchor, "call");
     if (snap && snap.strike > currentPrice) {
       const contract = findContract(group.calls, snap.strike);
       if (contract && contract.bid !== null && contract.bid > 0) {
@@ -101,7 +117,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
         coveredCalls.push({
           label: CALL_LABEL,
           anchor: CALL_ANCHOR,
-          anchorPrice: anchor,
+          anchorPrice: callAnchor,
           contract,
           snapWarning: snap.snapWarning,
           shortDated: r.shortDated,
@@ -151,14 +167,24 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
       coveredCalls,
       puts: [],
       chain: { calls: group.calls, puts: group.puts },
+      projection: input.projection ?? null,
       putsSuppressedReason: "above-conservative-tail",
     };
   }
 
   const minStrike = currentPrice * MIN_OTM_STRIKE_FRACTION;
+  // Put target: pick the strike closest to the PROJECTED price at
+  // expiry (when supplied) — bearish projections lower the target,
+  // bullish projections push it up against the OTM floor (which
+  // stays anchored to TODAY's current).
+  const projectedPrice = input.projection?.price;
+  const putTarget =
+    projectedPrice !== undefined && projectedPrice > 0
+      ? projectedPrice
+      : currentPrice;
   let bestStrike: number | null = null;
   for (const strike of putStrikes) {
-    // OTM-only: strike strictly less than current.
+    // OTM-only floor stays on TODAY's current (can't trade ITM at entry).
     if (strike >= currentPrice) continue;
     // Max-OTM cap: strike no more than 25% below current.
     if (strike < minStrike) continue;
@@ -174,21 +200,33 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     }
     // Premium floor: at least $10 per contract.
     if (c.bid * 100 < MIN_PREMIUM_PER_CONTRACT_DOLLARS) continue;
-    if (bestStrike === null || strike > bestStrike) {
+    // Choose the candidate closest to the target. Ties (rare with
+    // discrete strike increments) prefer the HIGHER strike to keep
+    // behavior backwards-compatible with the pre-projection
+    // "highest OTM" rule.
+    if (bestStrike === null) {
       bestStrike = strike;
+    } else {
+      const newDist = Math.abs(strike - putTarget);
+      const oldDist = Math.abs(bestStrike - putTarget);
+      if (newDist < oldDist || (newDist === oldDist && strike > bestStrike)) {
+        bestStrike = strike;
+      }
     }
   }
 
   if (bestStrike !== null) {
     const contract = findContract(group.puts, bestStrike)!;
-    // Snap warning: chosen strike differs from p25 by >5% (informational).
+    // Snap warning: chosen strike differs from today's p25 by >5%
+    // (informational). The threshold uses today's p25 — projection
+    // doesn't change the user's "is this near my anchor?" intuition.
     const offByPct = Math.abs(bestStrike - range.p25) / range.p25;
     const snapWarning = offByPct > 0.05;
     const r = computePutReturns({ contract, currentPrice });
     puts.push({
       label: PUT_LABEL,
       anchor: PUT_ANCHOR,
-      anchorPrice: anchor,
+      anchorPrice: range.p25,
       contract,
       snapWarning,
       shortDated: r.shortDated,
@@ -206,6 +244,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     coveredCalls,
     puts,
     chain: { calls: group.calls, puts: group.puts },
+    projection: input.projection ?? null,
   };
 }
 
@@ -215,7 +254,12 @@ export type BuildOptionsViewInput = {
   currentPrice: number;
   annualDividendPerShare: number;
   fairValue: FairValue;
-  expirations: Array<{ selected: SelectedExpirationMeta; group: ExpirationGroup }>;
+  expirations: Array<{
+    selected: SelectedExpirationMeta;
+    group: ExpirationGroup;
+    /** Optional projection for this expiration. */
+    projection?: import("./types.js").ExpirationProjection | null;
+  }>;
 };
 
 export function buildOptionsView(input: BuildOptionsViewInput): OptionsView {
@@ -230,6 +274,7 @@ export function buildOptionsView(input: BuildOptionsViewInput): OptionsView {
         fairValue: input.fairValue,
         currentPrice: input.currentPrice,
         annualDividendPerShare: input.annualDividendPerShare,
+        projection: e.projection ?? null,
       }),
     ),
   };

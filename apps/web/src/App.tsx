@@ -153,7 +153,10 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
     };
   }, [portfolio]);
 
-  // Compose the contract-level bid/ask lookup the evaluator consumes.
+  // Compose the contract-level bid/ask + projection lookup the
+  // evaluator consumes. Projection comes from the matching
+  // ExpirationView so a held option for July sees July's projected
+  // FV/price, not the snapshot-wide trend.
   const optionQuoteLookup: OptionQuoteLookup = useMemo(
     () => (position) => {
       const view = optionQuotesBySymbol.get(position.symbol);
@@ -165,7 +168,8 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
       const pool =
         position.optionType === "call" ? exp.chain.calls : exp.chain.puts;
       const match = pool.find((c) => c.strike === position.strike);
-      return match ? { bid: match.bid, ask: match.ask } : null;
+      if (!match) return null;
+      return { bid: match.bid, ask: match.ask, projection: exp.projection ?? null };
     },
     [optionQuotesBySymbol],
   );

@@ -441,6 +441,32 @@ function OptionCard({
             </dd>
           </div>
         )}
+        {evaluation.projection !== null && (
+          <>
+            <div>
+              <dt>Projected price at expiry</dt>
+              <dd>
+                {`$${evaluation.projection.price.toFixed(2)} (${evaluation.projection.priceConfidence}, R²=${evaluation.projection.priceRSquared.toFixed(2)})`}
+                {evaluation.projection.priceCapped && (
+                  <span className="portfolio__chip portfolio__chip--capped" title="±50% cap clipped the regression">
+                    {" "}capped
+                  </span>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Projected FV at expiry</dt>
+              <dd>
+                {`$${evaluation.projection.fvP25.toFixed(2)}–$${evaluation.projection.fvP75.toFixed(2)} (${evaluation.projection.fvConfidence}, R²=${evaluation.projection.fvRSquared.toFixed(2)})`}
+                {evaluation.projection.fvCapped && (
+                  <span className="portfolio__chip portfolio__chip--capped" title="±50% cap clipped the regression">
+                    {" "}capped
+                  </span>
+                )}
+              </dd>
+            </div>
+          </>
+        )}
       </dl>
       {evaluation.milestones.length > 0 && (
         <div className="portfolio__milestones">

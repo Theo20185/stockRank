@@ -19,11 +19,13 @@ import { YahooOptionsProvider } from "../yahoo/options-provider.js";
 import {
   bestStaticReturns,
   fetchSymbolOptions,
+  indexFvTrend,
   pruneStaleOptionsFiles,
   writeOptionsSummary,
   writeOptionsView,
 } from "../options/fetch-core.js";
-import type { OptionsBestReturns } from "@stockrank/core";
+import type { FvTrendArtifact, OptionsBestReturns } from "@stockrank/core";
+import { readFile } from "node:fs/promises";
 
 type ProviderName = "yahoo" | "fmp";
 
@@ -190,6 +192,23 @@ async function main(): Promise<void> {
   }
 }
 
+/**
+ * Best-effort load of the existing fv-trend artifact. Returns null
+ * when the file doesn't exist yet (first run, before scripts/
+ * compute-fv-trend.ts has produced an output) or when it's
+ * unparseable. Projection lookup tolerates the null — symbols
+ * without an entry simply get `projection: null` on their views.
+ */
+async function loadFvTrendArtifact(): Promise<FvTrendArtifact | null> {
+  const path = resolve(repoRoot(), "public/data/fv-trend.json");
+  try {
+    const raw = await readFile(path, "utf8");
+    return JSON.parse(raw) as FvTrendArtifact;
+  } catch {
+    return null;
+  }
+}
+
 async function runOptionsFetch(
   snapshot: Awaited<ReturnType<typeof ingest>>,
   outDir: string,
@@ -218,6 +237,13 @@ async function runOptionsFetch(
 
   const provider = new YahooOptionsProvider();
   const today = snapshot.snapshotDate;
+  // Load the existing fv-trend artifact if present — used to project
+  // FV / price forward at each option expiration. The artifact is
+  // refreshed AFTER this step in the orchestrator, so we're reading
+  // yesterday's data here. That's fine: the regression slope is
+  // computed over 2 years of quarterly samples — one day stale
+  // doesn't shift it meaningfully.
+  const fvTrendBySymbol = indexFvTrend(await loadFvTrendArtifact());
   let okCount = 0;
   let skipCount = 0;
   let failCount = 0;
@@ -235,7 +261,12 @@ async function runOptionsFetch(
     try {
       const result = await fetchSymbolOptions(
         provider,
-        { symbol: row.symbol, company, fairValue: row.fairValue },
+        {
+          symbol: row.symbol,
+          company,
+          fairValue: row.fairValue,
+          fvTrendEntry: fvTrendBySymbol.get(row.symbol),
+        },
         today,
       );
       if (result.status === "ok") {

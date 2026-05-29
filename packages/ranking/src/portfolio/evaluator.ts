@@ -111,6 +111,13 @@ export type OptionEvaluation = {
    * Null when no chain quote is available.
    */
   markToMarketPnlDollars: number | null;
+  /**
+   * Forward projection of FV anchors + price at the option's
+   * expiration date, sourced from the matching ExpirationView in the
+   * per-symbol options JSON. Null when projection is unavailable
+   * (insufficient samples, no chain data, or no lookup wired).
+   */
+  projection: import("../options/types.js").ExpirationProjection | null;
   /** Underlying price from the snapshot (null when not in snapshot). */
   underlyingPrice: number | null;
   /** Days from snapshot date to expiration. Negative when expired. */
@@ -443,10 +450,14 @@ function evaluateOption(
   const isNearExpiration =
     !isExpired && daysToExpiration <= NEAR_EXPIRATION_DAYS;
 
-  // Refresh-time chain quote for this exact contract (when supplied).
+  // Refresh-time chain quote + projection for this exact contract
+  // (when supplied). Projection is attached as-is so the UI can show
+  // "projected FV / price at expiry" alongside the existing intrinsic
+  // and bid-based P&L numbers.
   const quote = optionQuoteLookup?.(position) ?? null;
   const currentBid = quote?.bid ?? null;
   const currentAsk = quote?.ask ?? null;
+  const projection = quote?.projection ?? null;
   // Mark-to-market dollars:
   //   LONG  contracts > 0: (bid × 100 × contracts) − premium
   //   SHORT contracts < 0: premium − (ask × 100 × |contracts|)
@@ -466,6 +477,7 @@ function evaluateOption(
     currentBid,
     currentAsk,
     markToMarketPnlDollars,
+    projection,
     underlyingPrice,
     daysToExpiration,
     isExpired,
@@ -502,18 +514,28 @@ function evaluateCash(
 /* ─── Top-level orchestration ──────────────────────────────────── */
 
 /**
- * Lookup function returning the current bid/ask for a single user-held
- * option contract. The caller composes this from the per-symbol options
- * JSON (each ExpirationView has a `chain.calls[]` and `chain.puts[]`
- * mirror of the provider's response).
+ * Lookup function returning the current bid/ask + forward projection
+ * for a single user-held option contract. The caller composes this
+ * from the per-symbol options JSON (each ExpirationView has a
+ * `chain.calls[]` / `chain.puts[]` mirror of the provider's response
+ * plus a `projection` field).
  *
  * Return null (or a record with null fields) when no quote is
  * available — the contract evaluation still proceeds with intrinsic-
- * only math; just the markToMarketPnl falls through to null.
+ * only math; just markToMarketPnl + projection fall through to null.
+ *
+ * The `projection` field is optional on the result so callers that
+ * haven't wired projection lookup yet stay source-compatible.
  */
 export type OptionQuoteLookup = (
   position: OptionPosition,
-) => { bid: number | null; ask: number | null } | null;
+) =>
+  | {
+      bid: number | null;
+      ask: number | null;
+      projection?: import("../options/types.js").ExpirationProjection | null;
+    }
+  | null;
 
 export type EvaluatePortfolioOptions = {
   /** Per-contract live bid/ask lookup. Wire to the loaded options JSONs. */

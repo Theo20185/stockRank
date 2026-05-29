@@ -568,3 +568,121 @@ describe("buildExpirationView — chain inclusion (portfolio bid/ask lookup)", (
     expect(view.chain.puts).toHaveLength(1);
   });
 });
+
+function projection(o: {
+  fvP25: number;
+  fvMedian?: number;
+  fvP75?: number;
+  price: number;
+}): import("./types.js").ExpirationProjection {
+  return {
+    daysAhead: 90,
+    fvP25: o.fvP25,
+    fvMedian: o.fvMedian ?? o.fvP25 * 1.1,
+    fvP75: o.fvP75 ?? o.fvP25 * 1.2,
+    price: o.price,
+    fvSlopePctPerYear: 10,
+    priceSlopePctPerYear: 8,
+    fvRSquared: 0.7,
+    priceRSquared: 0.6,
+    fvConfidence: "high",
+    priceConfidence: "high",
+    fvCapped: false,
+    priceCapped: false,
+  };
+}
+
+describe("buildExpirationView — strike re-anchoring on projection", () => {
+  it("re-anchors the call strike to PROJECTED p25 when a projection is supplied", () => {
+    // Today p25 = $120, projected p25 = $135 (improving FV).
+    // With strikes [120, 130, 140, 150], the call would snap to 120
+    // (today's p25) without projection. WITH projection, it should
+    // snap to 140 — the first listed strike ≥ projected $135.
+    const fairValue = fv(120, 150, 180, 100); // today p25 = $120
+    const calls = [
+      contract("C", 120, 8),
+      contract("C", 130, 5),
+      contract("C", 140, 3),
+      contract("C", 150, 2),
+    ];
+    const view = buildExpirationView({
+      selected: { expiration: "2026-08-21", selectionReason: "monthly" },
+      group: group(calls, []),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+      projection: projection({ fvP25: 135, price: 105 }),
+    });
+    expect(view.coveredCalls).toHaveLength(1);
+    expect(view.coveredCalls[0]?.contract.strike).toBe(140);
+  });
+
+  it("falls back to today's p25 anchor when no projection is supplied", () => {
+    // Same fixture as above — without projection, snap to today's p25 = $120.
+    const fairValue = fv(120, 150, 180, 100);
+    const calls = [
+      contract("C", 120, 8),
+      contract("C", 130, 5),
+      contract("C", 140, 3),
+      contract("C", 150, 2),
+    ];
+    const view = buildExpirationView({
+      selected: { expiration: "2026-08-21", selectionReason: "monthly" },
+      group: group(calls, []),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+      // no projection
+    });
+    expect(view.coveredCalls).toHaveLength(1);
+    expect(view.coveredCalls[0]?.contract.strike).toBe(120);
+  });
+
+  it("anchors the put target to PROJECTED price for the 'closest OTM' decision when projected < today's", () => {
+    // Today's current = $100, projected price at expiry = $90 (bearish).
+    // Strikes [80, 85, 90, 95] are all OTM relative to today's $100.
+    // Without projection, the picker takes the HIGHEST OTM ($95).
+    // With projection at $90, the picker takes the strike CLOSEST to
+    // projected — also $90 (an exact match).
+    const fairValue = fv(120, 150, 180, 100); // current $100 below p25 → put workflow active
+    const puts = [
+      contract("P", 80, 1.5),
+      contract("P", 85, 2),
+      contract("P", 90, 2.5),
+      contract("P", 95, 3),
+    ];
+    const view = buildExpirationView({
+      selected: { expiration: "2026-08-21", selectionReason: "monthly" },
+      group: group([], puts),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+      projection: projection({ fvP25: 110, price: 90 }),
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(90);
+  });
+
+  it("keeps the put OTM floor on TODAY's current price even when projected is bullish", () => {
+    // Projected price = $115 (above today's $100). The strike target
+    // can't exceed today's current ($100) without becoming ITM at
+    // entry, so the floor still keeps strikes < $100. Picker takes
+    // the highest OTM strike ($95).
+    const fairValue = fv(120, 150, 180, 100);
+    const puts = [
+      contract("P", 80, 1.5),
+      contract("P", 90, 2.5),
+      contract("P", 95, 3),
+    ];
+    const view = buildExpirationView({
+      selected: { expiration: "2026-08-21", selectionReason: "monthly" },
+      group: group([], puts),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+      projection: projection({ fvP25: 130, price: 115 }),
+    });
+    expect(view.puts).toHaveLength(1);
+    expect(view.puts[0]?.contract.strike).toBe(95);
+  });
+});
