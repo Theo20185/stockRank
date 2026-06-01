@@ -238,6 +238,14 @@ export function projectionForExpiration(
     priceConfidence: price.confidence,
     fvCapped: fvP25.capped || fvMedian.capped || fvP75.capped,
     priceCapped: price.capped,
+    // Fallback flag fires when ANY of the three FV-anchor projections
+    // had to use a non-default window. The window size we surface is
+    // the median one (fvMedian) since that's what drives the
+    // displayed confidence.
+    fvFallback: fvP25.fallback || fvMedian.fallback || fvP75.fallback,
+    priceFallback: price.fallback,
+    fvWindowSize: fvMedian.windowSize,
+    priceWindowSize: price.windowSize,
   };
 }
 

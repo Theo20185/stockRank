@@ -240,6 +240,12 @@ type ExpirationSectionProps = {
 function ProjectionRow({ projection }: { projection: NonNullable<ExpirationView["projection"]> }) {
   const fmt = (v: number) => `$${v.toFixed(2)}`;
   const slope = (v: number) => `${v >= 0 ? "+" : ""}${v.toFixed(1)}%/yr`;
+  // The default OLS window is 8 quarterly samples (2 years). Anything
+  // else means the fallback ladder produced a better fit at a
+  // different window — surface that as a chip so the user knows the
+  // confidence isn't from the standard 2-year window.
+  const fallbackLabel = (windowSize: number) =>
+    windowSize === 12 ? "3y" : windowSize === 6 ? "1.5y" : windowSize === 4 ? "1y" : `${windowSize}q`;
   return (
     <p className="options-exp__projection" role="status" aria-label="Projected at expiry">
       <strong>At expiry ({projection.daysAhead}d):</strong>{" "}
@@ -251,6 +257,14 @@ function ProjectionRow({ projection }: { projection: NonNullable<ExpirationView[
         {projection.priceConfidence}
       </span>
       , {slope(projection.priceSlopePctPerYear)}
+      {projection.priceFallback && (
+        <span
+          className="options-exp__chip options-exp__chip--fallback"
+          title={`Default 2y window had R²<0.8; this fit used ${fallbackLabel(projection.priceWindowSize)} of history.`}
+        >
+          fallback {fallbackLabel(projection.priceWindowSize)}
+        </span>
+      )}
       {projection.priceCapped && (
         <span className="options-exp__chip options-exp__chip--capped" title="Projection capped at ±50% of last observed value">
           capped
@@ -264,6 +278,14 @@ function ProjectionRow({ projection }: { projection: NonNullable<ExpirationView[
         {projection.fvConfidence}
       </span>
       , {slope(projection.fvSlopePctPerYear)}
+      {projection.fvFallback && (
+        <span
+          className="options-exp__chip options-exp__chip--fallback"
+          title={`Default 2y window had R²<0.8; this fit used ${fallbackLabel(projection.fvWindowSize)} of history.`}
+        >
+          fallback {fallbackLabel(projection.fvWindowSize)}
+        </span>
+      )}
       {projection.fvCapped && (
         <span className="options-exp__chip options-exp__chip--capped" title="Projection capped at ±50% of last observed value">
           capped

@@ -97,6 +97,18 @@ export type ExpirationProjection = {
   /** True when the FV projection was clipped to ±50% of last value. */
   fvCapped: boolean;
   priceCapped: boolean;
+  /**
+   * True when the chosen regression used a non-default window because
+   * the default 8q (2y) fit had R²<0.8. The UI surfaces a "fallback"
+   * chip in that case so the user knows the projection was tuned to
+   * either a longer history (outlier-dampened) or shorter (recent
+   * regime focus).
+   */
+  fvFallback: boolean;
+  priceFallback: boolean;
+  /** Quarterly window sizes that produced the FV / price fits. 8 = default. */
+  fvWindowSize: number;
+  priceWindowSize: number;
 };
 
 export type ExpirationView = {

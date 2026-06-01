@@ -264,6 +264,10 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
       priceConfidence: "medium",
       fvCapped: false,
       priceCapped: false,
+      fvFallback: false,
+      priceFallback: false,
+      fvWindowSize: 8,
+      priceWindowSize: 8,
     };
     render(
       <OptionsPanel
@@ -298,6 +302,8 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
       fvRSquared: 0.9, priceRSquared: 0.95,
       fvConfidence: "high", priceConfidence: "high",
       fvCapped: false, priceCapped: true,
+      fvFallback: false, priceFallback: false,
+      fvWindowSize: 8, priceWindowSize: 8,
     };
     render(
       <OptionsPanel
@@ -311,6 +317,34 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
       name: /projected at expiry/i,
     });
     expect(projectionLine).toHaveTextContent(/capped/);
+  });
+
+  it("renders a 'fallback' chip when a non-default window won the regression", async () => {
+    const view = fakeView();
+    view.expirations[0]!.projection = {
+      daysAhead: 270,
+      fvP25: 110, fvMedian: 125, fvP75: 140,
+      price: 105,
+      fvSlopePctPerYear: 8, priceSlopePctPerYear: 4,
+      fvRSquared: 0.92, priceRSquared: 0.18,
+      fvConfidence: "high", priceConfidence: "weak",
+      fvCapped: false, priceCapped: false,
+      // FV won at 12q (3y, expanded); price stayed at the default 8q.
+      fvFallback: true, priceFallback: false,
+      fvWindowSize: 12, priceWindowSize: 8,
+    };
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view })}
+      />,
+    );
+    await screen.findByRole("table", { name: /trade comparison/i });
+    const projectionLine = screen.getByRole("status", {
+      name: /projected at expiry/i,
+    });
+    expect(projectionLine).toHaveTextContent(/fallback 3y/);
   });
 
   it("omits the projection row when projection is null (insufficient samples)", async () => {

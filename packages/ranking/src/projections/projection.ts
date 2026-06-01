@@ -23,11 +23,21 @@
 
 import type { FvTrendSample } from "@stockrank/core";
 
-const SAMPLE_WINDOW = 8;          // last 2 years of quarterly samples
+const DEFAULT_WINDOW = 8;         // 2 years of quarterly samples
+const R2_TARGET = 0.8;            // try alternative windows when below this
 const MIN_SAMPLES = 4;            // below this, the regression is meaningless
 const CAP_FRACTION = 0.5;         // ±50% of last observed value
 const R2_HIGH = 0.5;
 const R2_MEDIUM = 0.25;
+
+/**
+ * Window sizes tried in order when the default 8q fit is weak.
+ * Default 8q is tried first (most stable). Then 12q (3y, expand to
+ * dampen outliers) → 6q → 4q (shrink to focus on current regime).
+ * First window crossing R²≥0.8 wins; if none do, the highest-R²
+ * window is chosen and `fallback` is true.
+ */
+const FALLBACK_WINDOW_LADDER: readonly number[] = [8, 12, 6, 4];
 
 export type ProjectionField = "fvP25" | "fvMedian" | "fvP75" | "price";
 export type ProjectionConfidence = "high" | "medium" | "weak";
@@ -54,6 +64,18 @@ export type ProjectionResult = {
   capped: boolean;
   /** Number of samples that contributed to the regression (post-null-filter). */
   sampleCount: number;
+  /**
+   * Quarterly-sample window size that produced this fit. 8 = default
+   * 2-year window; anything else = a fallback (3y / 1.5y / 1y) that
+   * was tried because the 8q fit was weak.
+   */
+  windowSize: number;
+  /**
+   * True when the chosen fit used a non-default window (i.e., the 8q
+   * default was tried but produced R²<0.8 and a different window was
+   * preferred). UI surfaces a "fallback" chip in that case.
+   */
+  fallback: boolean;
 };
 
 function readField(sample: FvTrendSample, field: ProjectionField): number | null {
@@ -71,13 +93,17 @@ function daysBetween(fromIso: string, toIso: string): number {
   );
 }
 
-export function projectFromQuarterlySamples(
+/**
+ * Single-window OLS fit. Internal helper — callers use
+ * `projectFromQuarterlySamples` which iterates this over the fallback
+ * ladder when the default window is weak.
+ */
+function fitOneWindow(
   samples: readonly FvTrendSample[],
+  windowSize: number,
   input: ProjectionInput,
 ): ProjectionResult | null {
-  // Work on the last `SAMPLE_WINDOW` samples, oldest-to-newest.
-  const window = [...samples].slice(-SAMPLE_WINDOW);
-  // Filter to ones with a non-null value for the requested field.
+  const window = [...samples].slice(-windowSize);
   const points: Array<{ days: number; value: number }> = [];
   if (window.length === 0) return null;
   const firstDate = window[0]!.date;
@@ -111,13 +137,9 @@ export function projectFromQuarterlySamples(
   const lastValue = points[points.length - 1]!.value;
   const slopePctPerYear = lastValue !== 0 ? (slopePerDay * 365 / lastValue) * 100 : 0;
 
-  // Days from the FIRST sample to the target — that's the x value
-  // on the regression line.
   const daysFromFirstToTarget = daysBetween(firstDate, input.targetDate);
   const rawProjected = intercept + slopePerDay * daysFromFirstToTarget;
 
-  // ±50% cap relative to the LAST observed value (rationale in module
-  // docstring). Floor at $0.01 to keep downstream math sane.
   const upperCap = lastValue * (1 + CAP_FRACTION);
   const lowerCap = Math.max(0.01, lastValue * (1 - CAP_FRACTION));
   let projectedValue = rawProjected;
@@ -146,5 +168,43 @@ export function projectFromQuarterlySamples(
     projectedValue,
     capped,
     sampleCount: n,
+    windowSize,
+    fallback: false, // caller flips this when a non-default window wins
+  };
+}
+
+/**
+ * Project a field forward, attempting the fallback window ladder
+ * when the default fit is weak. Iteration:
+ *   1. Try the default 8q window.
+ *   2. If R² < 0.8, try 12q (expand), 6q, 4q (shrink) — each must
+ *      have ≥ MIN_SAMPLES (4) non-null points to qualify.
+ *   3. Return the first fit with R² ≥ 0.8 (preferring longer windows
+ *      for stability), else the highest-R² candidate. Mark
+ *      `fallback: true` when a non-default window is chosen.
+ *
+ * Returns null only when NO window has enough samples to fit.
+ */
+export function projectFromQuarterlySamples(
+  samples: readonly FvTrendSample[],
+  input: ProjectionInput,
+): ProjectionResult | null {
+  const candidates: ProjectionResult[] = [];
+  for (const windowSize of FALLBACK_WINDOW_LADDER) {
+    const fit = fitOneWindow(samples, windowSize, input);
+    if (fit !== null) candidates.push(fit);
+  }
+  if (candidates.length === 0) return null;
+
+  // Prefer the first candidate (in ladder order) that crosses R²≥0.8.
+  // The ladder is ordered to prefer the DEFAULT first, then larger
+  // (more stable) before smaller (more regime-focused).
+  const goodFit = candidates.find((c) => c.rSquared >= R2_TARGET);
+  const chosen = goodFit ?? candidates.reduce((best, c) =>
+    c.rSquared > best.rSquared ? c : best,
+  );
+  return {
+    ...chosen,
+    fallback: chosen.windowSize !== DEFAULT_WINDOW,
   };
 }

@@ -167,6 +167,10 @@ describe("<PortfolioScreen />", () => {
           priceConfidence: "medium",
           fvCapped: false,
           priceCapped: false,
+          fvFallback: false,
+          priceFallback: false,
+          fvWindowSize: 8,
+          priceWindowSize: 8,
         },
       }),
     });
