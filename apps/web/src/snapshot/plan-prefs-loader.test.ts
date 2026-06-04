@@ -26,7 +26,7 @@ describe("plan-prefs-loader", () => {
     const prefs: PlanPrefs = {
       capital: "75000",
       topN: "10",
-      mode: "yearly",
+      selectedMonth: "2026-08",
       hideUnallocated: true,
       excludedSymbols: ["AES", "GM"],
       savedAt: "2026-05-12T12:00:00.000Z",
@@ -47,7 +47,7 @@ describe("plan-prefs-loader", () => {
     const got = loadPlanPrefs(storage);
     expect(got.capital).toBe("5000");
     expect(got.topN).toBe(DEFAULT_PLAN_PREFS.topN);
-    expect(got.mode).toBe(DEFAULT_PLAN_PREFS.mode);
+    expect(got.selectedMonth).toBe(DEFAULT_PLAN_PREFS.selectedMonth);
     expect(got.hideUnallocated).toBe(DEFAULT_PLAN_PREFS.hideUnallocated);
     expect(got.excludedSymbols).toEqual([]);
   });
@@ -61,13 +61,33 @@ describe("plan-prefs-loader", () => {
     expect(loadPlanPrefs(storage).excludedSymbols).toEqual(["AES", "GM"]);
   });
 
-  it("rejects an unknown mode string and falls back to default", () => {
+  it("rejects an unknown selectedMonth string and falls back to default (empty)", () => {
     const storage = makeStorage();
     storage.setItem(
       PLAN_PREFS_STORAGE_KEY,
-      JSON.stringify({ mode: "biweekly" }),
+      JSON.stringify({ selectedMonth: "biweekly" }),
     );
-    expect(loadPlanPrefs(storage).mode).toBe(DEFAULT_PLAN_PREFS.mode);
+    expect(loadPlanPrefs(storage).selectedMonth).toBe(DEFAULT_PLAN_PREFS.selectedMonth);
+  });
+
+  it("migrates legacy mode='yearly' to the upcoming January's YYYY-MM", () => {
+    const storage = makeStorage();
+    storage.setItem(
+      PLAN_PREFS_STORAGE_KEY,
+      JSON.stringify({ mode: "yearly" }),
+    );
+    const got = loadPlanPrefs(storage);
+    // Should match YYYY-01 for some future-year January.
+    expect(got.selectedMonth).toMatch(/^\d{4}-01$/);
+  });
+
+  it("migrates legacy mode='monthly' to empty (auto-select soonest)", () => {
+    const storage = makeStorage();
+    storage.setItem(
+      PLAN_PREFS_STORAGE_KEY,
+      JSON.stringify({ mode: "monthly" }),
+    );
+    expect(loadPlanPrefs(storage).selectedMonth).toBe("");
   });
 
   it("returns defaults when storage is null (SSR / disabled)", () => {

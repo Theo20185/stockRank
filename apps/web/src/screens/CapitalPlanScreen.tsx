@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { OptionsView, RankedRow, SelectionReason } from "@stockrank/ranking";
+import type { OptionsView, RankedRow } from "@stockrank/ranking";
 import {
   buildCapitalPlan,
   type CapitalPlan,
@@ -31,32 +31,21 @@ export type CapitalPlanScreenProps = {
 
 type LoadStatus = "loading" | "ready";
 
-const EXPIRATION_MODES: Array<{ key: SelectionReason; label: string }> = [
-  { key: "monthly", label: "Monthly" },
-  { key: "yearly", label: "Yearly" },
+const MONTH_LABELS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-// Legacy-data tolerance: existing committed options JSONs still use
-// older selectionReason values (weekly from the 3-slot cascade, and
-// LEAP-era leap/quarterly/leap-fallback from before that). Until the
-// next refresh rewrites them under the new 2-slot rule, relabel them
-// so the Plan screen isn't useless on a stale snapshot.
-//   weekly        → monthly (the 3-slot soonest contract was usually
-//                            a 3rd-week monthly anyway; this is what
-//                            the new selector would have labeled it)
-//   leap-fallback → monthly
-//   quarterly     → monthly
-//   leap          → yearly
-const LEGACY_REASON_MAP: Record<string, SelectionReason> = {
-  weekly: "monthly",
-  leap: "yearly",
-  "leap-fallback": "monthly",
-  quarterly: "monthly",
-};
+/** "2026-07-17" → "2026-07". Robust to ISO timestamps too. */
+function yearMonthOf(iso: string): string {
+  return iso.slice(0, 7);
+}
 
-function effectiveReason(raw: string): SelectionReason | null {
-  if (raw === "monthly" || raw === "yearly") return raw;
-  return LEGACY_REASON_MAP[raw] ?? null;
+/** "2026-07" → "Jul 2026". Used for the picker labels and chips. */
+function formatYearMonth(yyyymm: string): string {
+  const [y, m] = yyyymm.split("-");
+  const idx = parseInt(m ?? "0", 10) - 1;
+  return `${MONTH_LABELS[idx] ?? m} ${y}`;
 }
 
 export function CapitalPlanScreen({
@@ -72,7 +61,9 @@ export function CapitalPlanScreen({
   const initialPrefs = useRef<PlanPrefs>(loadPlanPrefs()).current;
   const [capitalInput, setCapitalInput] = useState<string>(initialPrefs.capital);
   const [topNInput, setTopNInput] = useState<string>(initialPrefs.topN);
-  const [mode, setMode] = useState<SelectionReason>(initialPrefs.mode);
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    initialPrefs.selectedMonth,
+  );
   const [hideUnallocated, setHideUnallocated] = useState<boolean>(
     initialPrefs.hideUnallocated,
   );
@@ -87,12 +78,12 @@ export function CapitalPlanScreen({
     savePlanPrefs({
       capital: capitalInput,
       topN: topNInput,
-      mode,
+      selectedMonth,
       hideUnallocated,
       excludedSymbols: [...excludedSymbols],
       savedAt: new Date().toISOString(),
     });
-  }, [capitalInput, topNInput, mode, hideUnallocated, excludedSymbols]);
+  }, [capitalInput, topNInput, selectedMonth, hideUnallocated, excludedSymbols]);
 
   const toggleExclude = (symbol: string): void => {
     setExcludedSymbols((prev) => {
@@ -149,9 +140,31 @@ export function CapitalPlanScreen({
   const topN = topNInput.trim() === "" ? undefined : Number.parseInt(topNInput, 10);
   const safeTopN = topN !== undefined && Number.isFinite(topN) ? topN : undefined;
 
+  // All distinct expiration months across the loaded options, sorted
+  // ascending. Drives the month picker; empty until options load.
+  const availableMonths = useMemo<string[]>(() => {
+    const set = new Set<string>();
+    for (const view of Object.values(options)) {
+      for (const exp of view.expirations) {
+        set.add(yearMonthOf(exp.expiration));
+      }
+    }
+    return [...set].sort();
+  }, [options]);
+
+  // Effective month: explicit pick if set + valid, else the soonest
+  // available month with candidates. Used for both extractCandidates
+  // and the picker's current value.
+  const effectiveMonth = useMemo<string>(() => {
+    if (selectedMonth && availableMonths.includes(selectedMonth)) {
+      return selectedMonth;
+    }
+    return availableMonths[0] ?? "";
+  }, [selectedMonth, availableMonths]);
+
   const candidates = useMemo(
-    () => extractCandidates(rankedRows, options, mode),
-    [rankedRows, options, mode],
+    () => extractCandidates(rankedRows, options, effectiveMonth),
+    [rankedRows, options, effectiveMonth],
   );
 
   const plan = useMemo<CapitalPlan>(
@@ -210,21 +223,24 @@ export function CapitalPlanScreen({
             aria-label="Maximum number of candidates"
           />
         </label>
-        <div className="plan__field plan__field--inline">
-          <span>Expiration</span>
-          <nav className="plan__modes" aria-label="Expiration mode">
-            {EXPIRATION_MODES.map((m) => (
-              <button
-                key={m.key}
-                type="button"
-                aria-pressed={mode === m.key}
-                onClick={() => setMode(m.key)}
-              >
-                {m.label}
-              </button>
+        <label className="plan__field">
+          <span>Target expiration month</span>
+          <select
+            aria-label="Target expiration month"
+            value={effectiveMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            disabled={availableMonths.length === 0}
+          >
+            {availableMonths.length === 0 && (
+              <option value="">(no options loaded yet)</option>
+            )}
+            {availableMonths.map((m) => (
+              <option key={m} value={m}>
+                {formatYearMonth(m)}
+              </option>
             ))}
-          </nav>
-        </div>
+          </select>
+        </label>
         <label className="plan__field plan__field--checkbox">
           <input
             type="checkbox"
@@ -242,12 +258,13 @@ export function CapitalPlanScreen({
       )}
 
       {status === "ready" && (
-        <PlanSummary plan={plan} candidatesAvailable={candidates.length} mode={mode} />
+        <PlanSummary plan={plan} candidatesAvailable={candidates.length} selectedMonth={effectiveMonth} />
       )}
 
       {status === "ready" && plan.items.length > 0 && (
         <PlanTable
           plan={plan}
+          selectedMonth={effectiveMonth}
           hideUnallocated={hideUnallocated}
           excludedSymbols={excludedSymbols}
           onToggleExclude={toggleExclude}
@@ -257,25 +274,37 @@ export function CapitalPlanScreen({
 
       {status === "ready" && candidates.length === 0 && (
         <p className="plan__status" role="status">
-          No Ranked candidates have a {mode} expiration with a cash-secured put.
+          No Ranked candidates have a cash-secured put listed for{" "}
+          {effectiveMonth ? formatYearMonth(effectiveMonth) : "any month"}.
           {" "}Re-run <code>npm run ingest</code> to refresh option chains, or pick a
-          different expiration above.
+          different month above.
         </p>
       )}
     </div>
   );
 }
 
+/**
+ * Pick the best expiration for each ranked row given the user's
+ * target month:
+ *   1. Prefer the expiration whose YYYY-MM equals `targetMonth`.
+ *   2. Fall back to the soonest expiration AFTER targetMonth's
+ *      first day (i.e., the next available chain in the future).
+ *   3. Skip the symbol entirely when neither produces a usable put.
+ * The returned candidate carries the actual expirationDate so the
+ * PlanTable can render a "fallback to <month>" chip when the
+ * actual month differs from the user's pick.
+ */
 function extractCandidates(
   rows: RankedRow[],
   options: Record<string, OptionsView>,
-  mode: SelectionReason,
+  targetMonth: string,
 ): CapitalPlanCandidate[] {
   const out: CapitalPlanCandidate[] = [];
   for (const row of rows) {
     const view = options[row.symbol];
     if (!view) continue;
-    const exp = view.expirations.find((e) => effectiveReason(e.selectionReason) === mode);
+    const exp = pickExpirationForMonth(view.expirations, targetMonth);
     if (!exp) continue;
     const put = exp.puts[0];
     if (!put || put.contract.bid === null || put.contract.bid <= 0) continue;
@@ -286,19 +315,42 @@ function extractCandidates(
       daysToExpiry: put.contract.daysToExpiry,
       annualizedReturn: put.notAssignedAnnualizedPct,
       composite: row.composite,
+      expirationDate: exp.expiration,
     });
   }
   return out;
 }
 
+export function pickExpirationForMonth<T extends { expiration: string }>(
+  expirations: T[],
+  targetMonth: string,
+): T | null {
+  if (!targetMonth) {
+    // No preference — pick the soonest.
+    const sorted = [...expirations].sort((a, b) =>
+      a.expiration.localeCompare(b.expiration),
+    );
+    return sorted[0] ?? null;
+  }
+  // First, exact match on YYYY-MM.
+  const exact = expirations.find((e) => yearMonthOf(e.expiration) === targetMonth);
+  if (exact) return exact;
+  // Otherwise, soonest expiration AFTER the target month's first day.
+  const targetStart = `${targetMonth}-01`;
+  const after = [...expirations]
+    .filter((e) => e.expiration > targetStart)
+    .sort((a, b) => a.expiration.localeCompare(b.expiration));
+  return after[0] ?? null;
+}
+
 function PlanSummary({
   plan,
   candidatesAvailable,
-  mode,
+  selectedMonth,
 }: {
   plan: CapitalPlan;
   candidatesAvailable: number;
-  mode: SelectionReason;
+  selectedMonth: string;
 }) {
   const usedCount = plan.items.filter((i) => i.contracts > 0).length;
   const annualized = plan.annualizedReturnOnAllocated;
@@ -330,7 +382,7 @@ function PlanSummary({
       <Stat
         label="Names allocated"
         value={`${usedCount} / ${candidatesAvailable}`}
-        sub={`${mode} expiration`}
+        sub={selectedMonth ? `${formatYearMonth(selectedMonth)} expiration` : ""}
       />
     </section>
   );
@@ -338,12 +390,14 @@ function PlanSummary({
 
 function PlanTable({
   plan,
+  selectedMonth,
   hideUnallocated,
   excludedSymbols,
   onToggleExclude,
   onSelectStock,
 }: {
   plan: CapitalPlan;
+  selectedMonth: string;
   hideUnallocated: boolean;
   excludedSymbols: ReadonlySet<string>;
   onToggleExclude: (symbol: string) => void;
@@ -399,6 +453,16 @@ function PlanTable({
                 >
                   {item.symbol}
                 </button>
+                {selectedMonth &&
+                  yearMonthOf(item.expirationDate) !== selectedMonth && (
+                    <span
+                      className="plan-table__fallback-chip"
+                      role="status"
+                      title={`No chain expires in ${formatYearMonth(selectedMonth)} — using ${formatYearMonth(yearMonthOf(item.expirationDate))} instead.`}
+                    >
+                      {formatYearMonth(yearMonthOf(item.expirationDate))}
+                    </span>
+                  )}
               </td>
               <td>{formatPrice(item.strike)}</td>
               <td>{item.daysToExpiry}d</td>

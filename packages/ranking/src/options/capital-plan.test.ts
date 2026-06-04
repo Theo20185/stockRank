@@ -11,8 +11,17 @@ function cand(
   composite = 70,
   daysToExpiry = 30,
   annualizedReturn = 0.18,
+  expirationDate = "2026-06-19",
 ): CapitalPlanCandidate {
-  return { symbol, strike, premiumPerShare: premium, composite, daysToExpiry, annualizedReturn };
+  return {
+    symbol,
+    strike,
+    premiumPerShare: premium,
+    composite,
+    daysToExpiry,
+    annualizedReturn,
+    expirationDate,
+  };
 }
 
 describe("buildCapitalPlan — basic allocation", () => {
@@ -298,5 +307,38 @@ describe("buildCapitalPlan — premium + totals", () => {
       totalCollateral: 0,
       totalPremium: 0,
     });
+  });
+});
+
+describe("buildCapitalPlan — expirationDate passthrough (month-picker support)", () => {
+  it("preserves each candidate's expirationDate on the resulting item", () => {
+    // Two candidates with different expirations — the screen needs to
+    // know each row's actual expiration date to render a "fallback"
+    // chip when the picked month differs from the user's selection.
+    const plan = buildCapitalPlan({
+      capital: 15000,
+      candidates: [
+        cand("AAA", 50, 1.5, 80, 30, 0.18, "2026-07-17"),
+        cand("BBB", 40, 1.2, 70, 60, 0.15, "2026-08-21"),
+      ],
+    });
+    const aaa = plan.items.find((i) => i.symbol === "AAA")!;
+    const bbb = plan.items.find((i) => i.symbol === "BBB")!;
+    expect(aaa.expirationDate).toBe("2026-07-17");
+    expect(bbb.expirationDate).toBe("2026-08-21");
+  });
+
+  it("preserves expirationDate on zero-contract (over-topN / excluded) items too", () => {
+    const plan = buildCapitalPlan({
+      capital: 10000,
+      candidates: [
+        cand("AAA", 50, 1.5, 80, 30, 0.18, "2026-07-17"),
+        cand("BBB", 40, 1.2, 70, 60, 0.15, "2026-08-21"),
+      ],
+      excludedSymbols: new Set(["BBB"]),
+    });
+    const bbb = plan.items.find((i) => i.symbol === "BBB")!;
+    expect(bbb.contracts).toBe(0);
+    expect(bbb.expirationDate).toBe("2026-08-21");
   });
 });

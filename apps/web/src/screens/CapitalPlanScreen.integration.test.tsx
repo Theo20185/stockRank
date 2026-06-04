@@ -244,24 +244,36 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
     expect(dte, `EIX monthly DTE should be positive`).toBeGreaterThan(0);
   });
 
-  it("renders the Plan table for each expiration mode the data populates", async () => {
-    // For each mode, pick the symbols whose JSON has a non-empty puts
-    // entry for that mode, feed those into the Plan screen, and assert
-    // the table renders with rows. This catches the regression where
-    // the screen looks fine on synthetic data but ALL committed files
-    // are missing the default mode (the 2026-05-11 bug).
+  it("renders the Plan table for each expiration month the data populates", async () => {
+    // 2026-06-04 redesign: the screen now has a month picker (not
+    // tabs). For each distinct month in the committed bundle, pick
+    // it and assert the Plan table renders rows. Sentinel: catches
+    // a bug where the picker can't find candidates for a month that
+    // SHOULD have data.
     const onSelectTab = vi.fn();
     const onSelectStock = vi.fn();
     const user = userEvent.setup();
 
-    const modes: SelectionReason[] = ["monthly", "yearly"];
-    for (const mode of modes) {
+    // Enumerate distinct months across all committed files.
+    const months = new Set<string>();
+    for (const { view } of files) {
+      for (const exp of view.expirations) {
+        months.add(exp.expiration.slice(0, 7));
+      }
+    }
+    const sortedMonths = [...months].sort();
+
+    for (const month of sortedMonths) {
+      // Symbols with a put listed in this exact month (so the row
+      // actually allocates on the exact-month match path, not the
+      // fallback path — the fallback path is tested separately).
       const fixture: Record<string, OptionsView> = {};
       const rankedRows: RankedRow[] = [];
       for (const { symbol, view } of files) {
-        const exp = view.expirations.find((e) => e.selectionReason === mode);
-        if (!exp) continue;
-        if (exp.puts.length === 0) continue;
+        const exp = view.expirations.find(
+          (e) => e.expiration.slice(0, 7) === month,
+        );
+        if (!exp || exp.puts.length === 0) continue;
         const put = exp.puts[0]!;
         if (put.contract.bid === null || put.contract.bid <= 0) continue;
         fixture[symbol] = view;
@@ -279,17 +291,15 @@ describe("<CapitalPlanScreen /> — integration against committed options data",
         />,
       );
 
-      // Switch to the mode under test (component defaults to monthly).
-      const modeNav = within(
-        screen.getByRole("navigation", { name: /expiration mode/i }),
-      );
-      await user.click(modeNav.getByRole("button", { name: new RegExp(mode, "i") }));
+      // Pick the month under test.
+      const picker = screen.getByLabelText(/target expiration month/i);
+      await user.selectOptions(picker, month);
 
       const table = await screen.findByRole("table", {
         name: /capital allocation plan/i,
       });
       const dataRows = within(table).getAllByRole("row").slice(1);
-      expect(dataRows.length, `mode=${mode} produced no rows`).toBeGreaterThan(0);
+      expect(dataRows.length, `month=${month} produced no rows`).toBeGreaterThan(0);
       unmount();
     }
   });

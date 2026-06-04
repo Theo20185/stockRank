@@ -30,6 +30,14 @@ export type CapitalPlanCandidate = {
   annualizedReturn: number;
   /** Composite score (decimal, 0-100). Display only — caller pre-sorts. */
   composite: number;
+  /**
+   * Actual expiration date (YYYY-MM-DD) of the contract used for this
+   * candidate. The Plan screen's month picker compares this to the
+   * user-selected month to decide whether to render a "fallback to
+   * <month>" chip on the row (a fallback happens when no chain exists
+   * in the picked month and the next-available one was used).
+   */
+  expirationDate: string;
 };
 
 export type CapitalPlanItem = {
@@ -39,6 +47,8 @@ export type CapitalPlanItem = {
   daysToExpiry: number;
   annualizedReturn: number;
   composite: number;
+  /** YYYY-MM-DD expiration of the contract surfaced on this row. */
+  expirationDate: string;
   /** Whole contracts to sell. May be 0 when collateral exceeds the budget slice. */
   contracts: number;
   /** strike × 100 — collateral per single contract, regardless of contracts > 0. */
@@ -196,6 +206,7 @@ function zeroItem(c: CapitalPlanCandidate): CapitalPlanItem {
     daysToExpiry: c.daysToExpiry,
     annualizedReturn: c.annualizedReturn,
     composite: c.composite,
+    expirationDate: c.expirationDate,
     contracts: 0,
     collateralPerContract: c.strike * SHARES_PER_CONTRACT,
     totalCollateral: 0,
@@ -212,6 +223,7 @@ function finalize(c: CapitalPlanCandidate, contracts: number): CapitalPlanItem {
     daysToExpiry: c.daysToExpiry,
     annualizedReturn: c.annualizedReturn,
     composite: c.composite,
+    expirationDate: c.expirationDate,
     contracts,
     collateralPerContract,
     totalCollateral: contracts * collateralPerContract,

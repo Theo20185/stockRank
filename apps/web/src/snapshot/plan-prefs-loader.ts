@@ -1,4 +1,21 @@
-import type { SelectionReason } from "@stockrank/ranking";
+/**
+ * "Target expiration month" — YYYY-MM (e.g., "2026-07"). Empty string
+ * means "no preference; let the screen auto-select the soonest month
+ * with candidates." Legacy prefs with `mode: "monthly"` migrate to
+ * empty string (auto-select). `mode: "yearly"` migrates to the
+ * upcoming January's YYYY-MM (computed at load time).
+ */
+function isYearMonth(value: unknown): value is string {
+  return typeof value === "string" && /^\d{4}-(0[1-9]|1[0-2])$/.test(value);
+}
+
+function upcomingJanuaryYearMonth(now: Date = new Date()): string {
+  // If today's month is January, the upcoming Jan is next year.
+  // Otherwise it's January of next year too (we're always looking
+  // forward). Simpler: always pick (currentYear + 1) January.
+  const year = now.getUTCMonth() === 0 ? now.getUTCFullYear() : now.getUTCFullYear() + 1;
+  return `${year}-01`;
+}
 
 /**
  * Plan-screen preferences stored in browser localStorage. Mirrors the
@@ -17,7 +34,12 @@ export const PLAN_PREFS_STORAGE_KEY = "stockrank.plan-prefs";
 export type PlanPrefs = {
   capital: string;
   topN: string;
-  mode: SelectionReason;
+  /**
+   * Target expiration month as YYYY-MM. Empty string means
+   * "auto-select the soonest month with candidates." Replaces the
+   * earlier `mode: monthly|yearly` toggle (2026-06-04).
+   */
+  selectedMonth: string;
   hideUnallocated: boolean;
   excludedSymbols: string[];
   /** Last time the prefs were written. ISO timestamp. */
@@ -27,7 +49,7 @@ export type PlanPrefs = {
 export const DEFAULT_PLAN_PREFS: PlanPrefs = {
   capital: "10000",
   topN: "",
-  mode: "monthly",
+  selectedMonth: "",
   hideUnallocated: false,
   excludedSymbols: [],
   savedAt: "",
@@ -51,20 +73,24 @@ function defaultStorage(): StorageLike | null {
 function migrate(raw: unknown): PlanPrefs {
   if (!raw || typeof raw !== "object") return DEFAULT_PLAN_PREFS;
   const obj = raw as Record<string, unknown>;
-  // Legacy stored prefs with mode="weekly" (pre-2026-05-26) get migrated
-  // to "monthly" — the weekly slot was removed.
-  const mode = obj.mode === "weekly" ? "monthly" : obj.mode;
-  const validMode: SelectionReason =
-    mode === "monthly" || mode === "yearly"
-      ? mode
-      : DEFAULT_PLAN_PREFS.mode;
+  // Determine selectedMonth: prefer the new field, else migrate from
+  // the legacy `mode` field. "monthly" → empty (auto), "yearly" →
+  // upcoming January's YYYY-MM. Anything else → empty.
+  let selectedMonth: string;
+  if (isYearMonth(obj.selectedMonth)) {
+    selectedMonth = obj.selectedMonth;
+  } else if (obj.mode === "yearly") {
+    selectedMonth = upcomingJanuaryYearMonth();
+  } else {
+    selectedMonth = "";
+  }
   const excludedSymbols = Array.isArray(obj.excludedSymbols)
     ? obj.excludedSymbols.filter((s): s is string => typeof s === "string")
     : [];
   return {
     capital: typeof obj.capital === "string" ? obj.capital : DEFAULT_PLAN_PREFS.capital,
     topN: typeof obj.topN === "string" ? obj.topN : DEFAULT_PLAN_PREFS.topN,
-    mode: validMode,
+    selectedMonth,
     hideUnallocated: typeof obj.hideUnallocated === "boolean" ? obj.hideUnallocated : false,
     excludedSymbols,
     savedAt: typeof obj.savedAt === "string" ? obj.savedAt : "",
