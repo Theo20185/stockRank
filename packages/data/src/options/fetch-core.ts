@@ -1,5 +1,9 @@
 import { mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { promisify } from "node:util";
+import { gzip } from "node:zlib";
+
+const gzipAsync = promisify(gzip);
 import type {
   CompanySnapshot,
   FvTrendArtifact,
@@ -130,6 +134,35 @@ export function bestStaticReturns(view: OptionsView): OptionsBestReturns {
     }
   }
   return { bestCallAnnualized: bestCall, bestPutAnnualized: bestPut };
+}
+
+export type OptionsArchivePayload = {
+  /** Snapshot date the fetch ran against (file is named after this). */
+  snapshotDate: string;
+  /** ISO timestamp of the archive write. */
+  generatedAt: string;
+  /** Every per-symbol view written during the full Ranked-bucket fetch. */
+  views: OptionsView[];
+};
+
+/**
+ * Dated chain archive — docs/specs/options.md §6. One gzipped,
+ * minified file per day at `<archiveRoot>/<snapshotDate>.json.gz`,
+ * never pruned. Synthetic-premium backtests can only rank
+ * configurations relative to each other; the archived real
+ * bids/asks/IV are what a future real-premium backtest needs to
+ * measure absolute alpha. Same-day re-runs overwrite (last full
+ * fetch of the day wins).
+ */
+export async function writeOptionsArchive(
+  payload: OptionsArchivePayload,
+  archiveRoot: string,
+): Promise<string> {
+  await mkdir(archiveRoot, { recursive: true });
+  const out = resolve(archiveRoot, `${payload.snapshotDate}.json.gz`);
+  const compressed = await gzipAsync(Buffer.from(JSON.stringify(payload), "utf8"));
+  await writeFile(out, compressed);
+  return out;
 }
 
 export async function writeOptionsSummary(

@@ -1,13 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { mkdir, mkdtemp, readdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
+import { gunzipSync } from "node:zlib";
 import type { CompanySnapshot } from "@stockrank/core";
 import type { FairValue } from "@stockrank/ranking";
 import {
   bestStaticReturns,
   fetchSymbolOptions,
   pruneStaleOptionsFiles,
+  writeOptionsArchive,
   writeOptionsView,
 } from "./fetch-core.js";
 import type { OptionsView } from "@stockrank/ranking";
@@ -252,5 +254,70 @@ describe("writeOptionsView", () => {
     };
     const path = await writeOptionsView(view, tmp);
     expect(path.endsWith("DECK.json")).toBe(true);
+  });
+});
+
+describe("writeOptionsArchive", () => {
+  // Dated chain archive — docs/specs/options.md §6. Gzipped + minified
+  // so a year of daily archives stays committable; round-trips the
+  // full views verbatim (the whole point is real bids/asks/IV for a
+  // future real-premium backtest).
+  function makeView(symbol: string): OptionsView {
+    return {
+      symbol,
+      fetchedAt: "2026-06-11T14:57:00.000Z",
+      currentPrice: 100,
+      expirations: [],
+    };
+  }
+
+  let tmp: string;
+  beforeEach(async () => {
+    tmp = await mkdtemp(resolve(tmpdir(), "stockrank-archive-"));
+  });
+
+  it("writes <archiveRoot>/<snapshotDate>.json.gz, creating the dir", async () => {
+    const path = await writeOptionsArchive(
+      {
+        snapshotDate: "2026-06-11",
+        generatedAt: "2026-06-11T15:00:00.000Z",
+        views: [makeView("DECK"), makeView("EIX")],
+      },
+      resolve(tmp, "options-archive"),
+    );
+    expect(path.endsWith("2026-06-11.json.gz")).toBe(true);
+    const files = await readdir(resolve(tmp, "options-archive"));
+    expect(files).toEqual(["2026-06-11.json.gz"]);
+  });
+
+  it("gunzipped content round-trips the payload verbatim and is minified", async () => {
+    const payload = {
+      snapshotDate: "2026-06-11",
+      generatedAt: "2026-06-11T15:00:00.000Z",
+      views: [makeView("DECK")],
+    };
+    const path = await writeOptionsArchive(payload, tmp);
+    const raw = gunzipSync(await readFile(path)).toString("utf8");
+    expect(JSON.parse(raw)).toEqual(payload);
+    expect(raw).not.toContain("\n"); // minified, not pretty-printed
+  });
+
+  it("overwrites a same-day archive (last full fetch of the day wins)", async () => {
+    const first = {
+      snapshotDate: "2026-06-11",
+      generatedAt: "2026-06-11T09:00:00.000Z",
+      views: [makeView("DECK")],
+    };
+    const second = {
+      snapshotDate: "2026-06-11",
+      generatedAt: "2026-06-11T15:00:00.000Z",
+      views: [makeView("DECK"), makeView("EIX")],
+    };
+    await writeOptionsArchive(first, tmp);
+    const path = await writeOptionsArchive(second, tmp);
+    const raw = gunzipSync(await readFile(path)).toString("utf8");
+    expect(JSON.parse(raw)).toEqual(second);
+    const files = await readdir(tmp);
+    expect(files).toEqual(["2026-06-11.json.gz"]);
   });
 });

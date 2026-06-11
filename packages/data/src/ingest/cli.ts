@@ -21,9 +21,11 @@ import {
   fetchSymbolOptions,
   indexFvTrend,
   pruneStaleOptionsFiles,
+  writeOptionsArchive,
   writeOptionsSummary,
   writeOptionsView,
 } from "../options/fetch-core.js";
+import type { OptionsView } from "@stockrank/ranking";
 import type { FvTrendArtifact, OptionsBestReturns } from "@stockrank/core";
 import { readFile } from "node:fs/promises";
 
@@ -188,7 +190,14 @@ async function main(): Promise<void> {
   console.log(`wrote: ${result.latestPath}`);
 
   if (args.fetchOptions) {
-    await runOptionsFetch(snapshot, args.optionsOutDir, args.optionsThrottleMs);
+    // Dated chain archive only on FULL-universe runs — a --limit or
+    // --symbols run would poison the day's record with a partial
+    // Ranked bucket (docs/specs/options.md §6).
+    const fullUniverse = args.symbols === null && args.limit === null;
+    const archiveRoot = fullUniverse
+      ? resolve(repoRoot(), "data/options-archive")
+      : null;
+    await runOptionsFetch(snapshot, args.optionsOutDir, args.optionsThrottleMs, archiveRoot);
   }
 }
 
@@ -213,6 +222,8 @@ async function runOptionsFetch(
   snapshot: Awaited<ReturnType<typeof ingest>>,
   outDir: string,
   throttleMs: number,
+  /** Dated-archive root, or null to skip archiving (partial runs). */
+  archiveRoot: string | null,
 ): Promise<void> {
   console.log("");
   console.log("options:fetch — Ranked bucket only");
@@ -248,6 +259,7 @@ async function runOptionsFetch(
   let skipCount = 0;
   let failCount = 0;
   const bestBySymbol: Record<string, OptionsBestReturns> = {};
+  const archivedViews: OptionsView[] = [];
 
   for (let i = 0; i < buckets.ranked.length; i += 1) {
     const row = buckets.ranked[i]!;
@@ -271,6 +283,7 @@ async function runOptionsFetch(
       );
       if (result.status === "ok") {
         await writeOptionsView(result.view, outDir);
+        archivedViews.push(result.view);
         bestBySymbol[row.symbol] = bestStaticReturns(result.view);
         console.log(
           `${tag}   ok ${row.symbol} — ${result.view.expirations.length} exp, ${result.callCount}c/${result.putCount}p`,
@@ -295,6 +308,20 @@ async function runOptionsFetch(
   const pruned = await pruneStaleOptionsFiles(outDir, keep);
   if (pruned.deleted.length > 0) {
     console.log(`pruned ${pruned.deleted.length} stale options file(s): ${pruned.deleted.join(", ")}`);
+  }
+
+  // Dated chain archive (full runs only) — accumulates real
+  // bids/asks/IV for a future real-premium backtest. Never pruned.
+  if (archiveRoot !== null && archivedViews.length > 0) {
+    const archivePath = await writeOptionsArchive(
+      {
+        snapshotDate: snapshot.snapshotDate,
+        generatedAt: new Date().toISOString(),
+        views: archivedViews,
+      },
+      archiveRoot,
+    );
+    console.log(`archived: ${archivePath} (${archivedViews.length} views)`);
   }
 
   // Roll best-static-return numbers into a single summary file the web
