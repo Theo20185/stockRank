@@ -27,22 +27,22 @@ type SelectedExpirationMeta = {
   selectionReason: SelectionReason;
 };
 
-// Single-anchor strategy: every strike is anchored to the conservative
-// fair-value tail (p25).
+// Single-anchor strategy: the conservative fair-value tail (p25)
+// gates both sides and anchors the call strike.
 //
-// Calls assign at p25 or just above — "exit at conservative fair value."
+// Calls assign at p25 (projected to expiry when trend samples allow)
+// or just above — "exit at conservative fair value." Strictly OTM.
 //
-// Puts target the highest listed strike at-or-below p25 (typically
-// ITM for Candidates, since price < p25 by definition). The intrinsic
-// value of an ITM put becomes part of the premium received; if assigned,
-// effective cost basis = strike − premium ≈ price below current spot.
-// If the stock recovers to p25 before expiry, we close the put (buy
-// back) capturing nearly all the premium and freeing capital for the
-// next cycle. This is the wheel mechanic validated in the 2026-04-26/27
-// portfolio backtest (see project_engine_alpha_2026_04_26 memory):
-// at strike=p25 with 1y expiry, premium harvest is ~2× the OTM
-// strategy and IRR is materially higher when combined with B2C +
-// position-close-at-p25 + 10%-profit close.
+// Puts are strictly OTM below current, picked closest-to-target
+// under liquidity floors — see the rule block at §3.3 of
+// docs/specs/options.md and the selection comment below. The earlier
+// ITM-at-p25 wheel design was RETRACTED 2026-04-27: with corrected
+// put-call-parity pricing (commit 3961cdf), deep-ITM puts are priced
+// as forwards (IV→0, bid ≈ PV(K) − S) and carry no income beyond
+// intrinsic; the corrected portfolio backtest showed the CSP/CC
+// overlay underperforms holding the same universe (12.97%/yr vs
+// 14.70% ex-Mag-7 equal-weight, 2017-2026). The overlay's value is
+// entry/exit discipline, not return enhancement.
 //
 // Median + p75 anchors were dropped earlier to keep the workflow
 // honest — selling above the conservative tail is greedy for a value
@@ -51,6 +51,27 @@ const CALL_LABEL: CoveredCallLabel = "conservative";
 const CALL_ANCHOR: CoveredCallAnchor = "p25";
 const PUT_LABEL: CashSecuredPutLabel = "deep-value";
 const PUT_ANCHOR: CashSecuredPutAnchor = "p25";
+
+// Tradability floors, both sides (spec §3.2/§3.3, 2026-06-11).
+// Yahoo marks parity-priced contracts with a sentinel IV of ~1e-5 —
+// not exactly 0 — so the threshold must be an epsilon, not `> 0`
+// (observed across 15 symbols in the 2026-06-10 capture).
+const MIN_TRADEABLE_IV = 0.01;
+// Premium floor: $10 per contract. Cuts out pathological penny
+// quotes (F 2026-05-13: $4 strike bid $0.01 — $1/contract is noise,
+// not income).
+const MIN_PREMIUM_PER_CONTRACT_DOLLARS = 10;
+
+/** Shared bid/IV/premium tradability gate for both sides. */
+function isTradeable(c: ContractQuote): boolean {
+  return (
+    c.bid !== null &&
+    c.bid > 0 &&
+    c.impliedVolatility !== null &&
+    c.impliedVolatility > MIN_TRADEABLE_IV &&
+    c.bid * 100 >= MIN_PREMIUM_PER_CONTRACT_DOLLARS
+  );
+}
 
 function findContract(
   contracts: ContractQuote[],
@@ -112,7 +133,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     const snap = snapStrike(callStrikes, callAnchor, "call");
     if (snap && snap.strike > currentPrice) {
       const contract = findContract(group.calls, snap.strike);
-      if (contract && contract.bid !== null && contract.bid > 0) {
+      if (contract && isTradeable(contract)) {
         const r = computeCallReturns({ contract, currentPrice, annualDividendPerShare });
         coveredCalls.push({
           label: CALL_LABEL,
@@ -141,7 +162,9 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   //      Deeper strikes (> 25% OTM) require an implausible crash
   //      before assignment AND tend to surface stale-IV / penny-bid
   //      data that doesn't reflect real market liquidity.
-  //   3. Require bid > 0 AND impliedVolatility > 0 (tradeable contract).
+  //   3. Require bid > 0 AND impliedVolatility > MIN_TRADEABLE_IV
+  //      (tradeable contract; epsilon catches Yahoo's ~1e-5 parity
+  //      sentinel).
   //   4. Require bid × 100 ≥ $10 of premium per contract. Cuts out
   //      pathological penny quotes (F 2026-05-13: $4 strike bid $0.01
   //      passed the IV>0 filter but the $1 premium per contract is
@@ -157,7 +180,6 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
   //   - 2026-05-13 (SYF): deep-OTM strike with stale IV=188.6%.
   //   - 2026-05-13 (F):   penny bid on $4 strike at $11.82 current.
   const MIN_OTM_STRIKE_FRACTION = 0.75;
-  const MIN_PREMIUM_PER_CONTRACT_DOLLARS = 10;
 
   const puts: CashSecuredPut[] = [];
   if (currentPrice >= range.p25) {
@@ -189,17 +211,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     // Max-OTM cap: strike no more than 25% below current.
     if (strike < minStrike) continue;
     const c = findContract(group.puts, strike);
-    if (
-      c === undefined ||
-      c.bid === null ||
-      c.bid <= 0 ||
-      c.impliedVolatility === null ||
-      c.impliedVolatility <= 0
-    ) {
-      continue;
-    }
-    // Premium floor: at least $10 per contract.
-    if (c.bid * 100 < MIN_PREMIUM_PER_CONTRACT_DOLLARS) continue;
+    if (c === undefined || !isTradeable(c)) continue;
     // Choose the candidate closest to the target. Ties (rare with
     // discrete strike increments) prefer the HIGHER strike to keep
     // behavior backwards-compatible with the pre-projection

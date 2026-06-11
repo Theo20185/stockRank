@@ -686,3 +686,62 @@ describe("buildExpirationView — strike re-anchoring on projection", () => {
     expect(view.puts[0]?.contract.strike).toBe(95);
   });
 });
+
+describe("buildExpirationView — tradability floors (2026-06-11)", () => {
+  // Yahoo marks parity-priced contracts with a sentinel IV of ~1e-5,
+  // not exactly 0 — a plain `> 0` check passes them. Both sides now
+  // require IV > 0.01 and >= $10 of premium per contract.
+  const YAHOO_SENTINEL_IV = 0.000010000000000000003;
+
+  it("rejects a put whose IV is the Yahoo parity sentinel (~1e-5)", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const sentinelPut = { ...contract("P", 95, 3), impliedVolatility: YAHOO_SENTINEL_IV };
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: group([], [sentinelPut]),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.puts).toEqual([]);
+  });
+
+  it("rejects a call whose IV is the Yahoo parity sentinel (~1e-5)", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const sentinelCall = { ...contract("C", 120, 5), impliedVolatility: YAHOO_SENTINEL_IV };
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: group([sentinelCall], []),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toEqual([]);
+  });
+
+  it("rejects a call with a penny bid below the $10/contract floor", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const pennyCall = contract("C", 120, 0.05);   // $5/contract
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: group([pennyCall], []),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toEqual([]);
+  });
+
+  it("keeps a call at exactly the $10/contract floor with real IV", () => {
+    const fairValue = fv(120, 150, 180, 100);
+    const floorCall = contract("C", 120, 0.10);   // exactly $10/contract
+    const view = buildExpirationView({
+      selected: { expiration: "2027-01-15", selectionReason: "yearly" },
+      group: group([floorCall], []),
+      fairValue,
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(view.coveredCalls).toHaveLength(1);
+  });
+});
