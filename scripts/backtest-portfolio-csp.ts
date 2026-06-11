@@ -40,13 +40,17 @@ import {
   fairValueFor,
   bucketRows,
   estimateCallPremiumPct,
+  projectFromQuarterlySamples,
   type RankedRow,
 } from "@stockrank/ranking";
-import type { CompanySnapshot, Snapshot } from "@stockrank/core";
+import type { CompanySnapshot, FvTrendSample, Snapshot } from "@stockrank/core";
 
 const CACHE_DIR = resolve(process.cwd(), "tmp/backtest-cache");
 const SNAPSHOT_PATH = resolve(process.cwd(), "public/data/snapshot-latest.json");
-const OUTPUT_PATH = resolve(process.cwd(), "tmp/backtest-portfolio-csp.json");
+const OUTPUT_PATH = resolve(
+  process.cwd(),
+  process.env.OUTPUT_PATH ?? "tmp/backtest-portfolio-csp.json",
+);
 
 const STARTING_CAPITAL = 65_000;
 const MONTHLY_CONTRIBUTION = 2_000;
@@ -61,9 +65,39 @@ const RISK_FREE_RATE = 0.04;
  *     of an open position (with margin). 90-day default cycle.
  *   "wheel" — Legacy ITM-at-p25 mode (validated as suboptimal once
  *     the pricing-model bug was corrected). Preserved for comparison.
+ *   "production" — Mirrors the live rule shipped 2026-05-13 in
+ *     packages/ranking/src/options/index.ts: strictly-OTM strikes,
+ *     ≥ 0.75 × spot cap, ≥ $10/contract premium floor, pick the
+ *     strike closest to the target. Target = projected price at
+ *     expiry (OLS over trailing quarterly samples, same code path as
+ *     production via projectFromQuarterlySamples) when
+ *     PROJECTION_TARGETING=on, else current spot ("least OTM").
+ *     Covered-call anchor likewise uses projected fvP25 when on.
+ *     Close mechanics are kept identical to yield-aware (Tasty 50%)
+ *     so the comparison isolates the strike rule + projection.
  */
-const STRATEGY_MODE = (process.env.STRATEGY_MODE ?? "yield-aware") as "yield-aware" | "wheel";
+const STRATEGY_MODE = (process.env.STRATEGY_MODE ?? "yield-aware") as
+  | "yield-aware"
+  | "wheel"
+  | "production";
 const WHEEL_MODE = STRATEGY_MODE === "wheel";
+const PRODUCTION_MODE = STRATEGY_MODE === "production";
+
+/* Projection targeting (production mode only): "on" re-targets the
+ * put strike to the OLS-projected price at expiry and the CC anchor
+ * to the projected fvP25 — exactly what the live Plan screen does.
+ * "off" falls back to spot / today's p25 (the pre-projection rule). */
+const PROJECTION_TARGETING = (process.env.PROJECTION_TARGETING ?? "on") === "on";
+
+/* Production put-strike grid: strictly-OTM multipliers of spot down
+ * to the 0.75 floor (mirrors MIN_OTM_STRIKE_FRACTION in
+ * packages/ranking/src/options/index.ts). Denser near ATM where real
+ * chains list more strikes. */
+const PRODUCTION_STRIKE_MULTIPLIERS = [
+  0.75, 0.78, 0.81, 0.84, 0.87, 0.90, 0.92, 0.94, 0.96, 0.98, 0.99,
+];
+/* Mirrors MIN_PREMIUM_PER_CONTRACT_DOLLARS in production. */
+const PRODUCTION_MIN_PREMIUM_PER_SHARE = 0.10;
 
 /* Yield-arbitrage close threshold (yield-aware mode only). Close an
  * open CSP when the best available new-CSP TV-yield exceeds the
@@ -471,6 +505,41 @@ function findBestYieldPutStrike(
   return best;
 }
 
+/** Production-rule put strike (live rule as of 2026-05-13):
+ *   1. OTM only — strike strictly below spot.
+ *   2. Cap at 0.75 × spot (deeper strikes are stale-IV/penny-bid noise
+ *      on real chains).
+ *   3. Premium floor: ≥ $0.10/share ($10/contract).
+ *   4. Among survivors, pick the strike CLOSEST to `target`; ties
+ *      prefer the higher strike. Target = projected price at expiry
+ *      when projection targeting is on, else spot.
+ * The synthetic-premium analog of the IV>0 tradability filter is
+ * timeValue > 0 (always true for OTM strikes under this model). */
+function findProductionPutStrike(
+  spot: number,
+  target: number,
+  vol: number,
+  daysToExpiry: number,
+): { strike: number; premiumPerShare: number } | null {
+  let best: { strike: number; premiumPerShare: number } | null = null;
+  for (const mult of PRODUCTION_STRIKE_MULTIPLIERS) {
+    const strike = spot * mult;
+    if (strike >= spot) continue; // OTM only (defensive; mults are < 1)
+    const premiumPerShare = estimatePutValuePerShare(strike, spot, daysToExpiry, vol);
+    const timeValue = premiumPerShare - Math.max(0, strike - spot);
+    if (timeValue <= 0) continue;
+    if (premiumPerShare < PRODUCTION_MIN_PREMIUM_PER_SHARE) continue;
+    if (
+      best === null ||
+      Math.abs(strike - target) < Math.abs(best.strike - target) ||
+      (Math.abs(strike - target) === Math.abs(best.strike - target) && strike > best.strike)
+    ) {
+      best = { strike, premiumPerShare };
+    }
+  }
+  return best;
+}
+
 /** Same parity-corrected pricing for calls (used for CC writing and
  * CC buyback during position close). */
 function estimateCallValuePerShare(
@@ -564,6 +633,13 @@ async function main(): Promise<void> {
     console.log(`  Strike: max time-value yield via grid search (slightly OTM typically)`);
     console.log(`  Close: when current put value ≤ 50% of original premium`);
     console.log(`  POSITION_CLOSE_PROFIT=${POSITION_CLOSE_PROFIT} (above effective basis)`);
+  } else if (PRODUCTION_MODE) {
+    console.log(`Strategy: PRODUCTION (2026-05-13 live rule) — OTM-only, closest-to-target`);
+    console.log(`  CSP_CYCLE_DAYS=${CSP_CYCLE_DAYS}`);
+    console.log(`  Strike: closest to ${PROJECTION_TARGETING ? "OLS-projected price at expiry" : "spot (least OTM)"}, floor 0.75×spot, ≥$10/contract`);
+    console.log(`  CC anchor: ${PROJECTION_TARGETING ? "projected fvP25 at expiry" : "today's p25"}`);
+    console.log(`  PROJECTION_TARGETING=${PROJECTION_TARGETING ? "on" : "off"}`);
+    console.log(`  Close: Tasty 50% (same as yield-aware, isolates the strike rule)`);
   } else if (WHEEL_MODE) {
     console.log(`Strategy: WHEEL (legacy) — 1y CSPs at p25, CCs at cost basis.`);
     console.log(`  CSP_STRIKE_DEPTH=${CSP_STRIKE_DEPTH}`);
@@ -643,6 +719,31 @@ async function main(): Promise<void> {
   let lastEventDate = BACKTEST_START;
   const log: PerEvent[] = [];
   const valuationSeries: Array<{ date: string; total: number; cash: number; stocks: number }> = [];
+
+  // Per-symbol quarterly (price, FV-anchor) history accumulated as the
+  // sim advances — the backtest analog of the dated snapshot archive
+  // that feeds production's projectFromQuarterlySamples. Recorded on
+  // the first deploy event of each calendar quarter, so projections
+  // are strictly point-in-time (no lookahead). Production mode only.
+  const trendSamples = new Map<string, FvTrendSample[]>();
+  let lastSampledQuarter = "";
+
+  /** Projected value of `field` at `targetDate`, using the SAME OLS
+   * code path as the live Plan screen. Null when projection targeting
+   * is off or fewer than 4 quarterly samples exist (cold start —
+   * production behaves identically). */
+  function projectField(
+    symbol: string,
+    field: "price" | "fvP25",
+    today: string,
+    targetDate: string,
+  ): number | null {
+    if (!PRODUCTION_MODE || !PROJECTION_TARGETING) return null;
+    const samples = trendSamples.get(symbol);
+    if (!samples || samples.length < 4) return null;
+    const r = projectFromQuarterlySamples(samples, { field, targetDate, today });
+    return r !== null && r.projectedValue > 0 ? r.projectedValue : null;
+  }
 
   while (events.length > 0) {
     const ev = events.shift()!;
@@ -765,6 +866,33 @@ async function main(): Promise<void> {
         if (row.fairValue?.range?.p25) p25BySymbol.set(row.symbol, row.fairValue.range.p25);
       }
 
+      // Record quarterly trend samples (production mode). One sample
+      // per symbol per calendar quarter, taken at the first deploy
+      // event of the quarter.
+      if (PRODUCTION_MODE) {
+        const month = Number(ev.date.slice(5, 7));
+        const quarterKey = `${ev.date.slice(0, 4)}-Q${Math.floor((month - 1) / 3) + 1}`;
+        if (quarterKey !== lastSampledQuarter) {
+          lastSampledQuarter = quarterKey;
+          for (const row of ranked.rows) {
+            const symBars = bars.get(row.symbol);
+            const px = symBars ? priceAtOrBefore(symBars, ev.date) : null;
+            if (px === null || px <= 0) continue;
+            const samples = trendSamples.get(row.symbol) ?? [];
+            samples.push({
+              date: ev.date,
+              price: px,
+              fvP25: row.fairValue?.range?.p25 ?? null,
+              fvMedian: row.fairValue?.range?.median ?? null,
+              fvP75: row.fairValue?.range?.p75 ?? null,
+            });
+            // The projection ladder looks back at most 12 quarters.
+            if (samples.length > 12) samples.shift();
+            trendSamples.set(row.symbol, samples);
+          }
+        }
+      }
+
       // ── (0a) Buy-to-close any open CSP whose underlying has recovered
       //         above strike (put is now OTM, intrinsic gone). Pay
       //         current time-value to close, free the collateral, and
@@ -793,7 +921,7 @@ async function main(): Promise<void> {
         const closeCost = valuePerShare * 100;
 
         let shouldClose = false;
-        if (STRATEGY_MODE === "yield-aware") {
+        if (STRATEGY_MODE === "yield-aware" || PRODUCTION_MODE) {
           // Tasty's 50% max-profit rule: close when current put value
           // is ≤ 50% of original premium. This captures the back-
           // loaded theta decay curve — by mid-cycle ~50% of premium
@@ -957,7 +1085,13 @@ async function main(): Promise<void> {
         } else {
           const p25 = p25BySymbol.get(stock.symbol);
           if (p25 === undefined) continue;
-          ccStrike = Math.max(p25, minStrike);
+          // Production + projection: anchor to the projected fvP25 at
+          // the call's expiry (live rule — an improving FV picks a
+          // higher strike that captures the drift). Falls back to
+          // today's p25 when no projection is available.
+          const ccExpiryIso = addDaysIso(ev.date, CC_EXPIRY_DAYS);
+          const projectedP25 = projectField(stock.symbol, "fvP25", ev.date, ccExpiryIso);
+          ccStrike = Math.max(projectedP25 ?? p25, minStrike);
         }
         const vol = realizedVol(symBars, ev.date, CSP_VOL_LOOKBACK_DAYS);
         // Parity-corrected call pricing — for ITM calls (cost-basis
@@ -1030,6 +1164,17 @@ async function main(): Promise<void> {
           if (p25 === undefined || p25 <= spot) continue;
           strike = spot + CSP_STRIKE_DEPTH * (p25 - spot);
           premiumPerShare = estimatePutValuePerShare(strike, spot, CSP_CYCLE_DAYS, vol);
+        } else if (PRODUCTION_MODE) {
+          // Live 2026-05-13 rule: put suppressed above the conservative
+          // tail; otherwise OTM-only strike closest to the target.
+          const p25 = cand.fairValue?.range?.p25;
+          if (p25 === undefined || p25 <= spot) continue;
+          const expiryIso = addDaysIso(ev.date, CSP_CYCLE_DAYS);
+          const target = projectField(cand.symbol, "price", ev.date, expiryIso) ?? spot;
+          const best = findProductionPutStrike(spot, target, vol, CSP_CYCLE_DAYS);
+          if (best === null) continue;
+          strike = best.strike;
+          premiumPerShare = best.premiumPerShare;
         } else {
           // yield-aware: pick best-time-value-yield strike via grid search.
           // Capped at p25 (engine's value approval).
@@ -1150,6 +1295,8 @@ async function main(): Promise<void> {
           backtestStart: BACKTEST_START,
           backtestEnd: BACKTEST_END,
           riskFreeRate: RISK_FREE_RATE,
+          strategyMode: STRATEGY_MODE,
+          projectionTargeting: PRODUCTION_MODE ? PROJECTION_TARGETING : null,
           cspDownsidePct: CSP_DOWNSIDE_PCT,
           cspCycleDays: CSP_CYCLE_DAYS,
           wheelMode: WHEEL_MODE,
