@@ -148,18 +148,30 @@ This is the "if the thesis plays out" number — the value-tilted
 defensive mental model that peer multiples × this company's earnings
 re-rate to the cohort midpoint.
 
-The UI should optionally show two sensitivities:
+The UI should optionally show three sensitivities:
 
 - **Conservative**: `FV = range.p25` — "if mean reversion only carries
   us to the conservative tail."
 - **Bear**: `FV = P` (no move) — "if the thesis doesn't play out and
   the stock just sits." Exposes the option-only P&L.
+- **Crash**: `FV = P × 0.70` — a −30% drawdown (typical bear-market
+  depth). Added 2026-06-11.
 
 A bear-case row shows very clearly why the put and call dominate the
 outright-buy when the thesis lags: you still collect premium and SPAXX
 interest. The outright-buy row goes to just `D × T/365`.
 
-Sensitivity isn't a range of estimates — it's three scenarios the user
+The crash row exists because short option P&L is concave in the end
+price: it wins in the middle of the distribution and loses in the
+tails, so any point-estimate comparison structurally flatters the
+option trades. At `P × 0.70` the CSP row shows the assignment loss
+(`FV − Kp` deeply negative), the call rows show the premium cushion
+being overwhelmed, and "hold cash" finally wins — which is the honest
+price of selling tail insurance. −30% is a display constant, not a
+model: it approximates the median peak-to-trough of post-war S&P bear
+markets and is deliberately round.
+
+Sensitivity isn't a range of estimates — it's four scenarios the user
 can flip between. Keeps the UI honest.
 
 ## 4. SPAXX rate
@@ -188,7 +200,7 @@ Trivial to swap for option 2 later.
 ## 5. Output structure
 
 ```ts
-type ProjectedEndCase = "median" | "p25" | "flat";
+type ProjectedEndCase = "median" | "p25" | "flat" | "crash";
 
 type TradeComparison = {
   symbol: string;

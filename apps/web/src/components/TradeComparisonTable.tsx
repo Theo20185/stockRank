@@ -25,6 +25,7 @@ const SCENARIO_LABEL: Record<ProjectedEndCase, string> = {
   median: "Median FV",
   p25: "Conservative (p25)",
   flat: "Flat",
+  crash: "Crash (−30%)",
 };
 
 function formatPnl(value: number): string {

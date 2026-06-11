@@ -135,6 +135,10 @@ function ScenarioToggle({
     { key: "p25", label: "Conservative" },
     { key: "median", label: "Median" },
     { key: "flat", label: "Flat" },
+    // Short option P&L is concave in the end price — the three point
+    // estimates above structurally flatter the option trades. This
+    // row prices the tail they sold (spec trade-comparison.md §3).
+    { key: "crash", label: "Crash −30%" },
   ];
   return (
     <nav className="options-panel__scenario" aria-label="Projected end-price scenario">

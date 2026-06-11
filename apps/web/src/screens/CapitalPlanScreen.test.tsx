@@ -543,3 +543,51 @@ describe("<CapitalPlanScreen />", () => {
     expect(onSelectStock).toHaveBeenCalledWith("AAA");
   });
 });
+
+describe("<CapitalPlanScreen /> — assignment stress view", () => {
+  const baseProps = {
+    onSelectTab: vi.fn(),
+    onSelectStock: vi.fn(),
+  };
+
+  it("shows the all-assigned cluster outcome: contracts, names, cost basis net of premium, uncommitted cash", async () => {
+    const user = userEvent.setup();
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[fakeRow("AAA", 80), fakeRow("BBB", 75), fakeRow("CCC", 70)]}
+        initialOptions={{
+          AAA: fakeOptionsView("AAA", { monthlyStrike: 50, monthlyBid: 1 }),
+          BBB: fakeOptionsView("BBB", { monthlyStrike: 100, monthlyBid: 2 }),
+          CCC: fakeOptionsView("CCC", { monthlyStrike: 25, monthlyBid: 0.5 }),
+        }}
+      />,
+    );
+    const capital = screen.getByLabelText(/capital available/i);
+    await user.clear(capital);
+    await user.type(capital, "30000");
+
+    // Equal split $10k/name: AAA 2x$50 ($10k), BBB 1x$100 ($10k),
+    // CCC 4x$25 ($10k). Premium = $200 + $200 + $200 = $600.
+    const stress = await screen.findByRole("region", { name: /assignment stress/i });
+    expect(stress).toHaveTextContent(/if every put is assigned/i);
+    expect(stress).toHaveTextContent(/7 contracts/i);
+    expect(stress).toHaveTextContent(/3 names/i);
+    expect(stress).toHaveTextContent(/\$30,000/);   // collateral converting to stock
+    expect(stress).toHaveTextContent(/\$29,400/);   // net cost basis after premium
+    expect(stress).toHaveTextContent(/\$600/);      // premium kept
+  });
+
+  it("does not render the stress section when nothing is allocated", async () => {
+    render(
+      <CapitalPlanScreen
+        {...baseProps}
+        rankedRows={[]}
+        initialOptions={{}}
+      />,
+    );
+    await waitFor(() => {
+      expect(screen.queryByRole("region", { name: /assignment stress/i })).toBeNull();
+    });
+  });
+});

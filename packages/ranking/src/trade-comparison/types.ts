@@ -4,7 +4,7 @@
  * See docs/specs/trade-comparison.md.
  */
 
-export type ProjectedEndCase = "median" | "p25" | "flat";
+export type ProjectedEndCase = "median" | "p25" | "flat" | "crash";
 
 export type TradeKey =
   | "buyOutright"

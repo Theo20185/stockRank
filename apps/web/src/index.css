@@ -1752,6 +1752,32 @@ main.app--message h1 {
   color: var(--text-muted);
 }
 
+.plan__assignment {
+  padding: var(--sp-3) var(--sp-4);
+  margin-top: var(--sp-3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--negative, #c0504d);
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+.plan__assignment h3 {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-tiny);
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.plan__assignment p {
+  margin: 0;
+  font-size: var(--fs-small, 0.875rem);
+}
+
+.plan__assignment strong {
+  color: var(--text);
+}
+
 .plan-table {
   width: 100%;
   border-collapse: collapse;

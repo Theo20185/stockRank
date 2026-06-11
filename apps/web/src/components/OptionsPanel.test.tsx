@@ -375,3 +375,23 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
     expect(loader).toHaveBeenCalledTimes(2);
   });
 });
+
+describe("<OptionsPanel /> — crash scenario toggle", () => {
+  it("renders the Crash button and re-projects at 70% of current on click", async () => {
+    const { default: userEvent } = await import("@testing-library/user-event");
+    const user = userEvent.setup();
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view: fakeView() })}
+      />,
+    );
+    const crash = await screen.findByRole("button", { name: /crash/i });
+    expect(crash).toHaveAttribute("aria-pressed", "false");
+    await user.click(crash);
+    expect(crash).toHaveAttribute("aria-pressed", "true");
+    // currentPrice 90 x 0.70 = $63.00 projected end price in the caption.
+    expect(screen.getByText(/\$63\.00/)).toBeInTheDocument();
+  });
+});

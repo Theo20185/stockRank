@@ -146,3 +146,30 @@ describe("computeTradeComparison — full output", () => {
     expect(result.trades.holdCashSpaxx.spaxxPnl).toBeCloseTo(100 * 0.06 * (270 / 365), 3);
   });
 });
+
+describe("computeTradeComparison — crash scenario (P x 0.70)", () => {
+  it("projects the end price at 70% of current", () => {
+    const result = computeTradeComparison({ ...BASE, scenario: "crash" });
+    expect(result.projectedEndPrice).toBe(70);
+    expect(result.projectedEndCase).toBe("crash");
+  });
+
+  it("CSP shows the assignment loss and hold-cash wins", () => {
+    const result = computeTradeComparison({ ...BASE, scenario: "crash" });
+    const put = result.trades.cashSecuredPut!;
+    // FV 70 < K 95 -> assigned; stock P&L = 70 - 95 = -25
+    expect(put.assigned).toBe(true);
+    expect(put.stockPnl).toBe(-25);
+    expect(put.totalPnl).toBeLessThan(0);
+    // Outright loses 30 minus dividends; every stock-exposed trade is
+    // under water while SPAXX stays positive.
+    expect(result.trades.buyOutright.totalPnl).toBeLessThan(0);
+    expect(result.trades.buyWrite!.totalPnl).toBeLessThan(0);
+    expect(result.trades.coveredCall!.totalPnl).toBeLessThan(0);
+    const cash = result.trades.holdCashSpaxx;
+    expect(cash.totalPnl).toBeGreaterThan(0);
+    for (const leg of [result.trades.buyOutright, result.trades.buyWrite!, result.trades.coveredCall!, put]) {
+      expect(cash.roiAnnualized).toBeGreaterThan(leg.roiAnnualized);
+    }
+  });
+});

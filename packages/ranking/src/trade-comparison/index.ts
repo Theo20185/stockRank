@@ -35,6 +35,15 @@ export type ComputeInput = {
   put?: { strike: number; bid: number } | null;
 };
 
+/**
+ * Crash scenario drawdown — spec §3. Short option P&L is concave in
+ * the end price, so the median/p25/flat point estimates structurally
+ * flatter the option trades; this row prices the tail they sold.
+ * −30% ≈ median post-war S&P bear-market depth; a display constant,
+ * not a model.
+ */
+export const CRASH_END_PRICE_FRACTION = 0.70;
+
 function projectedEndPriceFor(
   case_: ProjectedEndCase,
   fv: { p25: number; median: number; p75: number },
@@ -42,6 +51,7 @@ function projectedEndPriceFor(
 ): number {
   if (case_ === "p25") return fv.p25;
   if (case_ === "flat") return current;
+  if (case_ === "crash") return current * CRASH_END_PRICE_FRACTION;
   return fv.median;
 }
 

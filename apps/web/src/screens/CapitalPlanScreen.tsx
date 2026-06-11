@@ -261,6 +261,10 @@ export function CapitalPlanScreen({
         <PlanSummary plan={plan} candidatesAvailable={candidates.length} selectedMonth={effectiveMonth} />
       )}
 
+      {status === "ready" && plan.allocated > 0 && (
+        <AssignmentStress plan={plan} />
+      )}
+
       {status === "ready" && plan.items.length > 0 && (
         <PlanTable
           plan={plan}
@@ -384,6 +388,35 @@ function PlanSummary({
         value={`${usedCount} / ${candidatesAvailable}`}
         sub={selectedMonth ? `${formatYearMonth(selectedMonth)} expiration` : ""}
       />
+    </section>
+  );
+}
+
+/**
+ * The cluster risk a CSP portfolio actually carries: short puts all
+ * convert to long stock together in a drawdown — exactly when prices
+ * are falling. This card prices the "every put assigned at once"
+ * outcome so the plan's premium yield is never read without its
+ * tail. Derived entirely from the plan (no market data): collateral
+ * converts to stock at the strikes, the premium is kept, and the
+ * uncommitted remainder is the only cash left.
+ */
+function AssignmentStress({ plan }: { plan: CapitalPlan }) {
+  const allocatedItems = plan.items.filter((i) => i.contracts > 0);
+  const totalContracts = allocatedItems.reduce((s, i) => s + i.contracts, 0);
+  const netCostBasis = plan.allocated - plan.totalPremium;
+  return (
+    <section className="plan__assignment" role="region" aria-label="Assignment stress">
+      <h3>If every put is assigned</h3>
+      <p>
+        In a market-wide drawdown, assignment clusters: {totalContracts} contracts
+        across {allocatedItems.length} names convert to stock for{" "}
+        <strong>{formatDollars(plan.allocated)}</strong> of collateral. Premium kept:{" "}
+        {formatDollars(plan.totalPremium)} → net cost basis{" "}
+        <strong>{formatDollars(netCostBasis)}</strong>. Uncommitted cash after
+        assignment: {formatDollars(plan.remaining)}. Shares will be marked below
+        the strikes at assignment — that is the trade.
+      </p>
     </section>
   );
 }
