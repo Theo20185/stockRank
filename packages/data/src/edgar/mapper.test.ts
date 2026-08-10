@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  cumulativeSplitFactorAfter,
   DEFAULT_MAX_ANNUAL_PERIODS,
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
@@ -9,6 +10,7 @@ import {
   mapAnnualPeriods,
   mapQuarterlyPeriods,
   rescaleSharesInPeriods,
+  splitEventsFrom,
   withAnnualRatios,
 } from "./mapper.js";
 import type { EdgarCompanyFacts, EdgarFact } from "./types.js";
@@ -301,6 +303,200 @@ describe("rescaleSharesInPeriods", () => {
     ];
     const rescaled = rescaleSharesInPeriods(periods, 1_000_000);
     expect(rescaled[0]!.income.sharesDiluted).toBeNull();
+  });
+});
+
+describe("splitEventsFrom", () => {
+  it("normalizes numerator/denominator pairs and Date objects", () => {
+    expect(
+      splitEventsFrom([
+        { date: new Date("2024-06-10T13:30:00.000Z"), numerator: 10, denominator: 1 },
+      ]),
+    ).toEqual([{ date: "2024-06-10", ratio: 10 }]);
+  });
+
+  it("falls back to parsing the splitRatio string", () => {
+    expect(
+      splitEventsFrom([{ date: "2014-06-09T13:30:00.000Z", splitRatio: "7:1" }]),
+    ).toEqual([{ date: "2014-06-09", ratio: 7 }]);
+  });
+
+  it("handles reverse splits (ratio < 1)", () => {
+    expect(
+      splitEventsFrom([{ date: "2023-01-05", numerator: 1, denominator: 20 }]),
+    ).toEqual([{ date: "2023-01-05", ratio: 0.05 }]);
+  });
+
+  it("drops degenerate entries rather than zeroing per-share values", () => {
+    expect(
+      splitEventsFrom([
+        { date: "2024-01-01", numerator: 1, denominator: 1 },
+        { date: "2024-02-01", numerator: 0, denominator: 1 },
+        { date: "2024-03-01", numerator: 4, denominator: 0 },
+        { date: "not-a-date", numerator: 4, denominator: 1 },
+        { date: "2024-05-01" },
+      ]),
+    ).toEqual([]);
+  });
+
+  it("returns an empty list for missing input", () => {
+    expect(splitEventsFrom(undefined)).toEqual([]);
+    expect(splitEventsFrom(null)).toEqual([]);
+  });
+});
+
+describe("cumulativeSplitFactorAfter", () => {
+  const splits = [
+    { date: "2021-07-20", ratio: 4 },
+    { date: "2024-06-10", ratio: 10 },
+  ];
+
+  it("returns 1 when no split follows the date", () => {
+    expect(cumulativeSplitFactorAfter(splits, "2025-01-01")).toBe(1);
+  });
+
+  it("compounds every split strictly after the date", () => {
+    expect(cumulativeSplitFactorAfter(splits, "2020-01-01")).toBe(40);
+    expect(cumulativeSplitFactorAfter(splits, "2022-01-01")).toBe(10);
+  });
+
+  it("excludes a split landing exactly on the date (already reflected)", () => {
+    expect(cumulativeSplitFactorAfter(splits, "2021-07-20")).toBe(10);
+  });
+
+  it("returns 1 for an empty or absent split list", () => {
+    expect(cumulativeSplitFactorAfter([], "2020-01-01")).toBe(1);
+    expect(cumulativeSplitFactorAfter(undefined, "2020-01-01")).toBe(1);
+  });
+});
+
+describe("split-basis normalization (mapAnnualPeriods opts.splits)", () => {
+  /**
+   * Reproduces the NVDA/CMG basis break: `dedupeByPeriod` keeps the
+   * latest-filed fact per period, so recent fiscal years carry
+   * current-basis per-share values (restated in the newest 10-K's
+   * comparatives) while older years keep their pre-split as-filed
+   * values. Left uncorrected, an old year's EPS reads N× too high
+   * and its share count N× too low.
+   */
+  function splitBreakFacts(): EdgarCompanyFacts {
+    return {
+      cik: 998,
+      entityName: "Splitter Inc.",
+      facts: {
+        "us-gaap": {
+          Revenues: {
+            units: {
+              USD: [
+                fact("2022-12-31", 100, "FY", "2024-02-01"),
+                fact("2024-12-31", 120, "FY", "2026-02-01"),
+              ],
+            },
+          },
+          NetIncomeLoss: {
+            units: {
+              USD: [
+                fact("2022-12-31", 20_000_000, "FY", "2024-02-01"),
+                fact("2024-12-31", 24_000_000, "FY", "2026-02-01"),
+                fact("2024-03-31", 5_000_000, "Q1", "2024-05-01"),
+                fact("2024-09-30", 6_000_000, "Q3", "2024-11-01"),
+              ],
+            },
+          },
+          // FY2022 last restated in the 2024-02-01 filing — i.e.
+          // BEFORE the 2024-06-10 10:1 split. FY2024 filed after.
+          // Q1-2024 filed 2024-05-01 (pre-split), Q3-2024 filed
+          // 2024-11-01 (post-split) — the break lands mid-year.
+          EarningsPerShareDiluted: {
+            units: {
+              "USD/shares": [
+                fact("2022-12-31", 20, "FY", "2024-02-01"),
+                fact("2024-12-31", 2.4, "FY", "2026-02-01"),
+                fact("2024-03-31", 5, "Q1", "2024-05-01"),
+                fact("2024-09-30", 0.6, "Q3", "2024-11-01"),
+              ],
+            },
+          },
+          WeightedAverageNumberOfDilutedSharesOutstanding: {
+            units: {
+              shares: [
+                fact("2022-12-31", 1_000_000, "FY", "2024-02-01"),
+                fact("2024-12-31", 10_000_000, "FY", "2026-02-01"),
+                fact("2024-03-31", 1_000_000, "Q1", "2024-05-01"),
+                fact("2024-09-30", 10_000_000, "Q3", "2024-11-01"),
+              ],
+            },
+          },
+        },
+      },
+    } as unknown as EdgarCompanyFacts;
+  }
+
+  const splits = [{ date: "2024-06-10", ratio: 10 }];
+
+  it("leaves per-share facts untouched when no splits are supplied", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts());
+    const fy2022 = periods.find((p) => p.periodEndDate === "2022-12-31")!;
+    expect(fy2022.income.epsDiluted).toBe(20);
+    expect(fy2022.income.sharesDiluted).toBe(1_000_000);
+  });
+
+  it("divides stale-basis EPS by the split factor that followed its filing", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const fy2022 = periods.find((p) => p.periodEndDate === "2022-12-31")!;
+    expect(fy2022.income.epsDiluted).toBeCloseTo(2, 10);
+  });
+
+  it("multiplies stale-basis share counts by the same factor", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const fy2022 = periods.find((p) => p.periodEndDate === "2022-12-31")!;
+    expect(fy2022.income.sharesDiluted).toBe(10_000_000);
+  });
+
+  it("leaves already-current-basis periods alone", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const fy2024 = periods.find((p) => p.periodEndDate === "2024-12-31")!;
+    expect(fy2024.income.epsDiluted).toBe(2.4);
+    expect(fy2024.income.sharesDiluted).toBe(10_000_000);
+  });
+
+  it("removes the adjacent-year share-count discontinuity", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const counts = periods
+      .map((p) => p.income.sharesDiluted)
+      .filter((v): v is number => v !== null);
+    for (let i = 0; i < counts.length - 1; i += 1) {
+      const ratio = counts[i]! / counts[i + 1]!;
+      expect(ratio).toBeLessThan(1.8);
+      expect(ratio).toBeGreaterThan(0.55);
+    }
+  });
+
+  it("does not rescale dollar-denominated concepts", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const fy2022 = periods.find((p) => p.periodEndDate === "2022-12-31")!;
+    expect(fy2022.income.revenue).toBe(100);
+    expect(fy2022.income.netIncome).toBe(20_000_000);
+  });
+
+  it("keeps EPS × shares consistent with reported net income", () => {
+    const periods = mapAnnualPeriods(splitBreakFacts(), { splits });
+    const fy2022 = periods.find((p) => p.periodEndDate === "2022-12-31")!;
+    const implied =
+      fy2022.income.epsDiluted! * fy2022.income.sharesDiluted!;
+    expect(implied).toBeCloseTo(fy2022.income.netIncome!, 6);
+  });
+
+  it("applies the same normalization to quarterly periods", () => {
+    const periods = mapQuarterlyPeriods(splitBreakFacts(), { splits });
+    // Q1-2024 was filed before the split → stale basis, needs the 10×
+    // correction. Q3-2024 was filed after → already current.
+    const q1 = periods.find((p) => p.periodEndDate === "2024-03-31")!;
+    const q3 = periods.find((p) => p.periodEndDate === "2024-09-30")!;
+    expect(q1.income.epsDiluted).toBeCloseTo(0.5, 10);
+    expect(q1.income.sharesDiluted).toBe(10_000_000);
+    expect(q3.income.epsDiluted).toBe(0.6);
+    expect(q3.income.sharesDiluted).toBe(10_000_000);
   });
 });
 

@@ -25,7 +25,7 @@ import type {
   QuarterlyPeriod,
   TtmMetrics,
 } from "@stockrank/core";
-import type { HistoricalBar } from "./mapper.js";
+import type { HistoricalBar, SplitEvent } from "./mapper.js";
 import {
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
@@ -284,6 +284,7 @@ export function synthesizeSnapshotAt(
   bars: HistoricalBar[],
   date: string,
   profile: SymbolProfile,
+  opts: { splits?: readonly SplitEvent[] } = {},
 ): CompanySnapshot | null {
   // Early bailout: need a chart bar at-or-before this date.
   const sortedBars = [...bars].sort((a, b) => a.date.localeCompare(b.date));
@@ -292,9 +293,17 @@ export function synthesizeSnapshotAt(
 
   // Build the full EDGAR period series (newest-first), uncapped — we
   // need historical depth here, not the snapshot truncation cap.
-  const allAnnual = mapAnnualPeriods(facts, { maxAnnualPeriods: Infinity });
+  // `splits` rebases EDGAR's per-share facts onto the current share
+  // basis. Without it, periods older than the newest 10-K's
+  // comparatives keep their as-filed pre-split values while `bars`
+  // are split-adjusted — see MapOptions.splits.
+  const allAnnual = mapAnnualPeriods(facts, {
+    maxAnnualPeriods: Infinity,
+    ...(opts.splits ? { splits: opts.splits } : {}),
+  });
   const allQuarterly = mapQuarterlyPeriods(facts, {
     maxQuarterlyPeriods: Infinity,
+    ...(opts.splits ? { splits: opts.splits } : {}),
   });
 
   // Apply shares-magnitude rescale before any per-share math.

@@ -232,6 +232,70 @@ describe("synthesizeSnapshotAt", () => {
     expect(snap!.quote.yearHigh).toBe(165);
     expect(snap!.quote.yearLow).toBe(115); // 2024-12-31 low
   });
+
+  // A 10:1 split effective 2026-02-01 — i.e. AFTER every filing in the
+  // fixture (all filed ≤ 2026-01-01) and after the 2025-12-31
+  // reconstruction date. This is the real back-test case: the chart
+  // bars are already on today's post-split basis, so the as-filed
+  // per-share facts have to be divided by 10 to match them.
+  const postSplit = [{ date: "2026-02-01", ratio: 10 }];
+  /** Today's share count reflects the split — 10× the as-filed 1e9. */
+  function postSplitProfile(): SymbolProfile {
+    return { ...profile(), authoritativeShares: 10_000_000_000 };
+  }
+
+  it("rebases TTM EPS onto the current share basis", () => {
+    const snap = synthesizeSnapshotAt(
+      synthFacts(),
+      bars(),
+      "2025-12-31",
+      postSplitProfile(),
+      { splits: postSplit },
+    );
+    expect(snap).not.toBeNull();
+    // TTM EPS 2.65 as filed → 0.265 on the current basis.
+    expect(snap!.ttm.peRatio).toBeCloseTo(160 / 0.265, 6);
+  });
+
+  it("keeps share counts consistent with the split factor", () => {
+    const snap = synthesizeSnapshotAt(
+      synthFacts(),
+      bars(),
+      "2025-12-31",
+      postSplitProfile(),
+      { splits: postSplit },
+    );
+    // 1e9 as filed → 1e10 current. `inferSharesScale` must then see a
+    // match against authoritativeShares and leave the series alone,
+    // rather than "correcting" the rebase back out.
+    expect(snap!.marketCap).toBeCloseTo(160 * 10_000_000_000, 0);
+  });
+
+  it("leaves dollar-denominated EBITDA out of the rebase", () => {
+    // Guards against over-applying the factor. EBITDA is a dollar
+    // total, so EV/EBITDA must equal EV / the unchanged 39.9e9.
+    const snap = synthesizeSnapshotAt(
+      synthFacts(),
+      bars(),
+      "2025-12-31",
+      postSplitProfile(),
+      { splits: postSplit },
+    );
+    const ev = snap!.marketCap + 48e9 - 35e9;
+    expect(snap!.ttm.evToEbitda).toBeCloseTo(ev / 39.9e9, 2);
+  });
+
+  it("is a no-op when no splits are supplied", () => {
+    const base = synthesizeSnapshotAt(synthFacts(), bars(), "2025-12-31", profile());
+    const withEmpty = synthesizeSnapshotAt(
+      synthFacts(),
+      bars(),
+      "2025-12-31",
+      profile(),
+      { splits: [] },
+    );
+    expect(withEmpty!.ttm.peRatio).toBe(base!.ttm.peRatio);
+  });
 });
 
 describe("quarterEndsBetween", () => {

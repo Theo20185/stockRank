@@ -15,6 +15,9 @@ import {
   getEdgarFundamentals,
   inferSharesScale,
   rescaleSharesInPeriods,
+  splitEventsFrom,
+  type RawSplitEvent,
+  type SplitEvent,
   type HistoricalBar as EdgarHistoricalBar,
   withAnnualRatios,
   withQuarterlyRatios,
@@ -24,6 +27,17 @@ import { checkPriceConsistency } from "./price-consistency.js";
 import { retryYahoo } from "./retry.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
+
+/**
+ * Span of the monthly historical chart, in years.
+ *
+ * The own-historical fair-value anchors need 6. The split events in
+ * the same response need to cover every filing behind the 7-fiscal-
+ * year annual window, and a fiscal year's last restatement can land
+ * ~2 years after its period end, so 10 gives that headroom. Monthly
+ * granularity keeps the wider window cheap.
+ */
+const LONG_CHART_YEARS = 10;
 
 function logRetry(symbol: string, op: string): (attempt: number, err: unknown) => void {
   return (attempt, err) => {
@@ -174,6 +188,83 @@ export class YahooProvider implements MarketDataProvider {
     const profile = summary.assetProfile!;
     const price = summary.price!;
 
+    let priceBars: Array<{ close: number; volume: number }> = [];
+    try {
+      const chart = await retryYahoo(
+        () =>
+          yahooFinance.chart(yahooSymbol, {
+            period1: options.priceFrom,
+            period2: options.priceTo,
+            interval: "1d",
+          }),
+        { onRetry: logRetry(symbol, "chart") },
+      );
+      priceBars = (chart.quotes ?? [])
+        .filter(
+          (q): q is typeof q & { close: number; volume: number } =>
+            q.close !== null && q.volume !== null && q.close !== undefined,
+        )
+        .map((q) => ({ close: q.close, volume: q.volume }));
+    } catch (err) {
+      reportError(makeError(symbol, "chart", err));
+    }
+
+    // Historical monthly chart, used to populate the own-historical
+    // anchor inputs:
+    //   - priceAtYearEnd: close at fiscal-year-end (point sample)
+    //   - priceHighInYear / priceLowInYear: max/min intraday prices
+    //     during the fiscal year (range samples)
+    // Capturing the range — not just the year-end snapshot — keeps
+    // the FV engine from systematically underestimating peak
+    // valuations (e.g., BBY hit ~$140 in Nov 2021 but closed FY22 at
+    // $99). Monthly bars include intraday `high`/`low` per period,
+    // so the range is properly captured.
+    //
+    // The window spans LONG_CHART_YEARS rather than the 6 the anchors
+    // strictly need: this response's `events.splits` payload is what
+    // rebases EDGAR's per-share facts onto the current share basis,
+    // and that has to cover every filing behind the annual window
+    // (DEFAULT_MAX_ANNUAL_PERIODS = 7 fiscal years, whose oldest
+    // comparative can be restated a couple of years later still).
+    // Monthly granularity keeps the wider window cheap.
+    type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
+    let historicalBars: HistoricalBar[] = [];
+    let splits: SplitEvent[] = [];
+    try {
+      const longChart = await retryYahoo(
+        () =>
+          yahooFinance.chart(yahooSymbol, {
+            period1: priceFromMinusYears(options.priceTo, LONG_CHART_YEARS),
+            period2: options.priceTo,
+            interval: "1mo",
+          }),
+        { onRetry: logRetry(symbol, "chart-historical") },
+      );
+      splits = splitEventsFrom(
+        (longChart as { events?: { splits?: RawSplitEvent[] } }).events?.splits,
+      );
+      historicalBars = (longChart.quotes ?? [])
+        .filter(
+          (q): q is typeof q & { close: number; date: Date } =>
+            q.close !== null && q.close !== undefined && q.date instanceof Date,
+        )
+        .map((q) => ({
+          date: q.date.toISOString().slice(0, 10),
+          close: q.close,
+          high: typeof q.high === "number" ? q.high : null,
+          low: typeof q.low === "number" ? q.low : null,
+        }));
+      // Persist these monthly bars so the historical FV-trend
+      // reconstruction (compute-fv-trend) can read them without
+      // re-fetching Yahoo. Best-effort — the cache module logs and
+      // continues on write failure.
+      if (historicalBars.length > 0) {
+        await writeMonthlyBars(symbol, historicalBars);
+      }
+    } catch (err) {
+      reportError(makeError(symbol, "chart-historical", err));
+    }
+
     // Fundamentals come from SEC EDGAR (XBRL companyfacts). Yahoo's
     // fundamentalsTimeSeries caps at ~6 quarters of history, which
     // isn't enough to reconstruct TTM at past dates. EDGAR is the
@@ -182,10 +273,16 @@ export class YahooProvider implements MarketDataProvider {
     // Cached per-symbol at tmp/edgar-cache/{SYMBOL}/facts.json.
     // See docs/specs/edgar.md for the spec, fallback chains, and
     // sign-convention notes.
+    //
+    // Sequenced AFTER the historical chart because the mapper needs
+    // that response's split events to rebase per-share facts — see
+    // MapOptions.splits. A failed chart fetch leaves `splits` empty,
+    // which degrades to the previous (uncorrected) behavior rather
+    // than failing the symbol.
     let edgarAnnual: AnnualPeriod[] = [];
     let edgarQuarterly: QuarterlyPeriod[] = [];
     try {
-      const fundamentals = await getEdgarFundamentals(symbol);
+      const fundamentals = await getEdgarFundamentals(symbol, {}, { splits });
       edgarAnnual = fundamentals.annual;
       edgarQuarterly = fundamentals.quarterly;
     } catch (err) {
@@ -214,71 +311,6 @@ export class YahooProvider implements MarketDataProvider {
         edgarAnnual = rescaleSharesInPeriods(edgarAnnual, scale);
         edgarQuarterly = rescaleSharesInPeriods(edgarQuarterly, scale);
       }
-    }
-
-    let priceBars: Array<{ close: number; volume: number }> = [];
-    try {
-      const chart = await retryYahoo(
-        () =>
-          yahooFinance.chart(yahooSymbol, {
-            period1: options.priceFrom,
-            period2: options.priceTo,
-            interval: "1d",
-          }),
-        { onRetry: logRetry(symbol, "chart") },
-      );
-      priceBars = (chart.quotes ?? [])
-        .filter(
-          (q): q is typeof q & { close: number; volume: number } =>
-            q.close !== null && q.volume !== null && q.close !== undefined,
-        )
-        .map((q) => ({ close: q.close, volume: q.volume }));
-    } catch (err) {
-      reportError(makeError(symbol, "chart", err));
-    }
-
-    // Historical monthly chart, 6 years back, used to populate the
-    // own-historical anchor inputs:
-    //   - priceAtYearEnd: close at fiscal-year-end (point sample)
-    //   - priceHighInYear / priceLowInYear: max/min intraday prices
-    //     during the fiscal year (range samples)
-    // Capturing the range — not just the year-end snapshot — keeps
-    // the FV engine from systematically underestimating peak
-    // valuations (e.g., BBY hit ~$140 in Nov 2021 but closed FY22 at
-    // $99). Monthly bars include intraday `high`/`low` per period,
-    // so the range is properly captured.
-    type HistoricalBar = { date: string; close: number; high: number | null; low: number | null };
-    let historicalBars: HistoricalBar[] = [];
-    try {
-      const longChart = await retryYahoo(
-        () =>
-          yahooFinance.chart(yahooSymbol, {
-            period1: priceFromMinusYears(options.priceTo, 6),
-            period2: options.priceTo,
-            interval: "1mo",
-          }),
-        { onRetry: logRetry(symbol, "chart-historical") },
-      );
-      historicalBars = (longChart.quotes ?? [])
-        .filter(
-          (q): q is typeof q & { close: number; date: Date } =>
-            q.close !== null && q.close !== undefined && q.date instanceof Date,
-        )
-        .map((q) => ({
-          date: q.date.toISOString().slice(0, 10),
-          close: q.close,
-          high: typeof q.high === "number" ? q.high : null,
-          low: typeof q.low === "number" ? q.low : null,
-        }));
-      // Persist these monthly bars so the historical FV-trend
-      // reconstruction (compute-fv-trend) can read them without
-      // re-fetching Yahoo. Best-effort — the cache module logs and
-      // continues on write failure.
-      if (historicalBars.length > 0) {
-        await writeMonthlyBars(symbol, historicalBars);
-      }
-    } catch (err) {
-      reportError(makeError(symbol, "chart-historical", err));
     }
 
     const summaryDetail = summary.summaryDetail;

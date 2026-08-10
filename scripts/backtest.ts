@@ -52,6 +52,11 @@ import type {
   Interval,
   RankedRow,
 } from "@stockrank/ranking";
+import { splitEventsFrom } from "../packages/data/src/edgar/index.js";
+import type {
+  RawSplitEvent,
+  SplitEvent,
+} from "../packages/data/src/edgar/index.js";
 
 const yf = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
@@ -209,7 +214,31 @@ export type SymbolHistory = {
    * buildSnapshotAtDate. May be empty on older caches; the snapshot
    * builder falls back to annual-as-TTM-proxy in that case. */
   quarterly: AnnualPeriod[];
-  prices: Array<{ date: string; close: number; high?: number; low?: number }>;
+  prices: Array<{
+    date: string;
+    /**
+     * TOTAL-RETURN basis: Yahoo `adjclose`, adjusted for both splits
+     * and dividends. Correct for computing forward returns; WRONG for
+     * comparing against a valuation level, because the dividend
+     * back-adjustment deflates historical prices by a symbol-specific
+     * factor that has nothing to do with what the stock traded at.
+     */
+    close: number;
+    /**
+     * VALUATION basis: Yahoo `close`, split-adjusted to the current
+     * share basis but NOT dividend-adjusted. This is the series to
+     * compare against a fair-value band or an option strike, and the
+     * series whose basis matches split-normalized EDGAR per-share
+     * facts (see MapOptions.splits).
+     */
+    closeUnadjusted: number;
+    high?: number;
+    low?: number;
+  }>;
+  /** Split history from the chart `events` payload. Feeds
+   * MapOptions.splits so EDGAR per-share facts land on the current
+   * share basis. */
+  splits: SplitEvent[];
 };
 
 /** Always pull this much chart history regardless of `--years`. The
@@ -284,7 +313,10 @@ function mergeFundamentals(
 }
 
 type RawChartQuote = { date: Date | string; close: number | null; adjclose?: number | null; high?: number | null; low?: number | null };
-type RawChart = { quotes?: RawChartQuote[] };
+type RawChart = {
+  quotes?: RawChartQuote[];
+  events?: { splits?: RawSplitEvent[] };
+};
 
 /**
  * Union chart quotes by date. Fresh wins on conflicts (adjclose gets
@@ -440,7 +472,11 @@ export async function pullHistory(
       // high/low; cache round-trip preserves them as numbers.
       return {
         date: dateIso,
+        // Total-return basis (splits + dividends).
         close: q.adjclose ?? q.close,
+        // Valuation basis (splits only). Falls back to adjclose when
+        // Yahoo omits the raw close, which only happens on stub rows.
+        closeUnadjusted: q.close ?? q.adjclose,
         ...(q.high != null ? { high: q.high } : {}),
         ...(q.low != null ? { low: q.low } : {}),
       };
@@ -467,6 +503,7 @@ export async function pullHistory(
     annual,
     quarterly,
     prices,
+    splits: splitEventsFrom(chartRaw.events?.splits),
   };
 }
 

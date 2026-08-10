@@ -576,23 +576,34 @@ async function main(): Promise<void> {
         authoritativeShares: sharesAuth,
         currency: h.meta.currency,
       };
+      // VALUATION basis for the snapshot: split-adjusted but NOT
+      // dividend-adjusted, matching the basis of the split-normalized
+      // EDGAR per-share facts below. `high`/`low` are already raw
+      // intraday levels, so they agree with closeUnadjusted.
       const bars: HistoricalBar[] = h.prices.map((p) => ({
         date: p.date,
-        close: p.close,
+        close: p.closeUnadjusted,
         high: p.high ?? null,
         low: p.low ?? null,
       }));
-      const snap = synthesizeSnapshotAt(facts, bars, date, profile);
+      const snap = synthesizeSnapshotAt(facts, bars, date, profile, {
+        splits: h.splits,
+      });
       if (!snap) continue;
       universe.push(snap);
 
-      const entryPrice = snap.quote.price;
+      // TOTAL-RETURN basis for forward returns — BOTH legs. Taking the
+      // entry from `snap.quote.price` (valuation basis) against an
+      // adjclose exit would book the symbol's dividend adjustment as
+      // price appreciation.
+      const entry = priceAtOrAfter(h, date);
+      if (!entry) continue;
       for (const horizon of args.horizons) {
         const targetDate = addYears(date, horizon);
         if (targetDate > today) continue;
         const fwd = priceAtOrAfter(h, targetDate);
         if (!fwd) continue;
-        const ret = (fwd.close - entryPrice) / entryPrice;
+        const ret = (fwd.close - entry.close) / entry.close;
         fwdMap.set(`${sym}|${horizon}`, ret);
       }
     }

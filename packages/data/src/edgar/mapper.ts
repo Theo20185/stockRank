@@ -69,12 +69,109 @@ export const DEFAULT_MAX_ANNUAL_PERIODS = 7;
  * comfortably above both. */
 export const DEFAULT_MAX_QUARTERLY_PERIODS = 12;
 
+/** A stock split, as reported by Yahoo's `chart` events payload.
+ * `ratio` is numerator/denominator — 4 for a 4:1 split. */
+export type SplitEvent = {
+  /** ISO yyyy-mm-dd effective date. */
+  date: string;
+  ratio: number;
+};
+
 export type MapOptions = {
   /** Override the annual truncation cap. Set to Infinity to disable. */
   maxAnnualPeriods?: number;
   /** Override the quarterly truncation cap. Set to Infinity to disable. */
   maxQuarterlyPeriods?: number;
+  /**
+   * Stock-split history, used to normalize per-share facts onto the
+   * CURRENT share basis. Omit and per-share values are returned
+   * exactly as EDGAR reported them (previous behavior).
+   *
+   * Why this is needed: `dedupeByPeriod` keeps the latest-filed fact
+   * per period. A fiscal year still carried as a comparative in the
+   * newest 10-K therefore arrives already restated onto the current
+   * basis, while an older year keeps the as-filed pre-split value.
+   * The result is a hard discontinuity partway through the history —
+   * NVDA's diluted share count jumps 10× between FY2022 and FY2023,
+   * CMG's FY2021 EPS reads 50× high, GOOGL's FY2019 reads 20× high.
+   *
+   * Left uncorrected this corrupts every consumer that spans the
+   * break: `ownHistorical*` and `normalized*` fair-value anchors walk
+   * the whole annual window, and the back-test compares those against
+   * split-adjusted prices.
+   */
+  splits?: readonly SplitEvent[];
 };
+
+/** Shape of Yahoo's `chart()` split events, as returned by
+ * yahoo-finance2 and as persisted in the back-test chart cache. */
+export type RawSplitEvent = {
+  date: Date | string;
+  numerator?: number | null;
+  denominator?: number | null;
+  splitRatio?: string | null;
+};
+
+/**
+ * Normalize Yahoo split events into `SplitEvent[]`.
+ *
+ * Prefers `numerator/denominator`; falls back to parsing the "7:1"
+ * `splitRatio` string. Entries that yield a non-positive or unit ratio
+ * are dropped — a 1:1 "split" carries no basis change, and a
+ * zero/NaN ratio would silently zero out every per-share value.
+ */
+export function splitEventsFrom(
+  raw: readonly RawSplitEvent[] | undefined | null,
+): SplitEvent[] {
+  if (!raw) return [];
+  const out: SplitEvent[] = [];
+  for (const e of raw) {
+    let ratio: number | null = null;
+    if (
+      typeof e.numerator === "number" &&
+      typeof e.denominator === "number" &&
+      e.denominator !== 0
+    ) {
+      ratio = e.numerator / e.denominator;
+    } else if (typeof e.splitRatio === "string") {
+      const [n, d] = e.splitRatio.split(":").map((v) => parseFloat(v));
+      if (n !== undefined && d !== undefined && d !== 0 && Number.isFinite(n / d)) {
+        ratio = n / d;
+      }
+    }
+    if (ratio === null || !Number.isFinite(ratio) || ratio <= 0 || ratio === 1) {
+      continue;
+    }
+    const date =
+      e.date instanceof Date
+        ? e.date.toISOString().slice(0, 10)
+        : String(e.date).slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    out.push({ date, ratio });
+  }
+  return out;
+}
+
+/**
+ * Product of every split strictly AFTER `isoDate`. Multiply a share
+ * count by this (or divide a per-share value by it) to move a fact
+ * from the basis current at `isoDate` onto today's basis.
+ *
+ * A split landing exactly on `isoDate` is excluded: under ASC 260 a
+ * filing states per-share figures retroactively adjusted for splits
+ * effective before issuance, so a same-day split is already baked in.
+ */
+export function cumulativeSplitFactorAfter(
+  splits: readonly SplitEvent[] | undefined,
+  isoDate: string,
+): number {
+  if (!splits || splits.length === 0) return 1;
+  let factor = 1;
+  for (const s of splits) {
+    if (s.date > isoDate && s.ratio > 0) factor *= s.ratio;
+  }
+  return factor;
+}
 
 type PeriodKey = "annual" | "quarterly";
 
@@ -186,8 +283,34 @@ function get(map: Map<string, EdgarFact>, end: string): number | null {
   return f ? f.val : null;
 }
 
+/**
+ * Read a PER-SHARE fact and rebase it onto the current share basis.
+ *
+ * `direction` is "per-share" for values denominated per share (EPS —
+ * divide by the factor) and "share-count" for share counts (multiply).
+ * The factor comes from the fact's own `filed` date, not the period
+ * end: two concepts for the same period can come from different
+ * filings, so each is rebased independently.
+ */
+function getRebased(
+  map: Map<string, EdgarFact>,
+  end: string,
+  splits: readonly SplitEvent[] | undefined,
+  direction: "per-share" | "share-count",
+): number | null {
+  const f = map.get(end);
+  if (!f) return null;
+  const factor = cumulativeSplitFactorAfter(splits, f.filed);
+  if (factor === 1) return f.val;
+  return direction === "per-share" ? f.val / factor : f.val * factor;
+}
+
 /** Build the income panel for a single period-end. */
-function incomeAt(maps: IncomeMaps, end: string): AnnualIncome {
+function incomeAt(
+  maps: IncomeMaps,
+  end: string,
+  splits?: readonly SplitEvent[],
+): AnnualIncome {
   const revenue = get(maps.revenue, end);
   const cogs = get(maps.cogs, end);
   const grossProfit =
@@ -207,8 +330,10 @@ function incomeAt(maps: IncomeMaps, end: string): AnnualIncome {
     ebitda,
     interestExpense: get(maps.interestExpense, end),
     netIncome: get(maps.netIncome, end),
-    epsDiluted: get(maps.epsDiluted, end),
-    sharesDiluted: get(maps.sharesDiluted, end),
+    // Per-share concepts only — every other field above is
+    // dollar-denominated and therefore split-invariant.
+    epsDiluted: getRebased(maps.epsDiluted, end, splits, "per-share"),
+    sharesDiluted: getRebased(maps.sharesDiluted, end, splits, "share-count"),
   };
 }
 
@@ -299,7 +424,7 @@ export function mapAnnualPeriods(
   const out: AnnualPeriod[] = [];
   for (const end of ends) {
     if (out.length >= cap) break;
-    const income = incomeAt(maps.income, end);
+    const income = incomeAt(maps.income, end, opts.splits);
     const balance = balanceAt(maps.balance, end);
     const cashFlow = cashFlowAt(maps.cashFlow, end);
 
@@ -344,7 +469,7 @@ export function mapQuarterlyPeriods(
   const out: QuarterlyPeriod[] = [];
   for (const end of ends) {
     if (out.length >= cap) break;
-    const income = incomeAt(maps.income, end);
+    const income = incomeAt(maps.income, end, opts.splits);
     const balance = balanceAt(maps.balance, end);
     const cashFlow = cashFlowAt(maps.cashFlow, end);
 

@@ -1,6 +1,10 @@
 import type { AnnualPeriod, QuarterlyPeriod } from "@stockrank/core";
 import { fetchCompanyFacts, type FetcherOptions } from "./fetcher.js";
-import { mapAnnualPeriods, mapQuarterlyPeriods } from "./mapper.js";
+import {
+  mapAnnualPeriods,
+  mapQuarterlyPeriods,
+  type MapOptions,
+} from "./mapper.js";
 
 /**
  * Public entry point. Fetches EDGAR companyfacts (cached) and returns
@@ -12,13 +16,14 @@ import { mapAnnualPeriods, mapQuarterlyPeriods } from "./mapper.js";
 export async function getEdgarFundamentals(
   symbol: string,
   opts: FetcherOptions = {},
+  mapOpts: MapOptions = {},
 ): Promise<{
   annual: AnnualPeriod[];
   quarterly: QuarterlyPeriod[];
 }> {
   const facts = await fetchCompanyFacts(symbol, opts);
-  const annual = mapAnnualPeriods(facts);
-  const quarterly = mapQuarterlyPeriods(facts);
+  const annual = mapAnnualPeriods(facts, mapOpts);
+  const quarterly = mapQuarterlyPeriods(facts, mapOpts);
   return { annual, quarterly };
 }
 
@@ -38,9 +43,13 @@ export {
   rescaleSharesInPeriods,
   withAnnualRatios,
   withQuarterlyRatios,
+  cumulativeSplitFactorAfter,
+  splitEventsFrom,
   DEFAULT_MAX_ANNUAL_PERIODS,
   DEFAULT_MAX_QUARTERLY_PERIODS,
   type HistoricalBar,
   type MapOptions,
+  type RawSplitEvent,
+  type SplitEvent,
 } from "./mapper.js";
 export { cikFor, formatCik } from "./cik-lookup.js";
