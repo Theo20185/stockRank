@@ -227,3 +227,42 @@ export {
   type FvTrendClass,
 } from "./backtest/fv-trend-audit/engine.js";
 export { renderFvTrendAuditReport } from "./backtest/fv-trend-audit/report.js";
+
+// Generic shuffle-and-recompute null engine (extracted from the IC
+// calibration; shared with the FV backtest H2 null)
+export {
+  runShuffleNull,
+  nullPercentile,
+  type ShuffleNullOptions,
+} from "./backtest/shuffle-null.js";
+
+// FV backtest harness (H1–H6)
+export {
+  buildFvObservations,
+  downsampleWeekly,
+  type FvObservationsInput,
+  type FvObservationsResult,
+} from "./backtest/fair-value/observations.js";
+export {
+  runFvBacktest,
+  dedupeYearlyFv,
+  type FvBacktestInput,
+  type FvBacktestOptions,
+} from "./backtest/fair-value/engine.js";
+export { renderFvBacktestReport } from "./backtest/fair-value/report.js";
+export {
+  bandFromAnchors,
+  anchorCorrelationReport,
+  OWN_ANCHOR_KEYS,
+  PEER_ANCHOR_KEYS,
+  ALL_ANCHOR_KEYS,
+} from "./backtest/fair-value/ablation.js";
+export {
+  FV_REGIMES,
+  MIN_VERDICT_N,
+  type FvObservation,
+  type FvBacktestReport,
+  type FvH1Cell,
+  type FvRegimeKey,
+  type WeeklyCloses,
+} from "./backtest/fair-value/types.js";

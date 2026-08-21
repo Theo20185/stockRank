@@ -25,6 +25,14 @@ export type FairValue = {
   peerSet: FairValuePeerSet;
   peerCount: number;
   anchors: FairValueAnchors;
+  /**
+   * The full anchor set as computed BEFORE the peer-cohort divergence
+   * filter nulls the 6 peer-derived anchors. Identical to `anchors`
+   * when `peerCohortDivergent` is false. Read-only diagnostics for the
+   * FV backtest harness (H5 peer-contamination, H6 anchor ablation) —
+   * nothing in production reads it for decisions.
+   */
+  anchorsBeforeDivergenceFilter: FairValueAnchors;
   range: { p25: number; median: number; p75: number } | null;
   current: number;
   /**

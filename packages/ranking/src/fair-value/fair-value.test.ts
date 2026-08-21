@@ -320,6 +320,49 @@ describe("fairValueFor — peer-cohort divergence (D+E hybrid)", () => {
     const fv = fairValueFor(subject, [subject, ...peers]);
     expect(fv.peerCohortDivergent).toBe(false);
   });
+
+  it("preserves the pre-suppression anchors on anchorsBeforeDivergenceFilter when divergent", () => {
+    // Read-only diagnostics field for the FV backtest harness (H5/H6):
+    // when divergence nulls the 6 peer-derived anchors, the values they
+    // held BEFORE suppression stay readable here.
+    const subject = makeCompany({
+      symbol: "INTC",
+      industry: "Semiconductors",
+      sector: "Technology",
+      ttm: makeTtm({ peRatio: 25 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      makeCompany({
+        symbol: `BUBBLE${i}`,
+        industry: "Semiconductors",
+        sector: "Technology",
+        ttm: makeTtm({ peRatio: 175 }),
+      }),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(true);
+    expect(fv.anchors.peerMedianPE).toBeNull();
+    expect(fv.anchorsBeforeDivergenceFilter.peerMedianPE).not.toBeNull();
+    // Own-historical anchors are never suppressed — identical objects' values.
+    expect(fv.anchorsBeforeDivergenceFilter.ownHistoricalPE).toBe(
+      fv.anchors.ownHistoricalPE,
+    );
+  });
+
+  it("anchorsBeforeDivergenceFilter equals anchors when not divergent", () => {
+    const subject = makeCompany({
+      symbol: "STABLE",
+      industry: "Pharmaceuticals",
+      sector: "Healthcare",
+      ttm: makeTtm({ peRatio: 25 }),
+    });
+    const peers = Array.from({ length: 9 }, (_, i) =>
+      buildPharmaPeer(`P${i}`, 50_000_000_000, 30),
+    );
+    const fv = fairValueFor(subject, [subject, ...peers]);
+    expect(fv.peerCohortDivergent).toBe(false);
+    expect(fv.anchorsBeforeDivergenceFilter).toEqual(fv.anchors);
+  });
 });
 
 describe("fairValueFor — skipOutlierRule", () => {

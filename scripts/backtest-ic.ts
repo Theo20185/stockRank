@@ -56,6 +56,7 @@ import {
 import type { EdgarCompanyFacts } from "../packages/data/src/edgar/types.js";
 import type { HistoricalBar } from "../packages/data/src/edgar/mapper.js";
 import type { CompanySnapshot } from "@stockrank/core";
+import { capBucketFor } from "@stockrank/core";
 import {
   buildIcObservations,
   computeIcCells,
@@ -78,6 +79,10 @@ import {
   renderPerSuperGroupReport,
   runFvTrendAudit,
   renderFvTrendAuditReport,
+  buildFvObservations,
+  downsampleWeekly,
+  runFvBacktest,
+  renderFvBacktestReport,
   type PerSuperGroupPreset,
   type UserPick,
   DEFAULT_WEIGHTS,
@@ -122,6 +127,8 @@ type IcArgs = {
   superGroupPresets: boolean;
   /** When true, run Phase 4C H10 FV-trend audit. */
   fvTrendAudit: boolean;
+  /** When true, run the FV backtest harness (H1–H6). */
+  fvBacktest: boolean;
   /** Comma-separated SYM:DATE pairs (e.g., "NVO:2026-03-06,TGT:2026-04-09").
    * When supplied, after building observations we run the user-picks
    * validation. Each date becomes a forced backtest snapshot date if
@@ -164,6 +171,7 @@ function parseIcArgs(argv: string[]): IcArgs {
     includeDelisted: false,
     superGroupPresets: false,
     fvTrendAudit: false,
+    fvBacktest: false,
     barbell: false,
     bps: 20,
     taxRegime: "blended-by-horizon",
@@ -238,6 +246,9 @@ function parseIcArgs(argv: string[]): IcArgs {
         break;
       case "--fv-trend-audit":
         args.fvTrendAudit = true;
+        break;
+      case "--fv-backtest":
+        args.fvBacktest = true;
         break;
       case "--user-picks":
         args.userPicks = argv[++i]!.split(",").map((pair) => {
@@ -880,6 +891,111 @@ async function main(): Promise<void> {
       const fvtArchivePath = resolve(docsDir, `backtest-fv-trend-audit-${today}.md`);
       writeFileSync(fvtArchivePath, fvtMd, "utf-8");
       console.log(`  Archived to ${fvtArchivePath}`);
+    }
+  }
+
+  // ── Optional: FV backtest harness (H1–H6) ───────────────────────────
+  if (args.fvBacktest) {
+    console.log(`\nRunning FV backtest harness (H1–H6)...`);
+
+    // Valuation-basis weekly closes for H3 convergence (same basis as
+    // the bands; total-return adjclose would fake convergence via the
+    // dividend deflation of historical prices).
+    const weeklyClosesBySymbol = new Map<
+      string,
+      Array<{ date: string; close: number }>
+    >();
+    for (const [sym, h] of histories) {
+      weeklyClosesBySymbol.set(
+        sym,
+        downsampleWeekly(
+          h.prices.map((p) => ({ date: p.date, close: p.closeUnadjusted })),
+        ),
+      );
+    }
+
+    console.log(`  Building FV observations (production cohorts)...`);
+    const fvObs = buildFvObservations({
+      snapshotsByDate,
+      forwardReturnsByDate,
+      spyReturnsByDate,
+      horizons: args.horizons,
+    });
+    console.log(
+      `  ${fvObs.observations.length} observations (${fvObs.engineErrorRows} engine-error rows).`,
+    );
+    console.log(`  Building coarse-cohort stress observations (PIT industry lens)...`);
+    const fvObsCoarse = buildFvObservations({
+      snapshotsByDate,
+      forwardReturnsByDate,
+      spyReturnsByDate,
+      horizons: args.horizons,
+      coarseCohort: true,
+    });
+
+    // Cap-bucket churn — the component of cohort drift the harness
+    // DOES capture point-in-time: share of (symbol, date) rows whose
+    // cap bucket at the snapshot differs from the same symbol's bucket
+    // at its final appearance in the run.
+    let churnNum = 0;
+    let churnDen = 0;
+    {
+      const lastBucket = new Map<string, string>();
+      const sortedDates = [...snapshotsByDate.keys()].sort();
+      for (const date of sortedDates) {
+        for (const c of snapshotsByDate.get(date)!) {
+          lastBucket.set(c.symbol, capBucketFor(c.marketCap));
+        }
+      }
+      for (const date of sortedDates) {
+        for (const c of snapshotsByDate.get(date)!) {
+          churnDen += 1;
+          if (capBucketFor(c.marketCap) !== lastBucket.get(c.symbol)) {
+            churnNum += 1;
+          }
+        }
+      }
+    }
+
+    const fvReport = runFvBacktest(
+      {
+        observations: fvObs.observations,
+        weeklyClosesBySymbol,
+        coarseCohortObservations: fvObsCoarse.observations,
+        engineErrorRows: fvObs.engineErrorRows,
+        pit: {
+          capBucketChurnPct: churnDen > 0 ? churnNum / churnDen : null,
+          industryMembershipNote:
+            "peer cohorts use TODAY's Yahoo industry classification at every historical date. Not reconstructible from existing data (the Wikipedia changes table carries no GICS, EDGAR exposes only the current SIC, and the dated snapshot archive starts 2026-04). Exposure is bounded by the coarse-cohort stress rerun (super-group membership is far stickier than sub-industry) and quantified by the cap-bucket churn figure (that component of cohort assignment IS computed point-in-time).",
+          restatementNote:
+            "EDGAR companyfacts returns the latest-filed value per period; filing-lag cutoffs prevent lookahead on unfiled periods, but later restatements of already-visible periods are not masked.",
+        },
+      },
+      {
+        bootstrapResamples: 1000,
+        seed: 1,
+        mcIterations: args.iterations,
+        onMcProgress: (i, n) => {
+          if (i % 20 === 0 || i === n) {
+            process.stdout.write(`  H2 null: ${i}/${n}\r`);
+          }
+        },
+      },
+    );
+    console.log(`\n  ${fvReport.verdictLine}`);
+
+    const fvMd = renderFvBacktestReport(fvReport);
+    const fvPath = resolve(tmpDir, "fv-backtest.md");
+    writeFileSync(fvPath, fvMd, "utf-8");
+    console.log(`  Wrote ${fvPath}`);
+    if (args.archive) {
+      const docsDir = resolve(process.cwd(), "docs");
+      const fvArchivePath = resolve(
+        docsDir,
+        `backtest-fair-value-${today}${args.pointInTime ? "-pit" : ""}.md`,
+      );
+      writeFileSync(fvArchivePath, fvMd, "utf-8");
+      console.log(`  Archived to ${fvArchivePath}`);
     }
   }
 

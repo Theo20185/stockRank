@@ -157,6 +157,7 @@ export function fairValueFor(
     peerSet: cohort.peerSet,
     peerCount: peers.length,
     anchors,
+    anchorsBeforeDivergenceFilter: fullAnchors,
     range,
     current,
     upsideToP25Pct,

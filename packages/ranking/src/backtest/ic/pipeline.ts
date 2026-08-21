@@ -57,7 +57,7 @@ export type RollingWindow = {
  * neither).
  */
 export function buildRollingWindows(
-  observations: IcObservation[],
+  observations: ReadonlyArray<Pick<IcObservation, "snapshotDate">>,
   count = 3,
 ): RollingWindow[] {
   if (observations.length === 0 || count < 1) return [];

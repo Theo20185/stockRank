@@ -10,10 +10,11 @@
  * for reproducibility.
  */
 
-import { groupBy, mulberry32, shuffleInPlace } from "../../stats.js";
+import { groupBy } from "../../stats.js";
 import { ALL_SUPER_GROUPS } from "../../super-groups.js";
 import type { SuperGroupKey } from "../../super-groups.js";
 import { FACTORS } from "../../factors.js";
+import { nullPercentile, runShuffleNull } from "../shuffle-null.js";
 import type { IcCalibration, IcNullThreshold, IcObservation } from "./types.js";
 import { computeIcCells, dedupeYearly } from "./pipeline.js";
 
@@ -53,7 +54,6 @@ export function runCalibration(
   options: CalibrationOptions = {},
 ): IcCalibration {
   const { iterations = 1000, seed = 1, onProgress } = options;
-  const rng = mulberry32(seed);
 
   const horizonsBySuperGroup = new Map<SuperGroupKey, Set<number>>();
   for (const obs of observations) {
@@ -74,49 +74,42 @@ export function runCalibration(
     }
   }
 
-  // Bucket by (snapshot date, super-group) for shuffling.
-  const shuffleBuckets = groupBy(
+  // Shuffle-and-recompute loop delegated to the generic engine
+  // (shuffle-null.ts). Buckets, RNG stream, and per-iteration stat
+  // collection are identical to the original inline loop — the
+  // refactor is output-preserving (verified against a golden
+  // fingerprint at extraction time).
+  //
+  // Inside the Monte Carlo loop we only need the IC point estimate —
+  // bootstrap CIs and rolling-window ICs would multiply runtime by
+  // ~1000x and 3x respectively, with no contribution to the
+  // null-distribution thresholds the calibration is producing.
+  const nullIcs = runShuffleNull(
     observations,
     (o) => `${o.snapshotDate}|${o.superGroup}`,
+    (o) => o.excessReturn,
+    (o, excessReturn) => ({ ...o, excessReturn }),
+    (shuffled, iter) => {
+      const cells = computeIcCells(shuffled, {
+        rngSeed: seed + iter,
+        skipBootstrap: true,
+        skipWindows: true,
+      });
+      const perCell = new Map<string, number[]>();
+      for (const c of cells) {
+        if (c.ic === null) continue;
+        const key = `${c.superGroup}|${c.horizon}`;
+        let arr = perCell.get(key);
+        if (!arr) {
+          arr = [];
+          perCell.set(key, arr);
+        }
+        arr.push(Math.abs(c.ic));
+      }
+      return perCell;
+    },
+    { iterations, seed, ...(onProgress ? { onProgress } : {}) },
   );
-
-  const nullIcs = new Map<string, number[]>();
-  for (let iter = 0; iter < iterations; iter += 1) {
-    const shuffled: IcObservation[] = [];
-    for (const [, bucket] of shuffleBuckets) {
-      // Permute the excessReturn values within the bucket while
-      // keeping every other field on each observation intact. This
-      // breaks factor→return signal but preserves all structure.
-      const returns = bucket.map((o) => o.excessReturn);
-      shuffleInPlace(returns, rng);
-      for (let i = 0; i < bucket.length; i += 1) {
-        shuffled.push({
-          ...bucket[i]!,
-          excessReturn: returns[i]!,
-        });
-      }
-    }
-    // Inside the Monte Carlo loop we only need the IC point estimate
-    // — bootstrap CIs and rolling-window ICs would multiply runtime
-    // by ~1000x and 3x respectively, with no contribution to the
-    // null-distribution thresholds the calibration is producing.
-    const cells = computeIcCells(shuffled, {
-      rngSeed: seed + iter,
-      skipBootstrap: true,
-      skipWindows: true,
-    });
-    for (const c of cells) {
-      if (c.ic === null) continue;
-      const key = `${c.superGroup}|${c.horizon}`;
-      let arr = nullIcs.get(key);
-      if (!arr) {
-        arr = [];
-        nullIcs.set(key, arr);
-      }
-      arr.push(Math.abs(c.ic));
-    }
-    onProgress?.(iter + 1, iterations);
-  }
 
   const thresholds: IcNullThreshold[] = [];
   for (const sg of ALL_SUPER_GROUPS) {
@@ -126,14 +119,12 @@ export function runCalibration(
       const arr = nullIcs.get(key) ?? [];
       if (arr.length === 0) continue;
       arr.sort((a, b) => a - b);
-      const idx99 = Math.min(arr.length - 1, Math.floor(0.99 * arr.length));
-      const idx995 = Math.min(arr.length - 1, Math.floor(0.995 * arr.length));
       thresholds.push({
         superGroup: sg,
         horizon: h,
         nEffective: dedupedNs.get(key) ?? 0,
-        threshold99: arr[idx99]!,
-        threshold995: arr[idx995]!,
+        threshold99: nullPercentile(arr, 0.99),
+        threshold995: nullPercentile(arr, 0.995),
       });
     }
   }
