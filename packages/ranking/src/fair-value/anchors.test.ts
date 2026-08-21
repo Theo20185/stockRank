@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { chooseEpsForPeerAnchor } from "./anchors.js";
+import { chooseEbitdaForAnchor, chooseEpsForPeerAnchor } from "./anchors.js";
 import { makeCompany, makePeriod, makeTtm } from "../test-helpers.js";
 
 function company(opts: {
@@ -100,5 +100,142 @@ describe("chooseEpsForPeerAnchor — four-quadrant outlier detection", () => {
       company({ ttmEps: 5.6, priorEps: [4.0, 4.0, 4.0], forwardEps: null }),
     );
     expect(result.treatment).toBe("ttm");
+  });
+});
+
+describe("chooseEpsForPeerAnchor — baseline collapse (deep cyclicals, spec §3.4)", () => {
+  // NEM 2026-08, verbatim: annual EPS newest-first
+  // [6.39, 2.92, -2.97, -0.54, 1.46, 3.51, 3.81], TTM 8.58 (gold-price
+  // peak), forward 10.58 (extrapolates the same gold price). The
+  // spike window annual[1:4] = [2.92, -2.97, -0.54] collapses to
+  // [2.92] after the >0 filter. Cycle average = mean of the 5 most
+  // recent profitable of 7 = (6.39+2.92+1.46+3.51+3.81)/5 = 3.618.
+  const NEM_ANNUAL_EPS = [6.39, 2.92, -2.97, -0.54, 1.46, 3.51, 3.81];
+  const NEM_CYCLE_AVG = (6.39 + 2.92 + 1.46 + 3.51 + 3.81) / 5;
+
+  function cyclical(opts: { ttmEps: number; annualEps: number[]; forwardEps: number | null }) {
+    return makeCompany({
+      symbol: "CYC",
+      annual: opts.annualEps.map((eps, i) =>
+        makePeriod({
+          fiscalYear: String(2025 - i),
+          income: { ...makePeriod().income, epsDiluted: eps },
+        }),
+      ),
+      ttm: makeTtm({
+        peRatio: opts.ttmEps > 0 ? 100 / opts.ttmEps : null,
+        forwardEps: opts.forwardEps,
+      }),
+    });
+  }
+
+  it("NEM regression: loss-emptied window + elevated TTM → cycle average, forward NOT consulted", () => {
+    const result = chooseEpsForPeerAnchor(
+      cyclical({ ttmEps: 8.58, annualEps: NEM_ANNUAL_EPS, forwardEps: 10.58 }),
+    );
+    // forwardEps 10.58 ≥ 0.7 × 8.58 would have corroborated under the
+    // two-signal rule — proving this path never consults it.
+    expect(result.treatment).toBe("normalized");
+    expect(result.eps).toBeCloseTo(NEM_CYCLE_AVG, 3);
+  });
+
+  it("loss-emptied window but TTM not elevated vs cycle average → keeps TTM", () => {
+    // Recovering cyclical: TTM 2.0 < 1.5 × cycle average (~2.74 here).
+    const result = chooseEpsForPeerAnchor(
+      cyclical({ ttmEps: 2.0, annualEps: [2.0, 2.92, -2.97, -0.54, 1.46, 3.51, 3.81], forwardEps: null }),
+    );
+    expect(result.treatment).toBe("ttm");
+    expect(result.eps).toBe(2.0);
+  });
+
+  it("short history (single prior year, even a loss) still accepts TTM — no evidence either way", () => {
+    const result = chooseEpsForPeerAnchor(
+      cyclical({ ttmEps: 12.0, annualEps: [12.0, -1.0], forwardEps: null }),
+    );
+    expect(result.treatment).toBe("ttm");
+    expect(result.eps).toBe(12.0);
+  });
+
+  it("non-positive cycle average: passes it through so P/E anchors go null downstream", () => {
+    // Losses dominate the whole window; a positive TTM has no
+    // defensible earnings basis. all-years mean = (3-5-6-4-3-2-1)/7 < 0.
+    const result = chooseEpsForPeerAnchor(
+      cyclical({ ttmEps: 3.0, annualEps: [3.0, -5, -6, -4, -3, -2, -1], forwardEps: null }),
+    );
+    expect(result.treatment).toBe("normalized");
+    expect(result.eps).not.toBeNull();
+    expect(result.eps!).toBeLessThan(0);
+  });
+
+  it("negative TTM never triggers the cyclical fallback (nothing to normalize)", () => {
+    const subject = makeCompany({
+      symbol: "CYC",
+      annual: [-1.5, 1.0, -2.97, -0.54].map((eps, i) =>
+        makePeriod({
+          fiscalYear: String(2025 - i),
+          income: { ...makePeriod().income, epsDiluted: eps },
+        }),
+      ),
+      // peRatio null + annual[0] negative → deriveTtm eps = -1.5.
+      ttm: makeTtm({ peRatio: null, forwardEps: null }),
+    });
+    const result = chooseEpsForPeerAnchor(subject);
+    expect(result.treatment).toBe("ttm");
+    expect(result.eps).toBe(-1.5);
+  });
+});
+
+describe("chooseEbitdaForAnchor — baseline collapse mirror", () => {
+  // TTM EBITDA comes through deriveTtm's ratio path:
+  // enterpriseValue / evToEbitda (no quarterly data in fixtures).
+  function ebitdaCyclical(opts: { ttmEbitda: number; annualEbitda: number[] }) {
+    return makeCompany({
+      symbol: "CYC",
+      annual: opts.annualEbitda.map((ebitda, i) =>
+        makePeriod({
+          fiscalYear: String(2025 - i),
+          income: { ...makePeriod().income, ebitda },
+        }),
+      ),
+      ttm: makeTtm({
+        enterpriseValue: opts.ttmEbitda * 6,
+        evToEbitda: 6,
+      }),
+    });
+  }
+
+  const B = 1_000_000_000;
+
+  it("loss-emptied window + elevated TTM → cycle-average EBITDA", () => {
+    // Window annual[1:4] = [8, -3, -1] → one positive. Cycle average =
+    // mean of 5 most recent profitable of 7 = (12+8+6+7+9)/5 = 8.4B.
+    // TTM 15B > 1.5 × 8.4B → normalized.
+    const result = chooseEbitdaForAnchor(
+      ebitdaCyclical({
+        ttmEbitda: 15 * B,
+        annualEbitda: [12 * B, 8 * B, -3 * B, -1 * B, 6 * B, 7 * B, 9 * B],
+      }),
+    );
+    expect(result.treatment).toBe("normalized");
+    expect(result.ebitda).toBeCloseTo(8.4 * B, -3);
+  });
+
+  it("loss-emptied window but TTM not elevated → keeps TTM", () => {
+    const result = chooseEbitdaForAnchor(
+      ebitdaCyclical({
+        ttmEbitda: 10 * B,
+        annualEbitda: [12 * B, 8 * B, -3 * B, -1 * B, 6 * B, 7 * B, 9 * B],
+      }),
+    );
+    expect(result.treatment).toBe("ttm");
+    expect(result.ebitda).toBeCloseTo(10 * B, -3);
+  });
+
+  it("short history still accepts TTM", () => {
+    const result = chooseEbitdaForAnchor(
+      ebitdaCyclical({ ttmEbitda: 15 * B, annualEbitda: [12 * B, -3 * B] }),
+    );
+    expect(result.treatment).toBe("ttm");
+    expect(result.ebitda).toBeCloseTo(15 * B, -3);
   });
 });

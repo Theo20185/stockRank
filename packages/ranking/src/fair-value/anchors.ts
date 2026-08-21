@@ -247,12 +247,38 @@ export function chooseEpsForPeerAnchor(snapshot: CompanySnapshot): EpsForAnchor 
   const recent = deriveTtm(snapshot).eps;
   if (recent === null) return { eps: null, treatment: "ttm" };
 
-  const priorEps = snapshot.annual.slice(1, 4)
+  const windowEps = snapshot.annual.slice(1, 4)
     .map((p) => p.income.epsDiluted)
-    .filter((v): v is number => v !== null && v > 0);
+    .filter((v): v is number => v !== null);
+  const priorEps = windowEps.filter((v) => v > 0);
 
   if (priorEps.length < 2) {
-    // Not enough prior history to detect outlier — accept TTM as is.
+    // The baseline can be missing for two very different reasons
+    // (fair-value.md §3.4 "Baseline collapse"):
+    //
+    //  - Loss-emptied (≥ 2 data points, < 2 positive): cycle-trough
+    //    losses deleted the baseline. That is not "no evidence" — it
+    //    is the strongest cyclicality evidence available (NEM 2026-08:
+    //    window [2.92, -2.97, -0.54] left [2.92], and the gold-peak
+    //    TTM of 8.58 sailed through). Substitute the cycle-average
+    //    EPS as the baseline and apply the same 1.5× test. No
+    //    forward-corroboration on this path: the window losses ARE
+    //    the corroboration, and forward estimates on cyclicals
+    //    extrapolate the same conditions that produced the peak.
+    //    A non-positive cycle average is passed through so the P/E
+    //    anchors go null rather than pricing peak earnings.
+    //
+    //  - Short history (< 2 data points at all): IPO-age — genuinely
+    //    no evidence either way; accept TTM as is.
+    if (windowEps.length >= 2 && recent > 0) {
+      const cycleAverage = normalizedEarningsPerShare(snapshot.annual);
+      if (
+        cycleAverage !== null &&
+        recent > Math.max(cycleAverage, 0) * TTM_OUTLIER_RATIO
+      ) {
+        return { eps: cycleAverage, treatment: "normalized" };
+      }
+    }
     return { eps: recent, treatment: "ttm" };
   }
 
@@ -291,11 +317,24 @@ export function chooseEbitdaForAnchor(snapshot: CompanySnapshot): EbitdaForAncho
   const recent = deriveTtm(snapshot).ebitda;
   if (recent === null) return { ebitda: null, treatment: "ttm" };
 
-  const priorEbitda = snapshot.annual.slice(1, 4)
+  const windowEbitda = snapshot.annual.slice(1, 4)
     .map((p) => p.income.ebitda)
-    .filter((v): v is number => v !== null && v > 0);
+    .filter((v): v is number => v !== null);
+  const priorEbitda = windowEbitda.filter((v) => v > 0);
 
   if (priorEbitda.length < 2) {
+    // Baseline-collapse mirror of chooseEpsForPeerAnchor — see the
+    // comment there and fair-value.md §3.4. This rule never had a
+    // forward check, so there is no asymmetry to document here.
+    if (windowEbitda.length >= 2 && recent > 0) {
+      const cycleAverage = normalizedEbitda(snapshot.annual);
+      if (
+        cycleAverage !== null &&
+        recent > Math.max(cycleAverage, 0) * TTM_OUTLIER_RATIO
+      ) {
+        return { ebitda: cycleAverage, treatment: "normalized" };
+      }
+    }
     return { ebitda: recent, treatment: "ttm" };
   }
 

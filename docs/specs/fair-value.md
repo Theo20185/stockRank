@@ -127,6 +127,47 @@ agrees with the spike, it's a real step-change and TTM is trusted.
 | Spike (> 1.5×) | Stays high (≥ 0.7×) | TTM | Real step-change; analysts confirm |
 | Spike (> 1.5×) | Forward EPS missing | Prior-3y mean | Conservative default — better to slightly under-shoot than lock in an obvious one-timer |
 | Normal (≤ 1.5×) | Any | TTM | No outlier detected |
+| Baseline loss-emptied, TTM > 1.5× cycle-average | **Not consulted** | Cycle-average EPS | Window losses are the corroboration; see below |
+| Baseline short-history (< 2 data points) | Any | TTM | Genuinely no evidence either way |
+
+#### Baseline collapse (deep cyclicals) — 2026-08-20
+
+The prior-3-year baseline counts only **positive** EPS years. Before
+2026-08-20, fewer than 2 positive years meant "not enough prior history
+to detect outlier — accept TTM as is." NEM showed that's backwards for
+deep cyclicals: its window `[2.92, -2.97, -0.54]` collapsed to `[2.92]`,
+and the gold-price-peak TTM of $8.58 was accepted unconditionally —
+the companies most likely to carry a cyclically inflated TTM are
+exactly the ones whose comparison window is emptied by trough losses.
+
+The rule now distinguishes two reasons the baseline can be missing:
+
+- **Short history** (< 2 EPS data points in the window at all) —
+  IPO-age names. Genuinely no evidence of anything; accept TTM
+  (unchanged behavior).
+- **Loss-emptied** (≥ 2 data points, < 2 positive) — cycle-trough
+  losses deleted the baseline. The losses themselves are the strongest
+  cyclicality evidence available. Substitute the cycle-average EPS
+  (`normalizedEarningsPerShare`: mean of the 5 most recent profitable
+  years out of 7, falling back to the all-years mean including losses)
+  as the baseline and apply the same 1.5× test:
+  `TTM > 1.5 × max(cycleAverage, 0)` → use the cycle average
+  (`treatment: "normalized"`); otherwise keep TTM.
+
+**No forward-corroboration on the loss-emptied path.** On commodity
+cyclicals the forward consensus extrapolates the same spot conditions
+that produced the peak TTM — NEM's forward of $10.58 would have
+"confirmed" the $8.58 peak. Window losses adjacent to a high TTM are
+already the corroboration the forward check exists to provide.
+
+Boundary case: a positive TTM against a **non-positive** cycle average
+(losses dominate even the 7-year window) has no defensible earnings
+basis. The non-positive cycle average is passed through, and the P/E
+anchors correctly produce null rather than a peak-earnings price.
+
+Regression pair: EIX FY2025 (spike correctly caught by the two-signal
+rule) and NEM 2026-08 (spike invisible to it) — complementary cases;
+any change to this rule must keep both passing.
 
 Surfaced on the FairValue output as
 `ttmTreatment: "ttm" | "normalized"`. Forward EPS is sourced from
@@ -147,21 +188,28 @@ to trigger normalization.
 |---|---|---|
 | Spike (> 1.5×) | Prior-3y mean | One-time gain; no forward corroboration available |
 | Normal (≤ 1.5×) | TTM | No outlier detected |
+| Baseline loss-emptied, TTM > 1.5× cycle-average | Cycle-average EBITDA | Same baseline-collapse rule as EPS (see §3.4 EPS section) |
+| Baseline short-history (< 2 data points) | TTM | Genuinely no evidence either way |
+
+The baseline-collapse rule mirrors the EPS one exactly (loss-emptied →
+`normalizedEbitda` as substitute baseline, same 1.5× test; short
+history → accept TTM). There was never a forward check on this rule,
+so the only asymmetry with EPS — skipping forward corroboration on the
+loss-emptied path — doesn't arise here.
 
 Surfaced on the FairValue output as
 `ebitdaTreatment: "ttm" | "normalized"`.
 
 ### Scope notes
 
-The rules narrowly target the **peer-median** anchors where outlier
-impact is largest. Other anchors are deliberately untouched:
-
-- `ownHistorical*` anchors — multiply current TTM multiples by current
-  trailing earnings, so the multiple is itself deflated by the same
-  spike (current EV/inflated EBITDA → understated multiple). Replacing
-  the income figure alone would over-correct. A proper fix needs
-  historical price-time-series data (out of scope; see comment at
-  `anchors.ts:200`).
+The rules originally targeted only the **peer-median** anchors. Since
+the historical price-time-series data landed (real `priceAtYearEnd` /
+high / low per fiscal year), the `ownHistorical*` multiples are genuine
+historical multiples rather than restatements of the current ratio, so
+the EPS/EBITDA chosen by the outlier rule now feeds the own-historical
+P/E and EV/EBITDA anchors too (see `fairValueFor` — "the own-historical
+anchors share the EPS/EBITDA spike-defense with the peer-median
+anchors"). Anchors still deliberately untouched:
 - `normalized*` anchors — already use a multi-year cycle average by
   design; including the spike year is the standard CAPE-style
   approach.
