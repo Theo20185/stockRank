@@ -66,6 +66,12 @@ export const INDUSTRY_TO_SUPER_GROUP: Record<string, SuperGroupKey> = {
   "Software - Infrastructure": "software-internet",
   "Internet Content & Information": "software-internet",
   "Information Technology Services": "software-internet",
+  // Health Information Services → software-internet, not
+  // healthcare-services: the only S&P name carrying it (VEEV, added
+  // 2026 rebalance) is vertical SaaS — subscription revenue and
+  // software gross margins, none of the payer/provider capitation
+  // economics that define healthcare-services.
+  "Health Information Services": "software-internet",
 
   // Semiconductors & Hardware
   Semiconductors: "semis-hardware",

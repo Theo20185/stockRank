@@ -56,7 +56,7 @@ Two cohort structures coexist after this spec:
 
 | # | Super-group | N | Member FMP industries |
 |---|---|---|---|
-| 1 | Software & Internet | 43 | Software - Application; Software - Infrastructure; Internet Content & Information; Information Technology Services |
+| 1 | Software & Internet | 43 | Software - Application; Software - Infrastructure; Internet Content & Information; Information Technology Services; Health Information Services |
 | 2 | Semiconductors & Hardware | 41 | Semiconductors; Semiconductor Equipment & Materials; Computer Hardware; Communication Equipment; Electronic Components; Scientific & Technical Instruments |
 | 3 | Pharma & Biotech | 16 | Drug Manufacturers - General; Drug Manufacturers - Specialty & Generic; Biotechnology |
 | 4 | Healthcare Equipment & Diagnostics | 29 | Medical Devices; Medical Instruments & Supplies; Diagnostics & Research |
@@ -89,6 +89,12 @@ Notes on the non-obvious assignments:
 - **Diagnostics → Healthcare Equipment (not Pharma).** IDXX/A/TMO
   sell instruments and consumables; their economics are recurring
   hardware-plus-razors, not drug-pipeline.
+- **Health Information Services → Software & Internet (not
+  Healthcare Services).** VEEV (2026 rebalance) is vertical SaaS —
+  subscription revenue, software gross margins, land-and-expand
+  economics. Healthcare Services groups payer/provider capitation
+  businesses (UNH/CI/MCK); Veeva's factor profile matches CRM-class
+  application software.
 - **Conglomerates / Waste Mgmt / Industrial Distribution → Industrials.**
   These don't fit a separate "misc" bucket cleanly; their factor
   sensitivities (cyclical capex, balance-sheet leverage, operating
