@@ -40,6 +40,7 @@ export {
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
   inferSharesScale,
+  normalizeShareMagnitudes,
   rescaleSharesInPeriods,
   withAnnualRatios,
   withQuarterlyRatios,

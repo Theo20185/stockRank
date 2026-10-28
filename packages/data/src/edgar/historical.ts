@@ -30,6 +30,7 @@ import {
   decorateAnnualPeriodsWithPrices,
   decorateQuarterlyPeriodsWithPrices,
   inferSharesScale,
+  normalizeShareMagnitudes,
   mapAnnualPeriods,
   mapQuarterlyPeriods,
   rescaleSharesInPeriods,
@@ -314,8 +315,18 @@ export function synthesizeSnapshotAt(
           profile.authoritativeShares,
         )
       : 1;
-  const annualScaled = rescaleSharesInPeriods(allAnnual, scale);
-  const quarterlyScaled = rescaleSharesInPeriods(allQuarterly, scale);
+  // Per-period magnitude repair after the global scale — filers that
+  // switch share-count units between filings (COP/DLR/HST family)
+  // leave individual periods a power of 1000 off, which the
+  // annual[0]-anchored global pass can't see.
+  const annualScaled = normalizeShareMagnitudes(
+    rescaleSharesInPeriods(allAnnual, scale),
+    profile.authoritativeShares,
+  );
+  const quarterlyScaled = normalizeShareMagnitudes(
+    rescaleSharesInPeriods(allQuarterly, scale),
+    profile.authoritativeShares,
+  );
 
   // Filter to publicly-known-as-of `date`. 10-K filings are typically
   // available 70-90 days after FY end; 10-Q within 45 days of QE.

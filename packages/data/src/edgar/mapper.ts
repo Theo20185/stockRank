@@ -667,6 +667,65 @@ export function inferSharesScale(
   return 1;
 }
 
+/**
+ * Per-period share-count magnitude repair (gaps doc §2.6, the
+ * COP/DLR/HST family). Some filers switch share-count UNITS between
+ * filings (raw ↔ thousands ↔ millions), so individual periods sit an
+ * exact power of 1000 away from the authoritative current count —
+ * adjacent-year "jumps" of 959×-1,006,233× that the annual[0]-anchored
+ * `inferSharesScale` global pass cannot see. Checked in BOTH
+ * directions with the same ±30%-of-a-power-of-1000 tolerance:
+ * legitimate buyback/issuance drift (even 5-10× dilution) is never
+ * within tolerance of 1000× and passes through untouched. EPS is
+ * per-share-correct regardless of the count's unit, so only
+ * `sharesDiluted` moves — same contract as `rescaleSharesInPeriods`.
+ *
+ * Run AFTER the global `inferSharesScale` rescale and after split
+ * rebasing (`MapOptions.splits`), both of which put the reference and
+ * the periods on the current basis this comparison assumes.
+ */
+export function normalizeShareMagnitudes<
+  T extends { income: { sharesDiluted: number | null } },
+>(periods: T[], authoritativeShares: number): T[] {
+  if (authoritativeShares <= 0) return periods;
+  const counts = periods
+    .map((p) => p.income.sharesDiluted)
+    .filter((v): v is number => v !== null && v > 0)
+    .sort((a, b) => a - b);
+  if (counts.length === 0) return periods;
+
+  // Reference = the series' own median (its unit-consistent
+  // majority). Comparing old periods against TODAY'S count conflates
+  // unit errors with real issuance/buyback drift — DLR's ×1000 row
+  // sat 1438× from today's post-issuance count, outside the ±30%
+  // band, while sitting cleanly at ×1000 from its neighbors. The
+  // authoritative count stays as the referee: when the median itself
+  // is a power of 1000 off authoritative, the MAJORITY is wrong-unit
+  // and trusting it would invert the repair — fall back to
+  // authoritative as the reference.
+  const median = counts[Math.floor(counts.length / 2)]!;
+  const majoritySuspect =
+    inferSharesScale(median, authoritativeShares) !== 1 ||
+    inferSharesScale(authoritativeShares, median) !== 1;
+  const reference = majoritySuspect ? authoritativeShares : median;
+
+  let changed = false;
+  const out = periods.map((p) => {
+    const s = p.income.sharesDiluted;
+    if (s === null || s <= 0) return p;
+    const up = inferSharesScale(s, reference);
+    const down = inferSharesScale(reference, s);
+    const scale = up !== 1 ? up : down !== 1 ? 1 / down : 1;
+    if (scale === 1) return p;
+    changed = true;
+    return {
+      ...p,
+      income: { ...p.income, sharesDiluted: s * scale },
+    };
+  });
+  return changed ? out : periods;
+}
+
 /** Apply a uniform scale factor to `sharesDiluted` across every
  * period. EPS itself is unaffected — it's reported in the right
  * unit (USD/shares) regardless of the share-count convention. */

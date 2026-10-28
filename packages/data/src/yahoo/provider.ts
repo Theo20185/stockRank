@@ -14,6 +14,7 @@ import {
   EdgarNotFoundError,
   getEdgarFundamentals,
   inferSharesScale,
+  normalizeShareMagnitudes,
   rescaleSharesInPeriods,
   splitEventsFrom,
   type RawSplitEvent,
@@ -311,6 +312,11 @@ export class YahooProvider implements MarketDataProvider {
         edgarAnnual = rescaleSharesInPeriods(edgarAnnual, scale);
         edgarQuarterly = rescaleSharesInPeriods(edgarQuarterly, scale);
       }
+      // Per-period repair for filers that switch units BETWEEN
+      // filings (COP/DLR/HST family) — the global scale above only
+      // sees annual[0].
+      edgarAnnual = normalizeShareMagnitudes(edgarAnnual, yahooShares);
+      edgarQuarterly = normalizeShareMagnitudes(edgarQuarterly, yahooShares);
     }
 
     const summaryDetail = summary.summaryDetail;

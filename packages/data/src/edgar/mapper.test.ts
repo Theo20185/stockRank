@@ -9,6 +9,7 @@ import {
   inferSharesScale,
   mapAnnualPeriods,
   mapQuarterlyPeriods,
+  normalizeShareMagnitudes,
   rescaleSharesInPeriods,
   splitEventsFrom,
   withAnnualRatios,
@@ -497,6 +498,93 @@ describe("split-basis normalization (mapAnnualPeriods opts.splits)", () => {
     expect(q1.income.sharesDiluted).toBe(10_000_000);
     expect(q3.income.epsDiluted).toBe(0.6);
     expect(q3.income.sharesDiluted).toBe(10_000_000);
+  });
+});
+
+describe("normalizeShareMagnitudes", () => {
+  // The COP/DLR/HST family (gaps doc §2.6): SOME periods report
+  // share counts in different units than others (thousands vs raw,
+  // even millions), producing adjacent-year "jumps" of 959×-1e6×
+  // that the annual[0]-anchored inferSharesScale never sees. EPS is
+  // per-share-correct regardless, so only sharesDiluted moves.
+  const AUTH = 1_000_000_000; // authoritative current count: 1B
+
+  function periods(counts: Array<number | null>) {
+    return counts.map((sharesDiluted, i) =>
+      makePeriodLike(`${2025 - i}-12-31`, sharesDiluted),
+    );
+  }
+  function makePeriodLike(end: string, sharesDiluted: number | null) {
+    return {
+      periodEndDate: end,
+      income: { sharesDiluted, epsDiluted: 5 },
+    };
+  }
+
+  it("scales up a thousands-reported period (COP shape)", () => {
+    const out = normalizeShareMagnitudes(periods([1_000_000_000, 1_050_000]), AUTH);
+    expect(out[0]!.income.sharesDiluted).toBe(1_000_000_000);
+    expect(out[1]!.income.sharesDiluted).toBe(1_050_000_000);
+  });
+
+  it("scales down a period reported a power-of-1000 too HIGH (HST shape)", () => {
+    const out = normalizeShareMagnitudes(periods([1_000_000_000, 950_000_000_000]), AUTH);
+    expect(out[1]!.income.sharesDiluted).toBe(950_000_000);
+  });
+
+  it("handles the millions-off case (1e6)", () => {
+    const out = normalizeShareMagnitudes(periods([1_000_000_000, 1_100]), AUTH);
+    expect(out[1]!.income.sharesDiluted).toBe(1_100_000_000);
+  });
+
+  it("DLR shape: repairs against the series median when real drift puts today's count out of band", () => {
+    // DLR 2020: 262,523 (thousands) among neighbors ~209-348M, with
+    // today's authoritative at 377.7M after years of REIT issuance.
+    // vs authoritative the bad row is 1438× off (outside ±30% of
+    // 1000); vs the series median it's cleanly ×1000. The reference
+    // must be the series' own unit-consistent majority.
+    const counts = [347_810_000, 331_547_000, 309_065_000, 297_919_000, 283_222_000, 262_523, 209_462_247];
+    const out = normalizeShareMagnitudes(periods(counts), 377_700_000);
+    expect(out[5]!.income.sharesDiluted).toBe(262_523_000);
+    // Everything else untouched.
+    expect(out[0]!.income.sharesDiluted).toBe(347_810_000);
+    expect(out[6]!.income.sharesDiluted).toBe(209_462_247);
+  });
+
+  it("falls back to the authoritative reference when the series MAJORITY is wrong-unit", () => {
+    // If most periods are off (median itself a power-of-1000 from
+    // authoritative), trusting the median would invert the repair and
+    // corrupt the correct rows. The authoritative count referees.
+    const out = normalizeShareMagnitudes(
+      periods([1_000_000_000, 1_050_000, 1_100_000, 950_000]),
+      AUTH,
+    );
+    expect(out.map((p) => p.income.sharesDiluted)).toEqual([
+      1_000_000_000, 1_050_000_000, 1_100_000_000, 950_000_000,
+    ]);
+  });
+
+  it("leaves legitimate buyback/issuance drift alone (within ~30% of no power-of-1000)", () => {
+    const counts = [1_000_000_000, 1_400_000_000, 700_000_000, 2_500_000_000];
+    const out = normalizeShareMagnitudes(periods(counts), AUTH);
+    expect(out.map((p) => p.income.sharesDiluted)).toEqual(counts);
+  });
+
+  it("leaves EPS untouched — the unit error is in the count field only", () => {
+    const out = normalizeShareMagnitudes(periods([1_050_000]), AUTH);
+    expect(out[0]!.income.epsDiluted).toBe(5);
+  });
+
+  it("passes null counts and non-positive references through", () => {
+    const rows = periods([null, 1_000_000]);
+    expect(normalizeShareMagnitudes(rows, 0)).toBe(rows);
+    const out = normalizeShareMagnitudes(rows, AUTH);
+    expect(out[0]!.income.sharesDiluted).toBeNull();
+  });
+
+  it("returns the same array reference when nothing needed fixing", () => {
+    const rows = periods([1_000_000_000, 980_000_000]);
+    expect(normalizeShareMagnitudes(rows, AUTH)).toBe(rows);
   });
 });
 
