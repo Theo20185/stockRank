@@ -271,13 +271,16 @@ async function runOptionsFetch(
       continue;
     }
     try {
+      const fvTrendEntry = fvTrendBySymbol.get(row.symbol);
       const result = await fetchSymbolOptions(
         provider,
         {
           symbol: row.symbol,
           company,
           fairValue: row.fairValue,
-          fvTrendEntry: fvTrendBySymbol.get(row.symbol),
+          // Conditional spread — exactOptionalPropertyTypes forbids an
+          // explicit undefined on the optional field.
+          ...(fvTrendEntry !== undefined ? { fvTrendEntry } : {}),
         },
         today,
       );

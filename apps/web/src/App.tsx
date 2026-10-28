@@ -19,7 +19,7 @@ import {
 import { loadSnapshot } from "./snapshot/loader.js";
 import { loadOptionsSummary } from "./snapshot/options-summary-loader.js";
 import { loadOptionsView } from "./snapshot/options-loader.js";
-import { loadFvTrend } from "./snapshot/fv-trend-loader.js";
+import { applyFvTrend, loadFvTrend } from "./snapshot/fv-trend-loader.js";
 import { loadPortfolio, savePortfolio } from "./snapshot/portfolio-loader.js";
 import { useSpaxxRate } from "./lib/spaxx-rate.js";
 import { useHashRoute } from "./router/useHashRoute.js";
@@ -192,13 +192,11 @@ export function App({ initialSnapshot, initialOptionsSummary, initialFvTrend, in
         const best = optionsSummary.symbols[row.symbol]!;
         row.optionsLiquid = best.bestCallAnnualized !== null && best.bestPutAnnualized !== null;
       }
-      // fvTrend defaults to "insufficient_data" from rank(); the loaded
-      // artifact, if available, overrides it. "declining" demotes the
-      // row to Watch via the bucket classifier.
-      if (fvTrend && fvTrend.symbols[row.symbol]) {
-        row.fvTrend = fvTrend.symbols[row.symbol]!.trend;
-      }
     }
+    // fvTrend defaults to "insufficient_data" from rank(); the loaded
+    // artifact, if available, overrides it (informational only since
+    // the H10 removal — drill-down + rationale, never bucketing).
+    applyFvTrend(result.rows, fvTrend);
     // Stamp fair value on ineligible rows too — they still have
     // fundamentals, just failed the quality floor; users may want to
     // see what the model would project even on Avoid names.

@@ -56,18 +56,22 @@ a super-group middle tier between industry and sector fallback —
 the FV backtest's coarse-cohort stress suggests it behaves
 similarly, and it would replace the worst 25% of comparables.
 
-### 2.3 FV-trend join regression (new, found in this survey)
+### 2.3 FV-trend join — CORRECTED 2026-10-28 (survey misread)
 
-`fv-trend.json` is healthy; all 373 ranked rows say
-`insufficient_data`. The per-row attach in the ingest is broken —
-note the long-ignored pre-existing `tsc` error at `ingest/cli.ts:276`
-(`fvTrendEntry: FvTrendEntry | undefined` under
-`exactOptionalPropertyTypes`) is exactly this seam. Nothing *acts*
-on the flag since H10's removal, but the UI shows a false
-"insufficient data" and every refresh spends the compute. **Fill:**
-fix the join + a render test asserting a non-insufficient trend
-reaches a row; or, if the flag is truly vestigial post-H10, delete
-the pipeline step and the field. Decide, don't leave it half-alive.
+**The original finding here was wrong.** The serialized snapshot
+carries rank()'s `insufficient_data` stub BY DESIGN; the override is
+client-side (`App.tsx` applies `fv-trend.json` per render, mirroring
+the `optionsLiquid` override). Reading the JSON made a working seam
+look dead. The *actual* gaps at this seam, both closed 2026-10-28:
+zero test coverage of the override (which is exactly what made the
+misread possible in either direction — now pinned by
+`fv-trend-loader.test.ts` against an extracted `applyFvTrend`), and
+the long-standing `exactOptionalPropertyTypes` error at the
+`ingest/cli.ts` options call site (conditional spread; one of the
+three pre-existing workspace `tsc` errors retired). Lesson for
+future surveys: serialized-snapshot fields can be deliberately
+non-final; check the client merge layer before declaring a join
+dead.
 
 ### 2.4 Membership history frozen (2026-06-11)
 
@@ -165,7 +169,7 @@ decision (the user may prefer keeping holdings out of the tool).
 | P0 | 2.1 quarter-rows fix | S | Uncorrupts anchors for 52% of universe |
 | P0 | 3.1 weight-validation rerun on corrected data | M | Re-founds (or refutes) the core adopted weights |
 | P0 | 1 CANDIDATE-gate decision | user | Aligns product with the no-edge verdict |
-| P1 | 2.3 fvTrend join fix-or-delete | S | Kills a silent regression |
+| P1 | 2.3 fvTrend join fix-or-delete | S | ~~Kills a silent regression~~ DONE 2026-10-28 — finding corrected (join was healthy); coverage + type error closed instead |
 | P1 | 2.4 changes parser + drift guard | S–M | Unblocks future PIT; automates drift catch |
 | P1 | 2.5 forwardEps cadence diagnostic | S | Turns unknown staleness into a number |
 | P1 | 2.6 share-magnitude guard | S | Closes the COP/DLR/HST family |
