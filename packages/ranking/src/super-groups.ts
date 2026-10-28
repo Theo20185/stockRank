@@ -157,6 +157,13 @@ export const INDUSTRY_TO_SUPER_GROUP: Record<string, SuperGroupKey> = {
   "Specialty Chemicals": "materials-construction",
   Chemicals: "materials-construction",
   "Agricultural Inputs": "materials-construction",
+  // Shell Companies: Yahoo's placeholder classification for VYLR
+  // (Vylor Inc., the 2026 Corteva seed/crop-genetics spin-off that
+  // took CTVA's index seat in the Oct-2026 membership change). The
+  // company's economics are Agricultural Inputs; Yahoo just hasn't
+  // classified the new listing yet. Keyed to that reality — if a
+  // different name ever lands in "Shell Companies", revisit.
+  "Shell Companies": "materials-construction",
   Steel: "materials-construction",
   Copper: "materials-construction",
   Gold: "materials-construction",

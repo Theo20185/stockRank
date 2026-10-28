@@ -68,7 +68,7 @@ Two cohort structures coexist after this spec:
 | 10 | Utilities | 31 | Utilities - Regulated Electric; Utilities - Independent Power Producers; Utilities - Diversified; Utilities - Regulated Gas; Utilities - Regulated Water |
 | 11 | Energy | 22 | Oil & Gas E&P; Oil & Gas Integrated; Oil & Gas Refining & Marketing; Oil & Gas Equipment & Services; Oil & Gas Midstream |
 | 12 | Industrials | 51 | Specialty Industrial Machinery; Aerospace & Defense; Farm & Heavy Construction Machinery; Electrical Equipment & Parts; Tools & Accessories; Industrial Distribution; Conglomerates; Waste Management; Specialty Business Services; Consulting Services; Pollution & Treatment Controls; Rental & Leasing Services; Security & Protection Services |
-| 13 | Materials & Construction | 41 | Specialty Chemicals; Chemicals; Agricultural Inputs; Steel; Copper; Gold; Solar; Packaging & Containers; Building Products & Equipment; Engineering & Construction; Building Materials; Residential Construction |
+| 13 | Materials & Construction | 41 | Specialty Chemicals; Chemicals; Agricultural Inputs; Shell Companies; Steel; Copper; Gold; Solar; Packaging & Containers; Building Products & Equipment; Engineering & Construction; Building Materials; Residential Construction |
 | 14 | Transportation & Autos | 20 | Integrated Freight & Logistics; Railroads; Airlines; Trucking; Auto Manufacturers; Auto Parts |
 | 15 | Consumer Staples | 33 | Packaged Foods; Household & Personal Products; Beverages - Non-Alcoholic; Beverages - Brewers; Beverages - Wineries & Distilleries; Tobacco; Confectioners; Farm Products; Discount Stores; Grocery Stores; Food Distribution |
 | 16 | Consumer Discretionary | 42 | Specialty Retail; Internet Retail; Apparel Retail; Home Improvement Retail; Auto & Truck Dealerships; Luxury Goods; Apparel Manufacturing; Footwear & Accessories; Consumer Electronics; Restaurants; Travel Services; Resorts & Casinos; Lodging; Leisure; Electronic Gaming & Multimedia; Personal Services |
@@ -95,6 +95,13 @@ Notes on the non-obvious assignments:
   economics. Healthcare Services groups payer/provider capitation
   businesses (UNH/CI/MCK); Veeva's factor profile matches CRM-class
   application software.
+- **Shell Companies → Materials & Construction.** Yahoo's
+  placeholder classification for VYLR (Vylor Inc., the 2026 Corteva
+  seed/crop-genetics spin-off that took CTVA's seat in the Oct-2026
+  index change). The business is Agricultural Inputs economics;
+  Yahoo just hasn't classified the new listing yet. Keyed to that
+  one reality — if a different name ever shows up under "Shell
+  Companies", revisit rather than inherit.
 - **Conglomerates / Waste Mgmt / Industrial Distribution → Industrials.**
   These don't fit a separate "misc" bucket cleanly; their factor
   sensitivities (cyclical capex, balance-sheet leverage, operating
