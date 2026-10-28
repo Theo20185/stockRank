@@ -1,6 +1,6 @@
 {
   "symbol": "OXY",
-  "fetchedAt": "2026-10-28T20:18:17.730Z",
+  "fetchedAt": "2026-10-28T21:18:08.839Z",
   "currentPrice": 62.86,
   "expirations": [
     {
@@ -11,7 +11,7 @@
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.737008927,
+          "anchorPrice": 80.729835876,
           "contract": {
             "contractSymbol": "OXY261120P00059000",
             "expiration": "2026-11-20",
@@ -81,11 +81,11 @@
             "daysToExpiry": 23,
             "strike": 40,
             "bid": 21.7,
-            "ask": 25.1,
+            "ask": 25.05,
             "lastPrice": 23.52,
             "volume": 5,
             "openInterest": 47,
-            "impliedVolatility": 1.2334022705078125,
+            "impliedVolatility": 1.21875390625,
             "inTheMoney": true
           },
           {
@@ -900,60 +900,33 @@
       },
       "projection": {
         "daysAhead": 23,
-        "fvP25": 60.707064258429796,
-        "fvMedian": 87.64338868268607,
-        "fvP75": 56.77368995150391,
-        "price": 59.48064645865473,
-        "fvSlopePctPerYear": 47.02808086259183,
-        "priceSlopePctPerYear": 21.05422526990477,
-        "fvRSquared": 0.486609237567292,
-        "priceRSquared": 0.35969385390243996,
-        "fvConfidence": "medium",
+        "fvP25": 76.01408927802078,
+        "fvMedian": 107.46355818374431,
+        "fvP75": 183.8490121831427,
+        "price": 58.67529715052701,
+        "fvSlopePctPerYear": 96.06574482427972,
+        "priceSlopePctPerYear": 14.63321913786428,
+        "fvRSquared": 0.7847658670822566,
+        "priceRSquared": 0.3583949032878684,
+        "fvConfidence": "high",
         "priceConfidence": "medium",
         "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
-        "priceFallback": true,
+        "priceFallback": false,
         "fvWindowSize": 4,
-        "priceWindowSize": 6
+        "priceWindowSize": 8
       }
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 62.80235222491754,
-          "contract": {
-            "contractSymbol": "OXY261218C00065000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 51,
-            "strike": 65,
-            "bid": 2.3,
-            "ask": 2.44,
-            "lastPrice": 2.38,
-            "volume": 100,
-            "openInterest": 4618,
-            "impliedVolatility": 0.3537662280273437,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.039090341833777166,
-          "staticAnnualizedPct": 0.2797642111633072,
-          "assignedReturnPct": 0.07313424892890921,
-          "assignedAnnualizedPct": 0.5234117815500365,
-          "effectiveCostBasis": 60.56,
-          "effectiveDiscountPct": 0.03658924594336621
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.737008927,
+          "anchorPrice": 80.729835876,
           "contract": {
             "contractSymbol": "OXY261218P00060000",
             "expiration": "2026-12-18",
@@ -1088,11 +1061,11 @@
             "daysToExpiry": 51,
             "strike": 40,
             "bid": 21.8,
-            "ask": 25.2,
+            "ask": 25.15,
             "lastPrice": 24.75,
             "volume": 2,
             "openInterest": 1019,
-            "impliedVolatility": 0.8735364208984374,
+            "impliedVolatility": 0.8647474462890624,
             "inTheMoney": true
           },
           {
@@ -1308,7 +1281,7 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 51,
             "strike": 90,
-            "bid": 0.03,
+            "bid": 0,
             "ask": 0.1,
             "lastPrice": 0.04,
             "volume": 20,
@@ -1453,12 +1426,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 51,
             "strike": 42.5,
-            "bid": 0.01,
+            "bid": 0,
             "ask": 0.5,
             "lastPrice": 0.07,
             "volume": 4,
             "openInterest": 2866,
-            "impliedVolatility": 0.629886513671875,
+            "impliedVolatility": 0.6279334082031252,
             "inTheMoney": false
           },
           {
@@ -1673,79 +1646,52 @@
       },
       "projection": {
         "daysAhead": 51,
-        "fvP25": 62.80235222491754,
-        "fvMedian": 91.01824048565078,
-        "fvP75": 56.77368995150391,
-        "price": 60.40562490999195,
-        "fvSlopePctPerYear": 47.02808086259183,
-        "priceSlopePctPerYear": 21.05422526990477,
-        "fvRSquared": 0.486609237567292,
-        "priceRSquared": 0.35969385390243996,
-        "fvConfidence": "medium",
+        "fvP25": 81.42704906460352,
+        "fvMedian": 115.21879956890754,
+        "fvP75": 183.8490121831427,
+        "price": 59.380931022860494,
+        "fvSlopePctPerYear": 96.06574482427972,
+        "priceSlopePctPerYear": 14.63321913786428,
+        "fvRSquared": 0.7847658670822566,
+        "priceRSquared": 0.3583949032878684,
+        "fvConfidence": "high",
         "priceConfidence": "medium",
         "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
-        "priceFallback": true,
+        "priceFallback": false,
         "fvWindowSize": 4,
-        "priceWindowSize": 6
+        "priceWindowSize": 8
       }
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 64.89764019140529,
-          "contract": {
-            "contractSymbol": "OXY270115C00065000",
-            "expiration": "2027-01-15",
-            "daysToExpiry": 79,
-            "strike": 65,
-            "bid": 3,
-            "ask": 3.15,
-            "lastPrice": 3,
-            "volume": 71,
-            "openInterest": 68171,
-            "impliedVolatility": 0.3464420825195312,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.05159934997973317,
-          "staticAnnualizedPct": 0.2384020600329444,
-          "assignedReturnPct": 0.08564325707486523,
-          "assignedAnnualizedPct": 0.3956935295231115,
-          "effectiveCostBasis": 59.86,
-          "effectiveDiscountPct": 0.04772510340439071
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 80.737008927,
+          "anchorPrice": 80.729835876,
           "contract": {
-            "contractSymbol": "OXY270115P00062500",
+            "contractSymbol": "OXY270115P00060000",
             "expiration": "2027-01-15",
             "daysToExpiry": 79,
-            "strike": 62.5,
-            "bid": 3.35,
-            "ask": 3.75,
-            "lastPrice": 3.3,
-            "volume": 82,
-            "openInterest": 874,
-            "impliedVolatility": 0.335944140625,
+            "strike": 60,
+            "bid": 2.24,
+            "ask": 2.62,
+            "lastPrice": 2.25,
+            "volume": 146,
+            "openInterest": 13608,
+            "impliedVolatility": 0.33887379882812496,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.0536,
-          "notAssignedAnnualizedPct": 0.24764556962025316,
-          "effectiveCostBasis": 59.15,
-          "effectiveDiscountPct": 0.05902004454342986,
+          "notAssignedReturnPct": 0.037333333333333336,
+          "notAssignedAnnualizedPct": 0.17248945147679326,
+          "effectiveCostBasis": 57.76,
+          "effectiveDiscountPct": 0.08113267578746423,
           "inTheMoney": false
         }
       ],
@@ -2446,22 +2392,22 @@
       },
       "projection": {
         "daysAhead": 79,
-        "fvP25": 64.89764019140529,
-        "fvMedian": 94.39309228861546,
-        "fvP75": 56.77368995150391,
-        "price": 61.33060336132917,
-        "fvSlopePctPerYear": 47.02808086259183,
-        "priceSlopePctPerYear": 21.05422526990477,
-        "fvRSquared": 0.486609237567292,
-        "priceRSquared": 0.35969385390243996,
-        "fvConfidence": "medium",
+        "fvP25": 86.84000885118627,
+        "fvMedian": 122.97404095407074,
+        "fvP75": 183.8490121831427,
+        "price": 60.08656489519397,
+        "fvSlopePctPerYear": 96.06574482427972,
+        "priceSlopePctPerYear": 14.63321913786428,
+        "fvRSquared": 0.7847658670822566,
+        "priceRSquared": 0.3583949032878684,
+        "fvConfidence": "high",
         "priceConfidence": "medium",
         "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
-        "priceFallback": true,
+        "priceFallback": false,
         "fvWindowSize": 4,
-        "priceWindowSize": 6
+        "priceWindowSize": 8
       }
     }
   ]

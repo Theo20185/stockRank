@@ -1,39 +1,12 @@
 {
   "symbol": "SOLV",
-  "fetchedAt": "2026-10-28T20:18:30.571Z",
+  "fetchedAt": "2026-10-28T21:18:21.589Z",
   "currentPrice": 81.85,
   "expirations": [
     {
       "expiration": "2026-11-20",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 86.03263218377634,
-          "contract": {
-            "contractSymbol": "SOLV261120C00090000",
-            "expiration": "2026-11-20",
-            "daysToExpiry": 23,
-            "strike": 90,
-            "bid": 0.45,
-            "ask": 1.2,
-            "lastPrice": 0.9,
-            "volume": 4,
-            "openInterest": 903,
-            "impliedVolatility": 0.45898978515625005,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": true,
-          "staticReturnPct": 0.005497861942577887,
-          "staticAnnualizedPct": 0.08724867865395343,
-          "assignedReturnPct": 0.10507025045815523,
-          "assignedAnnualizedPct": 1.667419192053333,
-          "effectiveCostBasis": 81.39999999999999,
-          "effectiveDiscountPct": 0.005497861942577887
-        }
-      ],
+      "coveredCalls": [],
       "puts": [
         {
           "label": "deep-value",
@@ -407,55 +380,28 @@
       },
       "projection": {
         "daysAhead": 23,
-        "fvP25": 86.03263218377634,
-        "fvMedian": 81.86480045787854,
-        "fvP75": 93.32671484088334,
-        "price": 81.61835311066055,
-        "fvSlopePctPerYear": -89.76898848015034,
-        "priceSlopePctPerYear": 6.9051197627358505,
-        "fvRSquared": 0.7608278877216299,
-        "priceRSquared": 0.328627663725646,
-        "fvConfidence": "high",
-        "priceConfidence": "medium",
+        "fvP25": 131.74799697537296,
+        "fvMedian": 161.11275637087067,
+        "fvP75": 160.61762377601477,
+        "price": 88.51124880660582,
+        "fvSlopePctPerYear": 55.3372088297907,
+        "priceSlopePctPerYear": 41.15793309492506,
+        "fvRSquared": 0.10394471182310594,
+        "priceRSquared": 0.8367806209138953,
+        "fvConfidence": "weak",
+        "priceConfidence": "high",
         "fvCapped": false,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": true,
         "fvWindowSize": 4,
-        "priceWindowSize": 12
+        "priceWindowSize": 4
       }
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "monthly",
-      "coveredCalls": [
-        {
-          "label": "conservative",
-          "anchor": "p25",
-          "anchorPrice": 82.71608493607937,
-          "contract": {
-            "contractSymbol": "SOLV261218C00085000",
-            "expiration": "2026-12-18",
-            "daysToExpiry": 51,
-            "strike": 85,
-            "bid": 1.7,
-            "ask": 4.1,
-            "lastPrice": 4.94,
-            "volume": 3,
-            "openInterest": 4,
-            "impliedVolatility": 0.4409235595703125,
-            "inTheMoney": false
-          },
-          "snapWarning": false,
-          "shortDated": false,
-          "staticReturnPct": 0.020769700671960906,
-          "staticAnnualizedPct": 0.14864589696599473,
-          "assignedReturnPct": 0.05925473427000619,
-          "assignedAnnualizedPct": 0.42407800016769137,
-          "effectiveCostBasis": 80.14999999999999,
-          "effectiveDiscountPct": 0.020769700671960906
-        }
-      ],
+      "coveredCalls": [],
       "puts": [],
       "chain": {
         "calls": [
@@ -529,22 +475,22 @@
       },
       "projection": {
         "daysAhead": 51,
-        "fvP25": 82.71608493607937,
-        "fvMedian": 74.11515166757002,
-        "fvP75": 82.2357585357991,
-        "price": 82.08981955355108,
-        "fvSlopePctPerYear": -89.76898848015034,
-        "priceSlopePctPerYear": 6.9051197627358505,
-        "fvRSquared": 0.7608278877216299,
-        "priceRSquared": 0.328627663725646,
-        "fvConfidence": "high",
-        "priceConfidence": "medium",
+        "fvP25": 137.06588355749358,
+        "fvMedian": 165.88995104274406,
+        "fvP75": 158.28471310512614,
+        "price": 91.09488449494599,
+        "fvSlopePctPerYear": 55.3372088297907,
+        "priceSlopePctPerYear": 41.15793309492506,
+        "fvRSquared": 0.10394471182310594,
+        "priceRSquared": 0.8367806209138953,
+        "fvConfidence": "weak",
+        "priceConfidence": "high",
         "fvCapped": false,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": true,
         "fvWindowSize": 4,
-        "priceWindowSize": 12
+        "priceWindowSize": 4
       }
     },
     {
@@ -598,7 +544,7 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 79,
             "strike": 60,
-            "bid": 20.5,
+            "bid": 20.6,
             "ask": 24.5,
             "lastPrice": 28.35,
             "volume": 0,
@@ -898,22 +844,22 @@
       },
       "projection": {
         "daysAhead": 79,
-        "fvP25": 79.3995376883824,
-        "fvMedian": 66.36550287726149,
-        "fvP75": 71.14480223071487,
-        "price": 82.56128599644163,
-        "fvSlopePctPerYear": -89.76898848015034,
-        "priceSlopePctPerYear": 6.9051197627358505,
-        "fvRSquared": 0.7608278877216299,
-        "priceRSquared": 0.328627663725646,
-        "fvConfidence": "high",
-        "priceConfidence": "medium",
-        "fvCapped": false,
+        "fvP25": 142.3837701396142,
+        "fvMedian": 168.80362999873495,
+        "fvP75": 155.95180243423752,
+        "price": 93.67852018328615,
+        "fvSlopePctPerYear": 55.3372088297907,
+        "priceSlopePctPerYear": 41.15793309492506,
+        "fvRSquared": 0.10394471182310594,
+        "priceRSquared": 0.8367806209138953,
+        "fvConfidence": "weak",
+        "priceConfidence": "high",
+        "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": true,
         "fvWindowSize": 4,
-        "priceWindowSize": 12
+        "priceWindowSize": 4
       }
     }
   ]
