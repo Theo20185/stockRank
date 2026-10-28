@@ -52,6 +52,7 @@ describe("loadHistoryArtifact", () => {
     await seedCache(dir, new Date().toISOString());
     const constituentsSpy = vi.fn(fetchers().constituents);
     const artifact = await loadHistoryArtifact({
+      ledger: null,
       cacheDir: dir,
       fetchers: fetchers({ constituents: constituentsSpy }),
     });
@@ -62,6 +63,7 @@ describe("loadHistoryArtifact", () => {
   it("refetches when the cache is stale and rewrites it", async () => {
     await seedCache(dir, "2020-01-01T00:00:00.000Z");
     const artifact = await loadHistoryArtifact({
+      ledger: null,
       cacheDir: dir,
       fetchers: fetchers(),
     });
@@ -81,6 +83,7 @@ describe("loadHistoryArtifact", () => {
     await seedCache(dir, "2020-01-01T00:00:00.000Z");
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const artifact = await loadHistoryArtifact({
+      ledger: null,
       cacheDir: dir,
       fetchers: fetchers({
         changes: async () => {
@@ -98,6 +101,7 @@ describe("loadHistoryArtifact", () => {
     await seedCache(dir, "2020-01-01T00:00:00.000Z");
     vi.spyOn(console, "warn").mockImplementation(() => {});
     await loadHistoryArtifact({
+      ledger: null,
       cacheDir: dir,
       fetchers: fetchers({
         changes: async () => {
@@ -112,6 +116,7 @@ describe("loadHistoryArtifact", () => {
   it("rethrows when the live fetch fails and no cache exists at all", async () => {
     await expect(
       loadHistoryArtifact({
+        ledger: null,
         cacheDir: dir,
         fetchers: fetchers({
           changes: async () => {
@@ -120,5 +125,62 @@ describe("loadHistoryArtifact", () => {
         }),
       }),
     ).rejects.toThrow("changes table not found");
+  });
+
+  // ---- Ledger mode (2026-10-28: Wikipedia deleted the changes
+  // table; the committed ledger is the authoritative source) ----
+
+  const LEDGER = {
+    seededFrom: "test",
+    updatedAt: "2026-10-01T00:00:00.000Z",
+    currentConstituents: ["AAA", "BBB"],
+    changes: [
+      {
+        date: "2024-01-02",
+        added: { ticker: "NEW", name: "Newco" },
+        removed: { ticker: "OLD", name: "Oldco" },
+        reason: null,
+        source: "wikipedia" as const,
+      },
+      {
+        date: "2026-10-01",
+        added: { ticker: "BBB", name: "B Corp" },
+        removed: null,
+        reason: "observed via constituents diff (date = observation, not effective)",
+        source: "observed" as const,
+      },
+    ],
+  };
+
+  it("ledger mode: ledger supplies changes, live table supplies constituents, TTL cache bypassed", async () => {
+    const changesSpy = vi.fn(async () => {
+      throw new Error("table deleted upstream");
+    });
+    const artifact = await loadHistoryArtifact({
+      ledger: LEDGER,
+      cacheDir: dir,
+      fetchers: fetchers({ changes: changesSpy }),
+    });
+    expect(artifact.currentConstituents).toEqual(["AAA", "BBB"]);
+    expect(artifact.changes).toHaveLength(2);
+    expect(artifact.changes[1]!.added?.ticker).toBe("BBB");
+    // The dead changes fetcher is never consulted in ledger mode.
+    expect(changesSpy).not.toHaveBeenCalled();
+  });
+
+  it("ledger mode: falls back to the ledger's last observation when the live constituents fetch fails", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const artifact = await loadHistoryArtifact({
+      ledger: LEDGER,
+      cacheDir: dir,
+      fetchers: fetchers({
+        constituents: async () => {
+          throw new Error("network down");
+        },
+      }),
+    });
+    expect(artifact.currentConstituents).toEqual(["AAA", "BBB"]);
+    expect(artifact.fetchedAt).toBe("2026-10-01T00:00:00.000Z");
+    expect(warn).toHaveBeenCalledOnce();
   });
 });

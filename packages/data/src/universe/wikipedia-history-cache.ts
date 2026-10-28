@@ -25,6 +25,11 @@ import {
   type IndexChange,
 } from "./wikipedia-history.js";
 import { fetchSp500FromWikipedia } from "./wikipedia.js";
+import {
+  ledgerChangesAsIndexChanges,
+  loadLedger,
+  type ChangesLedger,
+} from "./changes-ledger.js";
 
 const REPO_ROOT = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -50,6 +55,14 @@ export type LoadOptions = {
     constituents: () => Promise<Array<{ symbol: string }>>;
     changes: () => Promise<IndexChange[]>;
   };
+  /**
+   * The self-maintained changes ledger (changes-ledger.ts). Since
+   * Wikipedia deleted the changes table (2026-10), the ledger is the
+   * authoritative changes source when present: undefined → load the
+   * committed ledger; null → ledger-less legacy behavior (tests,
+   * pre-ledger checkouts).
+   */
+  ledger?: ChangesLedger | null;
 };
 
 export type HistoryArtifact = {
@@ -84,6 +97,35 @@ export async function loadHistoryArtifact(
     constituents: fetchSp500FromWikipedia,
     changes: fetchChangesFromWikipedia,
   };
+  const ledger =
+    opts.ledger !== undefined ? opts.ledger : await loadLedger();
+
+  // Ledger mode — the committed changes ledger is the authoritative
+  // changes source (the scraped table no longer exists upstream).
+  // Constituents still prefer the live table (it parses fine), with
+  // the ledger's last observation as the offline fallback. The old
+  // TTL cache is bypassed entirely: the ledger IS the store, and it
+  // is maintained by the refresh-time drift check, not here.
+  if (ledger) {
+    let constituents: string[];
+    let fetchedAt: string;
+    try {
+      constituents = (await fetchers.constituents()).map((c) => c.symbol);
+      fetchedAt = new Date().toISOString();
+    } catch (err) {
+      console.warn(
+        `WARNING: live S&P 500 constituents fetch failed (${err instanceof Error ? err.message : err}); ` +
+          `using the ledger's last observation (${ledger.updatedAt}).`,
+      );
+      constituents = [...ledger.currentConstituents];
+      fetchedAt = ledger.updatedAt;
+    }
+    return {
+      currentConstituents: constituents,
+      changes: ledgerChangesAsIndexChanges(ledger),
+      fetchedAt,
+    };
+  }
 
   if (!opts.refresh) {
     const cached = await readCache(paths, ttl);

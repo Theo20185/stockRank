@@ -151,6 +151,24 @@ async function main(): Promise<void> {
   console.log("=== refresh: ingest ===");
   const ingestLog = await runStreaming("npm", ["run", "ingest"]);
 
+  // Membership drift guard + changes-ledger maintenance. Wikipedia
+  // deleted the changes table (2026-10); the ledger replaces it, and
+  // this step both extends it and warns when sp500.json has drifted
+  // (the Sept-2026 drift went 5 months unnoticed). Best-effort: a
+  // Wikipedia hiccup must never kill the refresh — the CLI always
+  // exits 0, and this wrapper guards the spawn itself.
+  console.log("\n=== refresh: membership drift check ===");
+  try {
+    await runStreaming("npx", [
+      "tsx",
+      "packages/data/src/universe/drift-check-cli.ts",
+    ]);
+  } catch (err) {
+    console.warn(
+      `drift check failed (non-fatal): ${err instanceof Error ? err.message : err}`,
+    );
+  }
+
   // Recompute the FV-trend artifact off the dated snapshot archive
   // now that ingest has just appended today's dated snapshot. Cheap
   // (seconds even at hundreds of archives) and must run before the

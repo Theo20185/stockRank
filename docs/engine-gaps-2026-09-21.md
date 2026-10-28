@@ -73,27 +73,35 @@ future surveys: serialized-snapshot fields can be deliberately
 non-final; check the client merge layer before declaring a join
 dead.
 
-### 2.4 Membership history frozen (2026-06-11)
+### 2.4 Membership history — CLOSED 2026-10-28 (upstream source is gone; ledger replaces it)
 
-The Wikipedia changes-table parser is still broken (chip open); the
-stale-cache fallback keeps backtests self-consistent but blind to
-changes after 2026-06-22. Live universe drift is now guarded only by
-manual checks (the September catch was manual: 10 in / 10 out,
-including EPAM ranked while out of the index). **Fill:** (i) fix the
-changes parser (chip); (ii) add a cheap drift guard to refresh —
-live constituents diff vs `sp500.json`, warn on any delta (the
-constituents parser works).
+Investigation finding: the changes table wasn't moved, it was
+**deleted from Wikipedia** (the dedicated "List of S&P 500 index
+changes" article is a soft 404) — "fix the parser" stopped being
+possible. Replacement shipped: a committed **changes ledger**
+(`sp500-changes.json`) seeded from the last good fetch (effective
+dates through 2026-06-22) and extended at refresh time by diffing
+live constituents (observation-dated, `source: "observed"`).
+`loadHistoryArtifact` now treats the ledger as the authoritative
+changes source with live constituents as the current anchor, so
+future PIT runs are unblocked. A drift guard runs inside `refresh`
+(non-fatal) and warns when `sp500.json` lags the live index — its
+first run caught a SECOND drift (Oct: +BE, P, ILMN, SKYD, TWLO,
+VYLR / −BLDR, CTVA, TAP, PSKY, TTD, WBD), fixed the same day.
+Residual, documented: observed entries date changes at the refresh
+cadence, not the index effective date.
 
-### 2.5 forwardEps staleness
+### 2.5 forwardEps staleness — MEASURED 2026-10-28, hypothesis refuted
 
-Frozen to five decimals across 11 days through DECK's
-downgrade cycle. It's the *only* channel where analyst revisions
-enter the engine (spike-defense corroboration, forward P/E). If it
-lags weeks, the corroboration check corroborates the past.
-**Fill:** one diagnostic — log forwardEps per symbol across the
-dated snapshot archive, measure update cadence; then either accept
-with a documented lag, or add a fresher estimates source. Cheap to
-measure, currently unknown.
+Diagnostic over 64 snapshot commits (2026-04-20 → 2026-09-21, 489
+symbols with ≥10 observations): forwardEps changes with **median 5
+days between changes** (p25=2, p75=9, p90=17); only 3 symbols (1%)
+never changed; DECK itself changed 18 times — its 11-day freeze
+through the September downgrade sat inside the normal p75–p90 gap
+range. The channel is alive at roughly weekly granularity. Residual,
+accepted + documented: the spike-defense forward-corroboration check
+can lag fast revisions by days-to-two-weeks. No replacement source
+warranted. (`tmp/fwdeps-cadence.ts`, rerunnable.)
 
 ### 2.6 Share-count magnitude family (COP/DLR/HST)
 
@@ -170,9 +178,9 @@ decision (the user may prefer keeping holdings out of the tool).
 | P0 | 3.1 weight-validation rerun on corrected data | M | Re-founds (or refutes) the core adopted weights |
 | P0 | 1 CANDIDATE-gate decision | user | Aligns product with the no-edge verdict |
 | P1 | 2.3 fvTrend join fix-or-delete | S | ~~Kills a silent regression~~ DONE 2026-10-28 — finding corrected (join was healthy); coverage + type error closed instead |
-| P1 | 2.4 changes parser + drift guard | S–M | Unblocks future PIT; automates drift catch |
-| P1 | 2.5 forwardEps cadence diagnostic | S | Turns unknown staleness into a number |
-| P1 | 2.6 share-magnitude guard | S | Closes the COP/DLR/HST family |
+| P1 | 2.4 changes parser + drift guard | S–M | DONE 2026-10-28 — upstream table deleted; self-maintained ledger + refresh drift guard shipped (guard's first run caught the October drift) |
+| P1 | 2.5 forwardEps cadence diagnostic | S | DONE 2026-10-28 — median 5d between changes; staleness hypothesis refuted, lag accepted + documented |
+| P1 | 2.6 share-magnitude guard | S | DONE 2026-10-28 (75d904d) — COP 959×→1.2×, DLR 1079×→1.3×, HST 1e6×→1.0×, GRMN, EG; EXE's 11.9× is the Chesapeake merger, correctly untouched |
 | P2 | 3.2 factor normalization + revalidation | M–L | Cleans Quality/Health/Growth of spike bias |
 | P2 | 2.2 anchor coverage split + super-group cohort tier | M | Honest confidence; better comparables |
 | P2 | 3.3(i) assignment-rationality flag | S | Live-position mechanics the user already needed |
