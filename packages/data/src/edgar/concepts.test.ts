@@ -6,6 +6,7 @@ import {
   deriveQ4FromAnnual,
   extractStandaloneQuarters,
   firstAvailable,
+  isAnnualSpanFact,
   isStandaloneQuarterFact,
   quarterlyMap,
   standaloneQuarterlyMap,
@@ -414,10 +415,62 @@ describe("extractStandaloneQuarters (YTD-chain derivation)", () => {
   });
 });
 
+describe("isAnnualSpanFact", () => {
+  const span = (start: string, end: string) =>
+    fact({ end, start, fp: "FY" });
+
+  it("accepts true fiscal years (365d) and 53-week years (371d)", () => {
+    expect(isAnnualSpanFact(span("2024-12-31", "2025-12-31"))).toBe(true);
+    expect(isAnnualSpanFact(span("2025-01-28", "2026-02-03"))).toBe(true);
+  });
+
+  it("rejects FY-tagged quarterly and YTD-cumulative spans (the DECK leak)", () => {
+    // DECK's FY2024-transition rows: Q1 YTD ~91d, H1 ~183d, 9mo ~275d —
+    // all tagged fp="FY" by the filer, all previously admitted into
+    // the annual array where they corrupted ownHistorical*/normalized*
+    // anchors (261/499 companies affected in the 2026-09-21 snapshot).
+    expect(isAnnualSpanFact(span("2023-04-01", "2023-06-30"))).toBe(false);
+    expect(isAnnualSpanFact(span("2023-04-01", "2023-09-30"))).toBe(false);
+    expect(isAnnualSpanFact(span("2023-04-01", "2023-12-31"))).toBe(false);
+  });
+
+  it("rejects multi-year cumulative spans", () => {
+    expect(isAnnualSpanFact(span("2023-12-31", "2025-12-31"))).toBe(false);
+  });
+
+  it("accepts the boundary spans (300d and 400d)", () => {
+    expect(isAnnualSpanFact(span("2025-01-01", "2025-10-28"))).toBe(true); // 300d
+    expect(isAnnualSpanFact(span("2024-12-01", "2026-01-05"))).toBe(true); // 400d
+  });
+
+  it("accepts facts with no start date (balance instants, legacy stubs)", () => {
+    expect(isAnnualSpanFact(fact({ end: "2025-12-31", fp: "FY" }))).toBe(true);
+  });
+});
+
 describe("annualMap / quarterlyMap / balanceMap", () => {
   it("annualMap returns only FY periods", () => {
     const m = annualMap(sample, ["Revenues"]);
     expect([...m.keys()].sort()).toEqual(["2024-12-31", "2025-12-31"]);
+  });
+
+  it("annualMap drops FY-tagged facts with sub-annual spans", () => {
+    const leaky: EdgarFactsByConcept = {
+      Eps: {
+        units: {
+          "USD/shares": [
+            fact({ end: "2025-03-31", start: "2024-04-01", fp: "FY", val: 6.33 }),
+            fact({ end: "2024-03-31", start: "2023-04-02", fp: "FY", val: 4.86 }),
+            // FY-tagged YTD stubs at quarter ends — must not survive.
+            fact({ end: "2023-06-30", start: "2023-04-01", fp: "FY", val: 0.4 }),
+            fact({ end: "2023-09-30", start: "2023-04-01", fp: "FY", val: 1.14 }),
+            fact({ end: "2023-12-31", start: "2023-04-01", fp: "FY", val: 2.52 }),
+          ],
+        },
+      },
+    };
+    const m = annualMap(leaky, ["Eps"]);
+    expect([...m.keys()].sort()).toEqual(["2024-03-31", "2025-03-31"]);
   });
 
   it("quarterlyMap returns only Q* periods", () => {

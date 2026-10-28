@@ -84,6 +84,34 @@ export function isStandaloneQuarterFact(f: EdgarFact): boolean {
 }
 
 /**
+ * Returns true when this fact's period covers a full fiscal year.
+ *
+ * The annual sibling of `isStandaloneQuarterFact`, added after the
+ * 2026-09 gap survey: some filers tag YTD-cumulative (and
+ * fiscal-year-transition stub) facts `fp="FY"`, so the bare fp check
+ * admitted quarter-end rows into the annual period array — 261 of
+ * 499 companies in the 2026-09-21 snapshot carried at least one.
+ * Downstream, those rows inflated `ownHistorical*` fair-value
+ * multiples (tiny-EPS "years" → DECK's $226 P/E anchor), deflated
+ * `normalized*` cycle averages, and crowded real old fiscal years
+ * out of the 7-slot window.
+ *
+ * Threshold: 300–400 days. True fiscal years land at 350–371 (52- or
+ * 53-week calendars); YTD stubs at ~91/183/275; multi-year
+ * cumulatives above 700. Transition stub "years" (< 300 days after a
+ * fiscal-year-end change) are deliberately excluded too — a 9-month
+ * "year" corrupts per-share ratio history the same way a quarter
+ * does. Facts with no `start` (balance-sheet instants, legacy test
+ * stubs) pass — the span is unknowable and the pre-2026-09 behavior
+ * is preserved for them.
+ */
+export function isAnnualSpanFact(f: EdgarFact): boolean {
+  if (!f.start) return true;
+  const days = daysBetween(f.start, f.end);
+  return days >= 300 && days <= 400;
+}
+
+/**
  * Quarterly extraction for FLOW concepts (income statement, cash
  * flow): keeps only standalone-quarter facts so trailing-4 sums are
  * arithmetically valid. Use `quarterlyMap` for balance-sheet
@@ -239,7 +267,7 @@ export function annualMap(
 ): Map<string, EdgarFact> {
   const hit = firstAvailable(facts, concepts, preferredUnit);
   if (!hit) return new Map();
-  return dedupeByPeriod(hit.facts, isFY);
+  return dedupeByPeriod(hit.facts, (f) => isFY(f) && isAnnualSpanFact(f));
 }
 
 /** Dedupe → quarterly (fp matches Q[1-4]), keyed by period-end date.
