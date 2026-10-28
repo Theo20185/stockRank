@@ -216,4 +216,39 @@ describe("YahooOptionsProvider.fetchExpirationGroup", () => {
     const group = await provider.fetchExpirationGroup("DECK", "2027-01-15");
     expect(group.calls[0]).toMatchObject({ volume: 0, openInterest: 0 });
   });
+
+  // Yahoo's options endpoint wants share-class delimiters as dashes
+  // (BF-B), while the canonical S&P list uses dots (BF.B). Sending the
+  // dotted form returns a non-object → schema validation failure.
+  // Surfaced 2026-10-28: BF.B became a candidate for the first time
+  // (p25 gate removal) and the first-ever options fetch for it died.
+  it("maps share-class dots to Yahoo dashes when listing expirations, keeping the canonical symbol on the result", async () => {
+    optionsMock.mockResolvedValueOnce({
+      underlyingSymbol: "BF-B",
+      quote: { regularMarketPrice: 28.5 },
+      expirationDates: [new Date("2027-01-15T00:00:00.000Z")],
+      strikes: [25, 30],
+      options: [],
+    });
+    const provider = new YahooOptionsProvider();
+    const list = await provider.listExpirations("BF.B");
+    expect(optionsMock).toHaveBeenLastCalledWith("BF-B");
+    expect(list.symbol).toBe("BF.B");
+  });
+
+  it("maps share-class dots to Yahoo dashes when fetching an expiration group", async () => {
+    const expiration = new Date("2027-01-15T00:00:00.000Z");
+    optionsMock.mockResolvedValueOnce({
+      underlyingSymbol: "BF-B",
+      quote: { regularMarketPrice: 28.5 },
+      expirationDates: [expiration],
+      strikes: [30],
+      options: [{ expirationDate: expiration, calls: [], puts: [] }],
+    });
+    const provider = new YahooOptionsProvider();
+    await provider.fetchExpirationGroup("BF.B", "2027-01-15");
+    expect(optionsMock).toHaveBeenLastCalledWith("BF-B", {
+      date: new Date("2027-01-15T00:00:00.000Z"),
+    });
+  });
 });

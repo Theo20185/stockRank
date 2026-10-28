@@ -5,6 +5,7 @@ import type {
   ExpirationList,
   OptionsProvider,
 } from "../options/types.js";
+import { toYahooSymbol } from "./provider.js";
 import { retryYahoo } from "./retry.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
@@ -82,7 +83,11 @@ export class YahooOptionsProvider implements OptionsProvider {
   }
 
   async listExpirations(symbol: string): Promise<ExpirationList> {
-    const raw = (await retryYahoo(() => yahooFinance.options(symbol), {
+    // Yahoo's options endpoint wants BF-B, not the canonical BF.B —
+    // the dotted form returns a non-object (schema validation error).
+    // The result keeps the canonical dotted symbol for storage.
+    const yahooSymbol = toYahooSymbol(symbol);
+    const raw = (await retryYahoo(() => yahooFinance.options(yahooSymbol), {
       onRetry: logRetry(symbol, "options-list"),
     })) as YahooOptionsResponse;
     const dates = (raw.expirationDates ?? []).map(toIsoDate);
@@ -102,7 +107,7 @@ export class YahooOptionsProvider implements OptionsProvider {
     const dateIso = expirationDate.slice(0, 10);
     const raw = (await retryYahoo(
       () =>
-        yahooFinance.options(symbol, {
+        yahooFinance.options(toYahooSymbol(symbol), {
           date: new Date(`${dateIso}T00:00:00.000Z`),
         }),
       { onRetry: logRetry(symbol, `options-${dateIso}`) },
