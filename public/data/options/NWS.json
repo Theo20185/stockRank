@@ -1,0 +1,227 @@
+{
+  "symbol": "NWS",
+  "fetchedAt": "2026-10-28T20:18:21.350Z",
+  "currentPrice": 32.015,
+  "expirations": [
+    {
+      "expiration": "2026-11-20",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "NWS261120C00035000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 35,
+            "bid": 0,
+            "ask": 1.5,
+            "lastPrice": 0.8,
+            "volume": 13,
+            "openInterest": 16,
+            "impliedVolatility": 0.5483443603515626,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "NWS261120P00030000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 30,
+            "bid": 0,
+            "ask": 1.65,
+            "lastPrice": 0.8,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 0.51758294921875,
+            "inTheMoney": false
+          }
+        ]
+      },
+      "projection": {
+        "daysAhead": 23,
+        "fvP25": 10.684650042362888,
+        "fvMedian": 28.33219415896872,
+        "fvP75": 38.65366957113261,
+        "price": 28.68510363969196,
+        "fvSlopePctPerYear": 52.17345237839916,
+        "priceSlopePctPerYear": -10.370194750094267,
+        "fvRSquared": 0.4904710715647534,
+        "priceRSquared": 0.28672999819496947,
+        "fvConfidence": "medium",
+        "priceConfidence": "medium",
+        "fvCapped": false,
+        "priceCapped": false,
+        "fvFallback": true,
+        "priceFallback": true,
+        "fvWindowSize": 8,
+        "priceWindowSize": 6
+      },
+      "putsSuppressedReason": "above-conservative-tail"
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [],
+      "puts": [],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "NWS270115C00017500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 17.5,
+            "bid": 15.7,
+            "ask": 19.8,
+            "lastPrice": 12.98,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 1.9892578662109375,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWS270115C00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 25,
+            "bid": 4.9,
+            "ask": 8.8,
+            "lastPrice": 6.78,
+            "volume": 0,
+            "openInterest": 5,
+            "impliedVolatility": 0.8432632861328124,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWS270115C00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 30,
+            "bid": 1.7,
+            "ask": 4.5,
+            "lastPrice": 2.97,
+            "volume": 4,
+            "openInterest": 0,
+            "impliedVolatility": 0.5888712988281251,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWS270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 35,
+            "bid": 0,
+            "ask": 1.9,
+            "lastPrice": 1.1,
+            "volume": 1,
+            "openInterest": 14,
+            "impliedVolatility": 0.5083056982421875,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWS270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 40,
+            "bid": 0,
+            "ask": 2.55,
+            "lastPrice": 0.45,
+            "volume": 0,
+            "openInterest": 2,
+            "impliedVolatility": 0.6118202880859377,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "NWS270115P00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 25,
+            "bid": 0,
+            "ask": 2.4,
+            "lastPrice": 0.18,
+            "volume": 1,
+            "openInterest": 6,
+            "impliedVolatility": 0.7006865869140625,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWS270115P00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 30,
+            "bid": 0.85,
+            "ask": 1.05,
+            "lastPrice": 1.03,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.3266668896484375,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWS270115P00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 35,
+            "bid": 1.15,
+            "ask": 4.1,
+            "lastPrice": 4,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.36939107177734376,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWS270115P00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 40,
+            "bid": 4.1,
+            "ask": 7.5,
+            "lastPrice": 10.01,
+            "volume": 6,
+            "openInterest": 2,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWS270115P00045000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 45,
+            "bid": 8.6,
+            "ask": 11.6,
+            "lastPrice": 15.01,
+            "volume": 8,
+            "openInterest": 0,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          }
+        ]
+      },
+      "projection": {
+        "daysAhead": 79,
+        "fvP25": 8.887793335403327,
+        "fvMedian": 30.2824996480774,
+        "fvP75": 41.726389624681474,
+        "price": 28.164673285296544,
+        "fvSlopePctPerYear": 52.17345237839916,
+        "priceSlopePctPerYear": -10.370194750094267,
+        "fvRSquared": 0.4904710715647534,
+        "priceRSquared": 0.28672999819496947,
+        "fvConfidence": "medium",
+        "priceConfidence": "medium",
+        "fvCapped": false,
+        "priceCapped": false,
+        "fvFallback": true,
+        "priceFallback": true,
+        "fvWindowSize": 8,
+        "priceWindowSize": 6
+      },
+      "putsSuppressedReason": "above-conservative-tail"
+    }
+  ]
+}

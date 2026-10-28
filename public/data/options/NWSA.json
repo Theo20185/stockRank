@@ -1,0 +1,388 @@
+{
+  "symbol": "NWSA",
+  "fetchedAt": "2026-10-28T20:16:19.598Z",
+  "currentPrice": 29.31,
+  "expirations": [
+    {
+      "expiration": "2026-11-20",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "NWSA261120C00020000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 20,
+            "bid": 7.3,
+            "ask": 11.2,
+            "lastPrice": 11.4,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 2.150395249023437,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA261120C00025000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 25,
+            "bid": 3.3,
+            "ask": 6.4,
+            "lastPrice": 5.39,
+            "volume": 7,
+            "openInterest": 5,
+            "impliedVolatility": 0.7216824707031251,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA261120C00030000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 30,
+            "bid": 0.3,
+            "ask": 1.4,
+            "lastPrice": 0.65,
+            "volume": 1,
+            "openInterest": 21,
+            "impliedVolatility": 0.56836369140625,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA261120C00035000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 35,
+            "bid": 0,
+            "ask": 2.15,
+            "lastPrice": 0.33,
+            "volume": 6,
+            "openInterest": 8,
+            "impliedVolatility": 0.9570316796874999,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "NWSA261120P00025000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 25,
+            "bid": 0,
+            "ask": 2.25,
+            "lastPrice": 0.4,
+            "volume": 0,
+            "openInterest": 7,
+            "impliedVolatility": 0.999023447265625,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA261120P00030000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 30,
+            "bid": 0.3,
+            "ask": 2.65,
+            "lastPrice": 1,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.75586181640625,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA261120P00035000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 23,
+            "strike": 35,
+            "bid": 3.9,
+            "ask": 7.7,
+            "lastPrice": 5.99,
+            "volume": 1,
+            "openInterest": 2,
+            "impliedVolatility": 1.306155812988281,
+            "inTheMoney": true
+          }
+        ]
+      },
+      "projection": {
+        "daysAhead": 23,
+        "fvP25": 10.684650042362888,
+        "fvMedian": 28.087592669267092,
+        "fvP75": 37.59955349987623,
+        "price": 28.674967714295278,
+        "fvSlopePctPerYear": 51.36306872037284,
+        "priceSlopePctPerYear": 14.61200537198794,
+        "fvRSquared": 0.4742046982438239,
+        "priceRSquared": 0.34673376913521103,
+        "fvConfidence": "medium",
+        "priceConfidence": "medium",
+        "fvCapped": false,
+        "priceCapped": false,
+        "fvFallback": true,
+        "priceFallback": true,
+        "fvWindowSize": 8,
+        "priceWindowSize": 4
+      },
+      "putsSuppressedReason": "above-conservative-tail"
+    },
+    {
+      "expiration": "2026-12-18",
+      "selectionReason": "monthly",
+      "coveredCalls": [],
+      "puts": [],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "NWSA261218C00030000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 51,
+            "strike": 30,
+            "bid": 0,
+            "ask": 3.1,
+            "lastPrice": 2.05,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.7717307983398438,
+            "inTheMoney": false
+          }
+        ],
+        "puts": []
+      },
+      "projection": {
+        "daysAhead": 51,
+        "fvP25": 9.786221688883108,
+        "fvMedian": 29.04759886299449,
+        "fvP75": 39.067270175119695,
+        "price": 29.008497745956046,
+        "fvSlopePctPerYear": 51.36306872037284,
+        "priceSlopePctPerYear": 14.61200537198794,
+        "fvRSquared": 0.4742046982438239,
+        "priceRSquared": 0.34673376913521103,
+        "fvConfidence": "medium",
+        "priceConfidence": "medium",
+        "fvCapped": false,
+        "priceCapped": false,
+        "fvFallback": true,
+        "priceFallback": true,
+        "fvWindowSize": 8,
+        "priceWindowSize": 4
+      },
+      "putsSuppressedReason": "above-conservative-tail"
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [],
+      "puts": [],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "NWSA270115C00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 15,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 9.5,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA270115C00020000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 20,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 10.65,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA270115C00022500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 22.5,
+            "bid": 7.4,
+            "ask": 10.1,
+            "lastPrice": 6.75,
+            "volume": 20,
+            "openInterest": 63,
+            "impliedVolatility": 0.9555668505859375,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA270115C00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 25,
+            "bid": 5.3,
+            "ask": 7.1,
+            "lastPrice": 5.2,
+            "volume": 10,
+            "openInterest": 57,
+            "impliedVolatility": 0.7241238525390624,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA270115C00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 30,
+            "bid": 1.2,
+            "ask": 1.55,
+            "lastPrice": 2.1,
+            "volume": 1,
+            "openInterest": 10232,
+            "impliedVolatility": 0.33887379882812496,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 35,
+            "bid": 0.2,
+            "ask": 0.4,
+            "lastPrice": 0.25,
+            "volume": 86,
+            "openInterest": 21297,
+            "impliedVolatility": 0.358404853515625,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 40,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 0.5,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.12500875,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "NWSA270115P00015000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 15,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 0.3,
+            "volume": 10,
+            "openInterest": 0,
+            "impliedVolatility": 0.2500075,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115P00017500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 17.5,
+            "bid": 0,
+            "ask": 0.75,
+            "lastPrice": 0.4,
+            "volume": 7,
+            "openInterest": 42,
+            "impliedVolatility": 0.831056376953125,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115P00020000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 20,
+            "bid": 0,
+            "ask": 1.35,
+            "lastPrice": 0.65,
+            "volume": 3,
+            "openInterest": 20,
+            "impliedVolatility": 0.7832052929687501,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115P00022500",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 22.5,
+            "bid": 0.1,
+            "ask": 0.25,
+            "lastPrice": 0.15,
+            "volume": 15,
+            "openInterest": 28,
+            "impliedVolatility": 0.44043528320312497,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115P00025000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 25,
+            "bid": 0.25,
+            "ask": 0.45,
+            "lastPrice": 0.25,
+            "volume": 9,
+            "openInterest": 814,
+            "impliedVolatility": 0.36865865722656255,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "NWSA270115P00030000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 30,
+            "bid": 1.65,
+            "ask": 3.6,
+            "lastPrice": 1.45,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.5874064697265625,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "NWSA270115P00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 79,
+            "strike": 40,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 11.43,
+            "volume": 4,
+            "openInterest": 0,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          }
+        ]
+      },
+      "projection": {
+        "daysAhead": 79,
+        "fvP25": 8.887793335403327,
+        "fvMedian": 30.007605056721893,
+        "fvP75": 40.53498685036316,
+        "price": 29.342027777616813,
+        "fvSlopePctPerYear": 51.36306872037284,
+        "priceSlopePctPerYear": 14.61200537198794,
+        "fvRSquared": 0.4742046982438239,
+        "priceRSquared": 0.34673376913521103,
+        "fvConfidence": "medium",
+        "priceConfidence": "medium",
+        "fvCapped": false,
+        "priceCapped": false,
+        "fvFallback": true,
+        "priceFallback": true,
+        "fvWindowSize": 8,
+        "priceWindowSize": 4
+      },
+      "putsSuppressedReason": "above-conservative-tail"
+    }
+  ]
+}
