@@ -30,32 +30,47 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
 /**
  * Three-bucket classifier for the Results screen tabs.
  *
- *   - **ranked** — actionable buy candidates: passed the quality floor,
- *                  fair value present, current price below the
- *                  conservative-tail (p25). Options liquidity is NOT
- *                  a gate — names without options still show as
- *                  share-purchase candidates; the UI hides the
- *                  options-strategy panels (CSP, buy-write, covered
- *                  call) for illiquid-options rows.
- *                  fundamentalsDirection is also NOT a gate (Phase 2B
- *                  rejected the filter as regime-unstable).
- *   - **watch**  — interesting but not actionable today: above the
- *                  conservative-tail or carrying a structural-but-
- *                  tracked flag like negative equity.
+ *   - **ranked** — candidates: passed the §4 quality floor, scoreable,
+ *                  model-compatible. The fair-value band does NOT
+ *                  gate candidacy (removed 2026-10-28, see below).
+ *                  Options liquidity is NOT a gate — names without
+ *                  options still show as share-purchase candidates;
+ *                  the UI hides the options-strategy panels for
+ *                  illiquid-options rows. fundamentalsDirection is
+ *                  NOT a gate (Phase 2B rejected it as
+ *                  regime-unstable).
+ *   - **watch**  — structurally-tracked-but-different: negative-equity
+ *                  names (ROIC structurally null; strategic-buyback
+ *                  balance sheets like BKNG/MCD/MO).
  *   - **avoid**  — engine wants you out (or to skip entirely). One of:
  *                    * composite in the bottom decile of the eligible
  *                      cohort (Phase 4A long/short tail-avoidance);
  *                    * failed the §4 quality floor (all 5 category
  *                      scores null — the ineligible-row stub);
- *                    * no fair value range computable (insufficient
- *                      anchors);
  *                    * model-incompatible industry (banks, capital
  *                      markets, reinsurance — accounting outside the
  *                      model's PE/EV-EBITDA/P-FCF domain).
- *                  All four sub-cases were collapsed into Avoid
- *                  2026-04-26: the user-facing answer is the same
- *                  ("don't buy this"), the *why* surfaces on the
- *                  stock-detail page via the bucket rationale.
+ *
+ * **The `price < p25` CANDIDATE gate was REMOVED 2026-10-28.** The FV
+ * backtest harness measured it twice, with thresholds frozen before
+ * each run:
+ *   PIT 2011-2023 (2026-08-21): 0/8 regime×horizon cells pass;
+ *     pooled 3y below-p25 gap −0.28%/yr; upsideToP25Pct marginally
+ *     ANTI-predictive (avg IC −0.022); convergence-to-p25 BELOW a
+ *     magnitude-matched control (59% vs 74% at 3y).
+ *   Clean-input rerun (2026-10-28, split-basis + quarter-row fixes
+ *     active, band coverage ~5× wider): gap −0.83%/yr, IC −0.026 —
+ *     same verdict, stronger.
+ * The band (p25/median/p75, upsideToP25Pct) stays on the row as
+ * informational context — same informational-only status as fvTrend
+ * and fundamentalsDirection. Floors exclude, the composite orders;
+ * price levels do neither (docs/engine-gaps-2026-09-21.md §1).
+ *
+ * The "no fair-value range → avoid" branch left with the gate: its
+ * only rationale was "can't ask the p25 question." A thin band is
+ * data thinness — the same reason missing category scores stopped
+ * affecting buckets — and the §4 floor + bottom-decile cut remain
+ * the exclusion mechanisms.
  *
  * Note: missing some-but-not-all category scores no longer affects the
  * bucket. Earlier the rule was missing>=2 → excluded, missing===1 →
@@ -124,23 +139,17 @@ export function classifyRow(row: RankedRow): BucketKey {
 
   // Negative-equity names (BKNG, MCD, MO, …) get ROIC nulled
   // structurally (the ratio divides by equity). That's not a data gap;
-  // it's a strategic-buyback consequence. Treat them as Watch — but if
-  // there's no fair value at all, fall back to Avoid.
-  if (row.negativeEquity) {
-    if (!row.fairValue || !row.fairValue.range) return "avoid";
-    return "watch";
-  }
+  // it's a strategic-buyback consequence. The flag alone decides —
+  // the old "no fair value → Avoid" sub-branch was band-dependent and
+  // left with the p25 gate (2026-10-28).
+  if (row.negativeEquity) return "watch";
 
-  // Without a fair-value range we can't ask whether the price is below
-  // the conservative tail, so we can't classify as either ranked or
-  // watch — fall to Avoid as a diagnostic bucket.
-  if (!row.fairValue || !row.fairValue.range) return "avoid";
-
-  // Ranked requires the stock to be trading below the conservative-tail
-  // fair value. Above it and we're not getting a value entry —
-  // interesting to follow but not actionable today.
-  const belowP25 = row.fairValue.current < row.fairValue.range.p25;
-  if (!belowP25) return "watch";
+  // The price < p25 CANDIDATE gate was REMOVED 2026-10-28 — see the
+  // module header for the two FV-backtest verdicts (2026-08-21 and
+  // the clean-input 2026-10-28 rerun; no edge in either, worse on
+  // better data). The band stays on the row as informational context;
+  // it no longer touches bucket placement. The companion
+  // "no fair-value range → Avoid" branch left with it.
 
   // The fvTrend === "declining" demotion was REMOVED 2026-04-26.
   // Phase 4C H10 audit

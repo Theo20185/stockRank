@@ -24,12 +24,14 @@ import { MODEL_INCOMPATIBLE_INDUSTRIES, classifyRow, type BucketKey } from "../b
 
 export type BucketReasonCode =
   | "actionable-buy"
-  | "above-conservative-tail"
   | "negative-equity"
   | "bottom-decile-composite"
-  | "no-fair-value"
   | "failed-quality-floor"
   | "model-incompatible-industry";
+// "above-conservative-tail" and "no-fair-value" were retired
+// 2026-10-28 with the price<p25 CANDIDATE gate (two FV-backtest
+// fails: 2026-08-21 and the clean-input rerun). The band is
+// informational context, not a bucket input — see buckets.ts header.
 
 export type BucketRationale = {
   bucket: BucketKey;
@@ -77,7 +79,6 @@ function avoidReasonFor(
     .filter((v, i) => i < 5) // momentum (idx 5) excluded
     .every((v) => v === null);
   if (allFiveMissing) return "failed-quality-floor";
-  if (!row.fairValue || !row.fairValue.range) return "no-fair-value";
   if (inBottomDecile) return "bottom-decile-composite";
   // Fallback — shouldn't normally hit.
   return "bottom-decile-composite";
@@ -129,7 +130,7 @@ function buildStrengths(row: RankedRow): string[] {
     out.length < 3
   ) {
     out.push(
-      `Trades ${formatPct(row.fairValue.upsideToP25Pct, 1)} below conservative fair value (p25)`,
+      `Trades ${formatPct(row.fairValue.upsideToP25Pct, 1)} below conservative fair value (p25) — informational, no validated edge`,
     );
   }
   if (row.fairValue?.confidence === "high" && out.length < 3) {
@@ -182,20 +183,20 @@ function buildWeaknesses(row: RankedRow): string[] {
 
 const HEADLINE_BY_REASON: Record<BucketReasonCode, (row: RankedRow) => string> = {
   "actionable-buy": (row) => {
+    // Candidacy = §4 floor + composite ordering. The band is context
+    // only (no validated edge — FV backtests 2026-08-21 / 2026-10-28),
+    // so it's mentioned, never load-bearing.
     const upside = row.fairValue?.upsideToP25Pct;
-    if (upside === null || upside === undefined) {
-      return "Buy candidate — trades below the conservative fair value (p25).";
-    }
-    return `Buy candidate — trades ${formatPct(upside, 1)} below the conservative fair value (p25).`;
+    const bandNote =
+      upside === null || upside === undefined
+        ? "No fair-value band computable for context."
+        : `FV band context: ${formatPct(upside, 1)} to the conservative tail (informational only).`;
+    return `Candidate — passed the §4 quality floor; the composite ordering is the signal. ${bandNote}`;
   },
-  "above-conservative-tail": () =>
-    "Watch — fair value present but the price is at or above the conservative tail (p25). Worth tracking; not actionable today.",
   "negative-equity": () =>
     "Watch — sustained buybacks have driven shareholders' equity below zero. ROIC nulls out structurally; otherwise the engine still scores the company.",
   "bottom-decile-composite": (row) =>
     `Avoid — composite (${formatScore(row.composite / 100)}/100) sits in the bottom decile of the eligible cohort. Phase 4A long/short evidence: this tail underperformed SPY by ~25 pp at 3y in COVID-era PIT data.`,
-  "no-fair-value": () =>
-    "Avoid — couldn't compute a fair value range (insufficient anchors). Without an FV anchor the engine can't tell if the price is cheap or expensive.",
   "failed-quality-floor": () =>
     "Avoid — failed the §4 quality floor entirely (no category scored). The engine can't size up the business well enough to act.",
   "model-incompatible-industry": (row) =>
@@ -228,8 +229,9 @@ export function bucketRationaleFor(
     bucket = "ranked";
     reason = "actionable-buy";
   } else {
+    // Watch has exactly one cause since the p25 gate's removal.
     bucket = "watch";
-    reason = row.negativeEquity ? "negative-equity" : "above-conservative-tail";
+    reason = "negative-equity";
   }
 
   const headline = HEADLINE_BY_REASON[reason](row);
@@ -240,11 +242,9 @@ export function bucketRationaleFor(
 }
 
 export const BUCKET_REASON_LABELS: Record<BucketReasonCode, string> = {
-  "actionable-buy": "Actionable buy candidate",
-  "above-conservative-tail": "Above conservative-tail FV",
+  "actionable-buy": "Candidate (floor + composite)",
   "negative-equity": "Negative shareholders' equity (structural)",
   "bottom-decile-composite": "Bottom decile of composite scores",
-  "no-fair-value": "No fair value range",
   "failed-quality-floor": "Failed §4 quality floor",
   "model-incompatible-industry": "Model-incompatible industry",
 };

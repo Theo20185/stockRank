@@ -89,8 +89,12 @@ describe("classifyRow", () => {
     expect(classifyRow(row({ missingCategories: ["valuation", "health", "growth"] }))).toBe("ranked");
   });
 
-  it("watch: stock is at or above the conservative tail (current ≥ p25)", () => {
-    expect(classifyRow(row({ fairValue: fvAtP25() }))).toBe("watch");
+  it("ranked: at or above the conservative tail does NOT demote (p25 gate removed 2026-10-28)", () => {
+    // The price<p25 CANDIDATE gate failed both FV backtests: 0/8 cells
+    // (2026-08-21, gap -0.28%/yr pooled 3y) and the clean-input rerun
+    // (2026-10-28, gap -0.83%/yr on 5x better band coverage). The band
+    // is informational context; floors + composite decide buckets.
+    expect(classifyRow(row({ fairValue: fvAtP25() }))).toBe("ranked");
   });
 
   it("ranked: illiquid options chain does NOT demote from ranked (share-purchase strategy still actionable)", () => {
@@ -160,13 +164,18 @@ describe("classifyRow", () => {
     ).toBe("avoid");
   });
 
-  it("avoid: no fair value at all", () => {
-    expect(classifyRow(row({ fairValue: null }))).toBe("avoid");
+  it("ranked: no fair value at all does NOT route to avoid (band is no longer a bucket input)", () => {
+    // Pre-2026-10-28 this was Avoid because "we can't ask the p25
+    // question" — that rationale died with the gate. A thin band is
+    // data thinness, same as missing category scores: the composite
+    // averages across what exists, and the §4 floor + bottom-decile
+    // cut remain the exclusion mechanisms.
+    expect(classifyRow(row({ fairValue: null }))).toBe("ranked");
   });
 
-  it("avoid: fair value present but range is null", () => {
+  it("ranked: fair value present but range null does NOT route to avoid", () => {
     const noRange = { ...fv(null), range: null };
-    expect(classifyRow(row({ fairValue: noRange }))).toBe("avoid");
+    expect(classifyRow(row({ fairValue: noRange }))).toBe("ranked");
   });
 
   // ---- Model-incompatible industries: hard-avoid ----
@@ -244,13 +253,16 @@ describe("classifyRow — negative-equity rows (BKNG, MCD, MO, etc.)", () => {
     ).toBe("watch");
   });
 
-  it("avoid: negative equity but no fair value at all", () => {
+  it("watch: negative equity with no fair value stays Watch (flag alone decides, 2026-10-28)", () => {
+    // The old no-FV→Avoid sub-branch was band-dependent; with the p25
+    // gate removed, the structural negative-equity flag is the whole
+    // story: tracked, not actionable, never band-contingent.
     expect(
       classifyRow(row({
         negativeEquity: true,
         fairValue: null,
       })),
-    ).toBe("avoid");
+    ).toBe("watch");
   });
 });
 
@@ -335,14 +347,19 @@ describe("bucketRows — Avoid bucket (Phase 4A + diagnostic merge)", () => {
 describe("bucketRows", () => {
   it("partitions rows into three buckets, preserving order within each", () => {
     const a = row({ symbol: "AAA" });                                            // ranked
-    const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // watch (at tail)
+    const b = row({ symbol: "BBB", fairValue: fvAtP25() });                      // ranked (p25 gate removed 2026-10-28)
     const c = row({ symbol: "CCC", fvTrend: "declining" });                      // ranked (Phase 4C removed this demote)
-    const d = row({ symbol: "DDD", optionsLiquid: false });                      // ranked (illiquid options no longer demotes)
-    const e = row({ symbol: "EEE", fairValue: null });                           // avoid (no FV)
-    const result = bucketRows([a, b, c, d, e], { avoidPercentile: 0 });
-    expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "CCC", "DDD"]);
-    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["BBB"]);
-    expect(result.avoid.map((r) => r.symbol)).toEqual(["EEE"]);
+    const d = row({ symbol: "DDD", fairValue: null });                           // ranked (no-FV avoid left with the gate)
+    const e = row({ symbol: "EEE", negativeEquity: true });                      // watch (structural flag)
+    const f = row({                                                              // avoid (§4 floor stub)
+      symbol: "FFF",
+      missingCategories: ["valuation", "health", "quality", "shareholderReturn", "growth"],
+      fairValue: null,
+    });
+    const result = bucketRows([a, b, c, d, e, f], { avoidPercentile: 0 });
+    expect(result.ranked.map((r) => r.symbol).sort()).toEqual(["AAA", "BBB", "CCC", "DDD"]);
+    expect(result.watch.map((r) => r.symbol).sort()).toEqual(["EEE"]);
+    expect(result.avoid.map((r) => r.symbol)).toEqual(["FFF"]);
   });
 
   it("returns empty buckets when given an empty list", () => {

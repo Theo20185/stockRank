@@ -113,7 +113,7 @@ function snapWithCohort(target: RankedRow): RankedSnapshot {
 }
 
 describe("bucketRationaleFor — primary reason", () => {
-  it("ranked + below p25 → actionable-buy headline cites the upside", () => {
+  it("ranked + below p25 → actionable-buy headline cites the band as context with the upside", () => {
     const r = row({
       composite: 70,
       fairValue: fv({ current: 80, p25: 100, upsideToP25Pct: 25 }),
@@ -121,20 +121,21 @@ describe("bucketRationaleFor — primary reason", () => {
     const result = bucketRationaleFor(r, snapWithCohort(r));
     expect(result.bucket).toBe("ranked");
     expect(result.primaryReason).toBe("actionable-buy");
-    expect(result.headline).toContain("Buy candidate");
+    expect(result.headline).toContain("quality floor");
     expect(result.headline).toContain("25.0%");
+    expect(result.headline).toContain("informational only");
   });
 
-  it("watch + above p25 → above-conservative-tail headline", () => {
+  it("ranked + above p25 → actionable-buy with the band as labeled context (gate removed 2026-10-28)", () => {
     const r = row({
       composite: 60,
       fairValue: fv({ current: 100, p25: 90 }),
     });
     const result = bucketRationaleFor(r, snapWithCohort(r));
-    expect(result.bucket).toBe("watch");
-    expect(result.primaryReason).toBe("above-conservative-tail");
-    expect(result.headline).toContain("Watch");
-    expect(result.headline).toContain("conservative tail");
+    expect(result.bucket).toBe("ranked");
+    expect(result.primaryReason).toBe("actionable-buy");
+    expect(result.headline).toContain("quality floor");
+    expect(result.headline).toContain("informational only");
   });
 
   it("watch + negative equity → negative-equity headline", () => {
@@ -165,12 +166,12 @@ describe("bucketRationaleFor — primary reason", () => {
     expect(result.headline).toContain("Phase 4A");
   });
 
-  it("avoid + no FV → no-fair-value headline", () => {
+  it("ranked + no FV → candidate with no-band context note (no-FV avoid left with the gate)", () => {
     const r = row({ composite: 60, fairValue: null });
-    const result = bucketRationaleFor(r, snapshot([r]));
-    expect(result.bucket).toBe("avoid");
-    expect(result.primaryReason).toBe("no-fair-value");
-    expect(result.headline).toContain("insufficient anchors");
+    const result = bucketRationaleFor(r, snapWithCohort(r));
+    expect(result.bucket).toBe("ranked");
+    expect(result.primaryReason).toBe("actionable-buy");
+    expect(result.headline).toContain("No fair-value band computable");
   });
 
   it("avoid + failed quality floor (all 5 categories null) → failed-quality-floor headline", () => {
