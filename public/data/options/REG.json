@@ -1,0 +1,372 @@
+{
+  "symbol": "REG",
+  "fetchedAt": "2026-10-29T19:31:51.063Z",
+  "currentPrice": 75.09,
+  "expirations": [
+    {
+      "expiration": "2026-11-20",
+      "selectionReason": "monthly",
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 75.18814091347414,
+          "contract": {
+            "contractSymbol": "REG261120C00080000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 80,
+            "bid": 0.1,
+            "ask": 0.35,
+            "lastPrice": 0.3,
+            "volume": 3,
+            "openInterest": 8,
+            "impliedVolatility": 0.23926541992187497,
+            "inTheMoney": false
+          },
+          "snapWarning": true,
+          "shortDated": true,
+          "staticReturnPct": 0.0038164092877697444,
+          "staticAnnualizedPct": 0.06331769954708893,
+          "assignedReturnPct": 0.06920461011344556,
+          "assignedAnnualizedPct": 1.148167395063983,
+          "effectiveCostBasis": 74.99000000000001,
+          "effectiveDiscountPct": 0.0013317352510320948
+        }
+      ],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 75.18814091347414,
+          "contract": {
+            "contractSymbol": "REG261120P00075000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 75,
+            "bid": 0.4,
+            "ask": 4.4,
+            "lastPrice": 3.03,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.5920450952148439,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "notAssignedReturnPct": 0.005333333333333334,
+          "notAssignedAnnualizedPct": 0.08848484848484849,
+          "effectiveCostBasis": 74.6,
+          "effectiveDiscountPct": 0.006525502730057385,
+          "inTheMoney": false
+        }
+      ],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "REG261120C00070000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 70,
+            "bid": 3.1,
+            "ask": 6.8,
+            "lastPrice": 4.89,
+            "volume": 1,
+            "openInterest": 1,
+            "impliedVolatility": 0.5117236328125,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "REG261120C00075000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 75,
+            "bid": 0.7,
+            "ask": 1.85,
+            "lastPrice": 1.41,
+            "volume": 1,
+            "openInterest": 8,
+            "impliedVolatility": 0.24024197265624997,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "REG261120C00080000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 80,
+            "bid": 0.1,
+            "ask": 0.35,
+            "lastPrice": 0.3,
+            "volume": 3,
+            "openInterest": 8,
+            "impliedVolatility": 0.23926541992187497,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG261120C00085000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 85,
+            "bid": 0,
+            "ask": 2.15,
+            "lastPrice": 0.05,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.5434615966796876,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "REG261120P00070000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 70,
+            "bid": 0,
+            "ask": 2.85,
+            "lastPrice": 0.4,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.6875031250000001,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG261120P00075000",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 75,
+            "bid": 0.4,
+            "ask": 4.4,
+            "lastPrice": 3.03,
+            "volume": 0,
+            "openInterest": 1,
+            "impliedVolatility": 0.5920450952148439,
+            "inTheMoney": false
+          }
+        ]
+      },
+      "projection": null
+    },
+    {
+      "expiration": "2027-01-15",
+      "selectionReason": "yearly",
+      "coveredCalls": [],
+      "puts": [
+        {
+          "label": "deep-value",
+          "anchor": "p25",
+          "anchorPrice": 75.18814091347414,
+          "contract": {
+            "contractSymbol": "REG270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 75,
+            "bid": 1.55,
+            "ask": 4.3,
+            "lastPrice": 5.05,
+            "volume": 1,
+            "openInterest": 17,
+            "impliedVolatility": 0.3122627368164062,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "notAssignedReturnPct": 0.020666666666666667,
+          "notAssignedAnnualizedPct": 0.09670940170940172,
+          "effectiveCostBasis": 73.45,
+          "effectiveDiscountPct": 0.02184045811692636,
+          "inTheMoney": false
+        }
+      ],
+      "chain": {
+        "calls": [
+          {
+            "contractSymbol": "REG270115C00040000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 40,
+            "bid": 39.2,
+            "ask": 43.1,
+            "lastPrice": 38.75,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 1.8505866845703123,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "REG270115C00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 65,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 10.99,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 0.000010000000000000003,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "REG270115C00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 75,
+            "bid": 0.85,
+            "ask": 4,
+            "lastPrice": 0.5,
+            "volume": 2,
+            "openInterest": 24,
+            "impliedVolatility": 0.284064776611328,
+            "inTheMoney": true
+          },
+          {
+            "contractSymbol": "REG270115C00080000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 80,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 1.55,
+            "volume": 14,
+            "openInterest": 0,
+            "impliedVolatility": 0.0312596875,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115C00085000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 85,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 0.8,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.062509375,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115C00090000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 90,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 0.2,
+            "volume": 1,
+            "openInterest": 0,
+            "impliedVolatility": 0.062509375,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115C00095000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 95,
+            "bid": 0,
+            "ask": 2.15,
+            "lastPrice": 0.5,
+            "volume": 1,
+            "openInterest": 5,
+            "impliedVolatility": 0.5564009204101563,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115C00100000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 100,
+            "bid": 0,
+            "ask": 2.15,
+            "lastPrice": 0.1,
+            "volume": 5,
+            "openInterest": 5,
+            "impliedVolatility": 0.5026905200195313,
+            "inTheMoney": false
+          }
+        ],
+        "puts": [
+          {
+            "contractSymbol": "REG270115P00050000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 50,
+            "bid": 0,
+            "ask": 0.35,
+            "lastPrice": 0.15,
+            "volume": 11,
+            "openInterest": 14,
+            "impliedVolatility": 0.5429733203125001,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115P00055000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 55,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 1.09,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 0.12500875,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115P00060000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 60,
+            "bid": 0,
+            "ask": 0,
+            "lastPrice": 1.33,
+            "volume": 0,
+            "openInterest": 0,
+            "impliedVolatility": 0.12500875,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115P00065000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 65,
+            "bid": 0,
+            "ask": 2.25,
+            "lastPrice": 0.75,
+            "volume": 1,
+            "openInterest": 3,
+            "impliedVolatility": 0.4626518579101563,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115P00070000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 70,
+            "bid": 0.05,
+            "ask": 2.9,
+            "lastPrice": 1.2,
+            "volume": 3,
+            "openInterest": 16,
+            "impliedVolatility": 0.3751283190917969,
+            "inTheMoney": false
+          },
+          {
+            "contractSymbol": "REG270115P00075000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 75,
+            "bid": 1.55,
+            "ask": 4.3,
+            "lastPrice": 5.05,
+            "volume": 1,
+            "openInterest": 17,
+            "impliedVolatility": 0.3122627368164062,
+            "inTheMoney": false
+          }
+        ]
+      },
+      "projection": null
+    }
+  ]
+}
