@@ -61,6 +61,9 @@ export const MODEL_INCOMPATIBLE_INDUSTRIES = new Set<string>([
  *   Clean-input rerun (2026-10-28, split-basis + quarter-row fixes
  *     active, band coverage ~5× wider): gap −0.83%/yr, IC −0.026 —
  *     same verdict, stronger.
+ *   TTM-repaired rerun (2026-10-29, deriveTtm contiguity +
+ *     per-field fall-through active): gap −0.89%/yr, IC −0.035 —
+ *     third confirmation on the best inputs yet.
  * The band (p25/median/p75, upsideToP25Pct) stays on the row as
  * informational context — same informational-only status as fvTrend
  * and fundamentalsDirection. Floors exclude, the composite orders;
