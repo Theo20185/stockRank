@@ -1,6 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { chooseEbitdaForAnchor, chooseEpsForPeerAnchor } from "./anchors.js";
-import { makeCompany, makePeriod, makeTtm } from "../test-helpers.js";
+import {
+  chooseEbitdaForAnchor,
+  chooseEpsForPeerAnchor,
+  deriveTtm,
+} from "./anchors.js";
+import {
+  makeCompany,
+  makePeriod,
+  makeQuarter,
+  makeTtm,
+} from "../test-helpers.js";
 
 function company(opts: {
   ttmEps: number;
@@ -237,5 +246,130 @@ describe("chooseEbitdaForAnchor — baseline collapse mirror", () => {
     );
     expect(result.treatment).toBe("ttm");
     expect(result.ebitda).toBeCloseTo(15 * B, -3);
+  });
+});
+
+// ---- deriveTtm: contiguity gate + per-field fall-through ----
+//
+// As-filed XBRL has no 10-Q for fiscal Q4, so for many names the four
+// newest quarters span ~15 months. Summing across the gap is not a
+// TTM (2026-10-29: DECK's FCF summed to −$92M vs ~+$950M true), and
+// one populated quarterly field must not lock the other fields out of
+// the ratio back-out tier. See fair-value.md §4.1.
+describe("deriveTtm", () => {
+  function quarter(
+    end: string,
+    v: { eps?: number | null; ebitda?: number | null; fcf?: number | null; ni?: number | null },
+  ) {
+    const base = makeQuarter();
+    return makeQuarter({
+      periodEndDate: end,
+      income: {
+        ...base.income,
+        epsDiluted: v.eps === undefined ? null : v.eps,
+        ebitda: v.ebitda === undefined ? null : v.ebitda,
+        netIncome: v.ni === undefined ? null : v.ni,
+      },
+      cashFlow: {
+        ...base.cashFlow,
+        freeCashFlow: v.fcf === undefined ? null : v.fcf,
+      },
+    });
+  }
+
+  it("disqualifies the whole quarterly tier when the window is gapped (DECK shape)", () => {
+    // Four newest quarters miss fiscal Q4 (Mar'26): Jun'26 → Dec'25 is
+    // a 181-day gap. The naive sums (EPS 7.02, FCF −$92M) must NOT be
+    // used; every field falls through to ratio back-out or annual[0].
+    const subject = makeCompany({
+      symbol: "DECKISH",
+      quarterly: [
+        quarter("2026-06-30", { eps: 0.94, fcf: 32_682_000 }),
+        quarter("2025-12-31", { eps: 3.33, fcf: 1_020_282_000 }),
+        quarter("2025-09-30", { eps: 1.82, fcf: -1_157_154_000 }),
+        quarter("2025-06-30", { eps: 0.93, fcf: 12_206_000 }),
+      ],
+      annual: [makePeriod()], // eps 8, ebitda 12e9, fcf 8e9, ni 8e9
+      ttm: makeTtm({
+        peRatio: 12.5, // price 100 → EPS back-out 8
+        evToEbitda: 8,
+        enterpriseValue: 80_000_000_000, // → EBITDA back-out 10e9
+        priceToFcf: null, // FCF back-out unavailable → annual[0]
+      }),
+    });
+    const ttm = deriveTtm(subject);
+    expect(ttm.eps).toBe(8); // ratio tier, not the gapped 7.02
+    expect(ttm.ebitda).toBe(10_000_000_000); // ratio tier, not annual 12e9
+    expect(ttm.freeCashFlow).toBe(8_000_000_000); // annual, not −92M
+    expect(ttm.netIncome).toBe(8_000_000_000); // annual
+  });
+
+  it("falls through per field: quarterly EPS must not shadow the EBITDA ratio back-out", () => {
+    // Contiguous window, EPS sums fine, quarterly EBITDA all null.
+    // Pre-fix the early return committed EBITDA to null even though
+    // EV / evToEbitda was available (155/499 names on 2026-10-29).
+    const subject = makeCompany({
+      symbol: "SHADOW",
+      quarterly: [
+        quarter("2026-06-30", { eps: 1.5, fcf: 1_000_000_000 }),
+        quarter("2026-03-31", { eps: 1.5, fcf: 1_000_000_000 }),
+        quarter("2025-12-31", { eps: 1.5, fcf: 1_000_000_000 }),
+        quarter("2025-09-30", { eps: 1.5, fcf: 1_000_000_000 }),
+      ],
+      annual: [makePeriod()],
+      ttm: makeTtm({
+        peRatio: 12.5,
+        evToEbitda: 8,
+        enterpriseValue: 80_000_000_000,
+        priceToFcf: 20,
+      }),
+    });
+    const ttm = deriveTtm(subject);
+    expect(ttm.eps).toBe(6); // quarterly sum beats the ratio's 8
+    expect(ttm.ebitda).toBe(10_000_000_000); // EV / evToEbitda back-out
+    expect(ttm.freeCashFlow).toBe(4_000_000_000); // quarterly sum
+  });
+
+  it("falls through per field when one quarter's FCF is null in a contiguous window", () => {
+    const subject = makeCompany({
+      symbol: "PARTIAL",
+      quarterly: [
+        quarter("2026-06-30", { eps: 1.5, ebitda: 2_500_000_000, fcf: null }),
+        quarter("2026-03-31", { eps: 1.5, ebitda: 2_500_000_000, fcf: 1_000_000_000 }),
+        quarter("2025-12-31", { eps: 1.5, ebitda: 2_500_000_000, fcf: 1_000_000_000 }),
+        quarter("2025-09-30", { eps: 1.5, ebitda: 2_500_000_000, fcf: 1_000_000_000 }),
+      ],
+      annual: [makePeriod()],
+      // price 100 / priceToFcf 20 × annual[0] shares 1e9 = 5e9
+      ttm: makeTtm({ peRatio: null, evToEbitda: null, priceToFcf: 20 }),
+    });
+    const ttm = deriveTtm(subject);
+    expect(ttm.eps).toBe(6);
+    expect(ttm.ebitda).toBe(10_000_000_000); // quarterly sum
+    expect(ttm.freeCashFlow).toBe(5_000_000_000); // ratio back-out
+  });
+
+  it("sums a contiguous window as before, including a 98-day 53-week quarter", () => {
+    const subject = makeCompany({
+      symbol: "CONTIG",
+      quarterly: [
+        quarter("2026-06-30", { eps: 1.25, ebitda: 2_500_000_000, fcf: 1_500_000_000, ni: 2_000_000_000 }),
+        quarter("2026-03-24", { eps: 1.25, ebitda: 2_500_000_000, fcf: 1_500_000_000, ni: 2_000_000_000 }),
+        quarter("2025-12-23", { eps: 1.25, ebitda: 2_500_000_000, fcf: 1_500_000_000, ni: 2_000_000_000 }),
+        quarter("2025-09-23", { eps: 1.25, ebitda: 2_500_000_000, fcf: 1_500_000_000, ni: 2_000_000_000 }),
+      ],
+      annual: [makePeriod()],
+      ttm: makeTtm({
+        peRatio: null,
+        evToEbitda: null,
+        priceToFcf: null,
+        enterpriseValue: null,
+      }),
+    });
+    const ttm = deriveTtm(subject);
+    expect(ttm.eps).toBe(5);
+    expect(ttm.ebitda).toBe(10_000_000_000);
+    expect(ttm.freeCashFlow).toBe(6_000_000_000);
+    expect(ttm.netIncome).toBe(8_000_000_000);
   });
 });

@@ -288,6 +288,44 @@ profitable years out of the last 7**. This rule:
   floor in `ranking.md`).
 - Falls back to "5Y simple average" if 7Y history isn't available.
 
+### 4.1 TTM derivation (`deriveTtm`) — 2026-10-29
+
+The `ttm.*` metrics in §4's table are not read directly; the engine
+derives each TTM earnings figure (EPS, EBITDA, FCF, net income)
+through three tiers, **per field**:
+
+1. **Trailing-4-quarter sum** — only when the four newest quarters
+   are *contiguous*: every adjacent pair of period-end dates 60–120
+   days apart. As-filed XBRL has no 10-Q for fiscal Q4 (those facts
+   exist only when the 10-K carries them), so for 314/499 names
+   (2026-10-29 snapshot) the four newest quarters span ~15 months.
+   A gapped window disqualifies the whole quarterly tier: a sum
+   across it is not a TTM. Canonical case: DECK's window
+   (Jun'26/Dec'25/Sep'25/Jun'25, missing Mar'26) summed FCF to
+   −$92M against a true contiguous TTM of ~+$950M, silently killing
+   both TTM-based P/FCF anchors. The 60–120d band accepts 53-week
+   fiscal quarters (98d) and 4-4-5 retail calendars; a missing
+   quarter produces a ~182d gap, far outside it.
+2. **Ratio back-out** — `price / ttm.peRatio` for EPS,
+   `EV / ttm.evToEbitda` for EBITDA,
+   `price × shares / ttm.priceToFcf` for FCF. Yahoo's TTM ratios are
+   themselves computed over contiguous windows, so this tier is
+   immune to the filing gap (and reflects a just-reported quarter
+   days before the 10-Q reaches EDGAR).
+3. **`annual[0]`** — last resort; stalest but always consistent.
+
+Fall-through is per field (also 2026-10-29): previously one
+populated quarterly field — usually EPS — committed *all four*
+fields to the quarterly tier, shadowing the ratio back-out. On the
+2026-10-29 snapshot that shadowing nulled TTM EBITDA for 155 names
+whose `EV / evToEbitda` back-out was available, dropping all three
+EV/EBITDA anchors for each.
+
+The backtest twin (`trailing4Sum` in `edgar/historical.ts`, which
+feeds PIT snapshots' reconstructed `ttm`) applies the same
+contiguity gate and returns null across the gap; PIT consumers then
+fall back exactly as production does.
+
 ## 5. Output structure
 
 Per stock, attached to the ranked snapshot row:

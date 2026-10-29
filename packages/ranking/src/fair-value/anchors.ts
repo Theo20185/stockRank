@@ -153,35 +153,66 @@ export type TtmDerived = {
   netIncome: number | null;
 };
 
+/**
+ * Adjacent quarter-ends in a contiguous TTM window are ~91 days
+ * apart; 53-week fiscal years stretch one quarter to ~98d and 4-4-5
+ * retail calendars wobble a few days. A missing quarter shows up as
+ * a ~182d gap — far outside this band either way. Mirrored by
+ * `trailing4Sum` in packages/data/src/edgar/historical.ts (the PIT
+ * reconstruction twin); keep the two in sync.
+ */
+const QUARTER_GAP_MIN_DAYS = 60;
+const QUARTER_GAP_MAX_DAYS = 120;
+const DAY_MS = 86_400_000;
+
 export function deriveTtm(snapshot: CompanySnapshot): TtmDerived {
-  // Path 1: sum trailing 4 quarters when quarterly data is present.
+  // Tier 1: sum trailing 4 quarters — only over a CONTIGUOUS window.
+  // As-filed XBRL has no 10-Q for fiscal Q4 (those facts exist only
+  // when the 10-K carries them), so for many names the four newest
+  // quarters span ~15 months. A sum across the gap is not a TTM:
+  // DECK's gapped window summed FCF to −$92M against a true
+  // contiguous TTM of ~+$950M (2026-10-29), silently killing both
+  // TTM-based P/FCF anchors. See fair-value.md §4.1.
+  let qEps: number | null = null;
+  let qEbitda: number | null = null;
+  let qFcf: number | null = null;
+  let qNetIncome: number | null = null;
   const quarterly = snapshot.quarterly ?? [];
   if (quarterly.length >= 4) {
     const trailing = [...quarterly]
       .sort((a, b) => (a.periodEndDate < b.periodEndDate ? 1 : -1))
       .slice(0, 4);
-    const sumQ = (pluck: (q: typeof trailing[number]) => number | null): number | null => {
-      let total = 0;
-      let havePartial = false;
-      for (const q of trailing) {
-        const v = pluck(q);
-        if (v === null || v === undefined) { havePartial = true; continue; }
-        total += v;
-      }
-      return havePartial ? null : total;
-    };
-    const eps = sumQ((q) => q.income.epsDiluted);
-    const ebitda = sumQ((q) => q.income.ebitda);
-    const freeCashFlow = sumQ((q) => q.cashFlow.freeCashFlow);
-    const netIncome = sumQ((q) => q.income.netIncome);
-    if (eps !== null || ebitda !== null) {
-      return { eps, ebitda, freeCashFlow, netIncome };
+    const contiguous = trailing.every((q, i) => {
+      if (i === 0) return true;
+      const gapDays =
+        (Date.parse(trailing[i - 1]!.periodEndDate) -
+          Date.parse(q.periodEndDate)) /
+        DAY_MS;
+      return gapDays >= QUARTER_GAP_MIN_DAYS && gapDays <= QUARTER_GAP_MAX_DAYS;
+    });
+    if (contiguous) {
+      const sumQ = (pluck: (q: typeof trailing[number]) => number | null): number | null => {
+        let total = 0;
+        let havePartial = false;
+        for (const q of trailing) {
+          const v = pluck(q);
+          if (v === null || v === undefined) { havePartial = true; continue; }
+          total += v;
+        }
+        return havePartial ? null : total;
+      };
+      qEps = sumQ((q) => q.income.epsDiluted);
+      qEbitda = sumQ((q) => q.income.ebitda);
+      qFcf = sumQ((q) => q.cashFlow.freeCashFlow);
+      qNetIncome = sumQ((q) => q.income.netIncome);
     }
   }
 
-  // Path 2: derive from existing TTM ratios + spot price. Yahoo's
+  // Tier 2: derive from existing TTM ratios + spot price. Yahoo's
   // defaultKeyStatistics provides ttm.peRatio etc as
   // current_price / TTM_value, so price / peRatio gives back TTM EPS.
+  // These ratios are computed over contiguous windows upstream, so
+  // this tier is immune to the fiscal-Q4 filing gap.
   const price = snapshot.quote.price;
   const epsFromRatio =
     snapshot.ttm.peRatio !== null && snapshot.ttm.peRatio > 0 && price > 0
@@ -198,12 +229,15 @@ export function deriveTtm(snapshot: CompanySnapshot): TtmDerived {
       ? (price / snapshot.ttm.priceToFcf) * sharesAnnual
       : null;
 
-  // Path 3: annual[0] fallback for any field still null.
+  // Tier 3: annual[0]. Fall-through is PER FIELD (2026-10-29) — one
+  // populated quarterly field (usually EPS) must not lock the others
+  // out of the ratio tier; that shadowing nulled TTM EBITDA for 155
+  // names whose EV / evToEbitda back-out was available.
   return {
-    eps: epsFromRatio ?? snapshot.annual[0]?.income.epsDiluted ?? null,
-    ebitda: ebitdaFromRatio ?? snapshot.annual[0]?.income.ebitda ?? null,
-    freeCashFlow: fcfFromRatio ?? snapshot.annual[0]?.cashFlow.freeCashFlow ?? null,
-    netIncome: snapshot.annual[0]?.income.netIncome ?? null,
+    eps: qEps ?? epsFromRatio ?? snapshot.annual[0]?.income.epsDiluted ?? null,
+    ebitda: qEbitda ?? ebitdaFromRatio ?? snapshot.annual[0]?.income.ebitda ?? null,
+    freeCashFlow: qFcf ?? fcfFromRatio ?? snapshot.annual[0]?.cashFlow.freeCashFlow ?? null,
+    netIncome: qNetIncome ?? snapshot.annual[0]?.income.netIncome ?? null,
   };
 }
 

@@ -1,8 +1,27 @@
 import type {
   AnnualPeriod,
   CompanySnapshot,
+  QuarterlyPeriod,
   TtmMetrics,
 } from "@stockrank/core";
+
+export function makeQuarter(
+  overrides: Partial<QuarterlyPeriod> = {},
+): QuarterlyPeriod {
+  const base = makePeriod();
+  return {
+    fiscalQuarter: "2025Q4",
+    periodEndDate: "2025-12-31",
+    filingDate: "2026-02-10",
+    reportedCurrency: "USD",
+    priceAtQuarterEnd: null,
+    income: base.income,
+    balance: base.balance,
+    cashFlow: base.cashFlow,
+    ratios: base.ratios,
+    ...overrides,
+  };
+}
 
 export function makePeriod(overrides: Partial<AnnualPeriod> = {}): AnnualPeriod {
   return {

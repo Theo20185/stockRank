@@ -199,6 +199,27 @@ describe("synthesizeSnapshotAt", () => {
     expect(snap!.ttm.evToEbitda).toBeCloseTo(ev / 39.9e9, 2);
   });
 
+  it("returns null TTM ratios when the trailing-4 window has a quarter gap", () => {
+    // Drop Q1 2025 (end 2025-03-31) from every concept. The four
+    // newest public quarters at 2025-12-31 become Q3'25, Q2'25,
+    // Q4'24, Q3'24 — a 181-day gap where Q1'25 should sit. Summing
+    // across that gap is not a TTM (the DECK −$92M FCF case,
+    // 2026-10-29), so the reconstruction must yield null instead of
+    // the naive sum (which would make peRatio ≈ 160 / 2.70).
+    const facts = synthFacts();
+    for (const concept of Object.values(facts.facts["us-gaap"]!)) {
+      for (const unit of Object.keys(concept.units)) {
+        concept.units[unit] = concept.units[unit]!.filter(
+          (f) => !(f.end === "2025-03-31" && f.fp !== "FY"),
+        );
+      }
+    }
+    const snap = synthesizeSnapshotAt(facts, bars(), "2025-12-31", profile());
+    expect(snap).not.toBeNull();
+    expect(snap!.ttm.peRatio).toBeNull();
+    expect(snap!.ttm.evToEbitda).toBeNull();
+  });
+
   it("respects the 90-day annual filing lag (FY2024 not public on 2025-01-15)", () => {
     // FY2024 (period end 2024-12-31) was filed 2025-02-15. Reconstruct
     // at 2025-01-15 (annual cutoff = 2025-01-15 - 90d = 2024-10-17).

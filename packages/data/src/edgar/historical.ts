@@ -112,6 +112,17 @@ function trailingYearRange(
 /** Sum the `selector` value across the trailing 4 quarterly periods
  * with periodEndDate ≤ `cutoff`. Returns null if fewer than 4
  * eligible quarters or any selected value is null. */
+/**
+ * Contiguity gate (2026-10-29): adjacent quarter-ends in a real TTM
+ * window are ~91 days apart (98d for a 53-week fiscal year); a
+ * missing quarter — fiscal Q4 has no 10-Q — shows up as a ~182d gap.
+ * Summing across the gap is not a TTM (DECK: −$92M vs ~+$950M true).
+ * Mirrors `deriveTtm` in packages/ranking/src/fair-value/anchors.ts;
+ * keep the two in sync.
+ */
+const QUARTER_GAP_MIN_DAYS = 60;
+const QUARTER_GAP_MAX_DAYS = 120;
+
 function trailing4Sum(
   quarters: QuarterlyPeriod[],
   cutoff: string,
@@ -120,8 +131,18 @@ function trailing4Sum(
   // Quarters arrive newest-first from the mapper; filter then take 4.
   const eligible = quarters.filter((q) => q.periodEndDate <= cutoff);
   if (eligible.length < 4) return null;
+  const window = eligible.slice(0, 4);
+  for (let i = 1; i < window.length; i += 1) {
+    const gapDays =
+      (Date.parse(window[i - 1]!.periodEndDate) -
+        Date.parse(window[i]!.periodEndDate)) /
+      86_400_000;
+    if (gapDays < QUARTER_GAP_MIN_DAYS || gapDays > QUARTER_GAP_MAX_DAYS) {
+      return null;
+    }
+  }
   let total = 0;
-  for (const q of eligible.slice(0, 4)) {
+  for (const q of window) {
     const v = selector(q);
     if (v === null) return null;
     total += v;
