@@ -1,36 +1,63 @@
 {
   "symbol": "PFE",
-  "fetchedAt": "2026-10-29T19:28:37.210Z",
-  "currentPrice": 29.82,
+  "fetchedAt": "2026-10-29T22:05:25.348Z",
+  "currentPrice": 29.95,
   "expirations": [
     {
       "expiration": "2026-11-20",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 31.034200135781198,
+          "contract": {
+            "contractSymbol": "PFE261120C00031500",
+            "expiration": "2026-11-20",
+            "daysToExpiry": 22,
+            "strike": 31.5,
+            "bid": 0.18,
+            "ask": 0.22,
+            "lastPrice": 0.2,
+            "volume": 113,
+            "openInterest": 422,
+            "impliedVolatility": 0.245124736328125,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": true,
+          "staticReturnPct": 0.009530016694490818,
+          "staticAnnualizedPct": 0.15811164061314312,
+          "assignedReturnPct": 0.06128293823038399,
+          "assignedAnnualizedPct": 1.016739657004098,
+          "effectiveCostBasis": 29.77,
+          "effectiveDiscountPct": 0.006010016694490818
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.59930767225215,
+          "anchorPrice": 32.599308535300324,
           "contract": {
-            "contractSymbol": "PFE261120P00028000",
+            "contractSymbol": "PFE261120P00028500",
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
-            "strike": 28,
-            "bid": 0.29,
-            "ask": 0.3,
-            "lastPrice": 0.31,
-            "volume": 67,
-            "openInterest": 13855,
-            "impliedVolatility": 0.32617861328125,
+            "strike": 28.5,
+            "bid": 0.33,
+            "ask": 0.44,
+            "lastPrice": 0.41,
+            "volume": 10,
+            "openInterest": 816,
+            "impliedVolatility": 0.34278000976562495,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": true,
-          "notAssignedReturnPct": 0.010357142857142856,
-          "notAssignedAnnualizedPct": 0.17183441558441556,
-          "effectiveCostBasis": 27.71,
-          "effectiveDiscountPct": 0.07075788061703553,
+          "notAssignedReturnPct": 0.011578947368421053,
+          "notAssignedAnnualizedPct": 0.19210526315789472,
+          "effectiveCostBasis": 28.17,
+          "effectiveDiscountPct": 0.0594323873121869,
           "inTheMoney": false
         }
       ],
@@ -41,12 +68,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 13,
-            "bid": 15.75,
-            "ask": 17.95,
+            "bid": 14.8,
+            "ask": 18.8,
             "lastPrice": 16.62,
             "volume": 2,
             "openInterest": 29,
-            "impliedVolatility": 1.46875265625,
+            "impliedVolatility": 3.8027348681640625,
             "inTheMoney": true
           },
           {
@@ -67,12 +94,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 15,
-            "bid": 13.45,
-            "ask": 16.15,
+            "bid": 13.65,
+            "ask": 16.2,
             "lastPrice": 13.43,
             "volume": 6,
             "openInterest": 8,
-            "impliedVolatility": 2.869143452148437,
+            "impliedVolatility": 2.8144560888671872,
             "inTheMoney": true
           },
           {
@@ -80,12 +107,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 16,
-            "bid": 12.95,
-            "ask": 14.95,
+            "bid": 12.65,
+            "ask": 15.2,
             "lastPrice": 13.1,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 1.4296903515625,
+            "impliedVolatility": 2.6074253564453125,
             "inTheMoney": true
           },
           {
@@ -93,12 +120,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 17,
-            "bid": 11.55,
-            "ask": 14.15,
+            "bid": 10.8,
+            "ask": 14.8,
             "lastPrice": 12.6,
             "volume": 2,
             "openInterest": 1,
-            "impliedVolatility": 1.0312548437500002,
+            "impliedVolatility": 2.8193388891601563,
             "inTheMoney": true
           },
           {
@@ -106,12 +133,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 18,
-            "bid": 10.45,
-            "ask": 13,
+            "bid": 9.8,
+            "ask": 13.2,
             "lastPrice": 11.1,
             "volume": 4,
             "openInterest": 7,
-            "impliedVolatility": 2.1699264501953124,
+            "impliedVolatility": 2.2285200537109366,
             "inTheMoney": true
           },
           {
@@ -119,12 +146,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 19,
-            "bid": 9.8,
-            "ask": 11.95,
+            "bid": 8.8,
+            "ask": 12.8,
             "lastPrice": 10.1,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.9257819921875,
+            "impliedVolatility": 2.4179727050781246,
             "inTheMoney": true
           },
           {
@@ -133,11 +160,11 @@
             "daysToExpiry": 22,
             "strike": 20,
             "bid": 9.55,
-            "ask": 9.9,
+            "ask": 11.65,
             "lastPrice": 9.5,
             "volume": 2,
             "openInterest": 260,
-            "impliedVolatility": 0.8906260937499999,
+            "impliedVolatility": 1.4921900390624998,
             "inTheMoney": true
           },
           {
@@ -145,12 +172,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 21,
-            "bid": 7.8,
-            "ask": 10,
+            "bid": 6.85,
+            "ask": 10.8,
             "lastPrice": 9.31,
             "volume": 3,
             "openInterest": 17,
-            "impliedVolatility": 0.79687703125,
+            "impliedVolatility": 2.0546923632812497,
             "inTheMoney": true
           },
           {
@@ -159,11 +186,11 @@
             "daysToExpiry": 22,
             "strike": 22,
             "bid": 7.5,
-            "ask": 8.95,
+            "ask": 9.15,
             "lastPrice": 8.25,
             "volume": 10,
             "openInterest": 298,
-            "impliedVolatility": 1.0429735351562504,
+            "impliedVolatility": 1.0293017285156252,
             "inTheMoney": true
           },
           {
@@ -171,12 +198,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 23,
-            "bid": 6.5,
-            "ask": 8,
+            "bid": 5.75,
+            "ask": 8.2,
             "lastPrice": 7.25,
             "volume": 10,
             "openInterest": 585,
-            "impliedVolatility": 0.945313046875,
+            "impliedVolatility": 0.5117236328125,
             "inTheMoney": true
           },
           {
@@ -184,12 +211,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 24,
-            "bid": 5.45,
-            "ask": 6.6,
+            "bid": 5.15,
+            "ask": 6.9,
             "lastPrice": 5.77,
             "volume": 1,
             "openInterest": 1668,
-            "impliedVolatility": 0.6669955175781253,
+            "impliedVolatility": 0.5351608984375,
             "inTheMoney": true
           },
           {
@@ -197,12 +224,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 25,
-            "bid": 4.5,
-            "ask": 4.9,
+            "bid": 4.6,
+            "ask": 5.7,
             "lastPrice": 4.76,
             "volume": 1,
             "openInterest": 5667,
-            "impliedVolatility": 0.45117736328125,
+            "impliedVolatility": 0.57617611328125,
             "inTheMoney": true
           },
           {
@@ -210,12 +237,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 26,
-            "bid": 3.6,
-            "ask": 3.85,
+            "bid": 3.8,
+            "ask": 4.05,
             "lastPrice": 3.7,
             "volume": 38,
             "openInterest": 5769,
-            "impliedVolatility": 0.3007882421875,
+            "impliedVolatility": 0.398443515625,
             "inTheMoney": true
           },
           {
@@ -223,12 +250,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 26.5,
-            "bid": 3.1,
-            "ask": 3.35,
+            "bid": 2.66,
+            "ask": 3.9,
             "lastPrice": 3.24,
             "volume": 9,
             "openInterest": 61,
-            "impliedVolatility": 0.26758544921875,
+            "impliedVolatility": 0.57617611328125,
             "inTheMoney": true
           },
           {
@@ -236,12 +263,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 27,
-            "bid": 2.7,
-            "ask": 2.86,
-            "lastPrice": 2.71,
-            "volume": 109,
+            "bid": 2.79,
+            "ask": 3.1,
+            "lastPrice": 2.86,
+            "volume": 111,
             "openInterest": 13698,
-            "impliedVolatility": 0.2461012890625,
+            "impliedVolatility": 0.352545537109375,
             "inTheMoney": true
           },
           {
@@ -249,12 +276,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 27.5,
-            "bid": 2.15,
-            "ask": 2.39,
-            "lastPrice": 2.3,
-            "volume": 7,
+            "bid": 2.18,
+            "ask": 2.64,
+            "lastPrice": 2.42,
+            "volume": 8,
             "openInterest": 47,
-            "impliedVolatility": 0.23828886718749998,
+            "impliedVolatility": 0.3320379296875,
             "inTheMoney": true
           },
           {
@@ -262,12 +289,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 28,
-            "bid": 1.79,
-            "ask": 1.97,
-            "lastPrice": 1.82,
-            "volume": 135,
+            "bid": 1.97,
+            "ask": 2.11,
+            "lastPrice": 1.98,
+            "volume": 178,
             "openInterest": 27938,
-            "impliedVolatility": 0.2500075,
+            "impliedVolatility": 0.266608896484375,
             "inTheMoney": true
           },
           {
@@ -275,12 +302,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 28.5,
-            "bid": 1.43,
-            "ask": 1.51,
-            "lastPrice": 1.49,
-            "volume": 1,
+            "bid": 1.52,
+            "ask": 1.69,
+            "lastPrice": 1.51,
+            "volume": 3,
             "openInterest": 694,
-            "impliedVolatility": 0.22168747070312497,
+            "impliedVolatility": 0.257819921875,
             "inTheMoney": true
           },
           {
@@ -288,12 +315,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 29,
-            "bid": 1.07,
-            "ask": 1.15,
-            "lastPrice": 1.08,
-            "volume": 157,
+            "bid": 1.19,
+            "ask": 1.29,
+            "lastPrice": 1.25,
+            "volume": 158,
             "openInterest": 16573,
-            "impliedVolatility": 0.22461712890624996,
+            "impliedVolatility": 0.243171630859375,
             "inTheMoney": true
           },
           {
@@ -301,12 +328,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 29.5,
-            "bid": 0.79,
-            "ask": 0.83,
-            "lastPrice": 0.78,
-            "volume": 104,
+            "bid": 0.92,
+            "ask": 0.96,
+            "lastPrice": 0.84,
+            "volume": 109,
             "openInterest": 2126,
-            "impliedVolatility": 0.22168747070312497,
+            "impliedVolatility": 0.23926541992187497,
             "inTheMoney": true
           },
           {
@@ -314,12 +341,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 30,
-            "bid": 0.55,
-            "ask": 0.6,
-            "lastPrice": 0.55,
-            "volume": 384,
+            "bid": 0.62,
+            "ask": 0.67,
+            "lastPrice": 0.65,
+            "volume": 501,
             "openInterest": 24600,
-            "impliedVolatility": 0.22901161621093752,
+            "impliedVolatility": 0.231452998046875,
             "inTheMoney": false
           },
           {
@@ -327,12 +354,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 30.5,
-            "bid": 0.35,
-            "ask": 0.4,
-            "lastPrice": 0.38,
-            "volume": 67,
+            "bid": 0.42,
+            "ask": 0.48,
+            "lastPrice": 0.45,
+            "volume": 80,
             "openInterest": 994,
-            "impliedVolatility": 0.22754678710937498,
+            "impliedVolatility": 0.23828886718749998,
             "inTheMoney": false
           },
           {
@@ -340,12 +367,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 31,
-            "bid": 0.26,
-            "ask": 0.27,
-            "lastPrice": 0.26,
-            "volume": 373,
+            "bid": 0.29,
+            "ask": 0.35,
+            "lastPrice": 0.31,
+            "volume": 386,
             "openInterest": 13032,
-            "impliedVolatility": 0.2329178271484375,
+            "impliedVolatility": 0.2500075,
             "inTheMoney": false
           },
           {
@@ -353,12 +380,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 31.5,
-            "bid": 0.15,
-            "ask": 0.18,
-            "lastPrice": 0.17,
-            "volume": 109,
+            "bid": 0.18,
+            "ask": 0.22,
+            "lastPrice": 0.2,
+            "volume": 113,
             "openInterest": 422,
-            "impliedVolatility": 0.23926541992187497,
+            "impliedVolatility": 0.245124736328125,
             "inTheMoney": false
           },
           {
@@ -366,12 +393,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 32,
-            "bid": 0.1,
-            "ask": 0.12,
-            "lastPrice": 0.1,
-            "volume": 1037,
+            "bid": 0.12,
+            "ask": 0.17,
+            "lastPrice": 0.13,
+            "volume": 1093,
             "openInterest": 11929,
-            "impliedVolatility": 0.2461012890625,
+            "impliedVolatility": 0.26367923828125,
             "inTheMoney": false
           },
           {
@@ -379,12 +406,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 32.5,
-            "bid": 0.06,
-            "ask": 0.15,
+            "bid": 0.07,
+            "ask": 0.13,
             "lastPrice": 0.07,
             "volume": 105,
             "openInterest": 201,
-            "impliedVolatility": 0.301764794921875,
+            "impliedVolatility": 0.278327529296875,
             "inTheMoney": false
           },
           {
@@ -397,7 +424,7 @@
             "lastPrice": 0.05,
             "volume": 9,
             "openInterest": 4424,
-            "impliedVolatility": 0.26758544921875,
+            "impliedVolatility": 0.257819921875,
             "inTheMoney": false
           },
           {
@@ -405,12 +432,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 33.5,
-            "bid": 0.02,
-            "ask": 0.04,
+            "bid": 0.01,
+            "ask": 0.08,
             "lastPrice": 0.03,
             "volume": 3,
             "openInterest": 45,
-            "impliedVolatility": 0.273444765625,
+            "impliedVolatility": 0.30664755859375,
             "inTheMoney": false
           },
           {
@@ -423,7 +450,7 @@
             "lastPrice": 0.03,
             "volume": 132,
             "openInterest": 1190,
-            "impliedVolatility": 0.3007882421875,
+            "impliedVolatility": 0.2929758203124999,
             "inTheMoney": false
           },
           {
@@ -436,7 +463,7 @@
             "lastPrice": 0.02,
             "volume": 185,
             "openInterest": 1166,
-            "impliedVolatility": 0.335944140625,
+            "impliedVolatility": 0.32813171874999997,
             "inTheMoney": false
           },
           {
@@ -449,7 +476,7 @@
             "lastPrice": 0.02,
             "volume": 1,
             "openInterest": 595,
-            "impliedVolatility": 0.4023497265625,
+            "impliedVolatility": 0.39453730468750003,
             "inTheMoney": false
           },
           {
@@ -462,7 +489,7 @@
             "lastPrice": 0.03,
             "volume": 20,
             "openInterest": 41,
-            "impliedVolatility": 0.53320779296875,
+            "impliedVolatility": 0.523442265625,
             "inTheMoney": false
           },
           {
@@ -471,11 +498,11 @@
             "daysToExpiry": 22,
             "strike": 38,
             "bid": 0,
-            "ask": 0.05,
+            "ask": 0.25,
             "lastPrice": 0.03,
             "volume": 1,
             "openInterest": 86,
-            "impliedVolatility": 0.5117236328125,
+            "impliedVolatility": 0.6015664843750002,
             "inTheMoney": false
           },
           {
@@ -488,7 +515,7 @@
             "lastPrice": 0.02,
             "volume": 229,
             "openInterest": 4815,
-            "impliedVolatility": 0.500005,
+            "impliedVolatility": 0.5507857421875001,
             "inTheMoney": false
           }
         ],
@@ -581,7 +608,7 @@
             "lastPrice": 0.01,
             "volume": 5,
             "openInterest": 979,
-            "impliedVolatility": 0.6875031250000001,
+            "impliedVolatility": 0.6953155468750001,
             "inTheMoney": false
           },
           {
@@ -594,7 +621,7 @@
             "lastPrice": 0.02,
             "volume": 7,
             "openInterest": 907,
-            "impliedVolatility": 0.57812921875,
+            "impliedVolatility": 0.5937540625000001,
             "inTheMoney": false
           },
           {
@@ -620,7 +647,7 @@
             "lastPrice": 0.02,
             "volume": 11,
             "openInterest": 6916,
-            "impliedVolatility": 0.5195360546875,
+            "impliedVolatility": 0.5273484765625001,
             "inTheMoney": false
           },
           {
@@ -633,7 +660,7 @@
             "lastPrice": 0.02,
             "volume": 10,
             "openInterest": 4173,
-            "impliedVolatility": 0.445318046875,
+            "impliedVolatility": 0.45313046875,
             "inTheMoney": false
           },
           {
@@ -646,7 +673,7 @@
             "lastPrice": 0.03,
             "volume": 31,
             "openInterest": 43342,
-            "impliedVolatility": 0.37500625,
+            "impliedVolatility": 0.38281867187499996,
             "inTheMoney": false
           },
           {
@@ -659,7 +686,7 @@
             "lastPrice": 0.03,
             "volume": 2,
             "openInterest": 6,
-            "impliedVolatility": 0.35547519531249994,
+            "impliedVolatility": 0.3632876171875,
             "inTheMoney": false
           },
           {
@@ -668,11 +695,11 @@
             "daysToExpiry": 22,
             "strike": 26,
             "bid": 0.04,
-            "ask": 0.05,
-            "lastPrice": 0.05,
-            "volume": 13,
+            "ask": 0.06,
+            "lastPrice": 0.04,
+            "volume": 16,
             "openInterest": 19189,
-            "impliedVolatility": 0.33399103515625,
+            "impliedVolatility": 0.35547519531249994,
             "inTheMoney": false
           },
           {
@@ -680,12 +707,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 26.5,
-            "bid": 0.07,
+            "bid": 0.06,
             "ask": 0.09,
-            "lastPrice": 0.07,
-            "volume": 6,
+            "lastPrice": 0.08,
+            "volume": 7,
             "openInterest": 96,
-            "impliedVolatility": 0.33887379882812496,
+            "impliedVolatility": 0.34766277343749996,
             "inTheMoney": false
           },
           {
@@ -693,12 +720,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 27,
-            "bid": 0.12,
-            "ask": 0.13,
-            "lastPrice": 0.13,
-            "volume": 108,
+            "bid": 0.1,
+            "ask": 0.12,
+            "lastPrice": 0.12,
+            "volume": 112,
             "openInterest": 8097,
-            "impliedVolatility": 0.32813171874999997,
+            "impliedVolatility": 0.331061376953125,
             "inTheMoney": false
           },
           {
@@ -706,8 +733,8 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 27.5,
-            "bid": 0.18,
-            "ask": 0.22,
+            "bid": 0.1,
+            "ask": 0.2,
             "lastPrice": 0.18,
             "volume": 35,
             "openInterest": 128,
@@ -719,12 +746,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 28,
-            "bid": 0.29,
-            "ask": 0.3,
-            "lastPrice": 0.31,
-            "volume": 67,
+            "bid": 0.25,
+            "ask": 0.29,
+            "lastPrice": 0.27,
+            "volume": 70,
             "openInterest": 13855,
-            "impliedVolatility": 0.32617861328125,
+            "impliedVolatility": 0.33399103515625,
             "inTheMoney": false
           },
           {
@@ -732,12 +759,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 28.5,
-            "bid": 0.42,
-            "ask": 0.49,
-            "lastPrice": 0.44,
-            "volume": 9,
+            "bid": 0.33,
+            "ask": 0.44,
+            "lastPrice": 0.41,
+            "volume": 10,
             "openInterest": 816,
-            "impliedVolatility": 0.348639326171875,
+            "impliedVolatility": 0.34278000976562495,
             "inTheMoney": false
           },
           {
@@ -745,12 +772,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 29,
-            "bid": 0.62,
-            "ask": 0.63,
-            "lastPrice": 0.65,
-            "volume": 115,
+            "bid": 0.55,
+            "ask": 0.59,
+            "lastPrice": 0.63,
+            "volume": 119,
             "openInterest": 2180,
-            "impliedVolatility": 0.334967587890625,
+            "impliedVolatility": 0.336920693359375,
             "inTheMoney": false
           },
           {
@@ -758,12 +785,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 29.5,
-            "bid": 0.85,
+            "bid": 0.74,
             "ask": 0.91,
             "lastPrice": 0.89,
             "volume": 83,
             "openInterest": 882,
-            "impliedVolatility": 0.3579165771484375,
+            "impliedVolatility": 0.37695935546875,
             "inTheMoney": false
           },
           {
@@ -771,12 +798,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 30,
-            "bid": 1.11,
+            "bid": 1.01,
             "ask": 1.25,
             "lastPrice": 1.2,
             "volume": 1026,
             "openInterest": 801,
-            "impliedVolatility": 0.38672488281249995,
+            "impliedVolatility": 0.40820904296875,
             "inTheMoney": true
           },
           {
@@ -784,12 +811,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 30.5,
-            "bid": 1.45,
-            "ask": 1.6,
+            "bid": 1.32,
+            "ask": 1.59,
             "lastPrice": 1.83,
             "volume": 10,
             "openInterest": 21,
-            "impliedVolatility": 0.407232490234375,
+            "impliedVolatility": 0.428716650390625,
             "inTheMoney": true
           },
           {
@@ -797,12 +824,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 31,
-            "bid": 1.82,
+            "bid": 1.51,
             "ask": 2.21,
             "lastPrice": 1.73,
             "volume": 8,
             "openInterest": 223,
-            "impliedVolatility": 0.508793974609375,
+            "impliedVolatility": 0.5351608984375,
             "inTheMoney": true
           },
           {
@@ -815,7 +842,7 @@
             "lastPrice": 2.01,
             "volume": 0,
             "openInterest": 3,
-            "impliedVolatility": 0.49023947265625006,
+            "impliedVolatility": 0.5195360546875,
             "inTheMoney": true
           },
           {
@@ -823,12 +850,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 32,
-            "bid": 2.63,
+            "bid": 2.34,
             "ask": 3,
             "lastPrice": 2.64,
             "volume": 4,
             "openInterest": 65,
-            "impliedVolatility": 0.5468795312500001,
+            "impliedVolatility": 0.57812921875,
             "inTheMoney": true
           },
           {
@@ -841,7 +868,7 @@
             "lastPrice": 3.15,
             "volume": 3,
             "openInterest": 2,
-            "impliedVolatility": 0.5590864404296876,
+            "impliedVolatility": 0.5932657861328126,
             "inTheMoney": true
           },
           {
@@ -854,7 +881,7 @@
             "lastPrice": 3.65,
             "volume": 3,
             "openInterest": 29,
-            "impliedVolatility": 0.6054726953125001,
+            "impliedVolatility": 0.5117236328125,
             "inTheMoney": true
           },
           {
@@ -867,7 +894,7 @@
             "lastPrice": 4.65,
             "volume": 4,
             "openInterest": 48,
-            "impliedVolatility": 0.5214891601562499,
+            "impliedVolatility": 0.5722699023437501,
             "inTheMoney": true
           },
           {
@@ -875,12 +902,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 35,
-            "bid": 5.2,
-            "ask": 6.95,
+            "bid": 4.2,
+            "ask": 6.75,
             "lastPrice": 5.6,
             "volume": 1,
             "openInterest": 10,
-            "impliedVolatility": 0.8476577734374999,
+            "impliedVolatility": 0.624027197265625,
             "inTheMoney": true
           },
           {
@@ -888,12 +915,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 36,
-            "bid": 6.2,
-            "ask": 7.95,
+            "bid": 5.3,
+            "ask": 8,
             "lastPrice": 6.65,
             "volume": 2,
             "openInterest": 17,
-            "impliedVolatility": 0.9257819921875,
+            "impliedVolatility": 0.7812521875,
             "inTheMoney": true
           },
           {
@@ -901,12 +928,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 37,
-            "bid": 7.2,
-            "ask": 8.95,
+            "bid": 6.3,
+            "ask": 8.75,
             "lastPrice": 7.7,
             "volume": 1,
             "openInterest": 2,
-            "impliedVolatility": 0.999023447265625,
+            "impliedVolatility": 0.7861349511718749,
             "inTheMoney": true
           },
           {
@@ -914,12 +941,12 @@
             "expiration": "2026-11-20",
             "daysToExpiry": 22,
             "strike": 38,
-            "bid": 8.2,
-            "ask": 9,
+            "bid": 7.3,
+            "ask": 9.75,
             "lastPrice": 9.95,
             "volume": 126,
             "openInterest": 131,
-            "impliedVolatility": 0.8291032714843749,
+            "impliedVolatility": 0.848634326171875,
             "inTheMoney": true
           },
           {
@@ -932,59 +959,86 @@
             "lastPrice": 11.45,
             "volume": 2,
             "openInterest": 0,
-            "impliedVolatility": 0.6543003320312502,
+            "impliedVolatility": 0.762697685546875,
             "inTheMoney": true
           }
         ]
       },
       "projection": {
         "daysAhead": 22,
-        "fvP25": 20.993101474012327,
-        "fvMedian": 45.559260458017974,
-        "fvP75": 66.09552981092567,
-        "price": 28.229438931020795,
-        "fvSlopePctPerYear": 20.3302729871631,
-        "priceSlopePctPerYear": 8.282373056157335,
-        "fvRSquared": 0.6318491366976207,
-        "priceRSquared": 0.4393057379401512,
+        "fvP25": 31.034200135781198,
+        "fvMedian": 49.105910136580874,
+        "fvP75": 103.66847587052752,
+        "price": 28.26153872944959,
+        "fvSlopePctPerYear": 97.460214305537,
+        "priceSlopePctPerYear": 8.348497424760206,
+        "fvRSquared": 0.8462461651257696,
+        "priceRSquared": 0.44078266161866086,
         "fvConfidence": "high",
         "priceConfidence": "medium",
-        "fvCapped": false,
+        "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": false,
-        "fvWindowSize": 12,
+        "fvWindowSize": 4,
         "priceWindowSize": 8
       }
     },
     {
       "expiration": "2026-12-18",
       "selectionReason": "monthly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 32.52881183883839,
+          "contract": {
+            "contractSymbol": "PFE261218C00033000",
+            "expiration": "2026-12-18",
+            "daysToExpiry": 50,
+            "strike": 33,
+            "bid": 0.17,
+            "ask": 0.23,
+            "lastPrice": 0.2,
+            "volume": 76,
+            "openInterest": 17414,
+            "impliedVolatility": 0.25098405273437496,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.013676126878130216,
+          "staticAnnualizedPct": 0.09983572621035058,
+          "assignedReturnPct": 0.11551252086811356,
+          "assignedAnnualizedPct": 0.843241402337229,
+          "effectiveCostBasis": 29.779999999999998,
+          "effectiveDiscountPct": 0.005676126878130218
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.59930767225215,
+          "anchorPrice": 32.599308535300324,
           "contract": {
             "contractSymbol": "PFE261218P00028000",
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 28,
-            "bid": 0.52,
-            "ask": 0.57,
-            "lastPrice": 0.56,
-            "volume": 51,
+            "bid": 0.48,
+            "ask": 0.54,
+            "lastPrice": 0.5,
+            "volume": 53,
             "openInterest": 5609,
-            "impliedVolatility": 0.29688203124999996,
+            "impliedVolatility": 0.2978585839843749,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.018571428571428572,
-          "notAssignedAnnualizedPct": 0.13557142857142856,
-          "effectiveCostBasis": 27.48,
-          "effectiveDiscountPct": 0.07847082494969819,
+          "notAssignedReturnPct": 0.017142857142857144,
+          "notAssignedAnnualizedPct": 0.12514285714285714,
+          "effectiveCostBasis": 27.52,
+          "effectiveDiscountPct": 0.08113522537562604,
           "inTheMoney": false
         }
       ],
@@ -995,12 +1049,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 13,
-            "bid": 15.45,
-            "ask": 17.95,
+            "bid": 14.85,
+            "ask": 18.8,
             "lastPrice": 17.15,
             "volume": 44,
             "openInterest": 71,
-            "impliedVolatility": 2.1210984472656245,
+            "impliedVolatility": 2.5527379931640626,
             "inTheMoney": true
           },
           {
@@ -1008,12 +1062,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 15,
-            "bid": 13.8,
-            "ask": 15.75,
+            "bid": 12.85,
+            "ask": 16.4,
             "lastPrice": 14.62,
             "volume": 2,
             "openInterest": 26,
-            "impliedVolatility": 1.7021499267578126,
+            "impliedVolatility": 1.9970703271484376,
             "inTheMoney": true
           },
           {
@@ -1034,12 +1088,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 19,
-            "bid": 9.4,
-            "ask": 12.15,
+            "bid": 8.85,
+            "ask": 12.4,
             "lastPrice": 10.05,
             "volume": 2,
             "openInterest": 3,
-            "impliedVolatility": 1.40625296875,
+            "impliedVolatility": 1.4638698681640623,
             "inTheMoney": true
           },
           {
@@ -1047,12 +1101,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 20,
-            "bid": 9.55,
+            "bid": 8.75,
             "ask": 10.25,
-            "lastPrice": 9.69,
-            "volume": 5,
+            "lastPrice": 9.93,
+            "volume": 6,
             "openInterest": 532,
-            "impliedVolatility": 0.5976602734375001,
+            "impliedVolatility": 0.8017597949218749,
             "inTheMoney": true
           },
           {
@@ -1060,12 +1114,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 21,
-            "bid": 8.35,
-            "ask": 9.65,
+            "bid": 6.85,
+            "ask": 10.2,
             "lastPrice": 8.1,
             "volume": 2,
             "openInterest": 36,
-            "impliedVolatility": 0.632816171875,
+            "impliedVolatility": 1.1611370068359377,
             "inTheMoney": true
           },
           {
@@ -1074,11 +1128,11 @@
             "daysToExpiry": 50,
             "strike": 22,
             "bid": 7.4,
-            "ask": 8,
+            "ask": 8.75,
             "lastPrice": 8.05,
             "volume": 1,
             "openInterest": 245,
-            "impliedVolatility": 0.5644574804687501,
+            "impliedVolatility": 0.52539537109375,
             "inTheMoney": true
           },
           {
@@ -1091,7 +1145,7 @@
             "lastPrice": 7.25,
             "volume": 5,
             "openInterest": 6095,
-            "impliedVolatility": 0.5293015820312501,
+            "impliedVolatility": 0.4414118359375,
             "inTheMoney": true
           },
           {
@@ -1100,11 +1154,11 @@
             "daysToExpiry": 50,
             "strike": 24,
             "bid": 5.4,
-            "ask": 6.2,
+            "ask": 6.75,
             "lastPrice": 6.4,
             "volume": 5,
             "openInterest": 912,
-            "impliedVolatility": 0.5361374511718751,
+            "impliedVolatility": 0.709963837890625,
             "inTheMoney": true
           },
           {
@@ -1112,12 +1166,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 25,
-            "bid": 4.6,
-            "ask": 4.8,
-            "lastPrice": 4.74,
-            "volume": 22,
+            "bid": 4.85,
+            "ask": 5.55,
+            "lastPrice": 4.95,
+            "volume": 24,
             "openInterest": 12535,
-            "impliedVolatility": 0.000010000000000000003,
+            "impliedVolatility": 0.5551802294921876,
             "inTheMoney": true
           },
           {
@@ -1126,11 +1180,11 @@
             "daysToExpiry": 50,
             "strike": 26,
             "bid": 3.6,
-            "ask": 3.85,
+            "ask": 4.1,
             "lastPrice": 3.79,
             "volume": 17,
             "openInterest": 4777,
-            "impliedVolatility": 0.20313296874999998,
+            "impliedVolatility": 0.2978585839843749,
             "inTheMoney": true
           },
           {
@@ -1138,12 +1192,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 27,
-            "bid": 2.78,
-            "ask": 2.94,
-            "lastPrice": 2.82,
-            "volume": 35,
+            "bid": 2.85,
+            "ask": 3.1,
+            "lastPrice": 2.95,
+            "volume": 36,
             "openInterest": 26796,
-            "impliedVolatility": 0.215828154296875,
+            "impliedVolatility": 0.2368240380859375,
             "inTheMoney": true
           },
           {
@@ -1151,12 +1205,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 28,
-            "bid": 1.99,
-            "ask": 2.13,
+            "bid": 2.07,
+            "ask": 2.28,
             "lastPrice": 2,
             "volume": 34,
             "openInterest": 16362,
-            "impliedVolatility": 0.22217574707031246,
+            "impliedVolatility": 0.2368240380859375,
             "inTheMoney": true
           },
           {
@@ -1164,12 +1218,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 29,
-            "bid": 1.36,
-            "ask": 1.41,
-            "lastPrice": 1.39,
-            "volume": 325,
+            "bid": 1.46,
+            "ask": 1.58,
+            "lastPrice": 1.55,
+            "volume": 816,
             "openInterest": 23496,
-            "impliedVolatility": 0.2153398779296875,
+            "impliedVolatility": 0.23584748535156247,
             "inTheMoney": true
           },
           {
@@ -1177,12 +1231,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 30,
-            "bid": 0.88,
-            "ask": 0.89,
-            "lastPrice": 0.89,
-            "volume": 479,
+            "bid": 0.96,
+            "ask": 1.02,
+            "lastPrice": 0.96,
+            "volume": 514,
             "openInterest": 38433,
-            "impliedVolatility": 0.2192460888671875,
+            "impliedVolatility": 0.23389437988281248,
             "inTheMoney": false
           },
           {
@@ -1190,12 +1244,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 31,
-            "bid": 0.53,
-            "ask": 0.55,
-            "lastPrice": 0.52,
-            "volume": 605,
+            "bid": 0.6,
+            "ask": 0.63,
+            "lastPrice": 0.57,
+            "volume": 606,
             "openInterest": 10543,
-            "impliedVolatility": 0.2280350634765625,
+            "impliedVolatility": 0.23633576171874998,
             "inTheMoney": false
           },
           {
@@ -1203,12 +1257,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 32,
-            "bid": 0.3,
-            "ask": 0.32,
-            "lastPrice": 0.3,
-            "volume": 678,
+            "bid": 0.34,
+            "ask": 0.37,
+            "lastPrice": 0.36,
+            "volume": 719,
             "openInterest": 18070,
-            "impliedVolatility": 0.23389437988281248,
+            "impliedVolatility": 0.23926541992187497,
             "inTheMoney": false
           },
           {
@@ -1216,12 +1270,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 33,
-            "bid": 0.18,
-            "ask": 0.19,
-            "lastPrice": 0.18,
-            "volume": 67,
+            "bid": 0.17,
+            "ask": 0.23,
+            "lastPrice": 0.2,
+            "volume": 76,
             "openInterest": 17414,
-            "impliedVolatility": 0.243171630859375,
+            "impliedVolatility": 0.25098405273437496,
             "inTheMoney": false
           },
           {
@@ -1229,12 +1283,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 34,
-            "bid": 0.1,
-            "ask": 0.11,
+            "bid": 0.11,
+            "ask": 0.14,
             "lastPrice": 0.11,
-            "volume": 14,
+            "volume": 17,
             "openInterest": 1475,
-            "impliedVolatility": 0.25098405273437496,
+            "impliedVolatility": 0.25977302734375,
             "inTheMoney": false
           },
           {
@@ -1242,12 +1296,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 35,
-            "bid": 0.06,
-            "ask": 0.07,
-            "lastPrice": 0.06,
-            "volume": 293,
+            "bid": 0.07,
+            "ask": 0.08,
+            "lastPrice": 0.07,
+            "volume": 303,
             "openInterest": 11548,
-            "impliedVolatility": 0.26367923828125,
+            "impliedVolatility": 0.26563234375,
             "inTheMoney": false
           },
           {
@@ -1255,12 +1309,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 36,
-            "bid": 0.02,
-            "ask": 0.07,
+            "bid": 0.03,
+            "ask": 0.1,
             "lastPrice": 0.02,
             "volume": 1,
             "openInterest": 331,
-            "impliedVolatility": 0.29883513671874995,
+            "impliedVolatility": 0.31641308593749995,
             "inTheMoney": false
           },
           {
@@ -1269,11 +1323,11 @@
             "daysToExpiry": 50,
             "strike": 37,
             "bid": 0.02,
-            "ask": 0.04,
+            "ask": 0.24,
             "lastPrice": 0.04,
             "volume": 2,
             "openInterest": 1865,
-            "impliedVolatility": 0.3007882421875,
+            "impliedVolatility": 0.432622861328125,
             "inTheMoney": false
           },
           {
@@ -1286,7 +1340,7 @@
             "lastPrice": 0.04,
             "volume": 2,
             "openInterest": 810,
-            "impliedVolatility": 0.36524072265625,
+            "impliedVolatility": 0.35938140625,
             "inTheMoney": false
           },
           {
@@ -1294,12 +1348,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 39,
-            "bid": 0.02,
+            "bid": 0,
             "ask": 0.04,
             "lastPrice": 0.02,
             "volume": 10,
             "openInterest": 138,
-            "impliedVolatility": 0.35938140625,
+            "impliedVolatility": 0.35547519531249994,
             "inTheMoney": false
           },
           {
@@ -1307,12 +1361,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 40,
-            "bid": 0.01,
-            "ask": 0.02,
+            "bid": 0.02,
+            "ask": 0.03,
             "lastPrice": 0.02,
-            "volume": 157,
+            "volume": 158,
             "openInterest": 24206,
-            "impliedVolatility": 0.35156898437499995,
+            "impliedVolatility": 0.367193828125,
             "inTheMoney": false
           },
           {
@@ -1325,7 +1379,7 @@
             "lastPrice": 0.01,
             "volume": 51,
             "openInterest": 1204,
-            "impliedVolatility": 0.45703667968750006,
+            "impliedVolatility": 0.45117736328125,
             "inTheMoney": false
           },
           {
@@ -1334,11 +1388,11 @@
             "daysToExpiry": 50,
             "strike": 45,
             "bid": 0,
-            "ask": 0.01,
+            "ask": 0.02,
             "lastPrice": 0.01,
-            "volume": 9,
+            "volume": 1,
             "openInterest": 17841,
-            "impliedVolatility": 0.42969320312500003,
+            "impliedVolatility": 0.46094289062500005,
             "inTheMoney": false
           }
         ],
@@ -1353,7 +1407,7 @@
             "lastPrice": 0.02,
             "volume": 10,
             "openInterest": 3788,
-            "impliedVolatility": 0.85937640625,
+            "impliedVolatility": 0.87500125,
             "inTheMoney": false
           },
           {
@@ -1366,7 +1420,7 @@
             "lastPrice": 0.01,
             "volume": 1,
             "openInterest": 12338,
-            "impliedVolatility": 0.7187528125,
+            "impliedVolatility": 0.73437765625,
             "inTheMoney": false
           },
           {
@@ -1392,7 +1446,7 @@
             "lastPrice": 0.01,
             "volume": 5,
             "openInterest": 603,
-            "impliedVolatility": 0.51562984375,
+            "impliedVolatility": 0.523442265625,
             "inTheMoney": false
           },
           {
@@ -1403,9 +1457,9 @@
             "bid": 0,
             "ask": 0.02,
             "lastPrice": 0.01,
-            "volume": 17,
+            "volume": 22,
             "openInterest": 15734,
-            "impliedVolatility": 0.4804739453125,
+            "impliedVolatility": 0.48438015625,
             "inTheMoney": false
           },
           {
@@ -1418,7 +1472,7 @@
             "lastPrice": 0.03,
             "volume": 2,
             "openInterest": 943,
-            "impliedVolatility": 0.47461462890625,
+            "impliedVolatility": 0.4804739453125,
             "inTheMoney": false
           },
           {
@@ -1431,7 +1485,7 @@
             "lastPrice": 0.02,
             "volume": 1,
             "openInterest": 1735,
-            "impliedVolatility": 0.44922425781249997,
+            "impliedVolatility": 0.45508357421875,
             "inTheMoney": false
           },
           {
@@ -1444,7 +1498,7 @@
             "lastPrice": 0.04,
             "volume": 45,
             "openInterest": 18411,
-            "impliedVolatility": 0.367193828125,
+            "impliedVolatility": 0.3711000390625,
             "inTheMoney": false
           },
           {
@@ -1457,7 +1511,7 @@
             "lastPrice": 0.05,
             "volume": 8,
             "openInterest": 9942,
-            "impliedVolatility": 0.34961587890624996,
+            "impliedVolatility": 0.35547519531249994,
             "inTheMoney": false
           },
           {
@@ -1470,7 +1524,7 @@
             "lastPrice": 0.08,
             "volume": 13,
             "openInterest": 41359,
-            "impliedVolatility": 0.31153032226562494,
+            "impliedVolatility": 0.317389638671875,
             "inTheMoney": false
           },
           {
@@ -1478,12 +1532,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 26,
-            "bid": 0.16,
-            "ask": 0.17,
-            "lastPrice": 0.17,
-            "volume": 27,
+            "bid": 0.14,
+            "ask": 0.25,
+            "lastPrice": 0.15,
+            "volume": 28,
             "openInterest": 9434,
-            "impliedVolatility": 0.301764794921875,
+            "impliedVolatility": 0.34570966796874997,
             "inTheMoney": false
           },
           {
@@ -1491,12 +1545,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 27,
-            "bid": 0.3,
-            "ask": 0.33,
-            "lastPrice": 0.31,
-            "volume": 21,
+            "bid": 0.27,
+            "ask": 0.31,
+            "lastPrice": 0.28,
+            "volume": 55,
             "openInterest": 40799,
-            "impliedVolatility": 0.3007882421875,
+            "impliedVolatility": 0.301764794921875,
             "inTheMoney": false
           },
           {
@@ -1504,12 +1558,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 28,
-            "bid": 0.52,
-            "ask": 0.57,
-            "lastPrice": 0.56,
-            "volume": 51,
+            "bid": 0.48,
+            "ask": 0.54,
+            "lastPrice": 0.5,
+            "volume": 53,
             "openInterest": 5609,
-            "impliedVolatility": 0.29688203124999996,
+            "impliedVolatility": 0.2978585839843749,
             "inTheMoney": false
           },
           {
@@ -1517,12 +1571,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 29,
-            "bid": 0.88,
-            "ask": 0.9,
-            "lastPrice": 0.91,
-            "volume": 61,
+            "bid": 0.81,
+            "ask": 0.87,
+            "lastPrice": 0.86,
+            "volume": 138,
             "openInterest": 1746,
-            "impliedVolatility": 0.28955788574218744,
+            "impliedVolatility": 0.2934640966796874,
             "inTheMoney": false
           },
           {
@@ -1530,12 +1584,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 30,
-            "bid": 1.35,
-            "ask": 1.46,
+            "bid": 1.26,
+            "ask": 1.38,
             "lastPrice": 1.44,
             "volume": 157,
             "openInterest": 5619,
-            "impliedVolatility": 0.30713583496093744,
+            "impliedVolatility": 0.30322962402343745,
             "inTheMoney": true
           },
           {
@@ -1543,12 +1597,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 31,
-            "bid": 1.97,
-            "ask": 2.2,
+            "bid": 1.77,
+            "ask": 2.18,
             "lastPrice": 2.02,
             "volume": 126,
             "openInterest": 360,
-            "impliedVolatility": 0.33960621337890623,
+            "impliedVolatility": 0.352545537109375,
             "inTheMoney": true
           },
           {
@@ -1556,12 +1610,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 32,
-            "bid": 2.67,
-            "ask": 3.05,
+            "bid": 2.65,
+            "ask": 2.97,
             "lastPrice": 2.47,
             "volume": 1,
             "openInterest": 248,
-            "impliedVolatility": 0.379889013671875,
+            "impliedVolatility": 0.3813538427734374,
             "inTheMoney": true
           },
           {
@@ -1574,7 +1628,7 @@
             "lastPrice": 3.8,
             "volume": 30,
             "openInterest": 31,
-            "impliedVolatility": 0.41992767578125,
+            "impliedVolatility": 0.44385321777343745,
             "inTheMoney": true
           },
           {
@@ -1587,7 +1641,7 @@
             "lastPrice": 8.75,
             "volume": 0,
             "openInterest": 1,
-            "impliedVolatility": 0.6899445068359377,
+            "impliedVolatility": 0.709963837890625,
             "inTheMoney": true
           },
           {
@@ -1595,12 +1649,12 @@
             "expiration": "2026-12-18",
             "daysToExpiry": 50,
             "strike": 35,
-            "bid": 5.5,
+            "bid": 5.4,
             "ask": 5.9,
             "lastPrice": 5.95,
             "volume": 11,
             "openInterest": 1130,
-            "impliedVolatility": 0.5195360546875,
+            "impliedVolatility": 0.5478560839843751,
             "inTheMoney": true
           },
           {
@@ -1613,7 +1667,7 @@
             "lastPrice": 8.1,
             "volume": 0,
             "openInterest": 4,
-            "impliedVolatility": 0.471684970703125,
+            "impliedVolatility": 0.5083056982421875,
             "inTheMoney": true
           },
           {
@@ -1639,7 +1693,7 @@
             "lastPrice": 9.36,
             "volume": 0,
             "openInterest": 10,
-            "impliedVolatility": 0.55273884765625,
+            "impliedVolatility": 0.6005899316406251,
             "inTheMoney": true
           },
           {
@@ -1652,7 +1706,7 @@
             "lastPrice": 12.64,
             "volume": 24,
             "openInterest": 47,
-            "impliedVolatility": 0.506840869140625,
+            "impliedVolatility": 0.5722699023437501,
             "inTheMoney": true
           },
           {
@@ -1665,7 +1719,7 @@
             "lastPrice": 14.18,
             "volume": 64,
             "openInterest": 64,
-            "impliedVolatility": 0.5507857421875001,
+            "impliedVolatility": 0.6269568554687501,
             "inTheMoney": true
           },
           {
@@ -1678,59 +1732,86 @@
             "lastPrice": 17.51,
             "volume": 60,
             "openInterest": 61,
-            "impliedVolatility": 0.6347692773437501,
+            "impliedVolatility": 0.717776259765625,
             "inTheMoney": true
           }
         ]
       },
       "projection": {
         "daysAhead": 50,
-        "fvP25": 19.73446512214162,
-        "fvMedian": 46.31622140903666,
-        "fvP75": 68.0378889659503,
-        "price": 28.418204424115487,
-        "fvSlopePctPerYear": 20.3302729871631,
-        "priceSlopePctPerYear": 8.282373056157335,
-        "fvRSquared": 0.6318491366976207,
-        "priceRSquared": 0.4393057379401512,
+        "fvP25": 32.52881183883839,
+        "fvMedian": 52.64479887452946,
+        "fvP75": 103.66847587052752,
+        "price": 28.452370376156843,
+        "fvSlopePctPerYear": 97.460214305537,
+        "priceSlopePctPerYear": 8.348497424760206,
+        "fvRSquared": 0.8462461651257696,
+        "priceRSquared": 0.44078266161866086,
         "fvConfidence": "high",
         "priceConfidence": "medium",
-        "fvCapped": false,
+        "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": false,
-        "fvWindowSize": 12,
+        "fvWindowSize": 4,
         "priceWindowSize": 8
       }
     },
     {
       "expiration": "2027-01-15",
       "selectionReason": "yearly",
-      "coveredCalls": [],
+      "coveredCalls": [
+        {
+          "label": "conservative",
+          "anchor": "p25",
+          "anchorPrice": 34.023423541895575,
+          "contract": {
+            "contractSymbol": "PFE270115C00035000",
+            "expiration": "2027-01-15",
+            "daysToExpiry": 78,
+            "strike": 35,
+            "bid": 0.13,
+            "ask": 0.23,
+            "lastPrice": 0.14,
+            "volume": 38,
+            "openInterest": 24790,
+            "impliedVolatility": 0.27735097656249996,
+            "inTheMoney": false
+          },
+          "snapWarning": false,
+          "shortDated": false,
+          "staticReturnPct": 0.016820567612687812,
+          "staticAnnualizedPct": 0.0787116304952699,
+          "assignedReturnPct": 0.18543492487479135,
+          "assignedAnnualizedPct": 0.8677403535807544,
+          "effectiveCostBasis": 29.82,
+          "effectiveDiscountPct": 0.004340567612687813
+        }
+      ],
       "puts": [
         {
           "label": "deep-value",
           "anchor": "p25",
-          "anchorPrice": 32.59930767225215,
+          "anchorPrice": 32.599308535300324,
           "contract": {
             "contractSymbol": "PFE270115P00029000",
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 29,
-            "bid": 1.06,
-            "ask": 1.13,
+            "bid": 0.9,
+            "ask": 1.07,
             "lastPrice": 1.08,
             "volume": 84,
             "openInterest": 3185,
-            "impliedVolatility": 0.27539787109374997,
+            "impliedVolatility": 0.2739330419921875,
             "inTheMoney": false
           },
           "snapWarning": true,
           "shortDated": false,
-          "notAssignedReturnPct": 0.036551724137931035,
-          "notAssignedAnnualizedPct": 0.17104332449160037,
-          "effectiveCostBasis": 27.94,
-          "effectiveDiscountPct": 0.06304493628437287,
+          "notAssignedReturnPct": 0.03103448275862069,
+          "notAssignedAnnualizedPct": 0.14522546419098145,
+          "effectiveCostBasis": 28.1,
+          "effectiveDiscountPct": 0.06176961602671112,
           "inTheMoney": false
         }
       ],
@@ -1741,12 +1822,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 13,
-            "bid": 15.85,
-            "ask": 18.6,
+            "bid": 15.65,
+            "ask": 18.2,
             "lastPrice": 16.72,
             "volume": 5,
             "openInterest": 14,
-            "impliedVolatility": 1.2705114599609373,
+            "impliedVolatility": 1.7695324023437498,
             "inTheMoney": true
           },
           {
@@ -1754,12 +1835,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 15,
-            "bid": 13.9,
-            "ask": 15.85,
+            "bid": 13.7,
+            "ask": 16.05,
             "lastPrice": 15.25,
             "volume": 14,
             "openInterest": 165,
-            "impliedVolatility": 0.73437765625,
+            "impliedVolatility": 1.4521511767578126,
             "inTheMoney": true
           },
           {
@@ -1794,11 +1875,11 @@
             "daysToExpiry": 78,
             "strike": 18,
             "bid": 11.4,
-            "ask": 12.95,
+            "ask": 13.15,
             "lastPrice": 11.84,
             "volume": 10,
             "openInterest": 406,
-            "impliedVolatility": 0.8095722167968749,
+            "impliedVolatility": 0.7929708203125,
             "inTheMoney": true
           },
           {
@@ -1811,7 +1892,7 @@
             "lastPrice": 8.98,
             "volume": 2,
             "openInterest": 7,
-            "impliedVolatility": 0.6796907031250001,
+            "impliedVolatility": 0.5839885351562499,
             "inTheMoney": true
           },
           {
@@ -1819,12 +1900,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 20,
-            "bid": 9.55,
-            "ask": 9.75,
-            "lastPrice": 9.35,
-            "volume": 4,
+            "bid": 9.7,
+            "ask": 10,
+            "lastPrice": 9.75,
+            "volume": 10,
             "openInterest": 4159,
-            "impliedVolatility": 0.000010000000000000003,
+            "impliedVolatility": 0.445318046875,
             "inTheMoney": true
           },
           {
@@ -1832,12 +1913,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 21,
-            "bid": 8.55,
+            "bid": 8.6,
             "ask": 9.2,
             "lastPrice": 9,
             "volume": 10,
             "openInterest": 218,
-            "impliedVolatility": 0.6171913281250001,
+            "impliedVolatility": 0.5546919531250001,
             "inTheMoney": true
           },
           {
@@ -1845,12 +1926,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 22,
-            "bid": 7.4,
-            "ask": 8.1,
+            "bid": 6.95,
+            "ask": 8.4,
             "lastPrice": 8.05,
             "volume": 15,
             "openInterest": 1056,
-            "impliedVolatility": 0.508793974609375,
+            "impliedVolatility": 0.586918193359375,
             "inTheMoney": true
           },
           {
@@ -1858,12 +1939,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 23,
-            "bid": 6.6,
-            "ask": 6.85,
+            "bid": 6.75,
+            "ask": 7,
             "lastPrice": 6.9,
             "volume": 2,
             "openInterest": 10280,
-            "impliedVolatility": 0.28711650390624993,
+            "impliedVolatility": 0.3086006640625,
             "inTheMoney": true
           },
           {
@@ -1871,12 +1952,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 24,
-            "bid": 5.5,
-            "ask": 6,
+            "bid": 5.45,
+            "ask": 6.3,
             "lastPrice": 5.8,
             "volume": 94,
             "openInterest": 1347,
-            "impliedVolatility": 0.34961587890624996,
+            "impliedVolatility": 0.42578699218750005,
             "inTheMoney": true
           },
           {
@@ -1884,12 +1965,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 25,
-            "bid": 4.65,
-            "ask": 4.9,
-            "lastPrice": 4.7,
-            "volume": 109,
+            "bid": 4.85,
+            "ask": 5.15,
+            "lastPrice": 4.9,
+            "volume": 209,
             "openInterest": 26722,
-            "impliedVolatility": 0.2461012890625,
+            "impliedVolatility": 0.31055376953124997,
             "inTheMoney": true
           },
           {
@@ -1897,12 +1978,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 26,
-            "bid": 3.7,
-            "ask": 3.95,
+            "bid": 3.8,
+            "ask": 4.15,
             "lastPrice": 3.9,
             "volume": 26,
             "openInterest": 4442,
-            "impliedVolatility": 0.22657023437499998,
+            "impliedVolatility": 0.25928475097656256,
             "inTheMoney": true
           },
           {
@@ -1910,12 +1991,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 27,
-            "bid": 2.91,
-            "ask": 3.1,
-            "lastPrice": 3,
-            "volume": 28,
+            "bid": 3.1,
+            "ask": 3.3,
+            "lastPrice": 3.2,
+            "volume": 84,
             "openInterest": 54476,
-            "impliedVolatility": 0.22852333984375,
+            "impliedVolatility": 0.2534254345703125,
             "inTheMoney": true
           },
           {
@@ -1923,12 +2004,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 28,
-            "bid": 2.21,
-            "ask": 2.32,
-            "lastPrice": 2.25,
-            "volume": 98,
+            "bid": 2.3,
+            "ask": 2.48,
+            "lastPrice": 2.36,
+            "volume": 103,
             "openInterest": 11128,
-            "impliedVolatility": 0.22364057617187497,
+            "impliedVolatility": 0.23731231445312498,
             "inTheMoney": true
           },
           {
@@ -1936,12 +2017,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 29,
-            "bid": 1.64,
-            "ask": 1.71,
-            "lastPrice": 1.64,
-            "volume": 4,
+            "bid": 1.74,
+            "ask": 1.86,
+            "lastPrice": 1.75,
+            "volume": 5,
             "openInterest": 15766,
-            "impliedVolatility": 0.2309647216796875,
+            "impliedVolatility": 0.24341576904296874,
             "inTheMoney": true
           },
           {
@@ -1949,12 +2030,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 30,
-            "bid": 1.13,
-            "ask": 1.19,
-            "lastPrice": 1.11,
-            "volume": 510,
+            "bid": 1.23,
+            "ask": 1.3,
+            "lastPrice": 1.27,
+            "volume": 532,
             "openInterest": 68359,
-            "impliedVolatility": 0.23072058349609376,
+            "impliedVolatility": 0.23828886718749998,
             "inTheMoney": false
           },
           {
@@ -1962,12 +2043,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 31,
-            "bid": 0.76,
-            "ask": 0.79,
-            "lastPrice": 0.75,
-            "volume": 114,
+            "bid": 0.83,
+            "ask": 0.88,
+            "lastPrice": 0.84,
+            "volume": 135,
             "openInterest": 8925,
-            "impliedVolatility": 0.2299881689453125,
+            "impliedVolatility": 0.23706817626953125,
             "inTheMoney": false
           },
           {
@@ -1975,12 +2056,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 32,
-            "bid": 0.49,
-            "ask": 0.52,
-            "lastPrice": 0.48,
-            "volume": 154,
+            "bid": 0.52,
+            "ask": 0.58,
+            "lastPrice": 0.54,
+            "volume": 155,
             "openInterest": 28609,
-            "impliedVolatility": 0.233406103515625,
+            "impliedVolatility": 0.23804472900390622,
             "inTheMoney": false
           },
           {
@@ -1988,12 +2069,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 33,
-            "bid": 0.32,
-            "ask": 0.33,
-            "lastPrice": 0.33,
-            "volume": 106,
+            "bid": 0.35,
+            "ask": 0.38,
+            "lastPrice": 0.36,
+            "volume": 131,
             "openInterest": 7431,
-            "impliedVolatility": 0.23584748535156247,
+            "impliedVolatility": 0.2417068017578125,
             "inTheMoney": false
           },
           {
@@ -2001,12 +2082,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 34,
-            "bid": 0.2,
-            "ask": 0.22,
-            "lastPrice": 0.21,
-            "volume": 58,
+            "bid": 0.16,
+            "ask": 0.26,
+            "lastPrice": 0.23,
+            "volume": 132,
             "openInterest": 852,
-            "impliedVolatility": 0.2436599072265625,
+            "impliedVolatility": 0.2500075,
             "inTheMoney": false
           },
           {
@@ -2014,12 +2095,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 35,
-            "bid": 0.12,
-            "ask": 0.14,
-            "lastPrice": 0.13,
-            "volume": 19,
+            "bid": 0.13,
+            "ask": 0.23,
+            "lastPrice": 0.14,
+            "volume": 38,
             "openInterest": 24790,
-            "impliedVolatility": 0.24805439453125,
+            "impliedVolatility": 0.27735097656249996,
             "inTheMoney": false
           },
           {
@@ -2028,11 +2109,11 @@
             "daysToExpiry": 78,
             "strike": 36,
             "bid": 0.08,
-            "ask": 0.1,
+            "ask": 0.11,
             "lastPrice": 0.09,
             "volume": 24,
             "openInterest": 927,
-            "impliedVolatility": 0.25879647460937505,
+            "impliedVolatility": 0.25977302734375,
             "inTheMoney": false
           },
           {
@@ -2040,12 +2121,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 37,
-            "bid": 0.04,
+            "bid": 0.06,
             "ask": 0.12,
             "lastPrice": 0.06,
             "volume": 26,
             "openInterest": 8397,
-            "impliedVolatility": 0.29883513671874995,
+            "impliedVolatility": 0.29395237304687494,
             "inTheMoney": false
           },
           {
@@ -2054,11 +2135,11 @@
             "daysToExpiry": 78,
             "strike": 38,
             "bid": 0.04,
-            "ask": 0.06,
+            "ask": 0.11,
             "lastPrice": 0.04,
             "volume": 630,
             "openInterest": 399,
-            "impliedVolatility": 0.28516339843749994,
+            "impliedVolatility": 0.31641308593749995,
             "inTheMoney": false
           },
           {
@@ -2066,12 +2147,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 39,
-            "bid": 0.02,
+            "bid": 0.03,
             "ask": 0.05,
             "lastPrice": 0.04,
-            "volume": 1,
+            "volume": 17,
             "openInterest": 1098,
-            "impliedVolatility": 0.3007882421875,
+            "impliedVolatility": 0.29688203124999996,
             "inTheMoney": false
           },
           {
@@ -2079,12 +2160,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 40,
-            "bid": 0.02,
-            "ask": 0.04,
+            "bid": 0.01,
+            "ask": 0.05,
             "lastPrice": 0.05,
             "volume": 100,
             "openInterest": 13426,
-            "impliedVolatility": 0.31250687499999996,
+            "impliedVolatility": 0.31836619140624994,
             "inTheMoney": false
           },
           {
@@ -2097,7 +2178,7 @@
             "lastPrice": 0.03,
             "volume": 66,
             "openInterest": 19740,
-            "impliedVolatility": 0.3398503515625,
+            "impliedVolatility": 0.335944140625,
             "inTheMoney": false
           }
         ],
@@ -2112,7 +2193,7 @@
             "lastPrice": 0.01,
             "volume": 5,
             "openInterest": 10012,
-            "impliedVolatility": 0.6875031250000001,
+            "impliedVolatility": 0.70312796875,
             "inTheMoney": false
           },
           {
@@ -2138,7 +2219,7 @@
             "lastPrice": 0.07,
             "volume": 2,
             "openInterest": 7,
-            "impliedVolatility": 0.5546919531250001,
+            "impliedVolatility": 0.5625043750000001,
             "inTheMoney": false
           },
           {
@@ -2151,7 +2232,7 @@
             "lastPrice": 0.03,
             "volume": 5,
             "openInterest": 2115,
-            "impliedVolatility": 0.5898478515625001,
+            "impliedVolatility": 0.5937540625000001,
             "inTheMoney": false
           },
           {
@@ -2164,7 +2245,7 @@
             "lastPrice": 0.02,
             "volume": 2,
             "openInterest": 15996,
-            "impliedVolatility": 0.5429733203125001,
+            "impliedVolatility": 0.5468795312500001,
             "inTheMoney": false
           },
           {
@@ -2177,7 +2258,7 @@
             "lastPrice": 0.01,
             "volume": 20,
             "openInterest": 305,
-            "impliedVolatility": 0.476567734375,
+            "impliedVolatility": 0.4804739453125,
             "inTheMoney": false
           },
           {
@@ -2187,10 +2268,10 @@
             "strike": 20,
             "bid": 0.01,
             "ask": 0.03,
-            "lastPrice": 0.03,
-            "volume": 1,
+            "lastPrice": 0.02,
+            "volume": 23,
             "openInterest": 58385,
-            "impliedVolatility": 0.4101621484375,
+            "impliedVolatility": 0.414068359375,
             "inTheMoney": false
           },
           {
@@ -2203,7 +2284,7 @@
             "lastPrice": 0.04,
             "volume": 1,
             "openInterest": 4691,
-            "impliedVolatility": 0.38086556640624997,
+            "impliedVolatility": 0.38477177734374995,
             "inTheMoney": false
           },
           {
@@ -2216,7 +2297,7 @@
             "lastPrice": 0.04,
             "volume": 20,
             "openInterest": 6500,
-            "impliedVolatility": 0.36133451171875,
+            "impliedVolatility": 0.36524072265625,
             "inTheMoney": false
           },
           {
@@ -2224,12 +2305,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 23,
-            "bid": 0.05,
+            "bid": 0,
             "ask": 0.07,
             "lastPrice": 0.06,
             "volume": 1603,
             "openInterest": 46290,
-            "impliedVolatility": 0.32617861328125,
+            "impliedVolatility": 0.33008482421874996,
             "inTheMoney": false
           },
           {
@@ -2242,7 +2323,7 @@
             "lastPrice": 0.09,
             "volume": 1,
             "openInterest": 9856,
-            "impliedVolatility": 0.3320379296875,
+            "impliedVolatility": 0.336920693359375,
             "inTheMoney": false
           },
           {
@@ -2252,10 +2333,10 @@
             "strike": 25,
             "bid": 0.14,
             "ask": 0.18,
-            "lastPrice": 0.18,
-            "volume": 89,
+            "lastPrice": 0.15,
+            "volume": 114,
             "openInterest": 64209,
-            "impliedVolatility": 0.29688203124999996,
+            "impliedVolatility": 0.301764794921875,
             "inTheMoney": false
           },
           {
@@ -2263,12 +2344,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 26,
-            "bid": 0.25,
-            "ask": 0.26,
+            "bid": 0.23,
+            "ask": 0.27,
             "lastPrice": 0.26,
             "volume": 13,
             "openInterest": 5862,
-            "impliedVolatility": 0.27539787109374997,
+            "impliedVolatility": 0.2846751220703124,
             "inTheMoney": false
           },
           {
@@ -2276,12 +2357,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 27,
-            "bid": 0.43,
-            "ask": 0.46,
-            "lastPrice": 0.45,
-            "volume": 29,
+            "bid": 0.4,
+            "ask": 0.47,
+            "lastPrice": 0.43,
+            "volume": 34,
             "openInterest": 34119,
-            "impliedVolatility": 0.27637442382812494,
+            "impliedVolatility": 0.28565167480468745,
             "inTheMoney": false
           },
           {
@@ -2289,12 +2370,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 28,
-            "bid": 0.68,
-            "ask": 0.74,
-            "lastPrice": 0.72,
-            "volume": 141,
+            "bid": 0.64,
+            "ask": 0.69,
+            "lastPrice": 0.66,
+            "volume": 216,
             "openInterest": 6422,
-            "impliedVolatility": 0.2749095947265625,
+            "impliedVolatility": 0.27246821289062495,
             "inTheMoney": false
           },
           {
@@ -2302,12 +2383,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 29,
-            "bid": 1.06,
-            "ask": 1.13,
+            "bid": 0.9,
+            "ask": 1.07,
             "lastPrice": 1.08,
             "volume": 84,
             "openInterest": 3185,
-            "impliedVolatility": 0.27539787109374997,
+            "impliedVolatility": 0.2739330419921875,
             "inTheMoney": false
           },
           {
@@ -2315,12 +2396,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 30,
-            "bid": 1.55,
-            "ask": 1.62,
-            "lastPrice": 1.6,
-            "volume": 193,
+            "bid": 1.46,
+            "ask": 1.55,
+            "lastPrice": 1.5,
+            "volume": 195,
             "openInterest": 12183,
-            "impliedVolatility": 0.2751537329101562,
+            "impliedVolatility": 0.274421318359375,
             "inTheMoney": true
           },
           {
@@ -2328,12 +2409,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 31,
-            "bid": 2.1,
+            "bid": 2.02,
             "ask": 2.3,
             "lastPrice": 2.23,
             "volume": 48,
             "openInterest": 250,
-            "impliedVolatility": 0.2910227148437499,
+            "impliedVolatility": 0.3051827294921875,
             "inTheMoney": true
           },
           {
@@ -2341,12 +2422,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 32,
-            "bid": 2.82,
+            "bid": 2.75,
             "ask": 3.1,
             "lastPrice": 3,
             "volume": 1,
             "openInterest": 6340,
-            "impliedVolatility": 0.31445998046874996,
+            "impliedVolatility": 0.33130551513671874,
             "inTheMoney": true
           },
           {
@@ -2359,7 +2440,7 @@
             "lastPrice": 3.42,
             "volume": 5,
             "openInterest": 8,
-            "impliedVolatility": 0.3474186352539062,
+            "impliedVolatility": 0.3667055517578125,
             "inTheMoney": true
           },
           {
@@ -2385,7 +2466,7 @@
             "lastPrice": 5.78,
             "volume": 450,
             "openInterest": 3628,
-            "impliedVolatility": 0.40479110839843746,
+            "impliedVolatility": 0.428716650390625,
             "inTheMoney": true
           },
           {
@@ -2411,7 +2492,7 @@
             "lastPrice": 10.63,
             "volume": 4,
             "openInterest": 1,
-            "impliedVolatility": 0.6948272705078126,
+            "impliedVolatility": 0.7153348779296875,
             "inTheMoney": true
           },
           {
@@ -2419,12 +2500,12 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 40,
-            "bid": 10.25,
-            "ask": 10.9,
+            "bid": 9.45,
+            "ask": 11.75,
             "lastPrice": 11.8,
             "volume": 6,
             "openInterest": 41,
-            "impliedVolatility": 0.5986368261718751,
+            "impliedVolatility": 0.5449264257812501,
             "inTheMoney": true
           },
           {
@@ -2432,33 +2513,33 @@
             "expiration": "2027-01-15",
             "daysToExpiry": 78,
             "strike": 42,
-            "bid": 12.4,
-            "ask": 12.95,
+            "bid": 11.5,
+            "ask": 13.45,
             "lastPrice": 14,
             "volume": 12,
             "openInterest": 87,
-            "impliedVolatility": 0.5903361279296876,
+            "impliedVolatility": 0.5620160986328125,
             "inTheMoney": true
           }
         ]
       },
       "projection": {
         "daysAhead": 78,
-        "fvP25": 18.47582877027092,
-        "fvMedian": 47.07318236005534,
-        "fvP75": 69.98024812097495,
-        "price": 28.606969917210176,
-        "fvSlopePctPerYear": 20.3302729871631,
-        "priceSlopePctPerYear": 8.282373056157335,
-        "fvRSquared": 0.6318491366976207,
-        "priceRSquared": 0.4393057379401512,
+        "fvP25": 34.023423541895575,
+        "fvMedian": 56.183687612478046,
+        "fvP75": 103.66847587052752,
+        "price": 28.64320202286409,
+        "fvSlopePctPerYear": 97.460214305537,
+        "priceSlopePctPerYear": 8.348497424760206,
+        "fvRSquared": 0.8462461651257696,
+        "priceRSquared": 0.44078266161866086,
         "fvConfidence": "high",
         "priceConfidence": "medium",
-        "fvCapped": false,
+        "fvCapped": true,
         "priceCapped": false,
         "fvFallback": true,
         "priceFallback": false,
-        "fvWindowSize": 12,
+        "fvWindowSize": 4,
         "priceWindowSize": 8
       }
     }
