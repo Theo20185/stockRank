@@ -58,7 +58,11 @@ export {
   fetchCompanyFacts,
   quarterEndsBetween,
   readMonthlyBars,
+  readSplitEvents,
   synthesizeSnapshotAt,
   writeMonthlyBars,
+  writeSplitEvents,
 } from "./edgar/index.js";
 export type { SymbolProfile } from "./edgar/index.js";
+export type { SplitEvent } from "./edgar/mapper.js";
+export type { EdgarCompanyFacts, EdgarFact } from "./edgar/types.js";

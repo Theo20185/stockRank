@@ -17,7 +17,12 @@
  *   2. For each quarter end, synthesize a CompanySnapshot for every
  *      symbol in the universe (sum trailing 4 EDGAR quarters →
  *      historical TTM, point-in-time balance, historical price from
- *      cached monthly bars).
+ *      cached monthly bars, per-share facts rebased onto the current
+ *      share basis via the cached split events — without that
+ *      rebasing, split names mix pre/post-split bases across the
+ *      annual window and the own-historical/normalized anchors read
+ *      ~ratio× wrong; DECK's 6:1 made its Dec-'24 reconstructed p25
+ *      $35 against a $107 median).
  *   3. Run fairValueFor for each subject against the synthetic
  *      universe. Record (subject, date, p25, median, p75).
  *   4. Append the daily snapshot-archive samples (Apr 20+) for
@@ -34,12 +39,15 @@ import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import type { CompanySnapshot, Snapshot } from "@stockrank/core";
 import { fairValueFor } from "@stockrank/ranking";
+import { pathToFileURL } from "node:url";
 import {
   EdgarNotFoundError,
   fetchCompanyFacts,
   quarterEndsBetween,
   readMonthlyBars,
+  readSplitEvents,
   synthesizeSnapshotAt,
+  type SplitEvent,
   type SymbolProfile,
 } from "@stockrank/data";
 
@@ -204,21 +212,54 @@ async function loadAllChartBars(
   return out;
 }
 
+/** Load each symbol's cached split events (chart-cache sidecar).
+ * A legacy cache without the sidecar simply contributes no entry —
+ * reconstruction then skips rebasing for that symbol, the
+ * pre-sidecar behavior, until the next ingest writes it. */
+async function loadAllSplitEvents(
+  profiles: Map<string, SymbolProfile>,
+): Promise<Map<string, SplitEvent[]>> {
+  const out = new Map<string, SplitEvent[]>();
+  let withSidecar = 0;
+  for (const symbol of profiles.keys()) {
+    const splits = await readSplitEvents(symbol);
+    if (splits !== null) {
+      out.set(symbol, splits);
+      withSidecar += 1;
+    }
+  }
+  console.log(
+    `Loaded split events for ${withSidecar}/${profiles.size} symbols ` +
+      `(missing sidecars rebase nothing — re-run ingest to populate).`,
+  );
+  return out;
+}
+
 /** Build the synthetic universe at a single historical date by
  * reconstructing every symbol's snapshot. Symbols missing data at
- * this date are silently dropped. */
-function synthesizeUniverseAt(
+ * this date are silently dropped. Split events (when the chart cache
+ * has the sidecar) rebase pre-split per-share facts — same wiring as
+ * production ingest and backtest-ic. Exported for tests. */
+export function synthesizeUniverseAt(
   date: string,
   profiles: Map<string, SymbolProfile>,
   allFacts: Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>,
   allBars: Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+  allSplits: Map<string, SplitEvent[]>,
 ): CompanySnapshot[] {
   const out: CompanySnapshot[] = [];
   for (const [symbol, profile] of profiles) {
     const facts = allFacts.get(symbol);
     const bars = allBars.get(symbol);
     if (!facts || !bars) continue;
-    const snap = synthesizeSnapshotAt(facts, bars, date, profile);
+    const splits = allSplits.get(symbol);
+    const snap = synthesizeSnapshotAt(
+      facts,
+      bars,
+      date,
+      profile,
+      splits ? { splits } : {},
+    );
     if (snap) out.push(snap);
   }
   return out;
@@ -231,6 +272,7 @@ function reconstructHistoricalSamples(
   profiles: Map<string, SymbolProfile>,
   allFacts: Map<string, Awaited<ReturnType<typeof fetchCompanyFacts>>>,
   allBars: Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+  allSplits: Map<string, SplitEvent[]>,
 ): Map<string, FvTrendSample[]> {
   const startIso = (() => {
     const d = new Date(`${todayIso}T00:00:00.000Z`);
@@ -245,7 +287,7 @@ function reconstructHistoricalSamples(
 
   const series = new Map<string, FvTrendSample[]>();
   for (const date of dates) {
-    const universe = synthesizeUniverseAt(date, profiles, allFacts, allBars);
+    const universe = synthesizeUniverseAt(date, profiles, allFacts, allBars, allSplits);
     if (universe.length === 0) continue;
     for (const subject of universe) {
       let sample: FvTrendSample;
@@ -401,12 +443,14 @@ async function main(): Promise<void> {
   const profiles = profilesFromSnapshot(latest.snapshot);
   const allFacts = await loadAllEdgarFacts(profiles);
   const allBars = await loadAllChartBars(profiles);
+  const allSplits = await loadAllSplitEvents(profiles);
 
   const series = reconstructHistoricalSamples(
     latest.date,
     profiles,
     allFacts,
     allBars as Map<string, NonNullable<Awaited<ReturnType<typeof readMonthlyBars>>>>,
+    allSplits,
   );
 
   // Only the latest dated snapshot ("today") gets injected. Older
@@ -440,7 +484,17 @@ async function main(): Promise<void> {
   console.log(`  insufficient_data: ${counts.insufficient_data}`);
 }
 
-main().catch((err) => {
-  console.error("fatal:", err instanceof Error ? err.message : err);
-  process.exit(1);
-});
+// Only run when invoked as a script (npm run fv-trend / tsx …). The
+// test file imports this module for its exported helpers; before this
+// guard, that import kicked off a full universe reconstruction inside
+// the vitest worker.
+const invokedAsScript =
+  process.argv[1] !== undefined &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (invokedAsScript) {
+  main().catch((err) => {
+    console.error("fatal:", err instanceof Error ? err.message : err);
+    process.exit(1);
+  });
+}

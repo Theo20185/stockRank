@@ -23,6 +23,7 @@ import {
   withAnnualRatios,
   withQuarterlyRatios,
   writeMonthlyBars,
+  writeSplitEvents,
 } from "../edgar/index.js";
 import { checkPriceConsistency } from "./price-consistency.js";
 import { retryYahoo } from "./retry.js";
@@ -258,9 +259,14 @@ export class YahooProvider implements MarketDataProvider {
       // Persist these monthly bars so the historical FV-trend
       // reconstruction (compute-fv-trend) can read them without
       // re-fetching Yahoo. Best-effort — the cache module logs and
-      // continues on write failure.
+      // continues on write failure. The split events ride along in a
+      // sidecar so the reconstruction can rebase pre-split per-share
+      // facts (MapOptions.splits) — without them, split names' own-
+      // historical/normalized anchors mix share bases (DECK 6:1 made
+      // the Dec-'24 reconstructed p25 read $35).
       if (historicalBars.length > 0) {
         await writeMonthlyBars(symbol, historicalBars);
+        await writeSplitEvents(symbol, splits);
       }
     } catch (err) {
       reportError(makeError(symbol, "chart-historical", err));

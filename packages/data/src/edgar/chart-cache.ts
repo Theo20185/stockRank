@@ -12,13 +12,20 @@
  *   tmp/chart-cache/
  *     {SYMBOL}/
  *       monthly.json        # array of HistoricalBar
+ *       splits.json         # array of SplitEvent (sidecar, 2026-11-02)
  *       fetched-at.txt      # ISO timestamp
+ *
+ * The splits sidecar exists so the fv-trend reconstruction can rebase
+ * pre-split per-share EDGAR facts the same way production ingest and
+ * backtest-ic do (MapOptions.splits). A legacy cache without the
+ * sidecar reads as null = "splits unknown" → consumers skip rebasing,
+ * which is exactly the pre-sidecar behavior.
  */
 
 import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { HistoricalBar } from "./mapper.js";
+import type { HistoricalBar, SplitEvent } from "./mapper.js";
 
 /** Anchor the cache to the repo root rather than `process.cwd()`. The
  * ingest CLI runs from `packages/data/` (per its workspace script) but
@@ -48,12 +55,14 @@ export type ChartCacheOptions = {
 
 function pathsFor(symbol: string, opts: ChartCacheOptions): {
   barsPath: string;
+  splitsPath: string;
   fetchedAtPath: string;
 } {
   const root = opts.cacheDir ?? CACHE_ROOT;
   const dir = join(root, symbol.toUpperCase());
   return {
     barsPath: join(dir, "monthly.json"),
+    splitsPath: join(dir, "splits.json"),
     fetchedAtPath: join(dir, "fetched-at.txt"),
   };
 }
@@ -86,6 +95,41 @@ export async function writeMonthlyBars(
     process.stderr.write(
       `[chart-cache] write failed for ${symbol}: ${(err as Error).message}\n`,
     );
+  }
+}
+
+/** Persist the symbol's split events next to its monthly bars. Same
+ * best-effort contract as `writeMonthlyBars`. An empty array is a
+ * meaningful write ("known: no splits"), distinct from the missing
+ * sidecar of a legacy cache. */
+export async function writeSplitEvents(
+  symbol: string,
+  splits: readonly SplitEvent[],
+  opts: ChartCacheOptions = {},
+): Promise<void> {
+  const { splitsPath } = pathsFor(symbol, opts);
+  try {
+    await atomicWriteJson(splitsPath, splits);
+  } catch (err) {
+    process.stderr.write(
+      `[chart-cache] splits write failed for ${symbol}: ${(err as Error).message}\n`,
+    );
+  }
+}
+
+/** Read cached split events. Null when the sidecar doesn't exist
+ * (legacy cache written before 2026-11-02): consumers must then skip
+ * split rebasing — the pre-sidecar behavior. */
+export async function readSplitEvents(
+  symbol: string,
+  opts: ChartCacheOptions = {},
+): Promise<SplitEvent[] | null> {
+  const { splitsPath } = pathsFor(symbol, opts);
+  try {
+    const raw = await readFile(splitsPath, "utf8");
+    return JSON.parse(raw) as SplitEvent[];
+  } catch {
+    return null;
   }
 }
 

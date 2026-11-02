@@ -6,9 +6,11 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   chartCacheAgeHours,
   readMonthlyBars,
+  readSplitEvents,
   writeMonthlyBars,
+  writeSplitEvents,
 } from "./chart-cache.js";
-import type { HistoricalBar } from "./mapper.js";
+import type { HistoricalBar, SplitEvent } from "./mapper.js";
 
 let cacheDir: string;
 
@@ -34,6 +36,28 @@ describe("chart-cache", () => {
 
   it("read returns null when no cache exists", async () => {
     expect(await readMonthlyBars("ZZZZ", { cacheDir })).toBeNull();
+  });
+
+  it("write then read round-trips split events", async () => {
+    const splits: SplitEvent[] = [{ date: "2024-09-17", ratio: 6 }];
+    await writeSplitEvents("DECK", splits, { cacheDir });
+    expect(await readSplitEvents("DECK", { cacheDir })).toEqual(splits);
+  });
+
+  it("readSplitEvents returns null for a legacy cache (bars without the sidecar)", async () => {
+    // Caches written before 2026-11-02 have monthly.json but no
+    // splits.json. Consumers must treat that as "splits unknown" and
+    // skip rebasing — the pre-sidecar behavior.
+    await writeMonthlyBars("AAPL", sampleBars, { cacheDir });
+    expect(await readSplitEvents("AAPL", { cacheDir })).toBeNull();
+  });
+
+  it("writeSplitEvents is best-effort — does not throw on bad cache dir", async () => {
+    await expect(
+      writeSplitEvents("DECK", [{ date: "2024-09-17", ratio: 6 }], {
+        cacheDir: "/dev/null/bad-path",
+      }),
+    ).resolves.toBeUndefined();
   });
 
   it("write is best-effort — does not throw on bad cache dir", async () => {

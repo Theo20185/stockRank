@@ -3,7 +3,9 @@ export type { EdgarCompanyFacts, EdgarFact } from "./types.js";
 export {
   chartCacheAgeHours,
   readMonthlyBars,
+  readSplitEvents,
   writeMonthlyBars,
+  writeSplitEvents,
   type ChartCacheOptions,
 } from "./chart-cache.js";
 export {
