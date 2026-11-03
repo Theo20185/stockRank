@@ -181,9 +181,10 @@ decision (the user may prefer keeping holdings out of the tool).
 | P1 | 2.4 changes parser + drift guard | S–M | DONE 2026-10-28 — upstream table deleted; self-maintained ledger + refresh drift guard shipped (guard's first run caught the October drift) |
 | P1 | 2.5 forwardEps cadence diagnostic | S | DONE 2026-10-28 — median 5d between changes; staleness hypothesis refuted, lag accepted + documented |
 | P1 | 2.6 share-magnitude guard | S | DONE 2026-10-28 (75d904d) — COP 959×→1.2×, DLR 1079×→1.3×, HST 1e6×→1.0×, GRMN, EG; EXE's 11.9× is the Chesapeake merger, correctly untouched |
-| P2 | 3.2 factor normalization + revalidation | M–L | Cleans Quality/Health/Growth of spike bias |
-| P2 | 2.2 anchor coverage split + super-group cohort tier | M | Honest confidence; better comparables |
-| P2 | 3.3(i) assignment-rationality flag | S | Live-position mechanics the user already needed |
+| P2 | 3.2 factor normalization + revalidation | M–L | DONE 2026-11-03 — built as harness-gated candidates and **REJECTED by the frozen rules**: default-normalized loses −0.38%/yr at 3y (floor −0.25) and its long/short spread collapses +11.56pp → −5.90pp — normalization erases the tail-avoidance signal. Raw trailing wreckage is information. Fourth entry in the defensive-instinct ledger (fundamentalsDirection, H10, H12, now this). EIX's spike-flattered rank stands as the evidence-backed cost of keeping the working signal. |
+| P2 | 2.2 anchor coverage split + super-group cohort tier | M | DONE 2026-11-02/03 — structural-vs-missing measured (EBITDA nulls 165→77, EBIT 112→69, FCF 174→62 after per-period chain merge + new capex/D&A tags + derived EBIT; rest structural financials); super-group tier shipped (93 sector-fallback names migrate; divergence trips unchanged; FV harness re-confirms no-edge on the new cohorts, −0.84%/yr) |
+| P2 | 3.3(i) assignment-rationality flag | S | DONE 2026-11-02 (f6f5a06) — options.md §4.5; "assignment risk" chip + exported primitives |
+| P2 | candidate factors (lit translation) | M | DONE 2026-11-03 — GP/A is the standout (7 passing IC cells, avg +0.21, broadest of any factor this run); GMTrend narrow-promising (4 cells, Transportation-concentrated); **residual-income V/P dead** (1 passing cell, anti-predictive −0.28) → the RI band replacement path stays closed. Next experiment: §3.11.1 weight-vector candidate including GP/A. |
 | P3 | realized-premium backtest; PIT industry; restatement quantification | gated | Time/archive-gated |
 
 The through-line: **almost nothing above adds a new signal.** The
