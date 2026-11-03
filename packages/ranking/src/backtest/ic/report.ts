@@ -34,6 +34,16 @@ const SHORT_FACTOR_LABEL: Record<FactorKey, string> = {
   revenueGrowth7Y: "RevG7",
   epsGrowth7Y: "EpsG7",
   momentum12_1: "Mom12-1",
+  // Candidate factors (ranking.md §5.1, harness-gated)
+  peRatioNormalized: "P/E*",
+  evToEbitdaNormalized: "EV/EBITDA*",
+  interestCoverageNormalized: "IntCov*",
+  debtToEbitdaNormalized: "D/EBITDA*",
+  roicNormalized: "ROIC*",
+  epsGrowth7YNormalized: "EpsG7*",
+  grossProfitability: "GP/A",
+  grossMarginTrend: "GMTrend",
+  residualIncomeVP: "RI-V/P",
 };
 
 /**

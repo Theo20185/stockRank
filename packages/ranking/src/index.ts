@@ -3,6 +3,14 @@ export { rank } from "./ranking.js";
 export { DEFAULT_WEIGHTS, normalizeWeights } from "./weights.js";
 export { FACTORS } from "./factors.js";
 export type { FactorDef, FactorDirection } from "./factors.js";
+export {
+  CANDIDATE_FACTORS,
+  chooseEbitForFactor,
+  epsCagrNormalizedEndpoints,
+  grossMarginTrend,
+  grossProfitability,
+  residualIncomeVP,
+} from "./factors-candidates.js";
 export { fairValueFor, buildFairValueCohort } from "./fair-value/index.js";
 export { bucketRows, classifyRow } from "./buckets.js";
 export type { BucketKey, BucketedRows } from "./buckets.js";

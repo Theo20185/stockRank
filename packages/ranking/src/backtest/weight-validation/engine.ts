@@ -13,6 +13,7 @@
 
 import { bootstrapMeanCi, mulberry32, groupBy } from "../../stats.js";
 import { FACTORS } from "../../factors.js";
+import { CANDIDATE_FACTORS } from "../../factors-candidates.js";
 import { DEFAULT_WEIGHTS } from "../../weights.js";
 import type {
   CategoryKey,
@@ -468,11 +469,11 @@ function composeFromPercentiles(
 ): number | null {
   // Compute category scores. When sub-factor weights are supplied
   // for a category, use the explicit weights; otherwise equal-
-  // weight present factors.
+  // weight present factors. Candidate factors (factors-candidates.ts)
+  // participate ONLY via explicit subFactorWeights — the equal-weight
+  // default path iterates production FACTORS alone, so a candidate
+  // never leaks into a default-weighted category score.
   const categoryScores: Partial<Record<CategoryKey, number>> = {};
-  for (const factor of FACTORS) {
-    void factor; // category iteration happens below
-  }
   // Group factors by category once for sub-weight resolution.
   const factorsByCat = new Map<CategoryKey, typeof FACTORS>();
   for (const f of FACTORS) {
@@ -480,15 +481,23 @@ function composeFromPercentiles(
     if (arr) arr.push(f);
     else factorsByCat.set(f.category, [f]);
   }
+  const candidatesByCat = new Map<CategoryKey, typeof FACTORS>();
+  for (const f of CANDIDATE_FACTORS) {
+    const arr = candidatesByCat.get(f.category);
+    if (arr) arr.push(f);
+    else candidatesByCat.set(f.category, [f]);
+  }
 
   for (const [cat, factors] of factorsByCat) {
     const subWeights = subFactorWeights?.[cat];
     if (subWeights) {
       // Explicit per-factor weights. Factors not listed are
-      // weight-zero (excluded from the category score).
+      // weight-zero (excluded from the category score). Candidates
+      // are addressable here by key.
+      const addressable = [...factors, ...(candidatesByCat.get(cat) ?? [])];
       let weightedSum = 0;
       let weightUsed = 0;
-      for (const f of factors) {
+      for (const f of addressable) {
         const w = subWeights[f.key];
         if (w === undefined || w === null) continue;
         const pct = percentiles[f.key];

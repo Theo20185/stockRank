@@ -17,6 +17,13 @@
 
 import type { CompanySnapshot } from "@stockrank/core";
 import { FACTORS } from "../../factors.js";
+import { CANDIDATE_FACTORS } from "../../factors-candidates.js";
+
+/** Production factors plus harness-gated candidates (2026-11-02):
+ * candidates get IC cells and weight-validation percentiles but never
+ * enter the production composite until ranking.md's adoption rules
+ * pass. */
+const HARNESS_FACTORS = [...FACTORS, ...CANDIDATE_FACTORS];
 import type { FactorKey } from "../../types.js";
 import { percentRank } from "../../percentile.js";
 import { groupBy } from "../../stats.js";
@@ -88,7 +95,7 @@ export function buildIcObservations(
     >();
     for (const [sg, cohort] of bySg) {
       // Compute raw factor values per company once per cohort.
-      for (const factor of FACTORS) {
+      for (const factor of HARNESS_FACTORS) {
         const rawByCompany = new Map<string, number>();
         for (const c of cohort) {
           const v = factor.extract(c);

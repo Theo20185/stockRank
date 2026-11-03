@@ -30,7 +30,21 @@ export type FactorKey =
   | "revenueGrowth7Y"
   | "epsGrowth7Y"
   // Momentum
-  | "momentum12_1";
+  | "momentum12_1"
+  // ---- Candidate factors (2026-11-02, harness-gated) ----
+  // Computed by factors-candidates.ts for the IC/weight-validation
+  // harnesses only; NONE enter the production composite until the
+  // frozen adoption rules in ranking.md pass. Normalized variants
+  // guard one-time spikes with the same primitives as the FV anchors.
+  | "peRatioNormalized"
+  | "evToEbitdaNormalized"
+  | "interestCoverageNormalized"
+  | "debtToEbitdaNormalized"
+  | "roicNormalized"
+  | "epsGrowth7YNormalized"
+  | "grossProfitability"
+  | "grossMarginTrend"
+  | "residualIncomeVP";
 
 export type CategoryWeights = Record<CategoryKey, number>;
 

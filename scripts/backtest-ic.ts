@@ -284,6 +284,28 @@ function loadCandidates(path: string | null): CandidateWeights[] {
         weights: { ...DEFAULT_WEIGHTS },
       },
       {
+        name: "default-normalized",
+        description:
+          "Default category weights with spike-guarded variants replacing the raw contaminated factors (peRatio, evToEbitda, interestCoverage, debtToEbitda, roic, epsGrowth7Y) — adoption per ranking.md candidate-factors rules (non-inferiority)",
+        source: "normalization-candidate",
+        weights: { ...DEFAULT_WEIGHTS },
+        subFactorWeights: {
+          valuation: {
+            peRatioNormalized: 1,
+            evToEbitdaNormalized: 1,
+            priceToFcf: 1,
+            priceToBook: 1,
+          },
+          health: {
+            interestCoverageNormalized: 1,
+            debtToEbitdaNormalized: 1,
+            currentRatio: 1,
+          },
+          quality: { roicNormalized: 1, accruals: 1 },
+          growth: { epsGrowth7YNormalized: 1, revenueGrowth7Y: 1 },
+        },
+      },
+      {
         name: "value-tilted-defensive-legacy",
         description: "Prior default before the 2026-04-25 migration (35/25/15/15/10/0)",
         source: "legacy-default",

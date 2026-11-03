@@ -152,7 +152,56 @@ been re-evaluated and replaced where better metrics exist.
   pctOffYearHigh = recent loser); the two coexist because they answer
   different questions — see §11.6.
 
-## 6. Cyclicality-aware growth
+### 5.1 Candidate factors (harness-gated) — 2026-11-02
+
+`factors-candidates.ts` computes nine candidates alongside the
+production set. They get IC cells and weight-validation percentiles
+but **never enter the production composite** until the adoption rules
+below pass (enforced by a test pinning that no candidate key is in
+`FACTORS`).
+
+**Normalized variants** — the one-time-spike audit's Phase-2 items
+plus the valuation twins the EIX 2026-11-02 case exposed (EIX ranked
+#2 overall with Valuation 100 off settlement-inflated trailing
+figures while its *band* correctly normalized). Each reuses the exact
+anchor-layer guard primitives (1.5× prior-3y, forward corroboration
+for EPS, baseline-collapse branch for loss-emptied windows):
+
+| Key | Replaces | Earnings base |
+|---|---|---|
+| `peRatioNormalized` | `peRatio` | `chooseEpsForPeerAnchor` EPS |
+| `evToEbitdaNormalized` | `evToEbitda` | `chooseEbitdaForAnchor` EBITDA |
+| `interestCoverageNormalized` | `interestCoverage` | `chooseEbitForFactor` EBIT (EBITDA rule on the EBIT series) |
+| `debtToEbitdaNormalized` | `debtToEbitda` | guarded EBITDA; net debt from `annual[0]` balance |
+| `roicNormalized` | `roic` | guarded EBIT × (1 − 0.21) / `ttm.investedCapital` |
+| `epsGrowth7YNormalized` | `epsGrowth7Y` | CAGR with 3-year-average endpoints: `mean(eps[0..2])` vs `mean(eps[4..6])`, midpoints 4 years apart |
+
+**New academic candidates** (the 2026-09 literature translation):
+
+| Key | Category | Formula (frozen) |
+|---|---|---|
+| `grossProfitability` | quality | `grossProfit[0] / totalAssets[0]` (Novy-Marx GP/A) |
+| `grossMarginTrend` | quality | `margin[0] − mean(margin[1..3])`, margin = GP/revenue, ≥2 priors |
+| `residualIncomeVP` | valuation | `(B0 × ROE / r) / price`; B0 = equity/share, ROE = 3y mean NI/equity (equity > 0), r = 0.10 fixed. Deliberately the simplest Frankel-Lee form — no growth, no fade; refinements only via the harness. The residual-income **band** (the rules-ledger replacement path for the retired p25 gate) is out of scope until this factor shows IC signal. |
+
+**Frozen adoption rules** (set before the 2026-11-02 campaign run;
+the campaign reports against these verbatim):
+
+1. **Per-variant (IC)**: a normalized variant may replace its raw
+   factor only if its IC is not materially worse — sign-stable and
+   within the shuffle-null noise band of the raw factor's IC across
+   regimes — under the standard three-gate protocol.
+2. **Composite (`default-normalized` candidate)**: default category
+   weights with the six variants substituted via `subFactorWeights`.
+   Adopt when its 3y excess vs the raw default is **≥ −0.25%/yr with
+   a CI that includes or exceeds zero** (non-inferiority — the claim
+   is input correctness, not alpha; the EIX/NEM distortions are the
+   documented defect being corrected). Reject on a clearly negative
+   CI or a loss beyond −0.25%/yr. A *positive* claim would need the
+   usual §3.11.1 bar instead.
+3. **New factors**: IC evidence first; any composite entry would be a
+   new weight vector through §3.11.1 adoption — not part of this
+   campaign's decision set.
 
 Validation finding: TGT's 5Y CAGR for revenue (−0.3%/yr) and EPS
 (−12.9%/yr) looked terrible because FY2021 was the COVID retail peak.
