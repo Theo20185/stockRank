@@ -16,6 +16,12 @@ import type { FactorKey } from "../../types.js";
 import type { SuperGroupKey } from "../../super-groups.js";
 import { ALL_SUPER_GROUPS } from "../../super-groups.js";
 import { FACTORS } from "../../factors.js";
+import { CANDIDATE_FACTORS } from "../../factors-candidates.js";
+
+/** Production factors plus harness-gated candidates (ranking.md §5.1):
+ * candidates get IC cells here but never enter the production
+ * composite until the frozen adoption rules pass. */
+const HARNESS_FACTORS = [...FACTORS, ...CANDIDATE_FACTORS];
 import type { IcCell, IcObservation } from "./types.js";
 
 /**
@@ -192,7 +198,7 @@ export function computeIcCells(
         ? []
         : buildRollingWindows(obs, rollingWindowCount);
       let factorSeed = rngSeed;
-      for (const factorDef of FACTORS) {
+      for (const factorDef of HARNESS_FACTORS) {
         cells.push(
           computeIcForCell(sg, factorDef.key, h, obs, windows, factorSeed, {
             skipBootstrap,

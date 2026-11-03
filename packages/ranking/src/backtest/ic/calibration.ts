@@ -163,6 +163,11 @@ export function falseDiscoveryCheck(
     if (realIc === undefined) continue;
     if (Math.abs(realIc) >= t.threshold99) surviving += 1;
   }
+  // Deliberately PRODUCTION factors only: the FDR denominator is a
+  // calibrated historical metric (544 cells across every archived
+  // run); candidate factors (ranking.md §5.1) get three-gate cells in
+  // the heatmap but are excluded here so "marginal" keeps meaning the
+  // same thing across campaigns.
   const cellsTested = thresholds.length * FACTORS.length;
   // 99th percentile threshold = 1% expected survival under pure null.
   const expectedByChance = cellsTested * 0.01;
