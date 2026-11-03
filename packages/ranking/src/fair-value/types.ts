@@ -16,7 +16,12 @@ export type FairValueAnchorKey =
   | "normalizedEVEBITDA"
   | "normalizedPFCF";
 
-export type FairValuePeerSet = "cohort" | "narrow" | "industry" | "sector";
+export type FairValuePeerSet =
+  | "cohort"
+  | "narrow"
+  | "industry"
+  | "super-group"
+  | "sector";
 export type FairValueConfidence = "high" | "medium" | "low";
 
 export type FairValueAnchors = Record<FairValueAnchorKey, number | null>;

@@ -1,6 +1,7 @@
 import type { CompanySnapshot } from "@stockrank/core";
 import { capBucketFor } from "@stockrank/core";
 import type { CapBucket } from "@stockrank/core";
+import { superGroupOf } from "../super-groups.js";
 import type { FairValuePeerSet } from "./types.js";
 
 const COHORT_MIN = 8;
@@ -16,7 +17,11 @@ export type FairValueCohort = {
  * 1. industry + cap bucket cohort if N ≥ 8.
  * 2. cohort if 3 ≤ N < 8 (mark "narrow").
  * 3. industry alone if N < 3.
- * 4. sector alone if industry is also < 3.
+ * 4. super-group if the industry is also < 3 (2026-11-02 — the jump
+ *    straight to sector handed DECK 53 assorted Consumer Cyclical
+ *    comparables including autos and airlines; the super-group keeps
+ *    the matching economics per super-groups.md).
+ * 5. sector as the last resort (super-group unmapped or < 3).
  *
  * Always excludes the subject company from the returned peers.
  */
@@ -45,6 +50,16 @@ export function buildFairValueCohort(
   );
   if (sameIndustry.length >= COHORT_NARROW_MIN) {
     return { peerSet: "industry", peers: sameIndustry };
+  }
+
+  const subjectGroup = superGroupOf(subject.industry);
+  if (subjectGroup !== null) {
+    const sameSuperGroup = universe.filter(
+      (c) => exclSubject(c) && superGroupOf(c.industry) === subjectGroup,
+    );
+    if (sameSuperGroup.length >= COHORT_NARROW_MIN) {
+      return { peerSet: "super-group", peers: sameSuperGroup };
+    }
   }
 
   const sameSector = universe.filter(

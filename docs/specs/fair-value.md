@@ -79,7 +79,11 @@ names per cell on average.
 | **N ≥ 8 peers** (excluding the subject) | Use cohort directly. |
 | **3 ≤ N < 8** | Use cohort, but mark the fair-value output with `peerSet: "narrow"` so the UI can show a confidence flag. |
 | **N < 3** | Fall back to the full **industry group** (all cap buckets). Mark `peerSet: "industry"`. |
-| Industry group itself has N < 3 | Fall back to **GICS sector** (~11 buckets). Mark `peerSet: "sector"`. |
+| Industry group itself has N < 3 | Fall back to the **super-group** (`super-groups.md` taxonomy, ~17 buckets). Mark `peerSet: "super-group"`. Added 2026-11-02 (engine-gaps §2.2): the previous jump straight to sector handed DECK 53 assorted Consumer Cyclical comparables including autos and airlines; the super-group tier keeps the cyclical-consumer set while dropping the structurally different economics. The FV backtest's coarse-cohort stress lens had already shown super-group cohorts behave like production cohorts. |
+| Super-group unmapped or N < 3 | Fall back to **GICS sector** (~11 buckets). Mark `peerSet: "sector"`. |
+
+Confidence (§6) treats `super-group` like `industry` — it reaches at
+most "low"; the tier improves comparability, not certainty.
 
 The subject company is **excluded** from its own peer set when
 computing the median.

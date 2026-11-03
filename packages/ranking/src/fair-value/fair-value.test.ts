@@ -60,6 +60,49 @@ describe("buildFairValueCohort", () => {
     const cohort = buildFairValueCohort(subject, [subject, ...peers]);
     expect(cohort.peers.find((p) => p.symbol === "NVO")).toBeUndefined();
   });
+
+  // ---- super-group middle tier (2026-11-02, fair-value.md §3.2) ----
+  it("falls back to the super-group before sector when the industry is too thin (DECK shape)", () => {
+    // Footwear & Accessories has 1 peer (< 3); Apparel Retail maps to
+    // the same consumer-discretionary super-group. Previously this
+    // jumped straight to the whole sector.
+    const mk = (symbol: string, industry: string, sector: string) =>
+      makeCompany({ symbol, industry, sector, marketCap: 10_000_000_000 });
+    const subject = mk("DECKISH", "Footwear & Accessories", "Consumer Cyclical");
+    const universe = [
+      subject,
+      mk("NKEISH", "Footwear & Accessories", "Consumer Cyclical"),
+      mk("AR1", "Apparel Retail", "Consumer Cyclical"),
+      mk("AR2", "Apparel Retail", "Consumer Cyclical"),
+      mk("AR3", "Apparel Retail", "Consumer Cyclical"),
+      // Same sector but a DIFFERENT super-group (transport-autos) —
+      // must be excluded from the super-group tier.
+      mk("CARCO", "Auto Manufacturers", "Consumer Cyclical"),
+    ];
+    const cohort = buildFairValueCohort(subject, universe);
+    expect(cohort.peerSet).toBe("super-group");
+    expect(cohort.peers.map((p) => p.symbol).sort()).toEqual([
+      "AR1",
+      "AR2",
+      "AR3",
+      "NKEISH",
+    ]);
+  });
+
+  it("skips the super-group tier for unmapped industries and lands on sector", () => {
+    const mk = (symbol: string, industry: string, sector: string) =>
+      makeCompany({ symbol, industry, sector, marketCap: 10_000_000_000 });
+    const subject = mk("ODD", "Unmapped Industry XYZ", "Consumer Cyclical");
+    const universe = [
+      subject,
+      mk("S1", "Auto Manufacturers", "Consumer Cyclical"),
+      mk("S2", "Apparel Retail", "Consumer Cyclical"),
+      mk("S3", "Restaurants", "Consumer Cyclical"),
+    ];
+    const cohort = buildFairValueCohort(subject, universe);
+    expect(cohort.peerSet).toBe("sector");
+    expect(cohort.peers).toHaveLength(3);
+  });
 });
 
 describe("fairValueFor", () => {
