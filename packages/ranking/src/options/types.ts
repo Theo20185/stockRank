@@ -20,6 +20,8 @@ export type CoveredCall = {
   snapWarning: boolean;
   /** True when contract has < 30 days to expiry. */
   shortDated: boolean;
+  /** Early-assignment rationality (options.md §4.5). */
+  assignmentRisk: boolean;
   /** Premium-only return as a fraction of current price (not assigned). */
   staticReturnPct: number;
   staticAnnualizedPct: number;
@@ -42,6 +44,8 @@ export type CashSecuredPut = {
   contract: ContractQuote;
   snapWarning: boolean;
   shortDated: boolean;
+  /** Early-assignment rationality (options.md §4.5). */
+  assignmentRisk: boolean;
   /** Premium / strike collateral if the put expires worthless. */
   notAssignedReturnPct: number;
   notAssignedAnnualizedPct: number;

@@ -305,6 +305,40 @@ weekly). For monthly and yearly slots this is rarely an issue, but
 mark any contract with `T < 30` as `shortDated: true` so the UI can
 de-emphasize the annualized number.
 
+### 4.5 Early-assignment rationality flag (2026-11-02)
+
+Both row types carry `assignmentRisk: boolean` — "from here, a
+rational counterparty plausibly exercises early." Motivation: the
+DECK Jan-2027 $110 short puts went deep ITM within two weeks of entry
+(2026-08) and crossed the extrinsic-vs-carry line with the engine
+showing nothing (`engine-gaps-2026-09-21.md` §3.3i).
+
+Definitions: `intrinsic = max(0, K − S)` for puts / `max(0, S − K)`
+for calls; `extrinsic = bid − intrinsic` (bid basis — we quote what
+the market actually pays; a null/zero bid never flags, the row is
+untradeable anyway); `expectedDividends = annualDividendPerShare ×
+T/365`.
+
+- **Puts** (we are short): the long holder banks interest on the
+  strike by exercising now, but forfeits remaining time value and
+  stops collecting dividends on the shares they deliver. Flag when
+  `intrinsic > 0 AND extrinsic < K × r × T/365 − expectedDividends`.
+- **Calls** (we are short, covered): early exercise concentrates just
+  before an ex-dividend date when the dividend exceeds remaining time
+  value. We carry no ex-div calendar, so approximate the next
+  dividend as `annualDividendPerShare / 4` and flag when
+  `intrinsic > 0 AND expectedDividends > 0 AND extrinsic <
+  annualDividendPerShare / 4`. Documented approximation: over-flags
+  when no ex-div date falls inside T, under-flags irregular payers.
+- `ASSIGNMENT_RISK_FREE_RATE = 0.04` — a maintained constant, not a
+  feed; revisit when short rates move materially.
+
+Selected CSP/CC rows are OTM at build time by the §3 strike rules, so
+the flag is usually false on the fresh table; it exists for ITM rows
+(crash-projection views, stale strikes between refreshes) and as the
+exported primitive (`earlyPutAssignmentRisk` / `earlyCallAssignmentRisk`)
+for any future holdings view. UI chip label: "assignment risk".
+
 ## 5. Output structure
 
 Per stock, attached to the snapshot detail row (not the ranking row —

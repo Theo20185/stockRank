@@ -11,9 +11,63 @@ import type { ContractQuote } from "@stockrank/core";
 
 const SHORT_DATED_DAYS = 30;
 
+/** Maintained constant, not a feed — revisit when short rates move
+ * materially (options.md §4.5). */
+const ASSIGNMENT_RISK_FREE_RATE = 0.04;
+
 export type ContractReturnFlags = {
   shortDated: boolean;
+  /** Early-assignment rationality (options.md §4.5): from here, a
+   * rational counterparty plausibly exercises early. Puts: extrinsic
+   * below interest-on-strike net of dividends. Calls: extrinsic below
+   * the approximated next quarterly dividend. */
+  assignmentRisk: boolean;
 };
+
+/**
+ * Early assignment of a short put becomes rational for the
+ * counterparty when the time value they'd forfeit is less than the
+ * interest they'd earn on the strike proceeds, net of the dividends
+ * they'd stop collecting by delivering the shares. Bid basis; a
+ * null/zero bid never flags (the row is untradeable anyway).
+ */
+export function earlyPutAssignmentRisk(
+  contract: ContractQuote,
+  currentPrice: number,
+  annualDividendPerShare = 0,
+): boolean {
+  const bid = contract.bid ?? 0;
+  if (bid <= 0) return false;
+  const intrinsic = Math.max(0, contract.strike - currentPrice);
+  if (intrinsic <= 0) return false;
+  const extrinsic = bid - intrinsic;
+  const T = contract.daysToExpiry / 365;
+  const carry =
+    contract.strike * ASSIGNMENT_RISK_FREE_RATE * T -
+    annualDividendPerShare * T;
+  return extrinsic < carry;
+}
+
+/**
+ * Early assignment of a short call concentrates just before an
+ * ex-dividend date when the dividend exceeds remaining time value.
+ * No ex-div calendar in the data — approximate the next dividend as
+ * annualDividendPerShare / 4 (options.md §4.5 documents the
+ * over/under-flagging this implies).
+ */
+export function earlyCallAssignmentRisk(
+  contract: ContractQuote,
+  currentPrice: number,
+  annualDividendPerShare: number,
+): boolean {
+  const bid = contract.bid ?? 0;
+  if (bid <= 0) return false;
+  if (annualDividendPerShare <= 0) return false;
+  const intrinsic = Math.max(0, currentPrice - contract.strike);
+  if (intrinsic <= 0) return false;
+  const extrinsic = bid - intrinsic;
+  return extrinsic < annualDividendPerShare / 4;
+}
 
 export type CallReturnInputs = {
   contract: ContractQuote;
@@ -35,6 +89,10 @@ export type CallReturns = ContractReturnFlags & {
 export type PutReturnInputs = {
   contract: ContractQuote;
   currentPrice: number;
+  /** For the assignment-risk carry term — dividends delay rational
+   * early exercise of puts. Omitted = 0, the conservative side (flags
+   * earlier). */
+  annualDividendPerShare?: number;
 };
 
 export type PutReturns = ContractReturnFlags & {
@@ -70,6 +128,11 @@ export function computeCallReturns(input: CallReturnInputs): CallReturns {
 
   return {
     shortDated: T < SHORT_DATED_DAYS,
+    assignmentRisk: earlyCallAssignmentRisk(
+      contract,
+      currentPrice,
+      annualDividendPerShare,
+    ),
     staticReturnPct,
     staticAnnualizedPct,
     assignedReturnPct,
@@ -80,7 +143,7 @@ export function computeCallReturns(input: CallReturnInputs): CallReturns {
 }
 
 export function computePutReturns(input: PutReturnInputs): PutReturns {
-  const { contract, currentPrice } = input;
+  const { contract, currentPrice, annualDividendPerShare = 0 } = input;
   const bid = contract.bid ?? 0;
   const T = contract.daysToExpiry;
   const K = contract.strike;
@@ -95,6 +158,11 @@ export function computePutReturns(input: PutReturnInputs): PutReturns {
 
   return {
     shortDated: T < SHORT_DATED_DAYS,
+    assignmentRisk: earlyPutAssignmentRisk(
+      contract,
+      currentPrice,
+      annualDividendPerShare,
+    ),
     notAssignedReturnPct,
     notAssignedAnnualizedPct,
     effectiveCostBasis,

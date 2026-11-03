@@ -33,6 +33,7 @@ function fakeView(): OptionsView {
             },
             snapWarning: false,
             shortDated: false,
+            assignmentRisk: false,
             staticReturnPct: 0.0889,
             staticAnnualizedPct: 0.1202,
             assignedReturnPct: 0.1444,
@@ -61,6 +62,7 @@ function fakeView(): OptionsView {
             },
             snapWarning: true,
             shortDated: false,
+            assignmentRisk: false,
             notAssignedReturnPct: 0.05,
             notAssignedAnnualizedPct: 0.0676,
             effectiveCostBasis: 76,
@@ -214,6 +216,20 @@ describe("<OptionsPanel /> — single trade-comparison table per expiration", ()
     await screen.findByRole("table", { name: /trade comparison/i });
     // Put strike 80 vs anchor 95 → 16% off
     expect(screen.getByText(/16% off target/)).toBeInTheDocument();
+  });
+
+  it("renders assignment-risk chip when early exercise is rational (options.md §4.5)", async () => {
+    const view = fakeView();
+    view.expirations[0]!.puts[0]!.assignmentRisk = true;
+    render(
+      <OptionsPanel
+        symbol="DECK"
+        row={fakeRow()}
+        loader={loaderReturning({ status: "loaded", view })}
+      />,
+    );
+    await screen.findByRole("table", { name: /trade comparison/i });
+    expect(screen.getByText("assignment risk")).toBeInTheDocument();
   });
 
   it("renders ITM chip on in-the-money puts", async () => {

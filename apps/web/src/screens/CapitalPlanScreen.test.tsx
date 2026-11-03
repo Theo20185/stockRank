@@ -103,6 +103,7 @@ function makeExpiration(
         contract: putContract,
         snapWarning: false,
         shortDated: false,
+        assignmentRisk: false,
         notAssignedReturnPct: 0.05,
         notAssignedAnnualizedPct: 0.6,
         effectiveCostBasis: strike - bid,

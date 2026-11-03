@@ -58,6 +58,7 @@ function buildCallDetail(call: CoveredCall): { detail: string; chips: string[] }
     chips.push(`${(off * 100).toFixed(0)}% off target`);
   }
   if (call.shortDated) chips.push("short-dated");
+  if (call.assignmentRisk) chips.push("assignment risk");
   return { detail, chips };
 }
 
@@ -72,6 +73,7 @@ function buildPutDetail(put: CashSecuredPut): { detail: string; chips: string[] 
   }
   if (put.shortDated) chips.push("short-dated");
   if (put.inTheMoney) chips.push("ITM");
+  if (put.assignmentRisk) chips.push("assignment risk");
   return { detail, chips };
 }
 

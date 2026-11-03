@@ -166,3 +166,86 @@ describe("computePutReturns", () => {
     expect(r.shortDated).toBe(true);
   });
 });
+
+// ---- early-assignment rationality (options.md §4.5) ----
+//
+// The DECK Jan-2027 $110 case: short puts went deep ITM within two
+// weeks; remaining extrinsic fell below interest-on-strike and the
+// engine showed nothing. Flag = "a rational counterparty plausibly
+// exercises early from here."
+describe("assignmentRisk", () => {
+  it("flags a deep-ITM put whose extrinsic is below interest-on-strike (DECK shape)", () => {
+    // S=83, K=110, 440d: intrinsic 27, bid 29 → extrinsic 2.
+    // carry = 110 × 0.04 × 440/365 ≈ 5.30 > 2 → flag.
+    const r = computePutReturns({
+      contract: put(110, 29, 440),
+      currentPrice: 83,
+    });
+    expect(r.assignmentRisk).toBe(true);
+  });
+
+  it("does not flag an ITM put with fat remaining time value", () => {
+    // extrinsic 8 > carry 5.30 → counterparty keeps the optionality.
+    const r = computePutReturns({
+      contract: put(110, 35, 440),
+      currentPrice: 83,
+    });
+    expect(r.assignmentRisk).toBe(false);
+  });
+
+  it("never flags an OTM put", () => {
+    const r = computePutReturns({
+      contract: put(90, 0.5, 440),
+      currentPrice: 100,
+    });
+    expect(r.assignmentRisk).toBe(false);
+  });
+
+  it("dividends delay put exercise — expected dividends offset the carry", () => {
+    // Same DECK shape but a 5%-yielder: carry 5.30 − divs 110×?…
+    // annualDividendPerShare 5 → expectedDividends 5×440/365 ≈ 6.03
+    // carry 5.30 − 6.03 < 0 → never rational → no flag.
+    const r = computePutReturns({
+      contract: put(110, 29, 440),
+      currentPrice: 83,
+      annualDividendPerShare: 5,
+    });
+    expect(r.assignmentRisk).toBe(false);
+  });
+
+  it("does not flag a put with a null bid (untradeable row)", () => {
+    const c = put(110, 0, 440);
+    c.bid = null;
+    const r = computePutReturns({ contract: c, currentPrice: 83 });
+    expect(r.assignmentRisk).toBe(false);
+  });
+
+  it("flags an ITM covered call whose extrinsic is under the next quarterly dividend", () => {
+    // S=100, K=90, bid 10.15 → intrinsic 10, extrinsic 0.15.
+    // annualDividendPerShare 2 → quarterly 0.50 > 0.15 → flag.
+    const r = computeCallReturns({
+      contract: call(90, 10.15, 60),
+      currentPrice: 100,
+      annualDividendPerShare: 2,
+    });
+    expect(r.assignmentRisk).toBe(true);
+  });
+
+  it("never flags a call on a non-payer", () => {
+    const r = computeCallReturns({
+      contract: call(90, 10.05, 60),
+      currentPrice: 100,
+      annualDividendPerShare: 0,
+    });
+    expect(r.assignmentRisk).toBe(false);
+  });
+
+  it("does not flag an OTM call even on a payer", () => {
+    const r = computeCallReturns({
+      contract: call(110, 1.2, 60),
+      currentPrice: 100,
+      annualDividendPerShare: 2,
+    });
+    expect(r.assignmentRisk).toBe(false);
+  });
+});

@@ -142,6 +142,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
           contract,
           snapWarning: snap.snapWarning,
           shortDated: r.shortDated,
+          assignmentRisk: r.assignmentRisk,
           staticReturnPct: r.staticReturnPct,
           staticAnnualizedPct: r.staticAnnualizedPct,
           assignedReturnPct: r.assignedReturnPct,
@@ -234,7 +235,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
     // doesn't change the user's "is this near my anchor?" intuition.
     const offByPct = Math.abs(bestStrike - range.p25) / range.p25;
     const snapWarning = offByPct > 0.05;
-    const r = computePutReturns({ contract, currentPrice });
+    const r = computePutReturns({ contract, currentPrice, annualDividendPerShare });
     puts.push({
       label: PUT_LABEL,
       anchor: PUT_ANCHOR,
@@ -242,6 +243,7 @@ export function buildExpirationView(input: BuildExpirationViewInput): Expiration
       contract,
       snapWarning,
       shortDated: r.shortDated,
+      assignmentRisk: r.assignmentRisk,
       notAssignedReturnPct: r.notAssignedReturnPct,
       notAssignedAnnualizedPct: r.notAssignedAnnualizedPct,
       effectiveCostBasis: r.effectiveCostBasis,
