@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { FACTORS } from "../../factors.js";
+import { CANDIDATE_FACTORS } from "../../factors-candidates.js";
 import type { IcObservation } from "./types.js";
 import {
   buildRollingWindows,
@@ -230,9 +231,11 @@ describe("computeIcCells (full grid)", () => {
     // Count distinct (sg, horizon) cells in the input
     const sgHorizons = new Set<string>();
     for (const o of obsList) sgHorizons.add(`${o.superGroup}|${o.horizon}`);
-    // FACTORS count is from packages/ranking/src/factors.ts
-    // Currently 14 factors (4 val + 3 health + 2 quality + 4 shr + 2 growth + 1 momentum)
-    // The test stays robust by computing the expected count on the fly:
-    expect(cells.length).toBe(sgHorizons.size * FACTORS.length);
+    // The grid emits production FACTORS plus harness-gated
+    // CANDIDATE_FACTORS (ranking.md §5.1, 2026-11-03). The test stays
+    // robust by computing the expected count on the fly:
+    expect(cells.length).toBe(
+      sgHorizons.size * (FACTORS.length + CANDIDATE_FACTORS.length),
+    );
   });
 });
