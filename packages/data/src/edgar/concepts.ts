@@ -265,9 +265,24 @@ export function annualMap(
   concepts: readonly string[],
   preferredUnit?: string,
 ): Map<string, EdgarFact> {
-  const hit = firstAvailable(facts, concepts, preferredUnit);
-  if (!hit) return new Map();
-  return dedupeByPeriod(hit.facts, (f) => isFY(f) && isAnnualSpanFact(f));
+  // Per-period merge (2026-11-02, engine-gaps §2.2): filers switch
+  // tags mid-history — DECK filed DepreciationDepletionAndAmortization
+  // through FY2016 and DepreciationAmortizationAndAccretionNet after.
+  // first-concept-with-ANY-facts let the dead tag shadow the live one
+  // and nulled every recent EBITDA. Instead, each period-end takes the
+  // earliest-priority concept that reports it; priority only breaks
+  // ties within a period. Measured on 2026-11-02: unshadows D&A for
+  // ~47 names and capex for ~123 (with the added chain tags).
+  const merged = new Map<string, EdgarFact>();
+  for (const c of concepts) {
+    const f = unitFacts(facts, c, preferredUnit);
+    if (f.length === 0) continue;
+    const m = dedupeByPeriod(f, (x) => isFY(x) && isAnnualSpanFact(x));
+    for (const [end, factEntry] of m) {
+      if (!merged.has(end)) merged.set(end, factEntry);
+    }
+  }
+  return merged;
 }
 
 /** Dedupe → quarterly (fp matches Q[1-4]), keyed by period-end date.
@@ -292,9 +307,19 @@ export function balanceMap(
   concepts: readonly string[],
   preferredUnit?: string,
 ): Map<string, EdgarFact> {
-  const hit = firstAvailable(facts, concepts, preferredUnit);
-  if (!hit) return new Map();
-  return dedupeByPeriod(hit.facts, (f) => isFY(f) || isQuarterly(f));
+  // Same per-period merge as annualMap (tag migrations shadow
+  // otherwise) — balance concepts are point-in-time so the predicate
+  // differs but the priority semantics are identical.
+  const merged = new Map<string, EdgarFact>();
+  for (const c of concepts) {
+    const f = unitFacts(facts, c, preferredUnit);
+    if (f.length === 0) continue;
+    const m = dedupeByPeriod(f, (x) => isFY(x) || isQuarterly(x));
+    for (const [end, factEntry] of m) {
+      if (!merged.has(end)) merged.set(end, factEntry);
+    }
+  }
+  return merged;
 }
 
 // ---------------------------------------------------------------
@@ -316,6 +341,9 @@ export const COST_OF_REVENUE_CONCEPTS = [
 export const DA_CONCEPTS = [
   "DepreciationDepletionAndAmortization",
   "DepreciationAndAmortization",
+  // Tag-migration target for DECK-class filers (2026-11-02): covers
+  // 13 names whose D&A lives only under the accretion-inclusive tag.
+  "DepreciationAmortizationAndAccretionNet",
   "Depreciation",
 ] as const;
 
@@ -339,6 +367,21 @@ export const INTEREST_EXPENSE_CONCEPTS = [
   "InterestExpense",
   "InterestExpenseDebt",
 ] as const;
+
+/**
+ * Pretax income umbrella tags — used ONLY to derive EBIT
+ * (= pretax + interest expense) when OperatingIncomeLoss is absent.
+ * Homebuilders (DHI/LEN/NVR/PHM) and several drug makers skip the
+ * operating-income subtotal entirely; financials also lack it but
+ * typically fail the interest-expense requirement or are
+ * model-incompatible anyway (2026-11-02, engine-gaps §2.2).
+ */
+export const PRETAX_INCOME_CONCEPTS = [
+  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+] as const;
+
+export const TOTAL_ASSETS_CONCEPTS = ["Assets"] as const;
 export const GROSS_PROFIT_CONCEPTS = ["GrossProfit"] as const;
 export const CASH_CONCEPTS = [
   "CashAndCashEquivalentsAtCarryingValue",
@@ -359,6 +402,16 @@ export const OPERATING_CASH_FLOW_CONCEPTS = [
 ] as const;
 export const CAPEX_CONCEPTS = [
   "PaymentsToAcquirePropertyPlantAndEquipment",
+  // 2026-11-02 (engine-gaps §2.2): measured capex-tag families in the
+  // live universe — ProductiveAssets alone covers 93 names that were
+  // nulling FCF (and with it both P/FCF anchors + the priceToFcf
+  // factor's annual fallback). ProceedsFromProductiveAssets is NET of
+  // asset-sale proceeds — slightly understates gross capex; last in
+  // the chain as better-than-null.
+  "PaymentsToAcquireProductiveAssets",
+  "PaymentsForCapitalImprovements",
+  "PaymentsToAcquireOtherPropertyPlantAndEquipment",
+  "PaymentsForProceedsFromProductiveAssets",
 ] as const;
 export const BUYBACKS_CONCEPTS = [
   "PaymentsForRepurchaseOfCommonStock",

@@ -99,6 +99,7 @@ export function mapAnnualPeriods(inputs: AnnualInputs): AnnualPeriod[] {
       },
       balance: {
         cash: n(balance?.cashAndShortTermInvestments ?? null),
+        totalAssets: n(balance?.totalAssets ?? null),
         totalCurrentAssets: n(balance?.totalCurrentAssets ?? null),
         totalCurrentLiabilities: n(balance?.totalCurrentLiabilities ?? null),
         totalDebt: n(balance?.totalDebt ?? null),

@@ -383,6 +383,12 @@ export function synthesizeSnapshotAt(
       quarterlyCutoff,
       (p) => p.balance.cash,
     ),
+    totalAssets: pointInTime(
+      publicQuarterly,
+      publicAnnual,
+      quarterlyCutoff,
+      (p) => p.balance.totalAssets,
+    ),
     totalCurrentAssets: pointInTime(
       publicQuarterly,
       publicAnnual,

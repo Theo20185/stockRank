@@ -45,6 +45,7 @@ export function makePeriod(overrides: Partial<AnnualPeriod> = {}): AnnualPeriod 
     },
     balance: {
       cash: 5_000_000_000,
+      totalAssets: 100_000_000_000,
       totalCurrentAssets: 25_000_000_000,
       totalCurrentLiabilities: 20_000_000_000,
       totalDebt: 15_000_000_000,

@@ -85,17 +85,34 @@ A concept's `units` map keys by unit (e.g., `USD`, `USD/shares`, `shares`).
 
 ### 3.2 Fallback chains (try concepts in order)
 
+**Per-period merge (2026-11-02, engine-gaps §2.2):** chains resolve
+per period-end, not first-concept-with-any-facts. Filers switch tags
+mid-history (DECK filed `DepreciationDepletionAndAmortization`
+through FY2016, then `DepreciationAmortizationAndAccretionNet`), and
+the old resolution let a dead tag's stale facts shadow the live tag,
+nulling every recent value. Each period now takes the
+earliest-priority concept that reports it; priority breaks ties only
+within a period. Applies to annual flow chains and balance chains;
+the quarterly standalone/YTD path (§3.5) still resolves
+first-concept and inherits the shadowing — accepted, since TTM falls
+back tier-wise after the 2026-10-29 contiguity gate. Measured at
+introduction: unshadows D&A for ~47 names and capex for ~123.
+
 | Engine field    | Chain                                                                                         |
 |-----------------|----------------------------------------------------------------------------------------------|
 | `revenue`       | `RevenueFromContractWithCustomerExcludingAssessedTax` (post-2018) → `Revenues` → `SalesRevenueNet` |
 | `dividendsPaid` | `PaymentsOfDividends` → `PaymentsOfDividendsCommonStock` (the latter is a narrower / partially-deprecated variant for some filers) |
 | `costOfRevenue` (for grossProfit fallback) | `CostOfRevenue` → `CostOfGoodsAndServicesSold`                  |
+| `capex`         | `PaymentsToAcquirePropertyPlantAndEquipment` → `PaymentsToAcquireProductiveAssets` (93-name family) → `PaymentsForCapitalImprovements` → `PaymentsToAcquireOtherPropertyPlantAndEquipment` → `PaymentsForProceedsFromProductiveAssets` (net of asset-sale proceeds — understates gross capex; last as better-than-null) |
+| `dna`           | `DepreciationDepletionAndAmortization` → `DepreciationAndAmortization` → `DepreciationAmortizationAndAccretionNet` → `Depreciation` |
+| `totalAssets`   | `Assets` (2026-11-02; gross-profitability denominator, 495/498 coverage) |
 
 ### 3.3 Reconstructed metrics
 
 | Engine field     | Construction                                                                                                            |
 |------------------|------------------------------------------------------------------------------------------------------------------------|
-| `ebitda`         | `OperatingIncomeLoss + DepreciationDepletionAndAmortization` (D&A chain: `DepreciationDepletionAndAmortization` → `DepreciationAndAmortization` → `Depreciation`) |
+| `ebit`           | `OperatingIncomeLoss`; when absent, derived as `pretax income + interest expense` (both required — homebuilders and several drug makers skip the operating-income subtotal; financials typically fail the interest leg and stay null, correctly). Pretax chain: `IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest` → `…MinorityInterestAndIncomeLossFromEquityMethodInvestments`. |
+| `ebitda`         | `ebit + D&A` (D&A chain above; uses derived EBIT when applicable)                                                       |
 | `freeCashFlow`   | `OperatingCashFlow − abs(Capex)`                                                                                        |
 | `totalDebt`      | `LongTermDebt` if present (already total of current + noncurrent), else `LongTermDebtNoncurrent + LongTermDebtCurrent`. Plus `CommercialPaper` (or `ShortTermBorrowings` fallback) for short-term debt. |
 

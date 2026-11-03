@@ -76,6 +76,7 @@ export type FmpBalanceSheet = {
   cashAndShortTermInvestments?: number | null;
   totalCurrentAssets?: number | null;
   totalCurrentLiabilities?: number | null;
+  totalAssets?: number | null;
   totalDebt?: number | null;
   totalStockholdersEquity?: number | null;
   netDebt?: number | null;

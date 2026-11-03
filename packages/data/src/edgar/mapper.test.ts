@@ -84,6 +84,69 @@ function synthFacts(): EdgarCompanyFacts {
   };
 }
 
+// ---- concept-chain coverage (2026-11-02, engine-gaps §2.2) ----
+describe("concept-chain coverage", () => {
+  it("merges tag migrations per period — a dead earlier tag no longer shadows the live one (DECK D&A shape)", () => {
+    // DECK filed DepreciationDepletionAndAmortization through FY2016,
+    // then switched to DepreciationAmortizationAndAccretionNet.
+    // first-concept-with-any-facts let the dead tag win the chain and
+    // nulled every recent EBITDA.
+    const f = synthFacts();
+    f.facts["us-gaap"]!.DepreciationDepletionAndAmortization = {
+      units: { USD: [fact("2024-12-31", 5)] },
+    };
+    f.facts["us-gaap"]!.DepreciationAmortizationAndAccretionNet = {
+      units: { USD: [fact("2025-12-31", 6)] },
+    };
+    const periods = mapAnnualPeriods(f);
+    expect(periods[0]!.income.ebitda).toBe(35 + 6); // 2025 via new tag
+    expect(periods[1]!.income.ebitda).toBe(30 + 5); // 2024 via old tag
+  });
+
+  it("prefers the earlier-priority concept when both report the same period", () => {
+    const f = synthFacts();
+    f.facts["us-gaap"]!.DepreciationAmortizationAndAccretionNet = {
+      units: { USD: [fact("2025-12-31", 999)] },
+    };
+    const periods = mapAnnualPeriods(f);
+    expect(periods[0]!.income.ebitda).toBe(35 + 6); // DDA keeps priority
+  });
+
+  it("fills capex from PaymentsToAcquireProductiveAssets (the 93-name family)", () => {
+    const f = synthFacts();
+    delete f.facts["us-gaap"]!.PaymentsToAcquirePropertyPlantAndEquipment;
+    f.facts["us-gaap"]!.PaymentsToAcquireProductiveAssets = {
+      units: { USD: [fact("2025-12-31", 9)] },
+    };
+    const periods = mapAnnualPeriods(f);
+    expect(periods[0]!.cashFlow.capex).toBe(-9);
+    expect(periods[0]!.cashFlow.freeCashFlow).toBe(32 - 9);
+  });
+
+  it("derives EBIT = pretax + interest when OperatingIncomeLoss is absent (homebuilder shape)", () => {
+    const f = synthFacts();
+    delete f.facts["us-gaap"]!.OperatingIncomeLoss;
+    f.facts["us-gaap"]!.IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest =
+      { units: { USD: [fact("2025-12-31", 33)] } };
+    f.facts["us-gaap"]!.InterestExpense = {
+      units: { USD: [fact("2025-12-31", 2)] },
+    };
+    const periods = mapAnnualPeriods(f);
+    expect(periods[0]!.income.operatingIncome).toBeNull();
+    expect(periods[0]!.income.ebit).toBe(35); // 33 + 2
+    expect(periods[0]!.income.ebitda).toBe(35 + 6); // derived EBIT + D&A
+  });
+
+  it("maps totalAssets from the Assets tag", () => {
+    const f = synthFacts();
+    f.facts["us-gaap"]!.Assets = {
+      units: { USD: [fact("2025-12-31", 400)] },
+    };
+    const periods = mapAnnualPeriods(f);
+    expect(periods[0]!.balance.totalAssets).toBe(400);
+  });
+});
+
 describe("mapAnnualPeriods", () => {
   it("extracts a full panel and reconstructs EBITDA + FCF", () => {
     const periods = mapAnnualPeriods(synthFacts());

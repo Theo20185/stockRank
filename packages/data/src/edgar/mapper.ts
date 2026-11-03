@@ -38,6 +38,8 @@ import {
   NET_INCOME_CONCEPTS,
   OPERATING_CASH_FLOW_CONCEPTS,
   OPERATING_INCOME_CONCEPTS,
+  PRETAX_INCOME_CONCEPTS,
+  TOTAL_ASSETS_CONCEPTS,
   quarterlyMap,
   REVENUE_CONCEPTS,
   SHARES_CONCEPTS,
@@ -190,8 +192,10 @@ type IncomeMaps = {
   sharesDiluted: Map<string, EdgarFact>;
   interestExpense: Map<string, EdgarFact>;
   dna: Map<string, EdgarFact>;
+  pretaxIncome: Map<string, EdgarFact>;
 };
 type BalanceMaps = {
+  totalAssets: Map<string, EdgarFact>;
   cash: Map<string, EdgarFact>;
   currentAssets: Map<string, EdgarFact>;
   currentLiabilities: Map<string, EdgarFact>;
@@ -255,8 +259,10 @@ function buildConceptMaps(
           : quarterlyMap(us, SHARES_CONCEPTS, "shares"),
       interestExpense: flowMap(INTEREST_EXPENSE_CONCEPTS),
       dna: flowMap(DA_CONCEPTS),
+      pretaxIncome: flowMap(PRETAX_INCOME_CONCEPTS),
     },
     balance: {
+      totalAssets: balanceMap(us, TOTAL_ASSETS_CONCEPTS),
       cash: balanceMap(us, CASH_CONCEPTS),
       currentAssets: balanceMap(us, CURRENT_ASSETS_CONCEPTS),
       currentLiabilities: balanceMap(us, CURRENT_LIABILITIES_CONCEPTS),
@@ -318,9 +324,19 @@ function incomeAt(
     (revenue !== null && cogs !== null ? revenue - cogs : null);
   const operatingIncome = get(maps.operatingIncome, end);
   const dna = get(maps.dna, end);
-  const ebit = operatingIncome;
-  const ebitda =
-    operatingIncome !== null && dna !== null ? operatingIncome + dna : null;
+  const interestExpense = get(maps.interestExpense, end);
+  // EBIT = OperatingIncomeLoss when filed; otherwise derive it as
+  // pretax income + interest expense (2026-11-02, engine-gaps §2.2 —
+  // homebuilders and several drug makers skip the operating-income
+  // subtotal). Both components required; financials typically fail
+  // the interest leg and stay null, which is correct.
+  const pretax = get(maps.pretaxIncome, end);
+  const ebit =
+    operatingIncome ??
+    (pretax !== null && interestExpense !== null
+      ? pretax + interestExpense
+      : null);
+  const ebitda = ebit !== null && dna !== null ? ebit + dna : null;
 
   return {
     revenue,
@@ -328,7 +344,7 @@ function incomeAt(
     operatingIncome,
     ebit,
     ebitda,
-    interestExpense: get(maps.interestExpense, end),
+    interestExpense,
     netIncome: get(maps.netIncome, end),
     // Per-share concepts only — every other field above is
     // dollar-denominated and therefore split-invariant.
@@ -359,6 +375,7 @@ function balanceAt(maps: BalanceMaps, end: string): AnnualBalance {
 
   return {
     cash: get(maps.cash, end),
+    totalAssets: get(maps.totalAssets, end),
     totalCurrentAssets: get(maps.currentAssets, end),
     totalCurrentLiabilities: get(maps.currentLiabilities, end),
     totalDebt,

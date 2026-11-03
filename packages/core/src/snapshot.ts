@@ -192,6 +192,9 @@ export type AnnualIncome = {
 
 export type AnnualBalance = {
   cash: number | null;
+  /** From EDGAR `Assets` (2026-11-02) — gross-profitability factor
+   * denominator. 495/498 coverage measured at introduction. */
+  totalAssets: number | null;
   totalCurrentAssets: number | null;
   totalCurrentLiabilities: number | null;
   totalDebt: number | null;
