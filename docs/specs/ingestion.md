@@ -130,7 +130,23 @@ load universe (committed JSON)
             historical-price (last 365d)
         └─► map to CompanySnapshot
         └─► on per-call failure: record error, continue with what we have;
-            if profile or quote fails, skip the symbol (no name → no row)
+            if the QUOTE PRICE fails after retries, skip the symbol
+            (no price → no row). A missing assetProfile alone no
+            longer skips (2026-11-16): after retries the row builds
+            with sector/industry "Unknown" plus a recorded non-fatal
+            error — Yahoo serves price for weeks before rebuilding
+            the profile of a renamed/reverted ticker (FISV, FI→FISV).
+        └─► price-consistency gate: exclude when quote.price
+            disagrees with BOTH marketCap/yahooShares and
+            marketCap/edgarShares (BKNG phantom-split defense).
+            Exception: CLASS_STRUCTURE_SHARE_MISMATCH names (BX,
+            IBKR — public float/unit structures where implied price
+            is structurally ≠ quote forever) are waived IF quote
+            agrees with the latest chart close (±25%); the waiver is
+            recorded as a non-fatal error. BRK.B is deliberately NOT
+            waived: its filed EPS is A-share-denominated against a
+            B-share quote (1500×), so inclusion would poison P/E
+            (see packages/data/src/yahoo/price-consistency.ts).
 └─► write snapshot to public/data/snapshot-YYYY-MM-DD.json
 └─► overwrite public/data/snapshot-latest.json
 ```

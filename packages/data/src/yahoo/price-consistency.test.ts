@@ -1,5 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { checkPriceConsistency } from "./price-consistency.js";
+import {
+  checkPriceConsistency,
+  CLASS_STRUCTURE_SHARE_MISMATCH,
+} from "./price-consistency.js";
+
+describe("CLASS_STRUCTURE_SHARE_MISMATCH", () => {
+  it("contains exactly the class-structure names whose quoted class/public float can never reconcile with whole-company marketCap", () => {
+    // 2026-11-16 probes: BX $117.24 vs implied $192.67 (public common
+    // vs total units, 1.64×); IBKR $79.27 vs implied $298.07 (~26%
+    // public float, 3.76×). Both have class-consistent filed EPS, so
+    // their TTM factors stay sound.
+    expect([...CLASS_STRUCTURE_SHARE_MISMATCH].sort()).toEqual(["BX", "IBKR"]);
+  });
+
+  it("does NOT contain BRK.B — waiving it would ingest A-share-denominated filed EPS against the B-share quote (1500× unit mismatch)", () => {
+    expect(CLASS_STRUCTURE_SHARE_MISMATCH.has("BRK.B")).toBe(false);
+  });
+
+  it("does NOT contain the genuine-corruption names the guard exists for", () => {
+    expect(CLASS_STRUCTURE_SHARE_MISMATCH.has("BKNG")).toBe(false);
+    expect(CLASS_STRUCTURE_SHARE_MISMATCH.has("WAT")).toBe(false);
+  });
+});
 
 describe("checkPriceConsistency", () => {
   it("passes when both implied prices match quote within tolerance (normal case)", () => {

@@ -29,6 +29,44 @@
 /** Relative deviation threshold: >50% off quote → "disagrees." */
 const DEVIATION_THRESHOLD = 0.5;
 
+/**
+ * Class-structure names whose implied price can NEVER reconcile with
+ * quote, by construction — the quoted class / public float is a
+ * fixed fraction of the whole company, so `marketCap ÷ shares` is
+ * structurally ≠ price in every period, not corrupt in one:
+ *
+ *   - BX   — marketCap spans all partnership units; Yahoo/EDGAR
+ *            share counts are public common only (probe 2026-11-16:
+ *            $117.24 quote vs $192.67 implied, 1.64× = unit ratio).
+ *   - IBKR — ~26% public float; marketCap is the whole group
+ *            (probe: $79.27 vs $298.07 implied, 3.76× ≈ 1/0.26).
+ *
+ * Both names' TTM factor inputs stay internally consistent: filed
+ * EPS is per the quoted class (P/E ✓), and marketCap-based ratios
+ * (EV/EBITDA, marketCap/FCF) are whole-company over whole-company.
+ *
+ * Deliberately NOT here:
+ *   - BRK.B — its filed `EarningsPerShareDiluted` is denominated in
+ *     Class-A-equivalents (~$26k/share) while the quote is the B
+ *     share: waiving ingest would hand the P/E factor a 1500× unit
+ *     mismatch (NEM lesson: refusing data we know is wrong beats
+ *     including it). Berkshire stays excluded — visible in
+ *     snapshot.errors — until the engine has share-class-aware
+ *     per-share handling.
+ *   - WAT 2026-11 — genuine Yahoo corruption the guard correctly
+ *     caught (marketCap exactly 2× price×shares after the BD
+ *     Biosciences merger; shares and price are right, marketCap is
+ *     stale). Self-heals when Yahoo fixes the field.
+ *
+ * The waiver at the provider call site still requires quote.price to
+ * agree with the latest chart close (±25%) so a future real
+ * corruption on these names is not silently admitted.
+ */
+export const CLASS_STRUCTURE_SHARE_MISMATCH: ReadonlySet<string> = new Set([
+  "BX",
+  "IBKR",
+]);
+
 export type PriceConsistencyInput = {
   /** Yahoo's summaryDetail.marketCap — company-wide total. */
   marketCap: number;

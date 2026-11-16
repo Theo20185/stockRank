@@ -25,7 +25,10 @@ import {
   writeMonthlyBars,
   writeSplitEvents,
 } from "../edgar/index.js";
-import { checkPriceConsistency } from "./price-consistency.js";
+import {
+  checkPriceConsistency,
+  CLASS_STRUCTURE_SHARE_MISMATCH,
+} from "./price-consistency.js";
 import { retryYahoo } from "./retry.js";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
@@ -153,6 +156,18 @@ export function toYahooSymbol(symbol: string): string {
   return symbol.replace(/\./g, "-");
 }
 
+/** Thrown inside the quoteSummary retry wrapper when the response has
+ * a usable price but no assetProfile. Retryable (transient Yahoo
+ * degradation heals on a later attempt); when it survives all
+ * attempts, the caller proceeds with the carried summary and Unknown
+ * sector/industry instead of dropping the symbol. */
+class ProfileMissingError extends Error {
+  constructor(readonly summary: YahooQuoteSummary) {
+    super("assetProfile missing (price present)");
+    this.name = "ProfileMissingError";
+  }
+}
+
 export class YahooProvider implements MarketDataProvider {
   readonly name = "yahoo";
 
@@ -167,6 +182,15 @@ export class YahooProvider implements MarketDataProvider {
     // together — Yahoo sometimes returns HTTP 200 with stub/empty
     // bodies during degradation. Throwing on missing fields inside the
     // retry wrapper makes that case retryable too.
+    //
+    // Price is the HARD essential: without it there is no snapshot
+    // row. A missing assetProfile is retried (transient degradation
+    // heals on attempt 2-3) but tolerated when persistent: Yahoo's
+    // record for a renamed/reverted ticker can serve price for weeks
+    // before the profile is rebuilt (FISV 2026-11 — ticker reverted
+    // FI → FISV; price + marketCap live, profile absent). Downstream
+    // already handles "Unknown" sector/industry, and excluding an
+    // S&P name entirely over a cosmetic module is the worse error.
     let summary: YahooQuoteSummary;
     try {
       summary = await retryYahoo(
@@ -174,20 +198,34 @@ export class YahooProvider implements MarketDataProvider {
           const s = (await yahooFinance.quoteSummary(yahooSymbol, {
             modules: [...QUOTE_SUMMARY_MODULES],
           })) as unknown as YahooQuoteSummary;
-          if (!s.assetProfile || !s.price || s.price.regularMarketPrice === undefined) {
-            throw new Error("essential profile/price fields missing");
+          if (!s.price || s.price.regularMarketPrice === undefined) {
+            throw new Error("essential price fields missing");
+          }
+          if (!s.assetProfile) {
+            throw new ProfileMissingError(s);
           }
           return s;
         },
         { onRetry: logRetry(symbol, "quoteSummary") },
       );
     } catch (err) {
-      reportError(makeError(symbol, "quoteSummary", err));
-      return null;
+      if (err instanceof ProfileMissingError) {
+        summary = err.summary;
+        reportError({
+          symbol,
+          endpoint: "quoteSummary",
+          message:
+            "assetProfile missing after retries — proceeding with sector/industry Unknown (transitional Yahoo record)",
+        });
+      } else {
+        reportError(makeError(symbol, "quoteSummary", err));
+        return null;
+      }
     }
 
-    // Validated inside the retry wrapper above — non-null by construction.
-    const profile = summary.assetProfile!;
+    // Price validated inside the retry wrapper — non-null by
+    // construction. Profile may be absent (ProfileMissingError path).
+    const profile = summary.assetProfile ?? {};
     const price = summary.price!;
 
     let priceBars: Array<{ close: number; volume: number }> = [];
@@ -394,12 +432,35 @@ export class YahooProvider implements MarketDataProvider {
       quotePrice: currentPrice,
     });
     if (!consistency.ok) {
-      reportError({
-        symbol,
-        endpoint: "price-consistency",
-        message: consistency.reason,
-      });
-      return null;
+      // Class-structure waiver (see CLASS_STRUCTURE_SHARE_MISMATCH):
+      // for the named float/unit-structure symbols the implied-price
+      // cross-check is structurally invalid, so a failure there is
+      // expected — but only waive when quote.price agrees with the
+      // latest chart close (±25%), so genuine corruption on those
+      // names is still refused.
+      const lastClose =
+        historicalBars[historicalBars.length - 1]?.close ??
+        priceBars[priceBars.length - 1]?.close ??
+        null;
+      const chartAgrees =
+        lastClose !== null &&
+        currentPrice !== undefined &&
+        currentPrice > 0 &&
+        Math.abs(lastClose - currentPrice) / currentPrice <= 0.25;
+      if (CLASS_STRUCTURE_SHARE_MISMATCH.has(symbol) && chartAgrees) {
+        reportError({
+          symbol,
+          endpoint: "price-consistency",
+          message: `waived (class-structure share basis; chart close $${lastClose!.toFixed(2)} agrees with quote): ${consistency.reason}`,
+        });
+      } else {
+        reportError({
+          symbol,
+          endpoint: "price-consistency",
+          message: consistency.reason,
+        });
+        return null;
+      }
     }
 
     // Trailing month-end closes for the Momentum factor (ranking.md

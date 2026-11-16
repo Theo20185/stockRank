@@ -305,6 +305,133 @@ describe("YahooProvider", () => {
     expect(errors.some((e) => e.endpoint === "edgar-not-found")).toBe(true);
   });
 
+  it("waives the price-consistency exclusion for class-structure names when the chart agrees with quote (BX case)", async () => {
+    // BX 2026-11-16: price $117.24, marketCap $144.7B (whole company,
+    // all partnership units), sharesOutstanding 751M (public common
+    // only) → implied $192.67; EDGAR diluted ~778M → implied $186.
+    // Both "fail", structurally and forever. The chart close agrees
+    // with the quote, so the price itself is genuine → waive, keep
+    // the company, record a non-fatal error.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      price: { ...stubSummary().price, longName: "Blackstone Inc.", regularMarketPrice: 117.24 },
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 144_700_000_000,
+      },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 751_000_000,
+      },
+    });
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2025",
+          periodEndDate: "2025-12-31",
+          income: { sharesDiluted: 778_000_000 },
+        }),
+      ],
+      quarterly: [],
+    });
+    chartMock.mockResolvedValue({
+      quotes: [{ close: 115.1, volume: 4_000_000 }],
+    });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "BX",
+      { priceFrom: "2025-11-16", priceTo: "2026-11-16" },
+      (e) => errors.push(e as { symbol: string; endpoint: string; message: string }),
+    );
+
+    expect(result).not.toBeNull();
+    expect(result!.quote.price).toBe(117.24);
+    const pcErrors = errors.filter((e) => e.endpoint === "price-consistency");
+    expect(pcErrors).toHaveLength(1);
+    expect(pcErrors[0]!.message).toMatch(/waived \(class-structure/);
+  });
+
+  it("still excludes a class-structure name when the chart ALSO disagrees with quote (corruption backstop)", async () => {
+    // The waiver is not blind trust: if quote.price doesn't match the
+    // chart either, something is genuinely wrong — exclude as before.
+    quoteSummaryMock.mockResolvedValue({
+      ...stubSummary(),
+      price: { ...stubSummary().price, regularMarketPrice: 79.27 },
+      summaryDetail: {
+        ...stubSummary().summaryDetail,
+        marketCap: 135_000_000_000,
+      },
+      defaultKeyStatistics: {
+        ...stubSummary().defaultKeyStatistics,
+        sharesOutstanding: 453_000_000,
+      },
+    });
+    getEdgarFundamentalsMock.mockResolvedValue({
+      annual: [
+        annualPeriod({
+          fiscalYear: "2025",
+          periodEndDate: "2025-12-31",
+          income: { sharesDiluted: 443_000_000 },
+        }),
+      ],
+      quarterly: [],
+    });
+    // Chart says ~$10 while quote says $79.27 — >25% apart.
+    chartMock.mockResolvedValue({
+      quotes: [{ close: 10.2, volume: 4_000_000 }],
+    });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "IBKR",
+      { priceFrom: "2025-11-16", priceTo: "2026-11-16" },
+      (e) => errors.push(e as { symbol: string; endpoint: string; message: string }),
+    );
+
+    expect(result).toBeNull();
+    const pcErrors = errors.filter((e) => e.endpoint === "price-consistency");
+    expect(pcErrors).toHaveLength(1);
+    expect(pcErrors[0]!.message).not.toMatch(/waived/);
+  });
+
+  it("builds the company with Unknown sector/industry when assetProfile is persistently missing but price is present (FISV case)", async () => {
+    // FISV 2026-11-16: Yahoo's record was rebuilt after Fiserv's
+    // ticker reverted (FI → FISV) — price flows ($64.25, $34B cap)
+    // but assetProfile is absent. Price is the hard essential;
+    // a profile-less record builds with Unknown sector/industry and
+    // a recorded non-fatal error instead of vanishing.
+    const summary = stubSummary() as Record<string, unknown>;
+    delete summary.assetProfile;
+    (summary.price as Record<string, unknown>).longName = "Fiserv, Inc.";
+    (summary.price as Record<string, unknown>).regularMarketPrice = 64.25;
+    (summary.summaryDetail as Record<string, unknown>).marketCap = 34_184_000_000;
+    delete (summary.defaultKeyStatistics as Record<string, unknown>)
+      .sharesOutstanding;
+    quoteSummaryMock.mockResolvedValue(summary);
+    getEdgarFundamentalsMock.mockResolvedValue({ annual: [], quarterly: [] });
+    chartMock.mockResolvedValue({ quotes: [] });
+
+    const provider = new YahooProvider();
+    const errors: Array<{ symbol: string; endpoint: string; message: string }> = [];
+    const result = await provider.fetchCompany(
+      "FISV",
+      { priceFrom: "2025-11-16", priceTo: "2026-11-16" },
+      (e) => errors.push(e as { symbol: string; endpoint: string; message: string }),
+    );
+
+    expect(result).not.toBeNull();
+    expect(result!.name).toBe("Fiserv, Inc.");
+    expect(result!.sector).toBe("Unknown");
+    expect(result!.industry).toBe("Unknown");
+    expect(result!.quote.price).toBe(64.25);
+    const qsErrors = errors.filter((e) => e.endpoint === "quoteSummary");
+    expect(qsErrors).toHaveLength(1);
+    expect(qsErrors[0]!.message).toMatch(/assetProfile missing/);
+  });
+
   it("excludes a symbol when quote.price disagrees with marketCap/sharesOutstanding (>50% off)", async () => {
     // Mimic the BKNG case: Yahoo's marketCap ($152B) and sharesOutstanding
     // (32.6M) imply ~$4664/share, but quote.price reports ~$192 — phantom
