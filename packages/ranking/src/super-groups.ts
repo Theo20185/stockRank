@@ -59,6 +59,11 @@ export const SUPER_GROUP_LABELS: Record<SuperGroupKey, string> = {
  * are returned as `null` from `superGroupOf` — they contribute to
  * universe-wide aggregates only, not per-super-group cells. Add new
  * mappings here when S&P 500 rebalances bring in new industries.
+ *
+ * Exception: the literal "Unknown" is NOT an industry — it is the
+ * ingest absence label for profile-less transitional Yahoo records
+ * (ingestion.md §3; FISV 2026-11). It stays deliberately unmapped so
+ * foreign economics never pool into a real group's IC cells.
  */
 export const INDUSTRY_TO_SUPER_GROUP: Record<string, SuperGroupKey> = {
   // Software & Internet

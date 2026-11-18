@@ -161,6 +161,12 @@ industries appearing post-S&P-rebalance default to `null`; an
 unrecognized-industry warning surfaces in the next IC report so the
 mapping stays current.
 
+The literal `"Unknown"` is exempt from the stays-current guard: it is
+the ingest absence label for profile-less transitional Yahoo records
+(`ingestion.md` §3 — e.g. FISV 2026-11 after the FI→FISV ticker
+reversion), not an industry. It is deliberately unmapped (`null`) so
+such rows never pool into a real super-group's IC cells.
+
 ## 6. Explicit non-uses
 
 - **Main ranking percentile cohort** continues to use FMP industry

@@ -17,24 +17,33 @@
  *   npm run refresh -- --skip-tests          # faster iteration
  *   npm run refresh -- --no-push             # local-only commit
  *   npm run refresh -- --message "Custom"    # override the auto message
+ *   npm run refresh -- --allow-premarket     # override the premarket abort
  */
 
 import { spawn } from "node:child_process";
 import { execSync } from "node:child_process";
+import { classifyMarketSession } from "./premarket-guard.js";
 
 type Args = {
   skipTests: boolean;
   push: boolean;
   customMessage: string | null;
+  allowPremarket: boolean;
 };
 
 function parseArgs(argv: string[]): Args {
-  const out: Args = { skipTests: false, push: true, customMessage: null };
+  const out: Args = {
+    skipTests: false,
+    push: true,
+    customMessage: null,
+    allowPremarket: false,
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i]!;
     const next = argv[i + 1];
     if (a === "--skip-tests") out.skipTests = true;
     else if (a === "--no-push") out.push = false;
+    else if (a === "--allow-premarket") out.allowPremarket = true;
     else if (a === "--message") {
       if (!next) throw new Error("--message requires a value");
       out.customMessage = next;
@@ -147,6 +156,22 @@ function composeCommitMessage(stats: Stats): string {
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const startedAt = Date.now();
+
+  // Premarket fail-fast (scripts/premarket-guard.ts): Yahoo serves
+  // stub option chains 04:00–09:30 ET on trading weekdays, which
+  // poisons the options files and fails the test stage after ~30
+  // wasted minutes (burned 2026-11-18 and earlier).
+  const session = classifyMarketSession(new Date());
+  if (session.premarket && !args.allowPremarket) {
+    console.error(
+      `refresh: ABORTING before ingest — started premarket, ${session.detail}.\n` +
+        `Yahoo serves stub option chains premarket (one contract per expiry, ` +
+        `null bids), which poisons public/data/options and fails the ` +
+        `capital-plan integration test ~30 minutes in. Start the refresh ` +
+        `after 9:30 AM ET, or pass --allow-premarket to override.`,
+    );
+    process.exit(2);
+  }
 
   console.log("=== refresh: ingest ===");
   const ingestLog = await runStreaming("npm", ["run", "ingest"]);

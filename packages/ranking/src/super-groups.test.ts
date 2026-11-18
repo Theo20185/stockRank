@@ -103,6 +103,12 @@ describe("super-groups module", () => {
     }
     const unmapped = new Set<string>();
     for (const c of snapshot.companies) {
+      // "Unknown" is the ingest absence label, not an industry:
+      // a profile-less transitional Yahoo record builds with
+      // sector/industry "Unknown" (ingestion.md §3; FISV 2026-11,
+      // ticker reverted FI→FISV before Yahoo rebuilt the profile).
+      // It is deliberately unmapped — see the test below.
+      if (c.industry === "Unknown") continue;
       if (superGroupOf(c.industry) === null) {
         unmapped.add(c.industry);
       }
@@ -113,5 +119,13 @@ describe("super-groups module", () => {
           `INDUSTRY_TO_SUPER_GROUP: ${[...unmapped].join(", ")}`,
       );
     }
+  });
+
+  it("treats the 'Unknown' absence label as deliberately unmapped (null)", () => {
+    // Mapping "Unknown" into a real super-group would pool foreign
+    // economics into that group's IC cells. Rows carrying it
+    // contribute to universe-wide aggregates only, until Yahoo
+    // restores the profile and the real industry returns.
+    expect(superGroupOf("Unknown")).toBeNull();
   });
 });

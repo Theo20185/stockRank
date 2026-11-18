@@ -164,8 +164,13 @@ decision (the user may prefer keeping holdings out of the tool).
   (StarMine) but said nothing when DECK was downgraded post-entry.
   Not automatable (no feed); **fill:** a documented per-holding
   review trigger, owned by the user.
-- **Premarket refresh still wastes 30 minutes before failing**
-  (chip open for the fail-fast guard).
+- **Premarket refresh still wastes 30 minutes before failing** —
+  DONE 2026-11-18 (second burned morning: Yahoo serves stub chains
+  04:00–09:30 ET — 13 one-contract/null-bid expirations for MU vs 3
+  real ones — poisoning options files and failing the capital-plan
+  integration test). `scripts/premarket-guard.ts` now aborts refresh
+  before ingest on weekday-premarket starts; `--allow-premarket`
+  overrides; weekend/overnight runs unaffected.
 - **Single-market concentration**: every validated result is
   US/S&P-only; the DMS survivorship caveat applies to the whole
   edifice. Not fillable in-engine; keep it in the headers.
